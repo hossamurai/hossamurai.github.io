@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Compact M3U Tool</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 10px;
+      background: linear-gradient(to right, #3494e6, #ec6ead);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      font-size: 1rem;
+      margin: 0.3em 0;
+      color: #fff;
+    }
+
+    .box {
+      background: #f0f8ff;
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 60px;
+      font-size: 0.9rem;
+      padding: 6px;
+      resize: vertical;
+    }
+
+    button {
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      margin: 3px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 6px 0;
+    }
+
+    pre {
+      background: #fff;
+      padding: 8px;
+      font-size: 0.8rem;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    .results {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .result-box {
+      background: #e6f0ff;
+      flex: 1 1 30%;
+      padding: 8px;
+      border-radius: 6px;
+      min-width: 200px;
+    }
+
+    .copy-button {
+      background: #007bff;
+      color: white;
+    }
+
+    .copy-button.clicked {
+      background-color: #28a745;
+    }
+
+    .reset-button {
+      background: #dc3545;
+      color: white;
+    }
+
+    .paste-button {
+      background: #17a2b8;
+      color: white;
+    }
+
+    .copied-text {
+      font-size: 0.75rem;
+      color: green;
+      margin-top: 4px;
+      visibility: hidden;
+    }
+
+    .copied-text.visible {
+      visibility: visible;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box">
+      <h1>M3U Tools</h1>
+      <div class="actions">
+        <button class="paste-button" onclick="pasteFromClipboard()">Paste</button>
+        <button onclick="formatNumber()">Format Number</button>
+        <button onclick="extractCredentials()">Extract Credentials</button>
+        <button onclick="generateHostVariations()">Host Variations</button>
+        <button class="reset-button" onclick="resetFields()">Reset</button>
+      </div>
+      <textarea id="inputText" placeholder="Paste number or M3U link here"></textarea>
+      <div id="outputText" class="results"></div>
+    </div>
+  </div>
+
+  <script>
+    function pasteFromClipboard() {
+      navigator.clipboard.readText().then(text => {
+        document.getElementById("inputText").value = text;
+      });
+    }
+
+    function resetFields() {
+      document.getElementById("inputText").value = "";
+      document.getElementById("outputText").innerHTML = "";
+    }
+
+    function copyToClipboard(id, copyId, btn) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const copied = document.getElementById(copyId);
+        copied.classList.add("visible");
+        btn.classList.add("clicked");
+        setTimeout(() => {
+          copied.classList.remove("visible");
+          btn.classList.remove("clicked");
+        }, 2500);
+      });
+    }
+
+    function formatNumber() {
+      const val = document.getElementById("inputText").value.replace(/\D/g, "");
+      const formatted = val.startsWith("2") ? val.slice(1) : val;
+
+      const outputDiv = document.getElementById("outputText");
+      outputDiv.innerHTML = "";
+      const id = "formattedOutput";
+      const copyId = "copyFormatted";
+      const box = document.createElement("div");
+      box.className = "result-box";
+      box.innerHTML = `
+        <h2>Formatted Number</h2>
+        <pre id="${id}">${formatted}</pre>
+        <button class="copy-button" onclick="copyToClipboard('${id}', '${copyId}', this)">Copy</button>
+        <div class="copied-text" id="${copyId}">Copied!</div>
+      `;
+      outputDiv.appendChild(box);
+    }
+
+    function extractCredentials() {
+      const input = document.getElementById("inputText").value;
+      let username = (input.match(/username=([^&]+)/) || [])[1] || "";
+      let password = (input.match(/password=([^&]+)/) || [])[1] || "";
+      let host = "";
+
+      try {
+        const url = new URL(input);
+        host = url.origin.replace("https://", "http://");
+      } catch {}
+
+      const result = `Playlist name: ${username}\nUsername: ${username}\nPassword: ${password}\nHost: ${host}`;
+
+      const outputDiv = document.getElementById("outputText");
+      outputDiv.innerHTML = "";
+      const id = "credentialsOutput";
+      const copyId = "copyCreds";
+      const box = document.createElement("div");
+      box.className = "result-box";
+      box.innerHTML = `
+        <h2>Credentials</h2>
+        <pre id="${id}">${result}</pre>
+        <button class="copy-button" onclick="copyToClipboard('${id}', '${copyId}', this)">Copy</button>
+        <div class="copied-text" id="${copyId}">Copied!</div>
+      `;
+      outputDiv.appendChild(box);
+    }
+
+    function generateHostVariations() {
+      const input = document.getElementById("inputText").value.trim();
+      if (!input) return;
+
+      try {
+        const url = new URL(input);
+        const path = url.pathname + url.search;
+
+        const hosts = [
+          "http://xtvip.net:80",
+          "http://eurofinal.life:80",
+          "http://vipxtv.net:80"
+        ];
+
+        const outputDiv = document.getElementById("outputText");
+        outputDiv.innerHTML = "";
+
+        hosts.forEach((host, index) => {
+          const fullURL = `${host}${path}`;
+          const id = `output${index}`;
+          const copiedId = `copied${index}`;
+
+          const box = document.createElement("div");
+          box.className = "result-box";
+          box.innerHTML = `
+            <h2>Host ${index + 1}</h2>
+            <pre id="${id}">${fullURL}</pre>
+            <button class="copy-button" onclick="copyToClipboard('${id}', '${copiedId}', this)">Copy</button>
+            <div class="copied-text" id="${copiedId}">Copied!</div>
+          `;
+          outputDiv.appendChild(box);
+        });
+      } catch (e) {
+        document.getElementById("outputText").innerHTML = `<pre>Invalid URL</pre>`;
+      }
+    }
+  </script>
+</body>
+</html>
