@@ -3,78 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Compact M3U Tool</title>
+  <title>M3U Tools</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      padding: 10px;
-      background: linear-gradient(to right, #3494e6, #ec6ead);
+      padding: 0;
+      background: linear-gradient(135deg, #1d2671, #c33764);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .container {
-      max-width: 960px;
-      margin: auto;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 700px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      color: white;
     }
 
-    h1, h2 {
-      font-size: 1rem;
-      margin: 0.3em 0;
-      color: #fff;
-    }
-
-    .box {
-      background: #f0f8ff;
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 10px;
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
     }
 
     textarea {
       width: 100%;
-      height: 60px;
-      font-size: 0.9rem;
-      padding: 6px;
-      resize: vertical;
-    }
-
-    button {
-      font-size: 0.85rem;
-      padding: 6px 12px;
-      margin: 3px;
+      height: 80px;
+      font-size: 1rem;
+      padding: 10px;
+      border-radius: 8px;
       border: none;
-      border-radius: 4px;
-      cursor: pointer;
+      outline: none;
+      resize: vertical;
+      margin-bottom: 15px;
     }
 
     .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      margin: 6px 0;
-    }
-
-    pre {
-      background: #fff;
-      padding: 8px;
-      font-size: 0.8rem;
-      overflow-x: auto;
-      margin: 0;
-    }
-
-    .results {
-      display: flex;
-      flex-wrap: wrap;
       gap: 10px;
-      margin-top: 10px;
+      justify-content: center;
+      margin-bottom: 15px;
     }
 
-    .result-box {
-      background: #e6f0ff;
-      flex: 1 1 30%;
-      padding: 8px;
+    button {
+      font-size: 0.9rem;
+      padding: 8px 14px;
+      border: none;
       border-radius: 6px;
-      min-width: 200px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
     }
 
     .copy-button {
@@ -83,7 +72,7 @@
     }
 
     .copy-button.clicked {
-      background-color: #28a745;
+      background: #28a745;
     }
 
     .reset-button {
@@ -96,8 +85,25 @@
       color: white;
     }
 
+    .result-box {
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    pre {
+      background: #f8f9fa;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      margin: 0;
+    }
+
     .copied-text {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: green;
       margin-top: 4px;
       visibility: hidden;
@@ -110,18 +116,15 @@
 </head>
 <body>
   <div class="container">
-    <div class="box">
-      <h1>M3U Tools</h1>
-      <div class="actions">
-        <button class="paste-button" onclick="pasteFromClipboard()">Paste</button>
-        <button onclick="formatNumber()">Format Number</button>
-        <button onclick="extractCredentials()">Extract Credentials</button>
-        <button onclick="generateHostVariations()">Host Variations</button>
-        <button class="reset-button" onclick="resetFields()">Reset</button>
-      </div>
-      <textarea id="inputText" placeholder="Paste number or M3U link here"></textarea>
-      <div id="outputText" class="results"></div>
+    <h1>M3U Tools</h1>
+    <textarea id="inputText" placeholder="Paste number or M3U link here"></textarea>
+    <div class="actions">
+      <button class="paste-button" onclick="pasteFromClipboard()">Paste</button>
+      <button onclick="formatNumber()">Format Number</button>
+      <button onclick="extractCredentials()">Extract Credentials</button>
+      <button class="reset-button" onclick="resetFields()">Reset</button>
     </div>
+    <div id="outputText"></div>
   </div>
 
   <script>
@@ -145,7 +148,7 @@
         setTimeout(() => {
           copied.classList.remove("visible");
           btn.classList.remove("clicked");
-        }, 2500);
+        }, 2000);
       });
     }
 
@@ -179,7 +182,7 @@
         host = url.origin.replace("https://", "http://");
       } catch {}
 
-      const result = `Playlist name: ${username}\nUsername: ${username}\nPassword: ${password}\nHost: ${host}`;
+      const result = `Playlist name: (any name)\nUsername: ${username}\nPassword: ${password}\nHost: ${host}`;
 
       const outputDiv = document.getElementById("outputText");
       outputDiv.innerHTML = "";
@@ -194,43 +197,6 @@
         <div class="copied-text" id="${copyId}">Copied!</div>
       `;
       outputDiv.appendChild(box);
-    }
-
-    function generateHostVariations() {
-      const input = document.getElementById("inputText").value.trim();
-      if (!input) return;
-
-      try {
-        const url = new URL(input);
-        const path = url.pathname + url.search;
-
-        const hosts = [
-          "http://xtvip.net:80",
-          "http://eurofinal.life:80",
-          "http://vipxtv.net:80"
-        ];
-
-        const outputDiv = document.getElementById("outputText");
-        outputDiv.innerHTML = "";
-
-        hosts.forEach((host, index) => {
-          const fullURL = `${host}${path}`;
-          const id = `output${index}`;
-          const copiedId = `copied${index}`;
-
-          const box = document.createElement("div");
-          box.className = "result-box";
-          box.innerHTML = `
-            <h2>Host ${index + 1}</h2>
-            <pre id="${id}">${fullURL}</pre>
-            <button class="copy-button" onclick="copyToClipboard('${id}', '${copiedId}', this)">Copy</button>
-            <div class="copied-text" id="${copiedId}">Copied!</div>
-          `;
-          outputDiv.appendChild(box);
-        });
-      } catch (e) {
-        document.getElementById("outputText").innerHTML = `<pre>Invalid URL</pre>`;
-      }
     }
   </script>
 </body>
