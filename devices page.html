@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hossam TV Service - App Installation Guide</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Georgia', serif;
+      background: #f5f0e1; /* warm beige */
+      color: #4b3b2a; /* dark brown */
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #6b4c3b; /* deep vintage brown */
+      font-size: 2em;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px #d9c9b3;
+    }
+
+    p {
+      font-size: 1em;
+      line-height: 1.6;
+      margin: 8px 0;
+    }
+
+    /* Dropdown Menu */
+    select {
+      background: #d9c9b3;
+      color: #4b3b2a;
+      padding: 14px 20px;
+      margin: 15px 0;
+      border: 2px solid #6b4c3b;
+      border-radius: 12px;
+      font-size: 1em;
+      cursor: pointer;
+      width: 90%;
+      max-width: 400px;
+      transition: all 0.3s ease;
+    }
+
+    select:hover {
+      background: #e3d4bc;
+      transform: scale(1.02);
+    }
+
+    /* Device Instruction Cards */
+    .device {
+      background: #fdf6e3;
+      border-radius: 18px;
+      padding: 25px 20px;
+      margin: 20px 0;
+      box-shadow: 0 6px 15px rgba(75, 59, 42, 0.2);
+      display: none;
+      text-align: center;
+      border: 1px solid #d2bfa1;
+      transition: transform 0.3s;
+    }
+
+    .device:hover {
+      transform: translateY(-3px);
+    }
+
+    .device img {
+      max-width: 130px;
+      margin: 15px auto;
+      display: block;
+      border-radius: 8px;
+      border: 1px solid #d2bfa1;
+      background: #f5f0e1;
+      padding: 5px;
+    }
+
+    .highlight-basic { color: #8c5c2c; font-weight: bold; }
+    .highlight-premium { color: #c48f65; font-weight: bold; }
+
+    a {
+      color: #fdf6e3;
+      background: #8c5c2c;
+      padding: 12px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      display: block;
+      margin: 12px auto;
+      font-weight: bold;
+      max-width: 250px;
+      font-family: 'Georgia', serif;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    a:hover {
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+
+    a.whatsapp {
+      background: #6aa84f;
+      color: #fdf6e3;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.5em; }
+      select { font-size: 0.95em; padding: 12px 16px; }
+      .device { padding: 20px 15px; }
+      a { padding: 10px 14px; font-size: 0.9em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hossam TV Service</h1>
+    <p>Select your device to see installation instructions:</p>
+
+    <!-- Dropdown Menu -->
+    <select onchange="showDevice(this.value)">
+      <option value="">-- Choose your device --</option>
+      <option value="google-tv">Google TV / Android TV</option>
+      <option value="fire-tv">Fire TV / Fire Stick</option>
+      <option value="android-phone">Android Phones / Tablets</option>
+      <option value="iphone">iPhone / iPad / Mac</option>
+      <option value="windows">Windows PC</option>
+      <option value="smart-tv">LG / Samsung / Hisense / Toshiba (VIDAA TVs)</option>
+      <option value="roku">Roku TV</option>
+    </select>
+
+    <!-- Device Sections -->
+    <div id="google-tv" class="device">
+      <h2>📺 Google TV / Android TV Box</h2>
+      <p>Install <strong>Downloader by AFTVnews</strong> from Google Play.</p>
+      <p>Open Downloader and enter the code:</p>
+      <p><span class="highlight-basic">For basic plan app use the code:</span> 8692982</p>
+      <p><span class="highlight-premium">For premium plan app use the code:</span> 439873</p>
+      <a href="https://youtu.be/fB-i-zktopw" target="_blank">Video Tutorial</a>
+    </div>
+
+    <div id="fire-tv" class="device">
+      <h2>🔥 Fire TV / Fire Stick</h2>
+      <p>Install <strong>Downloader by AFTVnews</strong> on your Fire Stick.</p>
+      <p>Enable unknown apps feature – see video 👇</p>
+      <a href="https://youtu.be/U2HkR0em57A" target="_blank">Video Tutorial</a>
+      <p>Reopen Downloader → go to <strong>Home</strong>.</p>
+      <p><span class="highlight-basic">For basic plan app use the code:</span> 8692982</p>
+      <p><span class="highlight-premium">For premium plan app use the code:</span> 439873</p>
+    </div>
+
+    <div id="android-phone" class="device">
+      <h2>📱 Android Phones / Tablets</h2>
+      <p><span class="highlight-basic">Basic Plan:</span> <a href="http://shtv.me/n4k" target="_blank">Download NEO 4K app</a></p>
+      <p><span class="highlight-premium">Premium Plan:</span> <a href="http://2u.pw/8kv" target="_blank">Download 8K app</a></p>
+    </div>
+
+    <div id="iphone" class="device">
+      <h2>🍎 iPhone / iPad / Mac</h2>
+      <p>Download <strong>Smarters Player Lite</strong>: <a href="https://apps.apple.com/us/app/smarters-player-lite/id1628995509" target="_blank">App Store</a></p>
+    </div>
+
+    <div id="windows" class="device">
+      <h2>💻 Windows PC</h2>
+      <p>Download the app: <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" target="_blank">SFVIP Player</a></p>
+      <p><a href="https://youtu.be/dESni3uxAa4" target="_blank">Video Tutorial</a></p>
+    </div>
+
+    <div id="smart-tv" class="device">
+      <h2>📺 LG / Samsung / Hisense / Toshiba (VIDAA TVs)</h2>
+      <p>Step 1: Install <strong>IBO Player</strong> on your TV.</p>
+      <p>Step 2: Open the app.</p>
+      <p>Step 3: Locate your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
+      <p>Step 4: Send your Device ID and Device Key on WhatsApp:</p>
+      <a class="whatsapp" href="http://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
+      <img src="https://iboplayer.com/assets/ibo-player-tZ0LjXtY.webp" alt="IBO Player">
+    </div>
+
+    <div id="roku" class="device">
+      <h2>📺 Roku TV</h2>
+      <p>Step 1: Install <strong>IBO Player Pro</strong> on your Roku TV.</p>
+      <p>Step 2: Open the app.</p>
+      <p>Step 3: Locate your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
+      <p>Step 4: Send your Device ID and Device Key on WhatsApp:</p>
+      <a class="whatsapp" href="http://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
+      <img src="https://iboplayer.pro/m3u/logo-512.png" alt="IBO Player Pro">
+    </div>
+  </div>
+
+  <script>
+    function showDevice(deviceId){
+      const devices = document.querySelectorAll('.device');
+      devices.forEach(d => d.style.display = 'none');
+      if(deviceId) {
+        document.getElementById(deviceId).style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  </script>
+</body>
+</html>
