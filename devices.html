@@ -1,205 +1,314 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hossam TV Service - App Installation Guide</title>
-  <style>
-    /* Global Styles */
-    body {
-      font-family: 'Georgia', serif;
-      background: #f5f0e1; /* warm beige */
-      color: #4b3b2a; /* dark brown */
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hossam TV Service - App Installation Guide</title>
+<style>
+body {
+  font-family: 'Georgia', serif;
+  background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+  color: #eaeaea;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
 
-    .container {
-      max-width: 650px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+/* Glass container */
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(30, 30, 30, 0.6);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+}
 
-    h1 {
-      color: #6b4c3b; /* deep vintage brown */
-      font-size: 2em;
-      margin-bottom: 10px;
-      text-shadow: 1px 1px #d9c9b3;
-    }
+/* Headings */
+h1 {
+  color: #00fff7;
+  font-size: 2em;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7;
+}
 
-    p {
-      font-size: 1em;
-      line-height: 1.6;
-      margin: 8px 0;
-    }
+/* Plan Cards */
+.plan-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
 
-    /* Dropdown Menu */
-    select {
-      background: #d9c9b3;
-      color: #4b3b2a;
-      padding: 14px 20px;
-      margin: 15px 0;
-      border: 2px solid #6b4c3b;
-      border-radius: 12px;
-      font-size: 1em;
-      cursor: pointer;
-      width: 90%;
-      max-width: 400px;
-      transition: all 0.3s ease;
-    }
+.plan-card {
+  background: rgba(20, 20, 20, 0.6);
+  border-radius: 18px;
+  padding: 20px;
+  width: 300px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 15px rgba(0,255,247,0.2), 0 0 25px rgba(0,255,247,0.15);
+  border: 1px solid rgba(0,255,247,0.4);
+  text-align: center;
+}
 
-    select:hover {
-      background: #e3d4bc;
-      transform: scale(1.02);
-    }
+.plan-card h2 {
+  margin-top: 0;
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
 
-    /* Device Instruction Cards */
-    .device {
-      background: #fdf6e3;
-      border-radius: 18px;
-      padding: 25px 20px;
-      margin: 20px 0;
-      box-shadow: 0 6px 15px rgba(75, 59, 42, 0.2);
-      display: none;
-      text-align: center;
-      border: 1px solid #d2bfa1;
-      transition: transform 0.3s;
-    }
+.plan-card p {
+  margin: 8px 0;
+}
 
-    .device:hover {
-      transform: translateY(-3px);
-    }
+.plan-card strong {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 3px;
+  color: #00fff7;
+  text-shadow: 0 0 8px #00fff7;
+}
 
-    .device img {
-      max-width: 130px;
-      margin: 15px auto;
-      display: block;
-      border-radius: 8px;
-      border: 1px solid #d2bfa1;
-      background: #f5f0e1;
-      padding: 5px;
-    }
+/* Custom Dropdown */
+.custom-dropdown {
+  position: relative;
+  width: 95%;
+  max-width: 500px;
+  margin: 20px auto;
+  cursor: pointer;
+  user-select: none;
+  z-index: 999;
+}
 
-    .highlight-basic { color: #8c5c2c; font-weight: bold; }
-    .highlight-premium { color: #c48f65; font-weight: bold; }
+.dropdown-selected {
+  background: rgba(40,40,40,0.6);
+  border: 2px solid #ff00ff;
+  border-radius: 12px;
+  padding: 14px 20px;
+  font-size: 1em;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+  text-shadow: 0 0 8px #ff00ff;
+}
 
-    a {
-      color: #fdf6e3;
-      background: #8c5c2c;
-      padding: 12px 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      display: block;
-      margin: 12px auto;
-      font-weight: bold;
-      max-width: 250px;
-      font-family: 'Georgia', serif;
-      transition: opacity 0.3s, transform 0.3s;
-    }
+.dropdown-items {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(30,30,30,0.85);
+  border: 1px solid rgba(0,255,247,0.3);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,255,247,0.25);
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
 
-    a:hover {
-      opacity: 0.85;
-      transform: scale(1.05);
-    }
+.dropdown-items div {
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.2s, color 0.2s;
+}
 
-    a.whatsapp {
-      background: #6aa84f;
-      color: #fdf6e3;
-    }
+.dropdown-items div:hover {
+  background: rgba(255,0,255,0.2);
+  color: #00fff7;
+}
 
-    @media (max-width: 480px) {
-      h1 { font-size: 1.5em; }
-      select { font-size: 0.95em; padding: 12px 16px; }
-      .device { padding: 20px 15px; }
-      a { padding: 10px 14px; font-size: 0.9em; }
-    }
-  </style>
+/* Device Cards */
+.device {
+  background: rgba(25,25,25,0.6);
+  border-radius: 18px;
+  padding: 25px 20px;
+  margin: 20px 0;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0,255,247,0.2);
+  display: none;
+  text-align: center;
+  border: 1px solid rgba(255,0,255,0.4);
+}
+
+.device img {
+  max-width: 130px;
+  margin: 15px auto;
+  display: block;
+  border-radius: 8px;
+  border: 1px solid rgba(0,255,247,0.4);
+  background: rgba(40,40,40,0.8);
+  padding: 5px;
+}
+
+/* Links */
+a {
+  color: #fff;
+  background: linear-gradient(135deg, #ff00ff, #00fff7);
+  padding: 12px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  display: block;
+  margin: 12px auto;
+  font-weight: bold;
+  max-width: 250px;
+  font-family: 'Georgia', serif;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 0 10px #00fff7, 0 0 20px #ff00ff;
+}
+
+a:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 15px #ff00ff, 0 0 30px #00fff7;
+}
+
+a.whatsapp {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  box-shadow: 0 0 15px #25D366;
+}
+
+/* Highlighted text */
+.highlight-basic { color: #00fff7; font-weight: bold; text-shadow: 0 0 8px #00fff7; }
+.highlight-premium { color: #ff00ff; font-weight: bold; text-shadow: 0 0 8px #ff00ff; }
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  h1 { font-size: 1.5em; }
+  .dropdown-selected { font-size: 0.95em; padding: 12px 16px; }
+  .device { padding: 20px 15px; }
+  a { padding: 10px 14px; font-size: 0.9em; }
+  .dropdown-items div { padding: 10px 14px; }
+  .dropdown-items img { width: 20px; height: 20px; }
+  .plan-cards { flex-direction: column; align-items: center; }
+}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Hossam TV Service</h1>
-    <p>Select your device to see installation instructions:</p>
 
-    <!-- Dropdown Menu -->
-    <select onchange="showDevice(this.value)">
-      <option value="">-- Choose your device --</option>
-      <option value="google-tv">Google TV / Android TV</option>
-      <option value="fire-tv">Fire TV / Fire Stick</option>
-      <option value="android-phone">Android Phones / Tablets</option>
-      <option value="iphone">iPhone / iPad / Mac</option>
-      <option value="windows">Windows PC</option>
-      <option value="smart-tv">LG / Samsung / Hisense / Toshiba (VIDAA TVs)</option>
-      <option value="roku">Roku TV</option>
-    </select>
+<div class="container">
+  <h1>Hossam TV Service</h1>
+  <p>Select your device to see installation instructions:</p>
 
-    <!-- Device Sections -->
-    <div id="google-tv" class="device">
-      <h2>📺 Google TV / Android TV Box</h2>
-      <p>Install <strong>Downloader by AFTVnews</strong> from Google Play.</p>
-      <p>Open Downloader and enter the code:</p>
-      <p><span class="highlight-basic">For basic plan app use the code:</span> 8692982</p>
-      <p><span class="highlight-premium">For premium plan app use the code:</span> 439873</p>
-      <a href="https://youtu.be/fB-i-zktopw" target="_blank">Video Tutorial</a>
+  <!-- Plan Cards -->
+  <div class="plan-cards">
+    <div class="plan-card">
+      <h2>Basic Plan</h2>
+      <p><strong>Price:</strong> 1 Year: $35 — 2 Years: $60</p>
+      <p><strong>Included Channels:</strong> beIN Sports, Sky, Fox, ESPN</p>
+      <p><strong>Library:</strong> Full access to movies and series.</p>
+      <p><strong>Conclusion:</strong> Best for Arabic-speaking viewers or those mainly interested in soccer and general entertainment.</p>
     </div>
-
-    <div id="fire-tv" class="device">
-      <h2>🔥 Fire TV / Fire Stick</h2>
-      <p>Install <strong>Downloader by AFTVnews</strong> on your Fire Stick.</p>
-      <p>Enable unknown apps feature – see video 👇</p>
-      <a href="https://youtu.be/U2HkR0em57A" target="_blank">Video Tutorial</a>
-      <p>Reopen Downloader → go to <strong>Home</strong>.</p>
-      <p><span class="highlight-basic">For basic plan app use the code:</span> 8692982</p>
-      <p><span class="highlight-premium">For premium plan app use the code:</span> 439873</p>
-    </div>
-
-    <div id="android-phone" class="device">
-      <h2>📱 Android Phones / Tablets</h2>
-      <p><span class="highlight-basic">Basic Plan:</span> <a href="http://shtv.me/n4k" target="_blank">Download NEO 4K app</a></p>
-      <p><span class="highlight-premium">Premium Plan:</span> <a href="http://2u.pw/8kv" target="_blank">Download 8K app</a></p>
-    </div>
-
-    <div id="iphone" class="device">
-      <h2>🍎 iPhone / iPad / Mac</h2>
-      <p>Download <strong>Smarters Player Lite</strong>: <a href="https://apps.apple.com/us/app/smarters-player-lite/id1628995509" target="_blank">App Store</a></p>
-    </div>
-
-    <div id="windows" class="device">
-      <h2>💻 Windows PC</h2>
-      <p>Download the app: <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" target="_blank">SFVIP Player</a></p>
-      <p><a href="https://youtu.be/dESni3uxAa4" target="_blank">Video Tutorial</a></p>
-    </div>
-
-    <div id="smart-tv" class="device">
-      <h2>📺 LG / Samsung / Hisense / Toshiba (VIDAA TVs)</h2>
-      <p>Step 1: Install <strong>IBO Player</strong> on your TV.</p>
-      <p>Step 2: Open the app.</p>
-      <p>Step 3: Locate your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
-      <p>Step 4: Send your Device ID and Device Key on WhatsApp:</p>
-      <a class="whatsapp" href="http://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
-      <img src="https://iboplayer.com/assets/ibo-player-tZ0LjXtY.webp" alt="IBO Player">
-    </div>
-
-    <div id="roku" class="device">
-      <h2>📺 Roku TV</h2>
-      <p>Step 1: Install <strong>IBO Player Pro</strong> on your Roku TV.</p>
-      <p>Step 2: Open the app.</p>
-      <p>Step 3: Locate your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
-      <p>Step 4: Send your Device ID and Device Key on WhatsApp:</p>
-      <a class="whatsapp" href="http://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
-      <img src="https://iboplayer.pro/m3u/logo-512.png" alt="IBO Player Pro">
+    <div class="plan-card">
+      <h2>Premium Plan</h2>
+      <p><strong>Price:</strong> 1 Year: $55 — 2 Years: $100</p>
+      <p><strong>Included Channels:</strong> Over 3× channels compared to Basic, including UFC, NBA, NFL, Bally, and more.</p>
+      <p><strong>Library:</strong> Same extensive movies and series library as Basic.</p>
+      <p><strong>Conclusion:</strong> Ideal for viewers who want full international content coverage, major sports leagues, and diverse entertainment.</p>
     </div>
   </div>
 
-  <script>
-    function showDevice(deviceId){
-      const devices = document.querySelectorAll('.device');
-      devices.forEach(d => d.style.display = 'none');
-      if(deviceId) {
-        document.getElementById(deviceId).style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-  </script>
+  <!-- Dropdown -->
+  <div class="custom-dropdown">
+    <div class="dropdown-selected">
+      <span>Select your device</span>
+      <span>▼</span>
+    </div>
+    <div class="dropdown-items">
+      <div data-device="smart-tv"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/tv.png"/>LG / Samsung / Hisense / Toshiba</div>
+      <div data-device="google-tv"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/tv.png"/>Google TV / Android TV</div>
+      <div data-device="fire-tv"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/tv.png"/>Fire TV / Fire Stick</div>
+      <div data-device="roku"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/tv.png"/>Roku TV</div>
+      <div data-device="android-phone"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/smartphone.png"/>Android Phones / Tablets</div>
+      <div data-device="iphone"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/iphone.png"/>iPhone / iPad / Mac</div>
+      <div data-device="windows"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/laptop.png"/>Windows PC</div>
+    </div>
+  </div>
+
+  <!-- Device Sections -->
+  <div id="google-tv" class="device">
+    <h2>📺 Google TV / Android TV Box</h2>
+    <p>Install <strong>Downloader by AFTVnews</strong> from Google Play.</p>
+    <p>Open Downloader and enter the code:</p>
+    <p><span class="highlight-basic">For basic plan app use the code:</span> 8692982</p>
+    <p><span class="highlight-premium">For premium plan app use the code:</span> 439873</p>
+    <a href="https://youtu.be/fB-i-zktopw" target="_blank">Video Tutorial</a>
+  </div>
+
+  <div id="fire-tv" class="device">
+    <h2>🔥 Fire TV / Fire Stick</h2>
+    <p>Install <strong>Downloader by AFTVnews</strong> on your Fire Stick.</p>
+    <p>Enable unknown apps feature – see video 👇</p>
+    <a href="https://youtu.be/U2HkR0em57A" target="_blank">Video Tutorial</a>
+    <p>Reopen Downloader → go to <strong>Home</strong>.</p>
+    <p><span class="highlight-basic">For basic plan app use the code:</span> 8692982</p>
+    <p><span class="highlight-premium">For premium plan app use the code:</span> 439873</p>
+  </div>
+
+  <div id="android-phone" class="device">
+    <h2>📱 Android Phones / Tablets</h2>
+    <p><span class="highlight-basic">Basic Plan:</span> <a href="http://shtv.me/n4k" target="_blank">Download NEO 4K app</a></p>
+    <p><span class="highlight-premium">Premium Plan:</span> <a href="http://2u.pw/8kv" target="_blank">Download 8K app</a></p>
+  </div>
+
+  <div id="iphone" class="device">
+    <h2>🍎 iPhone / iPad / Mac</h2>
+    <p>Download <strong>Smarters Player Lite</strong>: <a href="https://apps.apple.com/us/app/smarters-player-lite/id1628995509" target="_blank">App Store</a></p>
+  </div>
+
+  <div id="windows" class="device">
+    <h2>💻 Windows PC</h2>
+    <p>Download the app: <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" target="_blank">SFVIP Player</a></p>
+    <p><a href="https://youtu.be/dESni3uxAa4" target="_blank">Video Tutorial</a></p>
+  </div>
+
+  <div id="smart-tv" class="device">
+    <h2>📺 LG / Samsung / Hisense / Toshiba (VIDAA TVs)</h2>
+    <p>Step 1: Install <strong>IBO Player</strong> on your TV.</p>
+    <p>Step 2: Open the app.</p>
+    <p>Step 3: Locate your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
+    <p>Step 4: Send your Device ID and Device Key on WhatsApp:</p>
+    <a class="whatsapp" href="http://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
+    <img src="https://iboplayer.com/assets/ibo-player-tZ0LjXtY.webp" alt="IBO Player">
+  </div>
+
+  <div id="roku" class="device">
+    <h2>📺 Roku TV</h2>
+    <p>Step 1: Install <strong>IBO Player Pro</strong> on your Roku TV.</p>
+    <p>Step 2: Open the app.</p>
+    <p>Step 3: Locate your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
+    <p>Step 4: Send your Device ID and Device Key on WhatsApp:</p>
+    <a class="whatsapp" href="http://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
+    <img src="https://iboplayer.pro/m3u/logo-512.png" alt="IBO Player Pro">
+  </div>
+</div>
+
+<script>
+const selected = document.querySelector('.dropdown-selected');
+const items = document.querySelector('.dropdown-items');
+
+selected.addEventListener('click', () => {
+  items.style.display = items.style.display === 'flex' ? 'none' : 'flex';
+});
+
+document.querySelectorAll('.dropdown-items div').forEach(option => {
+  option.addEventListener('click', () => {
+    selected.querySelector('span:first-child').textContent = option.textContent;
+    items.style.display = 'none';
+    const deviceId = option.getAttribute('data-device');
+    const devices = document.querySelectorAll('.device');
+    devices.forEach(d => d.style.display = 'none');
+    document.getElementById(deviceId).style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+
 </body>
 </html>
