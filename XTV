@@ -233,7 +233,6 @@ a.whatsapp {
   <!-- Plan Cards Section -->
   <div class="plan-cards">
     <div class="plan-card">
-      <img src="http://xwebplayer.com/themes/protheme/n-theme/images/logo-light.png" alt="XTV Logo" style="max-width:150px;margin-bottom:15px;">
       <h2>XTV Plan</h2>
       <p class="price">1 Year: 350 EGP — 2 Years: 650 EGP</p>
       <p><strong>Channels:</strong> ~10,000 channels, focus on beIN Sports & SSC Sports</p>
