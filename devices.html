@@ -7,30 +7,39 @@
 <style>
 body {
   font-family: 'Georgia', serif;
-  background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
-  color: #eaeaea;
+  background: #f9f9f9;
+  color: #333;
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
-/* Glass container */
+/* Fixed Header */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #ffffff;
+  color: #555;
+  padding: 15px 0;
+  font-size: 1.5em;
+  font-weight: bold;
+  text-shadow: none;
+  z-index: 200;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Add top padding to container to avoid being hidden under header */
 .container {
   max-width: 700px;
   margin: 0 auto;
-  padding: 20px;
-  background: rgba(30, 30, 30, 0.6);
-  border-radius: 20px;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+  padding: 100px 20px 20px 20px;
 }
 
-/* Headings */
 h1 {
-  color: #00fff7;
+  color: #333;
   font-size: 2em;
   margin-bottom: 10px;
-  text-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7;
 }
 
 /* Plan Cards */
@@ -43,20 +52,23 @@ h1 {
 }
 
 .plan-card {
-  background: rgba(20, 20, 20, 0.6);
   border-radius: 18px;
   padding: 20px;
   width: 300px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 15px rgba(0,255,247,0.2), 0 0 25px rgba(0,255,247,0.15);
-  border: 1px solid rgba(0,255,247,0.4);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  border: 1px solid #ddd;
   text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.plan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.1);
 }
 
 .plan-card h2 {
   margin-top: 0;
-  color: #ff00ff;
-  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+  color: #333;
 }
 
 .plan-card p {
@@ -67,8 +79,19 @@ h1 {
   display: block;
   margin-top: 10px;
   margin-bottom: 3px;
-  color: #00fff7;
-  text-shadow: 0 0 8px #00fff7;
+}
+
+/* Neutral Coloring for Plans */
+.plan-card.basic {
+  background: #e0f0fc;
+  border-color: #7ab8e5;
+  color: #333;
+}
+
+.plan-card.premium {
+  background: #f0f0f0;
+  border-color: #aaa;
+  color: #333;
 }
 
 /* Custom Dropdown */
@@ -79,21 +102,30 @@ h1 {
   margin: 20px auto;
   cursor: pointer;
   user-select: none;
-  z-index: 999;
 }
 
 .dropdown-selected {
-  background: rgba(40,40,40,0.6);
-  border: 2px solid #ff00ff;
+  background: #ffffff;
+  border: 2px solid #ccc;
   border-radius: 12px;
   padding: 14px 20px;
   font-size: 1em;
-  color: #fff;
+  color: #333;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  backdrop-filter: blur(10px);
-  text-shadow: 0 0 8px #ff00ff;
+}
+
+.dropdown-selected span {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-selected img {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  filter: none;
 }
 
 .dropdown-items {
@@ -101,11 +133,11 @@ h1 {
   top: 100%;
   left: 0;
   right: 0;
-  background: rgba(30,30,30,0.85);
-  border: 1px solid rgba(0,255,247,0.3);
+  background: #ffffff;
+  border: 1px solid #ccc;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,255,247,0.25);
-  z-index: 1000;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  z-index: 100;
   display: none;
   flex-direction: column;
   overflow: hidden;
@@ -117,25 +149,29 @@ h1 {
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s;
+  color: #333;
 }
 
 .dropdown-items div:hover {
-  background: rgba(255,0,255,0.2);
-  color: #00fff7;
+  background: #f0f0f0;
 }
 
 /* Device Cards */
 .device {
-  background: rgba(25,25,25,0.6);
+  background: #ffffff;
   border-radius: 18px;
   padding: 25px 20px;
   margin: 20px 0;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(0,255,247,0.2);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
   display: none;
   text-align: center;
-  border: 1px solid rgba(255,0,255,0.4);
+  border: 1px solid #ddd;
+  transition: transform 0.3s;
+}
+
+.device:hover {
+  transform: translateY(-3px);
 }
 
 .device img {
@@ -143,15 +179,14 @@ h1 {
   margin: 15px auto;
   display: block;
   border-radius: 8px;
-  border: 1px solid rgba(0,255,247,0.4);
-  background: rgba(40,40,40,0.8);
+  border: 1px solid #ddd;
+  background: #ffffff;
   padding: 5px;
 }
 
-/* Links */
 a {
   color: #fff;
-  background: linear-gradient(135deg, #ff00ff, #00fff7);
+  background: #555;
   padding: 12px 18px;
   border-radius: 12px;
   text-decoration: none;
@@ -160,25 +195,44 @@ a {
   font-weight: bold;
   max-width: 250px;
   font-family: 'Georgia', serif;
-  transition: transform 0.3s, box-shadow 0.3s;
-  box-shadow: 0 0 10px #00fff7, 0 0 20px #ff00ff;
+  transition: opacity 0.3s, transform 0.3s, background 0.3s;
 }
 
 a:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 15px #ff00ff, 0 0 30px #00fff7;
+  opacity: 0.85;
+  transform: scale(1.05);
 }
 
 a.whatsapp {
-  background: linear-gradient(135deg, #25D366, #128C7E);
-  box-shadow: 0 0 15px #25D366;
+  background: #25d366;
+  color: #ffffff;
 }
 
-/* Highlighted text */
-.highlight-basic { color: #00fff7; font-weight: bold; text-shadow: 0 0 8px #00fff7; }
-.highlight-premium { color: #ff00ff; font-weight: bold; text-shadow: 0 0 8px #ff00ff; }
+/* Highlight text */
+.highlight-basic { color: #3498db; font-weight: bold; }
+.highlight-premium { color: #555; font-weight: bold; }
 
-/* Mobile Responsive */
+/* Social Icons */
+.social-icons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 15px;
+  z-index: 300;
+}
+
+.social-icons a img {
+  width: 50px;
+  height: 50px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.social-icons a:hover img {
+  transform: scale(1.1);
+  opacity: 0.85;
+}
+
 @media (max-width: 480px) {
   h1 { font-size: 1.5em; }
   .dropdown-selected { font-size: 0.95em; padding: 12px 16px; }
@@ -187,25 +241,26 @@ a.whatsapp {
   .dropdown-items div { padding: 10px 14px; }
   .dropdown-items img { width: 20px; height: 20px; }
   .plan-cards { flex-direction: column; align-items: center; }
+  .social-icons a img { width: 40px; height: 40px; }
 }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>Hossam TV Service</h1>
-  <p>Select your device to see installation instructions:</p>
+<header>Hossam TV Service – Installation Guide</header>
 
-  <!-- Plan Cards -->
+<div class="container">
+
+  <!-- Plan Cards Section -->
   <div class="plan-cards">
-    <div class="plan-card">
+    <div class="plan-card basic">
       <h2>Basic Plan</h2>
       <p><strong>Price:</strong> 1 Year: $35 — 2 Years: $60</p>
       <p><strong>Included Channels:</strong> beIN Sports, Sky, Fox, ESPN</p>
       <p><strong>Library:</strong> Full access to movies and series.</p>
       <p><strong>Conclusion:</strong> Best for Arabic-speaking viewers or those mainly interested in soccer and general entertainment.</p>
     </div>
-    <div class="plan-card">
+    <div class="plan-card premium">
       <h2>Premium Plan</h2>
       <p><strong>Price:</strong> 1 Year: $55 — 2 Years: $100</p>
       <p><strong>Included Channels:</strong> Over 3× channels compared to Basic, including UFC, NBA, NFL, Bally, and more.</p>
@@ -221,13 +276,13 @@ a.whatsapp {
       <span>▼</span>
     </div>
     <div class="dropdown-items">
-      <div data-device="smart-tv"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/tv.png"/>LG / Samsung / Hisense / Toshiba</div>
-      <div data-device="google-tv"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/tv.png"/>Google TV / Android TV</div>
-      <div data-device="fire-tv"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/tv.png"/>Fire TV / Fire Stick</div>
-      <div data-device="roku"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/tv.png"/>Roku TV</div>
-      <div data-device="android-phone"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/smartphone.png"/>Android Phones / Tablets</div>
-      <div data-device="iphone"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/iphone.png"/>iPhone / iPad / Mac</div>
-      <div data-device="windows"><img src="https://img.icons8.com/ios-filled/50/8c5c2c/laptop.png"/>Windows PC</div>
+      <div data-device="smart-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png"/>LG / Samsung / Hisense / Toshiba</div>
+      <div data-device="google-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png"/>Google TV / Android TV</div>
+      <div data-device="fire-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png"/>Fire TV / Fire Stick</div>
+      <div data-device="roku"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png"/>Roku TV</div>
+      <div data-device="android-phone"><img src="https://img.icons8.com/ios-filled/50/000000/smartphone.png"/>Android Phones / Tablets</div>
+      <div data-device="iphone"><img src="https://img.icons8.com/ios-filled/50/000000/iphone.png"/>iPhone / iPad / Mac</div>
+      <div data-device="windows"><img src="https://img.icons8.com/ios-filled/50/000000/laptop.png"/>Windows PC</div>
     </div>
   </div>
 
@@ -274,7 +329,7 @@ a.whatsapp {
     <p>Step 2: Open the app.</p>
     <p>Step 3: Locate your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
     <p>Step 4: Send your Device ID and Device Key on WhatsApp:</p>
-    <a class="whatsapp" href="http://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
+    <a class="whatsapp" href="https://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
     <img src="https://iboplayer.com/assets/ibo-player-tZ0LjXtY.webp" alt="IBO Player">
   </div>
 
@@ -284,9 +339,19 @@ a.whatsapp {
     <p>Step 2: Open the app.</p>
     <p>Step 3: Locate your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
     <p>Step 4: Send your Device ID and Device Key on WhatsApp:</p>
-    <a class="whatsapp" href="http://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
+    <a class="whatsapp" href="https://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
     <img src="https://iboplayer.pro/m3u/logo-512.png" alt="IBO Player Pro">
   </div>
+</div>
+
+<!-- Social Icons -->
+<div class="social-icons">
+  <a href="https://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">
+    <img src="https://img.icons8.com/fluency/48/000000/whatsapp.png" alt="WhatsApp">
+  </a>
+  <a href="https://www.facebook.com/3rabTv" target="_blank">
+    <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" alt="Facebook">
+  </a>
 </div>
 
 <script>
@@ -305,7 +370,6 @@ document.querySelectorAll('.dropdown-items div').forEach(option => {
     const devices = document.querySelectorAll('.device');
     devices.forEach(d => d.style.display = 'none');
     document.getElementById(deviceId).style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });
 </script>
