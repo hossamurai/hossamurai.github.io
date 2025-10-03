@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hossam TV Service</title>
+<title>Hossam TV Service - App Installation Guide</title>
 <style>
 body {
   font-family: 'Georgia', serif;
-  background: #f9f9f9;
+  background: #fdfdfd; /* Lighter background */
   color: #333;
   margin: 0;
   padding: 0;
@@ -20,24 +20,23 @@ header {
   top: 0;
   width: 100%;
   background: #ffffff;
-  color: #555;
-  padding: 15px 0;
-  font-size: 1.5em;
+  color: #222;
+  padding: 20px 0;
+  font-size: 2em;
   font-weight: bold;
-  text-shadow: none;
   z-index: 200;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
-/* Add top padding to container to avoid being hidden under header */
+/* Add top padding to container */
 .container {
   max-width: 700px;
   margin: 0 auto;
-  padding: 100px 20px 20px 20px;
+  padding: 140px 20px 20px 20px; /* slightly more for header */
 }
 
 h1 {
-  color: #333;
+  color: #222;
   font-size: 2em;
   margin-bottom: 10px;
 }
@@ -55,20 +54,21 @@ h1 {
   border-radius: 18px;
   padding: 20px;
   width: 300px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
   border: 1px solid #ddd;
   text-align: center;
+  background: #fff;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .plan-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
   box-shadow: 0 12px 25px rgba(0,0,0,0.1);
 }
 
 .plan-card h2 {
   margin-top: 0;
-  color: #333;
+  color: #111;
 }
 
 .plan-card p {
@@ -81,20 +81,11 @@ h1 {
   margin-bottom: 3px;
 }
 
-/* Neutral Coloring for Plans */
-.plan-card.basic {
-  background: #e0f0fc;
-  border-color: #7ab8e5;
-  color: #333;
-}
+/* Plan accents */
+.plan-card.basic { border-left: 6px solid #3498db; }
+.plan-card.premium { border-left: 6px solid #e67e22; }
 
-.plan-card.premium {
-  background: #f0f0f0;
-  border-color: #aaa;
-  color: #333;
-}
-
-/* Custom Dropdown */
+/* Dropdown */
 .custom-dropdown {
   position: relative;
   width: 95%;
@@ -125,7 +116,6 @@ h1 {
   width: 25px;
   height: 25px;
   margin-right: 10px;
-  filter: none;
 }
 
 .dropdown-items {
@@ -154,16 +144,16 @@ h1 {
 }
 
 .dropdown-items div:hover {
-  background: #f0f0f0;
+  background: #f5f5f5;
 }
 
 /* Device Cards */
 .device {
-  background: #ffffff;
+  background: #fff;
   border-radius: 18px;
   padding: 25px 20px;
   margin: 20px 0;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
   display: none;
   text-align: center;
   border: 1px solid #ddd;
@@ -171,7 +161,7 @@ h1 {
 }
 
 .device:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
 }
 
 .device img {
@@ -210,7 +200,7 @@ a.whatsapp {
 
 /* Highlight text */
 .highlight-basic { color: #3498db; font-weight: bold; }
-.highlight-premium { color: #555; font-weight: bold; }
+.highlight-premium { color: #e67e22; font-weight: bold; }
 
 /* Social Icons */
 .social-icons {
@@ -247,7 +237,7 @@ a.whatsapp {
 </head>
 <body>
 
-<header>Hossam TV Service – Installation Guide</header>
+<header>Hossam TV Services</header>
 
 <div class="container">
 
@@ -327,9 +317,7 @@ a.whatsapp {
     <h2>📺 LG / Samsung / Hisense / Toshiba (VIDAA TVs)</h2>
     <p>Step 1: Install <strong>IBO Player</strong> on your TV.</p>
     <p>Step 2: Open the app.</p>
-    <p>Step 3: Locate your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
-    <p>Step 4: Send your Device ID and Device Key on WhatsApp:</p>
-    <a class="whatsapp" href="https://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
+    <p>Step 3: Send me your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
     <img src="https://iboplayer.com/assets/ibo-player-tZ0LjXtY.webp" alt="IBO Player">
   </div>
 
@@ -337,9 +325,7 @@ a.whatsapp {
     <h2>📺 Roku TV</h2>
     <p>Step 1: Install <strong>IBO Player Pro</strong> on your Roku TV.</p>
     <p>Step 2: Open the app.</p>
-    <p>Step 3: Locate your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
-    <p>Step 4: Send your Device ID and Device Key on WhatsApp:</p>
-    <a class="whatsapp" href="https://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">Send via WhatsApp</a>
+    <p>Step 3: Send me your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
     <img src="https://iboplayer.pro/m3u/logo-512.png" alt="IBO Player Pro">
   </div>
 </div>
@@ -369,11 +355,21 @@ document.querySelectorAll('.dropdown-items div').forEach(option => {
     const deviceId = option.getAttribute('data-device');
     const devices = document.querySelectorAll('.device');
     devices.forEach(d => d.style.display = 'none');
-    document.getElementById(deviceId).style.display = 'block';
+    const targetDevice = document.getElementById(deviceId);
+    targetDevice.style.display = 'block';
+
+    // Smooth scroll to device card
+    targetDevice.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
+});
+
+// Close dropdown if clicked outside
+document.addEventListener('click', (e) => {
+  if (!selected.contains(e.target) && !items.contains(e.target)) {
+    items.style.display = 'none';
+  }
 });
 </script>
 
 </body>
 </html>
-
