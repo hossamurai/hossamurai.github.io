@@ -7,32 +7,57 @@
 <style>
 body {
   font-family: 'Georgia', serif;
-  background: #fdfdfd; /* Lighter background */
+  background: #fdfdfd;
   color: #333;
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
-/* Fixed Header */
+/* Header (scrolls with page) */
 header {
-  position: fixed;
-  top: 0;
   width: 100%;
   background: #ffffff;
   color: #222;
   padding: 20px 0;
   font-size: 2em;
   font-weight: bold;
-  z-index: 200;
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Add top padding to container */
+/* Social Icons in Header - clickable images only */
+header .social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 6px;
+}
+
+header .social-icons a {
+  display: inline-block;
+  background: none;
+  padding: 0;
+}
+
+header .social-icons a img {
+  width: 40px;
+  height: 40px;
+  display: block;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+header .social-icons a:hover img {
+  transform: scale(1.1);
+  opacity: 0.85;
+}
+
+/* Container padding updated for scrolling header */
 .container {
   max-width: 700px;
   margin: 0 auto;
-  padding: 100px 20px 20px 20px; /* reduced from 140px to 100px */
+  padding: 20px; /* reduced padding since header is no longer fixed */
 }
 
 h1 {
@@ -202,27 +227,6 @@ a.whatsapp {
 .highlight-basic { color: #3498db; font-weight: bold; }
 .highlight-premium { color: #e67e22; font-weight: bold; }
 
-/* Social Icons */
-.social-icons {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  gap: 15px;
-  z-index: 300;
-}
-
-.social-icons a img {
-  width: 50px;
-  height: 50px;
-  transition: transform 0.3s, opacity 0.3s;
-}
-
-.social-icons a:hover img {
-  transform: scale(1.1);
-  opacity: 0.85;
-}
-
 @media (max-width: 480px) {
   h1 { font-size: 1.5em; }
   .dropdown-selected { font-size: 0.95em; padding: 12px 16px; }
@@ -231,13 +235,24 @@ a.whatsapp {
   .dropdown-items div { padding: 10px 14px; }
   .dropdown-items img { width: 20px; height: 20px; }
   .plan-cards { flex-direction: column; align-items: center; }
-  .social-icons a img { width: 40px; height: 40px; }
+  header .social-icons { margin-top: 4px; gap: 12px; }
+  header .social-icons a img { width: 32px; height: 32px; }
 }
 </style>
 </head>
 <body>
 
-<header>Hossam TV Services</header>
+<header>
+  Hossam TV Services
+  <div class="social-icons">
+    <a href="https://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">
+      <img src="https://img.icons8.com/fluency/48/000000/whatsapp.png" alt="WhatsApp">
+    </a>
+    <a href="https://www.facebook.com/3rabTv" target="_blank">
+      <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" alt="Facebook">
+    </a>
+  </div>
+</header>
 
 <div class="container">
 
@@ -330,16 +345,6 @@ a.whatsapp {
   </div>
 </div>
 
-<!-- Social Icons -->
-<div class="social-icons">
-  <a href="https://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">
-    <img src="https://img.icons8.com/fluency/48/000000/whatsapp.png" alt="WhatsApp">
-  </a>
-  <a href="https://www.facebook.com/3rabTv" target="_blank">
-    <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" alt="Facebook">
-  </a>
-</div>
-
 <script>
 const selected = document.querySelector('.dropdown-selected');
 const items = document.querySelector('.dropdown-items');
@@ -349,7 +354,6 @@ selected.addEventListener('click', () => {
   items.style.display = isOpen ? 'none' : 'flex';
   
   if (!isOpen) {
-    // Scroll dropdown into view smoothly when opened
     items.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 });
@@ -363,13 +367,10 @@ document.querySelectorAll('.dropdown-items div').forEach(option => {
     devices.forEach(d => d.style.display = 'none');
     const targetDevice = document.getElementById(deviceId);
     targetDevice.style.display = 'block';
-
-    // Smooth scroll to device card
     targetDevice.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 
-// Close dropdown if clicked outside
 document.addEventListener('click', (e) => {
   if (!selected.contains(e.target) && !items.contains(e.target)) {
     items.style.display = 'none';
