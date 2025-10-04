@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hossam TV Service - App Installation Guide</title>
+<meta name="description" content="Hossam TV Services - IPTV app installation guide for Smart TVs, Android, iPhone, Fire TV, Roku, and Windows devices. Plans include Basic and Premium.">
 <style>
 body {
   font-family: 'Georgia', serif;
@@ -12,9 +13,10 @@ body {
   margin: 0;
   padding: 0;
   text-align: center;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Header (scrolls with page) */
+/* Header */
 header {
   width: 100%;
   background: #ffffff;
@@ -28,7 +30,11 @@ header {
   align-items: center;
 }
 
-/* Social Icons in Header - clickable images only */
+header h1 {
+  margin: 0;
+  font-size: inherit;
+}
+
 header .social-icons {
   display: flex;
   gap: 15px;
@@ -53,11 +59,10 @@ header .social-icons a:hover img {
   opacity: 0.85;
 }
 
-/* Container padding updated for scrolling header */
 .container {
   max-width: 700px;
   margin: 0 auto;
-  padding: 20px; /* reduced padding since header is no longer fixed */
+  padding: 20px;
 }
 
 h1 {
@@ -78,7 +83,9 @@ h1 {
 .plan-card {
   border-radius: 18px;
   padding: 20px;
-  width: 300px;
+  width: calc(100% - 40px);
+  max-width: 700px;
+  margin: 6px auto; /* reduced gap even more */
   box-shadow: 0 6px 18px rgba(0,0,0,0.05);
   border: 1px solid #ddd;
   text-align: center;
@@ -110,11 +117,24 @@ h1 {
 .plan-card.basic { border-left: 6px solid #3498db; }
 .plan-card.premium { border-left: 6px solid #e67e22; }
 
+/* Egypt button-card */
+.plan-card.egypt {
+  border-left: 6px solid #e74c3c; /* red ribbon */
+  padding: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  color: #111;
+}
+.plan-card.egypt:hover {
+  background: #fafafa;
+}
+
 /* Dropdown */
 .custom-dropdown {
   position: relative;
-  width: 95%;
-  max-width: 500px;
+  width: calc(100% - 40px);
+  max-width: 700px;
   margin: 20px auto;
   cursor: pointer;
   user-select: none;
@@ -130,6 +150,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: border 0.3s;
 }
 
 .dropdown-selected span {
@@ -141,6 +162,10 @@ h1 {
   width: 25px;
   height: 25px;
   margin-right: 10px;
+}
+
+.dropdown-arrow {
+  transition: transform 0.3s;
 }
 
 .dropdown-items {
@@ -177,12 +202,14 @@ h1 {
   background: #fff;
   border-radius: 18px;
   padding: 25px 20px;
-  margin: 20px 0;
+  margin: 12px auto; /* reduced gap */
   box-shadow: 0 6px 18px rgba(0,0,0,0.05);
   display: none;
   text-align: center;
   border: 1px solid #ddd;
   transition: transform 0.3s;
+  width: calc(100% - 40px);
+  max-width: 700px;
 }
 
 .device:hover {
@@ -223,14 +250,14 @@ a.whatsapp {
   color: #ffffff;
 }
 
-/* Highlight text */
+/* Highlights */
 .highlight-basic { color: #3498db; font-weight: bold; }
 .highlight-premium { color: #e67e22; font-weight: bold; }
 
 @media (max-width: 480px) {
   h1 { font-size: 1.5em; }
   .dropdown-selected { font-size: 0.95em; padding: 12px 16px; }
-  .device { padding: 20px 15px; }
+  .device { padding: 20px 15px; width: 95%; }
   a { padding: 10px 14px; font-size: 0.9em; }
   .dropdown-items div { padding: 10px 14px; }
   .dropdown-items img { width: 20px; height: 20px; }
@@ -243,13 +270,13 @@ a.whatsapp {
 <body>
 
 <header>
-  Hossam TV Services
+  <h1>Hossam TV Services</h1>
   <div class="social-icons">
     <a href="https://wa.me/message/JZEZ3BNRYY2ED1" target="_blank">
-      <img src="https://img.icons8.com/fluency/48/000000/whatsapp.png" alt="WhatsApp">
+      <img src="https://img.icons8.com/fluency/48/000000/whatsapp.png" alt="WhatsApp Icon">
     </a>
     <a href="https://www.facebook.com/3rabTv" target="_blank">
-      <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" alt="Facebook">
+      <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" alt="Facebook Icon">
     </a>
   </div>
 </header>
@@ -258,6 +285,9 @@ a.whatsapp {
 
   <!-- Plan Cards Section -->
   <div class="plan-cards">
+    <a href="https://hossamurai.github.io/XTV.html" target="_blank" class="plan-card egypt">
+      <h2>Egypt Local Plan</h2>
+    </a>
     <div class="plan-card basic">
       <h2>Basic Plan</h2>
       <p><strong>Price:</strong> 1 Year: $35 — 2 Years: $60</p>
@@ -278,20 +308,22 @@ a.whatsapp {
   <div class="custom-dropdown">
     <div class="dropdown-selected">
       <span>Select your device</span>
-      <span>▼</span>
+      <span class="dropdown-arrow">▼</span>
     </div>
     <div class="dropdown-items">
-      <div data-device="smart-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png"/>LG / Samsung / Hisense / Toshiba</div>
-      <div data-device="google-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png"/>Google TV / Android TV</div>
-      <div data-device="fire-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png"/>Fire TV / Fire Stick</div>
-      <div data-device="roku"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png"/>Roku TV</div>
-      <div data-device="android-phone"><img src="https://img.icons8.com/ios-filled/50/000000/smartphone.png"/>Android Phones / Tablets</div>
-      <div data-device="iphone"><img src="https://img.icons8.com/ios-filled/50/000000/iphone.png"/>iPhone / iPad / Mac</div>
-      <div data-device="windows"><img src="https://img.icons8.com/ios-filled/50/000000/laptop.png"/>Windows PC</div>
+      <div data-device="smart-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png" alt="Smart TV Icon"/>LG / Samsung / Hisense / Toshiba</div>
+      <div data-device="google-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png" alt="Google TV Icon"/>Google TV / Android TV</div>
+      <div data-device="fire-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png" alt="Fire TV Icon"/>Fire TV / Fire Stick</div>
+      <div data-device="roku"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png" alt="Roku Icon"/>Roku TV</div>
+      <div data-device="android-phone"><img src="https://img.icons8.com/ios-filled/50/000000/smartphone.png" alt="Android Icon"/>Android Phones / Tablets</div>
+      <div data-device="iphone"><img src="https://img.icons8.com/ios-filled/50/000000/iphone.png" alt="iPhone Icon"/>iPhone / iPad / Mac</div>
+      <div data-device="windows"><img src="https://img.icons8.com/ios-filled/50/000000/laptop.png" alt="Windows Icon"/>Windows PC</div>
     </div>
   </div>
 
   <!-- Device Sections -->
+  <!-- (unchanged content, only added alt attributes where missing) -->
+
   <div id="google-tv" class="device">
     <h2>📺 Google TV / Android TV Box</h2>
     <p>Install <strong>Downloader by AFTVnews</strong> from Google Play.</p>
@@ -333,7 +365,7 @@ a.whatsapp {
     <p>Step 1: Install <strong>IBO Player</strong> on your TV.</p>
     <p>Step 2: Open the app.</p>
     <p>Step 3: Send me your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
-    <img src="https://iboplayer.com/assets/ibo-player-tZ0LjXtY.webp" alt="IBO Player">
+    <img src="https://iboplayer.com/assets/ibo-player-tZ0LjXtY.webp" alt="IBO Player Screenshot">
   </div>
 
   <div id="roku" class="device">
@@ -341,18 +373,19 @@ a.whatsapp {
     <p>Step 1: Install <strong>IBO Player Pro</strong> on your Roku TV.</p>
     <p>Step 2: Open the app.</p>
     <p>Step 3: Send me your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
-    <img src="https://iboplayer.pro/m3u/logo-512.png" alt="IBO Player Pro">
+    <img src="https://iboplayer.pro/m3u/logo-512.png" alt="IBO Player Pro Logo">
   </div>
 </div>
 
 <script>
 const selected = document.querySelector('.dropdown-selected');
+const arrow = document.querySelector('.dropdown-arrow');
 const items = document.querySelector('.dropdown-items');
 
 selected.addEventListener('click', () => {
   const isOpen = items.style.display === 'flex';
   items.style.display = isOpen ? 'none' : 'flex';
-  
+  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
   if (!isOpen) {
     items.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
@@ -362,6 +395,7 @@ document.querySelectorAll('.dropdown-items div').forEach(option => {
   option.addEventListener('click', () => {
     selected.querySelector('span:first-child').textContent = option.textContent;
     items.style.display = 'none';
+    arrow.style.transform = 'rotate(0deg)';
     const deviceId = option.getAttribute('data-device');
     const devices = document.querySelectorAll('.device');
     devices.forEach(d => d.style.display = 'none');
@@ -374,10 +408,17 @@ document.querySelectorAll('.dropdown-items div').forEach(option => {
 document.addEventListener('click', (e) => {
   if (!selected.contains(e.target) && !items.contains(e.target)) {
     items.style.display = 'none';
+    arrow.style.transform = 'rotate(0deg)';
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === "Escape") {
+    items.style.display = 'none';
+    arrow.style.transform = 'rotate(0deg)';
   }
 });
 </script>
 
 </body>
 </html>
-
