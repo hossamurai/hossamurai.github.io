@@ -45,24 +45,26 @@
       margin-bottom: 15px;
     }
 
-    .actions {
+    .actions, .result-box button {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 10px;
-      justify-content: center;
-      margin-bottom: 15px;
+      align-items: center;
+      width: 100%;
     }
 
-    button {
+    .actions button, .result-box button {
+      width: 100%;
+      text-align: center;
       font-size: 0.9rem;
-      padding: 8px 14px;
+      padding: 10px 14px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       transition: 0.2s;
     }
 
-    button:hover {
+    .actions button:hover, .result-box button:hover {
       opacity: 0.9;
     }
 
@@ -91,6 +93,10 @@
       padding: 12px;
       border-radius: 8px;
       margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
     }
 
     pre {
@@ -100,12 +106,12 @@
       font-size: 0.85rem;
       overflow-x: auto;
       margin: 0;
+      width: 100%;
     }
 
     .copied-text {
       font-size: 0.8rem;
       color: green;
-      margin-top: 4px;
       visibility: hidden;
     }
 
@@ -179,7 +185,7 @@
 
       try {
         const url = new URL(input);
-        host = url.origin.replace("https://", "http://");
+        host = url.origin;
       } catch {}
 
       const result = `Playlist name: (any name)\nUsername: ${username}\nPassword: ${password}\nHost: ${host}`;
