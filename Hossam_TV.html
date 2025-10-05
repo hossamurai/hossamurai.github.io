@@ -250,10 +250,50 @@ a.whatsapp {
   color: #ffffff;
 }
 
+/* Troubleshooting Button */
+#troubleshootBtn {
+  background: #e74c3c;
+  color: #fff;
+}
+#troubleshootBtn:hover {
+  background: #c0392b;
+}
+
 /* Highlights */
 .highlight-basic { color: #3498db; font-weight: bold; }
 .highlight-premium { color: #e67e22; font-weight: bold; }
 
+/* Modal Styles */
+.modal {
+  display: none; /* FIXED: only opens when triggered */
+  position: fixed;
+  z-index: 999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 14px;
+  max-width: 500px;
+  width: 90%;
+  text-align: left;
+  position: relative;
+}
+.modal-content h2 {
+  margin-top: 0;
+}
+.close-btn {
+  position: absolute;
+  top: 10px; right: 14px;
+  font-size: 1.4em;
+  cursor: pointer;
+}
+
+/* Responsive */
 @media (max-width: 480px) {
   h1 { font-size: 1.5em; }
   .dropdown-selected { font-size: 0.95em; padding: 12px 16px; }
@@ -283,6 +323,10 @@ a.whatsapp {
 
 <div class="container">
 
+  <!-- Troubleshooting Section -->
+  <h3>Having an issue?</h3>
+  <a href="javascript:void(0)" id="troubleshootBtn">Troubleshooting</a>
+
   <!-- Plan Cards Section -->
   <div class="plan-cards">
     <a href="https://hossamurai.github.io/XTV.html" target="_blank" class="plan-card egypt">
@@ -292,18 +336,21 @@ a.whatsapp {
     <div class="plan-card basic">
       <h2>Basic Plan</h2>
       <p><strong>Price:</strong> 1 Year: $35 — 2 Years: $60</p>
-      <p><strong>Included Channels:</strong> +13,000 stable channels with no buffering, including beIN Sports, Sky, Fox, ESPN</p>
+      <p><strong>Included Channels:</strong> beIN Sports, Sky, Fox, ESPN</p>
       <p><strong>Library:</strong> Full access to movies and series.</p>
       <p><strong>Conclusion:</strong> Best for Arabic-speaking viewers or those mainly interested in soccer and general entertainment.</p>
     </div>
     <div class="plan-card premium">
       <h2>Premium Plan</h2>
       <p><strong>Price:</strong> 1 Year: $55 — 2 Years: $100</p>
-      <p><strong>Included Channels:</strong> +37,000 stable channels with no buffering, including UFC, NBA, NFL, Bally, and more</p>
+      <p><strong>Included Channels:</strong> Over 3× channels compared to Basic, including UFC, NBA, NFL, Bally, and more.</p>
       <p><strong>Library:</strong> Same extensive movies and series library as Basic.</p>
       <p><strong>Conclusion:</strong> Ideal for viewers who want full international content coverage, major sports leagues, and diverse entertainment.</p>
     </div>
   </div>
+
+  <!-- Dropdown Label -->
+  <h3>Select your device below to see installation steps:</h3>
 
   <!-- Dropdown -->
   <div class="custom-dropdown">
@@ -360,7 +407,7 @@ a.whatsapp {
   </div>
 
   <div id="smart-tv" class="device">
-    <h2>📺 LG / Samsung / Hisense / Toshiba</h2>
+    <h2>📺 LG / Samsung / Hisense / Toshiba (VIDAA TVs)</h2>
     <p>Step 1: Install <strong>IBO Player</strong> on your TV.</p>
     <p>Step 2: Open the app.</p>
     <p>Step 3: Send me your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
@@ -373,6 +420,19 @@ a.whatsapp {
     <p>Step 2: Open the app.</p>
     <p>Step 3: Send me your <strong>Device ID</strong> and <strong>Device Key</strong>.</p>
     <img src="https://iboplayer.pro/m3u/logo-512.png" alt="IBO Player Pro Logo">
+  </div>
+</div>
+
+<!-- Troubleshooting Modal -->
+<div id="troubleshootModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <h2>Troubleshooting Guide</h2>
+<p><strong>1. Check my WhatsApp story first — I may have posted a general issue update.</strong></p>
+<p>2. Restart your router and TV/box.</p>
+<p>3. Make sure your subscription is active.</p>
+<p>4. If app is stuck, clear cache or reinstall it.</p>
+<p>5. Contact me on WhatsApp if the issue persists.</p>
   </div>
 </div>
 
@@ -395,31 +455,38 @@ document.querySelectorAll('.dropdown-items div').forEach(option => {
     selected.querySelector('span:first-child').textContent = option.textContent;
     items.style.display = 'none';
     arrow.style.transform = 'rotate(0deg)';
-    const deviceId = option.getAttribute('data-device');
-    const devices = document.querySelectorAll('.device');
-    devices.forEach(d => d.style.display = 'none');
-    const targetDevice = document.getElementById(deviceId);
-    targetDevice.style.display = 'block';
-    targetDevice.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.device').forEach(dev => dev.style.display = 'none');
+    const target = document.getElementById(option.dataset.device);
+    if (target) {
+      target.style.display = 'block';
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
   });
 });
 
-document.addEventListener('click', (e) => {
-  if (!selected.contains(e.target) && !items.contains(e.target)) {
+window.addEventListener('click', (e) => {
+  if (!document.querySelector('.custom-dropdown').contains(e.target)) {
     items.style.display = 'none';
     arrow.style.transform = 'rotate(0deg)';
   }
 });
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === "Escape") {
-    items.style.display = 'none';
-    arrow.style.transform = 'rotate(0deg)';
+// Troubleshooting Modal
+const troubleshootBtn = document.getElementById('troubleshootBtn');
+const troubleshootModal = document.getElementById('troubleshootModal');
+const closeBtn = document.querySelector('.close-btn');
+
+troubleshootBtn.addEventListener('click', () => {
+  troubleshootModal.style.display = 'flex';
+});
+closeBtn.addEventListener('click', () => {
+  troubleshootModal.style.display = 'none';
+});
+window.addEventListener('click', (e) => {
+  if (e.target === troubleshootModal) {
+    troubleshootModal.style.display = 'none';
   }
 });
 </script>
-
 </body>
 </html>
-
-
