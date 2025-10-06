@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <!-- Force desktop view on mobile -->
+  <meta name="viewport" content="width=1024">
   <title>Hossam's AI</title>
   <link rel="icon" href="https://hossamurai.github.io/logo.png" type="image/png">
   <style>
@@ -15,16 +16,16 @@
       overflow: hidden;
       font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center; /* center horizontally */
-      align-items: center;     /* center vertically */
-      background: #f0f0f0;     /* optional light background */
+      justify-content: center;
+      align-items: center;
+      background: #f0f0f0;
     }
 
     /* Chat Card like plan card */
     .chat-card {
       width: 100%;
-      max-width: 700px;       /* same as plan card width */
-      height: calc(100vh - 40px); /* full height minus thin top/bottom margin */
+      max-width: 700px;
+      height: calc(100vh - 40px);
       margin: 20px 0;
       background: #fff;
       border: 1px solid #ddd;
@@ -52,7 +53,6 @@
     const container = document.querySelector('.chat-card');
 
     function adjustHeight() {
-      // Use VisualViewport for precise mobile keyboard detection
       if (window.visualViewport) {
         container.style.height = (window.visualViewport.height - 40) + 'px';
       } else {
@@ -60,14 +60,12 @@
       }
     }
 
-    // Adjust on viewport resize, orientation change, or visual viewport resize
     window.addEventListener('resize', adjustHeight);
     window.addEventListener('orientationchange', adjustHeight);
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', adjustHeight);
     }
 
-    // Initial adjustment
     adjustHeight();
   </script>
 </body>
