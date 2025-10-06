@@ -14,39 +14,49 @@
       width: 100%;
       overflow: hidden;
       font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center; /* center horizontally */
+      align-items: center;     /* center vertically */
+      background: #f0f0f0;     /* optional light background */
     }
 
-    /* Full-page container */
-    .chat-container {
+    /* Chat Card like plan card */
+    .chat-card {
+      width: 100%;
+      max-width: 700px;       /* same as plan card width */
+      height: calc(100vh - 40px); /* full height minus thin top/bottom margin */
+      margin: 20px 0;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 18px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.05);
       display: flex;
       flex-direction: column;
-      width: 100%;
-      height: 100dvh; /* dynamic viewport height */
+      overflow: hidden;
     }
 
     /* Iframe fills remaining space */
     iframe {
       flex: 1;
-      border: none;
       width: 100%;
-      height: 100%;
+      border: none;
     }
   </style>
 </head>
 <body>
-  <div class="chat-container">
+  <div class="chat-card">
     <iframe src="https://www.chatbase.co/chatbot-iframe/UR4AT8qVyiMZfTLECiywM"></iframe>
   </div>
 
   <script>
-    const container = document.querySelector('.chat-container');
+    const container = document.querySelector('.chat-card');
 
     function adjustHeight() {
       // Use VisualViewport for precise mobile keyboard detection
       if (window.visualViewport) {
-        container.style.height = window.visualViewport.height + 'px';
+        container.style.height = (window.visualViewport.height - 40) + 'px';
       } else {
-        container.style.height = window.innerHeight + 'px';
+        container.style.height = (window.innerHeight - 40) + 'px';
       }
     }
 
