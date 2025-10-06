@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Hossam's AI</title>
+  <link rel="icon" href="https://hossamurai.github.io/logo.png" type="image/png">
+  <style>
+    /* Reset */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Full-page container */
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100dvh; /* dynamic viewport height */
+    }
+
+    /* Iframe fills remaining space */
+    iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <iframe src="https://www.chatbase.co/chatbot-iframe/UR4AT8qVyiMZfTLECiywM"></iframe>
+  </div>
+
+  <script>
+    const container = document.querySelector('.chat-container');
+
+    function adjustHeight() {
+      // Use VisualViewport for precise mobile keyboard detection
+      if (window.visualViewport) {
+        container.style.height = window.visualViewport.height + 'px';
+      } else {
+        container.style.height = window.innerHeight + 'px';
+      }
+    }
+
+    // Adjust on viewport resize, orientation change, or visual viewport resize
+    window.addEventListener('resize', adjustHeight);
+    window.addEventListener('orientationchange', adjustHeight);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', adjustHeight);
+    }
+
+    // Initial adjustment
+    adjustHeight();
+  </script>
+</body>
+</html>
