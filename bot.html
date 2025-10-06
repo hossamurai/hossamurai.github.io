@@ -6,7 +6,6 @@
   <title>Hossam's AI</title>
   <link rel="icon" href="https://hossamurai.github.io/logo.png" type="image/png">
   <style>
-    /* Reset */
     html, body {
       margin: 0;
       padding: 0;
@@ -16,15 +15,14 @@
       font-family: Arial, sans-serif;
     }
 
-    /* Full-page container */
     .chat-container {
       display: flex;
       flex-direction: column;
       width: 100%;
-      height: 100dvh; /* dynamic viewport height */
+      height: 100dvh;
+      min-height: 100vh; /* fallback for mobile browsers */
     }
 
-    /* Iframe fills remaining space */
     iframe {
       flex: 1;
       border: none;
@@ -39,25 +37,25 @@
   </div>
 
   <script>
+    // Redirect mobile users to the Chatbase link
+    if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+      window.location.href = "https://www.chatbase.co/chatbot/UR4AT8qVyiMZfTLECiywM";
+    }
+
     const container = document.querySelector('.chat-container');
 
     function adjustHeight() {
-      // Use VisualViewport for precise mobile keyboard detection
-      if (window.visualViewport) {
-        container.style.height = window.visualViewport.height + 'px';
-      } else {
-        container.style.height = window.innerHeight + 'px';
-      }
+      let height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      container.style.height = height + 'px';
+      setTimeout(() => container.style.height = height + 'px', 50); // fix for keyboard resize
     }
 
-    // Adjust on viewport resize, orientation change, or visual viewport resize
     window.addEventListener('resize', adjustHeight);
     window.addEventListener('orientationchange', adjustHeight);
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', adjustHeight);
     }
 
-    // Initial adjustment
     adjustHeight();
   </script>
 </body>
