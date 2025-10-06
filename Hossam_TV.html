@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hossam TV Service - App Installation Guide</title>
+<title>Hossam TV Services</title>
+<link rel="icon" href="https://hossamurai.github.io/logo.png" type="image/png">
 <meta name="description" content="Hossam TV Services - IPTV app installation guide for Smart TVs, Android, iPhone, Fire TV, Roku, and Windows devices. Plans include Basic and Premium.">
 <style>
 body {
@@ -262,48 +263,17 @@ a.whatsapp {
   background: #25d366;
 }
 
-/* Troubleshooting Button */
-#troubleshootBtn {
-  background: #e74c3c;
-  color: #fff;
+/* AI Button */
+#askAI {
+  background: #3498db;
 }
-#troubleshootBtn:hover {
-  background: #c0392b;
+#askAI:hover {
+  background: #2980b9;
 }
 
 /* Highlights */
 .highlight-basic { color: #3498db; font-weight: bold; }
 .highlight-premium { color: #e67e22; font-weight: bold; }
-
-/* Modal Styles */
-.modal {
-  display: none; /* FIXED: only opens when triggered */
-  position: fixed;
-  z-index: 999;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  align-items: center;
-  justify-content: center;
-}
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 14px;
-  max-width: 500px;
-  width: 90%;
-  text-align: left;
-  position: relative;
-}
-.modal-content h2 {
-  margin-top: 0;
-}
-.close-btn {
-  position: absolute;
-  top: 10px; right: 14px;
-  font-size: 1.4em;
-  cursor: pointer;
-}
 
 /* Responsive */
 @media (max-width: 480px) {
@@ -338,9 +308,9 @@ a.whatsapp {
 
 <div class="container">
 
-  <!-- Troubleshooting Section -->
-  <h3>Having an issue?</h3>
-  <a href="javascript:void(0)" id="troubleshootBtn">Troubleshooting</a>
+  <!-- AI Question Section -->
+  <h3>Have a question?</h3>
+  <a href="https://hossamurai.github.io/bot.html" id="askAI">Ask my AI</a>
 
   <!-- Plan Cards Section -->
   <div class="plan-cards">
@@ -438,19 +408,6 @@ a.whatsapp {
   </div>
 </div>
 
-<!-- Troubleshooting Modal -->
-<div id="troubleshootModal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2>Troubleshooting Guide</h2>
-<p><strong>1. Check my WhatsApp story first — I may have posted a general issue update.</strong></p>
-<p>2. Restart your router and TV/box.</p>
-<p>3. Make sure your subscription is active.</p>
-<p>4. If app is stuck, clear cache or reinstall it.</p>
-<p>5. Contact me on WhatsApp if the issue persists.</p>
-  </div>
-</div>
-
 <script>
 const selected = document.querySelector('.dropdown-selected');
 const arrow = document.querySelector('.dropdown-arrow');
@@ -485,26 +442,7 @@ window.addEventListener('click', (e) => {
     arrow.style.transform = 'rotate(0deg)';
   }
 });
-
-// Troubleshooting Modal
-const troubleshootBtn = document.getElementById('troubleshootBtn');
-const troubleshootModal = document.getElementById('troubleshootModal');
-const closeBtn = document.querySelector('.close-btn');
-
-troubleshootBtn.addEventListener('click', () => {
-  troubleshootModal.style.display = 'flex';
-});
-closeBtn.addEventListener('click', () => {
-  troubleshootModal.style.display = 'none';
-});
-window.addEventListener('click', (e) => {
-  if (e.target === troubleshootModal) {
-    troubleshootModal.style.display = 'none';
-  }
-});
 </script>
-    
+
 </body>
 </html>
-
-
