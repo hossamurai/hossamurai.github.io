@@ -253,48 +253,17 @@ a.whatsapp {
   color: #ffffff;
 }
 
-/* Troubleshooting Button */
-#troubleshootBtn {
-  background: #e74c3c;
-  color: #fff;
+/* AI Button */
+#askAI {
+  background: #3498db;
 }
-#troubleshootBtn:hover {
-  background: #c0392b;
+#askAI:hover {
+  background: #2980b9;
 }
 
 /* Highlights */
 .highlight-basic { color: #3498db; font-weight: bold; }
 .highlight-premium { color: #e67e22; font-weight: bold; }
-
-/* Modal Styles */
-.modal {
-  display: none; 
-  position: fixed;
-  z-index: 999;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
-  align-items: center;
-  justify-content: center;
-}
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 14px;
-  max-width: 500px;
-  width: 90%;
-  text-align: right;
-  position: relative;
-}
-.modal-content h2 {
-  margin-top: 0;
-}
-.close-btn {
-  position: absolute;
-  top: 10px; left: 14px;
-  font-size: 1.4em;
-  cursor: pointer;
-}
 
 /* Responsive */
 @media (max-width: 480px) {
@@ -326,9 +295,9 @@ a.whatsapp {
 
 <div class="container">
 
-  <!-- Troubleshooting Section -->
-  <h3>تواجه مشكلة؟</h3>
-  <a href="javascript:void(0)" id="troubleshootBtn">دليل الصيانه</a>
+  <!-- AI Section -->
+  <h3>هل لديك سؤال؟</h3>
+  <a href="https://hossamurai.github.io/bot.html" id="askAI">اسأل الـ AI الخاص بي</a>
 
   <!-- Plan Cards Section -->
   <div class="plan-cards">
@@ -426,19 +395,6 @@ a.whatsapp {
   </div>
 </div>
 
-<!-- Troubleshooting Modal -->
-<div id="troubleshootModal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn">&times;</span>
-    <h2>دليل استكشاف الأخطاء</h2>
-    <p><strong>1. تحقق أولاً من قصة WhatsApp الخاصة بي — قد أكون نشرت تحديث عن مشكلة عامة.</strong></p>
-    <p>2. أعد تشغيل الراوتر والتلفزيون/الجهاز.</p>
-    <p>3. تأكد أن الاشتراك مفعل.</p>
-    <p>4. إذا توقف التطبيق، امسح الذاكرة المؤقتة أو أعد تثبيته.</p>
-    <p>5. تواصل معي على WhatsApp إذا استمرت المشكلة.</p>
-  </div>
-</div>
-
 <script>
 const selected = document.querySelector('.dropdown-selected');
 const arrow = document.querySelector('.dropdown-arrow');
@@ -473,24 +429,6 @@ window.addEventListener('click', (e) => {
     arrow.style.transform = 'rotate(0deg)';
   }
 });
-
-// Troubleshooting Modal
-const troubleshootBtn = document.getElementById('troubleshootBtn');
-const troubleshootModal = document.getElementById('troubleshootModal');
-const closeBtn = document.querySelector('.close-btn');
-
-troubleshootBtn.addEventListener('click', () => {
-  troubleshootModal.style.display = 'flex';
-});
-closeBtn.addEventListener('click', () => {
-  troubleshootModal.style.display = 'none';
-});
-window.addEventListener('click', (e) => {
-  if (e.target === troubleshootModal) {
-    troubleshootModal.style.display = 'none';
-  }
-});
 </script>
 </body>
 </html>
-
