@@ -107,5 +107,19 @@
     input.addEventListener("keypress", (e) => { if(e.key === "Enter") sendMessage(); });
   </script>
 
+<!-- Chatbase Hosted Widget -->
+<script src="https://chatbase.com/widget.js"></script>
+<script>
+  ChatbaseWidget.init({
+    botId: "UR4AT8qVyiMZfTLECiywM",  // Your Agent ID
+    welcomeMessage: "Hi! How can I help you today?",
+    themeColor: "#0084FF",           // Widget color
+    position: "bottom-right",        // Position on screen
+    mobile: true                     // Ensure mobile-friendly layout
+  });
+</script>
+
+  
 </body>
 </html>
+
