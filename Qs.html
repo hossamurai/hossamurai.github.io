@@ -1,349 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Tab title -->
-  <title>Qs & As</title>
-  
-  <!-- Favicon -->
-  <link rel="icon" href="https://hossamurai.github.io/logo.png" type="image/png">
-  
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  
-  <style>
-    /* Roboto font applied to entire FAQ */
-    .faq {
-      font-family: 'Roboto', sans-serif;
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hossam TV Services - Qs & As</title>
+<link rel="icon" href="https://hossamurai.github.io/logo.png" type="image/png">
+<style>
+/* Global */
+body {
+  font-family: 'Georgia', serif;
+  background: #fdfdfd;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
 
-    .faq h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #333;
-    }
+/* Container */
+.faq {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-    .faq-item {
-      margin-bottom: 10px;
-      border-bottom: 1px solid #ccc;
-    }
+/* Header */
+.faq h2 {
+  font-size: 2em;
+  color: #222;
+  margin-bottom: 20px;
+}
 
-    .faq-question {
-      width: 100%;
-      text-align: left;
-      background: #f9f9f9;
-      color: #444;
-      border: none;
-      padding: 15px;
-      font-size: 18px;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background 0.3s, color 0.3s;
-    }
+/* Language Toggle */
+.lang-toggle {
+  margin-bottom: 20px;
+}
+.lang-toggle button {
+  font-family: 'Georgia', serif;
+  padding: 10px 18px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  background: #fff;
+  transition: transform 0.3s, background 0.3s;
+}
+.lang-toggle button:hover {
+  transform: scale(1.05);
+  background: #f5f5f5;
+}
 
-    .faq-question:hover, .faq-question:focus {
-      background: #eaeaea;
-      outline: none;
-    }
+/* FAQ Cards */
+.faq-item {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+  margin: 12px 0;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.faq-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+}
 
-    .chevron {
-      transition: transform 0.3s;
-      color: #666;
-    }
+/* Question Button */
+.faq-question {
+  width: 100%;
+  background: #fff;
+  border: none;
+  padding: 18px 20px;
+  text-align: left;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s, color 0.3s;
+}
+.faq-question:hover, .faq-question:focus {
+  background: #f9f9f9;
+  outline: none;
+}
 
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s ease, padding 0.3s ease;
-      padding: 0 15px;
-      font-size: 16px;
-      color: #555;
-    }
+/* Chevron */
+.chevron {
+  transition: transform 0.3s;
+  font-size: 1.2em;
+  color: #666;
+}
 
-    .faq-answer p, .faq-answer ul {
-      margin: 10px 0;
-      padding-left: 0;
-    }
+/* Answer Panel */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.3s ease;
+  padding: 0 20px;
+  font-size: 1em;
+  color: #555;
+}
+.faq-answer p, .faq-answer ul {
+  margin: 10px 0;
+  padding-left: 0;
+}
+.faq-answer ul {
+  list-style: disc;
+  padding-left: 20px;
+}
 
-    .faq-answer ul {
-      list-style: disc;
-      padding-left: 20px;
-    }
+/* Highlight Plan Names */
+.highlight-basic { color: #3498db; font-weight: bold; }
+.highlight-premium { color: #e67e22; font-weight: bold; }
 
-    /* Language toggle */
-    .lang-toggle {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .lang-toggle button {
-      padding: 8px 16px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+/* Last FAQ standout */
+.faq-item:last-of-type {
+  border-top: 2px solid #e67e22;
+  margin-top: 20px;
+  padding-top: 10px;
+}
+.faq-item:last-of-type .faq-question {
+  font-weight: 600;
+  background: #fff8e1;
+}
 
-    /* Last FAQ question standout */
-    .faq-item:last-of-type {
-      border-top: 2px solid #ff9800;
-      margin-top: 20px;
-      padding-top: 10px;
-    }
-
-    .faq-item:last-of-type .faq-question {
-      font-weight: 600;
-      background: #fff8e1;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 500px) {
-      .faq-question { font-size: 16px; padding: 12px; }
-      .faq-answer { font-size: 14px; }
-    }
-  </style>
+/* Responsive */
+@media (max-width: 480px) {
+  .faq h2 { font-size: 1.5em; }
+  .faq-question { font-size: 1em; padding: 14px; }
+  .faq-answer { font-size: 0.95em; padding: 0 15px; }
+  .lang-toggle button { padding: 8px 14px; font-size: 14px; }
+}
+</style>
 </head>
 <body>
-  <section class="faq">
-    <!-- Language toggle button -->
-    <div class="lang-toggle">
-      <button id="toggle-lang">العربية</button>
-    </div>
 
-    <!-- English version -->
-    <div class="faq-content" id="faq-en">
-      <h2>Frequently Asked Questions</h2>
+<section class="faq">
+  <div class="lang-toggle">
+    <button id="toggle-lang">العربية</button>
+  </div>
 
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          What plans are available and what are the prices?
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>The service offers three main plans:</p>
-          <ul>
-            <li><strong>Server X (Egypt only):</strong> 12 months → 350 EGP, 24 months → 650 EGP</li>
-            <li><strong>Basic Plan:</strong> 1 year → $35, 2 years → $60</li>
-            <li><strong>Premium Plan:</strong> 1 year → $55, 2 years → $100</li>
-          </ul>
-        </div>
-      </div>
+  <!-- English FAQ -->
+  <div class="faq-content" id="faq-en">
+    <h2>Frequently Asked Questions</h2>
 
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          Can I try the service for free?
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>Yes, Server X offers a 12-hour free trial, while Basic and Premium plans offer a 24-hour free trial. Trial requests must be made via WhatsApp.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          Which devices are supported?
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>The service works on most smart devices: Smart TVs, Android and iOS phones and tablets, Fire TV, Roku, Windows PCs, and Apple TV.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          What payment methods are available?
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>Inside Egypt: Vodafone Cash, CIB Wallet, InstaPay.</p>
-          <p>Outside Egypt: Payment via TapTap Send and PayPal.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          How can I activate the service?
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>Activation occurs within 5 minutes after payment confirmation (screenshot required). Follow the device-specific installation guide on the official website.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          Which apps are recommended for Server X?
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>The <strong>IBO Player</strong> app is highly recommended for stability and performance. IPTV Smarters is not recommended on Samsung and LG devices due to stability issues.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          How can I contact support?
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>Support is available only via WhatsApp at +201117250227. No phone calls are supported.</p>
-        </div>
-      </div>
-
-      <!-- New question added -->
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          My service isn’t working. What should I do?
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>In most cases, simply unplugging and plugging back your TV and internet router solves the issue. If it still doesn’t work, send me a message and I’ll help you fix it.</p>
-        </div>
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        What plans are available and what are the prices?
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>The service offers three main plans:</p>
+        <ul>
+          <li><strong>Server X (Egypt only):</strong> 12 months → 350 EGP, 24 months → 650 EGP</li>
+          <li><span class="highlight-basic">Basic Plan:</span> 1 year → $35, 2 years → $60</li>
+          <li><span class="highlight-premium">Premium Plan:</span> 1 year → $55, 2 years → $100</li>
+        </ul>
       </div>
     </div>
 
-    <!-- Arabic version -->
-    <div class="faq-content" id="faq-ar" style="display: none; direction: rtl;">
-      <h2>الأسئلة المتكررة</h2>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          ما هي الخطط المتاحة وما أسعارها؟
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>الخدمة تقدم ثلاث خطط رئيسية:</p>
-          <ul>
-            <li><strong>سيرفر إكس (مصر فقط):</strong> 12 شهر → 350 جنيه، 24 شهر → 650 جنيه</li>
-            <li><strong>الخطة الأساسية:</strong> سنة واحدة → 35$، سنتان → 60$</li>
-            <li><strong>الخطة المميزة:</strong> سنة واحدة → 55$، سنتان → 100$</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          هل يمكن تجربة الخدمة مجاناً؟
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>نعم، يوفر سيرفر إكس تجربة مجانية لمدة 12 ساعة، بينما توفر الخطط الأساسية والمميزة تجربة مجانية لمدة 24 ساعة. يجب طلب تجرية عبر واتساب.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          ما الأجهزة المدعومة؟
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>تعمل الخدمة على معظم الأجهزة الذكية: شاشات التلفاز الذكية، هواتف وتابلت أندرويد وiOS، Fire TV، Roku، أجهزة ويندوز، وApple TV.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          ما طرق الدفع المتاحة؟
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>داخل مصر: فودافون كاش، CIB Wallet، InstaPay.</p>
-          <p>خارج مصر: الدفع عبر TapTap Send و PayPal.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          كيف يمكن تفعيل الخدمة؟
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>يتم التفعيل خلال 5 دقائق بعد تأكيد الدفع (مطلوب صورة شاشة). اتبع دليل التثبيت الخاص بالجهاز على الموقع الرسمي.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          ما التطبيقات الموصى بها لـسيرفر إكس؟
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>يوصى بشدة باستخدام تطبيق <strong>IBO Player</strong> للاستقرار والأداء. تطبيق IPTV Smarters غير موصى به على أجهزة سامسونج وLG بسبب مشاكل الاستقرار.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          كيف يمكن التواصل مع الدعم؟
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>الدعم متاح فقط عبر WhatsApp على +201117250227. لا يتم دعم المكالمات الهاتفية.</p>
-        </div>
-      </div>
-
-      <!-- New question added -->
-      <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">
-          خدمتي لا تعمل، ماذا أفعل؟
-          <span class="chevron">&#9662;</span>
-        </button>
-        <div class="faq-answer">
-          <p>في معظم الحالات، مجرد فصل وإعادة تشغيل التلفاز والراوتر يحل المشكلة. إذا استمرت المشكلة، راسلني وسأساعدك في حلها.</p>
-        </div>
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Can I try the service for free?
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>Yes, Server X offers a 12-hour free trial, while Basic and Premium plans offer a 24-hour free trial. Trial requests must be made via WhatsApp.</p>
       </div>
     </div>
-  </section>
 
-  <script>
-    function setupFAQ(faqContainer) {
-      faqContainer.querySelectorAll('.faq-question').forEach(button => {
-        button.addEventListener('click', () => {
-          const answer = button.nextElementSibling;
-          const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Which devices are supported?
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>The service works on most smart devices: Smart TVs, Android and iOS phones and tablets, Fire TV, Roku, Windows PCs, and Apple TV.</p>
+      </div>
+    </div>
 
-          // Close all answers
-          faqContainer.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
-          faqContainer.querySelectorAll('.faq-question').forEach(q => {
-            q.setAttribute('aria-expanded', 'false');
-            q.querySelector('.chevron').style.transform = 'rotate(0deg)';
-          });
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        What payment methods are available?
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>Inside Egypt: Vodafone Cash, CIB Wallet, InstaPay.</p>
+        <p>Outside Egypt: Payment via TapTap Send and PayPal.</p>
+      </div>
+    </div>
 
-          // Open clicked answer if it was previously closed
-          if (!isOpen) {
-            answer.style.maxHeight = answer.scrollHeight + "px";
-            button.setAttribute('aria-expanded', 'true');
-            button.querySelector('.chevron').style.transform = 'rotate(180deg)';
-            answer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        });
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        How can I activate the service?
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>Activation occurs within 5 minutes after payment confirmation (screenshot required). Follow the device-specific installation guide on the official website.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        Which apps are recommended for Server X?
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>The <strong>IBO Player</strong> app is highly recommended for stability and performance. IPTV Smarters is not recommended on Samsung and LG devices due to stability issues.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        How can I contact support?
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>Support is available only via WhatsApp at +201117250227. No phone calls are supported.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        My service isn’t working. What should I do?
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>In most cases, simply unplugging and plugging back your TV and internet router solves the issue. If it still doesn’t work, send me a message and I’ll help you fix it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Arabic FAQ -->
+  <div class="faq-content" id="faq-ar" style="display: none; direction: rtl;">
+    <h2>الأسئلة المتكررة</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        ما هي الخطط المتاحة وما أسعارها؟
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>الخدمة تقدم ثلاث خطط رئيسية:</p>
+        <ul>
+          <li><strong>سيرفر إكس (مصر فقط):</strong> 12 شهر → 350 جنيه، 24 شهر → 650 جنيه</li>
+          <li><span class="highlight-basic">الخطة الأساسية:</span> سنة واحدة → 35$، سنتان → 60$</li>
+          <li><span class="highlight-premium">الخطة المميزة:</span> سنة واحدة → 55$، سنتان → 100$</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        هل يمكن تجربة الخدمة مجاناً؟
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>نعم، يوفر سيرفر إكس تجربة مجانية لمدة 12 ساعة، بينما توفر الخطط الأساسية والمميزة تجربة مجانية لمدة 24 ساعة. يجب طلب تجربة عبر واتساب.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        ما الأجهزة المدعومة؟
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>تعمل الخدمة على معظم الأجهزة الذكية: شاشات التلفاز الذكية، هواتف وتابلت أندرويد وiOS، Fire TV، Roku، أجهزة ويندوز، وApple TV.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        ما طرق الدفع المتاحة؟
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>داخل مصر: فودافون كاش، CIB Wallet، InstaPay.</p>
+        <p>خارج مصر: الدفع عبر TapTap Send و PayPal.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        كيف يمكن تفعيل الخدمة؟
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>يتم التفعيل خلال 5 دقائق بعد تأكيد الدفع (مطلوب صورة شاشة). اتبع دليل التثبيت الخاص بالجهاز على الموقع الرسمي.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        ما التطبيقات الموصى بها لـسيرفر إكس؟
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>يوصى بشدة باستخدام تطبيق <strong>IBO Player</strong> للاستقرار والأداء. تطبيق IPTV Smarters غير موصى به على أجهزة سامسونج وLG بسبب مشاكل الاستقرار.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        كيف يمكن التواصل مع الدعم؟
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>الدعم متاح فقط عبر WhatsApp على +201117250227. لا يتم دعم المكالمات الهاتفية.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" aria-expanded="false">
+        خدمتي لا تعمل، ماذا أفعل؟
+        <span class="chevron">&#9662;</span>
+      </button>
+      <div class="faq-answer">
+        <p>في معظم الحالات، مجرد فصل وإعادة تشغيل التلفاز والراوتر يحل المشكلة. إذا استمرت المشكلة، راسلني وسأساعدك في حلها.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function setupFAQ(faqContainer) {
+  faqContainer.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const answer = button.nextElementSibling;
+      const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+      // Close all answers
+      faqContainer.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
+      faqContainer.querySelectorAll('.faq-question').forEach(q => {
+        q.setAttribute('aria-expanded', 'false');
+        q.querySelector('.chevron').style.transform = 'rotate(0deg)';
       });
-    }
 
-    // Initialize both English and Arabic FAQ
-    setupFAQ(document.getElementById('faq-en'));
-    setupFAQ(document.getElementById('faq-ar'));
-
-    // Language toggle logic
-    const toggleBtn = document.getElementById('toggle-lang');
-    toggleBtn.addEventListener('click', () => {
-      const en = document.getElementById('faq-en');
-      const ar = document.getElementById('faq-ar');
-      if (en.style.display === 'none') {
-        en.style.display = 'block';
-        ar.style.display = 'none';
-        toggleBtn.textContent = 'العربية';
-      } else {
-        en.style.display = 'none';
-        ar.style.display = 'block';
-        toggleBtn.textContent = 'English';
+      // Open clicked answer if it was previously closed
+      if (!isOpen) {
+        answer.style.maxHeight = answer.scrollHeight + "px";
+        button.setAttribute('aria-expanded', 'true');
+        button.querySelector('.chevron').style.transform = 'rotate(180deg)';
+        answer.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
-  </script>
+  });
+}
+
+// Initialize FAQs
+setupFAQ(document.getElementById('faq-en'));
+setupFAQ(document.getElementById('faq-ar'));
+
+// Language toggle
+const toggleBtn = document.getElementById('toggle-lang');
+toggleBtn.addEventListener('click', () => {
+  const en = document.getElementById('faq-en');
+  const ar = document.getElementById('faq-ar');
+  if (en.style.display === 'none') {
+    en.style.display = 'block';
+    ar.style.display = 'none';
+    toggleBtn.textContent = 'العربية';
+  } else {
+    en.style.display = 'none';
+    ar.style.display = 'block';
+    toggleBtn.textContent = 'English';
+  }
+});
+</script>
+
 </body>
 </html>
