@@ -5,221 +5,474 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>M3U Tools</title>
   <style>
-    body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #1d2671, #c33764);
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0c2461, #1e3799, #4a69bd);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Water drop animation elements */
+    .water-drop {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: ripple 1s linear forwards;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes ripple {
+      0% {
+        width: 0px;
+        height: 0px;
+        opacity: 0.5;
+      }
+      100% {
+        width: 500px;
+        height: 500px;
+        opacity: 0;
+      }
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      padding: 20px;
-      border-radius: 12px;
-      width: 90%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px);
+      padding: 25px;
+      border-radius: 16px;
+      width: 100%;
       max-width: 500px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 10;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      color: #e6f7ff;
+    }
+
+    .subtitle {
+      opacity: 0.9;
+      font-size: 0.9rem;
+      color: #b3e0ff;
+    }
+
+    .input-section {
       display: flex;
       flex-direction: column;
       gap: 15px;
     }
 
-    h1 {
-      text-align: center;
-      font-size: 1.5rem;
-      margin-bottom: 5px;
+    .input-wrapper {
+      position: relative;
     }
 
-    textarea {
+    .input-display {
       width: 100%;
-      height: 80px;
+      min-height: 100px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 15px;
       font-size: 1rem;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      resize: vertical;
+      overflow-y: auto;
+      word-break: break-all;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
     }
 
-    .actions, .result-box button {
+    .input-display:empty:before {
+      content: "Paste number or M3U link here";
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .input-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .paste-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .paste-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .actions {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      align-items: center;
+      gap: 12px;
       width: 100%;
     }
 
-    .actions button, .result-box button {
+    .action-btn {
       width: 100%;
-      text-align: center;
-      font-size: 0.95rem;
-      padding: 10px 14px;
+      padding: 14px;
       border: none;
-      border-radius: 6px;
+      border-radius: 10px;
+      font-size: 1rem;
       cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .actions button:hover, .result-box button:hover {
-      opacity: 0.9;
-    }
-
-    .copy-button {
-      background: #007bff;
+      transition: all 0.2s;
+      font-weight: 600;
       color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .copy-button.clicked {
-      background: #28a745;
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
     }
 
-    .reset-button {
-      background: #dc3545;
-      color: white;
+    .action-btn.format {
+      background: linear-gradient(135deg, #3498db, #2980b9);
     }
 
-    .paste-button {
-      background: #17a2b8;
-      color: white;
+    .action-btn.extract {
+      background: linear-gradient(135deg, #1abc9c, #16a085);
+    }
+
+    .action-btn.reset {
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+    }
+
+    .result-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
 
     .result-box {
-      background: rgba(255, 255, 255, 0.9);
-      color: #333;
-      padding: 12px;
-      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 18px;
+      border-radius: 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      align-items: center;
+      gap: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    pre {
-      background: #f8f9fa;
-      padding: 8px;
-      border-radius: 6px;
-      font-size: 0.85rem;
+    .result-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #e6f7ff;
+      text-align: center;
+    }
+
+    .result-content {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
       overflow-x: auto;
-      margin: 0;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .copy-btn {
       width: 100%;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .copied-text {
-      font-size: 0.8rem;
-      color: green;
-      visibility: hidden;
+    .copy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
     }
 
-    .copied-text.visible {
-      visibility: visible;
+    .copy-btn.copied {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
     }
 
-    /* Responsive adjustments for very small screens */
-    @media (max-width: 400px) {
+    .status-message {
+      text-align: center;
+      font-size: 0.85rem;
+      min-height: 20px;
+    }
+
+    .success {
+      color: #2ecc71;
+    }
+
+    .error {
+      color: #e74c3c;
+    }
+
+    /* Mobile-specific styles */
+    @media (max-width: 480px) {
       .container {
-        padding: 15px;
-        max-width: 95%;
+        padding: 20px;
+        gap: 15px;
       }
-      textarea {
-        height: 70px;
+      
+      h1 {
+        font-size: 1.5rem;
       }
-      .actions button, .result-box button {
-        font-size: 0.9rem;
-        padding: 8px 12px;
+      
+      .action-btn {
+        padding: 12px;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>M3U Tools</h1>
-    <textarea id="inputText" placeholder="Paste number or M3U link here"></textarea>
-    <div class="actions">
-      <button class="paste-button" onclick="pasteFromClipboard()">Paste</button>
-      <button onclick="formatNumber()">Format Number</button>
-      <button onclick="extractCredentials()">Extract Credentials</button>
-      <button class="reset-button" onclick="resetFields()">Reset</button>
+    <div class="header">
+      <h1>M3U Tools</h1>
+      <p class="subtitle">Process M3U links and format numbers</p>
     </div>
-    <div id="outputText"></div>
+    
+    <div class="input-section">
+      <div class="input-wrapper">
+        <div class="input-display" id="inputDisplay" contenteditable="false"></div>
+      </div>
+      
+      <div class="input-controls">
+        <button class="paste-btn" id="pasteBtn">Paste from Clipboard</button>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <button class="action-btn format" id="formatBtn">
+        <span>Format Number</span>
+      </button>
+      <button class="action-btn extract" id="extractBtn">
+        <span>Extract Credentials</span>
+      </button>
+      <button class="action-btn reset" id="resetBtn">
+        <span>Reset All</span>
+      </button>
+    </div>
+    
+    <div class="result-section" id="resultSection">
+      <!-- Results will be inserted here -->
+    </div>
+    
+    <div class="status-message" id="statusMessage"></div>
   </div>
 
   <script>
-    function pasteFromClipboard() {
-      navigator.clipboard.readText().then(text => {
-        document.getElementById("inputText").value = text;
-      });
-    }
-
-    function resetFields() {
-      document.getElementById("inputText").value = "";
-      document.getElementById("outputText").innerHTML = "";
-    }
-
-    function copyToClipboard(id, copyId, btn) {
-      const text = document.getElementById(id).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        const copied = document.getElementById(copyId);
-        copied.classList.add("visible");
-        btn.classList.add("clicked");
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elements
+      const inputDisplay = document.getElementById('inputDisplay');
+      const pasteBtn = document.getElementById('pasteBtn');
+      const formatBtn = document.getElementById('formatBtn');
+      const extractBtn = document.getElementById('extractBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      const resultSection = document.getElementById('resultSection');
+      const statusMessage = document.getElementById('statusMessage');
+      
+      // Create water drop animation
+      function createWaterDrop(x, y) {
+        const drop = document.createElement('div');
+        drop.className = 'water-drop';
+        drop.style.left = `${x}px`;
+        drop.style.top = `${y}px`;
+        document.body.appendChild(drop);
+        
+        // Remove the element after animation completes
         setTimeout(() => {
-          copied.classList.remove("visible");
-          btn.classList.remove("clicked");
-        }, 2000);
+          document.body.removeChild(drop);
+        }, 1000);
+      }
+      
+      // Add click handlers for water drop animation
+      const buttons = [pasteBtn, formatBtn, extractBtn, resetBtn];
+      buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          const rect = this.getBoundingClientRect();
+          const x = rect.left + rect.width / 2;
+          const y = rect.top + rect.height / 2;
+          createWaterDrop(x, y);
+        });
       });
-    }
+      
+      // Prevent keyboard on mobile by making input non-editable
+      inputDisplay.addEventListener('focus', function(e) {
+        e.preventDefault();
+        this.blur();
+      });
+      
+      // Paste from clipboard
+      pasteBtn.addEventListener('click', function() {
+        if (!navigator.clipboard) {
+          showStatus('Clipboard API not supported in your browser', 'error');
+          return;
+        }
+        
+        navigator.clipboard.readText().then(text => {
+          inputDisplay.textContent = text;
+          showStatus('Text pasted successfully', 'success');
+        }).catch(err => {
+          showStatus('Failed to read from clipboard', 'error');
+          console.error('Clipboard error:', err);
+        });
+      });
+      
+      // Reset all
+      resetBtn.addEventListener('click', function() {
+        inputDisplay.textContent = '';
+        resultSection.innerHTML = '';
+        statusMessage.textContent = '';
+        showStatus('All fields reset', 'success');
+      });
+      
+      // Format number
+      formatBtn.addEventListener('click', function() {
+        const val = inputDisplay.textContent.trim();
+        
+        if (!val) {
+          showStatus('Please enter a number to format', 'error');
+          return;
+        }
+        
+        const formatted = val.replace(/\D/g, "").replace(/^2/, "");
+        
+        if (!formatted) {
+          showStatus('No valid numbers found', 'error');
+          return;
+        }
+        
+        displayResult('Formatted Number', formatted, 'formatResult');
+        showStatus('Number formatted successfully', 'success');
+      });
+      
+      // Extract credentials
+      extractBtn.addEventListener('click', function() {
+        const input = inputDisplay.textContent.trim();
+        
+        if (!input) {
+          showStatus('Please enter an M3U URL', 'error');
+          return;
+        }
+        
+        let username = (input.match(/username=([^&]+)/) || [])[1] || "";
+        let password = (input.match(/password=([^&]+)/) || [])[1] || "";
+        let host = "";
 
-    function formatNumber() {
-      const val = document.getElementById("inputText").value.replace(/\D/g, "");
-      const formatted = val.startsWith("2") ? val.slice(1) : val;
+        try {
+          const url = new URL(input);
+          host = url.origin;
+        } catch {
+          // If URL parsing fails, try to extract host manually
+          const hostMatch = input.match(/^(https?:\/\/[^\/]+)/);
+          if (hostMatch) {
+            host = hostMatch[1];
+          }
+        }
 
-      const outputDiv = document.getElementById("outputText");
-      outputDiv.innerHTML = "";
-      const id = "formattedOutput";
-      const copyId = "copyFormatted";
-      const box = document.createElement("div");
-      box.className = "result-box";
-      box.innerHTML = `
-        <h2>Formatted Number</h2>
-        <pre id="${id}">${formatted}</pre>
-        <button class="copy-button" onclick="copyToClipboard('${id}', '${copyId}', this)">Copy</button>
-        <div class="copied-text" id="${copyId}">Copied!</div>
-      `;
-      outputDiv.appendChild(box);
-    }
+        if (!username && !password && !host) {
+          showStatus('No valid credentials found in the URL', 'error');
+          return;
+        }
 
-    function extractCredentials() {
-      const input = document.getElementById("inputText").value;
-      let username = (input.match(/username=([^&]+)/) || [])[1] || "";
-      let password = (input.match(/password=([^&]+)/) || [])[1] || "";
-      let host = "";
-
-      try {
-        const url = new URL(input);
-        host = url.origin;
-      } catch {}
-
-      const result = `Playlist name: (any name)\nUsername: ${username}\nPassword: ${password}\nHost: ${host}`;
-
-      const outputDiv = document.getElementById("outputText");
-      outputDiv.innerHTML = "";
-      const id = "credentialsOutput";
-      const copyId = "copyCreds";
-      const box = document.createElement("div");
-      box.className = "result-box";
-      box.innerHTML = `
-        <h2>Credentials</h2>
-        <pre id="${id}">${result}</pre>
-        <button class="copy-button" onclick="copyToClipboard('${id}', '${copyId}', this)">Copy</button>
-        <div class="copied-text" id="${copyId}">Copied!</div>
-      `;
-      outputDiv.appendChild(box);
-    }
+        const result = `Playlist name: (any name)\nUsername: ${username}\nPassword: ${password}\nHost: ${host}`;
+        displayResult('Extracted Credentials', result, 'credentialsResult');
+        showStatus('Credentials extracted successfully', 'success');
+      });
+      
+      // Display result
+      function displayResult(title, content, id) {
+        const resultBox = document.createElement('div');
+        resultBox.className = 'result-box';
+        resultBox.innerHTML = `
+          <div class="result-title">${title}</div>
+          <div class="result-content" id="${id}">${content}</div>
+          <button class="copy-btn" data-target="${id}">Copy to Clipboard</button>
+        `;
+        
+        resultSection.innerHTML = '';
+        resultSection.appendChild(resultBox);
+        
+        // Add copy functionality with water drop animation
+        const copyBtn = resultBox.querySelector('.copy-btn');
+        copyBtn.addEventListener('click', function() {
+          const targetId = this.getAttribute('data-target');
+          const text = document.getElementById(targetId).textContent;
+          
+          // Create water drop for copy button
+          const rect = this.getBoundingClientRect();
+          const x = rect.left + rect.width / 2;
+          const y = rect.top + rect.height / 2;
+          createWaterDrop(x, y);
+          
+          navigator.clipboard.writeText(text).then(() => {
+            this.textContent = 'Copied!';
+            this.classList.add('copied');
+            showStatus('Copied to clipboard', 'success');
+            
+            setTimeout(() => {
+              this.textContent = 'Copy to Clipboard';
+              this.classList.remove('copied');
+            }, 2000);
+          }).catch(err => {
+            showStatus('Failed to copy to clipboard', 'error');
+            console.error('Copy error:', err);
+          });
+        });
+      }
+      
+      // Show status message
+      function showStatus(message, type) {
+        statusMessage.textContent = message;
+        statusMessage.className = `status-message ${type}`;
+        
+        // Clear status after 3 seconds
+        setTimeout(() => {
+          statusMessage.textContent = '';
+          statusMessage.className = 'status-message';
+        }, 3000);
+      }
+    });
   </script>
 </body>
 </html>
