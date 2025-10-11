@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,6 +89,8 @@ body {
   transition: transform 0.3s;
   font-size: 1.2em;
   color: #666;
+  margin-left: 10px;
+  flex-shrink: 0;
 }
 
 /* Answer Panel */
@@ -99,6 +101,8 @@ body {
   padding: 0 20px;
   font-size: 1em;
   color: #555;
+  text-align: left;
+  line-height: 1.6;
 }
 .faq-answer p, .faq-answer ul {
   margin: 10px 0;
@@ -109,19 +113,68 @@ body {
   padding-left: 20px;
 }
 
+/* Arabic-specific styles */
+.faq-content[lang="ar"] {
+  direction: rtl;
+  text-align: right;
+}
+
+.faq-content[lang="ar"] .faq-question {
+  text-align: right;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+}
+
+.faq-content[lang="ar"] .faq-answer {
+  text-align: right;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.8;
+  font-size: 1.05em;
+}
+
+.faq-content[lang="ar"] .faq-answer ul {
+  padding-left: 0;
+  padding-right: 20px;
+  list-style: arabic-indic;
+}
+
+.faq-content[lang="ar"] .chevron {
+  margin-left: 0;
+  margin-right: 10px;
+  transform-origin: center;
+}
+
+/* English-specific styles */
+.faq-content[lang="en"] {
+  direction: ltr;
+  text-align: left;
+}
+
 /* Highlight Plan Names */
 .highlight-basic { color: #3498db; font-weight: bold; }
 .highlight-premium { color: #e67e22; font-weight: bold; }
 
-/* Last FAQ standout */
-.faq-item:last-of-type {
-  border-top: 2px solid #e67e22;
-  margin-top: 20px;
-  padding-top: 10px;
+/* Ultimate FAQ standout */
+.faq-item.ultimate {
+  border-top: 3px solid #e74c3c;
+  margin-top: 25px;
+  padding-top: 15px;
+  background: linear-gradient(135deg, #fff0f0 0%, #ffe6e6 100%);
 }
-.faq-item:last-of-type .faq-question {
-  font-weight: 600;
-  background: #fff8e1;
+.faq-item.ultimate .faq-question {
+  font-weight: 700;
+  background: #ffe6e6;
+  color: #c0392b;
+}
+.faq-item.ultimate .faq-answer {
+  font-weight: 500;
+  color: #922b21;
+}
+
+/* Focus styles for accessibility */
+.faq-question:focus {
+  outline: 2px solid #3498db;
+  outline-offset: 2px;
 }
 
 /* Responsive */
@@ -130,6 +183,15 @@ body {
   .faq-question { font-size: 1em; padding: 14px; }
   .faq-answer { font-size: 0.95em; padding: 0 15px; }
   .lang-toggle button { padding: 8px 14px; font-size: 14px; }
+  
+  .faq-content[lang="ar"] .faq-question {
+    font-size: 0.95em;
+  }
+  
+  .faq-content[lang="ar"] .faq-answer {
+    font-size: 0.9em;
+    line-height: 1.7;
+  }
 }
 </style>
 </head>
@@ -141,231 +203,240 @@ body {
   </div>
 
   <!-- English FAQ -->
-  <div class="faq-content" id="faq-en">
+  <div class="faq-content" id="faq-en" lang="en">
     <h2>Frequently Asked Questions</h2>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        What plans are available and what are the prices?
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>The service offers three main plans:</p>
-        <ul>
-          <li><strong>Server X (Egypt only):</strong> 12 months → 350 EGP, 24 months → 650 EGP</li>
-          <li><span class="highlight-basic">Basic Plan:</span> 1 year → $35, 2 years → $60</li>
-          <li><span class="highlight-premium">Premium Plan:</span> 1 year → $55, 2 years → $100</li>
-        </ul>
-      </div>
-    </div>
+    <!-- 1. General Questions -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">What is Hossam TV Service?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Hossam TV Service is a premium IPTV provider offering thousands of live TV channels, movies, and series from Egypt, the Arab world, and internationally. It supports nearly all smart devices and is suitable for users both inside and outside Egypt.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        Can I try the service for free?
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>Yes, Server X offers a 12-hour free trial, while Basic and Premium plans offer a 24-hour free trial. Trial requests must be made via WhatsApp.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Which devices are compatible?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Smart TVs (Samsung, LG, Android), Android/iOS phones and tablets, Fire TV, Roku, Windows PCs, Apple TV.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        Which devices are supported?
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>The service works on most smart devices: Smart TVs, Android and iOS phones and tablets, Fire TV, Roku, Windows PCs, and Apple TV.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Is the service safe for families?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes. Most content is family-safe. Some R-rated movies exist; parental supervision and app-based controls are recommended.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        What payment methods are available?
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>Inside Egypt: Vodafone Cash, CIB Wallet, InstaPay.</p>
-        <p>Outside Egypt: Payment via TapTap Send and PayPal.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">What languages are supported for customer support?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Arabic and English.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        How can I activate the service?
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>Activation occurs within 5 minutes after payment confirmation (screenshot required). Follow the device-specific installation guide on the official website.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Can I try the service before buying?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes.</p><ul><li>X Server → 12-hour trial</li><li>Basic & Premium → 24-hour trial</li></ul><p>Trial requests must be made via WhatsApp.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        Which apps are recommended for Server X?
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>The <strong>IBO Player</strong> app is highly recommended for stability and performance. IPTV Smarters is not recommended on Samsung and LG devices due to stability issues.</p>
-      </div>
-    </div>
+    <!-- 2. Subscription Plans -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">What are the available plans?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Check the <a href="https://hossamurai.github.io/Hossam_TV.html" target="_blank">website main page</a> for available plans.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        How can I contact support?
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>Support is available only via WhatsApp at +201117250227. No phone calls are supported.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Which plan is recommended for me?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Inside Egypt → X Server (best local value)<br>International users → Basic Plan<br>Maximum international coverage → Premium Plan<br>Egyptians in KSA/UAE → X Server international version</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        My service isn’t working. What should I do?
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>In most cases, simply unplugging and plugging back your TV and internet router solves the issue. If it still doesn’t work, send me a message and I’ll help you fix it.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Can I upgrade or switch plans?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Only after the current plan expires. Upgrades during an active subscription are not allowed.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Can I pause or freeze my subscription?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>No, subscriptions cannot be paused.</p></div></div>
+
+    <!-- 3. Activation & Installation -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">How long does activation take?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Within minutes after payment confirmation (a screenshot is required).</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">How do I install the app on my device?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Visit the installation guide: <a href="https://hossamurai.github.io/Hossam_TV.html" target="_blank">Hossam TV Setup</a>. Select your device and follow the instructions.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">What information is needed for activation?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Depending on the app/device: MAC address, Device ID, or activation code.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Which apps should I use?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>It depends on your device and preference.</p></div></div>
+
+    <!-- 4. Payments -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">How can I pay inside Egypt?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Vodafone Cash: 01029669090<br>CIB Wallet: 01117250227<br>InstaPay: 01029669090</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">How can I pay internationally?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Via TapTap Send (Debit Cards only) or PayPal.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Do I need an official receipt?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>No, a payment screenshot is sufficient.</p></div></div>
+
+    <!-- 5. Service Rules -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Can I use the subscription on multiple devices?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes, but only one device can stream at a time.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Can I share my subscription?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes, as long as the one-stream rule is respected.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Can I switch apps or devices?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes, switching is allowed.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">What if I face technical issues?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>See "Troubleshooting" below, or contact support.</p></div></div>
+
+    <!-- 6. Troubleshooting -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Common issues?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Buffering, black screens, or missing channels (usually app- or device-related).</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">How do I fix issues?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>1. Confirm subscription is valid and internet is connected.<br>2. Restart router and device.<br>3. If problem persists, check WhatsApp Story +20 1117250227 for updates.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">How reliable is Hossam TV Service?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Extremely stable. Global outages are rare and usually fixed within minutes.</p></div></div>
+
+    <!-- 7. Performance & Quality -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">How can I improve streaming quality?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Use a fast internet connection, close heavy apps, Full HD/4K supported depending on speed.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Can I record or download content?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes, using third-party tools or external devices.</p></div></div>
+
+    <!-- 8. Customer Support -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">How can I get support?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>WhatsApp only: +20 1117250227</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Is support available 24/7?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Support is provided whenever Hossam is awake. During global issues, replies may be delayed due to message volume.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Can I call for support?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>No, only WhatsApp messages are accepted.</p></div></div>
+
+    <!-- 9. Promotions & Add-ons -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Are there any promotions?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Occasionally, yes. Check WhatsApp Stories and our website.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Where can I find installation guides and plan details?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p><a href="https://hossamurai.github.io/Hossam_TV.html" target="_blank">Hossam TV Website</a></p></div></div>
+
+    <!-- 10. Extra Notes / Recommendations -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Can Egyptians outside Egypt use X Server?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes. Egyptians in KSA or UAE can use the international version for 100 SAR / 100 AED (15 months).</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">What should I do before buying?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Try the free trial first to make sure the service works perfectly on your device.</p></div></div>
+
+    <!-- Ultimate Question -->
+    <div class="faq-item ultimate"><button class="faq-question" aria-expanded="false">My service is down, what should I do?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Check if there is a WhatsApp Story about a global issue or maintenance. If not, unplug your internet router and TV for 10 seconds, then plug them back in and try again. This usually fixes the problem 95% of the time.</p></div></div>
+
   </div>
 
   <!-- Arabic FAQ -->
-  <div class="faq-content" id="faq-ar" style="display: none; direction: rtl;">
-    <h2>الأسئلة المتكررة</h2>
+  <div class="faq-content" id="faq-ar" lang="ar" style="display:none">
+    <h2>الأسئلة الشائعة</h2>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        ما هي الخطط المتاحة وما أسعارها؟
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>الخدمة تقدم ثلاث خطط رئيسية:</p>
-        <ul>
-          <li><strong>سيرفر إكس (مصر فقط):</strong> 12 شهر → 350 جنيه، 24 شهر → 650 جنيه</li>
-          <li><span class="highlight-basic">الخطة الأساسية:</span> سنة واحدة → 35$، سنتان → 60$</li>
-          <li><span class="highlight-premium">الخطة المميزة:</span> سنة واحدة → 55$، سنتان → 100$</li>
-        </ul>
-      </div>
-    </div>
+    <!-- 1. General Questions -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">ما هي خدمة Hossam TV؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>خدمة Hossam TV هي خدمة IPTV متميزة تقدم آلاف القنوات المباشرة، والأفلام، والمسلسلات من مصر والعالم العربي والدولي. تدعم تقريبًا جميع الأجهزة الذكية ومناسبة للمستخدمين داخل وخارج مصر.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        هل يمكن تجربة الخدمة مجاناً؟
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>نعم، يوفر سيرفر إكس تجربة مجانية لمدة 12 ساعة، بينما توفر الخطط الأساسية والمميزة تجربة مجانية لمدة 24 ساعة. يجب طلب تجربة عبر واتساب.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">ما الأجهزة المتوافقة مع الخدمة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>التلفزيونات الذكية (Samsung, LG, Android)، الهواتف والأجهزة اللوحية (Android/iOS)، Fire TV، Roku، أجهزة Windows، Apple TV.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        ما الأجهزة المدعومة؟
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>تعمل الخدمة على معظم الأجهزة الذكية: شاشات التلفاز الذكية، هواتف وتابلت أندرويد وiOS، Fire TV، Roku، أجهزة ويندوز، وApple TV.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل الخدمة آمنة للعائلات؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم. معظم المحتوى آمن للعائلة، مع وجود بعض الأفلام المصنفة R؛ ينصح بالإشراف الأبوي واستخدام ضوابط التطبيق.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        ما طرق الدفع المتاحة؟
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>داخل مصر: فودافون كاش، CIB Wallet، InstaPay.</p>
-        <p>خارج مصر: الدفع عبر TapTap Send و PayPal.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">ما اللغات المدعومة للدعم الفني؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>العربية والإنجليزية.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        كيف يمكن تفعيل الخدمة؟
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>يتم التفعيل خلال 5 دقائق بعد تأكيد الدفع (مطلوب صورة شاشة). اتبع دليل التثبيت الخاص بالجهاز على الموقع الرسمي.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن تجربة الخدمة قبل الشراء؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم.</p><ul><li>X Server → تجربة 12 ساعة</li><li>Basic & Premium → تجربة 24 ساعة</li></ul><p>يجب طلب التجربة عبر WhatsApp.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        ما التطبيقات الموصى بها لـسيرفر إكس؟
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>يوصى بشدة باستخدام تطبيق <strong>IBO Player</strong> للاستقرار والأداء. تطبيق IPTV Smarters غير موصى به على أجهزة سامسونج وLG بسبب مشاكل الاستقرار.</p>
-      </div>
-    </div>
+    <!-- 2. Subscription Plans -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">ما هي الخطط المتاحة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>يمكنك الاطلاع على <a href="https://hossamurai.github.io/Hossam_TV.html" target="_blank">الصفحة الرئيسية للموقع</a> لمعرفة الخطط المتاحة.</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        كيف يمكن التواصل مع الدعم؟
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>الدعم متاح فقط عبر WhatsApp على +201117250227. لا يتم دعم المكالمات الهاتفية.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">أي خطة يُنصح بها لي؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>داخل مصر → X Server (أفضل قيمة محلية)<br>المستخدمون الدوليون → خطة Basic<br>أقصى تغطية دولية → خطة Premium<br>المصريون في السعودية/الإمارات → نسخة X Server الدولية</p></div></div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        خدمتي لا تعمل، ماذا أفعل؟
-        <span class="chevron">&#9662;</span>
-      </button>
-      <div class="faq-answer">
-        <p>في معظم الحالات، مجرد فصل وإعادة تشغيل التلفاز والراوتر يحل المشكلة. إذا استمرت المشكلة، راسلني وسأساعدك في حلها.</p>
-      </div>
-    </div>
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن ترقية أو تغيير الخطة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>يمكن فقط بعد انتهاء الخطة الحالية. لا يمكن الترقية أثناء الاشتراك النشط.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن إيقاف الاشتراك مؤقتًا؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>لا، لا يمكن إيقاف الاشتراك مؤقتًا.</p></div></div>
+
+    <!-- 3. Activation & Installation -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">كم يستغرق تفعيل الخدمة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>خلال دقائق بعد تأكيد الدفع (مطلوب صورة الشاشة).</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">كيف أقوم بتثبيت التطبيق على جهازي؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>راجع دليل التثبيت: <a href="https://hossamurai.github.io/Hossam_TV.html" target="_blank">Hossam TV Setup</a>. اختر جهازك واتبع التعليمات.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">ما المعلومات المطلوبة للتفعيل؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>حسب التطبيق.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">أي التطبيقات يجب استخدامه؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>يعتمد على جهازك وتفضيلاتك.</p></div></div>
+
+    <!-- 4. Payments -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">كيف يمكن الدفع داخل مصر؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Vodafone Cash: 01029669090<br>CIB Wallet: 01117250227<br>InstaPay: 01029669090</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">كيف يمكن الدفع دوليًا؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>عن طريق TapTap Send (بطاقات الخصم فقط) أو PayPal.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل أحتاج إلى إيصال رسمي؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>لا، صورة شاشة الدفع كافية.</p></div></div>
+
+    <!-- 5. Service Rules -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن استخدام الاشتراك على عدة أجهزة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم، ولكن يمكن مشاهدة البث على جهاز واحد فقط في نفس الوقت.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن مشاركة الاشتراك؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم، طالما تم احترام قاعدة جهاز واحد للبث.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن تغيير التطبيقات أو الأجهزة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم، التغيير مسموح.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">ماذا أفعل إذا واجهت مشكلة تقنية؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>راجع قسم "استكشاف الأخطاء وإصلاحها" أدناه، أو تواصل مع الدعم.</p></div></div>
+
+    <!-- 6. Troubleshooting -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">ما المشاكل الشائعة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>التقطيع، الشاشة السوداء، أو قنوات مفقودة (عادة مرتبطة بالتطبيق أو الجهاز).</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">كيف يمكن حل المشاكل؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>1. تأكد من صلاحية الاشتراك واتصال الإنترنت.<br>2. أعد تشغيل الراوتر والجهاز.<br>3. إذا استمرت المشكلة، تحقق من قصة WhatsApp +20 1117250227.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">ما مدى موثوقية Hossam TV Service؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>مستقرة جدًا. الأعطال العالمية نادرة وعادةً تُحل خلال دقائق.</p></div></div>
+
+    <!-- 7. Performance & Quality -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">كيف أحسن جودة البث؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>استخدم اتصال إنترنت سريع، أغلق التطبيقات الثقيلة، تدعم جودة Full HD/4K حسب السرعة.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن تسجيل أو تحميل المحتوى؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم، باستخدام أدوات خارجية أو أجهزة خارجية.</p></div></div>
+
+    <!-- 8. Customer Support -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">كيف أحصل على الدعم؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>WhatsApp فقط: +20 1117250227</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل الدعم متوفر 24/7؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>الدعم متاح عندما يكون حسام متواجدًا. خلال الأعطال العالمية، قد يتأخر الرد بسبب حجم الرسائل.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن الاتصال للدعم؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>لا، يتم قبول الرسائل عبر WhatsApp فقط.</p></div></div>
+
+    <!-- 9. Promotions & Add-ons -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل هناك عروض ترويجية؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>أحيانًا نعم. تحقق من قصص WhatsApp وموقعنا.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">أين أجد دليل التثبيت وخطط الاشتراك؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p><a href="https://hossamurai.github.io/Hossam_TV.html" target="_blank">موقع Hossam TV</a></p></div></div>
+
+    <!-- 10. Extra Notes / Recommendations -->
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن للمصريين خارج مصر استخدام X Server؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم، يمكن للمصريين في السعودية أو الإمارات استخدام النسخة الدولية مقابل 100 ريال سعودي / 100 درهم إماراتي (15 شهرًا).</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">ماذا أفعل قبل الشراء؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>جرب الفترة التجريبية أولًا للتأكد من أن الخدمة تعمل بشكل مثالي على جهازك.</p></div></div>
+
+    <!-- Ultimate Question -->
+    <div class="faq-item ultimate"><button class="faq-question" aria-expanded="false">الخدمة متوقفة، ماذا أفعل؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>تحقق إذا كان هناك قصة WhatsApp عن مشكلة أو صيانة عامة. إذا لم يكن هناك، افصل الراوتر والجهاز لمدة 10 ثوانٍ ثم أعد توصيلهما وحاول مرة أخرى. هذا عادةً يحل المشكلة بنسبة 95٪.</p></div></div>
+
   </div>
 </section>
 
 <script>
-function setupFAQ(faqContainer) {
-  faqContainer.querySelectorAll('.faq-question').forEach(button => {
-    button.addEventListener('click', () => {
-      const answer = button.nextElementSibling;
-      const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
-
-      // Close all answers
-      faqContainer.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
-      faqContainer.querySelectorAll('.faq-question').forEach(q => {
-        q.setAttribute('aria-expanded', 'false');
-        q.querySelector('.chevron').style.transform = 'rotate(0deg)';
-      });
-
-      // Open clicked answer if it was previously closed
-      if (!isOpen) {
-        answer.style.maxHeight = answer.scrollHeight + "px";
-        button.setAttribute('aria-expanded', 'true');
-        button.querySelector('.chevron').style.transform = 'rotate(180deg)';
-        answer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
+/* FAQ Toggle Function */
+function toggleFAQ() {
+  const expanded = this.getAttribute('aria-expanded') === 'true';
+  this.setAttribute('aria-expanded', !expanded);
+  const answer = this.nextElementSibling;
+  
+  if(!expanded) {
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+  } else {
+    answer.style.maxHeight = null;
+  }
+  
+  const chevron = this.querySelector('.chevron');
+  chevron.style.transform = !expanded ? 'rotate(180deg)' : 'rotate(0deg)';
 }
 
-// Initialize FAQs
-setupFAQ(document.getElementById('faq-en'));
-setupFAQ(document.getElementById('faq-ar'));
+/* Initialize FAQ Toggles */
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', toggleFAQ);
+  q.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleFAQ.call(q);
+    }
+  });
+});
 
-// Language toggle
+/* Language Toggle */
 const toggleBtn = document.getElementById('toggle-lang');
 toggleBtn.addEventListener('click', () => {
   const en = document.getElementById('faq-en');
   const ar = document.getElementById('faq-ar');
-  if (en.style.display === 'none') {
+  
+  // Close all FAQ items before switching
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.setAttribute('aria-expanded', 'false');
+    const answer = q.nextElementSibling;
+    answer.style.maxHeight = null;
+    const chevron = q.querySelector('.chevron');
+    chevron.style.transform = 'rotate(0deg)';
+  });
+  
+  if(en.style.display === 'none') {
     en.style.display = 'block';
     ar.style.display = 'none';
-    toggleBtn.textContent = 'العربية';
+    toggleBtn.innerText = 'العربية';
+    document.documentElement.dir = 'ltr';
+    document.documentElement.lang = 'en';
   } else {
     en.style.display = 'none';
     ar.style.display = 'block';
-    toggleBtn.textContent = 'English';
+    toggleBtn.innerText = 'English';
+    document.documentElement.dir = 'rtl';
+    document.documentElement.lang = 'ar';
   }
+});
+
+/* Handle window resize to recalculate heights */
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    document.querySelectorAll('.faq-question[aria-expanded="true"]').forEach(q => {
+      const answer = q.nextElementSibling;
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+    });
+  }, 250);
 });
 </script>
 
