@@ -101,11 +101,17 @@
       word-break: break-all;
       border: 1px solid rgba(255, 255, 255, 0.3);
       color: white;
+      outline: none;
     }
 
     .input-display:empty:before {
       content: "Paste number or M3U link here";
       color: rgba(255, 255, 255, 0.7);
+    }
+
+    .input-display:focus {
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
     }
 
     .input-controls {
@@ -273,7 +279,7 @@
     
     <div class="input-section">
       <div class="input-wrapper">
-        <div class="input-display" id="inputDisplay" contenteditable="false"></div>
+        <div class="input-display" id="inputDisplay" contenteditable="true"></div>
       </div>
       
       <div class="input-controls">
@@ -334,12 +340,6 @@
           const y = rect.top + rect.height / 2;
           createWaterDrop(x, y);
         });
-      });
-      
-      // Prevent keyboard on mobile by making input non-editable
-      inputDisplay.addEventListener('focus', function(e) {
-        e.preventDefault();
-        this.blur();
       });
       
       // Paste from clipboard
