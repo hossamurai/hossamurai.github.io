@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hossam TV services</title>
+<title>Hossam TV Services</title>
 <link rel="icon" href="https://hossamurai.github.io/logo.png" type="image/png">
 <style>
 body {
@@ -37,8 +37,7 @@ header h1 {
 
 header .social-icons {
   display: flex;
-  justify-content: space-between; /* WhatsApp left, Facebook right */
-  width: 120px; /* تحديد عرض مناسب لتباعد الأيقونات */
+  gap: 15px;
   margin-top: 6px;
 }
 
@@ -249,6 +248,19 @@ a.whatsapp {
   color: #fff;
 }
 
+/* Language Button */
+.language-btn img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.language-btn:hover img {
+  transform: scale(1.1);
+  opacity: 0.85;
+}
+
 /* Mobile Responsive */
 @media (max-width: 480px) {
   h1 { font-size: 1.5em; }
@@ -258,7 +270,7 @@ a.whatsapp {
   .dropdown-items div { padding: 10px 14px; }
   .dropdown-items img { width: 20px; height: 20px; }
   .plan-cards { flex-direction: column; align-items: center; }
-  header .social-icons { margin-top: 4px; gap: 12px; width: 100px; }
+  header .social-icons { margin-top: 4px; gap: 12px; }
   header .social-icons a img { width: 32px; height: 32px; }
 }
 </style>
@@ -269,10 +281,15 @@ a.whatsapp {
 <header>
   <h1>Hossam TV Services</h1>
   <div class="social-icons">
-    <!-- WhatsApp on the left -->
+    <!-- Language Button (will appear on the LEFT in RTL) -->
+    <a href="https://hossamurai.github.io/XTV.html" class="language-btn">
+      <img src="https://img.icons8.com/fluency/48/000000/language.png" alt="تغيير اللغة">
+    </a>
+    <!-- Facebook (will appear in the MIDDLE in RTL) -->
     <a href="https://www.facebook.com/3rabTv">
       <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" alt="رمز فيسبوك">
     </a>
+    <!-- WhatsApp (will appear on the RIGHT in RTL) -->
     <a href="https://wa.me/message/JZEZ3BNRYY2ED1">
       <img src="https://img.icons8.com/fluency/48/000000/whatsapp.png" alt="رمز واتساب">
     </a>
