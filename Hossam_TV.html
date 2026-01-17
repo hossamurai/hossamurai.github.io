@@ -3,457 +3,627 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hossam TV Services</title>
+<title>Hossam TV - All Services</title>
 <link rel="icon" href="https://hossamurai.github.io/logo.png" type="image/png">
-<meta name="description" content="Hossam TV Services - IPTV app installation guide for Smart TVs, Android, iPhone, Fire TV, Roku, and Windows devices. Plans include Basic and Premium.">
 <style>
-body {
-  font-family: 'Georgia', serif;
-  background: #fdfdfd;
-  color: #333;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  -webkit-tap-highlight-color: transparent;
-}
+  :root {
+    --primary: #2c3e50;
+    --accent: #3498db;
+    --egypt-color: #c0392b;
+    --global-color: #2980b9;
+    --bg-light: #f8f9fa;
+    --text-dark: #333;
+    --white: #ffffff;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  }
 
-/* Header */
-header {
-  width: 100%;
-  background: #ffffff;
-  color: #222;
-  padding: 20px 0;
-  font-size: 2em;
-  font-weight: bold;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  * { box-sizing: border-box; }
 
-header h1 {
-  margin: 0;
-  font-size: inherit;
-}
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
 
-header .social-icons {
-  display: flex;
-  gap: 15px;
-  margin-top: 6px;
-}
+  /* Sticky Navigation */
+  nav {
+    background: var(--white);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
 
-header .social-icons a {
-  display: inline-block;
-  background: none;
-  padding: 0;
-}
+  nav a {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+  }
 
-header .social-icons a img {
-  width: 40px;
-  height: 40px;
-  display: block;
-  transition: transform 0.3s, opacity 0.3s;
-}
+  nav a:hover { background: #eee; }
+  nav a.active { color: var(--accent); }
 
-header .social-icons a:hover img {
-  transform: scale(1.1);
-  opacity: 0.85;
-}
+  /* Hero Section */
+  header {
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    color: white;
+    text-align: center;
+    padding: 3rem 1rem;
+    margin-bottom: 2rem;
+  }
 
-/* Language Button */
-.language-btn img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  transition: transform 0.3s, opacity 0.3s;
-}
+  header h1 { margin: 0; font-size: 2.5rem; letter-spacing: -1px; }
+  header p { opacity: 0.9; margin-top: 10px; font-size: 1.1rem; }
 
-.language-btn:hover img {
-  transform: scale(1.1);
-  opacity: 0.85;
-}
+  .social-btns {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+   
+  .social-btns a {
+    background: rgba(255,255,255,0.2);
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    backdrop-filter: blur(5px);
+    transition: transform 0.2s, background 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-.container {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 20px;
-}
+  .social-btns a:hover {
+    background: white;
+    color: var(--primary);
+    transform: translateY(-2px);
+  }
 
-h1 {
-  color: #222;
-  font-size: 2em;
-  margin-bottom: 10px;
-}
+  .social-btns img { width: 24px; height: 24px; }
 
-/* Plan Cards */
-.plan-cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin: 20px 0;
-}
+  /* Section Container */
+  .section {
+    max-width: 1000px;
+    margin: 0 auto 4rem auto;
+    padding: 0 20px;
+  }
 
-.plan-card {
-  border-radius: 18px;
-  padding: 20px;
-  width: calc(100% - 40px);
-  max-width: 700px;
-  margin: 6px auto;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-  border: 1px solid #ddd;
-  text-align: center;
-  background: #fff;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
+  .category-title {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
 
-.plan-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.1);
-}
+  .section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: var(--primary);
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+   
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--accent);
+    margin: 8px auto 0;
+    border-radius: 2px;
+  }
 
-.plan-card h2 {
-  margin-top: 0;
-  color: #111;
-}
+  /* Pricing Grid */
+  .grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr; 
+  }
 
-.plan-card p {
-  margin: 8px 0;
-}
+  @media (min-width: 768px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+  }
 
-.plan-card strong {
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 3px;
-}
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s;
+    border-top: 5px solid #ccc;
+    display: flex;
+    flex-direction: column;
+  }
 
-/* Plan accents */
-.plan-card.basic { border-left: 6px solid #3498db; }
-.plan-card.premium { border-left: 6px solid #e67e22; }
+  .card:hover { transform: translateY(-5px); }
 
-/* Egypt button-card */
-.plan-card.egypt {
-  border-left: 6px solid #e74c3c;
-  padding: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  text-decoration: none;
-  color: #111;
-}
-.plan-card.egypt:hover {
-  background: #fafafa;
-}
+  .card h3 { margin-top: 0; font-size: 1.4rem; }
+  .price { font-size: 1.1rem; font-weight: bold; color: #555; margin-bottom: 1rem; }
+  .features { list-style: none; padding: 0; flex-grow: 1; font-size: 0.95rem; }
+  .features li { margin-bottom: 0.6rem; padding-left: 1.4rem; position: relative; }
+  .features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: green;
+    font-weight: bold;
+  }
 
-/* Dropdown */
-.custom-dropdown {
-  position: relative;
-  width: calc(100% - 40px);
-  max-width: 700px;
-  margin: 20px auto;
-  cursor: pointer;
-  user-select: none;
-}
+  .card.global { border-color: var(--global-color); }
+  .card.global h3 { color: var(--global-color); }
+   
+  .card.egypt { border-color: var(--egypt-color); }
+  .card.egypt h3 { color: var(--egypt-color); }
 
-.dropdown-selected {
-  background: #ffffff;
-  border: 2px solid #ccc;
-  border-radius: 12px;
-  padding: 14px 20px;
-  font-size: 1em;
-  color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: border 0.3s;
-}
+  .badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    align-self: flex-start;
+  }
+  .badge.blue { background: #e3f2fd; color: #1565c0; }
+  .badge.red { background: #ffebee; color: #c62828; }
 
-.dropdown-selected span {
-  display: flex;
-  align-items: center;
-}
+  /* Installation Tabs */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
 
-.dropdown-selected img {
-  width: 25px;
-  height: 25px;
-  margin-right: 10px;
-}
+  .tab-btn {
+    padding: 12px 24px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-.dropdown-arrow {
-  transition: transform 0.3s;
-}
+  .tab-btn:hover { background: #eee; }
+  .tab-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
 
-.dropdown-items {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-  z-index: 100;
-  display: none;
-  flex-direction: column;
-  overflow: hidden;
-}
+  .tab-content { display: none; animation: fadeIn 0.3s ease; }
+  .tab-content.active { display: block; }
 
-.dropdown-items div {
-  padding: 12px 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: background 0.2s;
-  color: #333;
-}
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.dropdown-items div:hover {
-  background: #f5f5f5;
-}
+  /* Instruction Tables */
+  .setup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
 
-/* Device Cards */
-.device {
-  background: #fff;
-  border-radius: 18px;
-  padding: 25px 20px;
-  margin: 12px auto;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
-  display: none;
-  text-align: center;
-  border: 1px solid #ddd;
-  transition: transform 0.3s;
-  width: calc(100% - 40px);
-  max-width: 700px;
-}
+  .setup-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+  }
 
-.device:hover {
-  transform: translateY(-4px);
-}
+  .setup-box h4 { margin-top: 0; color: var(--primary); border-bottom: 2px solid #eee; padding-bottom: 10px; }
+  .code-block {
+    background: #f1f3f4;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-weight: bold;
+    color: #333;
+    display: inline-block;
+    margin: 5px 0;
+    word-break: break-all;
+  }
 
-.device img {
-  max-width: 130px;
-  margin: 15px auto;
-  display: block;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  background: #ffffff;
-  padding: 5px;
-}
+  .link-btn {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+  .link-btn:hover { background: #1a252f; }
 
-a {
-  color: #fff;
-  background: #555;
-  padding: 12px 18px;
-  border-radius: 12px;
-  text-decoration: none;
-  display: block;
-  margin: 12px auto;
-  font-weight: bold;
-  max-width: 250px;
-  font-family: 'Georgia', serif;
-  transition: opacity 0.3s, transform 0.3s, background 0.3s;
-}
+  /* FAQ Styles */
+  .lang-toggle {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .lang-toggle button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 50px;
+    border: 2px solid var(--accent);
+    background: white;
+    color: var(--accent);
+    font-weight: bold;
+    transition: all 0.3s;
+  }
+  .lang-toggle button:hover {
+    background: var(--accent);
+    color: white;
+  }
 
-a:hover {
-  opacity: 0.85;
-  transform: scale(1.05);
-}
+  .faq-item {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin: 12px 0;
+    overflow: hidden;
+    border: 1px solid #eee;
+    transition: transform 0.2s;
+  }
+  .faq-item:hover { transform: translateY(-2px); }
 
-a.whatsapp {
-  background: #25d366;
-}
+  .faq-question {
+    width: 100%;
+    background: #fff;
+    border: none;
+    padding: 18px 20px;
+    text-align: left;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-/* AI Button */
-#askAI {
-  background: #3498db;
-}
-#askAI:hover {
-  background: #2980b9;
-}
+  .chevron {
+    transition: transform 0.3s;
+    font-size: 0.9em;
+    color: #999;
+  }
 
-/* Highlights */
-.highlight-basic { color: #3498db; font-weight: bold; }
-.highlight-premium { color: #e67e22; font-weight: bold; }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 20px;
+    color: #555;
+    text-align: left;
+    background: #fafafa;
+  }
+  .faq-answer p { margin: 15px 0; }
+  .faq-answer ul { margin: 10px 0; padding-left: 20px; }
 
-/* Responsive */
-@media (max-width: 480px) {
-  h1 { font-size: 1.5em; }
-  .dropdown-selected { font-size: 0.95em; padding: 12px 16px; }
-  .device { padding: 20px 15px; width: 95%; }
-  a { padding: 10px 14px; font-size: 0.9em; }
-  .dropdown-items div { padding: 10px 14px; }
-  .dropdown-items img { width: 20px; height: 20px; }
-  .plan-cards { flex-direction: column; align-items: center; }
-  header .social-icons { margin-top: 4px; gap: 12px; }
-  header .social-icons a img { width: 32px; height: 32px; }
-}
+  /* Arabic Specific */
+  .faq-content[lang="ar"] { direction: rtl; text-align: right; }
+  .faq-content[lang="ar"] .faq-question { text-align: right; flex-direction: row-reverse; }
+  .faq-content[lang="ar"] .faq-answer { text-align: right; }
+  .faq-content[lang="ar"] .chevron { margin-right: auto; margin-left: 0; }
+  
+  /* Ultimate FAQ Highlight */
+  .faq-item.ultimate {
+    border-top: 3px solid #e74c3c;
+    background: #fffafa;
+  }
+  .faq-item.ultimate .faq-question { color: #c0392b; }
+
+  /* Mobile Tweaks */
+  @media (max-width: 768px) {
+    .setup-grid { grid-template-columns: 1fr; }
+    header h1 { font-size: 2rem; }
+    .nav { gap: 10px; font-size: 0.9rem; }
+  }
 </style>
 </head>
 <body>
 
+<nav>
+  <a href="#plans">Prices & Plans</a>
+  <a href="#install">Installation</a>
+  <a href="#faq">FAQ</a>
+  <a href="https://wa.me/message/JZEZ3BNRYY2ED1">Contact Support</a>
+</nav>
+
 <header>
-  <h1>
-  <a href="https://hossamurai.github.io/Hossam_TV.html" style="all: unset; cursor: pointer;">
-    Hossam TV Services
-  </a>
-</h1>
-  <div class="social-icons">
+  <h1>Hossam TV Services</h1>
+  <p>Premium IPTV Solutions</p>
+   
+  <div class="social-btns">
     <a href="https://wa.me/message/JZEZ3BNRYY2ED1">
-      <img src="https://img.icons8.com/fluency/48/000000/whatsapp.png" alt="WhatsApp Icon">
+      <img src="https://img.icons8.com/fluency/48/000000/whatsapp.png" alt="WhatsApp"> WhatsApp
     </a>
     <a href="https://www.facebook.com/3rabTv">
-      <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" alt="Facebook Icon">
-    </a>
-    <a href="https://hossamurai.github.io/AR_page.html" class="lang-btn">
-      <img src="https://img.icons8.com/fluency/48/000000/language.png" alt="Change Language">
+      <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" alt="Facebook"> Facebook
     </a>
   </div>
 </header>
 
-<div class="container">
+<div class="section" id="plans">
+  <h2 class="section-title">Choose Your Plan</h2>
 
-  <!-- AI Question Section -->
-  <h3>Have a question? Check Qs & As!</h3>
-  <a href="https://hossamurai.github.io/Qs.html" id="askAI">Qs & As</a>
-
-  <!-- Plan Cards Section -->
-  <div class="plan-cards">
-    <a href="https://hossamurai.github.io/XTV.html" class="plan-card egypt">
-      <h2>Egypt Local Plan (XTV)</h2>
-      <p style="font-size:0.9em; color:#555;">Tap to open</p>
-    </a>
-    <div class="plan-card basic">
-      <h2>Basic Plan</h2>
-      <p><strong>Price:</strong> 1 Year: USD 35 — 2 Years: USD 60</p>
-      <p><strong>Included Channels:</strong> More than 10,000 channels including beIN Sports, Sky, Fox, ESPN</p>
-      <p><strong>Library:</strong> Full access to thousands of movies and series.</p>
-      <p><strong>Conclusion:</strong> Best for Arabic-speaking viewers or those mainly interested in soccer and general entertainment.</p>
+  <h3 class="category-title">🌍 International Plans</h3>
+  <div class="grid">
+    
+    <div class="card global">
+      <span class="badge blue">International</span>
+      <h3>Basic Plan</h3>
+      <div class="price">$35 / Year<br><span style="font-size:0.8em; font-weight:normal;">$60 for 2 Years</span></div>
+      <ul class="features">
+        <li>Channels: beIN, Sky, Fox, ESPN</li>
+        <li>Movies & Series included</li>
+        <li>Great for Soccer fans</li>
+      </ul>
     </div>
-    <div class="plan-card premium">
-      <h2>Premium Plan</h2>
-      <p><strong>Price:</strong> 1 Year: USD 55 — 2 Years: USD 100</p>
-      <p><strong>Included Channels:</strong> Over 3× channels compared to Basic, including UFC, NBA, NFL, Bally, and more.</p>
-      <p><strong>Library:</strong> Same extensive movies and series library as Basic.</p>
-      <p><strong>Conclusion:</strong> Ideal for viewers who want full international content coverage, major sports leagues, and diverse entertainment.</p>
+
+    <div class="card global">
+      <span class="badge blue">International</span>
+      <h3>Premium Plan</h3>
+      <div class="price">$55 / Year<br><span style="font-size:0.8em; font-weight:normal;">$100 for 2 Years</span></div>
+      <ul class="features">
+        <li><strong>3x More Channels</strong></li>
+        <li>US Sports (NBA, NFL, UFC)</li>
+        <li>4K Content Supported</li>
+        <li>Full VOD Library</li>
+      </ul>
     </div>
+
   </div>
 
-  <!-- Dropdown Label -->
-  <h3>Select your device below to see installation steps (Basic & Premium):</h3>
-
-  <!-- Dropdown -->
-  <div class="custom-dropdown">
-    <div class="dropdown-selected">
-      <span>Select your device</span>
-      <span class="dropdown-arrow">▼</span>
+  <h3 class="category-title" style="color:#c0392b;">🇪🇬 Egypt Only Plans</h3>
+  <div class="grid">
+    
+    <div class="card egypt">
+      <span class="badge red">Egypt Only</span>
+      <h3>XTV Server <br><span style="font-size:0.65em; font-weight:normal; color:#555;">(The Safer Choice)</span></h3>
+      <div class="price">350 EGP / Year<br><span style="font-size:0.8em; font-weight:normal;">650 EGP for 2 Years</span></div>
+      <ul class="features">
+        <li>Big Channel List</li>
+        <li style="color:#c0392b; font-weight:bold;">Prioritizes Football Channels</li>
+        <li>Family Friendly (99% Censored/Safe)</li>
+        <li>Fastest Updates & Local Support</li>
+      </ul>
     </div>
-    <div class="dropdown-items">
-      <div data-device="smart-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png" alt="Smart TV Icon"/>LG / Samsung / Hisense / Toshiba</div>
-      <div data-device="google-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png" alt="Google TV Icon"/>Google TV / Android TV</div>
-      <div data-device="fire-tv"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png" alt="Fire TV Icon"/>Fire TV / Fire Stick</div>
-      <div data-device="roku"><img src="https://img.icons8.com/ios-filled/50/000000/tv.png" alt="Roku Icon"/>Roku TV</div>
-      <div data-device="android-phone"><img src="https://img.icons8.com/ios-filled/50/000000/smartphone.png" alt="Android Icon"/>Android Phones / Tablets</div>
-      <div data-device="iphone"><img src="https://img.icons8.com/ios-filled/50/000000/iphone.png" alt="iPhone Icon"/>iPhone / iPad / Mac</div>
-      <div data-device="windows"><img src="https://img.icons8.com/ios-filled/50/000000/laptop.png" alt="Windows Icon"/>Windows PC</div>
+
+    <div class="card egypt">
+      <span class="badge red">Egypt Only</span>
+      <h3>Marvel Server <br><span style="font-size:0.65em; font-weight:normal; color:#555;">(For Cinema Lovers)</span></h3>
+      <div class="price">350 EGP / Year<br><span style="font-size:0.8em; font-weight:normal;">650 EGP for 2 Years</span></div>
+      <ul class="features">
+        <li>Bigger VOD Library (Movies/Series)</li>
+        <li>Premium Quality (More 4K)</li>
+        <li>Clean English Layout</li>
+        <li>Stable Sports Coverage</li>
+      </ul>
     </div>
-  </div>
 
-  <!-- Device Sections -->
-  <div id="google-tv" class="device">
-    <h2>📺 Google TV / Android TV Box</h2>
-    <p>Install <strong>Downloader by AFTVnews</strong> from Google Play.</p>
-    <p>Open Downloader and enter the code:</p>
-    <p><span class="highlight-basic">For basic plan app use the code:</span> 8692982</p>
-    <p><span class="highlight-premium">For premium plan app use the code:</span> 439873</p>
-    <a href="https://youtu.be/fB-i-zktopw">Video Tutorial</a>
-  </div>
-
-  <div id="fire-tv" class="device">
-    <h2>🔥 Fire TV / Fire Stick</h2>
-    <p>Install <strong>Downloader by AFTVnews</strong> on your Fire Stick.</p>
-    <p>Enable unknown apps feature – see video 👇</p>
-    <a href="https://youtu.be/U2HkR0em57A">Video Tutorial</a>
-    <p>Reopen Downloader → go to <strong>Home</strong>.</p>
-    <p><span class="highlight-basic">For basic plan app use the code:</span> 8692982</p>
-    <p><span class="highlight-premium">For premium plan app use the code:</span> 439873</p>
-  </div>
-
-  <div id="android-phone" class="device">
-    <h2>📱 Android Phones / Tablets</h2>
-    <p><span class="highlight-basic">Basic Plan:</span> <a href="https://shtv.me/n4k">Download NEO 4K app</a></p>
-    <p><span class="highlight-premium">Premium Plan:</span> <a href="https://2u.pw/8kv">Download 8K app</a></p>
-  </div>
-
-  <div id="iphone" class="device">
-    <h2>🍎 iPhone / iPad / Mac</h2>
-    <p>Download <strong>Smarters Player Lite</strong>: <a href="https://apps.apple.com/us/app/smarters-player-lite/id1628995509">App Store</a></p>
-  </div>
-
-  <div id="windows" class="device">
-    <h2>💻 Windows PC</h2>
-    <p>Download the app: <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file">SFVIP Player</a></p>
-    <p><a href="https://youtu.be/dESni3uxAa4">Video Tutorial</a></p>
-  </div>
-
-  <div id="smart-tv" class="device">
-    <h2>📺 LG / Samsung / Hisense / Toshiba (VIDAA TVs)</h2>
-    <p>Step 1: Install <strong>IBO Player</strong> on your TV.</p>
-    <p>Step 2: Open the app.</p>
-    <p>Step 3: Send me your <strong>MAC Adress</strong> and <strong>Device Key</strong>.</p>
-    <img src="https://iboplayer.com/assets/ibo-player-tZ0LjXtY.webp" alt="IBO Player Screenshot">
-  </div>
-
-  <div id="roku" class="device">
-    <h2>📺 Roku TV</h2>
-    <p>Step 1: Install <strong>IBO Player Pro</strong> on your Roku TV.</p>
-    <p>Step 2: Open the app.</p>
-    <p>Step 3: Send me your <strong>MAC Adress</strong> and <strong>Device Key</strong>.</p>
-    <img src="https://iboplayer.pro/m3u/logo-512.png" alt="IBO Player Pro Logo">
   </div>
 </div>
 
+<div class="section" id="install">
+  <h2 class="section-title">Installation Guide</h2>
+  <p style="text-align:center; margin-bottom:20px;">Select your device to see instructions for all plans.</p>
+
+  <div class="tabs">
+    <div class="tab-btn active" onclick="openTab('tv-box')">📺 Android / Fire TV</div>
+    <div class="tab-btn" onclick="openTab('mobile')">📱 Android Mobile</div>
+    <div class="tab-btn" onclick="openTab('iphone')">🍎 iPhone / iPad</div>
+    <div class="tab-btn" onclick="openTab('smart-tv')">🖥️ Smart TV</div>
+    <div class="tab-btn" onclick="openTab('pc')">💻 Windows PC</div>
+  </div>
+
+  <div id="tv-box" class="tab-content active">
+    <div class="setup-grid">
+      <div class="setup-box">
+        <h4>🌍 International</h4>
+        <p>1. Install <strong>Downloader by AFTVnews</strong>.</p>
+        <p>2. Enter Link:</p>
+        <p>Basic: <span class="code-block">tinyurl.com/neo4kapp</span></p>
+        <p>Premium: <span class="code-block">tinyurl.com/the8kapp</span></p>
+      </div>
+      <div class="setup-box">
+        <h4>🇪🇬 Egypt Only</h4>
+        <p>1. Install <strong>Downloader by AFTVnews</strong>.</p>
+        <p>2. Enter Link:</p>
+        <p>XTV: <span class="code-block">tinyurl.com/xapppro</span></p>
+        <p>Marvel: <span class="code-block">tinyurl.com/mrvlapp</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="mobile" class="tab-content">
+    <div class="setup-grid">
+      <div class="setup-box">
+        <h4>🌍 International</h4>
+        <p><strong>Basic:</strong> <a href="https://tinyurl.com/neo4kapp" class="link-btn">Download Basic App</a></p>
+        <p><strong>Premium:</strong> <a href="https://tinyurl.com/the8kapp" class="link-btn">Download Premium App</a></p>
+      </div>
+      <div class="setup-box">
+        <h4>🇪🇬 Egypt Only</h4>
+        <p><strong>XTV:</strong> <a href="https://tinyurl.com/xapppro" class="link-btn">Download XTV App</a></p>
+        <p><strong>Marvel:</strong> <a href="https://tinyurl.com/mrvlapp" class="link-btn">Download Marvel App</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="iphone" class="tab-content">
+    <div class="setup-grid">
+      <div class="setup-box">
+        <h4>🌍 International</h4>
+        <p>1. Install <strong>Smarters Player Lite</strong> from App Store.</p>
+        <p>2. Select the option: <strong>Xtream Codes</strong>.</p>
+        <p>3. Login with the <strong>Username, Password, and URL</strong> sent to you.</p>
+      </div>
+      <div class="setup-box">
+        <h4>🇪🇬 Egypt Only</h4>
+        <p>1. Install <strong>Smarters Player Lite</strong> from App Store.</p>
+        <p>2. Select the option: <strong>Xtream Codes</strong>.</p>
+        <p>3. Login with the <strong>Username, Password, and URL</strong> sent to you.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="smart-tv" class="tab-content">
+    <div class="setup-box" style="text-align:center;">
+      <h4>📺 LG / Samsung / Toshiba</h4>
+      <p>This method works for <strong>ALL Plans</strong>.</p>
+      <p>1. Install <strong>IBO Player</strong> from your TV App Store.</p>
+      <p>2. Open the app and find your <strong>Device ID & Key</strong>.</p>
+      <p>3. Send the photo to our WhatsApp.</p>
+      <div style="background:#fff3cd; color:#856404; padding:10px; border-radius:8px; margin-top:10px; display:inline-block;">
+        <strong>Note for Egypt Plans:</strong><br>App activation costs <strong>200 EGP</strong> (One-time Lifetime fee).
+      </div>
+    </div>
+  </div>
+
+  <div id="pc" class="tab-content">
+    <div class="setup-box" style="text-align:center;">
+      <h4>💻 Windows PC</h4>
+      <p>We use the same powerful player for all subscriptions.</p>
+      <p>Download <strong>SFVIP Player</strong>:</p>
+      <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" class="link-btn">Download Now</a>
+      <p style="margin-top:10px;"><a href="https://youtu.be/dESni3uxAa4" style="color:var(--accent);">View Video Tutorial</a></p>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" id="faq">
+  <h2 class="section-title">Frequently Asked Questions</h2>
+  
+  <div class="lang-toggle">
+    <button id="toggle-lang">العربية</button>
+  </div>
+
+  <div class="faq-content" id="faq-en" lang="en">
+    
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Which devices are compatible?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Smart TVs (Samsung, LG, Android), Android/iOS phones and tablets, Fire TV, Windows PCs, Apple TV.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Is the service safe for families?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes. Most content is family-safe. Some R-rated movies exist; parental supervision and app-based controls are recommended. (XTV Server is recommended for strict family safety).</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Can I try the service before buying?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes, trial requests must be made via WhatsApp.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">How can I pay inside Egypt?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Vodafone Cash: 01029669090<br>InstaPay: 01029669090</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">How can I pay internationally?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Via TapTap Send (Debit Cards only) or PayPal.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">Can I use the subscription on multiple devices?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes, but only one device can stream at a time.</p></div></div>
+
+    <div class="faq-item ultimate"><button class="faq-question" aria-expanded="false">My service is down, what should I do?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Check if there is a WhatsApp Story about a global issue or maintenance. If not, unplug your internet router and TV for 10 seconds, then plug them back in. This fixes the problem 95% of the time.</p></div></div>
+
+  </div>
+
+  <div class="faq-content" id="faq-ar" lang="ar" style="display:none">
+    
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">ما الأجهزة المتوافقة مع الخدمة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>التلفزيونات الذكية (Samsung, LG, Android)، الهواتف والأجهزة اللوحية (Android/iOS)، Fire TV، أجهزة Windows، Apple TV.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل الخدمة آمنة للعائلات؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم. معظم المحتوى آمن للعائلة، مع وجود بعض الأفلام المصنفة R؛ ينصح بالإشراف الأبوي واستخدام ضوابط التطبيق. (سيرفر XTV هو الخيار الأفضل للأمان العائلي).</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن تجربة الخدمة قبل الشراء؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم، يجب طلب التجربة عبر WhatsApp.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">كيف يمكن الدفع داخل مصر؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Vodafone Cash: 01029669090<br>InstaPay: 01029669090</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">كيف يمكن الدفع دوليًا؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>عن طريق TapTap Send (بطاقات الخصم فقط) أو PayPal.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن استخدام الاشتراك على عدة أجهزة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم، ولكن يمكن مشاهدة البث على جهاز واحد فقط في نفس الوقت.</p></div></div>
+
+    <div class="faq-item ultimate"><button class="faq-question" aria-expanded="false">الخدمة متوقفة، ماذا أفعل؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>تحقق إذا كان هناك قصة WhatsApp عن مشكلة أو صيانة عامة. إذا لم يكن هناك، افصل الراوتر والجهاز لمدة 10 ثوانٍ ثم أعد توصيلهما. هذا عادةً يحل المشكلة بنسبة 95٪.</p></div></div>
+
+  </div>
+</div>
+<div style="text-align:center; padding:2rem; background:#222; color:#777; font-size:0.9rem;">
+  <p>&copy; 2026 Hossam TV Services. All rights reserved.</p>
+</div>
+
 <script>
-const selected = document.querySelector('.dropdown-selected');
-const arrow = document.querySelector('.dropdown-arrow');
-const items = document.querySelector('.dropdown-items');
-
-selected.addEventListener('click', () => {
-  const isOpen = items.style.display === 'flex';
-  items.style.display = isOpen ? 'none' : 'flex';
-  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
-  if (!isOpen) {
-    items.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // Tab Switching
+  function openTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(content => {
+      content.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    document.getElementById(tabId).classList.add('active');
+    event.currentTarget.classList.add('active');
   }
-});
 
-document.querySelectorAll('.dropdown-items div').forEach(option => {
-  option.addEventListener('click', () => {
-    selected.querySelector('span:first-child').textContent = option.textContent;
-    items.style.display = 'none';
-    arrow.style.transform = 'rotate(0deg)';
-    document.querySelectorAll('.device').forEach(dev => dev.style.display = 'none');
-    const target = document.getElementById(option.dataset.device);
-    if (target) {
-      target.style.display = 'block';
-      target.scrollIntoView({ behavior: 'smooth' });
+  // FAQ Toggle
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', function() {
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+      const answer = this.nextElementSibling;
+      
+      if(!expanded) {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        this.querySelector('.chevron').style.transform = 'rotate(180deg)';
+      } else {
+        answer.style.maxHeight = null;
+        this.querySelector('.chevron').style.transform = 'rotate(0deg)';
+      }
+    });
+  });
+
+  // Language Toggle
+  const toggleBtn = document.getElementById('toggle-lang');
+  toggleBtn.addEventListener('click', () => {
+    const en = document.getElementById('faq-en');
+    const ar = document.getElementById('faq-ar');
+    
+    // Reset all open FAQs to closed state when switching to prevent layout jumps
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.setAttribute('aria-expanded', 'false');
+      q.nextElementSibling.style.maxHeight = null;
+      q.querySelector('.chevron').style.transform = 'rotate(0deg)';
+    });
+    
+    if(en.style.display === 'none') {
+      en.style.display = 'block';
+      ar.style.display = 'none';
+      toggleBtn.innerText = 'العربية';
+    } else {
+      en.style.display = 'none';
+      ar.style.display = 'block';
+      toggleBtn.innerText = 'English';
     }
   });
-});
-
-window.addEventListener('click', (e) => {
-  if (!document.querySelector('.custom-dropdown').contains(e.target)) {
-    items.style.display = 'none';
-    arrow.style.transform = 'rotate(0deg)';
-  }
-});
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
