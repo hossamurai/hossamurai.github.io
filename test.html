@@ -3,8 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>M3U Tools</title>
+  <title>Smart M3U & Number Tool</title>
   <style>
+    :root {
+      --primary-gradient: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.15);
+      --input-bg: rgba(0, 0, 0, 0.25);
+      --text-white: #ffffff;
+      --text-muted: #b3cde0;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -12,78 +21,53 @@
     }
 
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0c2461, #1e3799, #4a69bd);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #141E30 0%, #243B55 100%); /* Deep Professional Blue */
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Water drop animation elements */
-    .water-drop {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      pointer-events: none;
-      animation: ripple 1s linear forwards;
-      transform: translate(-50%, -50%);
-    }
-
-    @keyframes ripple {
-      0% {
-        width: 0px;
-        height: 0px;
-        opacity: 0.5;
-      }
-      100% {
-        width: 500px;
-        height: 500px;
-        opacity: 0;
-      }
+      color: var(--text-white);
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      padding: 25px;
-      border-radius: 16px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 35px;
+      border-radius: 24px;
       width: 100%;
-      max-width: 500px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      color: white;
+      max-width: 520px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      border: 1px solid var(--glass-border);
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      z-index: 10;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      gap: 24px;
+      animation: fadeIn 0.6s ease-out;
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .header {
       text-align: center;
-      margin-bottom: 10px;
     }
 
     h1 {
-      font-size: 1.8rem;
-      margin-bottom: 5px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      color: #e6f7ff;
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
     }
 
     .subtitle {
-      opacity: 0.9;
-      font-size: 0.9rem;
-      color: #b3e0ff;
-    }
-
-    .input-section {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 400;
     }
 
     .input-wrapper {
@@ -92,91 +76,77 @@
 
     .input-display {
       width: 100%;
-      min-height: 100px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      padding: 15px;
-      font-size: 1rem;
+      min-height: 120px;
+      background: var(--input-bg);
+      border-radius: 16px;
+      padding: 18px;
+      font-family: "SF Mono", "Consolas", "Monaco", monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #e0e0e0;
+      border: 1px solid transparent;
+      outline: none;
+      transition: all 0.2s ease;
       overflow-y: auto;
       word-break: break-all;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
-      outline: none;
-    }
-
-    .input-display:empty:before {
-      content: "Paste number or M3U link here";
-      color: rgba(255, 255, 255, 0.7);
     }
 
     .input-display:focus {
-      border-color: rgba(255, 255, 255, 0.5);
-      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(0, 0, 0, 0.35);
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
     }
 
-    .input-controls {
-      display: flex;
-      gap: 10px;
-    }
-
-    .paste-btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-weight: 500;
-      background: linear-gradient(135deg, #3498db, #2980b9);
-      color: white;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .paste-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    .input-display:empty:before {
+      content: "Paste M3U link or number here...";
+      color: rgba(255, 255, 255, 0.4);
     }
 
     .actions {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
       gap: 12px;
-      width: 100%;
     }
 
-    .action-btn {
-      width: 100%;
-      padding: 14px;
+    button {
       border: none;
-      border-radius: 10px;
+      padding: 14px;
+      border-radius: 12px;
       font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s;
       font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .primary-btn {
+      background: var(--primary-gradient);
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 15px rgba(0, 198, 251, 0.3);
     }
 
-    .action-btn:hover {
+    .primary-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 6px 20px rgba(0, 198, 251, 0.4);
+      filter: brightness(1.1);
     }
 
-    .action-btn.format {
-      background: linear-gradient(135deg, #3498db, #2980b9);
+    .primary-btn:active {
+      transform: scale(0.98);
     }
 
-    .action-btn.extract {
-      background: linear-gradient(135deg, #1abc9c, #16a085);
+    .reset-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .action-btn.reset {
-      background: linear-gradient(135deg, #e74c3c, #c0392b);
+    .reset-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    .reset-btn:active {
+      transform: scale(0.98);
     }
 
     .result-section {
@@ -186,215 +156,184 @@
     }
 
     .result-box {
-      background: rgba(255, 255, 255, 0.2);
-      color: white;
-      padding: 18px;
-      border-radius: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px;
+      animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .result-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #e6f7ff;
-      text-align: center;
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .result-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .badge.m3u { background: rgba(108, 92, 231, 0.2); color: #a29bfe; border: 1px solid rgba(108, 92, 231, 0.3); }
+    .badge.phone { background: rgba(253, 203, 110, 0.2); color: #ffeaa7; border: 1px solid rgba(253, 203, 110, 0.3); }
 
     .result-content {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 12px;
-      border-radius: 8px;
-      font-family: monospace;
+      font-family: "SF Mono", "Consolas", "Monaco", monospace;
       font-size: 0.9rem;
+      color: #dcdde1;
       white-space: pre-wrap;
-      overflow-x: auto;
+      word-break: break-all;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .result-content strong {
       color: white;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 700;
     }
 
     .copy-btn {
       width: 100%;
-      background: linear-gradient(135deg, #3498db, #2980b9);
+      background: rgba(255, 255, 255, 0.1);
       color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-weight: 500;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      font-size: 0.9rem;
     }
 
     .copy-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .copy-btn.copied {
-      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      background: #00b894;
+      color: white;
     }
 
     .status-message {
       text-align: center;
       font-size: 0.85rem;
-      min-height: 20px;
+      height: 20px;
+      font-weight: 500;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
-    .success {
-      color: #2ecc71;
+    .status-message.visible {
+      opacity: 1;
     }
 
-    .error {
-      color: #e74c3c;
+    .status-message.success { color: #55efc4; }
+    .status-message.error { color: #ff7675; }
+    
+    /* Footer Credit */
+    .footer {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.3);
+        font-weight: 500;
+        letter-spacing: 0.5px;
     }
 
-    /* Mobile-specific styles */
     @media (max-width: 480px) {
-      .container {
-        padding: 20px;
-        gap: 15px;
-      }
-      
-      h1 {
-        font-size: 1.5rem;
-      }
-      
-      .action-btn {
-        padding: 12px;
-      }
+      .container { padding: 25px 20px; }
+      .actions { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>M3U Tools</h1>
-      <p class="subtitle">Process M3U links and format numbers</p>
+      <h1>Input Processor</h1>
+      <p class="subtitle">Auto-detects M3U Links or Phone Numbers</p>
     </div>
     
     <div class="input-section">
       <div class="input-wrapper">
         <div class="input-display" id="inputDisplay" contenteditable="true"></div>
       </div>
-      
-      <div class="input-controls">
-        <button class="paste-btn" id="pasteBtn">Paste from Clipboard</button>
-      </div>
     </div>
     
     <div class="actions">
-      <button class="action-btn format" id="formatBtn">
-        <span>Format Number</span>
-      </button>
-      <button class="action-btn extract" id="extractBtn">
-        <span>Extract Credentials</span>
-      </button>
-      <button class="action-btn reset" id="resetBtn">
-        <span>Reset All</span>
-      </button>
+      <button class="primary-btn" id="processBtn">Process Input</button>
+      <button class="reset-btn" id="resetBtn">Reset</button>
     </div>
     
     <div class="result-section" id="resultSection">
-      <!-- Results will be inserted here -->
-    </div>
+      </div>
     
     <div class="status-message" id="statusMessage"></div>
+    
+    <div class="footer">
+        Powered by Hossam TV Services
+    </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Elements
       const inputDisplay = document.getElementById('inputDisplay');
-      const pasteBtn = document.getElementById('pasteBtn');
-      const formatBtn = document.getElementById('formatBtn');
-      const extractBtn = document.getElementById('extractBtn');
+      const processBtn = document.getElementById('processBtn');
       const resetBtn = document.getElementById('resetBtn');
       const resultSection = document.getElementById('resultSection');
       const statusMessage = document.getElementById('statusMessage');
-      
-      // Create water drop animation
-      function createWaterDrop(x, y) {
-        const drop = document.createElement('div');
-        drop.className = 'water-drop';
-        drop.style.left = `${x}px`;
-        drop.style.top = `${y}px`;
-        document.body.appendChild(drop);
-        
-        // Remove the element after animation completes
-        setTimeout(() => {
-          document.body.removeChild(drop);
-        }, 1000);
-      }
-      
-      // Add click handlers for water drop animation
-      const buttons = [pasteBtn, formatBtn, extractBtn, resetBtn];
-      buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-          const rect = this.getBoundingClientRect();
-          const x = rect.left + rect.width / 2;
-          const y = rect.top + rect.height / 2;
-          createWaterDrop(x, y);
-        });
+
+      inputDisplay.addEventListener('click', () => {
+         if(inputDisplay.textContent.trim() === "") {
+             navigator.clipboard.readText().then(text => {
+                if(text) inputDisplay.textContent = text;
+             }).catch(err => {});
+         }
       });
-      
-      // Paste from clipboard
-      pasteBtn.addEventListener('click', function() {
-        if (!navigator.clipboard) {
-          showStatus('Clipboard API not supported in your browser', 'error');
-          return;
-        }
-        
-        navigator.clipboard.readText().then(text => {
-          inputDisplay.textContent = text;
-          showStatus('Text pasted successfully', 'success');
-        }).catch(err => {
-          showStatus('Failed to read from clipboard', 'error');
-          console.error('Clipboard error:', err);
-        });
-      });
-      
-      // Reset all
+
       resetBtn.addEventListener('click', function() {
         inputDisplay.textContent = '';
         resultSection.innerHTML = '';
-        statusMessage.textContent = '';
-        showStatus('All fields reset', 'success');
+        hideStatus();
+        inputDisplay.focus();
       });
-      
-      // Format number
-      formatBtn.addEventListener('click', function() {
-        const val = inputDisplay.textContent.trim();
-        
-        if (!val) {
-          showStatus('Please enter a number to format', 'error');
-          return;
-        }
-        
-        const formatted = val.replace(/\D/g, "").replace(/^2/, "");
-        
-        if (!formatted) {
-          showStatus('No valid numbers found', 'error');
-          return;
-        }
-        
-        displayResult('Formatted Number', formatted, 'formatResult');
-        showStatus('Number formatted successfully', 'success');
-      });
-      
-      // Extract credentials
-      extractBtn.addEventListener('click', function() {
+
+      processBtn.addEventListener('click', function() {
         const input = inputDisplay.textContent.trim();
-        
+        resultSection.innerHTML = '';
+
         if (!input) {
-          showStatus('Please enter an M3U URL', 'error');
+          showStatus('Please paste some text first', 'error');
           return;
         }
-        
+
+        const looksLikeUrl = input.includes('http') || input.includes('username=') || input.includes('password=');
+        const digitCount = input.replace(/\D/g, '').length;
+        const looksLikeNumber = !looksLikeUrl && digitCount > 5; 
+
+        if (looksLikeUrl) {
+            processM3U(input);
+        } else if (looksLikeNumber) {
+            processNumber(input);
+        } else {
+            showStatus('Could not identify input type', 'error');
+        }
+      });
+
+      function processM3U(input) {
         let username = (input.match(/username=([^&]+)/) || [])[1] || "";
         let password = (input.match(/password=([^&]+)/) || [])[1] || "";
         let host = "";
@@ -403,78 +342,78 @@
           const url = new URL(input);
           host = url.origin;
         } catch {
-          // If URL parsing fails, try to extract host manually
           const hostMatch = input.match(/^(https?:\/\/[^\/]+)/);
-          if (hostMatch) {
-            host = hostMatch[1];
-          }
+          if (hostMatch) host = hostMatch[1];
         }
 
         if (!username && !password && !host) {
-          showStatus('No valid credentials found in the URL', 'error');
+          showStatus('Found URL but no credentials/host.', 'error');
           return;
         }
 
-        const result = `Playlist name: x\nUsername: ${username}\nPassword: ${password}\nHost: ${host}`;
-        displayResult('Extracted Credentials', result, 'credentialsResult');
-        showStatus('Credentials extracted successfully', 'success');
-      });
-      
-      // Display result
-      function displayResult(title, content, id) {
+        const cleanContent = `Playlist name: x\nUsername: ${username}\nPassword: ${password}\nHost: ${host}`;
+        const visualContent = `Playlist name: x\n<strong>Username:</strong> ${username}\n<strong>Password:</strong> ${password}\n<strong>Host:</strong> ${host}`;
+
+        displayResult('Credentials Found', visualContent, cleanContent, 'm3u');
+        showStatus('M3U Link Processed', 'success');
+      }
+
+      function processNumber(input) {
+        let cleaned = input.replace(/\D/g, "");
+        if (cleaned.startsWith('2')) {
+            cleaned = cleaned.substring(1);
+        }
+
+        if (!cleaned) {
+            showStatus('No valid digits found', 'error');
+            return;
+        }
+
+        displayResult('Formatted Number', cleaned, cleaned, 'phone');
+        showStatus('Number Formatted', 'success');
+      }
+
+      function displayResult(title, visualContent, rawContent, type) {
         const resultBox = document.createElement('div');
         resultBox.className = 'result-box';
+        const badgeClass = type;
+        
         resultBox.innerHTML = `
-          <div class="result-title">${title}</div>
-          <div class="result-content" id="${id}">${content}</div>
-          <button class="copy-btn" data-target="${id}">Copy to Clipboard</button>
+          <div class="result-header">
+            <span class="result-label">${title}</span>
+            <span class="badge ${badgeClass}">${type.toUpperCase()}</span>
+          </div>
+          <div class="result-content">${visualContent}</div>
+          <button class="copy-btn">Copy to Clipboard</button>
         `;
         
-        resultSection.innerHTML = '';
         resultSection.appendChild(resultBox);
         
-        // Add copy functionality with water drop animation
         const copyBtn = resultBox.querySelector('.copy-btn');
         copyBtn.addEventListener('click', function() {
-          const targetId = this.getAttribute('data-target');
-          const text = document.getElementById(targetId).textContent;
-          
-          // Create water drop for copy button
-          const rect = this.getBoundingClientRect();
-          const x = rect.left + rect.width / 2;
-          const y = rect.top + rect.height / 2;
-          createWaterDrop(x, y);
-          
-          navigator.clipboard.writeText(text).then(() => {
+          navigator.clipboard.writeText(rawContent).then(() => {
+            const originalText = this.textContent;
             this.textContent = 'Copied!';
             this.classList.add('copied');
-            showStatus('Copied to clipboard', 'success');
             
             setTimeout(() => {
-              this.textContent = 'Copy to Clipboard';
+              this.textContent = originalText;
               this.classList.remove('copied');
             }, 2000);
-          }).catch(err => {
-            showStatus('Failed to copy to clipboard', 'error');
-            console.error('Copy error:', err);
           });
         });
       }
-      
-      // Show status message
+
       function showStatus(message, type) {
         statusMessage.textContent = message;
-        statusMessage.className = `status-message ${type}`;
-        
-        // Clear status after 3 seconds
-        setTimeout(() => {
-          statusMessage.textContent = '';
-          statusMessage.className = 'status-message';
-        }, 3000);
+        statusMessage.className = `status-message visible ${type}`;
+        setTimeout(() => hideStatus(), 3000);
+      }
+
+      function hideStatus() {
+        statusMessage.classList.remove('visible');
       }
     });
   </script>
 </body>
 </html>
-
-
