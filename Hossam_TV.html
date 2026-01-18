@@ -10,6 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
 <style>
   :root {
     /* Theme Colors */
@@ -36,6 +38,8 @@
 
   * { box-sizing: border-box; }
 
+  html { scroll-behavior: smooth; }
+
   body {
     font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: var(--bg-dark);
@@ -46,6 +50,14 @@
     padding: 0;
     line-height: 1.6;
     min-height: 100vh;
+    transition: all 0.3s ease;
+  }
+
+  /* ARABIC MODE STYLES */
+  body.rtl {
+    direction: rtl;
+    text-align: right;
+    font-family: 'Cairo', sans-serif;
   }
 
   /* --- Glass Navbar --- */
@@ -62,6 +74,7 @@
     justify-content: center;
     gap: 15px;
     flex-wrap: wrap;
+    align-items: center;
   }
 
   nav a {
@@ -82,6 +95,31 @@
     box-shadow: var(--glow-cyan);
   }
 
+  /* Language Toggle Button */
+  #lang-btn {
+    padding: 6px 16px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    border-radius: 50px;
+    border: 1px solid var(--accent-cyan);
+    background: rgba(0, 242, 255, 0.1);
+    color: var(--accent-cyan);
+    font-weight: bold;
+    transition: all 0.3s;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  body.rtl #lang-btn { margin-left: 0; margin-right: 10px; }
+
+  #lang-btn:hover {
+    background: var(--accent-cyan);
+    color: #000;
+    box-shadow: var(--glow-cyan);
+  }
+
   /* --- Hero Section --- */
   header {
     text-align: center;
@@ -90,7 +128,6 @@
     overflow: hidden;
   }
 
-  /* Subtle background glow effect */
   header::before {
     content: '';
     position: absolute;
@@ -136,7 +173,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    transition: transform 0.2s, background 0.2s, border-color 0.2s;
+    transition: transform 0.2s;
   }
 
   .social-btns a:hover {
@@ -145,7 +182,7 @@
     transform: translateY(-2px);
   }
 
-  .social-btns img { width: 20px; height: 20px; filter: drop-shadow(0 0 2px rgba(255,255,255,0.5)); }
+  .social-btns i { font-size: 1.2rem; }
 
   /* --- Common Layout --- */
   .section {
@@ -189,7 +226,6 @@
     background: var(--glass-surface);
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(var(--blur-strength));
-    -webkit-backdrop-filter: blur(var(--blur-strength));
     border-radius: 20px;
     padding: 2rem;
     transition: all 0.3s ease;
@@ -205,11 +241,9 @@
     background: var(--glass-highlight);
   }
 
-  /* Card Type: Global (Blue) */
   .card.global:hover { box-shadow: var(--glow-cyan); border-color: var(--accent-cyan); }
   .card.global h3 { color: var(--accent-cyan); margin: 0 0 10px 0; font-size: 1.5rem; }
 
-  /* Card Type: Egypt (Red) */
   .card.egypt:hover { box-shadow: var(--glow-red); border-color: var(--accent-red); }
   .card.egypt h3 { color: var(--accent-red); margin: 0 0 10px 0; font-size: 1.5rem; }
 
@@ -221,7 +255,6 @@
     text-transform: uppercase;
     margin-bottom: 1rem;
     align-self: flex-start;
-    letter-spacing: 0.5px;
   }
   .badge.blue { background: rgba(0, 242, 255, 0.1); color: var(--accent-cyan); border: 1px solid rgba(0, 242, 255, 0.2); }
   .badge.red { background: rgba(255, 0, 85, 0.1); color: var(--accent-red); border: 1px solid rgba(255, 0, 85, 0.2); }
@@ -231,6 +264,8 @@
   
   .features { list-style: none; padding: 0; flex-grow: 1; font-size: 0.95rem; color: var(--text-muted); }
   .features li { margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; }
+  
+  /* Feature bullet direction fix */
   .features li::before {
     content: '→';
     position: absolute;
@@ -238,6 +273,9 @@
     color: var(--text-main);
     font-weight: bold;
   }
+  
+  body.rtl .features li { padding-left: 0; padding-right: 1.5rem; }
+  body.rtl .features li::before { left: auto; right: 0; content: '←'; }
 
   /* --- Installation Tabs --- */
   .tabs {
@@ -265,7 +303,13 @@
     color: var(--text-muted);
     transition: all 0.3s;
     font-size: 0.9rem;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
+
+  .tab-btn i { font-size: 1.2rem; }
 
   .tab-btn:hover { color: var(--text-main); }
   
@@ -305,6 +349,8 @@
     display: block;
     margin: 8px 0;
     border: 1px dashed var(--glass-border);
+    direction: ltr; /* Codes always LTR */
+    text-align: center;
   }
 
   .link-btn {
@@ -322,24 +368,6 @@
   .link-btn:hover { filter: brightness(1.2); }
 
   /* --- FAQ Accordion --- */
-  .lang-toggle { text-align: center; margin-bottom: 30px; }
-  .lang-toggle button {
-    padding: 8px 24px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    border-radius: 50px;
-    border: 1px solid var(--accent-cyan);
-    background: transparent;
-    color: var(--accent-cyan);
-    font-weight: bold;
-    transition: all 0.3s;
-  }
-  .lang-toggle button:hover {
-    background: var(--accent-cyan);
-    color: #000;
-    box-shadow: var(--glow-cyan);
-  }
-
   .faq-item {
     background: var(--glass-surface);
     border-radius: 12px;
@@ -366,6 +394,9 @@
     align-items: center;
     font-family: inherit;
   }
+  
+  body.rtl .faq-question { text-align: right; }
+  body.rtl .faq-question .chevron { margin-right: auto; margin-left: 0; }
 
   .chevron { transition: transform 0.3s; font-size: 0.8em; color: var(--text-muted); }
 
@@ -380,8 +411,8 @@
   }
   
   .faq-answer p { margin: 15px 0; }
-  /* Default LTR List Padding */
   .faq-answer ul { margin: 10px 0; padding-left: 20px; }
+  body.rtl .faq-answer ul { padding-left: 0; padding-right: 20px; }
   .faq-answer li { margin-bottom: 5px; }
 
   .faq-question[aria-expanded="true"] + .faq-answer {
@@ -389,39 +420,8 @@
     padding-bottom: 20px;
   }
   
-  .faq-question[aria-expanded="true"] {
-    color: var(--accent-cyan);
-  }
-
-  /* --- ARABIC (RTL) FIXES --- */
-  .faq-content[lang="ar"] { 
-    direction: rtl; 
-    text-align: right; 
-    font-family: 'Cairo', sans-serif; /* Apply Arabic Font */
-  }
+  .faq-question[aria-expanded="true"] { color: var(--accent-cyan); }
   
-  /* Use natural flex behavior for RTL: Text Right, Arrow Left */
-  .faq-content[lang="ar"] .faq-question { 
-    text-align: right; 
-    flex-direction: row; 
-  }
-  
-  .faq-content[lang="ar"] .faq-answer { 
-    text-align: right; 
-  }
-  
-  /* Fix Bullet Point position for Arabic */
-  .faq-content[lang="ar"] .faq-answer ul { 
-    padding-left: 0; 
-    padding-right: 20px; 
-  }
-
-  .faq-content[lang="ar"] .chevron { 
-    margin-right: auto; 
-    margin-left: 0; 
-  }
-  
-  /* Ultimate FAQ Highlight */
   .faq-item.ultimate {
     border: 1px solid var(--accent-red);
     box-shadow: 0 0 15px rgba(255, 0, 85, 0.05);
@@ -438,350 +438,388 @@
     background: rgba(0,0,0,0.2);
   }
 
-  /* --- Mobile Tweaks --- */
+  /* View Visibility Toggles */
+  .view-ar { display: none; }
+  
+  /* Mobile Tweaks */
   @media (max-width: 768px) {
     .setup-grid { grid-template-columns: 1fr; }
     header h1 { font-size: 2.2rem; }
     .nav { gap: 10px; font-size: 0.9rem; }
-    
     .tabs { width: 100%; border-radius: 12px; padding: 10px; }
     .tab-btn { width: 100%; text-align: left; border-radius: 8px; margin-bottom: 5px; }
     .tab-btn.active { justify-content: flex-start; }
-    
     .card { padding: 1.5rem; }
   }
 </style>
 </head>
-<body>
+<body class="ltr"> <nav>
+  <div class="view-en" style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center;">
+    <a href="#plans">Prices</a>
+    <a href="#install">Setup Guide</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://wa.me/message/JZEZ3BNRYY2ED1">Support</a>
+  </div>
 
-<nav>
-  <a href="#plans">Prices</a>
-  <a href="#install">Setup Guide</a>
-  <a href="#faq">FAQ</a>
-  <a href="https://wa.me/message/JZEZ3BNRYY2ED1">Support</a>
+  <div class="view-ar" style="display:none; gap:15px; flex-wrap:wrap; justify-content:center;">
+    <a href="#plans">الأسعار</a>
+    <a href="#install">طريقة التشغيل</a>
+    <a href="#faq">الأسئلة الشائعة</a>
+    <a href="https://wa.me/message/JZEZ3BNRYY2ED1">الدعم الفني</a>
+  </div>
+
+  <button id="lang-btn" onclick="toggleLanguage()">
+    <i class="ph ph-globe"></i> العربية
+  </button>
 </nav>
 
-<header>
-  <h1>Hossam TV Services</h1>
-  <p>Next-Gen IPTV Solutions</p>
-    
-  <div class="social-btns">
-    <a href="https://wa.me/message/JZEZ3BNRYY2ED1">
-      <img src="https://img.icons8.com/fluency/48/000000/whatsapp.png" alt="WhatsApp"> WhatsApp
-    </a>
-    <a href="https://www.facebook.com/3rabTv">
-      <img src="https://img.icons8.com/fluency/48/000000/facebook-new.png" alt="Facebook"> Facebook
-    </a>
+<div class="view-en">
+
+  <header>
+    <h1>Hossam TV Services</h1>
+    <p>Next-Gen IPTV Solutions</p>
+    <div class="social-btns">
+      <a href="https://wa.me/message/JZEZ3BNRYY2ED1">
+        <i class="ph ph-whatsapp-logo"></i> WhatsApp
+      </a>
+      <a href="https://www.facebook.com/3rabTv">
+        <i class="ph ph-facebook-logo"></i> Facebook
+      </a>
+    </div>
+  </header>
+
+  <div class="section" id="plans">
+    <h2 class="section-title">Select Plan</h2>
+
+    <h3 class="category-title"><i class="ph ph-globe-hemisphere-west"></i> International Servers</h3>
+    <div class="grid">
+      <div class="card global">
+        <span class="badge blue">Global Standard</span>
+        <h3>Basic Plan</h3>
+        <div class="price">35 USD / Year<br><span style="font-size:0.7em; font-weight:normal;">60 USD for 2 Years</span></div>
+        <ul class="features">
+          <li>Channels: beIN, Sky, Fox, ESPN</li>
+          <li>Movies & Series included</li>
+          <li>Great for Soccer fans</li>
+          <li>Preferred by Arabic speakers</li>
+        </ul>
+      </div>
+      <div class="card global">
+        <span class="badge blue">Global Elite</span>
+        <h3>Premium Plan</h3>
+        <div class="price">55 USD / Year<br><span style="font-size:0.7em; font-weight:normal;">100 USD for 2 Years</span></div>
+        <ul class="features">
+          <li><strong>3x More Channels</strong></li>
+          <li>Pro Sports: NHL, NBA, NFL, UFC</li>
+          <li>4K / UHD Supported</li>
+          <li>Massive VOD Library</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="category-title" style="color:var(--accent-red);"><i class="ph ph-map-pin"></i> Egypt Local</h3>
+    <div class="grid">
+      <div class="card egypt">
+        <span class="badge red">Safe Choice</span>
+        <h3>XTV Server</h3>
+        <div class="price">350 EGP / Year<br><span style="font-size:0.7em; font-weight:normal;">650 EGP for 2 Years</span></div>
+        <ul class="features">
+          <li>Extensive Channel List</li>
+          <li style="color:var(--accent-red);">Prioritizes Football Stability</li>
+          <li>Family Friendly (99% Censored)</li>
+          <li>Fastest Updates & Local Support</li>
+        </ul>
+      </div>
+      <div class="card egypt">
+        <span class="badge red">Cinema Choice</span>
+        <h3>Marvel Server</h3>
+        <div class="price">350 EGP / Year<br><span style="font-size:0.7em; font-weight:normal;">650 EGP for 2 Years</span></div>
+        <ul class="features">
+          <li>Huge VOD (Movies/Series)</li>
+          <li>Premium Quality (More 4K)</li>
+          <li>Clean English Layout</li>
+          <li>Stable Sports Coverage</li>
+        </ul>
+      </div>
+    </div>
   </div>
-</header>
 
-<div class="section" id="plans">
-  <h2 class="section-title">Select Plan</h2>
-
-  <h3 class="category-title">🌍 International Servers</h3>
-  <div class="grid">
-    
-    <div class="card global">
-      <span class="badge blue">Global Standard</span>
-      <h3>Basic Plan</h3>
-      <div class="price">35 USD / Year<br><span style="font-size:0.7em; font-weight:normal;">60 USD for 2 Years</span></div>
-      <ul class="features">
-        <li>Channels: beIN, Sky, Fox, ESPN</li>
-        <li>Movies & Series included</li>
-        <li>Great for Soccer fans</li>
-        <li>Preferred by Arabic speakers</li>
-      </ul>
+  <div class="section" id="install">
+    <h2 class="section-title">Installation</h2>
+    <div class="tabs">
+      <div class="tab-btn active" onclick="openTab('tv-box-en')">
+        <i class="ph ph-television-simple"></i> Android / Fire TV
+      </div>
+      <div class="tab-btn" onclick="openTab('mobile-en')">
+        <i class="ph ph-device-mobile"></i> Android Mobile
+      </div>
+      <div class="tab-btn" onclick="openTab('iphone-en')">
+        <i class="ph ph-apple-logo"></i> iOS / Apple
+      </div>
+      <div class="tab-btn" onclick="openTab('smart-tv-en')">
+        <i class="ph ph-monitor-play"></i> Smart TV
+      </div>
+      <div class="tab-btn" onclick="openTab('pc-en')">
+        <i class="ph ph-desktop"></i> Windows
+      </div>
     </div>
 
-    <div class="card global">
-      <span class="badge blue">Global Elite</span>
-      <h3>Premium Plan</h3>
-      <div class="price">55 USD / Year<br><span style="font-size:0.7em; font-weight:normal;">100 USD for 2 Years</span></div>
-      <ul class="features">
-        <li><strong>3x More Channels</strong></li>
-        <li>Pro Sports: NHL, NBA, NFL, UFC</li>
-        <li>4K / UHD Supported</li>
-        <li>Massive VOD Library</li>
-      </ul>
+    <div id="tv-box-en" class="tab-content active">
+      <div class="setup-grid">
+        <div class="setup-box">
+          <h4>🌍 International</h4>
+          <p>1. Install <strong>Downloader by AFTVnews</strong></p>
+          <p>2. Enter Code:</p>
+          <span class="code-block">tinyurl.com/neo4kapp</span> (Basic)
+          <span class="code-block">tinyurl.com/the8kapp</span> (Premium)
+        </div>
+        <div class="setup-box">
+          <h4>🇪🇬 Egypt Only</h4>
+          <p>1. Install <strong>Downloader by AFTVnews</strong></p>
+          <p>2. Enter Code:</p>
+          <span class="code-block">tinyurl.com/xapppro</span> (XTV)
+          <span class="code-block">tinyurl.com/mrvlapp</span> (Marvel)
+        </div>
+      </div>
     </div>
 
+    <div id="mobile-en" class="tab-content">
+      <div class="setup-grid">
+        <div class="setup-box">
+          <h4>🌍 International</h4>
+          <a href="https://tinyurl.com/neo4kapp" class="link-btn">Download Basic App</a><br>
+          <a href="https://tinyurl.com/the8kapp" class="link-btn">Download Premium App</a>
+        </div>
+        <div class="setup-box">
+          <h4>🇪🇬 Egypt Only</h4>
+          <a href="https://tinyurl.com/xapppro" class="link-btn">Download XTV App</a><br>
+          <a href="https://tinyurl.com/mrvlapp" class="link-btn">Download Marvel App</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="iphone-en" class="tab-content">
+      <div class="setup-box">
+        <h4><i class="ph ph-apple-logo"></i> iOS Setup</h4>
+        <p>1. Install <strong>Smarters Player Lite</strong> from App Store.</p>
+        <p>2. Select: <strong>Xtream Codes</strong>.</p>
+        <p>3. Login with the <strong>Username, Password, and URL</strong> sent to you via WhatsApp.</p>
+      </div>
+    </div>
+
+    <div id="smart-tv-en" class="tab-content">
+      <div class="setup-box" style="text-align:center;">
+        <h4>📺 LG / Samsung / Toshiba</h4>
+        <p>1. Search & Install <strong>IBO Player</strong> on your TV Store.</p>
+        <p>2. Open app and send us the <strong>Device ID & Key</strong> photo.</p>
+        <div style="background:rgba(255, 193, 7, 0.1); color:#ffca2c; padding:10px; border:1px solid rgba(255, 193, 7, 0.3); border-radius:8px; margin-top:15px; display:inline-block;">
+          <strong>Egypt Plans Note:</strong><br>App activation fee is <strong>200 EGP</strong> (One-time payment).
+        </div>
+      </div>
+    </div>
+
+    <div id="pc-en" class="tab-content">
+      <div class="setup-box" style="text-align:center;">
+        <h4>💻 Windows PC</h4>
+        <p>We use the high-performance SFVIP Player.</p>
+        <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" class="link-btn">Download SFVIP Player</a>
+        <p style="margin-top:15px;"><a href="https://youtu.be/dESni3uxAa4" style="color:var(--accent-cyan);">Watch Tutorial Video</a></p>
+      </div>
+    </div>
   </div>
 
-  <h3 class="category-title" style="color:var(--accent-red);">🇪🇬 Egypt Local</h3>
-  <div class="grid">
-    
-    <div class="card egypt">
-      <span class="badge red">Safe Choice</span>
-      <h3>XTV Server</h3>
-      <div class="price">350 EGP / Year<br><span style="font-size:0.7em; font-weight:normal;">650 EGP for 2 Years</span></div>
-      <ul class="features">
-        <li>Extensive Channel List</li>
-        <li style="color:var(--accent-red);">Prioritizes Football Stability</li>
-        <li>Family Friendly (99% Censored)</li>
-        <li>Fastest Updates & Local Support</li>
-      </ul>
+  <div class="section" id="faq">
+    <h2 class="section-title">FAQ</h2>
+    <div class="faq-content">
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">What is IPTV?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>IPTV is a service that lets you watch live TV channels, sports, and movies over the internet instead of satellite or cable.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">What do I need to use IPTV?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><ul><li>Stable internet connection</li><li>Smart TV, Android TV, Android box, phone, tablet, or PC</li><li>IPTV app (differs per device)</li></ul></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">Is the service safe for families?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes. Most content is family-safe. Some adult content may exist, so parental supervision and app-based controls are recommended.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">What channels are included?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Depending on the plan, channels may include:</p><ul><li>Sports (Local & Global)</li><li>Movies & Series</li><li>Kids, News, Arabic & International channels</li></ul></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">Is there a free trial?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Yes. Free trials are available for 12 or 24 hours. Trial requests are made via WhatsApp.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">Can I use one subscription on multiple devices?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>You can use the subscription on multiple devices, but only one device at a time. Simultaneous usage is not allowed.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">What internet speed is required?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>For stable usage, 25+ Mbps is recommended.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">Are refunds available?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>No refunds after activation. That’s why a free trial is provided to make sure your device and internet are compatible before purchasing.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">How long does activation take?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Usually within minutes, and up to 24 hours in rare cases.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">How can I pay inside Egypt?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Via Vodafone Cash or InstaPay (01029669090). Payment details are provided on request.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">How can I pay internationally?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Via TapTap Send (Debit cards only) or PayPal.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">How can I contact support?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>Via WhatsApp. Support is available daily.</p></div></div>
+      <div class="faq-item ultimate"><button class="faq-question" aria-expanded="false">My service is down, what should I do?<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>First, check if there is a WhatsApp status update about maintenance. If not, unplug your router and TV for 10 seconds, then plug them back in. This fixes the issue most of the time.</p></div></div>
     </div>
-
-    <div class="card egypt">
-      <span class="badge red">Cinema Choice</span>
-      <h3>Marvel Server</h3>
-      <div class="price">350 EGP / Year<br><span style="font-size:0.7em; font-weight:normal;">650 EGP for 2 Years</span></div>
-      <ul class="features">
-        <li>Huge VOD (Movies/Series)</li>
-        <li>Premium Quality (More 4K)</li>
-        <li>Clean English Layout</li>
-        <li>Stable Sports Coverage</li>
-      </ul>
-    </div>
-
   </div>
 </div>
 
-<div class="section" id="install">
-  <h2 class="section-title">Installation</h2>
-  
-  <div class="tabs">
-    <div class="tab-btn active" onclick="openTab('tv-box')">📺 Android / Fire TV</div>
-    <div class="tab-btn" onclick="openTab('mobile')">📱 Android Mobile</div>
-    <div class="tab-btn" onclick="openTab('iphone')">🍎 iOS / Apple</div>
-    <div class="tab-btn" onclick="openTab('smart-tv')">🖥️ Smart TV</div>
-    <div class="tab-btn" onclick="openTab('pc')">💻 Windows</div>
-  </div>
+<div class="view-ar">
 
-  <div id="tv-box" class="tab-content active">
-    <div class="setup-grid">
-      <div class="setup-box">
-        <h4>🌍 International</h4>
-        <p>1. Install <strong>Downloader by AFTVnews</strong></p>
-        <p>2. Enter Code:</p>
-        <span class="code-block">tinyurl.com/neo4kapp</span> (Basic)
-        <span class="code-block">tinyurl.com/the8kapp</span> (Premium)
-      </div>
-      <div class="setup-box">
-        <h4>🇪🇬 Egypt Only</h4>
-        <p>1. Install <strong>Downloader by AFTVnews</strong></p>
-        <p>2. Enter Code:</p>
-        <span class="code-block">tinyurl.com/xapppro</span> (XTV)
-        <span class="code-block">tinyurl.com/mrvlapp</span> (Marvel)
-      </div>
+  <header>
+    <h1>خدمات حسام TV</h1>
+    <p>أفضل خدمات البث التلفزيوني</p>
+    <div class="social-btns">
+      <a href="https://wa.me/message/JZEZ3BNRYY2ED1">
+        <i class="ph ph-whatsapp-logo"></i> واتساب
+      </a>
+      <a href="https://www.facebook.com/3rabTv">
+        <i class="ph ph-facebook-logo"></i> فيسبوك
+      </a>
     </div>
-  </div>
+  </header>
 
-  <div id="mobile" class="tab-content">
-    <div class="setup-grid">
-      <div class="setup-box">
-        <h4>🌍 International</h4>
-        <a href="https://tinyurl.com/neo4kapp" class="link-btn">Download Basic App</a><br>
-        <a href="https://tinyurl.com/the8kapp" class="link-btn">Download Premium App</a>
+  <div class="section" id="plans">
+    <h2 class="section-title">اختر باقتك</h2>
+
+    <h3 class="category-title"><i class="ph ph-globe-hemisphere-east"></i> سيرفرات عالمية</h3>
+    <div class="grid">
+      <div class="card global">
+        <span class="badge blue">المستوى العالمي</span>
+        <h3>الباقة الأساسية</h3>
+        <div class="price">35 دولار / سنة<br><span style="font-size:0.7em; font-weight:normal;">60 دولار لسنتين</span></div>
+        <ul class="features">
+          <li>قنوات: beIN, Sky, Fox, ESPN</li>
+          <li>مكتبة أفلام ومسلسلات شاملة</li>
+          <li>ممتازة لعشاق كرة القدم</li>
+          <li>الخيار المفضل للمتحدثين بالعربية</li>
+        </ul>
       </div>
-      <div class="setup-box">
-        <h4>🇪🇬 Egypt Only</h4>
-        <a href="https://tinyurl.com/xapppro" class="link-btn">Download XTV App</a><br>
-        <a href="https://tinyurl.com/mrvlapp" class="link-btn">Download Marvel App</a>
-      </div>
-    </div>
-  </div>
-
-  <div id="iphone" class="tab-content">
-    <div class="setup-box">
-      <h4>🍎 iOS Setup</h4>
-      <p>1. Install <strong>Smarters Player Lite</strong> from App Store.</p>
-      <p>2. Select: <strong>Xtream Codes</strong>.</p>
-      <p>3. Login with the <strong>Username, Password, and URL</strong> sent to you via WhatsApp.</p>
-    </div>
-  </div>
-
-  <div id="smart-tv" class="tab-content">
-    <div class="setup-box" style="text-align:center;">
-      <h4>📺 LG / Samsung / Toshiba</h4>
-      <p>1. Search & Install <strong>IBO Player</strong> on your TV Store.</p>
-      <p>2. Open app and send us the <strong>Device ID & Key</strong> photo.</p>
-      <div style="background:rgba(255, 193, 7, 0.1); color:#ffca2c; padding:10px; border:1px solid rgba(255, 193, 7, 0.3); border-radius:8px; margin-top:15px; display:inline-block;">
-        <strong>Egypt Plans Note:</strong><br>App activation fee is <strong>200 EGP</strong> (One-time payment).
+      <div class="card global">
+        <span class="badge blue">النخبة العالمية</span>
+        <h3>باقة بريميوم</h3>
+        <div class="price">55 دولار / سنة<br><span style="font-size:0.7em; font-weight:normal;">100 دولار لسنتين</span></div>
+        <ul class="features">
+          <li><strong>3 أضعاف عدد القنوات</strong></li>
+          <li>رياضات احترافية: NHL, NBA, NFL</li>
+          <li>دعم جودة 4K / UHD</li>
+          <li>مكتبة ضخمة للأفلام والمسلسلات</li>
+        </ul>
       </div>
     </div>
-  </div>
 
-  <div id="pc" class="tab-content">
-    <div class="setup-box" style="text-align:center;">
-      <h4>💻 Windows PC</h4>
-      <p>We use the high-performance SFVIP Player.</p>
-      <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" class="link-btn">Download SFVIP Player</a>
-      <p style="margin-top:15px;"><a href="https://youtu.be/dESni3uxAa4" style="color:var(--accent-cyan);">Watch Tutorial Video</a></p>
+    <h3 class="category-title" style="color:var(--accent-red);"><i class="ph ph-map-pin"></i> سيرفرات محلية (مصر)</h3>
+    <div class="grid">
+      <div class="card egypt">
+        <span class="badge red">الخيار الآمن</span>
+        <h3>سيرفر إكس</h3>
+        <div class="price">350 جنيه / سنة<br><span style="font-size:0.7em; font-weight:normal;">650 جنيه لسنتين</span></div>
+        <ul class="features">
+          <li>قائمة قنوات واسعة</li>
+          <li style="color:var(--accent-red);">أولوية لثبات قنوات الكرة</li>
+          <li>آمن للعائلة (99% رقابة)</li>
+          <li>تحديثات سريعة ودعم محلي</li>
+        </ul>
+      </div>
+      <div class="card egypt">
+        <span class="badge red">خيار السينما</span>
+        <h3>سيرفر مارفل</h3>
+        <div class="price">350 جنيه / سنة<br><span style="font-size:0.7em; font-weight:normal;">650 جنيه لسنتين</span></div>
+        <ul class="features">
+          <li>مكتبة ضخمة (أفلام/مسلسلات)</li>
+          <li>جودة عالية (دعم 4K)</li>
+          <li>واجهة إنجليزية منظمة</li>
+          <li>تغطية رياضية مستقرة</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-</div>
-
-<div class="section" id="faq">
-  <h2 class="section-title">FAQ</h2>
-  
-  <div class="lang-toggle">
-    <button id="toggle-lang">العربية</button>
-  </div>
-
-  <div class="faq-content" id="faq-en" lang="en">
-    
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">What is IPTV?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>IPTV is a service that lets you watch live TV channels, sports, and movies over the internet instead of satellite or cable.</p></div>
+  <div class="section" id="install">
+    <h2 class="section-title">طريقة التشغيل</h2>
+    <div class="tabs">
+      <div class="tab-btn active" onclick="openTab('tv-box-ar')">
+        <i class="ph ph-television-simple"></i> أندرويد / Fire TV
+      </div>
+      <div class="tab-btn" onclick="openTab('mobile-ar')">
+        <i class="ph ph-device-mobile"></i> موبايل أندرويد
+      </div>
+      <div class="tab-btn" onclick="openTab('iphone-ar')">
+        <i class="ph ph-apple-logo"></i> أيفون / أبل
+      </div>
+      <div class="tab-btn" onclick="openTab('smart-tv-ar')">
+        <i class="ph ph-monitor-play"></i> شاشة ذكية
+      </div>
+      <div class="tab-btn" onclick="openTab('pc-ar')">
+        <i class="ph ph-desktop"></i> كمبيوتر
+      </div>
     </div>
 
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">What do I need to use IPTV?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer">
-          <ul>
-            <li>Stable internet connection</li>
-            <li>Smart TV, Android TV, Android box, phone, tablet, or PC</li>
-            <li>IPTV app (differs per device)</li>
-          </ul>
+    <div id="tv-box-ar" class="tab-content active">
+      <div class="setup-grid">
+        <div class="setup-box">
+          <h4>🌍 سيرفرات عالمية</h4>
+          <p>1. حمل تطبيق <strong>Downloader by AFTVnews</strong></p>
+          <p>2. أدخل الكود:</p>
+          <span class="code-block">tinyurl.com/neo4kapp</span> (الأساسية)
+          <span class="code-block">tinyurl.com/the8kapp</span> (بريميوم)
         </div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">Is the service safe for families?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>Yes. Most content is family-safe. Some adult content may exist, so parental supervision and app-based controls are recommended.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">What channels are included?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer">
-          <p>Depending on the plan, channels may include:</p>
-          <ul>
-            <li>Sports (Local & Global)</li>
-            <li>Movies & Series</li>
-            <li>Kids, News, Arabic & International channels</li>
-          </ul>
+        <div class="setup-box">
+          <h4>🇪🇬 سيرفرات مصر</h4>
+          <p>1. حمل تطبيق <strong>Downloader by AFTVnews</strong></p>
+          <p>2. أدخل الكود:</p>
+          <span class="code-block">tinyurl.com/xapppro</span> (إكس)
+          <span class="code-block">tinyurl.com/mrvlapp</span> (مارفل)
         </div>
+      </div>
     </div>
 
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">Is there a free trial?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>Yes. Free trials are available for 12 or 24 hours. Trial requests are made via WhatsApp.</p></div>
+    <div id="mobile-ar" class="tab-content">
+      <div class="setup-grid">
+        <div class="setup-box">
+          <h4>🌍 سيرفرات عالمية</h4>
+          <a href="https://tinyurl.com/neo4kapp" class="link-btn">تحميل التطبيق الأساسي</a><br>
+          <a href="https://tinyurl.com/the8kapp" class="link-btn">تحميل تطبيق بريميوم</a>
+        </div>
+        <div class="setup-box">
+          <h4>🇪🇬 سيرفرات مصر</h4>
+          <a href="https://tinyurl.com/xapppro" class="link-btn">تحميل تطبيق إكس</a><br>
+          <a href="https://tinyurl.com/mrvlapp" class="link-btn">تحميل تطبيق مارفل</a>
+        </div>
+      </div>
     </div>
 
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">Can I use one subscription on multiple devices?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>You can use the subscription on multiple devices, but only one device at a time. Simultaneous usage is not allowed.</p></div>
+    <div id="iphone-ar" class="tab-content">
+      <div class="setup-box">
+        <h4><i class="ph ph-apple-logo"></i> أيفون / أبل TV</h4>
+        <p>1. حمل تطبيق <strong>Smarters Player Lite</strong> من المتجر.</p>
+        <p>2. اختر: <strong>Xtream Codes</strong>.</p>
+        <p>3. سجل الدخول ببيانات <strong>Username, Password, URL</strong> المرسلة لك.</p>
+      </div>
     </div>
 
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">What internet speed is required?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>For stable usage, 25+ Mbps is recommended.</p></div>
+    <div id="smart-tv-ar" class="tab-content">
+      <div class="setup-box" style="text-align:center;">
+        <h4>📺 سامسونج / LG / توشيبا</h4>
+        <p>1. ابحث وحمل <strong>IBO Player</strong> من متجر التلفزيون.</p>
+        <p>2. افتح التطبيق وأرسل لنا صورة <strong>Device ID & Key</strong>.</p>
+        <div style="background:rgba(255, 193, 7, 0.1); color:#ffca2c; padding:10px; border:1px solid rgba(255, 193, 7, 0.3); border-radius:8px; margin-top:15px; display:inline-block;">
+          <strong>ملاحظة لباقات مصر:</strong><br>تفعيل التطبيق يكلف <strong>200 جنيه</strong> (تدفع مرة واحدة مدى الحياة).
+        </div>
+      </div>
     </div>
 
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">Are refunds available?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>No refunds after activation. That’s why a free trial is provided to make sure your device and internet are compatible before purchasing.</p></div>
+    <div id="pc-ar" class="tab-content">
+      <div class="setup-box" style="text-align:center;">
+        <h4>💻 كمبيوتر / لابتوب</h4>
+        <p>نحن نستخدم مشغل SFVIP الأقوى.</p>
+        <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" class="link-btn">تحميل SFVIP Player</a>
+        <p style="margin-top:15px;"><a href="https://youtu.be/dESni3uxAa4" style="color:var(--accent-cyan);">شاهد فيديو الشرح</a></p>
+      </div>
     </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">How long does activation take?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>Usually within minutes, and up to 24 hours in rare cases.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">How can I pay inside Egypt?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>Via Vodafone Cash or InstaPay (01029669090). Payment details are provided on request.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">How can I pay internationally?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>Via TapTap Send (Debit cards only) or PayPal.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">How can I contact support?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>Via WhatsApp. Support is available daily.</p></div>
-    </div>
-
-    <div class="faq-item ultimate">
-        <button class="faq-question" aria-expanded="false">My service is down, what should I do?<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>First, check if there is a WhatsApp status update about maintenance. If not, unplug your router and TV for 10 seconds, then plug them back in. This fixes the issue most of the time.</p></div>
-    </div>
-
   </div>
 
-  <div class="faq-content" id="faq-ar" lang="ar" style="display:none">
-    
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">ما هو IPTV؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>هي خدمة تتيح لك مشاهدة القنوات التلفزيونية المباشرة، الرياضة، والأفلام عبر الإنترنت بدلاً من الأقمار الصناعية.</p></div>
+  <div class="section" id="faq">
+    <h2 class="section-title">الأسئلة الشائعة</h2>
+    <div class="faq-content">
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">ما هو IPTV؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>هي خدمة تتيح لك مشاهدة القنوات التلفزيونية المباشرة، الرياضة، والأفلام عبر الإنترنت بدلاً من الأقمار الصناعية.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">ماذا أحتاج لتشغيل الخدمة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><ul><li>اتصال إنترنت مستقر</li><li>شاشة ذكية، جهاز أندرويد بوكس، هاتف، تابلت، أو كمبيوتر</li><li>تطبيق مشغل IPTV (يختلف حسب الجهاز)</li></ul></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">هل الخدمة آمنة للعائلات؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم. معظم المحتوى آمن. قد يوجد بعض المحتوى للكبار، لذا ينصح بالإشراف الأبوي واستخدام ضوابط التطبيق.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">ما هي القنوات المتوفرة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>حسب الباقة المختارة، تشمل القنوات:</p><ul><li>قنوات رياضية (محلية وعالمية)</li><li>مكتبة أفلام ومسلسلات</li><li>أطفال، أخبار، قنوات عربية وعالمية</li></ul></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يوجد تجربة مجانية؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم. تتوفر تجربة مجانية لمدة 12 أو 24 ساعة. يتم طلب التجربة عبر واتساب.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن استخدام الاشتراك على أكثر من جهاز؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم، يمكنك تفعيل الاشتراك على عدة أجهزة، ولكن المشاهدة تكون على جهاز واحد فقط في نفس الوقت.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">ما سرعة الإنترنت المطلوبة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>لضمان استقرار الخدمة، يفضل سرعة 25 ميجابايت أو أعلى.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن استرداد المبلغ؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>لا يوجد استرداد للمبلغ بعد التفعيل. لذلك نوفر تجربة مجانية للتأكد من توافق جهازك والإنترنت لديك قبل الشراء.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">كم يستغرق التفعيل؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>عادةً يتم خلال دقائق، وقد يصل إلى 24 ساعة في حالات نادرة.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">طرق الدفع داخل مصر؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>فودافون كاش أو انستا باي (01029669090). يتم إرسال التفاصيل عند الطلب.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">طرق الدفع الدولية؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>عن طريق تطبيق TapTap Send (بطاقات الخصم فقط) أو PayPal.</p></div></div>
+      <div class="faq-item"><button class="faq-question" aria-expanded="false">كيف أتواصل مع الدعم؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>عن طريق الواتساب. الدعم متاح يومياً.</p></div></div>
+      <div class="faq-item ultimate"><button class="faq-question" aria-expanded="false">الخدمة توقفت فجأة، ماذا أفعل؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>أولاً، راجع حالات الواتساب (Status) للتأكد من عدم وجود صيانة. إذا لم يكن هناك، افصل الكهرباء عن الراوتر والتلفزيون لمدة 10 ثوانٍ ثم أعد التشغيل. هذا يحل المشكلة في معظم الأحيان.</p></div></div>
     </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">ماذا أحتاج لتشغيل الخدمة؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer">
-          <ul>
-            <li>اتصال إنترنت مستقر</li>
-            <li>شاشة ذكية، جهاز أندرويد بوكس، هاتف، تابلت، أو كمبيوتر</li>
-            <li>تطبيق مشغل IPTV (يختلف حسب الجهاز)</li>
-          </ul>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">هل الخدمة آمنة للعائلات؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>نعم. معظم المحتوى آمن. قد يوجد بعض المحتوى للكبار، لذا ينصح بالإشراف الأبوي واستخدام ضوابط التطبيق.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">ما هي القنوات المتوفرة؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer">
-          <p>حسب الباقة المختارة، تشمل القنوات:</p>
-          <ul>
-            <li>قنوات رياضية (محلية وعالمية)</li>
-            <li>مكتبة أفلام ومسلسلات</li>
-            <li>أطفال، أخبار، قنوات عربية وعالمية</li>
-          </ul>
-        </div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">هل يوجد تجربة مجانية؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>نعم. تتوفر تجربة مجانية لمدة 12 أو 24 ساعة. يتم طلب التجربة عبر واتساب.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">هل يمكن استخدام الاشتراك على أكثر من جهاز؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>نعم، يمكنك تفعيل الاشتراك على عدة أجهزة، ولكن المشاهدة تكون على جهاز واحد فقط في نفس الوقت.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">ما سرعة الإنترنت المطلوبة؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>لضمان استقرار الخدمة، يفضل سرعة 25 ميجابايت أو أعلى.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">هل يمكن استرداد المبلغ؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>لا يوجد استرداد للمبلغ بعد التفعيل. لذلك نوفر تجربة مجانية للتأكد من توافق جهازك والإنترنت لديك قبل الشراء.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">كم يستغرق التفعيل؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>عادةً يتم خلال دقائق، وقد يصل إلى 24 ساعة في حالات نادرة.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">طرق الدفع داخل مصر؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>فودافون كاش أو انستا باي (01029669090). يتم إرسال التفاصيل عند الطلب.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">طرق الدفع الدولية؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>عن طريق تطبيق TapTap Send (بطاقات الخصم فقط) أو PayPal.</p></div>
-    </div>
-
-    <div class="faq-item">
-        <button class="faq-question" aria-expanded="false">كيف أتواصل مع الدعم؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>عن طريق الواتساب. الدعم متاح يومياً.</p></div>
-    </div>
-
-    <div class="faq-item ultimate">
-        <button class="faq-question" aria-expanded="false">الخدمة توقفت فجأة، ماذا أفعل؟<span class="chevron" aria-hidden="true">&#9662;</span></button>
-        <div class="faq-answer"><p>أولاً، راجع حالات الواتساب (Status) للتأكد من عدم وجود صيانة. إذا لم يكن هناك، افصل الكهرباء عن الراوتر والتلفزيون لمدة 10 ثوانٍ ثم أعد التشغيل. هذا يحل المشكلة في معظم الأحيان.</p></div>
-    </div>
-
   </div>
 </div>
 
@@ -792,15 +830,20 @@
 <script>
   // Tab Switching Logic
   function openTab(tabId) {
+    // Hide all tabs
     document.querySelectorAll('.tab-content').forEach(content => {
       content.classList.remove('active');
     });
+    // Remove active class from all buttons
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.classList.remove('active');
     });
+    
+    // Show specific tab
     document.getElementById(tabId).classList.add('active');
     
-    // Find the button that triggered the click in the event bubble
+    // Highlight the clicked button (handling both language views)
+    // We search for buttons that have the onclick matching the tabId
     const btns = document.querySelectorAll('.tab-btn');
     btns.forEach(b => {
        if(b.getAttribute('onclick').includes(tabId)) {
@@ -826,29 +869,27 @@
     });
   });
 
-  // Language Toggle Logic
-  const toggleBtn = document.getElementById('toggle-lang');
-  toggleBtn.addEventListener('click', () => {
-    const en = document.getElementById('faq-en');
-    const ar = document.getElementById('faq-ar');
-    
-    // Reset FAQs on switch
-    document.querySelectorAll('.faq-question').forEach(q => {
-      q.setAttribute('aria-expanded', 'false');
-      q.nextElementSibling.style.maxHeight = null;
-      q.querySelector('.chevron').style.transform = 'rotate(0deg)';
-    });
-    
-    if(en.style.display === 'none') {
-      en.style.display = 'block';
-      ar.style.display = 'none';
-      toggleBtn.innerText = 'العربية';
+  // Global Language Toggle Logic
+  function toggleLanguage() {
+    const body = document.body;
+    const btn = document.getElementById('lang-btn');
+    const enElements = document.querySelectorAll('.view-en');
+    const arElements = document.querySelectorAll('.view-ar');
+
+    if (body.classList.contains('rtl')) {
+      // Switch to English
+      body.classList.remove('rtl');
+      btn.innerHTML = '<i class="ph ph-globe"></i> العربية';
+      enElements.forEach(el => el.style.display = (el.tagName === 'DIV' && el.parentElement.tagName === 'NAV') ? 'flex' : 'block');
+      arElements.forEach(el => el.style.display = 'none');
     } else {
-      en.style.display = 'none';
-      ar.style.display = 'block';
-      toggleBtn.innerText = 'English';
+      // Switch to Arabic
+      body.classList.add('rtl');
+      btn.innerHTML = '<i class="ph ph-globe"></i> English';
+      enElements.forEach(el => el.style.display = 'none');
+      arElements.forEach(el => el.style.display = (el.tagName === 'DIV' && el.parentElement.tagName === 'NAV') ? 'flex' : 'block');
     }
-  });
+  }
 </script>
 
 </body>
