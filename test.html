@@ -89,6 +89,8 @@
       transition: all 0.2s ease;
       overflow-y: auto;
       word-break: break-all;
+      /* Ensure cursor indicates interaction but prevents keyboard on most devices */
+      cursor: pointer; 
     }
 
     .input-display:focus {
@@ -98,7 +100,7 @@
     }
 
     .input-display:empty:before {
-      content: "Paste M3U link or number here...";
+      content: "Tap to paste M3U link or number...";
       color: rgba(255, 255, 255, 0.4);
     }
 
@@ -243,7 +245,7 @@
 
     .status-message.success { color: #55efc4; }
     .status-message.error { color: #ff7675; }
-    
+     
     /* Footer Credit */
     .footer {
         margin-top: 10px;
@@ -266,23 +268,23 @@
       <h1>Input Processor</h1>
       <p class="subtitle">Auto-detects M3U Links or Phone Numbers</p>
     </div>
-    
+     
     <div class="input-section">
       <div class="input-wrapper">
-        <div class="input-display" id="inputDisplay" contenteditable="true"></div>
+        <div class="input-display" id="inputDisplay" contenteditable="true" inputmode="none"></div>
       </div>
     </div>
-    
+     
     <div class="actions">
       <button class="primary-btn" id="processBtn">Process Input</button>
       <button class="reset-btn" id="resetBtn">Reset</button>
     </div>
-    
+     
     <div class="result-section" id="resultSection">
       </div>
-    
+     
     <div class="status-message" id="statusMessage"></div>
-    
+     
     <div class="footer">
         Powered by Hossam TV Services
     </div>
@@ -300,7 +302,10 @@
          if(inputDisplay.textContent.trim() === "") {
              navigator.clipboard.readText().then(text => {
                 if(text) inputDisplay.textContent = text;
-             }).catch(err => {});
+             }).catch(err => {
+                 // Optional: Handle clipboard permission errors here
+                 // console.error("Clipboard access denied", err);
+             });
          }
       });
 
@@ -308,7 +313,8 @@
         inputDisplay.textContent = '';
         resultSection.innerHTML = '';
         hideStatus();
-        inputDisplay.focus();
+        // Removed focus() to keep keyboard hidden
+        // inputDisplay.focus(); 
       });
 
       processBtn.addEventListener('click', function() {
@@ -377,7 +383,7 @@
         const resultBox = document.createElement('div');
         resultBox.className = 'result-box';
         const badgeClass = type;
-        
+         
         resultBox.innerHTML = `
           <div class="result-header">
             <span class="result-label">${title}</span>
@@ -386,16 +392,16 @@
           <div class="result-content">${visualContent}</div>
           <button class="copy-btn">Copy to Clipboard</button>
         `;
-        
+         
         resultSection.appendChild(resultBox);
-        
+         
         const copyBtn = resultBox.querySelector('.copy-btn');
         copyBtn.addEventListener('click', function() {
           navigator.clipboard.writeText(rawContent).then(() => {
             const originalText = this.textContent;
             this.textContent = 'Copied!';
             this.classList.add('copied');
-            
+             
             setTimeout(() => {
               this.textContent = originalText;
               this.classList.remove('copied');
