@@ -62,7 +62,7 @@
 
   /* --- Glass Navbar --- */
   nav {
-    background: rgba(5, 10, 20, 0.7);
+    background: rgba(5, 10, 20, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     position: sticky;
@@ -180,9 +180,10 @@
     background: var(--glass-highlight);
     border-color: var(--accent-cyan);
     transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   }
 
-  .social-btns i { font-size: 1.2rem; }
+  .social-btns i { font-size: 1.5rem; color: var(--accent-cyan); }
 
   /* --- Common Layout --- */
   .section {
@@ -201,7 +202,7 @@
 
   /* --- Pricing Cards --- */
   .category-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--text-muted);
     margin: 3rem 0 1.5rem;
     display: flex;
@@ -211,6 +212,8 @@
     letter-spacing: 1px;
     font-size: 0.85rem;
   }
+
+  .category-title i { font-size: 1.4rem; color: var(--accent-cyan); }
 
   .grid {
     display: grid;
@@ -263,19 +266,20 @@
   .price span { color: var(--text-muted); }
   
   .features { list-style: none; padding: 0; flex-grow: 1; font-size: 0.95rem; color: var(--text-muted); }
-  .features li { margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; }
+  .features li { margin-bottom: 0.8rem; padding-left: 1.8rem; position: relative; }
   
-  /* Feature bullet direction fix */
+  /* Checkmark Icon for features */
   .features li::before {
-    content: '→';
+    content: '✓';
     position: absolute;
     left: 0;
-    color: var(--text-main);
+    color: var(--accent-cyan);
     font-weight: bold;
+    font-size: 1.1em;
   }
   
-  body.rtl .features li { padding-left: 0; padding-right: 1.5rem; }
-  body.rtl .features li::before { left: auto; right: 0; content: '←'; }
+  body.rtl .features li { padding-left: 0; padding-right: 1.8rem; }
+  body.rtl .features li::before { left: auto; right: 0; }
 
   /* --- Installation Tabs --- */
   .tabs {
@@ -285,33 +289,40 @@
     gap: 10px;
     margin-bottom: 2rem;
     background: var(--glass-surface);
-    padding: 5px;
+    padding: 8px; /* Slightly more padding */
     border-radius: 50px;
     border: 1px solid var(--glass-border);
-    width: fit-content;
+    width: 100%;
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
   }
 
   .tab-btn {
-    padding: 10px 20px;
+    padding: 12px 20px;
     background: transparent;
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-muted);
     transition: all 0.3s;
     font-size: 0.9rem;
     font-family: inherit;
+    /* CENTERING FIX */
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 8px;
+    /* UNIFORM SIZE FIX */
+    flex: 1 1 auto; /* Grow evenly */
+    min-width: 140px; /* Minimum uniform width */
+    text-align: center;
   }
 
-  .tab-btn i { font-size: 1.2rem; }
+  .tab-btn i { font-size: 1.2rem; margin-bottom: 2px; }
 
-  .tab-btn:hover { color: var(--text-main); }
+  .tab-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
   
   .tab-btn.active {
     background: var(--glass-highlight);
@@ -336,36 +347,69 @@
     padding: 25px;
     border-radius: 16px;
     border: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
   }
 
-  .setup-box h4 { margin-top: 0; color: var(--text-main); border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; margin-bottom: 15px; }
+  .setup-box h4 { 
+      margin-top: 0; 
+      color: var(--text-main); 
+      border-bottom: 1px solid var(--glass-border); 
+      padding-bottom: 15px; 
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+  }
   
   .code-block {
     background: rgba(0,0,0,0.3);
-    padding: 8px 12px;
-    border-radius: 6px;
+    padding: 10px 15px;
+    border-radius: 8px;
     font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
     color: var(--accent-cyan);
     display: block;
-    margin: 8px 0;
+    margin: 10px 0;
     border: 1px dashed var(--glass-border);
     direction: ltr; /* Codes always LTR */
     text-align: center;
+    letter-spacing: 1px;
   }
 
+  /* --- DOWNLOAD BUTTON STYLE (Uniform Size & Centered) --- */
   .link-btn {
-    display: inline-block;
-    background: var(--accent-blue);
-    color: white;
+    /* Layout & Alignment */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    
+    /* Visuals */
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
+    color: #000;
     text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    margin-top: 15px;
-    font-weight: 600;
-    transition: filter 0.2s;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 15px auto 0 auto; /* Center button block */
+    border: none;
+    
+    /* Uniform Size */
+    width: 100%; 
+    max-width: 280px; /* Fixed max width for uniformity */
+    
+    /* Effects */
+    box-shadow: 0 4px 10px rgba(0, 242, 255, 0.2);
+    transition: all 0.3s ease;
   }
-  .link-btn:hover { filter: brightness(1.2); }
+  
+  .link-btn:hover { 
+    filter: brightness(1.1); 
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 242, 255, 0.4);
+  }
 
   /* --- FAQ Accordion --- */
   .faq-item {
@@ -446,9 +490,8 @@
     .setup-grid { grid-template-columns: 1fr; }
     header h1 { font-size: 2.2rem; }
     .nav { gap: 10px; font-size: 0.9rem; }
-    .tabs { width: 100%; border-radius: 12px; padding: 10px; }
-    .tab-btn { width: 100%; text-align: left; border-radius: 8px; margin-bottom: 5px; }
-    .tab-btn.active { justify-content: flex-start; }
+    .tabs { flex-direction: column; width: 100%; border-radius: 20px; padding: 10px; }
+    .tab-btn { width: 100%; max-width: none; border-radius: 12px; margin-bottom: 5px; justify-content: flex-start; padding-left: 20px; }
     .card { padding: 1.5rem; }
   }
 </style>
@@ -462,9 +505,9 @@
   </div>
 
   <div class="view-ar" style="display:none; gap:15px; flex-wrap:wrap; justify-content:center;">
-    <a href="#plans">الأسعار</a>
-    <a href="#install">طريقة التشغيل</a>
-    <a href="#faq">الأسئلة الشائعة</a>
+    <a href="#plans-ar">الأسعار</a>
+    <a href="#install-ar">طريقة التشغيل</a>
+    <a href="#faq-ar">الأسئلة الشائعة</a>
     <a href="https://wa.me/message/JZEZ3BNRYY2ED1">الدعم الفني</a>
   </div>
 
@@ -480,10 +523,10 @@
     <p>Next-Gen IPTV Solutions</p>
     <div class="social-btns">
       <a href="https://wa.me/message/JZEZ3BNRYY2ED1">
-        <i class="ph ph-whatsapp-logo"></i> WhatsApp
+        <i class="ph-fill ph-whatsapp-logo"></i> WhatsApp
       </a>
       <a href="https://www.facebook.com/3rabTv">
-        <i class="ph ph-facebook-logo"></i> Facebook
+        <i class="ph-fill ph-facebook-logo"></i> Facebook
       </a>
     </div>
   </header>
@@ -491,7 +534,7 @@
   <div class="section" id="plans">
     <h2 class="section-title">Select Plan</h2>
 
-    <h3 class="category-title"><i class="ph ph-globe-hemisphere-west"></i> International Servers</h3>
+    <h3 class="category-title"><i class="ph ph-globe"></i> International Servers</h3>
     <div class="grid">
       <div class="card global">
         <span class="badge blue">Global Standard</span>
@@ -548,7 +591,7 @@
     <h2 class="section-title">Installation</h2>
     <div class="tabs">
       <div class="tab-btn active" onclick="openTab('tv-box-en')">
-        <i class="ph ph-television-simple"></i> Android / Fire TV
+        <i class="ph ph-television"></i> Android / Fire TV
       </div>
       <div class="tab-btn" onclick="openTab('mobile-en')">
         <i class="ph ph-device-mobile"></i> Android Mobile
@@ -567,14 +610,14 @@
     <div id="tv-box-en" class="tab-content active">
       <div class="setup-grid">
         <div class="setup-box">
-          <h4>🌍 International</h4>
+          <h4><i class="ph ph-globe"></i> International</h4>
           <p>1. Install <strong>Downloader by AFTVnews</strong></p>
           <p>2. Enter Code:</p>
           <span class="code-block">tinyurl.com/neo4kapp</span> (Basic)
           <span class="code-block">tinyurl.com/the8kapp</span> (Premium)
         </div>
         <div class="setup-box">
-          <h4>🇪🇬 Egypt Only</h4>
+          <h4><i class="ph ph-flag"></i> Egypt Only</h4>
           <p>1. Install <strong>Downloader by AFTVnews</strong></p>
           <p>2. Enter Code:</p>
           <span class="code-block">tinyurl.com/xapppro</span> (XTV)
@@ -586,13 +629,13 @@
     <div id="mobile-en" class="tab-content">
       <div class="setup-grid">
         <div class="setup-box">
-          <h4>🌍 International</h4>
-          <a href="https://tinyurl.com/neo4kapp" class="link-btn">Download Basic App</a><br>
+          <h4><i class="ph ph-globe"></i> International</h4>
+          <a href="https://tinyurl.com/neo4kapp" class="link-btn">Download Basic App</a>
           <a href="https://tinyurl.com/the8kapp" class="link-btn">Download Premium App</a>
         </div>
         <div class="setup-box">
-          <h4>🇪🇬 Egypt Only</h4>
-          <a href="https://tinyurl.com/xapppro" class="link-btn">Download XTV App</a><br>
+          <h4><i class="ph ph-flag"></i> Egypt Only</h4>
+          <a href="https://tinyurl.com/xapppro" class="link-btn">Download XTV App</a>
           <a href="https://tinyurl.com/mrvlapp" class="link-btn">Download Marvel App</a>
         </div>
       </div>
@@ -609,7 +652,7 @@
 
     <div id="smart-tv-en" class="tab-content">
       <div class="setup-box" style="text-align:center;">
-        <h4>📺 LG / Samsung / Toshiba</h4>
+        <h4><i class="ph ph-monitor-play"></i> LG / Samsung / Toshiba</h4>
         <p>1. Search & Install <strong>IBO Player</strong> on your TV Store.</p>
         <p>2. Open app and send us the <strong>Device ID & Key</strong> photo.</p>
         <div style="background:rgba(255, 193, 7, 0.1); color:#ffca2c; padding:10px; border:1px solid rgba(255, 193, 7, 0.3); border-radius:8px; margin-top:15px; display:inline-block;">
@@ -620,7 +663,7 @@
 
     <div id="pc-en" class="tab-content">
       <div class="setup-box" style="text-align:center;">
-        <h4>💻 Windows PC</h4>
+        <h4><i class="ph ph-desktop"></i> Windows PC</h4>
         <p>We use the high-performance SFVIP Player.</p>
         <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" class="link-btn">Download SFVIP Player</a>
         <p style="margin-top:15px;"><a href="https://youtu.be/dESni3uxAa4" style="color:var(--accent-cyan);">Watch Tutorial Video</a></p>
@@ -655,18 +698,18 @@
     <p>أفضل خدمات البث التلفزيوني</p>
     <div class="social-btns">
       <a href="https://wa.me/message/JZEZ3BNRYY2ED1">
-        <i class="ph ph-whatsapp-logo"></i> واتساب
+        <i class="ph-fill ph-whatsapp-logo"></i> واتساب
       </a>
       <a href="https://www.facebook.com/3rabTv">
-        <i class="ph ph-facebook-logo"></i> فيسبوك
+        <i class="ph-fill ph-facebook-logo"></i> فيسبوك
       </a>
     </div>
   </header>
 
-  <div class="section" id="plans">
+  <div class="section" id="plans-ar">
     <h2 class="section-title">اختر باقتك</h2>
 
-    <h3 class="category-title"><i class="ph ph-globe-hemisphere-east"></i> سيرفرات عالمية</h3>
+    <h3 class="category-title"><i class="ph ph-globe"></i> سيرفرات عالمية</h3>
     <div class="grid">
       <div class="card global">
         <span class="badge blue">المستوى العالمي</span>
@@ -719,11 +762,11 @@
     </div>
   </div>
 
-  <div class="section" id="install">
+  <div class="section" id="install-ar">
     <h2 class="section-title">طريقة التشغيل</h2>
     <div class="tabs">
       <div class="tab-btn active" onclick="openTab('tv-box-ar')">
-        <i class="ph ph-television-simple"></i> أندرويد / Fire TV
+        <i class="ph ph-television"></i> أندرويد / Fire TV
       </div>
       <div class="tab-btn" onclick="openTab('mobile-ar')">
         <i class="ph ph-device-mobile"></i> موبايل أندرويد
@@ -742,14 +785,14 @@
     <div id="tv-box-ar" class="tab-content active">
       <div class="setup-grid">
         <div class="setup-box">
-          <h4>🌍 سيرفرات عالمية</h4>
+          <h4><i class="ph ph-globe"></i> سيرفرات عالمية</h4>
           <p>1. حمل تطبيق <strong>Downloader by AFTVnews</strong></p>
           <p>2. أدخل الكود:</p>
           <span class="code-block">tinyurl.com/neo4kapp</span> (الأساسية)
           <span class="code-block">tinyurl.com/the8kapp</span> (بريميوم)
         </div>
         <div class="setup-box">
-          <h4>🇪🇬 سيرفرات مصر</h4>
+          <h4><i class="ph ph-flag"></i> سيرفرات مصر</h4>
           <p>1. حمل تطبيق <strong>Downloader by AFTVnews</strong></p>
           <p>2. أدخل الكود:</p>
           <span class="code-block">tinyurl.com/xapppro</span> (إكس)
@@ -761,13 +804,13 @@
     <div id="mobile-ar" class="tab-content">
       <div class="setup-grid">
         <div class="setup-box">
-          <h4>🌍 سيرفرات عالمية</h4>
-          <a href="https://tinyurl.com/neo4kapp" class="link-btn">تحميل التطبيق الأساسي</a><br>
+          <h4><i class="ph ph-globe"></i> سيرفرات عالمية</h4>
+          <a href="https://tinyurl.com/neo4kapp" class="link-btn">تحميل التطبيق الأساسي</a>
           <a href="https://tinyurl.com/the8kapp" class="link-btn">تحميل تطبيق بريميوم</a>
         </div>
         <div class="setup-box">
-          <h4>🇪🇬 سيرفرات مصر</h4>
-          <a href="https://tinyurl.com/xapppro" class="link-btn">تحميل تطبيق إكس</a><br>
+          <h4><i class="ph ph-flag"></i> سيرفرات مصر</h4>
+          <a href="https://tinyurl.com/xapppro" class="link-btn">تحميل تطبيق إكس</a>
           <a href="https://tinyurl.com/mrvlapp" class="link-btn">تحميل تطبيق مارفل</a>
         </div>
       </div>
@@ -784,7 +827,7 @@
 
     <div id="smart-tv-ar" class="tab-content">
       <div class="setup-box" style="text-align:center;">
-        <h4>📺 سامسونج / LG / توشيبا</h4>
+        <h4><i class="ph ph-monitor-play"></i> سامسونج / LG / توشيبا</h4>
         <p>1. ابحث وحمل <strong>IBO Player</strong> من متجر التلفزيون.</p>
         <p>2. افتح التطبيق وأرسل لنا صورة <strong>Device ID & Key</strong>.</p>
         <div style="background:rgba(255, 193, 7, 0.1); color:#ffca2c; padding:10px; border:1px solid rgba(255, 193, 7, 0.3); border-radius:8px; margin-top:15px; display:inline-block;">
@@ -795,7 +838,7 @@
 
     <div id="pc-ar" class="tab-content">
       <div class="setup-box" style="text-align:center;">
-        <h4>💻 كمبيوتر / لابتوب</h4>
+        <h4><i class="ph ph-desktop"></i> كمبيوتر / لابتوب</h4>
         <p>نحن نستخدم مشغل SFVIP الأقوى.</p>
         <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" class="link-btn">تحميل SFVIP Player</a>
         <p style="margin-top:15px;"><a href="https://youtu.be/dESni3uxAa4" style="color:var(--accent-cyan);">شاهد فيديو الشرح</a></p>
@@ -803,7 +846,7 @@
     </div>
   </div>
 
-  <div class="section" id="faq">
+  <div class="section" id="faq-ar">
     <h2 class="section-title">الأسئلة الشائعة</h2>
     <div class="faq-content">
       <div class="faq-item"><button class="faq-question" aria-expanded="false">ما هو IPTV؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>هي خدمة تتيح لك مشاهدة القنوات التلفزيونية المباشرة، الرياضة، والأفلام عبر الإنترنت بدلاً من الأقمار الصناعية.</p></div></div>
