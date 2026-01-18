@@ -60,6 +60,10 @@
     font-family: 'Cairo', sans-serif;
   }
 
+  /* View Toggling - CSS Method (More Stable) */
+  body.ltr .view-ar { display: none !important; }
+  body.rtl .view-en { display: none !important; }
+
   /* --- Glass Navbar --- */
   nav {
     background: rgba(5, 10, 20, 0.85);
@@ -281,7 +285,7 @@
   body.rtl .features li { padding-left: 0; padding-right: 1.8rem; }
   body.rtl .features li::before { left: auto; right: 0; }
 
-  /* --- Installation Tabs --- */
+  /* --- Installation Tabs (FIXED) --- */
   .tabs {
     display: flex;
     justify-content: center;
@@ -289,17 +293,21 @@
     gap: 10px;
     margin-bottom: 2rem;
     background: var(--glass-surface);
-    padding: 8px; /* Slightly more padding */
+    padding: 8px;
     border-radius: 50px;
     border: 1px solid var(--glass-border);
     width: 100%;
-    max-width: 800px;
+    /* INCREASED WIDTH TO PREVENT ENGLISH WRAPPING */
+    max-width: 920px; 
     margin-left: auto;
     margin-right: auto;
   }
 
   .tab-btn {
-    padding: 12px 20px;
+    /* REDUCED PADDING AND MIN-WIDTH TO FIT ENGLISH */
+    padding: 12px 14px;
+    min-width: 120px;
+    
     background: transparent;
     border: none;
     border-radius: 50px;
@@ -309,15 +317,13 @@
     transition: all 0.3s;
     font-size: 0.9rem;
     font-family: inherit;
-    /* CENTERING FIX */
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    /* UNIFORM SIZE FIX */
-    flex: 1 1 auto; /* Grow evenly */
-    min-width: 140px; /* Minimum uniform width */
+    flex: 1 1 auto;
     text-align: center;
+    white-space: nowrap; /* Prevent internal text wrapping */
   }
 
   .tab-btn i { font-size: 1.2rem; margin-bottom: 2px; }
@@ -377,15 +383,12 @@
     letter-spacing: 1px;
   }
 
-  /* --- DOWNLOAD BUTTON STYLE (Uniform Size & Centered) --- */
+  /* --- DOWNLOAD BUTTON STYLE --- */
   .link-btn {
-    /* Layout & Alignment */
     display: flex; 
     justify-content: center;
     align-items: center;
     gap: 10px;
-    
-    /* Visuals */
     background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
     color: #000;
     text-decoration: none;
@@ -393,14 +396,10 @@
     border-radius: 12px;
     font-size: 0.95rem;
     font-weight: 700;
-    margin: 15px auto 0 auto; /* Center button block */
+    margin: 15px auto 0 auto; 
     border: none;
-    
-    /* Uniform Size */
     width: 100%; 
-    max-width: 280px; /* Fixed max width for uniformity */
-    
-    /* Effects */
+    max-width: 280px; 
     box-shadow: 0 4px 10px rgba(0, 242, 255, 0.2);
     transition: all 0.3s ease;
   }
@@ -461,7 +460,7 @@
 
   .faq-question[aria-expanded="true"] + .faq-answer {
     opacity: 1;
-    padding-bottom: 20px;
+    /* Removed padding-bottom here to let JS handle height correctly */
   }
   
   .faq-question[aria-expanded="true"] { color: var(--accent-cyan); }
@@ -482,21 +481,21 @@
     background: rgba(0,0,0,0.2);
   }
 
-  /* View Visibility Toggles */
-  .view-ar { display: none; }
-  
   /* Mobile Tweaks */
   @media (max-width: 768px) {
     .setup-grid { grid-template-columns: 1fr; }
     header h1 { font-size: 2.2rem; }
     .nav { gap: 10px; font-size: 0.9rem; }
+    /* Mobile: Allow stacking vertically */
     .tabs { flex-direction: column; width: 100%; border-radius: 20px; padding: 10px; }
     .tab-btn { width: 100%; max-width: none; border-radius: 12px; margin-bottom: 5px; justify-content: flex-start; padding-left: 20px; }
     .card { padding: 1.5rem; }
   }
 </style>
 </head>
-<body class="ltr"> <nav>
+<body class="ltr"> 
+
+<nav>
   <div class="view-en" style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center;">
     <a href="#plans">Prices</a>
     <a href="#install">Setup Guide</a>
@@ -504,7 +503,7 @@
     <a href="https://wa.me/message/JZEZ3BNRYY2ED1">Support</a>
   </div>
 
-  <div class="view-ar" style="display:none; gap:15px; flex-wrap:wrap; justify-content:center;">
+  <div class="view-ar" style="gap:15px; flex-wrap:wrap; justify-content:center;">
     <a href="#plans-ar">الأسعار</a>
     <a href="#install-ar">طريقة التشغيل</a>
     <a href="#faq-ar">الأسئلة الشائعة</a>
@@ -590,21 +589,21 @@
   <div class="section" id="install">
     <h2 class="section-title">Installation</h2>
     <div class="tabs">
-      <div class="tab-btn active" onclick="openTab('tv-box-en')">
+      <button class="tab-btn active" onclick="openTab(this, 'tv-box-en')">
         <i class="ph ph-television"></i> Android / Fire TV
-      </div>
-      <div class="tab-btn" onclick="openTab('mobile-en')">
+      </button>
+      <button class="tab-btn" onclick="openTab(this, 'mobile-en')">
         <i class="ph ph-device-mobile"></i> Android Mobile
-      </div>
-      <div class="tab-btn" onclick="openTab('iphone-en')">
+      </button>
+      <button class="tab-btn" onclick="openTab(this, 'iphone-en')">
         <i class="ph ph-apple-logo"></i> iOS / Apple
-      </div>
-      <div class="tab-btn" onclick="openTab('smart-tv-en')">
+      </button>
+      <button class="tab-btn" onclick="openTab(this, 'smart-tv-en')">
         <i class="ph ph-monitor-play"></i> Smart TV
-      </div>
-      <div class="tab-btn" onclick="openTab('pc-en')">
+      </button>
+      <button class="tab-btn" onclick="openTab(this, 'pc-en')">
         <i class="ph ph-desktop"></i> Windows
-      </div>
+      </button>
     </div>
 
     <div id="tv-box-en" class="tab-content active">
@@ -765,21 +764,21 @@
   <div class="section" id="install-ar">
     <h2 class="section-title">طريقة التشغيل</h2>
     <div class="tabs">
-      <div class="tab-btn active" onclick="openTab('tv-box-ar')">
+      <button class="tab-btn active" onclick="openTab(this, 'tv-box-ar')">
         <i class="ph ph-television"></i> أندرويد / Fire TV
-      </div>
-      <div class="tab-btn" onclick="openTab('mobile-ar')">
+      </button>
+      <button class="tab-btn" onclick="openTab(this, 'mobile-ar')">
         <i class="ph ph-device-mobile"></i> موبايل أندرويد
-      </div>
-      <div class="tab-btn" onclick="openTab('iphone-ar')">
+      </button>
+      <button class="tab-btn" onclick="openTab(this, 'iphone-ar')">
         <i class="ph ph-apple-logo"></i> أيفون / أبل
-      </div>
-      <div class="tab-btn" onclick="openTab('smart-tv-ar')">
+      </button>
+      <button class="tab-btn" onclick="openTab(this, 'smart-tv-ar')">
         <i class="ph ph-monitor-play"></i> شاشة ذكية
-      </div>
-      <div class="tab-btn" onclick="openTab('pc-ar')">
+      </button>
+      <button class="tab-btn" onclick="openTab(this, 'pc-ar')">
         <i class="ph ph-desktop"></i> كمبيوتر
-      </div>
+      </button>
     </div>
 
     <div id="tv-box-ar" class="tab-content active">
@@ -871,31 +870,26 @@
 </footer>
 
 <script>
-  // Tab Switching Logic
-  function openTab(tabId) {
-    // Hide all tabs
+  // IMPROVED Tab Switching Logic (using 'btnElement' and 'tabId')
+  function openTab(btnElement, tabId) {
+    // 1. Hide all tabs
     document.querySelectorAll('.tab-content').forEach(content => {
       content.classList.remove('active');
     });
-    // Remove active class from all buttons
+    
+    // 2. Remove active class from all buttons
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.classList.remove('active');
     });
     
-    // Show specific tab
+    // 3. Show specific tab
     document.getElementById(tabId).classList.add('active');
     
-    // Highlight the clicked button (handling both language views)
-    // We search for buttons that have the onclick matching the tabId
-    const btns = document.querySelectorAll('.tab-btn');
-    btns.forEach(b => {
-       if(b.getAttribute('onclick').includes(tabId)) {
-           b.classList.add('active');
-       }
-    });
+    // 4. Highlight the clicked button
+    btnElement.classList.add('active');
   }
 
-  // FAQ Accordion Logic
+  // FAQ Accordion Logic with Dynamic Height Fix
   document.querySelectorAll('.faq-question').forEach(q => {
     q.addEventListener('click', function() {
       const expanded = this.getAttribute('aria-expanded') === 'true';
@@ -903,34 +897,34 @@
       const answer = this.nextElementSibling;
       
       if(!expanded) {
+        // Expand
         answer.style.maxHeight = answer.scrollHeight + 'px';
+        answer.style.paddingBottom = '20px'; // Restore padding
         this.querySelector('.chevron').style.transform = 'rotate(180deg)';
       } else {
+        // Collapse
         answer.style.maxHeight = null;
+        answer.style.paddingBottom = '0'; // Remove padding to avoid gaps
         this.querySelector('.chevron').style.transform = 'rotate(0deg)';
       }
     });
   });
 
-  // Global Language Toggle Logic
+  // IMPROVED Global Language Toggle Logic (Class based)
   function toggleLanguage() {
-    const body = document.body;
     const btn = document.getElementById('lang-btn');
-    const enElements = document.querySelectorAll('.view-en');
-    const arElements = document.querySelectorAll('.view-ar');
 
-    if (body.classList.contains('rtl')) {
-      // Switch to English
-      body.classList.remove('rtl');
-      btn.innerHTML = '<i class="ph ph-globe"></i> العربية';
-      enElements.forEach(el => el.style.display = (el.tagName === 'DIV' && el.parentElement.tagName === 'NAV') ? 'flex' : 'block');
-      arElements.forEach(el => el.style.display = 'none');
-    } else {
-      // Switch to Arabic
-      body.classList.add('rtl');
+    // Toggle body class
+    document.body.classList.toggle('rtl');
+    document.body.classList.toggle('ltr');
+
+    // Update button text
+    if (document.body.classList.contains('rtl')) {
+      // Switched to Arabic
       btn.innerHTML = '<i class="ph ph-globe"></i> English';
-      enElements.forEach(el => el.style.display = 'none');
-      arElements.forEach(el => el.style.display = (el.tagName === 'DIV' && el.parentElement.tagName === 'NAV') ? 'flex' : 'block');
+    } else {
+      // Switched to English
+      btn.innerHTML = '<i class="ph ph-globe"></i> العربية';
     }
   }
 </script>
