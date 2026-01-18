@@ -89,7 +89,6 @@
       transition: all 0.2s ease;
       overflow-y: auto;
       word-break: break-all;
-      /* Ensure cursor indicates interaction but prevents keyboard on most devices */
       cursor: pointer; 
     }
 
@@ -99,9 +98,11 @@
       box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
     }
 
+    /* FIXED: Added font-size here to make the placeholder smaller */
     .input-display:empty:before {
       content: "Tap to paste M3U link or number...";
       color: rgba(255, 255, 255, 0.4);
+      font-size: 0.8rem; 
     }
 
     .actions {
@@ -303,7 +304,6 @@
              navigator.clipboard.readText().then(text => {
                 if(text) inputDisplay.textContent = text;
              }).catch(err => {
-                 // Optional: Handle clipboard permission errors here
                  // console.error("Clipboard access denied", err);
              });
          }
@@ -313,8 +313,6 @@
         inputDisplay.textContent = '';
         resultSection.innerHTML = '';
         hideStatus();
-        // Removed focus() to keep keyboard hidden
-        // inputDisplay.focus(); 
       });
 
       processBtn.addEventListener('click', function() {
