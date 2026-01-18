@@ -38,7 +38,11 @@
 
   * { box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+  /* SMOOTH SCROLLING FIX FOR MOBILE STICKY HEADER */
+  html { 
+      scroll-behavior: smooth; 
+      scroll-padding-top: 80px; /* Prevents titles from hiding behind nav */
+  }
 
   body {
     font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -60,23 +64,23 @@
     font-family: 'Cairo', sans-serif;
   }
 
-  /* View Toggling - CSS Method (More Stable) */
+  /* View Toggling */
   body.ltr .view-ar { display: none !important; }
   body.rtl .view-en { display: none !important; }
 
   /* --- Glass Navbar --- */
   nav {
-    background: rgba(5, 10, 20, 0.85);
+    background: rgba(5, 10, 20, 0.90); /* Slightly darker for better mobile reading */
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     position: sticky;
     top: 0;
     z-index: 1000;
-    padding: 1rem;
+    padding: 0.8rem 1rem;
     border-bottom: 1px solid var(--glass-border);
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 10px;
     flex-wrap: wrap;
     align-items: center;
   }
@@ -86,7 +90,7 @@
     color: var(--text-muted);
     font-size: 0.9rem;
     font-weight: 500;
-    padding: 0.6rem 1.2rem;
+    padding: 0.5rem 1rem;
     border-radius: 50px;
     transition: all 0.3s ease;
     border: 1px solid transparent;
@@ -101,8 +105,8 @@
 
   /* Language Toggle Button */
   #lang-btn {
-    padding: 6px 16px;
-    font-size: 0.85rem;
+    padding: 5px 14px;
+    font-size: 0.8rem;
     cursor: pointer;
     border-radius: 50px;
     border: 1px solid var(--accent-cyan);
@@ -110,13 +114,13 @@
     color: var(--accent-cyan);
     font-weight: bold;
     transition: all 0.3s;
-    margin-left: 10px;
+    margin-left: 8px;
     display: flex;
     align-items: center;
     gap: 6px;
   }
   
-  body.rtl #lang-btn { margin-left: 0; margin-right: 10px; }
+  body.rtl #lang-btn { margin-left: 0; margin-right: 8px; }
 
   #lang-btn:hover {
     background: var(--accent-cyan);
@@ -127,7 +131,7 @@
   /* --- Hero Section --- */
   header {
     text-align: center;
-    padding: 4rem 1rem 2rem;
+    padding: 3rem 1rem 2rem;
     position: relative;
     overflow: hidden;
   }
@@ -158,16 +162,16 @@
   header p { color: var(--text-muted); font-size: 1.2rem; margin-top: 10px; }
 
   .social-btns {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
     flex-wrap: wrap;
   }
     
   .social-btns a {
     background: var(--glass-surface);
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 12px;
     color: white;
     text-decoration: none;
@@ -176,7 +180,7 @@
     backdrop-filter: blur(var(--blur-strength));
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     transition: transform 0.2s;
   }
 
@@ -187,19 +191,19 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   }
 
-  .social-btns i { font-size: 1.5rem; color: var(--accent-cyan); }
+  .social-btns i { font-size: 1.3rem; color: var(--accent-cyan); }
 
   /* --- Common Layout --- */
   .section {
     max-width: 900px;
-    margin: 0 auto 5rem auto;
+    margin: 0 auto 4rem auto;
     padding: 0 20px;
   }
 
   .section-title {
     text-align: center;
-    margin-bottom: 3rem;
-    font-size: 2rem;
+    margin-bottom: 2.5rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--text-main);
   }
@@ -285,7 +289,7 @@
   body.rtl .features li { padding-left: 0; padding-right: 1.8rem; }
   body.rtl .features li::before { left: auto; right: 0; }
 
-  /* --- Installation Tabs (FIXED) --- */
+  /* --- Installation Tabs --- */
   .tabs {
     display: flex;
     justify-content: center;
@@ -297,17 +301,14 @@
     border-radius: 50px;
     border: 1px solid var(--glass-border);
     width: 100%;
-    /* INCREASED WIDTH TO PREVENT ENGLISH WRAPPING */
     max-width: 920px; 
     margin-left: auto;
     margin-right: auto;
   }
 
   .tab-btn {
-    /* REDUCED PADDING AND MIN-WIDTH TO FIT ENGLISH */
     padding: 12px 14px;
     min-width: 120px;
-    
     background: transparent;
     border: none;
     border-radius: 50px;
@@ -323,7 +324,7 @@
     gap: 8px;
     flex: 1 1 auto;
     text-align: center;
-    white-space: nowrap; /* Prevent internal text wrapping */
+    white-space: nowrap; 
   }
 
   .tab-btn i { font-size: 1.2rem; margin-bottom: 2px; }
@@ -368,6 +369,7 @@
       gap: 10px;
   }
   
+  /* Mobile Optimized Code Block */
   .code-block {
     background: rgba(0,0,0,0.3);
     padding: 10px 15px;
@@ -378,9 +380,10 @@
     display: block;
     margin: 10px 0;
     border: 1px dashed var(--glass-border);
-    direction: ltr; /* Codes always LTR */
+    direction: ltr; 
     text-align: center;
     letter-spacing: 1px;
+    word-break: break-all; /* Prevents overflow on mobile */
   }
 
   /* --- DOWNLOAD BUTTON STYLE --- */
@@ -460,7 +463,6 @@
 
   .faq-question[aria-expanded="true"] + .faq-answer {
     opacity: 1;
-    /* Removed padding-bottom here to let JS handle height correctly */
   }
   
   .faq-question[aria-expanded="true"] { color: var(--accent-cyan); }
@@ -481,14 +483,22 @@
     background: rgba(0,0,0,0.2);
   }
 
-  /* Mobile Tweaks */
+  /* --- MOBILE OPTIMIZATION TWEAKS --- */
   @media (max-width: 768px) {
     .setup-grid { grid-template-columns: 1fr; }
+    
+    header { padding-top: 2rem; } /* Reduce padding to show content faster */
     header h1 { font-size: 2.2rem; }
-    .nav { gap: 10px; font-size: 0.9rem; }
+    
+    /* Compact Nav for Mobile */
+    nav { padding: 0.5rem; gap: 5px; }
+    nav a { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+    #lang-btn { padding: 4px 10px; font-size: 0.75rem; }
+
     /* Mobile: Allow stacking vertically */
     .tabs { flex-direction: column; width: 100%; border-radius: 20px; padding: 10px; }
     .tab-btn { width: 100%; max-width: none; border-radius: 12px; margin-bottom: 5px; justify-content: flex-start; padding-left: 20px; }
+    
     .card { padding: 1.5rem; }
   }
 </style>
@@ -496,18 +506,16 @@
 <body class="ltr"> 
 
 <nav>
-  <div class="view-en" style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center;">
+  <div class="view-en" style="display:flex; gap:5px; flex-wrap:wrap; justify-content:center;">
     <a href="#plans">Prices</a>
     <a href="#install">Setup Guide</a>
     <a href="#faq">FAQ</a>
-    <a href="https://wa.me/message/JZEZ3BNRYY2ED1">Support</a>
   </div>
 
-  <div class="view-ar" style="gap:15px; flex-wrap:wrap; justify-content:center;">
+  <div class="view-ar" style="gap:5px; flex-wrap:wrap; justify-content:center;">
     <a href="#plans-ar">الأسعار</a>
     <a href="#install-ar">طريقة التشغيل</a>
     <a href="#faq-ar">الأسئلة الشائعة</a>
-    <a href="https://wa.me/message/JZEZ3BNRYY2ED1">الدعم الفني</a>
   </div>
 
   <button id="lang-btn" onclick="toggleLanguage()">
@@ -870,7 +878,7 @@
 </footer>
 
 <script>
-  // IMPROVED Tab Switching Logic (using 'btnElement' and 'tabId')
+  // IMPROVED Tab Switching Logic
   function openTab(btnElement, tabId) {
     // 1. Hide all tabs
     document.querySelectorAll('.tab-content').forEach(content => {
@@ -889,7 +897,7 @@
     btnElement.classList.add('active');
   }
 
-  // FAQ Accordion Logic with Dynamic Height Fix
+  // FAQ Accordion Logic
   document.querySelectorAll('.faq-question').forEach(q => {
     q.addEventListener('click', function() {
       const expanded = this.getAttribute('aria-expanded') === 'true';
@@ -910,7 +918,7 @@
     });
   });
 
-  // IMPROVED Global Language Toggle Logic (Class based)
+  // Language Toggle Logic
   function toggleLanguage() {
     const btn = document.getElementById('lang-btn');
 
@@ -920,10 +928,8 @@
 
     // Update button text
     if (document.body.classList.contains('rtl')) {
-      // Switched to Arabic
       btn.innerHTML = '<i class="ph ph-globe"></i> English';
     } else {
-      // Switched to English
       btn.innerHTML = '<i class="ph ph-globe"></i> العربية';
     }
   }
