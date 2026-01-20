@@ -130,7 +130,8 @@
   .brand-logo-hero {
       width: 130px; 
       height: 130px;
-      border-radius: 50%;
+      /* UPDATED: Rounded Square (Squircle) instead of Circle */
+      border-radius: 35px; 
       box-shadow: var(--card-shadow);
       margin-bottom: 20px;
       transition: transform 0.3s;
@@ -232,6 +233,21 @@
     box-shadow: var(--hover-shadow);
   }
 
+  /* --- Premium Glamour --- */
+  .card.premium-glam {
+    background: linear-gradient(145deg, #ffffff 0%, #fffbf0 100%);
+    border: 2px solid #FFD700;
+    box-shadow: 0 20px 40px rgba(255, 215, 0, 0.15); /* Soft Gold Glow */
+    /* Removed Scale to fix jitter */
+  }
+  
+  .card.premium-glam:hover {
+     transform: translateY(-10px); /* Lift Only */
+     box-shadow: 0 30px 60px rgba(255, 215, 0, 0.3); /* Stronger Gold Glow */
+  }
+
+  .card.red-theme { border: 2px solid #ffcdd2; }
+
   .card-icon {
       width: 90px;
       height: 90px;
@@ -239,9 +255,6 @@
       margin-bottom: 20px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   }
-
-  .card.gold-theme { border: 2px solid #FFD700; }
-  .card.red-theme { border: 2px solid #ffcdd2; }
 
   .badge {
     padding: 6px 14px;
@@ -257,7 +270,15 @@
   
   body.rtl .badge { right: auto; left: 20px; }
   .badge.grey { background: #eee; color: #555; }
-  .badge.gold { background: linear-gradient(135deg, #FFD700, #DAA520); color: #fff; box-shadow: 0 4px 10px rgba(218, 165, 32, 0.4); }
+  
+  /* Shiny Gold Badge */
+  .badge.gold { 
+    background: linear-gradient(135deg, #FFD700, #FDB931); 
+    color: #fff; 
+    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4); 
+    border: 1px solid #fff;
+  }
+  
   .badge.red { background: var(--brand-red); color: white; }
 
   h3 { margin: 0 0 10px 0; font-size: 1.6rem; font-weight: 800; }
@@ -304,7 +325,7 @@
     font-size: 0.8em;
   }
   
-  .gold-theme .features li::before { color: #DAA520; content: '★'; }
+  .premium-glam .features li::before { color: #DAA520; content: '★'; }
   .red-theme .features li::before { color: var(--brand-red); content: '✔'; }
   body.rtl .features li { padding-left: 0; padding-right: 24px; }
   body.rtl .features li::before { left: auto; right: 0; }
@@ -321,6 +342,7 @@
     border-radius: 50px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.05);
     width: 100%;
+    /* Max width set here for the tabs */
     max-width: 900px; 
     margin-left: auto;
     margin-right: auto;
@@ -370,7 +392,9 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    max-width: 600px;
+    /* UPDATED: Width matches the tabs exactly */
+    width: 100%;
+    max-width: 900px;
     margin: 0 auto;
   }
 
@@ -396,7 +420,6 @@
   
   .setup-box h4:first-of-type { margin-top: 0; }
   
-  /* Helper for plan name above code */
   .plan-label {
       display: block;
       font-weight: 700;
@@ -414,7 +437,7 @@
     font-weight: bold;
     color: #333;
     display: block;
-    margin: 5px 0 15px 0; /* Adjusted margin */
+    margin: 5px 0 15px 0;
     border: 1px dashed #ccc;
     text-align: center;
     letter-spacing: 1px;
@@ -563,8 +586,8 @@
     <h2 class="section-title">Select Plan</h2>
     <h3 class="category-title"><i class="ph ph-globe"></i> International Servers</h3>
     <div class="grid">
-      <div class="card gold-theme">
-        <span class="badge gold">Best Value</span>
+      <div class="card">
+        <span class="badge grey">Best Value</span>
         <img src="https://hossamurai.github.io/basic.png" alt="Basic Plan" class="card-icon">
         <h3>Basic Plan</h3>
         <div class="price">35 USD<span class="period">Per Year</span></div>
@@ -575,8 +598,9 @@
           <li>Preferred by Arabic speakers</li>
         </ul>
       </div>
-      <div class="card">
-        <span class="badge grey">Elite</span>
+
+      <div class="card premium-glam">
+        <span class="badge gold">ELITE</span>
         <img src="https://hossamurai.github.io/premium.png" alt="Premium Plan" class="card-icon">
         <h3>Premium Plan</h3>
         <div class="price">55 USD<span class="period">Per Year</span></div>
@@ -766,8 +790,8 @@
 
     <h3 class="category-title"><i class="ph ph-globe"></i> سيرفرات عالمية</h3>
     <div class="grid">
-      <div class="card gold-theme">
-        <span class="badge gold">الأفضل قيمة</span>
+      <div class="card">
+        <span class="badge grey">الأفضل قيمة</span>
         <img src="https://hossamurai.github.io/basic.png" alt="Basic Plan" class="card-icon">
         <h3>الباقة الأساسية</h3>
         <div class="price">35 دولار<span class="period">سنوياً</span></div>
@@ -778,8 +802,9 @@
           <li>الخيار المفضل للمتحدثين بالعربية</li>
         </ul>
       </div>
-      <div class="card">
-        <span class="badge grey">النخبة</span>
+
+      <div class="card premium-glam">
+        <span class="badge gold">النخبة</span>
         <img src="https://hossamurai.github.io/premium.png" alt="Premium Plan" class="card-icon">
         <h3>باقة بريميوم</h3>
         <div class="price">55 دولار<span class="period">سنوياً</span></div>
