@@ -107,7 +107,7 @@
     align-items: center;
     gap: 6px;
   }
-  
+   
   body.rtl #lang-btn { margin-left: 0; margin-right: 10px; }
 
   #lang-btn:hover {
@@ -145,7 +145,7 @@
     color: var(--text-main);
     letter-spacing: -1px;
   }
-  
+   
   header p { color: var(--text-muted); font-size: 1.2rem; margin-top: 10px; }
 
   .social-btns {
@@ -240,7 +240,7 @@
     box-shadow: 0 20px 40px rgba(255, 215, 0, 0.15); /* Soft Gold Glow */
     /* Removed Scale to fix jitter */
   }
-  
+   
   .card.premium-glam:hover {
      transform: translateY(-10px); /* Lift Only */
      box-shadow: 0 30px 60px rgba(255, 215, 0, 0.3); /* Stronger Gold Glow */
@@ -267,10 +267,10 @@
     top: 20px;
     right: 20px;
   }
-  
+   
   body.rtl .badge { right: auto; left: 20px; }
   .badge.grey { background: #eee; color: #555; }
-  
+   
   /* Shiny Gold Badge */
   .badge.gold { 
     background: linear-gradient(135deg, #FFD700, #FDB931); 
@@ -278,7 +278,7 @@
     box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4); 
     border: 1px solid #fff;
   }
-  
+   
   .badge.red { background: var(--brand-red); color: white; }
 
   h3 { margin: 0 0 10px 0; font-size: 1.6rem; font-weight: 800; }
@@ -296,7 +296,7 @@
       display: block;
       margin-top: 5px;
   }
-  
+   
   .features { 
       list-style: none; 
       padding: 0; 
@@ -305,7 +305,7 @@
       font-size: 0.95rem; 
       color: #555; 
   }
-  
+   
   body.rtl .features { text-align: right; }
 
   .features li { 
@@ -316,7 +316,7 @@
       padding-bottom: 8px;
   }
   .features li:last-child { border-bottom: none; }
-  
+   
   .features li::before {
     content: '●';
     position: absolute;
@@ -324,7 +324,7 @@
     color: #ccc;
     font-size: 0.8em;
   }
-  
+   
   .premium-glam .features li::before { color: #DAA520; content: '★'; }
   .red-theme .features li::before { color: var(--brand-red); content: '✔'; }
   body.rtl .features li { padding-left: 0; padding-right: 24px; }
@@ -365,7 +365,7 @@
   }
 
   .tab-btn:hover { color: var(--text-main); background: #f5f5f5; }
-  
+   
   .tab-btn.active {
     background: var(--text-main);
     color: white;
@@ -417,9 +417,9 @@
       text-transform: uppercase;
       letter-spacing: 1px;
   }
-  
+   
   .setup-box h4:first-of-type { margin-top: 0; }
-  
+   
   .plan-label {
       display: block;
       font-weight: 700;
@@ -462,7 +462,7 @@
     transition: all 0.3s ease;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
   }
-  
+   
   .link-btn:hover { 
     transform: translateY(-3px);
     box-shadow: 0 15px 30px rgba(0,0,0,0.2);
@@ -489,7 +489,7 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.03);
     border: 1px solid #f0f0f0;
   }
-  
+   
   .faq-question {
     width: 100%;
     background: transparent;
@@ -505,7 +505,7 @@
     align-items: center;
     font-family: inherit;
   }
-  
+   
   body.rtl .faq-question { text-align: right; }
   body.rtl .faq-question .chevron { margin-right: auto; margin-left: 0; }
 
@@ -519,7 +519,7 @@
     color: var(--text-muted);
     background: #fafafa;
   }
-  
+   
   .faq-answer p { margin: 20px 0; }
   .faq-answer ul { margin: 15px 0; padding-left: 20px; }
   body.rtl .faq-answer ul { padding-left: 0; padding-right: 20px; }
@@ -553,12 +553,14 @@
     <a href="#plans">Prices</a>
     <a href="#install">Setup Guide</a>
     <a href="#faq">FAQ</a>
+    <a href="https://hossamurai.github.io/support.html">Support</a>
   </div>
 
   <div class="view-ar" style="gap:5px; flex-wrap:wrap; justify-content:center;">
     <a href="#plans-ar">الأسعار</a>
     <a href="#install-ar">طريقة التشغيل</a>
     <a href="#faq-ar">الأسئلة الشائعة</a>
+    <a href="https://hossamurai.github.io/support.html">الدعم الفني</a>
   </div>
 
   <button id="lang-btn" onclick="toggleLanguage()">
@@ -673,7 +675,7 @@
           <span class="code-block">tinyurl.com/smrtsapp</span>
           
           <a href="https://youtu.be/jLxBqAIdYns?si=J1JYa_2Uopv60wNv" target="_blank" style="color:var(--brand-red); display:block; margin-top:10px; text-decoration:none; font-weight:bold; font-size:0.9rem;">
-             <i class="ph-fill ph-youtube-logo"></i> Watch Installation Tutorial
+              <i class="ph-fill ph-youtube-logo"></i> Watch Installation Tutorial
           </a>
 
           <h4><i class="ph ph-globe"></i> International Apps</h4>
@@ -877,7 +879,7 @@
           <span class="code-block">tinyurl.com/smrtsapp</span>
           
           <a href="https://youtu.be/jLxBqAIdYns?si=J1JYa_2Uopv60wNv" target="_blank" style="color:var(--brand-red); display:block; margin-top:10px; text-decoration:none; font-weight:bold; font-size:0.9rem;">
-             <i class="ph-fill ph-youtube-logo"></i> شاهد فيديو طريقة التحميل
+              <i class="ph-fill ph-youtube-logo"></i> شاهد فيديو طريقة التحميل
           </a>
 
           <h4><i class="ph ph-globe"></i> سيرفرات عالمية</h4>
@@ -929,7 +931,7 @@
         <p>3. سجل الدخول ببيانات <strong>Username, Password, URL</strong> المرسلة لك.</p>
       </div>
     </div>
-
+    
     <div id="smart-tv-ar" class="tab-content">
       <div class="setup-box" style="text-align:center;">
         <img src="https://hossamurai.github.io/ibo.png" class="setup-icon" alt="IBO Player">
@@ -941,7 +943,7 @@
         </div>
       </div>
     </div>
-
+    
     <div id="pc-ar" class="tab-content">
       <div class="setup-box" style="text-align:center;">
         <h4>كمبيوتر / لابتوب</h4>
