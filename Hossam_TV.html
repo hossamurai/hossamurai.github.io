@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hossam TV - Premium Services</title>
 
-<link rel="icon" href="https://hossamurai.github.io/round%20logo.png" type="image/png">
+<link rel="icon" href="https://hossamurai.github.io/roundlogo.png" type="image/png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -357,7 +357,7 @@
 
   .setup-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 20px;
   }
 
@@ -370,26 +370,42 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
   }
 
   .setup-icon {
-    width: 70px;
-    height: 70px;
-    border-radius: 18px;
-    margin-bottom: 15px;
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    margin-bottom: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.08);
   }
 
   .setup-box h4 { 
-      margin-top: 0; 
+      margin-top: 30px; 
       color: var(--text-main); 
       border-bottom: 2px solid #f0f0f0; 
-      padding-bottom: 15px; 
+      padding-bottom: 10px; 
       margin-bottom: 15px;
       font-size: 1.1rem;
       width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 1px;
   }
   
+  .setup-box h4:first-of-type { margin-top: 0; }
+  
+  /* Helper for plan name above code */
+  .plan-label {
+      display: block;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+      margin-top: 15px;
+  }
+  .plan-label:first-of-type { margin-top: 0; }
+
   .code-block {
     background: #f1f3f5;
     padding: 12px;
@@ -398,7 +414,7 @@
     font-weight: bold;
     color: #333;
     display: block;
-    margin: 10px 0;
+    margin: 5px 0 15px 0; /* Adjusted margin */
     border: 1px dashed #ccc;
     text-align: center;
     letter-spacing: 1px;
@@ -430,7 +446,6 @@
     background: var(--brand-red);
   }
 
-  /* --- Smart TV Note --- */
   .tv-note {
     background: #fff8e1;
     color: #b07b00;
@@ -442,7 +457,7 @@
     line-height: 1.5;
   }
 
-  /* --- FAQ Accordion --- */
+  /* --- FAQ --- */
   .faq-item {
     background: white;
     border-radius: 16px;
@@ -501,7 +516,6 @@
   }
 
   @media (max-width: 768px) {
-    .setup-grid { grid-template-columns: 1fr; }
     header h1 { font-size: 2rem; }
     .tabs { flex-direction: column; border-radius: 20px; padding: 10px; }
     .tab-btn { width: 100%; justify-content: flex-start; }
@@ -532,7 +546,7 @@
 <div class="view-en">
 
   <header>
-    <img src="https://hossamurai.github.io/round%20logo.png" alt="Hossam TV Logo" class="brand-logo-hero">
+    <img src="https://hossamurai.github.io/roundlogo.png" alt="Hossam TV Logo" class="brand-logo-hero">
     <h1>Hossam TV Services</h1>
     <p>Premium Next-Gen Streaming</p>
     <div class="social-btns">
@@ -547,7 +561,6 @@
 
   <div class="section" id="plans">
     <h2 class="section-title">Select Plan</h2>
-
     <h3 class="category-title"><i class="ph ph-globe"></i> International Servers</h3>
     <div class="grid">
       <div class="card gold-theme">
@@ -562,7 +575,6 @@
           <li>Preferred by Arabic speakers</li>
         </ul>
       </div>
-
       <div class="card">
         <span class="badge grey">Elite</span>
         <img src="https://hossamurai.github.io/premium.png" alt="Premium Plan" class="card-icon">
@@ -591,7 +603,6 @@
           <li>Fastest Updates & Local Support</li>
         </ul>
       </div>
-
       <div class="card">
         <span class="badge grey">Cinema</span>
         <img src="https://hossamurai.github.io/marvel.png" alt="Marvel Server" class="card-icon">
@@ -630,18 +641,29 @@
     <div id="tv-box-en" class="tab-content active">
       <div class="setup-grid">
         <div class="setup-box">
-          <h4><i class="ph ph-globe"></i> International</h4>
-          <p>1. Install <strong>Downloader by AFTVnews</strong></p>
-          <p>2. Enter Code:</p>
-          <span class="code-block">tinyurl.com/neo4kapp</span> (Basic)
-          <span class="code-block">tinyurl.com/the8kapp</span> (Premium)
-        </div>
-        <div class="setup-box">
-          <h4><i class="ph ph-flag"></i> Egypt Only</h4>
-          <p>1. Install <strong>Downloader by AFTVnews</strong></p>
-          <p>2. Enter Code:</p>
-          <span class="code-block">tinyurl.com/xapppro</span> (XTV)
-          <span class="code-block">tinyurl.com/mrvlapp</span> (Marvel)
+          <p style="margin-bottom:20px;">1. Install <strong>Downloader by AFTVnews</strong>, then click home and enter the link for your plan's app.</p>
+
+          <h4><i class="ph ph-play-circle"></i> Global Player (Any Plan)</h4>
+          <img src="https://hossamurai.github.io/smarterspro.png" class="setup-icon" alt="Smarters Pro" style="margin-bottom:5px;">
+          <div style="margin-bottom:10px; font-weight:bold;">IPTV Smarters Pro</div>
+          <span class="code-block">tinyurl.com/smrtsapp</span>
+          
+          <a href="https://youtu.be/jLxBqAIdYns?si=J1JYa_2Uopv60wNv" target="_blank" style="color:var(--brand-red); display:block; margin-top:10px; text-decoration:none; font-weight:bold; font-size:0.9rem;">
+             <i class="ph-fill ph-youtube-logo"></i> Watch Installation Tutorial
+          </a>
+
+          <h4><i class="ph ph-globe"></i> International Apps</h4>
+          <span class="plan-label">Basic Plan</span>
+          <span class="code-block">tinyurl.com/neo4kapp</span>
+          <span class="plan-label">Premium Plan</span>
+          <span class="code-block">tinyurl.com/the8kapp</span>
+
+          <h4><i class="ph ph-flag"></i> Egypt Apps</h4>
+          <span class="plan-label">XTV Server</span>
+          <span class="code-block">tinyurl.com/xapppro</span>
+          <span class="plan-label">Marvel Server</span>
+          <span class="code-block">tinyurl.com/mrvlapp</span>
+
         </div>
       </div>
     </div>
@@ -649,16 +671,23 @@
     <div id="mobile-en" class="tab-content">
       <div class="setup-grid">
         <div class="setup-box">
+          
+          <img src="https://hossamurai.github.io/smarterspro.png" class="setup-icon" alt="Smarters Pro">
+          <h4>Global Player (Any Plan)</h4>
+          <a href="https://tinyurl.com/smrtsapp" class="link-btn" style="background:#2C3E50;">Download IPTV Smarters Pro</a>
+
+          <hr style="width:100%; border:0; border-top:1px solid #eee; margin:20px 0;">
+
           <img src="https://hossamurai.github.io/apps.png" class="setup-icon" alt="Apps">
-          <h4>International</h4>
+
+          <h4>International Apps</h4>
           <a href="https://tinyurl.com/neo4kapp" class="link-btn">Download Basic App</a>
           <a href="https://tinyurl.com/the8kapp" class="link-btn">Download Premium App</a>
-        </div>
-        <div class="setup-box">
-          <img src="https://hossamurai.github.io/apps.png" class="setup-icon" alt="Apps">
-          <h4>Egypt Local</h4>
+
+          <h4>Egypt Apps</h4>
           <a href="https://tinyurl.com/xapppro" class="link-btn">Download XTV App</a>
           <a href="https://tinyurl.com/mrvlapp" class="link-btn">Download Marvel App</a>
+
         </div>
       </div>
     </div>
@@ -719,7 +748,7 @@
 <div class="view-ar">
 
   <header>
-    <img src="https://hossamurai.github.io/round%20logo.png" alt="Hossam TV Logo" class="brand-logo-hero">
+    <img src="https://hossamurai.github.io/roundlogo.png" alt="Hossam TV Logo" class="brand-logo-hero">
     <h1>خدمات حسام TV</h1>
     <p>أفضل خدمات البث التلفزيوني</p>
     <div class="social-btns">
@@ -749,7 +778,6 @@
           <li>الخيار المفضل للمتحدثين بالعربية</li>
         </ul>
       </div>
-
       <div class="card">
         <span class="badge grey">النخبة</span>
         <img src="https://hossamurai.github.io/premium.png" alt="Premium Plan" class="card-icon">
@@ -778,7 +806,6 @@
           <li>تحديثات سريعة ودعم محلي</li>
         </ul>
       </div>
-
       <div class="card">
         <span class="badge grey">سينما</span>
         <img src="https://hossamurai.github.io/marvel.png" alt="Marvel Server" class="card-icon">
@@ -817,18 +844,29 @@
     <div id="tv-box-ar" class="tab-content active">
       <div class="setup-grid">
         <div class="setup-box">
+          <p style="margin-bottom:20px;">1. حمل تطبيق <strong>Downloader by AFTVnews</strong>، ثم اضغط على زر الصفحة الرئيسية وأدخل رابط التطبيق الخاص بباقتك.</p>
+
+          <h4><i class="ph ph-play-circle"></i> مشغل عالمي (لكل الباقات)</h4>
+          <img src="https://hossamurai.github.io/smarterspro.png" class="setup-icon" alt="Smarters Pro" style="margin-bottom:5px;">
+          <div style="margin-bottom:10px; font-weight:bold;">IPTV Smarters Pro</div>
+          <span class="code-block">tinyurl.com/smrtsapp</span>
+          
+          <a href="https://youtu.be/jLxBqAIdYns?si=J1JYa_2Uopv60wNv" target="_blank" style="color:var(--brand-red); display:block; margin-top:10px; text-decoration:none; font-weight:bold; font-size:0.9rem;">
+             <i class="ph-fill ph-youtube-logo"></i> شاهد فيديو طريقة التحميل
+          </a>
+
           <h4><i class="ph ph-globe"></i> سيرفرات عالمية</h4>
-          <p>1. حمل تطبيق <strong>Downloader by AFTVnews</strong></p>
-          <p>2. أدخل الكود:</p>
-          <span class="code-block">tinyurl.com/neo4kapp</span> (الأساسية)
-          <span class="code-block">tinyurl.com/the8kapp</span> (بريميوم)
-        </div>
-        <div class="setup-box">
+          <span class="plan-label">الباقة الأساسية</span>
+          <span class="code-block">tinyurl.com/neo4kapp</span>
+          <span class="plan-label">باقة بريميوم</span>
+          <span class="code-block">tinyurl.com/the8kapp</span>
+
           <h4><i class="ph ph-flag"></i> سيرفرات مصر</h4>
-          <p>1. حمل تطبيق <strong>Downloader by AFTVnews</strong></p>
-          <p>2. أدخل الكود:</p>
-          <span class="code-block">tinyurl.com/xapppro</span> (إكس)
-          <span class="code-block">tinyurl.com/mrvlapp</span> (مارفل)
+          <span class="plan-label">تطبيق إكس</span>
+          <span class="code-block">tinyurl.com/xapppro</span>
+          <span class="plan-label">تطبيق مارفل</span>
+          <span class="code-block">tinyurl.com/mrvlapp</span>
+
         </div>
       </div>
     </div>
@@ -836,16 +874,23 @@
     <div id="mobile-ar" class="tab-content">
        <div class="setup-grid">
         <div class="setup-box">
+          
+          <img src="https://hossamurai.github.io/smarterspro.png" class="setup-icon" alt="Smarters Pro">
+          <h4>مشغل عالمي (لكل الباقات)</h4>
+          <a href="https://tinyurl.com/smrtsapp" class="link-btn" style="background:#2C3E50;">تحميل IPTV Smarters Pro</a>
+
+          <hr style="width:100%; border:0; border-top:1px solid #eee; margin:20px 0;">
+
           <img src="https://hossamurai.github.io/apps.png" class="setup-icon" alt="Apps">
+
           <h4>سيرفرات عالمية</h4>
           <a href="https://tinyurl.com/neo4kapp" class="link-btn">تحميل التطبيق الأساسي</a>
           <a href="https://tinyurl.com/the8kapp" class="link-btn">تحميل تطبيق بريميوم</a>
-        </div>
-        <div class="setup-box">
-          <img src="https://hossamurai.github.io/apps.png" class="setup-icon" alt="Apps">
+
           <h4>سيرفرات مصر</h4>
           <a href="https://tinyurl.com/xapppro" class="link-btn">تحميل تطبيق إكس</a>
           <a href="https://tinyurl.com/mrvlapp" class="link-btn">تحميل تطبيق مارفل</a>
+
         </div>
       </div>
     </div>
