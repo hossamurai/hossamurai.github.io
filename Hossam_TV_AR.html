@@ -9,12 +9,12 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
 <style>
+  /* --- 1. DESIGN TOKENS --- */
   :root {
     --bg-color: #F5F7FA;
     --card-bg: #FFFFFF;
@@ -22,464 +22,519 @@
     --text-muted: #666666;
     --brand-red: #D50000;
     --brand-gold: linear-gradient(135deg, #FFD700, #DAA520);
-    --squircle-radius: 28px; 
-    --card-shadow: 0 15px 35px rgba(0,0,0,0.06);
-    --hover-shadow: 0 25px 50px rgba(0,0,0,0.1);
+    --card-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    --hover-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    --radius-card: 20px;
+    --radius-pill: 50px;
   }
 
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; scroll-padding-top: 90px; }
-
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  
   body {
     font-family: 'Cairo', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-main);
     margin: 0; padding: 0;
     line-height: 1.6;
-    direction: rtl; text-align: right;
+    padding-bottom: 80px;
+    text-align: right;
   }
 
-  /* --- Navigation --- */
+  /* --- 2. NAVIGATION --- */
   nav {
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
     position: sticky; top: 0; z-index: 1000;
-    padding: 0.8rem 1rem;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    display: flex; justify-content: center;
-    gap: 10px; flex-wrap: wrap; align-items: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    padding: 10px 20px;
+    display: flex; justify-content: center; align-items: center;
+    gap: 10px; flex-wrap: wrap;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   }
 
   nav a {
-    text-decoration: none;
-    color: var(--text-muted);
-    font-size: 0.9rem; font-weight: 600;
-    padding: 0.6rem 1.2rem;
-    border-radius: 50px;
-    transition: all 0.3s ease;
+    text-decoration: none; color: var(--text-muted);
+    font-weight: 700; font-size: 0.9rem;
+    padding: 8px 16px; border-radius: var(--radius-pill);
+    transition: all 0.3s ease; cursor: pointer;
   }
-
-  nav a:hover, nav a.active { color: var(--brand-red); background: #FFF0F0; }
+  nav a:hover { background: #f0f0f0; color: var(--text-main); }
 
   .lang-btn {
-    padding: 6px 16px;
-    font-size: 0.85rem;
-    border-radius: 50px;
-    border: 1px solid #ddd;
-    background: white;
-    color: var(--text-main);
-    font-weight: bold;
-    display: flex; align-items: center; gap: 6px;
-    font-family: 'Poppins', sans-serif; /* For English Text */
-    margin-right: 10px; margin-left: 0;
+    border: 1px solid #ddd; background: white; color: var(--text-main);
+    display: flex; align-items: center; gap: 6px; font-family: 'Poppins', sans-serif;
   }
-  .lang-btn:hover { background: var(--text-main); color: white; border-color: var(--text-main); }
+  .lang-btn:hover { border-color: var(--text-main); }
 
-  /* --- Hero --- */
-  header {
-    text-align: center;
-    padding: 4rem 1rem 3rem;
+  /* --- 3. HERO --- */
+  header { text-align: center; padding: 60px 20px 30px; }
+  
+  h1 { margin: 0; font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; }
+  p.subtitle { color: var(--text-muted); font-size: 1.1rem; margin-top: 10px; font-weight: 600; }
+
+  /* --- 4. LAYOUT & GRID --- */
+  .container { max-width: 800px; margin: 0 auto; padding: 0 15px; }
+
+  .step-title {
+    font-size: 1.1rem; font-weight: 700; margin: 30px 0 15px;
+    color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 1px; text-align: center;
+    border-top: 1px solid #eee; padding-top: 20px;
+  }
+  .step-title:first-child { border-top: none; }
+
+  .grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+    transition: all 0.5s ease;
+  }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+  /* --- 5. INTERACTIVE CARDS --- */
+  .selection-card {
     background: white;
-    border-bottom-left-radius: 50px;
-    border-bottom-right-radius: 50px;
+    border: 2px solid transparent;
+    border-radius: var(--radius-card);
+    padding: 25px 15px;
+    text-align: center; cursor: pointer;
     box-shadow: var(--card-shadow);
-    margin-bottom: 40px;
+    transition: transform 0.4s ease, opacity 0.4s ease, width 0.4s ease;
+    position: relative; overflow: hidden;
+    width: 100%;
+  }
+  .selection-card:hover { transform: translateY(-3px); }
+
+  .selection-card.selected {
+    border-color: #DAA520; background: #fffdf5;
+    box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.2);
+    transform: scale(1.02); cursor: default;
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+  .selection-card[data-theme="red"].selected { border-color: var(--brand-red); background: #fff5f5; }
+
+  .card-img {
+    width: 120px; height: 120px; object-fit: contain;
+    margin-bottom: 15px; border-radius: 15px;
   }
 
-  .brand-logo-hero {
-      width: 130px; height: 130px;
-      border-radius: 35px; 
-      box-shadow: var(--card-shadow);
-      margin-bottom: 20px;
-      transition: transform 0.3s;
-  }
-  .brand-logo-hero:hover { transform: scale(1.05); }
+  .card-text { font-weight: 800; font-size: 1.2rem; margin-bottom: 5px; }
+  .price-text { font-size: 1.1rem; color: var(--text-main); font-weight: 900; margin-bottom: 15px; }
+  .price-text span { font-size: 0.8rem; color: var(--text-muted); font-weight: normal; }
 
-  header h1 { margin: 0; font-size: 2.8rem; font-weight: 900; color: var(--text-main); letter-spacing: -1px; }
-  header p { color: var(--text-muted); font-size: 1.2rem; margin-top: 10px; }
-
-  .social-btns { margin-top: 1.5rem; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-  .social-btns a {
-    background: #f0f2f5; padding: 12px 24px; border-radius: 16px;
-    color: var(--text-main); text-decoration: none; font-weight: 600;
-    display: flex; align-items: center; gap: 8px; transition: all 0.2s;
-  }
-  .social-btns a:hover {
-    background: var(--brand-red); color: white;
-    transform: translateY(-2px); box-shadow: 0 5px 15px rgba(213, 0, 0, 0.3);
+  /* BADGE SYSTEM (Left for RTL) */
+  .badge-container {
+    position: absolute; top: 12px; left: 12px;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 5px;
   }
 
-  /* --- Layout --- */
-  .section { max-width: 1000px; margin: 0 auto 5rem auto; padding: 0 20px; }
-  .section-title { text-align: center; margin-bottom: 3rem; font-size: 2rem; font-weight: 800; color: var(--text-main); }
-  .category-title {
-    font-size: 1.2rem; color: var(--text-muted); margin: 3rem 0 1.5rem;
-    display: flex; align-items: center; gap: 10px;
-    text-transform: uppercase; letter-spacing: 1px; font-weight: 700;
-  }
-
-  .grid { display: grid; gap: 30px; grid-template-columns: 1fr; }
-  @media (min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
-
-  .card {
-    background: var(--card-bg); border-radius: var(--squircle-radius);
-    padding: 2.5rem 2rem; transition: all 0.3s ease;
-    display: flex; flex-direction: column; position: relative;
-    border: 1px solid rgba(0,0,0,0.03); box-shadow: var(--card-shadow);
-    align-items: center; text-align: center;
-  }
-  .card:hover { transform: translateY(-10px); box-shadow: var(--hover-shadow); }
-  .card.premium-glam {
-    background: linear-gradient(145deg, #ffffff 0%, #fffbf0 100%);
-    border: 2px solid #FFD700;
-    box-shadow: 0 20px 40px rgba(255, 215, 0, 0.15);
-  }
-  .card.premium-glam:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(255, 215, 0, 0.3); }
-  .card.red-theme { border: 2px solid #ffcdd2; }
-
-  .card-icon { width: 90px; height: 90px; border-radius: 22px; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
   .badge {
-    padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 800;
-    text-transform: uppercase; margin-bottom: 1.5rem; position: absolute; top: 20px; left: 20px;
+    font-size: 0.7rem; font-weight: 900;
+    padding: 4px 10px; border-radius: 10px;
+    text-transform: uppercase; color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
+  .badge.gold { background: var(--brand-gold); }
+  .badge.red { background: var(--brand-red); }
   .badge.grey { background: #eee; color: #555; }
-  .badge.gold { background: linear-gradient(135deg, #FFD700, #FDB931); color: #fff; box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4); border: 1px solid #fff; }
-  .badge.red { background: var(--brand-red); color: white; }
+  .badge.blue { background: #2196F3; } 
+  .badge.purple { background: #9C27B0; } 
 
-  h3 { margin: 0 0 10px 0; font-size: 1.6rem; font-weight: 800; }
-  .price { font-size: 2rem; font-weight: 900; color: var(--text-main); margin-bottom: 1.5rem; }
-  .price span { color: var(--text-muted); font-size: 0.9rem; font-weight: 500; display: block; margin-top: 5px; }
-
-  .features { list-style: none; padding: 0; width: 100%; text-align: right; font-size: 0.95rem; color: #555; }
-  .features li { margin-bottom: 12px; padding-right: 24px; position: relative; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
-  .features li:last-child { border-bottom: none; }
-  .features li::before { content: '●'; position: absolute; right: 0; color: #ccc; font-size: 0.8em; }
-  .premium-glam .features li::before { color: #DAA520; content: '★'; }
-  .red-theme .features li::before { color: var(--brand-red); content: '✔'; }
-
-  /* --- Tabs & Setup --- */
-  .tabs {
-    display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem;
-    background: white; padding: 8px; border-radius: 50px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05); width: 100%; max-width: 900px; margin-left: auto; margin-right: auto;
+  /* DESCRIPTION LIST */
+  .feature-list {
+    text-align: right; margin-top: 15px; padding: 15px;
+    background: rgba(0,0,0,0.03); border-radius: 12px;
+    font-size: 0.9rem; color: #444;
   }
+  .feature-list div {
+    margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
+  }
+  .feature-list i { font-size: 1.1rem; color: #555; margin-left: 5px; }
+  .selected[data-theme="gold"] .feature-list i { color: #DAA520; }
+  .selected[data-theme="red"] .feature-list i { color: var(--brand-red); }
+
+  /* --- 6. SETUP / TABS SECTION --- */
+  .hidden { display: none !important; }
+  #step-setup { animation: slideDown 0.6s ease; }
+
+  .tabs-container {
+    background: white; padding: 6px;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--card-shadow);
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;
+    margin-bottom: 25px;
+  }
+
   .tab-btn {
-    padding: 12px 20px; border: none; border-radius: 40px; cursor: pointer;
-    font-weight: 600; color: var(--text-muted); background: transparent; transition: all 0.3s;
-    font-size: 0.9rem; font-family: inherit; display: flex; align-items: center; gap: 8px;
+    border: none; background: transparent;
+    padding: 10px 18px; border-radius: var(--radius-pill);
+    font-family: inherit; font-weight: 700; color: var(--text-muted);
+    cursor: pointer; transition: all 0.3s;
+    font-size: 0.85rem; display: flex; align-items: center; gap: 6px;
   }
-  .tab-btn:hover { color: var(--text-main); background: #f5f5f5; }
+  .tab-btn:hover { background: #f5f5f5; color: var(--text-main); }
   .tab-btn.active { background: var(--text-main); color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
 
-  .tab-content { display: none; animation: fadeIn 0.4s ease; }
-  .tab-content.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-  .setup-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
   .setup-box {
-    background: white; padding: 30px; border-radius: 24px;
-    box-shadow: var(--card-shadow); display: flex; flex-direction: column;
-    align-items: center; text-align: center; width: 100%; max-width: 900px; margin: 0 auto;
+    background: white; border-radius: var(--radius-card);
+    padding: 30px; box-shadow: var(--card-shadow);
+    text-align: center; border: 1px solid #eee;
+    max-width: 100%; margin: 0 auto;
   }
-  .setup-icon { width: 60px; height: 60px; border-radius: 14px; margin-bottom: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
-  
-  .setup-box h4 { 
-    margin-top: 30px; color: var(--text-main); border-bottom: 2px solid #f0f0f0; 
-    padding-bottom: 10px; margin-bottom: 15px; font-size: 1.1rem; width: 100%;
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-  .setup-box h4:first-of-type { margin-top: 0; }
-  
-  .plan-label { display: block; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; margin-top: 15px; }
+
   .code-block {
-    background: #f1f3f5; padding: 12px; border-radius: 12px; font-family: 'Courier New', monospace;
-    font-weight: bold; color: #333; display: block; margin: 5px 0 15px 0;
-    border: 1px dashed #ccc; text-align: center; letter-spacing: 1px; width: 100%;
+    background: #F5F7FA; padding: 15px; border-radius: 12px;
+    font-family: monospace; font-weight: 800; font-size: 1.2rem;
+    color: var(--text-main); border: 2px dashed #ddd;
+    margin: 15px 0; display: block; letter-spacing: 1px;
   }
 
-  .link-btn {
-    display: flex; justify-content: center; align-items: center; gap: 10px;
-    background: var(--text-main); color: white; text-decoration: none;
-    padding: 14px 20px; border-radius: 16px; font-size: 0.95rem; font-weight: 700;
-    margin: 10px auto 0 auto; border: none; width: 100%; transition: all 0.3s ease;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  .action-btn {
+    background: var(--text-main); color: white; width: 100%;
+    border: none; padding: 14px; border-radius: 12px;
+    font-weight: 700; cursor: pointer; font-size: 0.95rem;
+    text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 8px;
+    transition: background 0.2s; margin-top: 10px; font-family: inherit;
   }
-  .link-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); background: var(--brand-red); }
-  
-  .tv-note {
-    background: #fff8e1; color: #b07b00; padding: 15px; border: 1px solid #ffe082;
-    border-radius: 12px; margin-top: 20px; font-size: 0.9rem; line-height: 1.5;
-  }
+  .action-btn:hover { background: #000; }
+  .action-btn.wa { background: #25D366; color: white; margin-top: 20px; }
 
-  /* --- FAQ --- */
-  .faq-item { background: white; border-radius: 16px; margin: 15px 0; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
+  .reset-btn {
+    background: #eee; color: var(--text-muted); border: none;
+    padding: 10px 25px; border-radius: 50px; font-weight: 600;
+    margin: 40px auto; display: block; cursor: pointer; font-family: inherit;
+  }
+  .reset-btn:hover { background: #e0e0e0; color: var(--text-main); }
+
+  /* --- 7. FAQ --- */
+  .faq-item {
+    background: white; border-radius: 16px; margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02); border: 1px solid #f0f0f0; overflow: hidden;
+  }
   .faq-question {
-    width: 100%; background: transparent; border: none; padding: 24px; text-align: right;
-    font-size: 1.05rem; font-weight: 600; color: var(--text-main); cursor: pointer;
-    display: flex; justify-content: space-between; align-items: center; font-family: inherit;
+    width: 100%; padding: 18px 24px; border: none; background: white;
+    text-align: right; font-weight: 700; color: var(--text-main);
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; font-family: inherit; font-size: 0.95rem;
   }
-  .faq-question .chevron { margin-right: auto; margin-left: 0; }
-  .chevron { transition: transform 0.3s; color: #ccc; }
   .faq-answer {
     max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
-    padding: 0 24px; color: var(--text-muted); background: #fafafa;
+    background: #fafafa; padding: 0 24px; color: var(--text-muted); font-size: 0.9rem;
+    text-align: right;
   }
-  .faq-answer p { margin: 20px 0; }
-  .faq-answer ul { margin: 15px 0; padding-right: 20px; }
-  .faq-question[aria-expanded="true"] { color: var(--brand-red); }
-  .faq-question[aria-expanded="true"] + .faq-answer { border-top: 1px solid #f0f0f0; }
-  .faq-item.ultimate { border: 1px solid #ffcdd2; background: #fff8f8; }
-  .faq-item.ultimate .faq-question { color: #d32f2f; }
+  .faq-answer p, .faq-answer ul { margin: 15px 0; }
+  .faq-answer ul { padding-right: 20px; }
+  
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
-  footer { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 0.9rem; background: white; margin-top: 40px; }
-  @media (max-width: 768px) {
-    header h1 { font-size: 2rem; }
-    .tabs { flex-direction: column; border-radius: 20px; padding: 10px; }
-    .tab-btn { width: 100%; justify-content: flex-start; }
-    .card { padding: 1.5rem; }
-  }
 </style>
 </head>
-<body> 
+<body>
 
 <nav>
-  <a href="#plans">الأسعار</a>
-  <a href="#install">طريقة التشغيل</a>
+  <a onclick="resetAll()">الباقات</a>
   <a href="#faq">الأسئلة الشائعة</a>
   <a href="https://hossamurai.github.io/support.html">الدعم الفني</a>
-
   <a href="https://hossamurai.github.io/Hossam_TV.html" class="lang-btn">
     <i class="ph ph-globe"></i> English
   </a>
 </nav>
 
 <header>
-  <img src="https://hossamurai.github.io/roundlogo.png" alt="Hossam TV Logo" class="brand-logo-hero">
   <h1>خدمات حسام TV</h1>
-  <p>أفضل خدمات البث التلفزيوني</p>
-  <div class="social-btns">
-    <a href="https://wa.me/message/JZEZ3BNRYY2ED1">
-      <i class="ph-fill ph-whatsapp-logo"></i> واتساب
-    </a>
-    <a href="https://www.facebook.com/3rabTv">
-      <i class="ph-fill ph-facebook-logo"></i> فيسبوك
-    </a>
-  </div>
+  <p class="subtitle">خدمات تلفزيونية بلمسة سحرية</p>
 </header>
 
-<div class="section" id="plans">
-  <h2 class="section-title">اختر باقتك</h2>
+<div class="container">
 
-  <h3 class="category-title"><i class="ph ph-globe"></i> سيرفرات عالمية</h3>
-  <div class="grid">
-    <div class="card">
-      <span class="badge grey">الأفضل قيمة</span>
-      <img src="https://hossamurai.github.io/basic.png" alt="Basic Plan" class="card-icon">
-      <h3>الباقة الأساسية</h3>
-      <div class="price">35 دولار<span class="period">سنوياً</span></div>
-      <ul class="features">
-        <li>قنوات: beIN, Sky, Fox, ESPN</li>
-        <li>مكتبة أفلام ومسلسلات شاملة</li>
-        <li>ممتازة لعشاق كرة القدم</li>
-        <li>الخيار المفضل للمتحدثين بالعربية</li>
-      </ul>
-    </div>
+  <div id="step-plan">
+    <div class="step-title">الخطوة 1: اختر باقتك</div>
+    <div class="grid" id="grid-plan">
+      
+      <div class="selection-card" onclick="handlePlanSelection('basic', this)" data-theme="gold">
+        <div class="badge-container">
+            <span class="badge grey">الأفضل قيمة</span>
+        </div>
+        <img src="https://hossamurai.github.io/basic.png" class="card-img">
+        <div class="card-text">الباقة الأساسية</div>
+        <div class="price-text">35 دولار <span>/ سنوياً</span></div>
+        <div class="feature-list">
+           <div><i class="ph-fill ph-television-simple"></i> قنوات beIN, Sky, Fox</div>
+           <div><i class="ph-fill ph-film-strip"></i> مكتبة أفلام ومسلسلات ضخمة</div>
+           <div><i class="ph-fill ph-soccer-ball"></i> ممتازة لعشاق كرة القدم</div>
+           <div><i class="ph-fill ph-translate"></i> الخيار المفضل للعرب</div>
+        </div>
+      </div>
 
-    <div class="card premium-glam">
-      <span class="badge gold">النخبة</span>
-      <img src="https://hossamurai.github.io/premium.png" alt="Premium Plan" class="card-icon">
-      <h3>باقة بريميوم</h3>
-      <div class="price">55 دولار<span class="period">سنوياً</span></div>
-      <ul class="features">
-        <li><strong>3 أضعاف عدد القنوات</strong></li>
-        <li>رياضات احترافية: NHL, NBA, NFL</li>
-        <li>دعم جودة 4K / UHD</li>
-        <li>مكتبة ضخمة للأفلام والمسلسلات</li>
-      </ul>
+      <div class="selection-card" onclick="handlePlanSelection('premium', this)" data-theme="gold">
+        <div class="badge-container">
+            <span class="badge gold">النخبة</span>
+        </div>
+        <img src="https://hossamurai.github.io/premium.png" class="card-img">
+        <div class="card-text">باقة بريميوم</div>
+        <div class="price-text">55 دولار <span>/ سنوياً</span></div>
+        <div class="feature-list">
+           <div><i class="ph-fill ph-list-plus"></i> <strong>3 أضعاف عدد القنوات</strong></div>
+           <div><i class="ph-fill ph-trophy"></i> رياضات أمريكية (NBA, NFL)</div>
+           <div><i class="ph-fill ph-monitor-play"></i> دعم جودة 4K حقيقية</div>
+           <div><i class="ph-fill ph-video"></i> مكتبة VOD محدثة يومياً</div>
+        </div>
+      </div>
+
+      <div class="selection-card" onclick="handlePlanSelection('xtv', this)" data-theme="red">
+        <div class="badge-container">
+            <span class="badge red">مصر فقط</span>
+            <span class="badge blue">خيار العائلة</span>
+        </div>
+        <img src="https://hossamurai.github.io/X.png" class="card-img">
+        <div class="card-text">سيرفر إكس</div>
+        <div class="price-text">350 جنيه <span>/ سنوياً</span></div>
+        <div class="feature-list">
+           <div><i class="ph-fill ph-list-dashes"></i> قائمة قنوات واسعة</div>
+           <div><i class="ph-fill ph-check-circle"></i> <strong>أولوية لثبات قنوات الكرة</strong></div>
+           <div><i class="ph-fill ph-shield-check"></i> آمن للعائلة (99% رقابة)</div>
+           <div><i class="ph-fill ph-lightning"></i> تحديثات سريعة ودعم محلي</div>
+        </div>
+      </div>
+
+      <div class="selection-card" onclick="handlePlanSelection('marvel', this)" data-theme="red">
+        <div class="badge-container">
+            <span class="badge red">مصر فقط</span>
+            <span class="badge purple">عشاق السينما</span>
+        </div>
+        <img src="https://hossamurai.github.io/marvel.png" class="card-img">
+        <div class="card-text">سيرفر مارفل</div>
+        <div class="price-text">350 جنيه <span>/ سنوياً</span></div>
+        <div class="feature-list">
+           <div><i class="ph-fill ph-film-reel"></i> مكتبة ضخمة (أفلام/مسلسلات)</div>
+           <div><i class="ph-fill ph-star"></i> جودة عالية (دعم 4K)</div>
+           <div><i class="ph-fill ph-layout"></i> واجهة إنجليزية منظمة</div>
+           <div><i class="ph-fill ph-wifi-high"></i> تغطية رياضية مستقرة</div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <h3 class="category-title" style="color:var(--brand-red); margin-top: 60px;"><i class="ph ph-map-pin"></i> سيرفرات محلية (مصر)</h3>
-  <div class="grid">
-    <div class="card red-theme">
-      <span class="badge red">الأكثر ثباتاً</span>
-      <img src="https://hossamurai.github.io/X.png" alt="XTV Server" class="card-icon">
-      <h3>سيرفر إكس</h3>
-      <div class="price">350 جنيه<span class="period">سنوياً</span></div>
-      <ul class="features">
-        <li>قائمة قنوات واسعة</li>
-        <li style="color:var(--brand-red);">أولوية لثبات قنوات الكرة</li>
-        <li>آمن للعائلة (99% رقابة)</li>
-        <li>تحديثات سريعة ودعم محلي</li>
-      </ul>
+  <div id="step-setup" class="hidden">
+    <div class="step-title">الخطوة 2: تثبيت التطبيق</div>
+    
+    <div class="tabs-container">
+      <button class="tab-btn active" onclick="openTab('tv', this)"><i class="ph ph-television"></i> أندرويد TV</button>
+      <button class="tab-btn" onclick="openTab('mobile', this)"><i class="ph ph-device-mobile"></i> موبايل</button>
+      <button class="tab-btn" onclick="openTab('ios', this)"><i class="ph ph-apple-logo"></i> أيفون</button>
+      <button class="tab-btn" onclick="openTab('smart', this)"><i class="ph ph-monitor-play"></i> شاشة ذكية</button>
+      <button class="tab-btn" onclick="openTab('pc', this)"><i class="ph ph-desktop"></i> كمبيوتر</button>
     </div>
-    <div class="card">
-      <span class="badge grey">سينما</span>
-      <img src="https://hossamurai.github.io/marvel.png" alt="Marvel Server" class="card-icon">
-      <h3>سيرفر مارفل</h3>
-      <div class="price">350 جنيه<span class="period">سنوياً</span></div>
-      <ul class="features">
-        <li>مكتبة ضخمة (أفلام/مسلسلات)</li>
-        <li>جودة عالية (دعم 4K)</li>
-        <li>واجهة إنجليزية منظمة</li>
-        <li>تغطية رياضية مستقرة</li>
-      </ul>
-    </div>
-  </div>
-</div>
 
-<div class="section" id="install">
-  <h2 class="section-title">طريقة التشغيل</h2>
-  <div class="tabs">
-    <button class="tab-btn active" onclick="openTab(this, 'tv-box')">
-      <i class="ph ph-television"></i> أندرويد / Fire TV
-    </button>
-    <button class="tab-btn" onclick="openTab(this, 'mobile')">
-      <i class="ph ph-device-mobile"></i> موبايل
-    </button>
-    <button class="tab-btn" onclick="openTab(this, 'iphone')">
-      <i class="ph ph-apple-logo"></i> أيفون
-    </button>
-    <button class="tab-btn" onclick="openTab(this, 'smart-tv')">
-      <i class="ph ph-monitor-play"></i> شاشة ذكية
-    </button>
-    <button class="tab-btn" onclick="openTab(this, 'pc')">
-      <i class="ph ph-desktop"></i> كمبيوتر
-    </button>
-  </div>
-
-  <div id="tv-box" class="tab-content active">
-    <div class="setup-grid">
-      <div class="setup-box">
-        <p style="margin-bottom:20px;">1. حمل تطبيق <strong>Downloader by AFTVnews</strong>، ثم اضغط على زر الصفحة الرئيسية وأدخل رابط التطبيق الخاص بباقتك.</p>
-
-        <h4><i class="ph ph-play-circle"></i> مشغل عالمي (لكل الباقات)</h4>
-        <img src="https://hossamurai.github.io/smarterspro.png" class="setup-icon" alt="Smarters Pro" style="margin-bottom:5px;">
-        <div style="margin-bottom:10px; font-weight:bold;">IPTV Smarters Pro</div>
-        <span class="code-block">tinyurl.com/smrtsapp</span>
-        
-        <a href="https://youtu.be/jLxBqAIdYns?si=J1JYa_2Uopv60wNv" target="_blank" style="color:var(--brand-red); display:block; margin-top:10px; text-decoration:none; font-weight:bold; font-size:0.9rem;">
-            <i class="ph-fill ph-youtube-logo"></i> شاهد فيديو طريقة التحميل
+    <div id="setup-content" class="setup-box">
+      </div>
+    
+    <div style="text-align:center; margin-top:20px;">
+        <p style="color:#666; font-size:0.9rem;">هل ترغب في الاشتراك؟</p>
+        <a href="https://wa.me/message/JZEZ3BNRYY2ED1" class="action-btn wa" style="max-width:300px; margin:0 auto;">
+            <i class="ph-fill ph-whatsapp-logo"></i> الاشتراك عبر واتساب
         </a>
-
-        <h4><i class="ph ph-globe"></i> سيرفرات عالمية</h4>
-        <span class="plan-label">الباقة الأساسية</span>
-        <span class="code-block">tinyurl.com/neo4kapp</span>
-        <span class="plan-label">باقة بريميوم</span>
-        <span class="code-block">tinyurl.com/the8kapp</span>
-
-        <h4><i class="ph ph-flag"></i> سيرفرات مصر</h4>
-        <span class="plan-label">تطبيق إكس</span>
-        <span class="code-block">tinyurl.com/xapppro</span>
-        <span class="plan-label">تطبيق مارفل</span>
-        <span class="code-block">tinyurl.com/mrvlapp</span>
-
-      </div>
     </div>
-  </div>
-  
-  <div id="mobile" class="tab-content">
-      <div class="setup-grid">
-      <div class="setup-box">
-        
-        <img src="https://hossamurai.github.io/smarterspro.png" class="setup-icon" alt="Smarters Pro">
-        <h4>مشغل عالمي (لكل الباقات)</h4>
-        <a href="https://tinyurl.com/smrtsapp" class="link-btn" style="background:#2C3E50;">تحميل IPTV Smarters Pro</a>
 
-        <hr style="width:100%; border:0; border-top:1px solid #eee; margin:20px 0;">
-
-        <img src="https://hossamurai.github.io/apps.png" class="setup-icon" alt="Apps">
-
-        <h4>سيرفرات عالمية</h4>
-        <a href="https://tinyurl.com/neo4kapp" class="link-btn">تحميل التطبيق الأساسي</a>
-        <a href="https://tinyurl.com/the8kapp" class="link-btn">تحميل تطبيق بريميوم</a>
-
-        <h4>سيرفرات مصر</h4>
-        <a href="https://tinyurl.com/xapppro" class="link-btn">تحميل تطبيق إكس</a>
-        <a href="https://tinyurl.com/mrvlapp" class="link-btn">تحميل تطبيق مارفل</a>
-
-      </div>
-    </div>
+    <button class="reset-btn" onclick="resetAll()">
+      <i class="ph ph-arrow-counter-clockwise"></i> اختيار باقة أخرى
+    </button>
   </div>
 
-  <div id="iphone" class="tab-content">
-    <div class="setup-box">
-      <img src="https://hossamurai.github.io/smarters.png" class="setup-icon" alt="Smarters">
-      <h4>أيفون / أبل TV</h4>
-      <p>1. حمل تطبيق <strong>Smarters Player Lite</strong> من المتجر.</p>
-      <p>2. اختر: <strong>Xtream Codes</strong>.</p>
-      <p>3. سجل الدخول ببيانات <strong>Username, Password, URL</strong> المرسلة لك.</p>
-    </div>
+  <div id="faq" style="margin-top:60px;">
+    <div class="step-title">الأسئلة الشائعة</div>
+    
+    <div class="faq-item"><button class="faq-question">ما هو IPTV؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>هي خدمة تتيح لك مشاهدة القنوات التلفزيونية المباشرة، الرياضة، والأفلام عبر الإنترنت بدلاً من الأقمار الصناعية.</p></div></div>
+    
+    <div class="faq-item"><button class="faq-question">ماذا أحتاج لتشغيل الخدمة؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><ul><li>اتصال إنترنت مستقر</li><li>شاشة ذكية، جهاز أندرويد بوكس، هاتف، تابلت، أو كمبيوتر</li><li>تطبيق مشغل IPTV (يختلف حسب الجهاز)</li></ul></div></div>
+    
+    <div class="faq-item"><button class="faq-question">هل الخدمة آمنة للعائلات؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>نعم. معظم المحتوى آمن. قد يوجد بعض المحتوى للكبار، لذا ينصح بالإشراف الأبوي واستخدام ضوابط التطبيق.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question">ما هي القنوات المتاحة؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>حسب الباقة المختارة، تشمل القنوات:</p><ul><li>قنوات رياضية (محلية وعالمية)</li><li>مكتبة أفلام ومسلسلات</li><li>قنوات أطفال، أخبار، وقنوات عربية وأجنبية</li></ul></div></div>
+    
+    <div class="faq-item"><button class="faq-question">هل يوجد تجربة مجانية؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>نعم. تتوفر تجربة مجانية لمدة 24 ساعة. يتم طلب التجربة عبر واتساب.</p></div></div>
+    
+    <div class="faq-item"><button class="faq-question">هل يمكن استخدام الاشتراك على أكثر من جهاز؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>نعم، يمكنك تفعيل الاشتراك على عدة أجهزة، ولكن المشاهدة تكون على جهاز واحد فقط في نفس الوقت.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question">ما هي سرعة الإنترنت المطلوبة؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>لضمان استقرار الخدمة، يفضل أن تكون السرعة 25 ميجابايت أو أعلى.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question">هل يمكن استرداد المبلغ؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>لا يمكن استرداد المبلغ بعد التفعيل. لهذا السبب نوفر تجربة مجانية للتأكد من توافق جهازك والإنترنت لديك قبل الشراء.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question">كم يستغرق التفعيل؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>عادة يتم التفعيل خلال دقائق، وقد يستغرق ما يصل إلى 24 ساعة في حالات نادرة.</p></div></div>
+    
+    <div class="faq-item"><button class="faq-question">طرق الدفع داخل مصر؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>فودافون كاش أو انستا باي (01029669090).</p></div></div>
+    
+    <div class="faq-item"><button class="faq-question">طرق الدفع الدولية؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>عن طريق تطبيق TapTap Send (بطاقات الخصم فقط) أو PayPal.</p></div></div>
+
+    <div class="faq-item"><button class="faq-question">كيف يمكنني التواصل مع الدعم؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>عبر واتساب. الدعم الفني متاح يومياً لخدمتكم.</p></div></div>
+    
+    <div class="faq-item" style="border-color:#ffcdd2; background:#fffbfb;"><button class="faq-question" style="color:#D50000; background:#fffbfb;">الخدمة توقفت فجأة، ماذا أفعل؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>أولاً، راجع حالات الواتساب. إذا لم يكن هناك صيانة، افصل الكهرباء عن الراوتر والتلفزيون لمدة 10 ثوانٍ ثم أعد التشغيل.</p></div></div>
   </div>
-  
-  <div id="smart-tv" class="tab-content">
-    <div class="setup-box" style="text-align:center;">
-      <img src="https://hossamurai.github.io/ibo.png" class="setup-icon" alt="IBO Player">
-      <h4>سامسونج / LG / توشيبا</h4>
-      <p>1. ابحث وحمل <strong>IBO Player</strong> من متجر التلفزيون.</p>
-      <p>2. افتح التطبيق وأرسل لنا صورة <strong>Device ID & Key</strong>.</p>
-      <div class="tv-note">
-        <strong>ملاحظة لباقات مصر:</strong><br>رسوم تفعيل التطبيق <strong>200 جنيه</strong> (تدفع مرة واحدة مدى الحياة).
-      </div>
-    </div>
-  </div>
-  
-  <div id="pc" class="tab-content">
-    <div class="setup-box" style="text-align:center;">
-      <h4>كمبيوتر / لابتوب</h4>
-      <p>نحن نستخدم مشغل SFVIP الأقوى.</p>
-      <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" class="link-btn">تحميل SFVIP Player</a>
-      <a href="https://youtu.be/dESni3uxAa4" target="_blank" style="color:var(--brand-red); display:block; margin-top:15px; text-decoration:none; font-weight:bold;">شاهد فيديو الشرح <i class="ph-fill ph-youtube-logo"></i></a>
-    </div>
-  </div>
+
+  <footer style="text-align:center; padding:30px; color:#999; font-size:0.8rem;">
+    &copy; 2026 Hossam TV Services. All rights reserved.
+  </footer>
+
 </div>
-
-<div class="section" id="faq">
-  <h2 class="section-title">الأسئلة الشائعة</h2>
-  <div class="faq-content">
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">ما هو IPTV؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>هي خدمة تتيح لك مشاهدة القنوات التلفزيونية المباشرة، الرياضة، والأفلام عبر الإنترنت بدلاً من الأقمار الصناعية.</p></div></div>
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">ماذا أحتاج لتشغيل الخدمة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><ul><li>اتصال إنترنت مستقر</li><li>شاشة ذكية، جهاز أندرويد بوكس، هاتف، تابلت، أو كمبيوتر</li><li>تطبيق مشغل IPTV (يختلف حسب الجهاز)</li></ul></div></div>
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل الخدمة آمنة للعائلات؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم. معظم المحتوى آمن. قد يوجد بعض المحتوى للكبار، لذا ينصح بالإشراف الأبوي واستخدام ضوابط التطبيق.</p></div></div>
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">ما هي القنوات المتوفرة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>حسب الباقة المختارة، تشمل القنوات:</p><ul><li>قنوات رياضية (محلية وعالمية)</li><li>مكتبة أفلام ومسلسلات</li><li>أطفال، أخبار، قنوات عربية وعالمية</li></ul></div></div>
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يوجد تجربة مجانية؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم. تتوفر تجربة مجانية لمدة 12 أو 24 ساعة. يتم طلب التجربة عبر واتساب.</p></div></div>
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن استخدام الاشتراك على أكثر من جهاز؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>نعم، يمكنك تفعيل الاشتراك على عدة أجهزة، ولكن المشاهدة تكون على جهاز واحد فقط في نفس الوقت.</p></div></div>
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">ما سرعة الإنترنت المطلوبة؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>لضمان استقرار الخدمة، يفضل سرعة 25 ميجابايت أو أعلى.</p></div></div>
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">هل يمكن استرداد المبلغ؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>لا يوجد استرداد للمبلغ بعد التفعيل. لذلك نوفر تجربة مجانية للتأكد من توافق جهازك والإنترنت لديك قبل الشراء.</p></div></div>
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">كم يستغرق التفعيل؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>عادةً يتم خلال دقائق، وقد يصل إلى 24 ساعة في حالات نادرة.</p></div></div>
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">طرق الدفع داخل مصر؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>فودافون كاش أو انستا باي (01029669090). يتم إرسال التفاصيل عند الطلب.</p></div></div>
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">طرق الدفع الدولية؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>عن طريق تطبيق TapTap Send (بطاقات الخصم فقط) أو PayPal.</p></div></div>
-    <div class="faq-item"><button class="faq-question" aria-expanded="false">كيف أتواصل مع الدعم؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>عن طريق الواتساب. الدعم متاح يومياً.</p></div></div>
-    <div class="faq-item ultimate"><button class="faq-question" aria-expanded="false">الخدمة توقفت فجأة، ماذا أفعل؟<span class="chevron" aria-hidden="true">&#9662;</span></button><div class="faq-answer"><p>أولاً، راجع حالات الواتساب (Status) للتأكد من عدم وجود صيانة. إذا لم يكن هناك، افصل الكهرباء عن الراوتر والتلفزيون لمدة 10 ثوانٍ ثم أعد التشغيل. هذا يحل المشكلة في معظم الأحيان.</p></div></div>
-  </div>
-</div>
-
-<footer>
-  <p>&copy; 2026 Hossam TV Services. All rights reserved.</p>
-</footer>
 
 <script>
-  function openTab(btnElement, tabId) {
-    document.querySelectorAll('.tab-content').forEach(content => { content.classList.remove('active'); });
-    document.querySelectorAll('.tab-btn').forEach(btn => { btn.classList.remove('active'); });
-    document.getElementById(tabId).classList.add('active');
-    btnElement.classList.add('active');
+  // --- DATA ---
+  const planData = {
+    basic: { name: 'الباقة الأساسية', key: 'basic', code: 'tinyurl.com/neo4kapp', appLink: 'https://tinyurl.com/neo4kapp' },
+    premium: { name: 'باقة بريميوم', key: 'premium', code: 'tinyurl.com/the8kapp', appLink: 'https://tinyurl.com/the8kapp' },
+    xtv: { name: 'تطبيق إكس', key: 'xtv', code: 'tinyurl.com/xapppro', appLink: 'https://tinyurl.com/xapppro' },
+    marvel: { name: 'تطبيق مارفل', key: 'marvel', code: 'tinyurl.com/mrvlapp', appLink: 'https://tinyurl.com/mrvlapp' }
+  };
+
+  let currentPlan = null;
+  let currentTab = 'tv';
+
+  // --- 1. FOCUS MODE ---
+  function handlePlanSelection(planKey, cardElement) {
+    if (cardElement.classList.contains('selected')) return;
+
+    currentPlan = planData[planKey];
+    
+    const container = document.getElementById('grid-plan');
+    const cards = container.querySelectorAll('.selection-card');
+    
+    cards.forEach(card => {
+      if (card !== cardElement) {
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.8)';
+        setTimeout(() => { card.style.display = 'none'; }, 300);
+      } else {
+        card.classList.add('selected');
+      }
+    });
+
+    setTimeout(() => {
+        container.style.display = 'flex';
+        container.style.justifyContent = 'center';
+        
+        document.getElementById('step-setup').classList.remove('hidden');
+        renderSetupContent(); 
+        
+        document.getElementById('step-setup').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
   }
 
-  document.querySelectorAll('.faq-question').forEach(q => {
-    q.addEventListener('click', function() {
-      const expanded = this.getAttribute('aria-expanded') === 'true';
-      this.setAttribute('aria-expanded', !expanded);
-      const answer = this.nextElementSibling;
-      if(!expanded) {
-        answer.style.maxHeight = answer.scrollHeight + 'px';
-        this.querySelector('.chevron').style.transform = 'rotate(180deg)';
-      } else {
+  // --- 2. RENDER CONTENT ---
+  function openTab(tabName, btnElement) {
+    currentTab = tabName;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    if(btnElement) btnElement.classList.add('active');
+    renderSetupContent();
+  }
+
+  function renderSetupContent() {
+    const box = document.getElementById('setup-content');
+    if (!currentPlan) return;
+
+    // Logic: Only show IBO fee note for Egypt Plans
+    const isEgyptPlan = (currentPlan.key === 'xtv' || currentPlan.key === 'marvel');
+    const iboNoteHTML = isEgyptPlan 
+        ? `<div style="background:#fff8e1; color:#b07b00; padding:10px; border-radius:8px; font-size:0.85rem; margin-top:15px; border:1px solid #ffe082;">ملاحظة: تطبيق IBO Player يتطلب تفعيل خارجي (حوالي 200 جنيه) بعد 7 أيام.</div>`
+        : ``;
+
+    let html = '';
+
+    if (currentTab === 'tv') {
+        html = `
+            <i class="ph ph-television" style="font-size:3rem; color:#1A1A1A; margin-bottom:10px;"></i>
+            <h3>أندرويد / Fire TV</h3>
+            <p>1. حمل تطبيق <strong>Downloader</strong> من المتجر.</p>
+            <p>2. أدخل كود التحميل الخاص بـ <strong>${currentPlan.name}</strong>:</p>
+            <span class="code-block">${currentPlan.code}</span>
+            <p style="font-size:0.85rem; color:#666;">أو استخدم Smarters Pro بكود: <strong>tinyurl.com/smrtsapp</strong></p>
+            <a href="https://youtu.be/jLxBqAIdYns" target="_blank" class="action-btn" style="background:transparent; border:1px solid #ccc; color:#333; margin-top:15px;">
+                <i class="ph-fill ph-youtube-logo" style="color:red;"></i> شاهد فيديو الشرح
+            </a>
+        `;
+    } else if (currentTab === 'mobile') {
+        html = `
+            <i class="ph ph-device-mobile" style="font-size:3rem; color:#1A1A1A; margin-bottom:10px;"></i>
+            <h3>موبايل أندرويد</h3>
+            <p>حمل التطبيق الرسمي للحصول على أفضل أداء.</p>
+            <a href="${currentPlan.appLink}" class="action-btn">
+                <i class="ph-fill ph-download-simple"></i> تحميل ${currentPlan.name}
+            </a>
+            <a href="https://tinyurl.com/smrtsapp" class="action-btn" style="background:#2C3E50; margin-top:10px;">
+                <i class="ph-fill ph-download-simple"></i> تحميل Smarters Pro (بديل)
+            </a>
+        `;
+    } else if (currentTab === 'ios') {
+        html = `
+            <i class="ph-fill ph-apple-logo" style="font-size:3rem; color:#1A1A1A; margin-bottom:10px;"></i>
+            <h3>أيفون / أبل TV</h3>
+            <p>1. افتح متجر التطبيقات App Store.</p>
+            <p>2. حمل تطبيق <strong>Smarters Player Lite</strong>.</p>
+            <p>3. اختر <strong>Xtream Codes API</strong>.</p>
+            <p>4. أدخل بيانات الاشتراك المرسلة لك عبر واتساب.</p>
+        `;
+    } else if (currentTab === 'smart') {
+        html = `
+            <img src="https://hossamurai.github.io/ibo.png" style="width:60px; border-radius:12px; margin-bottom:10px;">
+            <h3>سامسونج / LG</h3>
+            <p>1. ابحث عن تطبيق <strong>IBO Player</strong> في متجر الشاشة.</p>
+            <p>2. افتح التطبيق.</p>
+            <p>3. أرسل لنا صورة واضحة لـ <strong>Device ID & Device Key</strong>.</p>
+            ${iboNoteHTML}
+        `;
+    } else if (currentTab === 'pc') {
+        html = `
+            <i class="ph ph-desktop" style="font-size:3rem; color:#1A1A1A; margin-bottom:10px;"></i>
+            <h3>كمبيوتر / لابتوب</h3>
+            <p>نحن نستخدم مشغل SFVIP الأقوى والمدعوم من قبلنا.</p>
+            <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" class="action-btn">
+                <i class="ph-fill ph-download-simple"></i> تحميل SFVIP Player
+            </a>
+            <a href="https://youtu.be/dESni3uxAa4" target="_blank" style="color:#D50000; display:block; margin-top:15px; text-decoration:none; font-weight:700;">
+                <i class="ph-fill ph-youtube-logo"></i> شاهد فيديو التثبيت
+            </a>
+        `;
+    }
+
+    box.innerHTML = html;
+  }
+
+  // --- 3. RESET ---
+  function resetAll() {
+    currentPlan = null;
+    const container = document.getElementById('grid-plan');
+    container.style.display = 'grid';
+    container.style.justifyContent = 'initial'; 
+    
+    const cards = container.querySelectorAll('.selection-card');
+    cards.forEach(card => {
+        card.style.display = 'block';
+        card.classList.remove('selected');
+        setTimeout(() => { 
+            card.style.opacity = '1'; 
+            card.style.transform = 'scale(1)'; 
+        }, 10);
+    });
+
+    document.getElementById('step-setup').classList.add('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // --- FAQ ---
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const answer = btn.nextElementSibling;
+      const icon = btn.querySelector('i');
+      if (answer.style.maxHeight) {
         answer.style.maxHeight = null;
-        this.querySelector('.chevron').style.transform = 'rotate(0deg)';
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
+        document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
+        answer.style.maxHeight = answer.scrollHeight + "px";
+        icon.style.transform = 'rotate(180deg)';
       }
     });
   });
+
 </script>
 
 </body>
