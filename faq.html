@@ -132,16 +132,20 @@
     const backBtn = document.getElementById('btn-back');
     const body = document.getElementById('page-body');
 
-    // Update Text & Direction
+    // Update Text & Direction & Links
     if (currentLang === 'en') {
         body.classList.remove('rtl');
         title.innerText = "Frequently Asked Questions";
         langBtnLabel.innerText = "العربية";
+        // LINK TO ENGLISH PAGE
+        backBtn.setAttribute('href', 'Hossam_TV.html');
         backBtn.innerHTML = `<i class="ph-bold ph-arrow-left"></i> Home`;
     } else {
         body.classList.add('rtl');
         title.innerText = "الأسئلة الشائعة";
         langBtnLabel.innerText = "English";
+        // LINK TO ARABIC PAGE
+        backBtn.setAttribute('href', 'Hossam_TV_AR.html');
         backBtn.innerHTML = `الرئيسية <i class="ph-bold ph-arrow-right"></i>`;
     }
 
@@ -193,5 +197,4 @@
 </script>
 
 </body>
-
 </html>
