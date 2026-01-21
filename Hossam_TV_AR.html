@@ -2,14 +2,15 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#ffffff">
 <title>خدمات حسام TV</title>
 
 <link rel="icon" href="https://hossamurai.github.io/roundlogo.png" type="image/png">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
 
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
@@ -36,99 +37,105 @@
     color: var(--text-main);
     margin: 0; padding: 0;
     line-height: 1.6;
-    padding-bottom: 80px;
+    padding-bottom: 60px; /* Reduced for mobile */
     text-align: right;
   }
 
   /* --- 2. NAVIGATION --- */
   nav {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
     position: sticky; top: 0; z-index: 1000;
-    padding: 10px 20px;
+    padding: 12px 15px;
     display: flex; justify-content: center; align-items: center;
-    gap: 10px; flex-wrap: wrap;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    gap: 8px; flex-wrap: wrap;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
   nav a {
     text-decoration: none; color: var(--text-muted);
-    font-weight: 700; font-size: 0.9rem;
-    padding: 8px 16px; border-radius: var(--radius-pill);
-    transition: all 0.3s ease; cursor: pointer;
+    font-weight: 700; font-size: 0.85rem;
+    padding: 8px 14px; border-radius: var(--radius-pill);
+    transition: all 0.2s ease; cursor: pointer;
+    white-space: nowrap;
   }
-  nav a:hover { background: #f0f0f0; color: var(--text-main); }
+  nav a:hover, nav a:active { background: #f0f0f0; color: var(--text-main); }
 
   .lang-btn {
-    border: 1px solid #ddd; background: white; color: var(--text-main);
-    display: flex; align-items: center; gap: 6px; font-family: 'Poppins', sans-serif;
+    border: 1px solid #eee; background: white; color: var(--text-main);
+    display: flex; align-items: center; gap: 5px; font-family: 'Poppins', sans-serif;
   }
-  .lang-btn:hover { border-color: var(--text-main); }
 
   /* --- 3. HERO --- */
-  header { text-align: center; padding: 60px 20px 30px; }
+  header { 
+    text-align: center; 
+    padding: 40px 20px 20px; /* Reduced top padding */
+  }
   
-  h1 { margin: 0; font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; }
-  p.subtitle { color: var(--text-muted); font-size: 1.1rem; margin-top: 10px; font-weight: 600; }
+  h1 { margin: 0; font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; line-height: 1.3; }
+  p.subtitle { color: var(--text-muted); font-size: 1rem; margin-top: 8px; font-weight: 600; }
 
   /* --- 4. LAYOUT & GRID --- */
   .container { max-width: 800px; margin: 0 auto; padding: 0 15px; }
 
   .step-title {
-    font-size: 1.1rem; font-weight: 700; margin: 30px 0 15px;
+    font-size: 0.95rem; font-weight: 800; margin: 25px 0 15px;
     color: var(--text-muted); text-transform: uppercase;
     letter-spacing: 1px; text-align: center;
     border-top: 1px solid #eee; padding-top: 20px;
   }
   .step-title:first-child { border-top: none; }
 
+  /* GRID BREAKPOINT INCREASED FOR MOBILE */
   .grid {
     display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
     transition: all 0.5s ease;
   }
-  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
 
   /* --- 5. INTERACTIVE CARDS --- */
   .selection-card {
     background: white;
     border: 2px solid transparent;
     border-radius: var(--radius-card);
-    padding: 25px 15px;
+    padding: 20px 15px; /* Tighter padding for mobile */
     text-align: center; cursor: pointer;
     box-shadow: var(--card-shadow);
-    transition: transform 0.4s ease, opacity 0.4s ease, width 0.4s ease;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
     position: relative; overflow: hidden;
     width: 100%;
+    will-change: transform, opacity;
   }
-  .selection-card:hover { transform: translateY(-3px); }
+  .selection-card:active { transform: scale(0.98); }
 
   .selection-card.selected {
     border-color: #DAA520; background: #fffdf5;
-    box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.2);
+    box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.15);
     transform: scale(1.02); cursor: default;
     width: 100%;
     grid-column: 1 / -1;
+    z-index: 10;
   }
   .selection-card[data-theme="red"].selected { border-color: var(--brand-red); background: #fff5f5; }
 
   .card-img {
-    width: 120px; height: 120px; object-fit: contain;
-    margin-bottom: 15px; border-radius: 15px;
+    width: 100px; height: 100px; object-fit: contain;
+    margin-bottom: 10px; border-radius: 12px;
   }
 
-  .card-text { font-weight: 800; font-size: 1.2rem; margin-bottom: 5px; }
-  .price-text { font-size: 1.1rem; color: var(--text-main); font-weight: 900; margin-bottom: 15px; }
+  .card-text { font-weight: 800; font-size: 1.2rem; margin-bottom: 2px; }
+  .price-text { font-size: 1.1rem; color: var(--text-main); font-weight: 900; margin-bottom: 12px; }
   .price-text span { font-size: 0.8rem; color: var(--text-muted); font-weight: normal; }
 
-  /* BADGE SYSTEM (Left for RTL) */
+  /* BADGE SYSTEM (RTL Adjusted) */
   .badge-container {
-    position: absolute; top: 12px; left: 12px;
-    display: flex; flex-direction: column; align-items: flex-start; gap: 5px;
+    position: absolute; top: 10px; left: 10px; /* Left for Arabic */
+    display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
   }
 
   .badge {
-    font-size: 0.7rem; font-weight: 900;
-    padding: 4px 10px; border-radius: 10px;
+    font-size: 0.65rem; font-weight: 800;
+    padding: 3px 8px; border-radius: 8px;
     text-transform: uppercase; color: white;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
@@ -140,90 +147,104 @@
 
   /* DESCRIPTION LIST */
   .feature-list {
-    text-align: right; margin-top: 15px; padding: 15px;
+    text-align: right; margin-top: 12px; padding: 12px;
     background: rgba(0,0,0,0.03); border-radius: 12px;
-    font-size: 0.9rem; color: #444;
+    font-size: 0.85rem; color: #444;
   }
   .feature-list div {
-    margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
+    margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4;
   }
-  .feature-list i { font-size: 1.1rem; color: #555; margin-left: 5px; }
+  .feature-list i { font-size: 1.1rem; color: #555; margin-left: 2px; flex-shrink: 0; margin-top: 2px; }
   .selected[data-theme="gold"] .feature-list i { color: #DAA520; }
   .selected[data-theme="red"] .feature-list i { color: var(--brand-red); }
 
-  /* --- 6. SETUP / TABS SECTION --- */
+  /* --- 6. SETUP / TABS SECTION (Mobile Optimized) --- */
   .hidden { display: none !important; }
-  #step-setup { animation: slideDown 0.6s ease; }
+  #step-setup { animation: slideDown 0.5s ease-out; }
 
   .tabs-container {
-    background: white; padding: 6px;
-    border-radius: var(--radius-pill);
+    background: white; padding: 5px;
+    border-radius: 16px;
     box-shadow: var(--card-shadow);
-    display: flex; flex-wrap: wrap; justify-content: center; gap: 5px;
-    margin-bottom: 25px;
+    display: flex; flex-wrap: wrap; 
+    gap: 5px; margin-bottom: 20px;
   }
 
   .tab-btn {
     border: none; background: transparent;
-    padding: 10px 18px; border-radius: var(--radius-pill);
+    padding: 12px 10px; border-radius: 12px;
     font-family: inherit; font-weight: 700; color: var(--text-muted);
-    cursor: pointer; transition: all 0.3s;
-    font-size: 0.85rem; display: flex; align-items: center; gap: 6px;
+    cursor: pointer; transition: all 0.2s;
+    font-size: 0.8rem; display: flex; 
+    align-items: center; justify-content: center; gap: 6px;
+    flex: 1 1 40%; /* Fat finger friendly */
   }
-  .tab-btn:hover { background: #f5f5f5; color: var(--text-main); }
-  .tab-btn.active { background: var(--text-main); color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+  .tab-btn:hover { background: #f9f9f9; }
+  .tab-btn.active { background: var(--text-main); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transform: translateY(-1px); }
 
   .setup-box {
     background: white; border-radius: var(--radius-card);
-    padding: 30px; box-shadow: var(--card-shadow);
-    text-align: center; border: 1px solid #eee;
+    padding: 25px 20px; box-shadow: var(--card-shadow);
+    text-align: center; border: 1px solid #f0f0f0;
     max-width: 100%; margin: 0 auto;
   }
 
   .code-block {
     background: #F5F7FA; padding: 15px; border-radius: 12px;
-    font-family: monospace; font-weight: 800; font-size: 1.2rem;
+    font-family: monospace; font-weight: 800; font-size: 1.1rem;
     color: var(--text-main); border: 2px dashed #ddd;
     margin: 15px 0; display: block; letter-spacing: 1px;
+    word-break: break-all;
   }
 
   .action-btn {
     background: var(--text-main); color: white; width: 100%;
-    border: none; padding: 14px; border-radius: 12px;
-    font-weight: 700; cursor: pointer; font-size: 0.95rem;
+    border: none; padding: 16px; /* Larger touch target */
+    border-radius: 14px;
+    font-weight: 700; cursor: pointer; font-size: 1rem;
     text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 8px;
-    transition: background 0.2s; margin-top: 10px; font-family: inherit;
+    transition: transform 0.2s; margin-top: 10px; font-family: inherit;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
-  .action-btn:hover { background: #000; }
+  .action-btn:active { transform: scale(0.98); }
   .action-btn.wa { background: #25D366; color: white; margin-top: 20px; }
 
   .reset-btn {
-    background: #eee; color: var(--text-muted); border: none;
-    padding: 10px 25px; border-radius: 50px; font-weight: 600;
+    background: #f0f0f0; color: var(--text-muted); border: none;
+    padding: 12px 25px; border-radius: 50px; font-weight: 600;
     margin: 40px auto; display: block; cursor: pointer; font-family: inherit;
+    font-size: 0.9rem;
   }
-  .reset-btn:hover { background: #e0e0e0; color: var(--text-main); }
 
   /* --- 7. FAQ --- */
   .faq-item {
     background: white; border-radius: 16px; margin-bottom: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02); border: 1px solid #f0f0f0; overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02); border: 1px solid #f5f5f5; overflow: hidden;
   }
   .faq-question {
-    width: 100%; padding: 18px 24px; border: none; background: white;
+    width: 100%; padding: 18px 20px; border: none; background: white;
     text-align: right; font-weight: 700; color: var(--text-main);
     display: flex; justify-content: space-between; align-items: center;
-    cursor: pointer; font-family: inherit; font-size: 0.95rem;
+    cursor: pointer; font-family: inherit; font-size: 0.9rem; line-height: 1.4;
   }
   .faq-answer {
     max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
-    background: #fafafa; padding: 0 24px; color: var(--text-muted); font-size: 0.9rem;
+    background: #fafafa; padding: 0 20px; color: var(--text-muted); font-size: 0.9rem;
     text-align: right;
   }
   .faq-answer p, .faq-answer ul { margin: 15px 0; }
   .faq-answer ul { padding-right: 20px; }
   
-  @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* --- MOBILE OVERRIDES (Arabic Specific) --- */
+  @media (max-width: 768px) {
+    header { padding-top: 30px; }
+    h1 { font-size: 1.8rem; }
+    .grid { grid-template-columns: 1fr; gap: 12px; }
+    .setup-box { padding: 20px 15px; border-radius: 15px; }
+    .code-block { font-size: 1rem; padding: 12px; }
+  }
 
 </style>
 </head>
@@ -253,7 +274,7 @@
         <div class="badge-container">
             <span class="badge grey">الأفضل قيمة</span>
         </div>
-        <img src="https://hossamurai.github.io/basic.png" class="card-img">
+        <img src="https://hossamurai.github.io/basic.png" class="card-img" loading="lazy">
         <div class="card-text">الباقة الأساسية</div>
         <div class="price-text">35 دولار <span>/ سنوياً</span></div>
         <div class="feature-list">
@@ -268,7 +289,7 @@
         <div class="badge-container">
             <span class="badge gold">النخبة</span>
         </div>
-        <img src="https://hossamurai.github.io/premium.png" class="card-img">
+        <img src="https://hossamurai.github.io/premium.png" class="card-img" loading="lazy">
         <div class="card-text">باقة بريميوم</div>
         <div class="price-text">55 دولار <span>/ سنوياً</span></div>
         <div class="feature-list">
@@ -284,7 +305,7 @@
             <span class="badge red">مصر فقط</span>
             <span class="badge blue">خيار العائلة</span>
         </div>
-        <img src="https://hossamurai.github.io/X.png" class="card-img">
+        <img src="https://hossamurai.github.io/X.png" class="card-img" loading="lazy">
         <div class="card-text">سيرفر إكس</div>
         <div class="price-text">350 جنيه <span>/ سنوياً</span></div>
         <div class="feature-list">
@@ -300,7 +321,7 @@
             <span class="badge red">مصر فقط</span>
             <span class="badge purple">عشاق السينما</span>
         </div>
-        <img src="https://hossamurai.github.io/marvel.png" class="card-img">
+        <img src="https://hossamurai.github.io/marvel.png" class="card-img" loading="lazy">
         <div class="card-text">سيرفر مارفل</div>
         <div class="price-text">350 جنيه <span>/ سنوياً</span></div>
         <div class="feature-list">
@@ -329,8 +350,8 @@
       </div>
     
     <div style="text-align:center; margin-top:20px;">
-        <p style="color:#666; font-size:0.9rem;">هل ترغب في الاشتراك؟</p>
-        <a href="https://wa.me/message/JZEZ3BNRYY2ED1" class="action-btn wa" style="max-width:300px; margin:0 auto;">
+        <p style="color:#666; font-size:0.85rem; margin-bottom:8px;">هل ترغب في الاشتراك؟</p>
+        <a href="https://wa.me/message/JZEZ3BNRYY2ED1" class="action-btn wa" style="max-width:350px; margin:0 auto;">
             <i class="ph-fill ph-whatsapp-logo"></i> الاشتراك عبر واتساب
         </a>
     </div>
@@ -340,7 +361,7 @@
     </button>
   </div>
 
-  <div id="faq" style="margin-top:60px;">
+  <div id="faq" style="margin-top:50px;">
     <div class="step-title">الأسئلة الشائعة</div>
     
     <div class="faq-item"><button class="faq-question">ما هو IPTV؟ <i class="ph-bold ph-caret-down"></i></button><div class="faq-answer"><p>هي خدمة تتيح لك مشاهدة القنوات التلفزيونية المباشرة، الرياضة، والأفلام عبر الإنترنت بدلاً من الأقمار الصناعية.</p></div></div>
@@ -397,6 +418,11 @@
     const container = document.getElementById('grid-plan');
     const cards = container.querySelectorAll('.selection-card');
     
+    // Mobile experience optimization: Scroll slightly to ensure the focused card is visible
+    if(window.innerWidth < 768) {
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
     cards.forEach(card => {
       if (card !== cardElement) {
         card.style.opacity = '0';
@@ -414,6 +440,7 @@
         document.getElementById('step-setup').classList.remove('hidden');
         renderSetupContent(); 
         
+        // Smooth scroll to setup
         document.getElementById('step-setup').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 300);
   }
@@ -433,7 +460,7 @@
     // Logic: Only show IBO fee note for Egypt Plans
     const isEgyptPlan = (currentPlan.key === 'xtv' || currentPlan.key === 'marvel');
     const iboNoteHTML = isEgyptPlan 
-        ? `<div style="background:#fff8e1; color:#b07b00; padding:10px; border-radius:8px; font-size:0.85rem; margin-top:15px; border:1px solid #ffe082;">ملاحظة: تطبيق IBO Player يتطلب تفعيل خارجي (حوالي 200 جنيه) بعد 7 أيام.</div>`
+        ? `<div style="background:#fff8e1; color:#b07b00; padding:10px; border-radius:8px; font-size:0.85rem; margin-top:15px; border:1px solid #ffe082; line-height:1.4;">ملاحظة: تطبيق IBO Player يتطلب تفعيل خارجي (حوالي 200 جنيه) بعد 7 أيام.</div>`
         : ``;
 
     let html = '';
