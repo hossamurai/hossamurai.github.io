@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Hossam TV - FAQ</title>
+<link rel="icon" href="https://hossamurai.github.io/roundlogo.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+<style>
+  :root {
+    --bg-color: #F5F7FA;
+    --card-bg: #FFFFFF;
+    --text-main: #1A1A1A;
+    --text-muted: #666666;
+    --brand-red: #D50000;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 0; padding: 20px;
+    line-height: 1.6;
+  }
+  
+  /* RTL specific */
+  body.rtl { font-family: 'Cairo', sans-serif; direction: rtl; }
+  body.rtl .faq-question { text-align: right; }
+  body.rtl .ph-caret-down { float: left; }
+
+  .container { max-width: 800px; margin: 0 auto; }
+  
+  .header-actions {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;
+  }
+  
+  .back-btn {
+    text-decoration: none; color: var(--text-muted); font-weight: 700;
+    display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
+    padding: 8px 16px; background: white; border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  
+  .lang-toggle {
+    cursor: pointer; background: white; border: 1px solid #ddd;
+    padding: 8px 16px; border-radius: 50px; font-weight: 700;
+    color: var(--text-main); display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+
+  h1 { text-align: center; margin-bottom: 30px; }
+
+  .faq-item {
+    background: white; border-radius: 16px; margin-bottom: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02); border: 1px solid #f5f5f5; overflow: hidden;
+  }
+  .faq-question {
+    width: 100%; padding: 18px 20px; border: none; background: white;
+    text-align: left; font-weight: 700; color: var(--text-main);
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; font-family: inherit; font-size: 0.9rem; line-height: 1.4;
+  }
+  .faq-answer {
+    max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+    background: #fafafa; padding: 0 20px; color: var(--text-muted); font-size: 0.9rem;
+  }
+  
+  .rotate { transform: rotate(180deg); }
+</style>
+</head>
+<body id="page-body">
+
+<div class="container">
+  <div class="header-actions">
+    <a href="index.html" class="back-btn" id="btn-back">
+        <i class="ph-bold ph-arrow-left"></i> Home
+    </a>
+    <button class="lang-toggle" onclick="toggleLanguage()">
+        <i class="ph ph-globe"></i> <span id="lang-label">العربية</span>
+    </button>
+  </div>
+
+  <h1 id="page-title">Frequently Asked Questions</h1>
+  
+  <div id="faq-list">
+    </div>
+</div>
+
+<script>
+  // FAQ CONTENT DATA
+  const faqData = {
+    en: [
+      { q: "What is IPTV?", a: "IPTV is a service that lets you watch live TV channels, sports, and movies over the internet instead of satellite or cable." },
+      { q: "What do I need to use IPTV?", a: "You need a stable internet connection and a device like a Smart TV, Android Box, Phone, or PC." },
+      { q: "Is the service safe for families?", a: "Yes. Most content is family-safe. Some adult content may exist, but we offer family-only servers." },
+      { q: "What channels are included?", a: "Sports (BeIN, Sky), Movies (OSN, Netflix), News, Kids, and International channels." },
+      { q: "Is there a free trial?", a: "Yes. Free trials are available for 12 or 24 hours. Request one via WhatsApp." },
+      { q: "Can I use one subscription on multiple devices?", a: "You can set it up on multiple devices, but you can only watch on ONE device at a time." },
+      { q: "What internet speed is required?", a: "For stable usage, 25+ Mbps is recommended." },
+      { q: "Are refunds available?", a: "No refunds after activation. Please use the free trial to test before buying." },
+      { q: "How long does activation take?", a: "Usually within minutes, up to 24 hours." },
+      { q: "How can I pay inside Egypt?", a: "Via Vodafone Cash or InstaPay." },
+      { q: "How can I pay internationally?", a: "Via TapTap Send, Remitly, or PayPal." },
+      { q: "My service is down, what should I do?", a: "First, unplug your router and TV for 10 seconds. If that fails, check our WhatsApp status for maintenance updates." }
+    ],
+    ar: [
+      { q: "ما هو الـ IPTV؟", a: "هي خدمة تتيح لك مشاهدة القنوات التلفزيونية والمباريات والأفلام عبر الإنترنت بدلاً من الدش." },
+      { q: "ماذا أحتاج لتشغيل الخدمة؟", a: "تحتاج إلى إنترنت مستقر وجهاز مثل شاشة سمارت، أندرويد بوكس، موبايل، أو كمبيوتر." },
+      { q: "هل الخدمة آمنة للعائلات؟", a: "نعم، معظم المحتوى آمن. كما نوفر سيرفرات مخصصة للعائلات خالية تماماً من أي محتوى غير لائق." },
+      { q: "ما هي القنوات المتاحة؟", a: "قنوات رياضية (بين سبورت)، أفلام (OSN, Netflix)، أخبار، أطفال، وقنوات عالمية." },
+      { q: "هل يوجد تجربة مجانية؟", a: "نعم، يوجد تجربة لمدة 12 أو 24 ساعة. اطلبها عبر الواتساب." },
+      { q: "هل يمكنني التشغيل على أكثر من جهاز؟", a: "يمكنك تنزيل الاشتراك على أجهزة متعددة، ولكن المشاهدة تكون على جهاز واحد فقط في نفس الوقت." },
+      { q: "ما سرعة الإنترنت المطلوبة؟", a: "لضمان الاستقرار، نوصي بسرعة 25 ميجا أو أعلى." },
+      { q: "هل يمكن استرجاع المبلغ؟", a: "لا يوجد استرجاع بعد التفعيل. لذلك ننصح باستخدام التجربة المجانية أولاً." },
+      { q: "كم يستغرق التفعيل؟", a: "عادةً خلال دقائق، وبحد أقصى 24 ساعة." },
+      { q: "كيف أدفع داخل مصر؟", a: "فودافون كاش أو إنستا باي." },
+      { q: "كيف أدفع من خارج مصر؟", a: "عبر TapTap Send أو PayPal." },
+      { q: "الخدمة توقفت، ماذا أفعل؟", a: "أفصل الراوتر والتلفزيون من الكهرباء لمدة 10 ثوانٍ وأعد تشغيلهم. إذا استمرت المشكلة، تواصل معنا." }
+    ]
+  };
+
+  let currentLang = 'en'; // Default English
+
+  function renderFAQ() {
+    const list = document.getElementById('faq-list');
+    const title = document.getElementById('page-title');
+    const langBtnLabel = document.getElementById('lang-label');
+    const backBtn = document.getElementById('btn-back');
+    const body = document.getElementById('page-body');
+
+    // Update Text & Direction
+    if (currentLang === 'en') {
+        body.classList.remove('rtl');
+        title.innerText = "Frequently Asked Questions";
+        langBtnLabel.innerText = "العربية";
+        backBtn.innerHTML = `<i class="ph-bold ph-arrow-left"></i> Home`;
+    } else {
+        body.classList.add('rtl');
+        title.innerText = "الأسئلة الشائعة";
+        langBtnLabel.innerText = "English";
+        backBtn.innerHTML = `الرئيسية <i class="ph-bold ph-arrow-right"></i>`;
+    }
+
+    // Render Items
+    let html = '';
+    faqData[currentLang].forEach((item, index) => {
+        html += `
+          <div class="faq-item">
+            <button class="faq-question" onclick="toggleAnswer(this)">
+                ${item.q} <i class="ph-bold ph-caret-down"></i>
+            </button>
+            <div class="faq-answer">
+                <p>${item.a}</p>
+            </div>
+          </div>
+        `;
+    });
+    list.innerHTML = html;
+  }
+
+  function toggleLanguage() {
+    currentLang = (currentLang === 'en') ? 'ar' : 'en';
+    renderFAQ();
+  }
+
+  function toggleAnswer(btn) {
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector('i');
+    
+    // Close others
+    document.querySelectorAll('.faq-answer').forEach(a => {
+        if(a !== answer) a.style.maxHeight = null;
+    });
+    document.querySelectorAll('.faq-question i').forEach(i => {
+        if(i !== icon) i.style.transform = 'rotate(0deg)';
+    });
+
+    if (answer.style.maxHeight) {
+      answer.style.maxHeight = null;
+      icon.style.transform = 'rotate(0deg)';
+    } else {
+      answer.style.maxHeight = answer.scrollHeight + "px";
+      icon.style.transform = 'rotate(180deg)';
+    }
+  }
+
+  // Initial Render
+  renderFAQ();
+</script>
+
+</body>
+</html>
