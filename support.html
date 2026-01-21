@@ -7,15 +7,13 @@
 <title>Hossam TV - Support Center</title>
 
 <link rel="icon" href="https://hossamurai.github.io/roundlogo.png" type="image/png">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
-
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
 <style>
-  /* --- 1. DESIGN TOKENS --- */
+  /* --- DESIGN TOKENS (Matched to Main Code) --- */
   :root {
     --bg-color: #F5F7FA;
     --card-bg: #FFFFFF;
@@ -24,27 +22,25 @@
     --brand-red: #D50000;
     --brand-gold: linear-gradient(135deg, #FFD700, #DAA520);
     --card-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    --hover-shadow: 0 15px 35px rgba(0,0,0,0.1);
     --radius-card: 20px;
     --radius-pill: 50px;
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
+  
   body {
     font-family: 'Poppins', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-main);
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     line-height: 1.6;
+    padding-bottom: 60px;
     transition: all 0.3s ease;
-    padding-bottom: 60px; /* Standardized mobile padding */
   }
 
   body.rtl { direction: rtl; text-align: right; font-family: 'Cairo', sans-serif; }
   
-  /* CRITICAL: VIEW TOGGLING LOGIC */
+  /* VIEW TOGGLING */
   body.ltr .view-ar { display: none !important; }
   body.rtl .view-en { display: none !important; }
 
@@ -52,279 +48,155 @@
   nav {
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(12px);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    position: sticky; top: 0; z-index: 1000;
     padding: 12px 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
     box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
   }
 
-  .nav-home { 
-    text-decoration: none; color: var(--text-main); 
-    font-weight: 700; font-size: 0.9rem; 
-    display: flex; align-items: center; gap: 8px; 
-  }
-
-  #lang-btn {
-    padding: 8px 16px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    border-radius: var(--radius-pill);
-    border: 1px solid #eee;
-    background: white;
-    font-weight: bold;
+  .nav-btn {
+    text-decoration: none; color: var(--text-muted);
+    font-weight: 700; font-size: 0.85rem;
+    padding: 8px 14px; border-radius: var(--radius-pill);
+    transition: all 0.2s ease; cursor: pointer;
+    background: transparent; border: none;
+    display: flex; align-items: center; gap: 6px;
     font-family: inherit;
-    transition: all 0.2s;
   }
-  #lang-btn:active { background: #f0f0f0; }
+  .nav-btn:hover, .nav-btn:active { background: #f0f0f0; color: var(--text-main); }
+  
+  .lang-btn {
+    border: 1px solid #eee; background: white; color: var(--text-main);
+  }
 
   /* --- HEADER --- */
-  header { text-align: center; padding: 30px 20px 20px; }
-
-  .logo { 
-    width: 90px; height: 90px; 
-    border-radius: 25px; 
-    box-shadow: var(--card-shadow); 
-    margin-bottom: 15px; 
-  }
-
-  h1 { margin: 0; font-size: 1.8rem; font-weight: 900; line-height: 1.3; }
-  p.subtitle { color: var(--text-muted); font-size: 0.95rem; margin-top: 5px; font-weight: 500; }
+  header { text-align: center; padding: 40px 20px 20px; }
+  h1 { margin: 0; font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; line-height: 1.2; }
+  p.subtitle { color: var(--text-muted); font-size: 1rem; margin-top: 8px; font-weight: 500; }
 
   .container { max-width: 800px; margin: 0 auto; padding: 0 15px; }
 
-  /* --- STEPS & GRID --- */
+  /* --- STEPS --- */
   .step-title {
-    font-size: 0.95rem;
-    font-weight: 800;
-    margin: 25px 0 15px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-align: center;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
+    font-size: 0.95rem; font-weight: 800; margin: 25px 0 15px;
+    color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 1.5px; text-align: center;
+    border-top: 1px solid #eee; padding-top: 20px;
   }
   .step-title:first-child { border-top: none; }
 
-  .grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 12px; 
-    transition: all 0.5s ease; 
+  .grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
+    transition: all 0.5s ease;
   }
 
-  /* --- SELECTION CARDS (Mobile Optimized) --- */
+  /* --- CARDS --- */
   .selection-card {
-    background: white;
-    border: 2px solid transparent;
+    background: white; border: 2px solid transparent;
     border-radius: var(--radius-card);
-    padding: 15px 10px; /* Tighter padding */
-    text-align: center;
-    cursor: pointer;
+    padding: 20px 15px; text-align: center; cursor: pointer;
     box-shadow: var(--card-shadow);
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    width: 100%; 
+    position: relative; overflow: hidden; width: 100%;
     will-change: transform, opacity;
   }
-
   .selection-card:active { transform: scale(0.98); }
 
   .selection-card.selected {
-    border-color: #DAA520;
-    background: #fffdf5;
+    border-color: #DAA520; background: #fffdf5;
     box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.15);
-    transform: scale(1.02);
-    cursor: default;
-    /* Focus logic */
-    grid-column: 1 / -1; 
+    transform: scale(1.02); cursor: default;
+    width: 100%; grid-column: 1 / -1; z-index: 10;
   }
-  
   .selection-card[data-theme="red"].selected { border-color: var(--brand-red); background: #fff5f5; }
-  
-  .card-img { 
-      width: 90px; 
-      height: 90px; 
-      object-fit: contain; 
-      margin-bottom: 10px; 
-      border-radius: 12px;
-  }
-  
-  .card-icon { font-size: 2rem; margin-bottom: 8px; color: var(--text-muted); }
-  .card-text { font-weight: 700; font-size: 0.9rem; line-height: 1.3; }
-  
-  /* BADGES */
-  .badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 0.6rem;
-    font-weight: 900;
-    background: linear-gradient(135deg, #FFD700, #DAA520);
-    color: white;
-    padding: 3px 8px;
-    border-radius: 8px;
-  }
-  body.rtl .badge { right: auto; left: 8px; }
 
-  /* --- HOLY GRAIL CHECKLIST (Responsive List) --- */
+  .card-img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; }
+  .card-icon { font-size: 2.5rem; margin-bottom: 10px; color: var(--text-main); }
+  .card-text { font-weight: 800; font-size: 1.1rem; margin-bottom: 2px; line-height: 1.3; }
+
+  /* BADGES */
+  .badge-container { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  body.rtl .badge-container { right: auto; left: 10px; align-items: flex-start; }
+  
+  .badge { font-size: 0.65rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; text-transform: uppercase; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  .badge.gold { background: var(--brand-gold); }
+  .badge.red { background: var(--brand-red); }
+
+  /* --- CHECKLIST BOX (Style match setup-box) --- */
   .holy-grail-box {
-    background: #fff;
-    border-radius: 20px;
-    padding: 20px;
-    border: 1px solid #f0f0f0;
-    margin-top: 20px;
-    box-shadow: var(--card-shadow);
-    display: none;
-    animation: slideDown 0.5s ease;
+    background: white; border-radius: var(--radius-card);
+    padding: 25px 20px; box-shadow: var(--card-shadow);
+    border: 1px solid #f0f0f0; margin: 20px auto;
+    display: none; animation: slideDown 0.5s ease-out;
   }
 
   .hg-item {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
-    align-items: flex-start;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #f9f9f9;
+    display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start;
+    padding-bottom: 15px; border-bottom: 1px solid #f9f9f9;
   }
   .hg-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
   .hg-icon {
-    font-size: 1.5rem;
-    color: var(--brand-red);
-    flex-shrink: 0;
-    background: #fff5f5;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: -2px;
+    font-size: 1.4rem; color: var(--brand-red); flex-shrink: 0;
+    background: #fff5f5; width: 45px; height: 45px; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
   }
 
-  .hg-content h4 { margin: 0 0 4px 0; font-size: 0.95rem; font-weight: 800; }
-  .hg-content p { margin: 0; font-size: 0.85rem; color: #666; line-height: 1.4; }
+  .hg-content h4 { margin: 0 0 4px 0; font-size: 1rem; font-weight: 800; }
+  .hg-content p { margin: 0; font-size: 0.9rem; color: #666; line-height: 1.4; }
 
-  .next-btn {
-    background: var(--text-main);
-    color: white;
-    width: 100%;
-    border: none;
-    padding: 16px;
-    border-radius: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 20px;
-    font-size: 0.95rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  /* --- BUTTONS --- */
+  .action-btn {
+    background: var(--text-main); color: white; width: 100%; border: none;
+    padding: 16px; border-radius: 14px; font-weight: 700; cursor: pointer;
+    font-size: 1rem; text-decoration: none; display: flex; justify-content: center;
+    align-items: center; gap: 8px; transition: transform 0.2s; margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: inherit;
   }
-  .next-btn:active { transform: scale(0.98); }
+  .action-btn:active { transform: scale(0.98); }
+  
+  .action-btn.wa { background: #25D366; }
+  .action-btn.secondary { background: white; color: var(--text-main); border: 2px solid #eee; }
+  .action-btn.secondary:hover { background: #f9f9f9; }
 
-  /* --- SPECIFIC APP SOLUTIONS --- */
+  /* --- SPECIFIC SOLUTIONS --- */
   .specific-box {
-    background: #fff8e1;
-    border: 1px solid #ffe082;
-    border-radius: 20px;
-    padding: 20px;
-    margin-top: 20px;
-    display: none;
-    animation: slideDown 0.5s ease;
+    background: #fff8e1; border: 1px solid #ffe082;
+    border-radius: var(--radius-card); padding: 25px 20px;
+    margin-top: 20px; display: none; animation: slideDown 0.5s ease;
+    box-shadow: var(--card-shadow);
   }
-
   .specific-step {
-    background: white;
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    border-left: 4px solid #FFD700;
-    font-size: 0.9rem;
+    background: white; padding: 15px; border-radius: 12px;
+    margin-bottom: 10px; border-left: 4px solid #FFD700; font-size: 0.95rem;
   }
   body.rtl .specific-step { border-left: none; border-right: 4px solid #FFD700; }
 
-  .whatsapp-btn {
-    background: #25D366;
-    color: white;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 16px;
-    border-radius: 16px;
-    font-weight: 700;
-    margin-top: 25px;
-    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);
-    transition: transform 0.2s;
-    font-size: 1rem;
-  }
-  .whatsapp-btn:active { transform: scale(0.98); }
-  
-  .try-other-btn {
-    background: transparent;
-    border: 2px solid #ddd;
-    color: var(--text-muted);
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    padding: 14px;
-    border-radius: 16px;
-    font-weight: 700;
-    margin-top: 15px;
-    font-size: 0.9rem;
-    transition: all 0.2s;
-  }
-  .try-other-btn:hover { background: #f9f9f9; color: var(--text-main); border-color: #ccc; }
-
   .reset-btn {
-    background: #f0f0f0;
-    color: var(--text-muted);
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-weight: 600;
-    margin: 40px auto;
-    display: block;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.9rem;
+    background: #f0f0f0; color: var(--text-muted); border: none;
+    padding: 12px 25px; border-radius: 50px; font-weight: 600;
+    margin: 40px auto; display: block; cursor: pointer; font-family: inherit; font-size: 0.9rem;
   }
 
-  @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
   .hidden { display: none !important; }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* --- MOBILE SPECIFIC TWEAKS --- */
-  @media (max-width: 380px) {
-      .grid { grid-template-columns: 1fr; } /* Stack on very small phones */
-      .selection-card { display: flex; align-items: center; gap: 15px; text-align: left; padding: 15px; }
-      body.rtl .selection-card { text-align: right; }
-      .card-img { width: 60px; height: 60px; margin-bottom: 0; }
-      .card-icon { margin-bottom: 0; font-size: 1.5rem; }
-      .badge { top: 50%; transform: translateY(-50%); }
+  @media (max-width: 768px) {
+    header { padding-top: 30px; }
+    h1 { font-size: 1.8rem; }
+    .grid { grid-template-columns: 1fr; gap: 12px; }
   }
-
 </style>
 </head>
 <body class="ltr">
 
 <nav>
-  <a href="https://hossamurai.github.io/Hossam_TV.html" class="nav-home"><i class="ph ph-arrow-left"></i> Home</a>
-  <button id="lang-btn" onclick="toggleLanguage()"><i class="ph ph-globe"></i> العربية</button>
+  <a href="https://hossamurai.github.io/Hossam_TV.html" class="nav-btn"><i class="ph ph-arrow-left"></i> Home</a>
+  <button class="nav-btn lang-btn" onclick="toggleLanguage()"><i class="ph ph-globe"></i> العربية</button>
 </nav>
 
 <header>
-  <img src="https://hossamurai.github.io/roundlogo.png" alt="Logo" class="logo">
   <h1 class="view-en">Support Center</h1>
   <h1 class="view-ar">مركز الدعم والمساعدة</h1>
   <p class="subtitle view-en">Troubleshooting Guide</p>
@@ -337,36 +209,43 @@
     <div class="step-title view-en">Step 1: Which plan are you on?</div>
     <div class="step-title view-ar">خطوة 1: ما هي باقتك الحالية؟</div>
     <div class="grid" id="grid-plan">
+      
       <div class="selection-card" onclick="handleSelection('plan', 'Basic', 'https://hossamurai.github.io/basic.png', this)" data-theme="gold">
+        <div class="badge-container"><span class="badge grey">Value</span></div>
         <img src="https://hossamurai.github.io/basic.png" class="card-img">
         <div class="card-text">
-            <span class="view-en">Basic</span>
-            <span class="view-ar">الأساسية</span>
+            <span class="view-en">Basic Plan</span>
+            <span class="view-ar">الباقة الأساسية</span>
         </div>
       </div>
+
       <div class="selection-card" onclick="handleSelection('plan', 'Premium', 'https://hossamurai.github.io/premium.png', this)" data-theme="gold">
-        <span class="badge view-en">ELITE</span>
-        <span class="badge view-ar">النخبة</span>
+        <div class="badge-container"><span class="badge gold">ELITE</span></div>
         <img src="https://hossamurai.github.io/premium.png" class="card-img">
         <div class="card-text">
-            <span class="view-en">Premium</span>
-            <span class="view-ar">بريميوم</span>
+            <span class="view-en">Premium Plan</span>
+            <span class="view-ar">باقة بريميوم</span>
         </div>
       </div>
+
       <div class="selection-card" onclick="handleSelection('plan', 'XTV', 'https://hossamurai.github.io/X.png', this)" data-theme="red">
+        <div class="badge-container"><span class="badge red">Egypt</span></div>
         <img src="https://hossamurai.github.io/X.png" class="card-img">
         <div class="card-text">
-            <span class="view-en">XTV (Egypt)</span>
-            <span class="view-ar">XTV (مصر)</span>
+            <span class="view-en">XTV Server</span>
+            <span class="view-ar">سيرفر XTV</span>
         </div>
       </div>
+
        <div class="selection-card" onclick="handleSelection('plan', 'Marvel', 'https://hossamurai.github.io/marvel.png', this)" data-theme="red">
+        <div class="badge-container"><span class="badge red">Egypt</span></div>
         <img src="https://hossamurai.github.io/marvel.png" class="card-img">
         <div class="card-text">
-            <span class="view-en">Marvel</span>
-            <span class="view-ar">مارفل</span>
+            <span class="view-en">Marvel Server</span>
+            <span class="view-ar">سيرفر مارفل</span>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -374,13 +253,15 @@
     <div class="step-title view-en">Step 2: Choose Your Device</div>
     <div class="step-title view-ar">خطوة 2: اختر جهازك</div>
     <div class="grid" id="grid-device">
+      
       <div class="selection-card" onclick="handleSelection('device', 'smart_tv', null, this)">
         <div class="card-icon"><i class="ph ph-monitor-play"></i></div>
         <div class="card-text">
             <span class="view-en">Samsung / LG TV</span>
-            <span class="view-ar">شاشات سامسونج / LG</span>
+            <span class="view-ar">شاشات ذكية</span>
         </div>
       </div>
+
       <div class="selection-card" onclick="handleSelection('device', 'android_tv', null, this)">
         <div class="card-icon"><i class="ph ph-television"></i></div>
         <div class="card-text">
@@ -388,6 +269,7 @@
             <span class="view-ar">أندرويد TV / بوكس</span>
         </div>
       </div>
+
       <div class="selection-card" onclick="handleSelection('device', 'roku', null, this)">
         <div class="card-icon"><i class="ph ph-broadcast"></i></div>
         <div class="card-text">
@@ -395,6 +277,7 @@
             <span class="view-ar">روكو / فيدا</span>
         </div>
       </div>
+
       <div class="selection-card" onclick="handleSelection('device', 'android_phone', null, this)">
         <div class="card-icon"><i class="ph ph-device-mobile"></i></div>
         <div class="card-text">
@@ -402,6 +285,7 @@
             <span class="view-ar">موبايل أندرويد</span>
         </div>
       </div>
+
       <div class="selection-card" onclick="handleSelection('device', 'ios', null, this)">
         <div class="card-icon"><i class="ph ph-apple-logo"></i></div>
         <div class="card-text">
@@ -409,6 +293,7 @@
             <span class="view-ar">أيفون / أبل TV</span>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -420,7 +305,7 @@
   </div>
 
   <div id="holy-grail" class="holy-grail-box">
-    <h3 style="text-align:center; margin-top:0; margin-bottom:20px; color:var(--text-main); font-size:1.1rem;">
+    <h3 style="text-align:center; margin-top:0; margin-bottom:25px; font-size:1.2rem;">
       <span class="view-en">⚠️ Checklist Before We Start</span>
       <span class="view-ar">⚠️ خطوات ضرورية قبل البدء</span>
     </h3>
@@ -461,8 +346,8 @@
             <span class="view-ar">3. القاعدة الذهبية: جهاز واحد</span>
         </h4>
         <p>
-            <span class="view-en">Using account on 2 devices causes black screen or "Connection Failed".</span>
-            <span class="view-ar">تشغيل الاشتراك على جهازين يسبب شاشة سوداء أو فشل الاتصال.</span>
+            <span class="view-en">Using account on 2 devices causes connection failure.</span>
+            <span class="view-ar">تشغيل الاشتراك على جهازين يسبب فشل الاتصال.</span>
         </p>
       </div>
     </div>
@@ -475,13 +360,13 @@
             <span class="view-ar">4. الحل السحري</span>
         </h4>
         <p>
-            <span class="view-en">Unplug TV and Router from electricity for 5 seconds, then plug back.</span>
-            <span class="view-ar">افصل فيشة التلفزيون والراوتر لمدة 5 ثواني ثم أعد تشغيلهم.</span>
+            <span class="view-en">Unplug TV and Router from electricity for 5 seconds.</span>
+            <span class="view-ar">افصل فيشة التلفزيون والراوتر لمدة 5 ثواني.</span>
         </p>
       </div>
     </div>
 
-    <button class="next-btn" onclick="showAppSpecifics()">
+    <button class="action-btn" onclick="showAppSpecifics()">
       <span class="view-en">I did all this, still not working <i class="ph-bold ph-arrow-right"></i></span>
       <span class="view-ar">فعلت كل هذا، ومازالت لا تعمل <i class="ph-bold ph-arrow-left"></i></span>
     </button>
@@ -491,6 +376,7 @@
     </div>
 
   <button id="reset-btn" class="reset-btn hidden" onclick="resetAll()">
+    <i class="ph ph-arrow-counter-clockwise"></i>
     <span class="view-en">Start Over</span>
     <span class="view-ar">ابدأ من جديد</span>
   </button>
@@ -504,7 +390,6 @@
   let selectedApp = null;
   let currentLang = 'en';
 
-  // --- IMAGES ---
   const img = {
     smartersPro: 'https://hossamurai.github.io/smarterspro.png',
     smartersLite: 'https://hossamurai.github.io/smarters.png',
@@ -515,7 +400,7 @@
   };
 
   function toggleLanguage() {
-    const btn = document.getElementById('lang-btn');
+    const btn = document.querySelector('.lang-btn');
     if (document.body.classList.contains('ltr')) {
       document.body.classList.remove('ltr');
       document.body.classList.add('rtl');
@@ -529,14 +414,12 @@
     }
   }
 
-  // --- ANIMATION ---
   function lockGrid(gridId, clickedCard) {
     const container = document.getElementById(gridId);
     const cards = container.querySelectorAll('.selection-card');
     
-    // Auto scroll on mobile
     if(window.innerWidth < 768) {
-        container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     cards.forEach(card => {
@@ -548,6 +431,7 @@
             card.classList.add('selected');
         }
     });
+
     setTimeout(() => {
         container.style.display = 'flex';
         container.style.justifyContent = 'center';
@@ -560,15 +444,12 @@
     container.style.justifyContent = 'initial';
     const cards = container.querySelectorAll('.selection-card');
     cards.forEach(card => {
-        card.style.display = 'flex'; // Reset to flex to support mobile query
-        if(window.innerWidth > 380) card.style.display = 'block'; // Reset to block if larger
-        
+        card.style.display = 'block';
         card.classList.remove('selected');
         setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'scale(1)'; }, 10);
     });
   }
 
-  // --- APP OPTIONS ---
   function getAppOptions(device, planName, planLogo) {
     const apps = [];
     const officialAppName = `${planName} App`;
@@ -593,7 +474,6 @@
     return apps;
   }
 
-  // --- LOGIC ---
   function handleSelection(step, value, extraData, card) {
     document.getElementById('reset-btn').classList.remove('hidden');
 
@@ -614,7 +494,7 @@
     }
     
     if (step === 'app') {
-      selectedApp = value; // Stores type object actually
+      selectedApp = value;
       lockGrid('grid-app', card);
       setTimeout(() => {
         document.getElementById('holy-grail').style.display = 'block';
@@ -661,7 +541,6 @@
     }, 500);
   }
 
-  // --- APP SPECIFIC LOGIC ---
   function showAppSpecifics() {
     const box = document.getElementById('specific-solutions');
     box.style.display = 'block';
@@ -677,16 +556,12 @@
             <h3><span class="view-en">IBO Player Issues</span><span class="view-ar">مشاكل IBO Player</span></h3>
             
             <div class="specific-step">
-                <strong><span class="view-en">1. App not booting (No Home Screen)</span><span class="view-ar">1. التطبيق لا يفتح (لا يصل للشاشة الرئيسية)</span></strong><br>
+                <strong><span class="view-en">1. App not booting</span><span class="view-ar">1. التطبيق لا يفتح</span></strong><br>
                 <span class="view-en">Send us a clear photo of MAC Address & Device Key.</span><span class="view-ar">أرسل لنا صورة واضحة لـ MAC Address و Device Key.</span>
             </div>
             <div class="specific-step">
-                <strong><span class="view-en">2. Red Error (Playlist Problem)</span><span class="view-ar">2. رسالة خطأ حمراء (Playlist Error)</span></strong><br>
+                <strong><span class="view-en">2. Playlist Error (Red)</span><span class="view-ar">2. خطأ في القائمة (Playlist Error)</span></strong><br>
                 <span class="view-en">Switch between Playlist 1, 2, 3. If fails, contact us.</span><span class="view-ar">جرب تغيير القائمة (Playlist 1, 2, 3). اذا استمرت المشكلة تواصل معنا.</span>
-            </div>
-            <div class="specific-step">
-                <strong><span class="view-en">3. App Expired</span><span class="view-ar">3. التطبيق منتهي (Expired)</span></strong><br>
-                <span class="view-en">Send us a clear photo of MAC Address & Device Key to repurchase the app license.</span><span class="view-ar">أرسل صورة MAC Address و Device Key لشراء ترخيص التطبيق.</span>
             </div>
         `;
     } 
@@ -717,13 +592,13 @@
             </div>
             <div class="specific-step">
                 <strong><span class="view-en">2. Switch Playlist</span><span class="view-ar">2. تبديل القائمة</span></strong><br>
-                <span class="view-en">Go to Playlists > Edit > Enter details > Update > Connect.</span><span class="view-ar">اضغط Playlists > Edit > أدخل بياناتك > Update > ثم Connect.</span>
+                <span class="view-en">Playlists > Edit > Update > Connect.</span><span class="view-ar">اضغط Playlists > Edit > Update > ثم Connect.</span>
             </div>
         `;
     } 
     else if (type === 'streamplayer') {
         html = `
-            <h3><span class="view-en">IPTV Stream Player Issues</span><span class="view-ar">مشاكل IPTV Stream Player</span></h3>
+            <h3><span class="view-en">Stream Player Issues</span><span class="view-ar">مشاكل Stream Player</span></h3>
             <div class="specific-step">
                 <strong><span class="view-en">Reload Button</span><span class="view-ar">تحديث المحتوى</span></strong><br>
                 <span class="view-en">The reload button is located on the home screen.</span><span class="view-ar">زر التحديث (Reload) موجود في الشاشة الرئيسية.</span>
@@ -736,11 +611,11 @@
             
             <div class="specific-step">
                 <strong><span class="view-en">Refresh Content</span><span class="view-ar">تحديث المحتوى</span></strong><br>
-                <span class="view-en">Go to Movies or Series > Click Top Right Dots > Select Refresh.</span><span class="view-ar">ادخل قسم الأفلام أو المسلسلات > اضغط الثلاث نقاط (أعلى اليمين) > اختر Refresh.</span>
+                <span class="view-en">Go to Movies > Top Right Dots > Select Refresh.</span><span class="view-ar">ادخل قسم الأفلام > اضغط الثلاث نقاط > اختر Refresh.</span>
             </div>
              <div class="specific-step" style="border-color:#ff9800;">
-                <strong><span class="view-en">Note: Expiry Date</span><span class="view-ar">ملاحظة: تاريخ الانتهاء</span></strong><br>
-                <span class="view-en">If you don't see the expiry date, you probably have bad or no internet connection.</span><span class="view-ar">إذا لم يظهر تاريخ الانتهاء، فهذا يعني أن اتصال الإنترنت ضعيف أو مقطوع.</span>
+                <strong><span class="view-en">Check Expiry</span><span class="view-ar">تاريخ الانتهاء</span></strong><br>
+                <span class="view-en">If date is missing, check your internet.</span><span class="view-ar">إذا لم يظهر تاريخ الانتهاء، افحص الإنترنت لديك.</span>
             </div>
         `;
     }
@@ -751,12 +626,12 @@
     html += `
         <div style="margin-top:20px; text-align:center;">
              <p style="font-weight:bold; margin-bottom:10px;"><span class="view-en">Still not working?</span><span class="view-ar">لم يتم الحل؟</span></p>
-             <a href="${waLink}" class="whatsapp-btn">
+             <a href="${waLink}" class="action-btn wa">
                 <i class="ph-fill ph-whatsapp-logo" style="font-size:1.5rem;"></i>
                 <span class="view-en">Contact Support WhatsApp</span><span class="view-ar">تواصل معنا واتساب</span>
              </a>
              
-             <a href="https://hossamurai.github.io/Hossam_TV.html#install" class="try-other-btn">
+             <a href="https://hossamurai.github.io/Hossam_TV.html#install" class="action-btn secondary">
                 <i class="ph-fill ph-download-simple"></i>
                 <span class="view-en">Try a different app?</span><span class="view-ar">جرب تطبيق آخر؟</span>
              </a>
@@ -780,7 +655,6 @@
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
 </script>
 
 </body>
