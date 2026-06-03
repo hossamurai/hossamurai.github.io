@@ -1,456 +1,975 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#110e0c">
 <meta name="description" content="Hossam TV Premium IPTV Services. Watch Sports, Movies, and Series in 4K/UHD.">
 <title>Hossam TV - Premium Services</title>
 
-<link rel="icon" href="https://hossamurai.github.io/roundlogo.png" type="image/png">
+<link rel="icon" type="image/png" href="https://hossamurai.github.io/roundlogo.png">
+<link rel="apple-touch-icon" href="https://hossamurai.github.io/roundlogo.png">
+<link rel="preconnect" href="https://hossamurai.github.io">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Great+Vibes&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
 <style>
   :root {
-    --bg-color: #F5F7FA;
-    --card-bg: #FFFFFF;
-    --text-main: #1A1A1A;
-    --text-muted: #666666;
-    --brand-red: #D50000;
-    --brand-gold: linear-gradient(135deg, #FFD700, #DAA520);
-    --card-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    --radius-card: 20px;
+    --bg: #110e0c;
+    --surface: #1c1815;
+    --surface-2: #241f1b;
+    --line: rgba(255,255,255,0.09);
+    --ink: #f4efe6;
+    --muted: #a89e90;
+
+    --gold: #eab44e;   --gold-soft: rgba(234,180,78,0.14);
+    --red: #e8455a;    --red-soft: rgba(232,69,90,0.14);
+    --blue: #4d8df0;   --blue-soft: rgba(77,141,240,0.14);
+    --green: #2fb877;  --green-soft: rgba(47,184,119,0.14);
+    --cyan: #2dd4bf;   --cyan-soft: rgba(45,212,191,0.14);
+
+    --gold-grad: linear-gradient(135deg, #f3c869, #cf962f);
+    --shadow: 0 20px 50px rgba(0,0,0,0.55);
+    --shadow-sm: 0 10px 26px rgba(0,0,0,0.35);
+    --radius-card: 22px;
     --radius-pill: 50px;
   }
 
+  [data-theme="blue"]  { --accent: var(--blue);  --accent-soft: var(--blue-soft); }
+  [data-theme="gold"]  { --accent: var(--gold);  --accent-soft: var(--gold-soft); }
+  [data-theme="red"]   { --accent: var(--red);   --accent-soft: var(--red-soft); }
+  [data-theme="green"] { --accent: var(--green); --accent-soft: var(--green-soft); }
+
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  
+  img { border-radius: 22%; }
+  html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+
   body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-main);
+    color: var(--ink);
+    background: var(--bg);
     margin: 0; padding: 0;
     line-height: 1.6;
-    padding-bottom: 60px;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
   }
+  body.ltr { direction: ltr; text-align: left; }
+  body.rtl { direction: rtl; text-align: right; font-family: 'Cairo', sans-serif; }
+  body.ltr .view-ar { display: none !important; }
+  body.rtl .view-en { display: none !important; }
+  body.rtl h2 { font-family: 'Cairo', sans-serif; font-weight: 900; }
 
-  /* --- NAVIGATION --- */
+  /* --- NAV --- */
   nav {
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(12px);
+    background: rgba(17,14,12,0.78); backdrop-filter: blur(14px);
     position: sticky; top: 0; z-index: 1000;
-    padding: 12px 15px;
+    padding: 13px 15px;
     display: flex; justify-content: center; align-items: center;
-    gap: 8px; flex-wrap: wrap;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.06);
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    gap: 7px; flex-wrap: wrap;
+    border-bottom: 1px solid var(--line);
   }
-
-  nav a {
-    text-decoration: none; color: var(--text-muted);
-    font-weight: 700; font-size: 0.85rem;
-    padding: 8px 14px; border-radius: var(--radius-pill);
+  nav a, nav button.navlink {
+    text-decoration: none; color: var(--muted);
+    font-weight: 600; font-size: 0.85rem;
+    padding: 8px 13px; border-radius: var(--radius-pill);
     transition: all 0.2s ease; cursor: pointer;
-    white-space: nowrap;
+    white-space: nowrap; border: none; background: transparent;
+    font-family: inherit; line-height: 1;
+    display: inline-flex; align-items: center; gap: 6px;
   }
-  nav a:hover { background: #f0f0f0; color: var(--text-main); }
+  nav a:hover, nav button.navlink:hover { background: rgba(255,255,255,0.07); color: var(--gold); }
+  nav a.active { color: var(--gold); background: var(--surface); box-shadow: 0 8px 20px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(234,180,78,0.4); }
+  .nav-highlight { background: var(--gold-grad); color: #2a1d05 !important; font-weight: 700; box-shadow: 0 8px 18px rgba(234,180,78,0.28); }
+  .lang-btn { border: 1px solid var(--line); background: transparent; color: var(--ink) !important; }
 
-  /* SUPPORT BUTTON STYLE */
-  .nav-highlight {
-    background: var(--brand-red);
-    color: white !important;
-    box-shadow: 0 4px 12px rgba(213, 0, 0, 0.3);
-    animation: pulse-red 2s infinite;
+  /* --- HEADER --- */
+  header { position: relative; text-align: center; padding: 58px 20px 26px; overflow: hidden; }
+  header::before {
+    content: ""; position: absolute; top: -50px; left: 50%; transform: translateX(-50%);
+    width: 580px; height: 380px; max-width: 130vw; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(234,180,78,0.28), transparent 70%);
+    filter: blur(24px); pointer-events: none; z-index: 0;
   }
-  @keyframes pulse-red {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+  header > * { position: relative; z-index: 1; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 7px; margin: 0 0 16px;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); background: var(--gold-soft); border: 1px solid rgba(234,180,78,0.28);
+    padding: 7px 16px; border-radius: 50px;
   }
+  .wordmark { margin: 0; }
+  .brand-script { display: block; font-family: 'Great Vibes', cursive; font-weight: 400; font-size: 4.8rem; line-height: 0.95; color: var(--ink); text-shadow: 0 4px 22px rgba(234,180,78,0.3); }
+  .brand-sub { display: block; font-family: 'Poppins', sans-serif; font-weight: 700; letter-spacing: 7px; font-size: 0.95rem; text-transform: uppercase; color: var(--gold); margin-top: 4px; }
+  body.rtl .brand-sub { font-family: 'Cairo', sans-serif; letter-spacing: 2px; }
+  .brand-sub-line { width: 140px; height: 3px; margin: 12px auto 0; border-radius: 3px; background: linear-gradient(90deg, transparent, var(--gold), var(--red), transparent); }
+  p.subtitle { color: var(--muted); font-size: 1rem; margin-top: 14px; font-weight: 500; }
 
-  .lang-btn {
-    border: 1px solid #eee; background: white; color: var(--text-main);
-    display: flex; align-items: center; gap: 5px; font-family: 'Cairo', sans-serif;
-  }
+  .container { max-width: 820px; margin: 0 auto; padding: 0 15px; }
 
-  /* --- HEADER & GRID --- */
-  header { text-align: center; padding: 40px 20px 20px; }
-  h1 { margin: 0; font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; line-height: 1.2; }
-  p.subtitle { color: var(--text-muted); font-size: 1rem; margin-top: 8px; font-weight: 500; }
+  /* --- SECTION BANDS --- */
+  .band { position: relative; overflow: hidden; padding: 54px 0 64px; }
+  .band > .container { position: relative; z-index: 1; }
+  .band::before { content: ""; position: absolute; top: -120px; left: 50%; transform: translateX(-50%); width: 720px; height: 300px; max-width: 150vw; border-radius: 50%; filter: blur(55px); opacity: 0.5; pointer-events: none; }
+  .band-plans { background: #130f0c; }
+  .band-plans::before { background: radial-gradient(closest-side, rgba(234,180,78,0.22), transparent 70%); }
+  .band-setup { background: #0f1311; }
+  .band-setup::before { background: radial-gradient(closest-side, rgba(45,212,191,0.16), transparent 70%); }
+  .band-support { background: #140e0e; }
+  .band-support::before { background: radial-gradient(closest-side, rgba(232,69,90,0.18), transparent 70%); }
+  .band-faq { background: #0e120f; }
+  .band-faq::before { background: radial-gradient(closest-side, rgba(47,184,119,0.16), transparent 70%); }
 
-  .container { max-width: 800px; margin: 0 auto; padding: 0 15px; }
+  .section-head { text-align: center; margin-bottom: 26px; }
+  .kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+  .band-plans .kicker { color: var(--gold); }
+  .band-setup .kicker { color: var(--cyan); }
+  .band-support .kicker { color: var(--red); }
+  .band-faq .kicker { color: var(--green); }
+  .section-head h2 { margin: 0; font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; }
+  .band-plans .section-head h2 { color: var(--gold); }
+  .band-setup .section-head h2 { color: var(--cyan); }
+  .band-support .section-head h2 { color: var(--red); }
+  .band-faq .section-head h2 { color: var(--green); }
+  .section-head p { margin: 10px 0 0; color: var(--muted); font-size: 0.95rem; }
 
-  .step-title {
-    font-size: 0.95rem; font-weight: 800; margin: 25px 0 15px;
-    color: var(--text-muted); text-transform: uppercase;
-    letter-spacing: 1.5px; text-align: center;
-    border-top: 1px solid #eee; padding-top: 20px;
-  }
-  .step-title:first-child { border-top: none; }
+  .step-title { font-size: 0.78rem; font-weight: 700; margin: 24px 0 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; text-align: center; }
 
-  .grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
-    transition: all 0.5s ease;
-  }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; transition: all 0.5s ease; }
 
   /* --- CARDS --- */
   .selection-card {
-    background: white; border: 2px solid transparent;
+    --accent: var(--gold); --accent-soft: var(--gold-soft);
+    background: var(--surface); border: 1px solid var(--line);
     border-radius: var(--radius-card);
-    padding: 20px 15px; text-align: center; cursor: pointer;
-    box-shadow: var(--card-shadow);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    padding: 22px 16px; text-align: center; cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275), opacity 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     position: relative; overflow: hidden; width: 100%;
     will-change: transform, opacity;
   }
+  .selection-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--shadow); }
   .selection-card:active { transform: scale(0.98); }
 
+  .selection-card.picked { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft), var(--shadow); }
+  .selection-card.picked::after {
+    content: "\2713"; position: absolute; top: 12px; left: 12px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--surface-2); border: 2px solid var(--accent); color: var(--accent);
+    font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; justify-content: center;
+  }
+  body.rtl .selection-card.picked::after { left: auto; right: 12px; }
+
   .selection-card.selected {
-    border-color: #DAA520; background: #fffdf5;
-    box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.15);
-    transform: scale(1.02); cursor: default;
+    border-color: var(--accent);
+    background: linear-gradient(180deg, var(--accent-soft), transparent);
+    box-shadow: 0 0 0 2px var(--accent-soft), var(--shadow);
+    transform: scale(1.01); cursor: default;
     width: 100%; grid-column: 1 / -1; z-index: 10;
   }
-  .selection-card[data-theme="red"].selected { border-color: var(--brand-red); background: #fff5f5; }
 
-  .card-img { width: 100px; height: 100px; object-fit: contain; margin-bottom: 10px; border-radius: 12px; }
-  .card-text { font-weight: 800; font-size: 1.15rem; margin-bottom: 2px; line-height: 1.3; }
-  .price-text { font-size: 1.1rem; color: var(--text-main); font-weight: 900; margin-bottom: 12px; }
-  .price-text span { font-size: 0.75rem; color: var(--text-muted); font-weight: normal; }
+  #grid-plan .selection-card { animation: rise 0.6s both; }
+  #grid-plan .selection-card:nth-child(1) { animation-delay: 0.04s; }
+  #grid-plan .selection-card:nth-child(2) { animation-delay: 0.10s; }
+  #grid-plan .selection-card:nth-child(3) { animation-delay: 0.16s; }
+  #grid-plan .selection-card:nth-child(4) { animation-delay: 0.22s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 
-  /* TAP INDICATOR */
-  .tap-indicator {
-    display: block; margin-top: 10px; font-size: 0.8rem;
-    color: var(--brand-red); font-weight: 700; text-transform: uppercase; opacity: 0.8;
-  }
-  .selection-card.selected .tap-indicator { display: none; }
+  .card-img { width: 96px; height: 96px; object-fit: contain; margin-bottom: 12px; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5)); }
+  .card-icon { font-size: 2.7rem; margin-bottom: 10px; color: var(--accent); }
+  .card-text { font-weight: 700; font-size: 1.12rem; margin-bottom: 2px; line-height: 1.3; color: var(--ink); }
+  .price-text { font-size: 1.2rem; color: var(--ink); font-weight: 800; margin: 4px 0 12px; }
+  .price-text span { font-size: 0.72rem; color: var(--muted); font-weight: 500; }
 
-  /* BADGES & LISTS */
-  .badge-container { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-  .badge { font-size: 0.65rem; font-weight: 800; padding: 3px 8px; border-radius: 8px; text-transform: uppercase; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-  .badge.gold { background: var(--brand-gold); }
-  .badge.red { background: var(--brand-red); }
-  .badge.grey { background: #eee; color: #555; }
-  .badge.blue { background: #2196F3; }
-  .badge.purple { background: #9C27B0; }
+  .tap-indicator { display: block; margin-top: 12px; font-size: 0.78rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+  .selection-card.picked .tap-indicator, .selection-card.selected .tap-indicator { display: none; }
 
-  .feature-list { text-align: left; margin-top: 12px; padding: 12px; background: rgba(0,0,0,0.03); border-radius: 12px; font-size: 0.85rem; color: #444; }
-  .feature-list div { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
-  .feature-list i { font-size: 1.1rem; color: #555; flex-shrink: 0; margin-top: 2px; }
-  .selected[data-theme="gold"] .feature-list i { color: #DAA520; }
-  .selected[data-theme="red"] .feature-list i { color: var(--brand-red); }
+  /* BADGES */
+  .badge-container { position: absolute; top: 12px; right: 12px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+  body.rtl .badge-container { right: auto; left: 12px; align-items: flex-start; }
+  .badge { font-size: 0.62rem; font-weight: 800; padding: 4px 9px; border-radius: 9px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge.gold { background: var(--gold-grad); color: #2a1d05; }
+  .badge.red { background: var(--red); color: #fff; }
+  .badge.green { background: var(--green); color: #06281a; }
+  .badge.blue { background: var(--blue); color: #06183a; }
+  .badge.grey { background: rgba(255,255,255,0.1); color: #d8cfc0; }
+  .badge.soft { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
 
-  /* --- SETUP SECTION --- */
+  .feature-list { text-align: start; margin-top: 14px; padding: 14px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--line); border-radius: 14px; font-size: 0.85rem; color: #d6cdbf; }
+  .feature-list div { margin-bottom: 9px; display: flex; align-items: flex-start; justify-content: flex-start; gap: 9px; line-height: 1.4; }
+  .feature-list div:last-child { margin-bottom: 0; }
+  .feature-list i { font-size: 1.15rem; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+
+  /* --- SETUP / PLAN SWITCH / TABS --- */
   .hidden { display: none !important; }
-  #step-setup { animation: slideDown 0.5s ease-out; }
+  #sup-step-device, #sup-step-app { animation: slideDown 0.5s ease-out; }
   @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
 
-  .tabs-container { background: white; padding: 5px; border-radius: 16px; box-shadow: var(--card-shadow); display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; }
-  .tab-btn { border: none; background: transparent; padding: 12px 10px; border-radius: 12px; font-family: inherit; font-weight: 700; color: var(--text-muted); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 6px; flex: 1 1 40%; }
-  .tab-btn:hover { background: #f9f9f9; }
-  .tab-btn.active { background: var(--text-main); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transform: translateY(-1px); }
+  .switch-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); text-align: center; margin-bottom: 10px; }
+  .plan-switch { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; }
+  .pswitch { --accent: var(--gold); font-family: inherit; font-weight: 700; font-size: 0.85rem; padding: 9px 18px; border-radius: 50px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .pswitch:hover { border-color: var(--accent); color: var(--accent); }
+  .pswitch.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 
-  .setup-box { background: white; border-radius: var(--radius-card); padding: 25px 20px; box-shadow: var(--card-shadow); text-align: center; border: 1px solid #f0f0f0; max-width: 100%; margin: 0 auto; }
-  
-  .code-block { background: #F5F7FA; padding: 15px; border-radius: 12px; font-family: monospace; font-weight: 800; font-size: 1.1rem; color: var(--text-main); border: 2px dashed #ddd; margin: 15px 0; display: block; letter-spacing: 0.5px; word-break: break-all; cursor: copy; position: relative; }
-  
-  .action-btn { background: var(--text-main); color: white; width: 100%; border: none; padding: 16px; border-radius: 14px; font-weight: 700; cursor: pointer; font-size: 1rem; text-decoration: none; display: flex; justify-content: center; align-items: center; gap: 8px; transition: transform 0.2s; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+  .tabs-container { background: var(--surface); border: 1px solid var(--line); padding: 5px; border-radius: 16px; display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
+  .tab-btn { border: none; background: transparent; padding: 12px 8px; border-radius: 12px; font-family: inherit; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.2s; font-size: 0.78rem; display: flex; align-items: center; justify-content: center; gap: 6px; flex: 1 1 30%; }
+  .tab-btn:hover { background: rgba(255,255,255,0.05); color: var(--cyan); }
+  .tab-btn.active { background: var(--cyan); color: #062c28; box-shadow: 0 8px 16px rgba(45,212,191,0.25); }
+
+  .setup-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-card); padding: 26px 22px; box-shadow: var(--shadow); text-align: center; color: var(--ink); max-width: 100%; margin: 0 auto; }
+  .setup-box h3 { margin: 8px 0 16px; font-size: 1.25rem; font-weight: 800; }
+
+  .steps { text-align: start; margin: 6px 0 4px; }
+  .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+  .snum { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--cyan-soft); color: var(--cyan); font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; }
+  .step > div { color: var(--muted); line-height: 1.55; padding-top: 2px; }
+  .step strong { color: var(--ink); }
+
+  .code-block { background: rgba(0,0,0,0.35); padding: 14px; border-radius: 12px; font-family: ui-monospace, Menlo, monospace; font-weight: 700; font-size: 1.02rem; color: var(--gold); border: 1px dashed rgba(234,180,78,0.45); margin: 12px 0 2px; display: block; letter-spacing: 0.5px; word-break: break-all; cursor: copy; }
+  .copy-ic { float: right; color: rgba(234,180,78,0.7); }
+  body.rtl .copy-ic { float: left; }
+
+  .note { background: var(--gold-soft); color: #ecd49a; padding: 12px 14px; border-radius: 12px; font-size: 0.85rem; margin-top: 16px; border: 1px solid rgba(234,180,78,0.3); line-height: 1.5; text-align: start; }
+  .note strong { color: var(--gold); }
+  .note.warn { background: var(--red-soft); color: #f3b6bf; border-color: rgba(232,69,90,0.35); }
+  .note.warn strong { color: var(--red); }
+
+  .action-btn {
+    background: var(--gold-grad); color: #2a1d05; width: 100%; border: none; padding: 16px; border-radius: 15px;
+    font-weight: 700; cursor: pointer; font-size: 1rem; text-decoration: none;
+    display: flex; justify-content: center; align-items: center; gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s; margin-top: 14px;
+    box-shadow: 0 12px 26px rgba(234,180,78,0.25); font-family: inherit;
+  }
+  .action-btn:hover { filter: brightness(1.05); box-shadow: 0 16px 30px rgba(234,180,78,0.34); }
   .action-btn:active { transform: scale(0.98); }
-  
-  /* WhatsApp Pulse */
-  .action-btn.wa { background: #25D366; color: white; margin-top: 20px; animation: pulse-green 2s infinite; }
+  .action-btn.secondary { background: transparent; color: var(--ink); border: 1px solid var(--line); box-shadow: none; }
+  .action-btn.secondary:hover { background: rgba(255,255,255,0.05); filter: none; }
+  .action-btn.slate { background: var(--surface-2); color: var(--ink); border: 1px solid var(--line); box-shadow: none; }
+  .action-btn.slate:hover { background: #2c2620; filter: none; }
+  .action-btn.wa { background: #25D366; color: #04340f; margin-top: 20px; box-shadow: 0 12px 26px rgba(37,211,102,0.3); animation: pulse-green 2s infinite; }
+  .action-btn.wa:hover { filter: brightness(1.05); }
   @keyframes pulse-green {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    0% { box-shadow: 0 12px 26px rgba(37,211,102,0.3), 0 0 0 0 rgba(37,211,102,0.45); }
+    70% { box-shadow: 0 12px 26px rgba(37,211,102,0.3), 0 0 0 12px rgba(37,211,102,0); }
+    100% { box-shadow: 0 12px 26px rgba(37,211,102,0.3), 0 0 0 0 rgba(37,211,102,0); }
   }
 
-  .reset-btn { background: #f0f0f0; color: var(--text-muted); border: none; padding: 12px 25px; border-radius: 50px; font-weight: 600; margin: 40px auto; display: block; cursor: pointer; font-family: inherit; font-size: 0.9rem; }
+  .reset-btn { background: var(--surface); color: var(--muted); border: 1px solid var(--line); padding: 12px 25px; border-radius: 50px; font-weight: 600; margin: 30px auto 0; display: block; cursor: pointer; font-family: inherit; font-size: 0.9rem; }
+
+  /* --- FAQ (green) --- */
+  .faq-item { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; margin-bottom: 12px; box-shadow: var(--shadow-sm); overflow: hidden; }
+  .faq-question { width: 100%; padding: 18px 20px; border: none; background: transparent; font-weight: 600; color: var(--ink); display: flex; justify-content: space-between; align-items: center; gap: 12px; cursor: pointer; font-family: inherit; font-size: 0.9rem; line-height: 1.4; text-align: start; }
+  .faq-question i { transition: transform 0.3s ease; flex-shrink: 0; color: var(--green); }
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: rgba(0,0,0,0.22); padding: 0 20px; color: var(--muted); font-size: 0.9rem; text-align: start; }
+
+  /* --- SUPPORT (red) --- */
+  .holy-grail-box { background: var(--surface); border: 1px solid rgba(232,69,90,0.25); border-radius: var(--radius-card); padding: 26px 22px; box-shadow: var(--shadow); margin: 20px auto; display: none; animation: slideDown 0.5s ease-out; }
+  .holy-grail-box h3 { color: var(--ink); }
+  .hg-item { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; justify-content: flex-start; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .hg-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .hg-icon { font-size: 1.4rem; color: var(--red); flex-shrink: 0; background: var(--red-soft); width: 46px; height: 46px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
+  .hg-content { text-align: start; }
+  .hg-content h4 { margin: 0 0 4px 0; font-size: 1rem; font-weight: 700; color: var(--ink); }
+  .hg-content p { margin: 0; font-size: 0.9rem; color: var(--muted); line-height: 1.4; }
+
+  .specific-box { background: rgba(232,69,90,0.06); border: 1px solid rgba(232,69,90,0.25); border-radius: var(--radius-card); padding: 26px 22px; margin-top: 20px; display: none; animation: slideDown 0.5s ease; box-shadow: var(--shadow); }
+  .specific-box h3 { color: var(--ink); margin-top: 0; }
+  .specific-step { background: var(--surface); border: 1px solid var(--line); padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid var(--red); font-size: 0.95rem; text-align: start; color: var(--ink); }
+  body.rtl .specific-step { border-left: 1px solid var(--line); border-right: 4px solid var(--red); }
+  .specific-step.alt { border-left-color: var(--gold); }
+  body.rtl .specific-step.alt { border-right-color: var(--gold); }
+  .specific-step strong { color: var(--red); }
+
+  footer { text-align: center; padding: 44px 20px 36px; color: #7a7165; font-size: 0.8rem; }
+  .footer-mark { font-family: 'Great Vibes', cursive; font-size: 1.9rem; color: var(--gold); display: block; margin-bottom: 2px; }
 
   @media (max-width: 768px) {
-    header { padding-top: 30px; }
-    h1 { font-size: 1.8rem; }
+    header { padding-top: 40px; padding-bottom: 18px; }
+    .brand-script { font-size: 3.6rem; }
+    .brand-sub { letter-spacing: 5px; font-size: 0.82rem; }
+    .section-head h2 { font-size: 1.55rem; }
+    .section-head p { font-size: 0.9rem; }
+    .band { padding: 40px 0 48px; }
     .grid { grid-template-columns: 1fr; gap: 12px; }
+    .selection-card { padding: 20px 16px; }
     .setup-box { padding: 20px 15px; }
+    .tab-btn { flex: 1 1 28%; font-size: 0.72rem; padding: 10px 6px; }
+    .plan-switch { gap: 7px; }
+    .pswitch { padding: 8px 15px; font-size: 0.8rem; }
+    .action-btn { padding: 15px; }
+    nav { gap: 5px; padding: 11px 10px; }
+    nav a, nav button.navlink { padding: 7px 11px; font-size: 0.8rem; }
+  }
+  @media (max-width: 420px) {
+    .brand-script { font-size: 3rem; }
+    .section-head h2 { font-size: 1.4rem; }
+    .card-img { width: 84px; height: 84px; }
+    .tab-btn { font-size: 0.68rem; gap: 4px; }
+    nav a, nav button.navlink { padding: 6px 9px; font-size: 0.76rem; }
   }
 </style>
 </head>
-<body>
+<body class="ltr">
 
 <nav>
-  <a onclick="resetAll()">Plans</a>
-  <a href="faq.html">FAQ</a>
-  <a href="https://hossamurai.github.io/support.html" class="nav-highlight">
-    Need Support?
+  <a href="#plans" data-nav="plans"><span class="view-en">Plans</span><span class="view-ar">الباقات</span></a>
+  <a href="#setup" data-nav="setup"><span class="view-en">Setup</span><span class="view-ar">التثبيت</span></a>
+  <a href="#support" data-nav="support"><span class="view-en">Support</span><span class="view-ar">الدعم</span></a>
+  <a href="#faq" data-nav="faq"><span class="view-en">FAQ</span><span class="view-ar">الأسئلة</span></a>
+  <a href="https://wa.me/message/JZEZ3BNRYY2ED1" class="nav-highlight">
+    <i class="ph-fill ph-whatsapp-logo"></i>
+    <span class="view-en">Subscribe</span><span class="view-ar">اشترك الآن</span>
   </a>
-  <a href="https://hossamurai.github.io/Hossam_TV_AR.html" class="lang-btn">
-    <i class="ph ph-globe"></i> العربية
-  </a>
+  <button class="navlink lang-btn" onclick="toggleLanguage()">
+    <i class="ph ph-globe"></i>
+    <span class="view-en">العربية</span><span class="view-ar">English</span>
+  </button>
 </nav>
 
-<header>
-  <h1>Hossam TV Services</h1>
-  <p class="subtitle">TV services with a touch of magic</p>
+<header id="top">
+  <span class="hero-tag"><i class="ph-fill ph-sparkle"></i> <span class="view-en">Premium IPTV</span><span class="view-ar">اشتراكات مميزة</span></span>
+  <h1 class="wordmark">
+    <span class="brand-script">Hossam</span>
+    <span class="brand-sub"><span class="view-en">TV Services</span><span class="view-ar">خدمات تلفزيونية</span></span>
+    <span class="brand-sub-line"></span>
+  </h1>
+  <p class="subtitle"><span class="view-en">Live Sports &bull; Movies &bull; Series — in stunning 4K</span><span class="view-ar">رياضة مباشرة &bull; أفلام &bull; مسلسلات — بجودة 4K</span></p>
 </header>
 
-<div class="container">
+<!-- ============================ PLANS ============================ -->
+<section class="band band-plans" id="plans">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker"><i class="ph-fill ph-sparkle"></i> 01 — <span class="view-en">Plans</span><span class="view-ar">الباقات</span></span>
+      <h2><span class="view-en">Choose Your Plan</span><span class="view-ar">اختر باقتك</span></h2>
+      <p><span class="view-en">Compare plans below — tap one to jump to its setup guide.</span><span class="view-ar">قارن بين الباقات — اضغط على إحداها للانتقال لدليل التثبيت.</span></p>
+    </div>
 
-  <div id="step-plan">
-    <div class="step-title">Step 1: Choose a Plan</div>
     <div class="grid" id="grid-plan">
-      
-      <div class="selection-card" onclick="handlePlanSelection('basic', this)" data-theme="gold">
-        <div class="badge-container"><span class="badge grey">Value</span></div>
-        <img src="https://hossamurai.github.io/basic.png" class="card-img" loading="lazy">
-        <div class="card-text">Basic Plan</div>
-        <div class="price-text">35 USD <span>/ Year</span></div>
-        <div class="tap-indicator"><i class="ph-bold ph-hand-tap"></i> Tap to Select</div>
+
+      <div class="selection-card" data-key="basic" data-theme="blue" onclick="pickAndScroll('basic')">
+        <div class="badge-container"><span class="badge grey"><span class="view-en">Best Seller</span><span class="view-ar">الأكثر مبيعاً</span></span></div>
+        <img src="https://hossamurai.github.io/basic.png" class="card-img" loading="lazy" decoding="async" width="96" height="96">
+        <div class="card-text"><span class="view-en">Basic Plan</span><span class="view-ar">الباقة الأساسية</span></div>
+        <div class="price-text"><span class="view-en">35 USD <span>/ Year</span></span><span class="view-ar">35 دولار <span>/ سنوياً</span></span></div>
+        <div class="tap-indicator"><i class="ph-bold ph-hand-tap"></i> <span class="view-en">Tap to set up</span><span class="view-ar">اضغط للإعداد</span></div>
         <div class="feature-list">
-           <div><i class="ph-fill ph-television-simple"></i> beIN, Sky, Fox, ESPN</div>
-           <div><i class="ph-fill ph-film-strip"></i> Movies & Series Library</div>
-           <div><i class="ph-fill ph-soccer-ball"></i> Great for Soccer fans</div>
-           <div><i class="ph-fill ph-translate"></i> Preferred by Arabic speakers</div>
+          <div><i class="ph-fill ph-television-simple"></i> <span class="view-en">beIN, Sky, Fox, ESPN</span><span class="view-ar">قنوات beIN, Sky, Fox</span></div>
+          <div><i class="ph-fill ph-film-strip"></i> <span class="view-en">Movies &amp; Series Library</span><span class="view-ar">مكتبة أفلام ومسلسلات ضخمة</span></div>
+          <div><i class="ph-fill ph-soccer-ball"></i> <span class="view-en">Great for Soccer fans</span><span class="view-ar">ممتازة لعشاق كرة القدم</span></div>
+          <div><i class="ph-fill ph-translate"></i> <span class="view-en">Preferred by Arabic speakers</span><span class="view-ar">الخيار المفضل للعرب</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(16,000+ Channels)</span><span class="view-ar">(أكثر من 16,000 قناة)</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(65,000+ Movies)</span><span class="view-ar">(أكثر من 65,000 فيلم)</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(16,000+ Series)</span><span class="view-ar">(أكثر من 16,000 مسلسل)</span></div>
         </div>
       </div>
 
-      <div class="selection-card" onclick="handlePlanSelection('premium', this)" data-theme="gold">
-        <div class="badge-container"><span class="badge gold">ELITE</span></div>
-        <img src="https://hossamurai.github.io/premium.png" class="card-img" loading="lazy">
-        <div class="card-text">Premium Plan</div>
-        <div class="price-text">55 USD <span>/ Year</span></div>
-        <div class="tap-indicator"><i class="ph-bold ph-hand-tap"></i> Tap to Select</div>
+      <div class="selection-card" data-key="premium" data-theme="gold" onclick="pickAndScroll('premium')">
+        <div class="badge-container"><span class="badge gold"><span class="view-en">Multinational</span><span class="view-ar">متعددة الجنسيات</span></span></div>
+        <img src="https://hossamurai.github.io/premium.png" class="card-img" loading="lazy" decoding="async" width="96" height="96">
+        <div class="card-text"><span class="view-en">Premium Plan</span><span class="view-ar">باقة بريميوم</span></div>
+        <div class="price-text"><span class="view-en">55 USD <span>/ Year</span></span><span class="view-ar">55 دولار <span>/ سنوياً</span></span></div>
+        <div class="tap-indicator"><i class="ph-bold ph-hand-tap"></i> <span class="view-en">Tap to set up</span><span class="view-ar">اضغط للإعداد</span></div>
         <div class="feature-list">
-           <div><i class="ph-fill ph-list-plus"></i> <strong>3x More Channels</strong></div>
-           <div><i class="ph-fill ph-trophy"></i> Pro Sports (NHL, NBA, NFL)</div>
-           <div><i class="ph-fill ph-monitor-play"></i> 4K / UHD Supported</div>
-           <div><i class="ph-fill ph-video"></i> Massive VOD Library</div>
+          <div><i class="ph-fill ph-list-plus"></i> <span class="view-en"><strong>3x More Channels</strong></span><span class="view-ar"><strong>3 أضعاف عدد القنوات</strong></span></div>
+          <div><i class="ph-fill ph-trophy"></i> <span class="view-en">Pro Sports (NHL, NBA, NFL)</span><span class="view-ar">رياضات أمريكية (NBA, NFL)</span></div>
+          <div><i class="ph-fill ph-monitor-play"></i> <span class="view-en">4K / UHD Supported</span><span class="view-ar">دعم جودة 4K حقيقية</span></div>
+          <div><i class="ph-fill ph-video"></i> <span class="view-en">Massive VOD Library</span><span class="view-ar">مكتبة VOD محدثة يومياً</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(55,000+ Channels)</span><span class="view-ar">(أكثر من 55,000 قناة)</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(169,000+ Movies)</span><span class="view-ar">(أكثر من 169,000 فيلم)</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(44,000+ Series)</span><span class="view-ar">(أكثر من 44,000 مسلسل)</span></div>
         </div>
       </div>
 
-      <div class="selection-card" onclick="handlePlanSelection('xtv', this)" data-theme="red">
+      <div class="selection-card" data-key="xtv" data-theme="red" onclick="pickAndScroll('xtv')">
         <div class="badge-container">
-            <span class="badge red">Egypt Only</span>
-            <span class="badge blue">Family Choice</span>
+          <span class="badge red"><span class="view-en">Egypt Only</span><span class="view-ar">مصر فقط</span></span>
+          <span class="badge soft"><span class="view-en">Family Choice</span><span class="view-ar">خيار العائلة</span></span>
         </div>
-        <img src="https://hossamurai.github.io/X.png" class="card-img" loading="lazy">
-        <div class="card-text">XTV Server</div>
-        <div class="price-text">400 EGP <span>/ Year</span></div>
-        <div class="tap-indicator"><i class="ph-bold ph-hand-tap"></i> Tap to Select</div>
+        <img src="https://hossamurai.github.io/X.png" class="card-img" loading="lazy" decoding="async" width="96" height="96">
+        <div class="card-text"><span class="view-en">XTV Server</span><span class="view-ar">سيرفر إكس</span></div>
+        <div class="price-text"><span class="view-en">400 EGP <span>/ Year</span></span><span class="view-ar">400 جنيه <span>/ سنوياً</span></span></div>
+        <div class="tap-indicator"><i class="ph-bold ph-hand-tap"></i> <span class="view-en">Tap to set up</span><span class="view-ar">اضغط للإعداد</span></div>
         <div class="feature-list">
-           <div><i class="ph-fill ph-list-dashes"></i> Extensive Channel List</div>
-           <div><i class="ph-fill ph-check-circle"></i> <strong>Football Stability Focus</strong></div>
-           <div><i class="ph-fill ph-shield-check"></i> Family Friendly (99% Censored)</div>
-           <div><i class="ph-fill ph-lightning"></i> Fastest Updates & Local Support</div>
+          <div><i class="ph-fill ph-list-dashes"></i> <span class="view-en">Extensive Channel List</span><span class="view-ar">قائمة قنوات واسعة</span></div>
+          <div><i class="ph-fill ph-check-circle"></i> <span class="view-en"><strong>Football Stability Focus</strong></span><span class="view-ar"><strong>أولوية لثبات قنوات الكرة</strong></span></div>
+          <div><i class="ph-fill ph-shield-check"></i> <span class="view-en">Family Friendly (99% Censored)</span><span class="view-ar">آمن للعائلة (99% رقابة)</span></div>
+          <div><i class="ph-fill ph-lightning"></i> <span class="view-en">Fastest Updates &amp; Local Support</span><span class="view-ar">تحديثات سريعة ودعم محلي</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(12,000+ Channels)</span><span class="view-ar">(أكثر من 12,000 قناة)</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(19,000+ Movies)</span><span class="view-ar">(أكثر من 19,000 فيلم)</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(8,000+ Series)</span><span class="view-ar">(أكثر من 8,000 مسلسل)</span></div>
         </div>
       </div>
 
-      <div class="selection-card" onclick="handlePlanSelection('marvel', this)" data-theme="red">
+      <div class="selection-card" data-key="marvel" data-theme="green" onclick="pickAndScroll('marvel')">
         <div class="badge-container">
-            <span class="badge red">Egypt Only</span>
-            <span class="badge purple">Cinema Lovers</span>
+          <span class="badge red"><span class="view-en">Egypt Only</span><span class="view-ar">مصر فقط</span></span>
+          <span class="badge soft"><span class="view-en">Cinema Lovers</span><span class="view-ar">عشاق السينما</span></span>
         </div>
-        <img src="https://hossamurai.github.io/marvel.png" class="card-img" loading="lazy">
-        <div class="card-text">Marvel Server</div>
-        <div class="price-text">400 EGP <span>/ Year</span></div>
-        <div class="tap-indicator"><i class="ph-bold ph-hand-tap"></i> Tap to Select</div>
+        <img src="https://hossamurai.github.io/marvel.png" class="card-img" loading="lazy" decoding="async" width="96" height="96">
+        <div class="card-text"><span class="view-en">Marvel Server</span><span class="view-ar">سيرفر مارفل</span></div>
+        <div class="price-text"><span class="view-en">400 EGP <span>/ Year</span></span><span class="view-ar">400 جنيه <span>/ سنوياً</span></span></div>
+        <div class="tap-indicator"><i class="ph-bold ph-hand-tap"></i> <span class="view-en">Tap to set up</span><span class="view-ar">اضغط للإعداد</span></div>
         <div class="feature-list">
-           <div><i class="ph-fill ph-film-reel"></i> Huge VOD (Movies/Series)</div>
-           <div><i class="ph-fill ph-star"></i> Premium Quality (More 4K)</div>
-           <div><i class="ph-fill ph-layout"></i> Clean English Layout</div>
-           <div><i class="ph-fill ph-wifi-high"></i> Stable Sports Coverage</div>
+          <div><i class="ph-fill ph-film-reel"></i> <span class="view-en">Huge VOD (Movies/Series)</span><span class="view-ar">مكتبة ضخمة (أفلام/مسلسلات)</span></div>
+          <div><i class="ph-fill ph-star"></i> <span class="view-en">Premium Quality (More 4K)</span><span class="view-ar">جودة عالية (دعم 4K)</span></div>
+          <div><i class="ph-fill ph-layout"></i> <span class="view-en">Clean English Layout</span><span class="view-ar">واجهة إنجليزية منظمة</span></div>
+          <div><i class="ph-fill ph-wifi-high"></i> <span class="view-en">Stable Sports Coverage</span><span class="view-ar">تغطية رياضية مستقرة</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(6,000+ Channels)</span><span class="view-ar">(أكثر من 6,000 قناة)</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(41,000+ Movies)</span><span class="view-ar">(أكثر من 41,000 فيلم)</span></div>
+          <div><i class="ph-bold ph-plus-circle"></i> <span class="view-en">(9,000+ Series)</span><span class="view-ar">(أكثر من 9,000 مسلسل)</span></div>
         </div>
       </div>
 
     </div>
   </div>
+</section>
 
-  <div id="step-setup" class="hidden">
-    <div class="step-title">Step 2: Install App</div>
-    
+<!-- ============================ SETUP GUIDE ============================ -->
+<section class="band band-setup" id="setup">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker"><i class="ph-fill ph-download-simple"></i> 02 — <span class="view-en">Setup</span><span class="view-ar">التثبيت</span></span>
+      <h2><span class="view-en">Installation Guide</span><span class="view-ar">دليل التثبيت</span></h2>
+      <p><span class="view-en">Pick your plan and device for step-by-step instructions.</span><span class="view-ar">اختر باقتك وجهازك لعرض خطوات التثبيت بالتفصيل.</span></p>
+    </div>
+
+    <div class="switch-label"><span class="view-en">Your Plan</span><span class="view-ar">باقتك</span></div>
+    <div class="plan-switch" id="plan-switch">
+      <button class="pswitch" data-theme="blue"  data-plan="basic"   onclick="selectPlan('basic')"><span class="view-en">Basic</span><span class="view-ar">الأساسية</span></button>
+      <button class="pswitch" data-theme="gold"  data-plan="premium" onclick="selectPlan('premium')"><span class="view-en">Premium</span><span class="view-ar">بريميوم</span></button>
+      <button class="pswitch" data-theme="red"   data-plan="xtv"     onclick="selectPlan('xtv')">XTV</button>
+      <button class="pswitch" data-theme="green" data-plan="marvel"  onclick="selectPlan('marvel')">Marvel</button>
+    </div>
+
+    <div class="switch-label"><span class="view-en">Your Device</span><span class="view-ar">جهازك</span></div>
     <div class="tabs-container">
-      <button class="tab-btn active" onclick="openTab('tv', this)"><i class="ph ph-television"></i> Android TV</button>
-      <button class="tab-btn" onclick="openTab('mobile', this)"><i class="ph ph-device-mobile"></i> Mobile</button>
+      <button class="tab-btn active" onclick="openTab('tv', this)"><i class="ph ph-television"></i> <span class="view-en">Android TV</span><span class="view-ar">أندرويد TV</span></button>
+      <button class="tab-btn" onclick="openTab('firestick', this)"><i class="ph ph-fire-simple"></i> <span class="view-en">Firestick</span><span class="view-ar">فاير ستيك</span></button>
+      <button class="tab-btn" onclick="openTab('mobile', this)"><i class="ph ph-device-mobile"></i> <span class="view-en">Mobile</span><span class="view-ar">موبايل</span></button>
       <button class="tab-btn" onclick="openTab('ios', this)"><i class="ph ph-apple-logo"></i> iOS</button>
-      <button class="tab-btn" onclick="openTab('smart', this)"><i class="ph ph-monitor-play"></i> Smart TV</button>
-      <button class="tab-btn" onclick="openTab('pc', this)"><i class="ph ph-desktop"></i> Windows</button>
+      <button class="tab-btn" onclick="openTab('smart', this)"><i class="ph ph-monitor-play"></i> <span class="view-en">Smart TV</span><span class="view-ar">شاشة ذكية</span></button>
+      <button class="tab-btn" onclick="openTab('pc', this)"><i class="ph ph-desktop"></i> <span class="view-en">Windows</span><span class="view-ar">كمبيوتر</span></button>
     </div>
 
-    <div id="setup-content" class="setup-box">
-      </div>
-    
+    <div id="setup-content" class="setup-box"></div>
+
     <div style="text-align:center; margin-top:20px;">
-        <p style="color:#666; font-size:0.85rem; margin-bottom:8px;">Need to activate?</p>
-        <a href="https://wa.me/message/JZEZ3BNRYY2ED1" class="action-btn wa" style="max-width:350px; margin:0 auto;">
-            <i class="ph-fill ph-whatsapp-logo"></i> Subscribe via WhatsApp
-        </a>
+      <p style="color:var(--muted); font-size:0.85rem; margin-bottom:8px;"><span class="view-en">Need to activate?</span><span class="view-ar">هل ترغب في الاشتراك؟</span></p>
+      <a href="https://wa.me/message/JZEZ3BNRYY2ED1" class="action-btn wa" style="max-width:350px; margin:0 auto;">
+        <i class="ph-fill ph-whatsapp-logo"></i> <span class="view-en">Subscribe via WhatsApp</span><span class="view-ar">الاشتراك عبر واتساب</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ SUPPORT ============================ -->
+<section class="band band-support" id="support">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker"><i class="ph-fill ph-lifebuoy"></i> 03 — <span class="view-en">Support</span><span class="view-ar">الدعم</span></span>
+      <h2><span class="view-en">Support Center</span><span class="view-ar">مركز الدعم والمساعدة</span></h2>
+      <p><span class="view-en">Troubleshooting guide — find a fix in 3 steps.</span><span class="view-ar">دليل حل المشاكل — احصل على الحل في 3 خطوات.</span></p>
     </div>
 
-    <button class="reset-btn" onclick="resetAll()">
-      <i class="ph ph-arrow-counter-clockwise"></i> Choose Different Plan
+    <div id="sup-step-plan">
+      <div class="step-title"><span class="view-en">Step 1: Which plan are you on?</span><span class="view-ar">خطوة 1: ما هي باقتك الحالية؟</span></div>
+      <div class="grid" id="sup-grid-plan">
+
+        <div class="selection-card" onclick="handleSupportSelection('plan', 'Basic', 'https://hossamurai.github.io/basic.png', this)" data-theme="blue">
+          <div class="badge-container"><span class="badge grey"><span class="view-en">Best Seller</span><span class="view-ar">الأكثر مبيعاً</span></span></div>
+          <img src="https://hossamurai.github.io/basic.png" class="card-img" loading="lazy" decoding="async" width="96" height="96">
+          <div class="card-text"><span class="view-en">Basic Plan</span><span class="view-ar">الباقة الأساسية</span></div>
+        </div>
+
+        <div class="selection-card" onclick="handleSupportSelection('plan', 'Premium', 'https://hossamurai.github.io/premium.png', this)" data-theme="gold">
+          <div class="badge-container"><span class="badge gold"><span class="view-en">Multinational</span><span class="view-ar">متعددة الجنسيات</span></span></div>
+          <img src="https://hossamurai.github.io/premium.png" class="card-img" loading="lazy" decoding="async" width="96" height="96">
+          <div class="card-text"><span class="view-en">Premium Plan</span><span class="view-ar">باقة بريميوم</span></div>
+        </div>
+
+        <div class="selection-card" onclick="handleSupportSelection('plan', 'XTV', 'https://hossamurai.github.io/X.png', this)" data-theme="red">
+          <div class="badge-container"><span class="badge red"><span class="view-en">Egypt Only</span><span class="view-ar">مصر فقط</span></span></div>
+          <img src="https://hossamurai.github.io/X.png" class="card-img" loading="lazy" decoding="async" width="96" height="96">
+          <div class="card-text"><span class="view-en">XTV Server</span><span class="view-ar">سيرفر XTV</span></div>
+        </div>
+
+        <div class="selection-card" onclick="handleSupportSelection('plan', 'Marvel', 'https://hossamurai.github.io/marvel.png', this)" data-theme="green">
+          <div class="badge-container"><span class="badge red"><span class="view-en">Egypt Only</span><span class="view-ar">مصر فقط</span></span></div>
+          <img src="https://hossamurai.github.io/marvel.png" class="card-img" loading="lazy" decoding="async" width="96" height="96">
+          <div class="card-text"><span class="view-en">Marvel Server</span><span class="view-ar">سيرفر مارفل</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="sup-step-device" class="hidden">
+      <div class="step-title"><span class="view-en">Step 2: Choose Your Device</span><span class="view-ar">خطوة 2: اختر جهازك</span></div>
+      <div class="grid" id="sup-grid-device">
+
+        <div class="selection-card" onclick="handleSupportSelection('device', 'smart_tv', null, this)">
+          <div class="card-icon"><i class="ph ph-monitor-play"></i></div>
+          <div class="card-text"><span class="view-en">Samsung / LG TV</span><span class="view-ar">شاشات ذكية</span></div>
+        </div>
+
+        <div class="selection-card" onclick="handleSupportSelection('device', 'android_tv', null, this)">
+          <div class="card-icon"><i class="ph ph-television"></i></div>
+          <div class="card-text"><span class="view-en">Android TV / Box</span><span class="view-ar">أندرويد TV / بوكس</span></div>
+        </div>
+
+        <div class="selection-card" onclick="handleSupportSelection('device', 'firestick', null, this)">
+          <div class="card-icon"><i class="ph ph-fire-simple"></i></div>
+          <div class="card-text"><span class="view-en">Firestick</span><span class="view-ar">فاير ستيك</span></div>
+        </div>
+
+        <div class="selection-card" onclick="handleSupportSelection('device', 'android_phone', null, this)">
+          <div class="card-icon"><i class="ph ph-device-mobile"></i></div>
+          <div class="card-text"><span class="view-en">Android Phone</span><span class="view-ar">موبايل أندرويد</span></div>
+        </div>
+
+        <div class="selection-card" onclick="handleSupportSelection('device', 'ios', null, this)">
+          <div class="card-icon"><i class="ph ph-apple-logo"></i></div>
+          <div class="card-text"><span class="view-en">iPhone / Apple TV</span><span class="view-ar">أيفون / أبل TV</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="sup-step-app" class="hidden">
+      <div class="step-title"><span class="view-en">Step 3: Which App are you using?</span><span class="view-ar">خطوة 3: ما هو التطبيق المستخدم؟</span></div>
+      <div class="grid" id="sup-grid-app"></div>
+    </div>
+
+    <div id="sup-holy-grail" class="holy-grail-box">
+      <h3 style="text-align:center; margin-top:0; margin-bottom:25px; font-size:1.2rem;">
+        <span class="view-en">⚠️ Checklist Before We Start</span>
+        <span class="view-ar">⚠️ خطوات ضرورية قبل البدء</span>
+      </h3>
+
+      <div class="hg-item">
+        <div class="hg-icon"><i class="ph-fill ph-wifi-high"></i></div>
+        <div class="hg-content">
+          <h4><span class="view-en">1. Internet Connection</span><span class="view-ar">1. اتصال الإنترنت</span></h4>
+          <p><span class="view-en">Service will NOT work without stable internet.</span><span class="view-ar">الخدمة لن تعمل مطلقاً بدون إنترنت مستقر.</span></p>
+        </div>
+      </div>
+
+      <div class="hg-item">
+        <div class="hg-icon"><i class="ph-fill ph-calendar-x"></i></div>
+        <div class="hg-content">
+          <h4><span class="view-en">2. Account Expiry</span><span class="view-ar">2. انتهاء الاشتراك</span></h4>
+          <p><span class="view-en">Make sure your subscription hasn't expired.</span><span class="view-ar">تأكد أن اشتراكك لا يزال سارياً ولم ينتهي.</span></p>
+        </div>
+      </div>
+
+      <div class="hg-item">
+        <div class="hg-icon"><i class="ph-fill ph-users-three"></i></div>
+        <div class="hg-content">
+          <h4><span class="view-en">3. Golden Rule: One Device</span><span class="view-ar">3. القاعدة الذهبية: جهاز واحد</span></h4>
+          <p><span class="view-en">Using account on 2 devices causes connection failure.</span><span class="view-ar">تشغيل الاشتراك على جهازين يسبب فشل الاتصال.</span></p>
+        </div>
+      </div>
+
+      <div class="hg-item">
+        <div class="hg-icon"><i class="ph-fill ph-plug"></i></div>
+        <div class="hg-content">
+          <h4><span class="view-en">4. The Master Fix</span><span class="view-ar">4. الحل السحري</span></h4>
+          <p><span class="view-en">Unplug TV and Router from electricity for 5 seconds.</span><span class="view-ar">افصل فيشة التلفزيون والراوتر لمدة 5 ثواني.</span></p>
+        </div>
+      </div>
+
+      <button class="action-btn" onclick="showAppSpecifics()">
+        <span class="view-en">I did all this, still not working <i class="ph-bold ph-arrow-right"></i></span>
+        <span class="view-ar">فعلت كل هذا، ومازالت لا تعمل <i class="ph-bold ph-arrow-left"></i></span>
+      </button>
+    </div>
+
+    <div id="sup-specific" class="specific-box"></div>
+
+    <button id="sup-reset-btn" class="reset-btn hidden" onclick="supportReset()">
+      <i class="ph ph-arrow-counter-clockwise"></i>
+      <span class="view-en">Start Over</span><span class="view-ar">ابدأ من جديد</span>
     </button>
   </div>
+</section>
 
-  <footer style="text-align:center; padding:30px; color:#999; font-size:0.8rem;">
-    &copy; 2026 Hossam TV Services. All rights reserved.
-  </footer>
+<!-- ============================ FAQ (last) ============================ -->
+<section class="band band-faq" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker"><i class="ph-fill ph-question"></i> 04 — FAQ</span>
+      <h2><span class="view-en">Frequently Asked Questions</span><span class="view-ar">الأسئلة الشائعة</span></h2>
+      <p><span class="view-en">Everything you need to know before subscribing.</span><span class="view-ar">كل ما تحتاج معرفته قبل الاشتراك.</span></p>
+    </div>
+    <div id="faq-list"></div>
+  </div>
+</section>
 
-</div>
+<footer>
+  <span class="footer-mark">Hossam</span>
+  &copy; 2026 Hossam TV Services. All rights reserved.
+</footer>
 
 <script>
+  /* ===================== LANGUAGE TOGGLE ===================== */
+  let currentLang = 'en';
+  function toggleLanguage() {
+    if (document.body.classList.contains('ltr')) {
+      document.body.classList.replace('ltr', 'rtl');
+      document.documentElement.lang = 'ar'; document.documentElement.dir = 'rtl'; currentLang = 'ar';
+    } else {
+      document.body.classList.replace('rtl', 'ltr');
+      document.documentElement.lang = 'en'; document.documentElement.dir = 'ltr'; currentLang = 'en';
+    }
+    closeAllFaq();
+  }
+
+  /* ===================== PLANS + SETUP ===================== */
+  const SMARTERS = 'tinyurl.com/smrtsapp';
   const planData = {
-    basic: { name: 'Basic Plan', key: 'basic', code: 'tinyurl.com/neo4kapp', appLink: 'https://tinyurl.com/neo4kapp' },
-    premium: { name: 'Premium Plan', key: 'premium', code: 'tinyurl.com/the8kapp', appLink: 'https://tinyurl.com/the8kapp' },
-    xtv: { name: 'XTV Server', key: 'xtv', code: 'tinyurl.com/xapppro', appLink: 'https://tinyurl.com/xapppro' },
-    marvel: { name: 'Marvel Server', key: 'marvel', code: 'tinyurl.com/mrvlapp', appLink: 'https://tinyurl.com/mrvlapp' }
+    basic:   { nameEn: 'Basic Plan',    nameAr: 'الباقة الأساسية', key: 'basic',   code: 'tinyurl.com/neo4kapp', fire: 'tinyurl.com/neo4kapp', appLink: 'https://tinyurl.com/neo4kapp' },
+    premium: { nameEn: 'Premium Plan',  nameAr: 'باقة بريميوم',     key: 'premium', code: 'tinyurl.com/the8kapp', fire: 'tinyurl.com/strngapp', appLink: 'https://tinyurl.com/the8kapp' },
+    xtv:     { nameEn: 'XTV Server',    nameAr: 'تطبيق إكس',         key: 'xtv',     code: 'tinyurl.com/xapppro',  fire: 'tinyurl.com/xapppro',  appLink: 'https://tinyurl.com/xapppro' },
+    marvel:  { nameEn: 'Marvel Server', nameAr: 'تطبيق مارفل',       key: 'marvel',  code: 'tinyurl.com/appmrvl',  fire: 'tinyurl.com/appmrvl',  appLink: 'https://tinyurl.com/appmrvl' }
   };
 
-  let currentPlan = null;
+  let currentPlan = planData.basic;
   let currentTab = 'tv';
 
-  function handlePlanSelection(planKey, cardElement) {
-    if (cardElement.classList.contains('selected')) return;
-    currentPlan = planData[planKey];
-    
-    const container = document.getElementById('grid-plan');
-    const cards = container.querySelectorAll('.selection-card');
-    
-    if(window.innerWidth < 768) {
-        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    cards.forEach(card => {
-      if (card !== cardElement) {
-        card.style.opacity = '0';
-        card.style.transform = 'scale(0.8)';
-        setTimeout(() => { card.style.display = 'none'; }, 300);
-      } else {
-        card.classList.add('selected');
-      }
-    });
-
-    setTimeout(() => {
-        container.style.display = 'flex';
-        container.style.justifyContent = 'center';
-        document.getElementById('step-setup').classList.remove('hidden');
-        renderSetupContent(); 
-        document.getElementById('step-setup').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 300);
+  function setActivePill(key) {
+    document.querySelectorAll('#plan-switch .pswitch').forEach(p => p.classList.toggle('active', p.dataset.plan === key));
   }
-
+  function setPickedCard(key) {
+    document.querySelectorAll('#grid-plan .selection-card').forEach(c => c.classList.toggle('picked', c.dataset.key === key));
+  }
+  function selectPlan(key) {
+    currentPlan = planData[key];
+    setActivePill(key); setPickedCard(key); renderSetupContent();
+  }
+  function pickAndScroll(key) {
+    selectPlan(key);
+    document.getElementById('setup').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
   function openTab(tabName, btnElement) {
     currentTab = tabName;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    if(btnElement) btnElement.classList.add('active');
+    document.querySelectorAll('#setup .tab-btn').forEach(b => b.classList.remove('active'));
+    if (btnElement) btnElement.classList.add('active');
     renderSetupContent();
   }
+
+  const smartersNote = `<div class="note"><strong><span class="view-en">Alternative — IPTV Smarters Pro:</span><span class="view-ar">بديل — IPTV Smarters Pro:</span></strong>
+    <span class="view-en"> enter code <strong>${SMARTERS}</strong> in Downloader. Smarters works for any plan using your username, password &amp; URL (host).</span>
+    <span class="view-ar"> أدخل الكود <strong>${SMARTERS}</strong> في تطبيق Downloader. يعمل مع أي باقة باستخدام اسم المستخدم وكلمة المرور والرابط (host).</span></div>`;
+
+  const ytTutorial = `<a href="https://youtu.be/jLxBqAIdYns" target="_blank" class="action-btn secondary"><i class="ph-fill ph-youtube-logo" style="color:#ff3b3b;"></i> <span class="view-en">Watch Tutorial</span><span class="view-ar">شاهد فيديو الشرح</span></a>`;
 
   function renderSetupContent() {
     const box = document.getElementById('setup-content');
     if (!currentPlan) return;
 
+    const nmEn = currentPlan.nameEn, nmAr = currentPlan.nameAr;
+    const code = currentPlan.code, fire = currentPlan.fire;
     const isEgyptPlan = (currentPlan.key === 'xtv' || currentPlan.key === 'marvel');
-    const iboNoteHTML = isEgyptPlan 
-        ? `<div style="background:#fff8e1; color:#b07b00; padding:10px; border-radius:8px; font-size:0.85rem; margin-top:15px; border:1px solid #ffe082; line-height:1.4;">Note: IBO Player requires a separate activation fee (approx 200 EGP) after 7 days.</div>`
-        : ``;
-
     let html = '';
 
-    if (currentTab === 'tv') {
-        html = `
-            <i class="ph ph-television" style="font-size:3rem; color:#1A1A1A; margin-bottom:10px;"></i>
-            <h3>Android / Fire TV Setup</h3>
-            <p>1. Install <strong>Downloader</strong> by AFTVNews.</p>
-            <p>2. Enter this code to download the <strong>${currentPlan.name} App</strong>:</p>
-            <span class="code-block" onclick="copyToClipboard('${currentPlan.code}')">
-                ${currentPlan.code} <i class="ph-bold ph-copy" style="float:right; color:#888;"></i>
-            </span>
-            <p style="font-size:0.85rem; color:#666;">Or use Smarters Pro: <strong>tinyurl.com/smrtsapp</strong></p>
-            <a href="https://youtu.be/jLxBqAIdYns" target="_blank" class="action-btn" style="background:transparent; border:1px solid #ccc; color:#333; margin-top:15px;">
-                <i class="ph-fill ph-youtube-logo" style="color:red;"></i> Watch Tutorial
-            </a>
-        `;
+    if (currentTab === 'tv' || currentTab === 'firestick') {
+      const dl = (currentTab === 'firestick') ? fire : code;
+      const titleEn = (currentTab === 'firestick') ? 'Amazon Firestick' : 'Android TV / Google TV';
+      const titleAr = (currentTab === 'firestick') ? 'فاير ستيك' : 'أندرويد TV / Google TV';
+      const icon = (currentTab === 'firestick') ? 'ph-fill ph-fire-simple' : 'ph ph-television';
+      const storeEn = (currentTab === 'firestick') ? "Open the Amazon Appstore on your Firestick and install <strong>Downloader</strong> by AFTVNews." : "Open your device's app store and install <strong>Downloader</strong> by AFTVNews.";
+      const storeAr = (currentTab === 'firestick') ? "افتح متجر أمازون على الفاير ستيك وثبّت تطبيق <strong>Downloader</strong> من AFTVNews." : "افتح متجر التطبيقات بجهازك وثبّت تطبيق <strong>Downloader</strong> من AFTVNews.";
+      html = `
+        <i class="${icon}" style="font-size:3rem; color:var(--cyan); margin-bottom:6px;"></i>
+        <h3>${titleEn ? `<span class="view-en">${titleEn}</span><span class="view-ar">${titleAr}</span>` : ''}</h3>
+        <div class="steps">
+          <div class="step"><span class="snum">1</span><div><span class="view-en">${storeEn}</span><span class="view-ar">${storeAr}</span></div></div>
+          <div class="step"><span class="snum">2</span><div>
+            <span class="view-en">Open Downloader and enter this code to download your plan's official app:</span>
+            <span class="view-ar">افتح Downloader وأدخل هذا الكود لتحميل تطبيق باقتك الرسمي:</span>
+            <span class="code-block" onclick="copyToClipboard('${dl}')">${dl} <i class="ph-bold ph-copy copy-ic"></i></span>
+          </div></div>
+          <div class="step"><span class="snum">3</span><div><span class="view-en">Install the app, open it, and log in with your provided credentials.</span><span class="view-ar">ثبّت التطبيق ثم افتحه وسجّل الدخول ببيانات الاشتراك الخاصة بك.</span></div></div>
+        </div>
+        ${smartersNote}
+        ${ytTutorial}`;
     } else if (currentTab === 'mobile') {
-        html = `
-            <i class="ph ph-device-mobile" style="font-size:3rem; color:#1A1A1A; margin-bottom:10px;"></i>
-            <h3>Android Mobile</h3>
-            <p>Download the official app for best performance.</p>
-            <a href="${currentPlan.appLink}" class="action-btn">
-                <i class="ph-fill ph-download-simple"></i> Download ${currentPlan.name} App
-            </a>
-            <a href="https://tinyurl.com/smrtsapp" class="action-btn" style="background:#2C3E50; margin-top:10px;">
-                <i class="ph-fill ph-download-simple"></i> Download Smarters Pro (Alt)
-            </a>
-        `;
+      html = `
+        <i class="ph ph-device-mobile" style="font-size:3rem; color:var(--cyan); margin-bottom:6px;"></i>
+        <h3><span class="view-en">Android Mobile</span><span class="view-ar">موبايل أندرويد</span></h3>
+        <div class="steps">
+          <div class="step"><span class="snum">1</span><div><span class="view-en">Open your phone's browser and go to your plan's download link.</span><span class="view-ar">افتح متصفح هاتفك وانتقل إلى رابط التحميل الخاص بباقتك.</span></div></div>
+          <div class="step"><span class="snum">2</span><div><span class="view-en">Download and install the official APK.</span><span class="view-ar">حمّل وثبّت التطبيق الرسمي (APK).</span></div></div>
+        </div>
+        <a href="${currentPlan.appLink}" class="action-btn">
+          <i class="ph-fill ph-download-simple"></i> <span class="view-en">Download ${nmEn} App</span><span class="view-ar">تحميل تطبيق ${nmAr}</span>
+        </a>
+        <a href="https://${SMARTERS}" class="action-btn slate" style="margin-top:10px;">
+          <i class="ph-fill ph-download-simple"></i> <span class="view-en">Download Smarters Pro (Alternative)</span><span class="view-ar">تحميل Smarters Pro (بديل)</span>
+        </a>`;
     } else if (currentTab === 'ios') {
-        html = `
-            <i class="ph-fill ph-apple-logo" style="font-size:3rem; color:#1A1A1A; margin-bottom:10px;"></i>
-            <h3>iOS (iPhone / Apple TV)</h3>
-            <p>1. Open App Store.</p>
-            <p>2. Install <strong>Smarters Player Lite</strong>.</p>
-            <p>3. Select <strong>Xtream Codes API</strong>.</p>
-            <p>4. Enter the Login Details sent to you via WhatsApp.</p>
-        `;
+      html = `
+        <i class="ph-fill ph-apple-logo" style="font-size:3rem; color:var(--cyan); margin-bottom:6px;"></i>
+        <h3><span class="view-en">iOS (iPhone / Apple TV)</span><span class="view-ar">أيفون / أبل TV</span></h3>
+        <div class="steps">
+          <div class="step"><span class="snum">1</span><div><span class="view-en">Open the <strong>App Store</strong>.</span><span class="view-ar">افتح <strong>App Store</strong>.</span></div></div>
+          <div class="step"><span class="snum">2</span><div><span class="view-en">Search for and install <strong>Smarters Player Lite</strong>.</span><span class="view-ar">ابحث عن تطبيق <strong>Smarters Player Lite</strong> وثبّته.</span></div></div>
+          <div class="step"><span class="snum">3</span><div><span class="view-en">Open the app and select <strong>Xtream Codes API</strong>.</span><span class="view-ar">افتح التطبيق واختر <strong>Xtream Codes API</strong>.</span></div></div>
+          <div class="step"><span class="snum">4</span><div><span class="view-en">Enter the Login Details (Username, Password &amp; URL/host) sent to you via WhatsApp.</span><span class="view-ar">أدخل بيانات الدخول (اسم المستخدم، كلمة المرور، والرابط host) المرسلة لك عبر واتساب.</span></div></div>
+        </div>`;
     } else if (currentTab === 'smart') {
-        html = `
-            <img src="https://hossamurai.github.io/ibo.png" style="width:60px; border-radius:12px; margin-bottom:10px;">
-            <h3>Samsung / LG TV</h3>
-            <p>1. Search for <strong>IBO Player</strong> in your TV Apps Store.</p>
-            <p>2. Open the app.</p>
-            <p>3. Take a photo of the <strong>Device ID & Device Key</strong> and send it to us on WhatsApp.</p>
-            ${iboNoteHTML}
-        `;
+      const iboNote = isEgyptPlan ? `<div class="note warn"><strong><span class="view-en">Note for XTV &amp; Marvel:</span><span class="view-ar">ملاحظة لباقتي XTV و Marvel:</span></strong>
+        <span class="view-en"> IBO Player is a paid media player — it requires a separate activation fee (approx. 200 EGP) after a 7-day free trial.</span>
+        <span class="view-ar"> تطبيق IBO Player مشغّل مدفوع — يتطلب رسوم تفعيل (حوالي 200 جنيه) بعد تجربة مجانية لمدة 7 أيام.</span></div>` : '';
+      html = `
+        <img src="https://hossamurai.github.io/ibo.png" loading="lazy" decoding="async" width="64" height="64" style="width:64px; margin-bottom:10px; filter:drop-shadow(0 6px 12px rgba(0,0,0,0.5));">
+        <h3><span class="view-en">Smart TV (Samsung / LG)</span><span class="view-ar">شاشة ذكية (سامسونج / LG)</span></h3>
+        <div class="steps">
+          <div class="step"><span class="snum">1</span><div><span class="view-en">Go to your TV's Apps Store and search for <strong>IBO Player</strong>.</span><span class="view-ar">افتح متجر التطبيقات بشاشتك وابحث عن <strong>IBO Player</strong>.</span></div></div>
+          <div class="step"><span class="snum">2</span><div><span class="view-en">Install and open the app.</span><span class="view-ar">ثبّت التطبيق وافتحه.</span></div></div>
+          <div class="step"><span class="snum">3</span><div><span class="view-en">The screen shows a <strong>Device ID &amp; Device Key</strong>. Take a clear photo and send it to support on WhatsApp to load your playlist.</span><span class="view-ar">ستظهر <strong>Device ID و Device Key</strong> — التقط صورة واضحة وأرسلها للدعم عبر واتساب لتحميل قائمتك.</span></div></div>
+        </div>
+        ${iboNote}`;
     } else if (currentTab === 'pc') {
-        html = `
-            <i class="ph ph-desktop" style="font-size:3rem; color:#1A1A1A; margin-bottom:10px;"></i>
-            <h3>Windows PC</h3>
-            <p>We use the high-performance SFVIP Player.</p>
-            <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" class="action-btn">
-                <i class="ph-fill ph-download-simple"></i> Download SFVIP Player
-            </a>
-            <a href="https://youtu.be/dESni3uxAa4" target="_blank" style="color:#D50000; display:block; margin-top:15px; text-decoration:none; font-weight:700;">
-                <i class="ph-fill ph-youtube-logo"></i> Watch PC Setup Video
-            </a>
-        `;
+      html = `
+        <i class="ph ph-desktop" style="font-size:3rem; color:var(--cyan); margin-bottom:6px;"></i>
+        <h3><span class="view-en">Windows PC / Laptop</span><span class="view-ar">كمبيوتر / لابتوب</span></h3>
+        <div class="steps">
+          <div class="step"><span class="snum">1</span><div><span class="view-en">Download the recommended <strong>SFVIP Player</strong> from the button below.</span><span class="view-ar">حمّل مشغّل <strong>SFVIP</strong> الموصى به من الزر بالأسفل.</span></div></div>
+          <div class="step"><span class="snum">2</span><div><span class="view-en">Extract the ZIP file and run the application.</span><span class="view-ar">فك ضغط الملف وشغّل التطبيق.</span></div></div>
+          <div class="step"><span class="snum">3</span><div><span class="view-en">Enter your subscription credentials to begin watching.</span><span class="view-ar">أدخل بيانات اشتراكك لبدء المشاهدة.</span></div></div>
+        </div>
+        <a href="https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file" class="action-btn">
+          <i class="ph-fill ph-download-simple"></i> <span class="view-en">Download SFVIP Player</span><span class="view-ar">تحميل SFVIP Player</span>
+        </a>`;
     }
 
     box.innerHTML = html;
   }
 
-  function resetAll() {
-    currentPlan = null;
-    const container = document.getElementById('grid-plan');
-    container.style.display = 'grid';
-    container.style.justifyContent = 'initial'; 
-    
-    const cards = container.querySelectorAll('.selection-card');
-    cards.forEach(card => {
-        card.style.display = 'block';
-        card.classList.remove('selected');
-        setTimeout(() => { 
-            card.style.opacity = '1'; 
-            card.style.transform = 'scale(1)'; 
-        }, 10);
-    });
-
-    document.getElementById('step-setup').classList.add('hidden');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
   function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
-        alert("Code copied to clipboard: " + text);
-    }).catch(err => {
-        console.error('Failed to copy: ', err);
+      alert((currentLang === 'ar' ? "تم نسخ الكود: " : "Code copied to clipboard: ") + text);
+    }).catch(err => { console.error('Failed to copy: ', err); });
+  }
+
+  /* ===================== FAQ ===================== */
+  const faqEn = [
+    { q: "What is IPTV?", a: "IPTV is a service that lets you watch live TV channels, sports, and movies over the internet instead of satellite or cable." },
+    { q: "What do I need to use IPTV?", a: "You need a stable internet connection and a device like a Smart TV, Android Box, Phone, or PC." },
+    { q: "Is the service safe for families?", a: "Yes. Most content is family-safe. Some adult content may exist, but we offer family-only servers." },
+    { q: "What channels are included?", a: "Sports (BeIN, Sky), Movies (OSN, Netflix), News, Kids, and International channels." },
+    { q: "Is there a free trial?", a: "Yes. Free trials are available for 12 or 24 hours. Request one via WhatsApp." },
+    { q: "Can I use one subscription on multiple devices?", a: "You can set it up on multiple devices, but you can only watch on ONE device at a time." },
+    { q: "What internet speed is required?", a: "For stable usage, 25+ Mbps is recommended." },
+    { q: "Are refunds available?", a: "No refunds after activation. Please use the free trial to test before buying." },
+    { q: "How long does activation take?", a: "Usually within minutes, up to 24 hours." },
+    { q: "How can I pay inside Egypt?", a: "Via Vodafone Cash or InstaPay." },
+    { q: "How can I pay internationally?", a: "Via TapTap Send, or PayPal." },
+    { q: "My service is down, what should I do?", a: "First, unplug your router and TV for 10 seconds. If that fails, check our WhatsApp status for maintenance updates." }
+  ];
+  const faqAr = [
+    { q: "ما هو الـ IPTV؟", a: "هي خدمة تتيح لك مشاهدة القنوات التلفزيونية والمباريات والأفلام عبر الإنترنت بدلاً من الدش." },
+    { q: "ماذا أحتاج لتشغيل الخدمة؟", a: "تحتاج إلى إنترنت مستقر وجهاز مثل شاشة سمارت، أندرويد بوكس، موبايل، أو كمبيوتر." },
+    { q: "هل الخدمة آمنة للعائلات؟", a: "نعم، معظم المحتوى آمن. كما نوفر سيرفرات مخصصة للعائلات خالية تماماً من أي محتوى غير لائق." },
+    { q: "ما هي القنوات المتاحة؟", a: "قنوات رياضية (بين سبورت)، أفلام (OSN, Netflix)، أخبار، أطفال، وقنوات عالمية." },
+    { q: "هل يوجد تجربة مجانية؟", a: "نعم، يوجد تجربة لمدة 12 أو 24 ساعة. اطلبها عبر الواتساب." },
+    { q: "هل يمكنني التشغيل على أكثر من جهاز؟", a: "يمكنك تنزيل الاشتراك على أجهزة متعددة، ولكن المشاهدة تكون على جهاز واحد فقط في نفس الوقت." },
+    { q: "ما سرعة الإنترنت المطلوبة؟", a: "لضمان الاستقرار، نوصي بسرعة 25 ميجا أو أعلى." },
+    { q: "هل يمكن استرجاع المبلغ؟", a: "لا يوجد استرجاع بعد التفعيل. لذلك ننصح باستخدام التجربة المجانية أولاً." },
+    { q: "كم يستغرق التفعيل؟", a: "عادةً خلال دقائق، وبحد أقصى 24 ساعة." },
+    { q: "كيف أدفع داخل مصر؟", a: "فودافون كاش أو إنستا باي." },
+    { q: "كيف أدفع من خارج مصر؟", a: "عبر TapTap Send أو PayPal." },
+    { q: "الخدمة توقفت، ماذا أفعل؟", a: "أفصل الراوتر والتلفزيون من الكهرباء لمدة 10 ثوانٍ وأعد تشغيلهم. إذا استمرت المشكلة، تواصل معنا." }
+  ];
+
+  function renderFAQ() {
+    let html = '';
+    for (let i = 0; i < faqEn.length; i++) {
+      html += `
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleAnswer(this)">
+            <span><span class="view-en">${faqEn[i].q}</span><span class="view-ar">${faqAr[i].q}</span></span>
+            <i class="ph-bold ph-caret-down"></i>
+          </button>
+          <div class="faq-answer">
+            <p><span class="view-en">${faqEn[i].a}</span><span class="view-ar">${faqAr[i].a}</span></p>
+          </div>
+        </div>`;
+    }
+    document.getElementById('faq-list').innerHTML = html;
+  }
+  function toggleAnswer(btn) {
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector('i');
+    document.querySelectorAll('.faq-answer').forEach(a => { if (a !== answer) a.style.maxHeight = null; });
+    document.querySelectorAll('.faq-question i').forEach(i => { if (i !== icon) i.style.transform = 'rotate(0deg)'; });
+    if (answer.style.maxHeight) { answer.style.maxHeight = null; icon.style.transform = 'rotate(0deg)'; }
+    else { answer.style.maxHeight = answer.scrollHeight + "px"; icon.style.transform = 'rotate(180deg)'; }
+  }
+  function closeAllFaq() {
+    document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
+    document.querySelectorAll('.faq-question i').forEach(i => i.style.transform = 'rotate(0deg)');
+  }
+
+  /* ===================== SUPPORT TROUBLESHOOTER ===================== */
+  let selectedPlan = null, selectedPlanLogo = null, selectedDevice = null, selectedApp = null;
+
+  const img = {
+    smartersPro: 'https://hossamurai.github.io/smarterspro.png',
+    smartersLite: 'https://hossamurai.github.io/smarters.png',
+    ibo: 'https://hossamurai.github.io/ibo.png',
+    iboPro: 'https://hossamurai.github.io/ibopro.png',
+    isp: 'https://hossamurai.github.io/isp.png',
+    genericApp: 'https://hossamurai.github.io/apps.png'
+  };
+
+  function supLockGrid(gridId, clickedCard) {
+    const container = document.getElementById(gridId);
+    const cards = container.querySelectorAll('.selection-card');
+    if (window.innerWidth < 768) { container.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    cards.forEach(card => {
+      if (card !== clickedCard) {
+        card.style.opacity = '0'; card.style.transform = 'scale(0.8)';
+        setTimeout(() => { card.style.display = 'none'; }, 300);
+      } else { card.classList.add('selected'); }
+    });
+    setTimeout(() => { container.style.display = 'flex'; container.style.justifyContent = 'center'; }, 300);
+  }
+  function supUnlockGrid(gridId) {
+    const container = document.getElementById(gridId);
+    container.style.display = 'grid'; container.style.justifyContent = 'initial';
+    container.querySelectorAll('.selection-card').forEach(card => {
+      card.style.display = 'block'; card.classList.remove('selected');
+      setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'scale(1)'; }, 10);
     });
   }
+  function getAppOptions(device, planName, planLogo) {
+    const apps = [];
+    const officialAppName = `${planName} App`;
+    if (device === 'smart_tv') {
+      apps.push({ name: 'IPTV Smarters Pro', img: img.smartersPro, type: 'smarters' });
+      apps.push({ name: 'IBO Player', img: img.ibo, type: 'ibo' });
+    } else if (device === 'android_tv' || device === 'android_phone' || device === 'firestick') {
+      apps.push({ name: officialAppName, img: planLogo, type: 'official' });
+      apps.push({ name: 'IPTV Smarters Pro', img: img.smartersPro, type: 'smarters' });
+      apps.push({ name: 'Other', img: img.genericApp, type: 'generic' });
+    } else if (device === 'ios') {
+      apps.push({ name: 'Smarters Player Lite', img: img.smartersLite, type: 'smarters' });
+      apps.push({ name: 'IPTV Stream Player', img: img.isp, type: 'streamplayer' });
+    }
+    return apps;
+  }
+  function handleSupportSelection(step, value, extraData, card) {
+    document.getElementById('sup-reset-btn').classList.remove('hidden');
+    if (step === 'plan') {
+      selectedPlan = value; selectedPlanLogo = extraData;
+      supLockGrid('sup-grid-plan', card);
+      setTimeout(() => { document.getElementById('sup-step-device').classList.remove('hidden'); document.getElementById('sup-step-device').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 500);
+    }
+    if (step === 'device') { selectedDevice = value; supLockGrid('sup-grid-device', card); renderApps(); }
+    if (step === 'app') {
+      selectedApp = value; supLockGrid('sup-grid-app', card);
+      setTimeout(() => { document.getElementById('sup-holy-grail').style.display = 'block'; document.getElementById('sup-holy-grail').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 500);
+    }
+  }
+  function renderApps() {
+    const appGrid = document.getElementById('sup-grid-app');
+    appGrid.innerHTML = ''; appGrid.style.display = 'grid'; appGrid.style.justifyContent = 'initial';
+    const apps = getAppOptions(selectedDevice, selectedPlan, selectedPlanLogo);
+    apps.forEach(app => {
+      const div = document.createElement('div');
+      div.className = 'selection-card';
+      div.onclick = function () { handleSupportSelection('app', app, null, this); };
+      let displayNameEn = app.name, displayNameAr = app.name;
+      if (app.type === 'generic') { displayNameEn = 'Other / Google Play'; displayNameAr = 'تطبيق آخر / Google Play'; }
+      else if (app.type === 'official') { displayNameEn = `${selectedPlan} Official App`; displayNameAr = `تطبيق ${selectedPlan} الرسمي`; }
+      div.innerHTML = `<img src="${app.img}" class="card-img" alt="${app.name}" loading="lazy" decoding="async" width="96" height="96"><div class="card-text"><span class="view-en">${displayNameEn}</span><span class="view-ar">${displayNameAr}</span></div>`;
+      appGrid.appendChild(div);
+    });
+    setTimeout(() => { document.getElementById('sup-step-app').classList.remove('hidden'); document.getElementById('sup-step-app').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 500);
+  }
+  function showAppSpecifics() {
+    const box = document.getElementById('sup-specific');
+    box.style.display = 'block';
+    const type = selectedApp.type, name = selectedApp.name;
+    let html = '';
+    const msg = `Issue Report%0A----------------%0APlan: ${selectedPlan}%0ADevice: ${selectedDevice}%0AApp: ${selectedApp.name}`;
+    const waLink = `https://wa.me/message/JZEZ3BNRYY2ED1?text=${msg}`;
+
+    if (type === 'ibo') {
+      html = `
+        <h3><span class="view-en">IBO Player Issues</span><span class="view-ar">مشاكل IBO Player</span></h3>
+        <div class="specific-step"><strong><span class="view-en">1. App not booting</span><span class="view-ar">1. التطبيق لا يفتح</span></strong><br><span class="view-en">Send us a clear photo of MAC Address &amp; Device Key.</span><span class="view-ar">أرسل لنا صورة واضحة لـ MAC Address و Device Key.</span></div>
+        <div class="specific-step"><strong><span class="view-en">2. Playlist Error (Red)</span><span class="view-ar">2. خطأ في القائمة (Playlist Error)</span></strong><br><span class="view-en">Switch between Playlist 1, 2, 3. If fails, contact us.</span><span class="view-ar">جرب تغيير القائمة (Playlist 1, 2, 3). اذا استمرت المشكلة تواصل معنا.</span></div>`;
+    } else if (name.includes('Marvel')) {
+      html = `<h3><span class="view-en">Marvel App Issues</span><span class="view-ar">مشاكل تطبيق Marvel</span></h3>
+        <div class="specific-step"><strong><span class="view-en">Reload Home Screen</span><span class="view-ar">تحديث الصفحة</span></strong><br><span class="view-en">Click the Reload button on the home screen.</span><span class="view-ar">اضغط زر Reload في الشاشة الرئيسية.</span></div>`;
+    } else if (name.includes('XTV')) {
+      html = `<h3><span class="view-en">XTV App Issues</span><span class="view-ar">مشاكل تطبيق XTV</span></h3>
+        <div class="specific-step"><strong><span class="view-en">Reload Categories</span><span class="view-ar">تحديث المحتوى</span></strong><br><span class="view-en">Click the reload button beside each category.</span><span class="view-ar">اضغط زر التحديث (Reload) بجانب كل قسم.</span></div>`;
+    } else if (type === 'official') {
+      html = `<h3><span class="view-en">Official App Issues</span><span class="view-ar">مشاكل التطبيق الرسمي</span></h3>
+        <div class="specific-step"><strong><span class="view-en">1. Reload Home Screen</span><span class="view-ar">1. تحديث الصفحة</span></strong><br><span class="view-en">Click the Reload button on the home screen.</span><span class="view-ar">اضغط زر Reload في الشاشة الرئيسية.</span></div>
+        <div class="specific-step"><strong><span class="view-en">2. Switch Playlist</span><span class="view-ar">2. تبديل القائمة</span></strong><br><span class="view-en">Playlists &gt; Edit &gt; Update &gt; Connect.</span><span class="view-ar">اضغط Playlists &gt; Edit &gt; Update &gt; ثم Connect.</span></div>`;
+    } else if (type === 'streamplayer') {
+      html = `<h3><span class="view-en">Stream Player Issues</span><span class="view-ar">مشاكل Stream Player</span></h3>
+        <div class="specific-step"><strong><span class="view-en">Reload Button</span><span class="view-ar">تحديث المحتوى</span></strong><br><span class="view-en">The reload button is located on the home screen.</span><span class="view-ar">زر التحديث (Reload) موجود في الشاشة الرئيسية.</span></div>`;
+    } else if (type === 'smarters') {
+      html = `<h3><span class="view-en">Smarters Issues</span><span class="view-ar">مشاكل Smarters</span></h3>
+        <div class="specific-step"><strong><span class="view-en">Refresh Content</span><span class="view-ar">تحديث المحتوى</span></strong><br><span class="view-en">Go to Movies &gt; Top Right Dots &gt; Select Refresh.</span><span class="view-ar">ادخل قسم الأفلام &gt; اضغط الثلاث نقاط &gt; اختر Refresh.</span></div>
+        <div class="specific-step alt"><strong><span class="view-en">Check Expiry</span><span class="view-ar">تاريخ الانتهاء</span></strong><br><span class="view-en">If date is missing, check your internet.</span><span class="view-ar">إذا لم يظهر تاريخ الانتهاء، افحص الإنترنت لديك.</span></div>`;
+    } else {
+      html = `<p><span class="view-en">Please contact support directly.</span><span class="view-ar">يرجى التواصل معنا مباشرة.</span></p>`;
+    }
+
+    html += `<div style="margin-top:20px; text-align:center;">
+        <p style="font-weight:bold; margin-bottom:10px;"><span class="view-en">Still not working?</span><span class="view-ar">لم يتم الحل؟</span></p>
+        <a href="${waLink}" class="action-btn wa"><i class="ph-fill ph-whatsapp-logo" style="font-size:1.5rem;"></i> <span class="view-en">Contact Support WhatsApp</span><span class="view-ar">تواصل معنا واتساب</span></a>
+        <a href="#setup" class="action-btn secondary"><i class="ph-fill ph-download-simple"></i> <span class="view-en">Back to Setup Guide</span><span class="view-ar">العودة لدليل التثبيت</span></a>
+      </div>`;
+    box.innerHTML = html;
+    box.scrollIntoView({ behavior: 'smooth' });
+  }
+  function supportReset() {
+    selectedPlan = null; selectedPlanLogo = null; selectedDevice = null; selectedApp = null;
+    supUnlockGrid('sup-grid-plan'); supUnlockGrid('sup-grid-device');
+    document.getElementById('sup-step-device').classList.add('hidden');
+    document.getElementById('sup-step-app').classList.add('hidden');
+    document.getElementById('sup-holy-grail').style.display = 'none';
+    document.getElementById('sup-specific').style.display = 'none';
+    document.getElementById('sup-reset-btn').classList.add('hidden');
+    document.getElementById('support').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ===================== INIT ===================== */
+  setActivePill('basic');
+  renderSetupContent();
+  renderFAQ();
+
+  /* scroll-spy: highlight active nav as you scroll */
+  (function () {
+    const ids = ['plans', 'setup', 'support', 'faq'];
+    const links = {};
+    ids.forEach(function (id) { links[id] = document.querySelector('nav a[data-nav="' + id + '"]'); });
+    if (!('IntersectionObserver' in window)) return;
+    const obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          ids.forEach(function (id) { if (links[id]) links[id].classList.remove('active'); });
+          if (links[e.target.id]) links[e.target.id].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    ids.forEach(function (id) { const el = document.getElementById(id); if (el) obs.observe(el); });
+  })();
 </script>
 
 <script>
 (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="UR4AT8qVyiMZfTLECiywM";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
 </script>
-  
+
 </body>
 </html>
