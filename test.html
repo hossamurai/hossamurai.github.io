@@ -412,7 +412,7 @@
       </div>
 
       <div class="actions">
-        <button class="primary-btn" id="processBtn">Paste &amp; Process</button>
+        <button class="primary-btn" id="processBtn">Process</button>
         <button class="reset-btn" id="resetBtn">Reset</button>
       </div>
 
@@ -451,38 +451,13 @@
         hideStatus();
       });
 
-      processBtn.addEventListener('click', async function() {
+      processBtn.addEventListener('click', function() {
         resultSection.innerHTML = '';
 
-        let input = inputDisplay.textContent.trim();
-
-        // If the field is empty, paste from the clipboard automatically,
-        // so a single tap pastes AND processes.
-        // Clipboard reading only works in a secure context (https / localhost).
-        if (!input) {
-          const canReadClipboard =
-            window.isSecureContext &&
-            navigator.clipboard &&
-            typeof navigator.clipboard.readText === 'function';
-
-          if (canReadClipboard) {
-            try {
-              const text = await navigator.clipboard.readText();
-              if (text && text.trim()) {
-                input = text.trim();
-                inputDisplay.textContent = input;
-              }
-            } catch (err) {
-              // Permission denied — fall through to manual paste below.
-            }
-          }
-        }
+        const input = inputDisplay.textContent.trim();
 
         if (!input) {
-          // Couldn't grab it automatically: focus the box so the user can
-          // long-press > Paste, then press the button again to process.
-          inputDisplay.focus();
-          showStatus('Tap the box, paste, then press again', 'error');
+          showStatus('Please paste some text first', 'error');
           return;
         }
 
@@ -521,8 +496,8 @@
           return;
         }
 
-        const cleanContent = `Playlist name: x\nUsername: ${username}\nPassword: ${password}\nHost: ${host}`;
-        const visualContent = `Playlist name: x\n<strong>Username:</strong> ${username}\n<strong>Password:</strong> ${password}\n<strong>Host:</strong> ${host}`;
+        const cleanContent = `Playlist name: anything\nUsername: ${username}\nPassword: ${password}\nURL: ${host}`;
+        const visualContent = `Playlist name: anything\n<strong>Username:</strong> ${username}\n<strong>Password:</strong> ${password}\n<strong>URL:</strong> ${host}`;
 
         displayResult('Credentials Found', visualContent, cleanContent, 'm3u');
         showStatus('M3U Link Processed', 'success');
