@@ -4,14 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Smart M3U & Number Tool</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --primary-gradient: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
-      --glass-bg: rgba(255, 255, 255, 0.1);
-      --glass-border: rgba(255, 255, 255, 0.15);
-      --input-bg: rgba(0, 0, 0, 0.25);
-      --text-white: #ffffff;
-      --text-muted: #b3cde0;
+      --accent: #5fd0ff;
+      --accent-2: #4b7bff;
+      --primary-gradient: linear-gradient(135deg, #5fd0ff 0%, #4b7bff 100%);
+      --bg: #070b12;
+      --surface: rgba(255, 255, 255, 0.045);
+      --surface-2: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.09);
+      --border-soft: rgba(255, 255, 255, 0.06);
+      --input-bg: rgba(0, 0, 0, 0.28);
+      --text-white: #f2f6ff;
+      --text-muted: #8da2bd;
+      --mono: "JetBrains Mono", "SF Mono", "Consolas", "Monaco", monospace;
     }
 
     * {
@@ -21,88 +32,197 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(135deg, #141E30 0%, #243B55 100%); /* Deep Professional Blue */
+      font-family: "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background:
+        radial-gradient(1100px 580px at 82% -12%, rgba(95, 208, 255, 0.13), transparent 60%),
+        radial-gradient(820px 480px at -12% 112%, rgba(75, 123, 255, 0.12), transparent 58%),
+        var(--bg);
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: var(--text-white);
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Blueprint grid + grain atmosphere */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%);
+      mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Top bar with centered website link */
+    .topbar {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 22px 16px 6px;
+    }
+
+    .website-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-white);
+      padding: 10px 22px;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .website-link::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .website-link:hover {
+      border-color: rgba(95, 208, 255, 0.5);
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 26px rgba(95, 208, 255, 0.18);
+    }
+
+    .website-link:active { transform: translateY(0) scale(0.98); }
+
+    /* Stage centers the panel in the remaining space */
+    .stage {
+      position: relative;
+      z-index: 1;
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      color: var(--text-white);
+      padding: 24px 20px 40px;
     }
 
     .container {
-      background: var(--glass-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 35px;
-      border-radius: 24px;
+      background: var(--surface);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: 34px;
+      border-radius: 22px;
       width: 100%;
-      max-width: 520px;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      border: 1px solid var(--glass-border);
+      max-width: 540px;
+      box-shadow:
+        0 24px 60px -20px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 22px;
       animation: fadeIn 0.6s ease-out;
       position: relative;
+      overflow: hidden;
+    }
+
+    /* Thin accent rule along the top edge */
+    .container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+      opacity: 0.85;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(18px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .header {
-      text-align: center;
+    .header { text-align: left; }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: inline-block;
     }
 
     h1 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-      letter-spacing: -0.5px;
+      font-family: "Bricolage Grotesque", "Sora", sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
     }
 
     .subtitle {
       color: var(--text-muted);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 400;
+      line-height: 1.4;
     }
 
-    .input-wrapper {
-      position: relative;
+    .input-section { display: flex; flex-direction: column; gap: 10px; }
+
+    .input-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
     }
+
+    .input-wrapper { position: relative; }
 
     .input-display {
       width: 100%;
       min-height: 120px;
       background: var(--input-bg);
-      border-radius: 16px;
-      padding: 18px;
-      font-family: "SF Mono", "Consolas", "Monaco", monospace;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      color: #e0e0e0;
-      border: 1px solid transparent;
+      border-radius: 14px;
+      padding: 16px 18px;
+      font-family: var(--mono);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      color: #dfe7f5;
+      border: 1px solid var(--border-soft);
       outline: none;
       transition: all 0.2s ease;
       overflow-y: auto;
       word-break: break-all;
-      cursor: pointer; 
+      cursor: pointer;
     }
 
     .input-display:focus {
-      border-color: rgba(255, 255, 255, 0.3);
-      background: rgba(0, 0, 0, 0.35);
-      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
+      border-color: rgba(95, 208, 255, 0.55);
+      background: rgba(0, 0, 0, 0.36);
+      box-shadow: 0 0 0 4px rgba(95, 208, 255, 0.1);
     }
 
-    /* FIXED: Added font-size here to make the placeholder smaller */
     .input-display:empty:before {
-      content: "Tap to paste M3U link or number...";
-      color: rgba(255, 255, 255, 0.4);
-      font-size: 0.8rem; 
+      content: "// tap to paste M3U link or number";
+      color: rgba(255, 255, 255, 0.32);
+      font-size: 0.8rem;
     }
 
     .actions {
@@ -115,52 +235,54 @@
       border: none;
       padding: 14px;
       border-radius: 12px;
-      font-size: 1rem;
+      font-family: "Sora", sans-serif;
+      font-size: 0.95rem;
       font-weight: 600;
+      letter-spacing: 0.01em;
       cursor: pointer;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .primary-btn {
       background: var(--primary-gradient);
-      color: white;
-      box-shadow: 0 4px 15px rgba(0, 198, 251, 0.3);
+      color: #04121f;
+      font-weight: 700;
+      box-shadow: 0 8px 22px rgba(95, 208, 255, 0.28);
     }
 
     .primary-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 198, 251, 0.4);
-      filter: brightness(1.1);
+      box-shadow: 0 12px 28px rgba(95, 208, 255, 0.4);
+      filter: brightness(1.05);
     }
 
-    .primary-btn:active {
-      transform: scale(0.98);
-    }
+    .primary-btn:active { transform: scale(0.98); }
 
     .reset-btn {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
       color: var(--text-muted);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border);
     }
 
     .reset-btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: var(--border);
     }
 
-    .reset-btn:active {
-      transform: scale(0.98);
-    }
+    .reset-btn:active { transform: scale(0.98); }
 
     .result-section {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 14px;
     }
 
+    .result-section:empty { display: none; }
+
     .result-box {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: var(--surface-2);
+      border: 1px solid var(--border-soft);
       border-radius: 16px;
       padding: 20px;
       animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -175,119 +297,133 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-soft);
     }
 
     .result-label {
-      font-size: 0.85rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.14em;
       color: var(--text-muted);
-      font-weight: 700;
+      font-weight: 500;
     }
 
     .badge {
-      font-size: 0.7rem;
-      padding: 4px 8px;
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      padding: 4px 9px;
       border-radius: 6px;
       font-weight: 700;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    .badge.m3u { background: rgba(108, 92, 231, 0.2); color: #a29bfe; border: 1px solid rgba(108, 92, 231, 0.3); }
-    .badge.phone { background: rgba(253, 203, 110, 0.2); color: #ffeaa7; border: 1px solid rgba(253, 203, 110, 0.3); }
+    .badge.m3u { background: rgba(124, 119, 255, 0.16); color: #b5b1ff; border: 1px solid rgba(124, 119, 255, 0.3); }
+    .badge.phone { background: rgba(255, 196, 100, 0.16); color: #ffd592; border: 1px solid rgba(255, 196, 100, 0.3); }
 
     .result-content {
-      font-family: "SF Mono", "Consolas", "Monaco", monospace;
-      font-size: 0.9rem;
-      color: #dcdde1;
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      color: #cfd9ea;
       white-space: pre-wrap;
       word-break: break-all;
       margin-bottom: 16px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .result-content strong {
-      color: white;
+      color: var(--accent);
       font-weight: 700;
     }
 
     .copy-btn {
       width: 100%;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      padding: 10px;
-      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      border: 1px solid var(--border-soft);
+      padding: 11px;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
     }
 
-    .copy-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.12); }
 
     .copy-btn.copied {
-      background: #00b894;
-      color: white;
+      background: rgba(40, 220, 160, 0.18);
+      border-color: rgba(40, 220, 160, 0.4);
+      color: #6dffd0;
     }
 
     .status-message {
       text-align: center;
-      font-size: 0.85rem;
+      font-family: var(--mono);
+      font-size: 0.8rem;
       height: 20px;
       font-weight: 500;
+      letter-spacing: 0.03em;
       opacity: 0;
       transition: opacity 0.3s;
     }
 
-    .status-message.visible {
-      opacity: 1;
-    }
-
+    .status-message.visible { opacity: 1; }
     .status-message.success { color: #55efc4; }
-    .status-message.error { color: #ff7675; }
-     
-    /* Footer Credit */
+    .status-message.error { color: #ff7b7b; }
+
     .footer {
-        margin-top: 10px;
-        text-align: center;
-        font-size: 0.75rem;
-        color: rgba(255, 255, 255, 0.3);
-        font-weight: 500;
-        letter-spacing: 0.5px;
+      margin-top: 4px;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.28);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
     @media (max-width: 480px) {
-      .container { padding: 25px 20px; }
+      .container { padding: 26px 22px; }
+      h1 { font-size: 1.7rem; }
       .actions { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>Input Processor</h1>
-      <p class="subtitle">Auto-detects M3U Links or Phone Numbers</p>
-    </div>
-     
-    <div class="input-section">
-      <div class="input-wrapper">
-        <div class="input-display" id="inputDisplay" contenteditable="true" inputmode="none"></div>
+  <div class="topbar">
+    <a href="https://hossamurai.github.io/Hossam_TV.html" class="website-link">My Website</a>
+  </div>
+
+  <div class="stage">
+    <div class="container">
+      <div class="header">
+        <span class="eyebrow">// M3U + Number Utility</span>
+        <h1>Input Processor</h1>
+        <p class="subtitle">Auto-detects M3U links or phone numbers.</p>
       </div>
-    </div>
-     
-    <div class="actions">
-      <button class="primary-btn" id="processBtn">Process Input</button>
-      <button class="reset-btn" id="resetBtn">Reset</button>
-    </div>
-     
-    <div class="result-section" id="resultSection">
+
+      <div class="input-section">
+        <span class="input-label">Input</span>
+        <div class="input-wrapper">
+          <div class="input-display" id="inputDisplay" contenteditable="true" inputmode="none"></div>
+        </div>
       </div>
-     
-    <div class="status-message" id="statusMessage"></div>
-     
-    <div class="footer">
-        Powered by Hossam TV Services
+
+      <div class="actions">
+        <button class="primary-btn" id="processBtn">Paste &amp; Process</button>
+        <button class="reset-btn" id="resetBtn">Reset</button>
+      </div>
+
+      <div class="result-section" id="resultSection">
+        </div>
+
+      <div class="status-message" id="statusMessage"></div>
+
+      <div class="footer">
+          Powered by Hossam TV Services
+      </div>
     </div>
   </div>
 
@@ -315,18 +451,48 @@
         hideStatus();
       });
 
-      processBtn.addEventListener('click', function() {
-        const input = inputDisplay.textContent.trim();
+      processBtn.addEventListener('click', async function() {
         resultSection.innerHTML = '';
 
+        let input = inputDisplay.textContent.trim();
+
+        // If the field is empty, paste from the clipboard automatically,
+        // so a single tap pastes AND processes.
+        // Clipboard reading only works in a secure context (https / localhost).
         if (!input) {
-          showStatus('Please paste some text first', 'error');
+          const canReadClipboard =
+            window.isSecureContext &&
+            navigator.clipboard &&
+            typeof navigator.clipboard.readText === 'function';
+
+          if (canReadClipboard) {
+            try {
+              const text = await navigator.clipboard.readText();
+              if (text && text.trim()) {
+                input = text.trim();
+                inputDisplay.textContent = input;
+              }
+            } catch (err) {
+              // Permission denied — fall through to manual paste below.
+            }
+          }
+        }
+
+        if (!input) {
+          // Couldn't grab it automatically: focus the box so the user can
+          // long-press > Paste, then press the button again to process.
+          inputDisplay.focus();
+          showStatus('Tap the box, paste, then press again', 'error');
           return;
         }
 
+        processInput(input);
+      });
+
+      function processInput(input) {
         const looksLikeUrl = input.includes('http') || input.includes('username=') || input.includes('password=');
         const digitCount = input.replace(/\D/g, '').length;
-        const looksLikeNumber = !looksLikeUrl && digitCount > 5; 
+        const looksLikeNumber = !looksLikeUrl && digitCount > 5;
 
         if (looksLikeUrl) {
             processM3U(input);
@@ -335,7 +501,7 @@
         } else {
             showStatus('Could not identify input type', 'error');
         }
-      });
+      }
 
       function processM3U(input) {
         let username = (input.match(/username=([^&]+)/) || [])[1] || "";
