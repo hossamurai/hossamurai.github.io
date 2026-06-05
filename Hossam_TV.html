@@ -112,15 +112,14 @@
   .band { position: relative; overflow: hidden; padding: 54px 0 64px; }
   .band > .container { position: relative; z-index: 1; }
   .band::before { content: ""; position: absolute; top: -120px; left: 50%; transform: translateX(-50%); width: 720px; height: 300px; max-width: 150vw; border-radius: 50%; filter: blur(55px); opacity: 0.5; pointer-events: none; }
-  .band-plans { background: #130f0c; }
+  .band-plans { background: linear-gradient(180deg, #110e0c, #130f0c 12%, #130f0c 58%, #0f1311); }
   .band-plans::before { background: radial-gradient(closest-side, rgba(234,180,78,0.22), transparent 70%); }
-  .band-setup { background: #0f1311; }
+  .band-setup { background: linear-gradient(180deg, #0f1311, #0f1311 58%, #140e0e); }
   .band-setup::before { background: radial-gradient(closest-side, rgba(45,212,191,0.16), transparent 70%); }
-  .band-support { background: #140e0e; }
+  .band-support { background: linear-gradient(180deg, #140e0e, #140e0e 58%, #0e120f); }
   .band-support::before { background: radial-gradient(closest-side, rgba(232,69,90,0.18), transparent 70%); }
-  .band-faq { background: #0e120f; }
+  .band-faq { background: linear-gradient(180deg, #0e120f, #0e120f 58%, #110e0c); }
   .band-faq::before { background: radial-gradient(closest-side, rgba(47,184,119,0.16), transparent 70%); }
-
   .section-head { text-align: center; margin-bottom: 26px; }
   .kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
   .band-plans .kicker { color: var(--gold); }
@@ -133,9 +132,7 @@
   .band-support .section-head h2 { color: var(--red); }
   .band-faq .section-head h2 { color: var(--green); }
   .section-head p { margin: 10px 0 0; color: var(--muted); font-size: 0.95rem; }
-
   .step-title { font-size: 0.78rem; font-weight: 700; margin: 24px 0 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; text-align: center; }
-
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; transition: all 0.5s ease; }
 
   /* --- CARDS --- */
