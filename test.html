@@ -60,14 +60,24 @@
       z-index: 0;
     }
 
-    /* Top bar with centered website link */
+    /* Top bar with centered pill buttons */
     .topbar {
       position: relative;
       z-index: 2;
       width: 100%;
       display: flex;
+      align-items: center;
       justify-content: center;
+      gap: 12px;
       padding: 16px 16px 4px;
+    }
+
+    /* Make both top-bar buttons equal size */
+    .topbar .website-link,
+    .topbar .reset-link {
+      flex: 1 1 0;
+      max-width: 190px;
+      justify-content: center;
     }
 
     .website-link {
@@ -106,6 +116,34 @@
     }
 
     .website-link:active { transform: translateY(0) scale(0.98); }
+
+    /* Reset pill — matches the website button size/shape */
+    .reset-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 10px 22px;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reset-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .reset-link:active { transform: translateY(0) scale(0.98); }
 
     /* Stage holds the panel near the top so it grows downward */
     .stage {
@@ -227,7 +265,7 @@
 
     .actions {
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: 1fr;
       gap: 12px;
     }
 
@@ -257,20 +295,6 @@
     }
 
     .primary-btn:active { transform: scale(0.98); }
-
-    .reset-btn {
-      background: rgba(255, 255, 255, 0.05);
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-    }
-
-    .reset-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-      border-color: var(--border);
-    }
-
-    .reset-btn:active { transform: scale(0.98); }
 
     .result-section {
       display: flex;
@@ -387,13 +411,13 @@
     @media (max-width: 480px) {
       .container { padding: 26px 22px; }
       h1 { font-size: 1.7rem; }
-      .actions { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="topbar">
     <a href="https://hossamurai.github.io/Hossam_TV.html" class="website-link">My Website</a>
+    <button type="button" class="reset-link" id="resetBtn">Reset</button>
   </div>
 
   <div class="stage">
@@ -413,7 +437,6 @@
 
       <div class="actions">
         <button class="primary-btn" id="processBtn">Process</button>
-        <button class="reset-btn" id="resetBtn">Reset</button>
       </div>
 
       <div class="result-section" id="resultSection">
