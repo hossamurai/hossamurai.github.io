@@ -69,7 +69,7 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
-      padding: 16px 16px 4px;
+      padding: 10px 16px 4px;
     }
 
     /* Make both top-bar buttons equal size */
@@ -153,14 +153,14 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      padding: 8px 20px 40px;
+      padding: 4px 20px 20px;
     }
 
     .container {
       background: var(--surface);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      padding: 34px;
+      padding: 24px;
       border-radius: 22px;
       width: 100%;
       max-width: 540px;
@@ -170,7 +170,7 @@
       border: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      gap: 22px;
+      gap: 14px;
       animation: fadeIn 0.6s ease-out;
       position: relative;
       overflow: hidden;
@@ -207,11 +207,11 @@
 
     h1 {
       font-family: "Bricolage Grotesque", "Sora", sans-serif;
-      font-size: 2rem;
+      font-size: 1.55rem;
       font-weight: 800;
       line-height: 1.05;
       letter-spacing: -0.02em;
-      margin-bottom: 8px;
+      margin-bottom: 0;
     }
 
     .subtitle {
@@ -235,7 +235,7 @@
 
     .input-display {
       width: 100%;
-      min-height: 120px;
+      min-height: 48px;
       background: var(--input-bg);
       border-radius: 14px;
       padding: 16px 18px;
@@ -258,7 +258,7 @@
     }
 
     .input-display:empty:before {
-      content: "// tap to paste M3U link or number";
+      content: "// just hit Process — it pastes for you";
       color: rgba(255, 255, 255, 0.32);
       font-size: 0.8rem;
     }
@@ -302,13 +302,11 @@
       gap: 14px;
     }
 
-    .result-section:empty { display: none; }
-
     .result-box {
       background: var(--surface-2);
       border: 1px solid var(--border-soft);
       border-radius: 16px;
-      padding: 20px;
+      padding: 16px 18px;
       animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -321,8 +319,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
-      padding-bottom: 14px;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
       border-bottom: 1px solid var(--border-soft);
     }
 
@@ -345,9 +343,13 @@
       text-transform: uppercase;
     }
 
+    .badge[hidden] { display: none; }
+
     .badge.m3u { background: rgba(124, 119, 255, 0.16); color: #b5b1ff; border: 1px solid rgba(124, 119, 255, 0.3); }
     .badge.phone { background: rgba(255, 196, 100, 0.16); color: #ffd592; border: 1px solid rgba(255, 196, 100, 0.3); }
 
+    /* Fixed-height content area => the Copy button never moves,
+       no matter if the output is 1, 4, or 5 (wrapped) lines. */
     .result-content {
       font-family: var(--mono);
       font-size: 0.88rem;
@@ -356,6 +358,12 @@
       word-break: break-all;
       margin-bottom: 16px;
       line-height: 1.7;
+      height: 100px;
+      overflow-y: auto;
+    }
+
+    .result-content.placeholder {
+      color: rgba(255, 255, 255, 0.25);
     }
 
     .result-content strong {
@@ -423,24 +431,30 @@
   <div class="stage">
     <div class="container">
       <div class="header">
-        <span class="eyebrow">// M3U + Number Utility</span>
         <h1>Input Processor</h1>
-        <p class="subtitle">Auto-detects M3U links or phone numbers.</p>
       </div>
 
       <div class="input-section">
-        <span class="input-label">Input</span>
         <div class="input-wrapper">
           <div class="input-display" id="inputDisplay" contenteditable="true" inputmode="none"></div>
         </div>
       </div>
 
       <div class="actions">
-        <button class="primary-btn" id="processBtn">Process</button>
+        <button class="primary-btn" id="processBtn">Paste &amp; Process</button>
       </div>
 
+      <!-- Result box is ALWAYS rendered so the Copy button keeps a fixed position -->
       <div class="result-section" id="resultSection">
+        <div class="result-box">
+          <div class="result-header">
+            <span class="result-label" id="resultLabel">Result</span>
+            <span class="badge" id="resultBadge" hidden></span>
+          </div>
+          <div class="result-content placeholder" id="resultContent">// result will appear here</div>
+          <button class="copy-btn" id="copyBtn">Copy to Clipboard</button>
         </div>
+      </div>
 
       <div class="status-message" id="statusMessage"></div>
 
@@ -451,36 +465,49 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const inputDisplay = document.getElementById('inputDisplay');
       const processBtn = document.getElementById('processBtn');
       const resetBtn = document.getElementById('resetBtn');
-      const resultSection = document.getElementById('resultSection');
       const statusMessage = document.getElementById('statusMessage');
 
+      const resultLabel = document.getElementById('resultLabel');
+      const resultBadge = document.getElementById('resultBadge');
+      const resultContent = document.getElementById('resultContent');
+      const copyBtn = document.getElementById('copyBtn');
+
+      let currentRawContent = "";
+
+      // Optional: tapping the empty input still pastes (handy for manual edits)
       inputDisplay.addEventListener('click', () => {
-         if(inputDisplay.textContent.trim() === "") {
-             navigator.clipboard.readText().then(text => {
-                if(text) inputDisplay.textContent = text;
-             }).catch(err => {
-                 // console.error("Clipboard access denied", err);
-             });
-         }
+        if (inputDisplay.textContent.trim() === "") {
+          navigator.clipboard.readText().then(text => {
+            if (text) inputDisplay.textContent = text;
+          }).catch(() => {});
+        }
       });
 
-      resetBtn.addEventListener('click', function() {
+      resetBtn.addEventListener('click', function () {
         inputDisplay.textContent = '';
-        resultSection.innerHTML = '';
+        clearResult();
         hideStatus();
       });
 
-      processBtn.addEventListener('click', function() {
-        resultSection.innerHTML = '';
+      // Process button now PASTES from clipboard + PROCESSES in a single tap
+      processBtn.addEventListener('click', async function () {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text && text.trim()) {
+            inputDisplay.textContent = text.trim();
+          }
+        } catch (err) {
+          // Clipboard blocked/denied — fall back to whatever's in the input box
+        }
 
         const input = inputDisplay.textContent.trim();
 
         if (!input) {
-          showStatus('Please paste some text first', 'error');
+          showStatus('Clipboard empty — copy something first', 'error');
           return;
         }
 
@@ -493,11 +520,11 @@
         const looksLikeNumber = !looksLikeUrl && digitCount > 5;
 
         if (looksLikeUrl) {
-            processM3U(input);
+          processM3U(input);
         } else if (looksLikeNumber) {
-            processNumber(input);
+          processNumber(input);
         } else {
-            showStatus('Could not identify input type', 'error');
+          showStatus('Could not identify input type', 'error');
         }
       }
 
@@ -522,55 +549,64 @@
         const cleanContent = `Playlist name: anything\nUsername: ${username}\nPassword: ${password}\nURL: ${host}`;
         const visualContent = `Playlist name: anything\n<strong>Username:</strong> ${username}\n<strong>Password:</strong> ${password}\n<strong>URL:</strong> ${host}`;
 
-        displayResult('Credentials Found', visualContent, cleanContent, 'm3u');
+        showResult('Credentials Found', visualContent, cleanContent, 'm3u');
         showStatus('M3U Link Processed', 'success');
       }
 
       function processNumber(input) {
         let cleaned = input.replace(/\D/g, "");
         if (cleaned.startsWith('2')) {
-            cleaned = cleaned.substring(1);
+          cleaned = cleaned.substring(1);
         }
 
         if (!cleaned) {
-            showStatus('No valid digits found', 'error');
-            return;
+          showStatus('No valid digits found', 'error');
+          return;
         }
 
-        displayResult('Formatted Number', cleaned, cleaned, 'phone');
+        showResult('Formatted Number', cleaned, cleaned, 'phone');
         showStatus('Number Formatted', 'success');
       }
 
-      function displayResult(title, visualContent, rawContent, type) {
-        const resultBox = document.createElement('div');
-        resultBox.className = 'result-box';
-        const badgeClass = type;
-         
-        resultBox.innerHTML = `
-          <div class="result-header">
-            <span class="result-label">${title}</span>
-            <span class="badge ${badgeClass}">${type.toUpperCase()}</span>
-          </div>
-          <div class="result-content">${visualContent}</div>
-          <button class="copy-btn">Copy to Clipboard</button>
-        `;
-         
-        resultSection.appendChild(resultBox);
-         
-        const copyBtn = resultBox.querySelector('.copy-btn');
-        copyBtn.addEventListener('click', function() {
-          navigator.clipboard.writeText(rawContent).then(() => {
-            const originalText = this.textContent;
-            this.textContent = 'Copied!';
-            this.classList.add('copied');
-             
-            setTimeout(() => {
-              this.textContent = originalText;
-              this.classList.remove('copied');
-            }, 2000);
-          });
-        });
+      // Updates the SAME box in place — never rebuilds it, so Copy stays put
+      function showResult(title, visualContent, rawContent, type) {
+        currentRawContent = rawContent;
+        resultLabel.textContent = title;
+        resultBadge.textContent = type.toUpperCase();
+        resultBadge.className = 'badge ' + type;
+        resultBadge.hidden = false;
+        resultContent.innerHTML = visualContent;
+        resultContent.classList.remove('placeholder');
       }
+
+      function clearResult() {
+        currentRawContent = "";
+        resultLabel.textContent = 'Result';
+        resultBadge.hidden = true;
+        resultBadge.className = 'badge';
+        resultBadge.textContent = '';
+        resultContent.classList.add('placeholder');
+        resultContent.innerHTML = '// result will appear here';
+        copyBtn.textContent = 'Copy to Clipboard';
+        copyBtn.classList.remove('copied');
+      }
+
+      copyBtn.addEventListener('click', function () {
+        if (!currentRawContent) {
+          showStatus('Nothing to copy yet', 'error');
+          return;
+        }
+        navigator.clipboard.writeText(currentRawContent).then(() => {
+          copyBtn.textContent = 'Copied!';
+          copyBtn.classList.add('copied');
+          setTimeout(() => {
+            copyBtn.textContent = 'Copy to Clipboard';
+            copyBtn.classList.remove('copied');
+          }, 2000);
+        }).catch(() => {
+          showStatus('Copy failed', 'error');
+        });
+      });
 
       function showStatus(message, type) {
         statusMessage.textContent = message;
