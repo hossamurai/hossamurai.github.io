@@ -656,11 +656,10 @@
     renderSetupContent();
   }
 
-  const smartersNote = `<div class="note"><strong><span class="view-en">Alternative — IPTV Smarters Pro:</span><span class="view-ar">بديل — IPTV Smarters Pro:</span></strong>
+const smartersNote = `<div class="note"><strong><span class="view-en">Alternative — IPTV Smarters Pro:</span><span class="view-ar">بديل — IPTV Smarters Pro:</span></strong>
     <span class="view-en"> enter code <strong>${SMARTERS}</strong> in Downloader. Smarters works for any plan using your username, password &amp; URL (host).</span>
-    <span class="view-ar"> أدخل الكود <strong>${SMARTERS}</strong> في تطبيق Downloader. يعمل مع أي باقة باستخدام اسم المستخدم وكلمة المرور والرابط (host).</span></div>`;
-
-  const ytTutorial = `<a href="https://youtu.be/jLxBqAIdYns" target="_blank" class="action-btn secondary"><i class="ph-fill ph-youtube-logo" style="color:#ff3b3b;"></i> <span class="view-en">Watch Tutorial</span><span class="view-ar">شاهد فيديو الشرح</span></a>`;
+    <span class="view-ar"> أدخل الكود <strong>${SMARTERS}</strong> في تطبيق Downloader. يعمل مع أي باقة باستخدام اسم المستخدم وكلمة المرور والرابط (host).</span>
+    <a href="https://youtu.be/jLxBqAIdYns" target="_blank" class="action-btn slate" style="margin-top:12px;"><i class="ph-fill ph-youtube-logo" style="color:#ff3b3b;"></i> <span class="view-en">Watch Tutorial</span><span class="view-ar">شاهد فيديو الشرح</span></a></div>`;
 
   function renderSetupContent() {
     const box = document.getElementById('setup-content');
@@ -690,8 +689,7 @@
           </div></div>
           <div class="step"><span class="snum">3</span><div><span class="view-en">Install the app, open it, and log in with your provided credentials.</span><span class="view-ar">ثبّت التطبيق ثم افتحه وسجّل الدخول ببيانات الاشتراك الخاصة بك.</span></div></div>
         </div>
-        ${smartersNote}
-        ${ytTutorial}`;
+${smartersNote}`;
     } else if (currentTab === 'mobile') {
       html = `
         <i class="ph ph-device-mobile" style="font-size:3rem; color:var(--cyan); margin-bottom:6px;"></i>
