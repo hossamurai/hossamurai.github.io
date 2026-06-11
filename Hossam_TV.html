@@ -309,6 +309,18 @@
   }
   body.rtl .popup-close { right: auto; left: 14px; }
   .popup-close:hover { color: var(--ink); border-color: var(--gold); }
+
+.popup-lang {
+    position: absolute; top: 14px; left: 14px;
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 34px; padding: 0 14px; border-radius: 50px;
+    background: var(--surface-2); border: 1px solid var(--line); color: var(--ink);
+    font-family: inherit; font-size: 0.78rem; font-weight: 700; cursor: pointer;
+    transition: all 0.2s;
+  }
+  body.rtl .popup-lang { left: auto; right: 14px; }
+  .popup-lang:hover { border-color: var(--gold); color: var(--gold); }
+  
   .popup-badge {
     display: inline-flex; align-items: center; gap: 7px; margin-bottom: 14px;
     font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
@@ -359,6 +371,9 @@
 <div class="popup-overlay" id="announce-popup">
   <div class="popup-card">
     <button class="popup-close" onclick="closePopup()" aria-label="Close"><i class="ph-bold ph-x"></i></button>
+
+<button class="popup-lang" onclick="toggleLanguage()"><i class="ph ph-globe"></i> <span class="view-en">العربية</span><span class="view-ar">English</span></button>
+    
     <span class="popup-badge"><i class="ph-fill ph-megaphone-simple"></i> <span class="view-en">What's New</span><span class="view-ar">آخر التحديثات</span></span>
     <h3><span class="view-en">Latest Updates</span><span class="view-ar">أحدث الأخبار</span></h3>
     <p><span class="view-en">Here's what's new at Hossam TV</span><span class="view-ar">إليك آخر مستجدات Hossam TV</span></p>
