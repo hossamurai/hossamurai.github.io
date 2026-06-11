@@ -1038,7 +1038,6 @@ ${smartersNote}`;
   (function initPopup() {
     let seen = null;
     try { seen = localStorage.getItem('hossamPopupSeen'); } catch (e) {}
-    if (seen === POPUP_VERSION) return;            // already saw this version → don't show
     const overlay = document.getElementById('announce-popup');
     setTimeout(() => overlay.classList.add('show'), 800);
     overlay.addEventListener('click', function (e) { if (e.target === overlay) closePopup(); });
