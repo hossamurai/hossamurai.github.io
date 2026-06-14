@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hossam TV — Setup Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   THEME TOKENS — change --accent (and its shades) to rebrand
+   ============================================================ */
+:root{
+  --bg:#f5f6f8;
+  --card:#ffffff;
+  --border:#e6e8ec;
+  --border-strong:#d4d7dd;
+  --text:#111827;
+  --muted:#6b7280;
+  --faint:#9ca3af;
+  --accent:#0d9488;          /* teal */
+  --accent-700:#0f766e;
+  --accent-soft:#f0fdfa;
+  --accent-soft-2:#cdeeea;
+  --warn:#b45309;
+  --warn-bg:#fffbeb;
+  --warn-border:#fde68a;
+  --radius:16px;
+  --radius-sm:12px;
+  --shadow-sm:0 1px 2px rgba(16,24,40,.06);
+  --shadow:0 6px 20px -8px rgba(16,24,40,.14);
+  --font:'Plus Jakarta Sans','Cairo', system-ui, -apple-system, sans-serif;
+}
+
+*{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{ font-family:var(--font); color:var(--text); background:var(--bg); min-height:100vh; -webkit-font-smoothing:antialiased; line-height:1.5; }
+
+.wrap{ max-width:900px; margin:0 auto; padding:40px 22px 96px; }
+
+/* ---------- top bar ---------- */
+.topbar{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:34px; }
+.brand{ display:inline-flex; align-items:center; gap:9px; }
+.brand-mark{ width:30px; height:30px; border-radius:8px; display:grid; place-items:center; background:var(--accent); color:#fff; }
+.brand-mark svg{ width:18px; height:18px; }
+.brand-name{ font-weight:700; font-size:15px; letter-spacing:-.01em; }
+
+.lang-toggle{ display:inline-flex; align-items:center; gap:4px; background:#fff; border:2px solid var(--accent); border-radius:999px; padding:5px; box-shadow:var(--shadow); }
+.lang-toggle .globe{ display:grid; place-items:center; width:20px; height:20px; color:var(--accent); margin-inline-start:8px; }
+.lang-toggle .globe svg{ width:100%; height:100%; }
+.lang-toggle button{ border:0; background:transparent; cursor:pointer; font-family:var(--font); font-weight:700; font-size:15px; padding:9px 18px; border-radius:999px; color:var(--accent); transition:background .15s ease, color .15s ease; }
+.lang-toggle button:hover{ background:var(--accent-soft); }
+.lang-toggle button.is-active{ background:var(--accent); color:#fff; }
+.lang-toggle button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+/* ---------- header ---------- */
+.intro{ margin-bottom:8px; }
+.intro h1{ font-weight:800; font-size:clamp(28px,4.6vw,40px); line-height:1.12; letter-spacing:-0.025em; margin:0 0 10px; }
+.intro p{ color:var(--muted); font-size:clamp(15px,2vw,17px); max-width:56ch; margin:0; }
+
+/* ---------- blocks ---------- */
+.block{ margin-top:40px; }
+.block[hidden]{ display:none; }
+.block-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:18px; }
+.block-label{ display:flex; align-items:center; gap:10px; margin:0 0 18px; font-size:13px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+.block-head .block-label{ margin:0; }
+.block-label .num{ width:22px; height:22px; border-radius:6px; display:grid; place-items:center; background:var(--accent-soft); color:var(--accent); font-size:12px; font-weight:700; }
+
+/* ---------- reset ---------- */
+.reset{ display:inline-flex; align-items:center; gap:7px; cursor:pointer; background:#fff; border:1.5px solid var(--border-strong); color:var(--text); font-family:var(--font); font-weight:600; font-size:13.5px; padding:8px 16px; border-radius:999px; transition:border-color .18s ease, color .18s ease, background .18s ease; }
+.reset[hidden]{ display:none; }
+.reset .ric{ display:grid; place-items:center; width:16px; height:16px; }
+.reset .ric svg{ width:100%; height:100%; }
+.reset:hover{ border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
+.reset:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+
+/* ---------- device grid ---------- */
+.devices{ display:flex; flex-wrap:wrap; gap:14px; }
+.device{ flex:0 1 150px; cursor:pointer; text-align:center; background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius-sm); padding:18px 14px 15px; font-family:var(--font); color:var(--text); box-shadow:var(--shadow-sm); display:flex; flex-direction:column; align-items:center; gap:10px; transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease, background .18s ease; }
+.device:hover{ border-color:var(--border-strong); box-shadow:var(--shadow); transform:translateY(-2px); }
+.device:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.device.is-active{ border-color:var(--accent); background:var(--accent-soft); box-shadow:var(--shadow); }
+.device-icon{ width:34px; height:34px; color:var(--accent); display:grid; place-items:center; }
+.device-icon svg{ width:100%; height:100%; }
+.device-name{ font-size:13.5px; font-weight:600; line-height:1.3; }
+
+/* ---------- steps ---------- */
+.crumb{ font-size:14px; color:var(--muted); margin:0 0 22px; }
+.crumb:empty{ display:none; }
+.crumb b{ color:var(--text); font-weight:700; }
+.steps{ list-style:none; margin:0 0 6px; padding:0; position:relative; }
+.steps:empty{ display:none; }
+.steps::before{ content:""; position:absolute; left:15px; top:8px; bottom:24px; width:2px; background:var(--border); }
+[dir="rtl"] .steps::before{ left:auto; right:15px; }
+.step{ position:relative; display:flex; gap:16px; align-items:flex-start; padding-bottom:22px; }
+.step:last-child{ padding-bottom:8px; }
+.step-num{ flex:0 0 32px; width:32px; height:32px; border-radius:50%; position:relative; z-index:1; background:var(--card); border:1.5px solid var(--accent); color:var(--accent); display:grid; place-items:center; font-weight:700; font-size:14px; }
+.step-body{ padding-top:4px; min-width:0; flex:1; }
+.step-text{ margin:0; font-size:15.5px; line-height:1.6; color:var(--text); }
+.step-text b{ font-weight:700; }
+.step-text .hint{ display:block; margin-top:7px; font-size:13.5px; color:var(--muted); }
+
+.step-text a, .note a{ color:var(--accent); font-weight:600; text-decoration:none; border-bottom:1px solid var(--accent-soft-2); }
+.step-text a:hover, .note a:hover{ color:var(--accent-700); border-bottom-color:currentColor; }
+.code{ display:inline-block; direction:ltr; unicode-bidi:isolate; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:13.5px; font-weight:600; background:var(--accent-soft); color:var(--accent) !important; border:1px solid var(--accent-soft-2); border-bottom:1px solid var(--accent-soft-2) !important; padding:2px 9px; border-radius:7px; margin:0 1px; }
+.code:hover{ background:var(--accent-soft-2); }
+
+/* ---------- inline plan picker ---------- */
+.planpick{ margin-top:12px; background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:12px; }
+.planpick-btns{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+.pp{ border:1.5px solid var(--border-strong); background:#fff; color:var(--text); font-family:var(--font); font-weight:600; font-size:13px; padding:7px 13px; border-radius:999px; cursor:pointer; transition:border-color .15s ease, color .15s ease, background .15s ease; }
+.pp:hover{ border-color:var(--accent); color:var(--accent); }
+.pp.is-active{ background:var(--accent); border-color:var(--accent); color:#fff; }
+.pp:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.planpick-out{ font-size:14px; min-height:30px; display:flex; align-items:center; }
+.pp-prompt{ color:var(--faint); font-size:13.5px; }
+
+/* ---------- notes ---------- */
+.notes{ margin-top:18px; }
+.note{ border:1px solid var(--border); border-inline-start:3px solid var(--accent); background:var(--card); border-radius:10px; padding:13px 15px; margin-bottom:10px; font-size:14px; line-height:1.55; color:var(--text); }
+.note .label{ display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent); margin-bottom:4px; }
+.note.warn{ border-color:var(--warn-border); border-inline-start-color:var(--warn); background:var(--warn-bg); }
+.note.warn .label{ color:var(--warn); }
+.note.warn a{ color:var(--warn); border-bottom-color:var(--warn-border); }
+
+/* ---------- roku message ---------- */
+.roku-wrap[hidden]{ display:none; }
+.roku-card{ display:flex; gap:16px; align-items:flex-start; background:var(--accent-soft); border:1px solid var(--accent-soft-2); border-radius:14px; padding:20px; }
+.roku-emoji{ font-size:34px; line-height:1; }
+.roku-card p{ margin:0; font-size:16px; line-height:1.6; color:var(--text); }
+
+/* ---------- reveal ---------- */
+.reveal{ opacity:0; transform:translateY(8px); transition:opacity .28s ease, transform .28s ease; }
+.reveal.show{ opacity:1; transform:none; }
+
+/* ---------- responsive ---------- */
+@media (max-width:560px){
+  .wrap{ padding:28px 16px 72px; }
+  .topbar{ margin-bottom:26px; }
+  .device{ flex:1 1 calc(50% - 7px); }
+}
+@media (prefers-reduced-motion:reduce){
+  *{ transition:none !important; }
+  .reveal{ opacity:1; transform:none; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="brand">
+      <span class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </span>
+      <span class="brand-name">Hossam TV</span>
+    </span>
+    <div class="lang-toggle" id="langToggle" role="group" aria-label="Language">
+      <span class="globe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.8 2.6 15.2 0 18M12 3c-2.6 2.8-2.6 15.2 0 18"/></svg></span>
+      <button type="button" data-lang="en" aria-pressed="true">English</button>
+      <button type="button" data-lang="ar" aria-pressed="false">العربية</button>
+    </div>
+  </div>
+
+  <header class="intro">
+    <h1 data-t="title">Set up your subscription</h1>
+    <p data-t="subtitle">Pick your device, then follow the steps. On Android, you’ll choose your plan along the way to get the right code.</p>
+  </header>
+
+  <section class="block">
+    <div class="block-head">
+      <h2 class="block-label"><span class="num">1</span> <span data-t="step1">Choose your device</span></h2>
+      <button class="reset" id="reset" hidden>
+        <span class="ric"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/></svg></span>
+        <span data-t="reset">Start over</span>
+      </button>
+    </div>
+    <div class="devices" id="devices" role="group" aria-label="Choose your device"></div>
+  </section>
+
+  <section class="block reveal" id="stepsBlock" hidden aria-live="polite">
+    <h2 class="block-label"><span class="num">2</span> <span data-t="step2">Follow the steps</span></h2>
+    <p class="crumb" id="crumb"></p>
+    <ol class="steps" id="steps"></ol>
+    <div class="notes" id="notes"></div>
+    <div class="roku-wrap" id="rokuMsg" hidden></div>
+  </section>
+</div>
+
+<script>
+/* ============================================================
+   STATIC UI TEXT (English / Arabic)
+   ============================================================ */
+const STR = {
+  en:{
+    title:'Set up your subscription',
+    subtitle:'Pick your device, then follow the steps. On Android, you’ll choose your plan along the way to get the right code.',
+    step1:'Choose your device',
+    step2:'Follow the steps',
+    reset:'Start over',
+    settingUp:(d)=>`Setting up <b>${d}</b>.`,
+  },
+  ar:{
+    title:'خطوات تفعيل اشتراكك',
+    subtitle:'اختر جهازك ثم اتبع الخطوات. على أجهزة أندرويد ستختار باقتك أثناء الخطوات للحصول على الكود الصحيح.',
+    step1:'اختر جهازك',
+    step2:'اتبع الخطوات',
+    reset:'البدء من جديد',
+    settingUp:(d)=>`إعداد <b>${d}</b>.`,
+  },
+};
+
+/* ============================================================
+   ICONS
+   ============================================================ */
+const ICONS = {
+  androidtv:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4M7.5 9.5l2 2M16.5 9.5l-2 2"/></svg>`,
+  firestick:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3c.7 2.5-1.5 3.8-1.5 6.2A1.6 1.6 0 0 0 13.7 10c.8-1.2.5-2.6.5-2.6 1.6 1.3 3.3 3.4 3.3 6.1a5.5 5.5 0 1 1-11 0c0-3.6 2.4-5.3 3.5-7.3.6-1 1.2-2.1 1.5-3.2Z"/></svg>`,
+  phone:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>`,
+  apple:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c-1.4-1-3-1-4.2-.2C6 8.9 5.6 11.4 6.6 14c.8 2 1.9 3.5 3.2 4 .8.3 1.4-.2 2.2-.2s1.4.5 2.2.2c1.3-.5 2.4-2 3.2-4 1-2.6.6-5.1-1.2-6.2-1.2-.8-2.8-.8-4.2.2Z"/><path d="M12 8c0-1.7 1.2-3 3-3"/></svg>`,
+  tv:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`,
+  laptop:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M2 19h20l-1.5-2H3.5L2 19Z"/></svg>`,
+  roku:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="8" rx="2"/><circle cx="17" cy="12" r="1.1" fill="currentColor"/><path d="M6.5 12h5"/></svg>`,
+  check:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 7"/></svg>`,
+};
+
+/* ============================================================
+   PLANS + LINKS
+   ============================================================ */
+const SMARTERS_CODE  = 'tinyurl.com/smrtsapp';
+const SMARTERS_VIDEO = 'https://youtu.be/jLxBqAIdYns';
+const SFVIP_ZIP      = 'https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file';
+const SFVIP_VIDEO    = 'https://youtu.be/dESni3uxAa4';
+
+function chip(code){
+  const url = code.startsWith('http') ? code : 'https://' + code;
+  const label = code.replace(/^https?:\/\//,'');
+  return `<a class="code" href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+}
+
+const PLAN_DATA = [
+  { id:'basic',   name:{en:'Basic Plan',    ar:'الباقة الأساسية'}, code:'tinyurl.com/neo4kapp', firestickAlt:null },
+  { id:'premium', name:{en:'Premium Plan',  ar:'الباقة المميزة'},  code:'tinyurl.com/the8kapp', firestickAlt:'tinyurl.com/strngapp' },
+  { id:'xtv',     name:{en:'XTV Server',    ar:'سيرفر XTV'},       code:'tinyurl.com/xapppro',  firestickAlt:null },
+  { id:'marvel',  name:{en:'Marvel Server', ar:'سيرفر مارفل'},     code:'tinyurl.com/appmrvl',  firestickAlt:null },
+];
+
+/* code/link for a given device + plan (Firestick can differ) */
+function codeFor(deviceId, planId){
+  const plan = PLAN_DATA.find(p=>p.id===planId);
+  if(deviceId === 'firestick') return plan.firestickAlt || plan.code;
+  return plan.code;
+}
+
+/* inline plan-picker scaffold (filled in on click) */
+function pickerHTML(deviceId, lang){
+  const ar = lang === 'ar';
+  const isLink = deviceId === 'android';
+  const prompt = ar
+    ? (isLink ? 'اختر باقتك لإظهار الرابط' : 'اختر باقتك لإظهار الكود')
+    : (isLink ? 'Pick your plan to reveal your link' : 'Pick your plan to reveal your code');
+  const btns = PLAN_DATA.map(p=>
+    `<button type="button" class="pp" data-device="${deviceId}" data-plan="${p.id}" aria-pressed="false">${p.name[lang]}</button>`
+  ).join('');
+  return `<div class="planpick"><div class="planpick-btns">${btns}</div><div class="planpick-out"><span class="pp-prompt">${prompt}</span></div></div>`;
+}
+
+/* ============================================================
+   BUILD ALL DEVICE FLOWS (localised)
+   ============================================================ */
+function buildDevices(lang){
+  const ar = lang === 'ar';
+  const mediafire = ar
+    ? `سيفتح الرابط صفحة MediaFire. اضغط على زر التحميل الأزرق الكبير — وليس زر «Download faster».`
+    : `The link opens a MediaFire page. Tap the big blue Download button — not the “Download faster” button.`;
+  const watchTut = ar ? 'شاهد الشرح' : 'Watch the tutorial';
+  const watchVid = ar ? 'شاهد الشرح' : 'Watch the video';
+  const lblAlt  = ar ? 'بديل' : 'Alternative';
+  const lblTut  = ar ? 'شرح'  : 'Tutorial';
+
+  const androidtv = {
+    id:'androidtv', icon:ICONS.androidtv,
+    name: ar ? 'أندرويد تي في' : 'Android TV',
+    steps:[
+      {html: ar ? `افتح متجر التطبيقات على التلفاز (Google Play) وثبّت تطبيق <b>Downloader by AFTVNews</b>.` : `Open your TV’s app store (Google Play) and install <b>Downloader by AFTVNews</b>.`},
+      {html: (ar ? `افتح Downloader، اختر باقتك بالأسفل، ثم اكتب الكود الظاهر لتحميل التطبيق:` : `Open Downloader, pick your plan below, then type the code it shows to download the app:`) + pickerHTML('androidtv', lang)},
+      {html: mediafire},
+      {html: ar ? `ثبّت التطبيق، ثم افتحه وسجّل الدخول ببيانات الاشتراك التي أرسلناها لك.` : `Install the app, open it, and sign in with the subscription details we sent you.`},
+    ],
+    notes:[
+      {type:'tip', label:lblAlt, html: ar
+        ? `تفضّل <b>IPTV Smarters Pro</b>؟ اكتب ${chip(SMARTERS_CODE)} في Downloader بدلاً من ذلك — يعمل مع كل الباقات باستخدام اسم المستخدم وكلمة المرور ورابط السيرفر. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`
+        : `Prefer <b>IPTV Smarters Pro</b>? Enter ${chip(SMARTERS_CODE)} in Downloader instead — it works on every plan using your username, password and host URL. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`},
+    ],
+  };
+
+  const firestick = {
+    id:'firestick', icon:ICONS.firestick,
+    name: ar ? 'فايرستيك' : 'Firestick',
+    steps:[
+      {html: ar ? `على الفايرستيك، افتح متجر أمازون (<b>Amazon Appstore</b>) وثبّت تطبيق <b>Downloader by AFTVNews</b>.` : `On your Firestick, open the <b>Amazon Appstore</b> and install <b>Downloader by AFTVNews</b>.`},
+      {html: (ar ? `افتح Downloader، اختر باقتك بالأسفل، ثم اكتب الكود الظاهر لتحميل التطبيق:` : `Open Downloader, pick your plan below, then type the code it shows to download the app:`) + pickerHTML('firestick', lang)},
+      {html: mediafire},
+      {html: ar ? `ثبّت التطبيق، ثم افتحه وسجّل الدخول ببيانات الاشتراك التي أرسلناها لك.` : `Install the app, open it, and sign in with the subscription details we sent you.`},
+    ],
+    notes:[
+      {type:'tip', label:lblAlt, html: ar
+        ? `تفضّل <b>IPTV Smarters Pro</b>؟ اكتب ${chip(SMARTERS_CODE)} في Downloader بدلاً من ذلك — يعمل مع كل الباقات. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`
+        : `Prefer <b>IPTV Smarters Pro</b>? Enter ${chip(SMARTERS_CODE)} in Downloader instead — it works on every plan. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`},
+    ],
+  };
+
+  const android = {
+    id:'android', icon:ICONS.phone,
+    name: ar ? 'موبايل وتابلت أندرويد' : 'Android Mobile & Tablet',
+    steps:[
+      {html: (ar ? `افتح متصفح هاتفك، اختر باقتك بالأسفل، ثم ادخل على الرابط الظاهر:` : `Open your phone’s browser, pick your plan below, then go to the link it shows:`) + pickerHTML('android', lang)},
+      {html: mediafire},
+      {html: ar ? `بعد تنزيل ملف APK، افتحه لتثبيته.` : `Once the APK downloads, open it to install.`},
+      {html: ar ? `افتح التطبيق وسجّل الدخول بالبيانات التي أرسلناها لك.` : `Open the app and sign in with the details we sent you.`},
+    ],
+    notes:[
+      {type:'tip', label:lblAlt, html: ar
+        ? `يمكنك أيضًا تحميل تطبيق <b>Smarters Pro</b> للموبايل من ${chip(SMARTERS_CODE)}.`
+        : `You can also grab the mobile <b>Smarters Pro</b> app from ${chip(SMARTERS_CODE)}.`},
+    ],
+  };
+
+  const ios = {
+    id:'ios', icon:ICONS.apple,
+    name: ar ? 'آيفون وماك وأبل تي في' : 'iPhone, Mac & Apple TV',
+    steps:[
+      {html: ar ? `افتح متجر تطبيقات أبل (App Store).` : `Open the <b>Apple App Store</b>.`},
+      {html: ar ? `ابحث عن تطبيق <b>Smarters Player Lite</b> وثبّته.` : `Search for and install <b>Smarters Player Lite</b>.`},
+      {html: ar ? `افتح التطبيق واختر طريقة الدخول <b>Xtream Codes API</b>.` : `Open the player and choose the <b>Xtream Codes API</b> login option.`},
+      {html: ar ? `أدخل اسم المستخدم وكلمة المرور ورابط السيرفر (Host URL) التي أرسلناها لك على واتساب.` : `Enter the username, password and host URL we sent you on WhatsApp.`},
+    ],
+    notes:[],
+  };
+
+  const smarttv = {
+    id:'smarttv', icon:ICONS.tv,
+    name: ar ? 'شاشات سمارت (سامسونج و إل جي)' : 'Smart TV (Samsung & LG)',
+    steps:[
+      {html: ar ? `افتح متجر التطبيقات المدمج في التلفاز وابحث عن <b>IBO Player</b>.` : `Open your TV’s built-in app store and search for <b>IBO Player</b>.`},
+      {html: ar ? `ثبّت التطبيق ثم افتحه.` : `Install and open the app.`},
+      {html: ar ? `ستظهر على الشاشة <b>Device ID</b> و <b>Device Key</b>. التقط صورة واضحة وأرسلها إلى Hossam TV على واتساب، وسنقوم بتحميل قائمة القنوات لك.` : `The screen shows a <b>Device ID</b> and <b>Device Key</b>. Take a clear photo and send it to Hossam TV on WhatsApp — we’ll load your playlist for you.`},
+    ],
+    notes:[
+      {type:'tip', label: ar ? 'الأساسية والمميزة' : 'Basic & Premium', html: ar
+        ? `تفعيل أول <b>IBO Player</b> مجاني. كل تلفاز أو جهاز إضافي مقابل <b>4 دولار أمريكي</b>.`
+        : `Your first <b>IBO Player</b> activation is free. Each extra TV or device is <b>$4 (USD)</b> more.`},
+      {type:'warn', label: ar ? 'XTV ومارفل' : 'XTV & Marvel', html: ar
+        ? `على سيرفر <b>XTV</b> و <b>مارفل</b>، يطلب <b>IBO Player</b> رسوم تفعيل لمرة واحدة تقارب <b>200 جنيه</b> بعد انتهاء الفترة التجريبية المجانية (7 أيام).`
+        : `On the <b>XTV</b> and <b>Marvel</b> servers, <b>IBO Player</b> charges a one-time activation fee of about <b>200 EGP</b> once its free 7-day trial ends.`},
+    ],
+  };
+
+  const windows = {
+    id:'windows', icon:ICONS.laptop,
+    name: ar ? 'كمبيوتر ولابتوب ويندوز' : 'Windows PC & Laptop',
+    steps:[
+      {html: ar
+        ? `حمّل حزمة <b>SFVIP Player</b> (ملف ZIP) من <a href="${SFVIP_ZIP}" target="_blank" rel="noopener noreferrer">MediaFire</a>.<span class="hint">اضغط على زر التحميل الأزرق الكبير — وليس زر «Download faster».</span>`
+        : `Download the <b>SFVIP Player</b> package (ZIP) from <a href="${SFVIP_ZIP}" target="_blank" rel="noopener noreferrer">MediaFire</a>.<span class="hint">Tap the big blue Download button — not the “Download faster” button.</span>`},
+      {html: ar ? `فك ضغط الملف وشغّل التطبيق الموجود بداخله.` : `Unzip the file and run the application inside.`},
+      {html: ar ? `سجّل الدخول ببيانات اشتراكك لبدء المشاهدة.` : `Sign in with your subscription details to start streaming.`},
+    ],
+    notes:[
+      {type:'tip', label:lblTut, html: ar
+        ? `تحب تتابع الخطوات بالفيديو؟ <a href="${SFVIP_VIDEO}" target="_blank" rel="noopener noreferrer">${watchVid}</a>.`
+        : `Want to follow along on screen? <a href="${SFVIP_VIDEO}" target="_blank" rel="noopener noreferrer">${watchVid}</a>.`},
+    ],
+  };
+
+  const roku = {
+    id:'roku', icon:ICONS.roku, roku:true,
+    name: ar ? 'روكو (Roku)' : 'Roku',
+    message: ar
+      ? `روكو؟ للأسف لا ندعمه — وبصراحة لسنا من أكبر محبيه.<br>اختر أي جهاز آخر من الأعلى وسنظبط لك كل شيء.`
+      : `Roku? Afraid we don’t support it — and between us, we’re not its biggest fans.<br>Pick any other device above and we’ll get you sorted.`,
+  };
+
+  return [androidtv, firestick, android, ios, smarttv, windows, roku];
+}
+
+/* ============================================================
+   BEHAVIOUR
+   ============================================================ */
+const LANG = { current:'en' };
+const devicesEl  = document.getElementById('devices');
+const stepsBlock = document.getElementById('stepsBlock');
+const crumbEl    = document.getElementById('crumb');
+const stepsEl    = document.getElementById('steps');
+const notesEl    = document.getElementById('notes');
+const rokuMsg    = document.getElementById('rokuMsg');
+const resetBtn   = document.getElementById('reset');
+const langToggle = document.getElementById('langToggle');
+
+let activeDeviceId = null;
+
+function reveal(el){
+  el.hidden = false; el.classList.remove('show');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('show')));
+}
+
+function applyStaticText(){
+  const t = STR[LANG.current];
+  document.querySelectorAll('[data-t]').forEach(el=>{ el.textContent = t[el.dataset.t]; });
+}
+
+function renderDevices(){
+  const devices = buildDevices(LANG.current);
+  devicesEl.innerHTML = '';
+  devices.forEach(dev=>{
+    const btn = document.createElement('button');
+    btn.className = 'device'; btn.type = 'button'; btn.dataset.id = dev.id;
+    const on = dev.id === activeDeviceId;
+    if(on) btn.classList.add('is-active');
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    btn.setAttribute('aria-label', dev.name);
+    btn.innerHTML = `<span class="device-icon">${dev.icon}</span><span class="device-name">${dev.name}</span>`;
+    btn.addEventListener('click', ()=>selectDevice(dev.id));
+    devicesEl.appendChild(btn);
+  });
+}
+
+function selectDevice(deviceId){
+  activeDeviceId = deviceId;
+  [...devicesEl.children].forEach(c=>{
+    const on = c.dataset.id === deviceId;
+    c.classList.toggle('is-active', on);
+    c.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  resetBtn.hidden = false;
+  renderSteps();
+}
+
+function renderSteps(){
+  const lang = LANG.current;
+  const dev = buildDevices(lang).find(d=>d.id===activeDeviceId);
+  if(!dev) return;
+
+  if(dev.roku){
+    crumbEl.innerHTML = '';
+    stepsEl.innerHTML = '';
+    notesEl.innerHTML = '';
+    rokuMsg.hidden = false;
+    rokuMsg.innerHTML = `<div class="roku-card"><span class="roku-emoji">🙂</span><p>${dev.message}</p></div>`;
+    reveal(stepsBlock);
+    setTimeout(()=>stepsBlock.scrollIntoView({behavior:'smooth', block:'nearest'}), 80);
+    return;
+  }
+
+  rokuMsg.hidden = true; rokuMsg.innerHTML = '';
+  crumbEl.innerHTML = STR[lang].settingUp(dev.name);
+  stepsEl.innerHTML = dev.steps.map((s,i)=>`
+    <li class="step">
+      <span class="step-num">${i+1}</span>
+      <span class="step-body"><div class="step-text">${s.html}</div></span>
+    </li>`).join('');
+  const notes = dev.notes || [];
+  notesEl.innerHTML = notes.map(n=>`
+    <div class="note ${n.type==='warn'?'warn':'tip'}">
+      <span class="label">${n.label}</span>
+      <div>${n.html}</div>
+    </div>`).join('');
+  reveal(stepsBlock);
+  setTimeout(()=>stepsBlock.scrollIntoView({behavior:'smooth', block:'nearest'}), 80);
+}
+
+/* inline plan picker — fill in the code when a plan is tapped */
+stepsEl.addEventListener('click', e=>{
+  const btn = e.target.closest('.pp');
+  if(!btn) return;
+  const wrap = btn.closest('.planpick');
+  wrap.querySelectorAll('.pp').forEach(b=>{
+    const on = b === btn;
+    b.classList.toggle('is-active', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  wrap.querySelector('.planpick-out').innerHTML = chip(codeFor(btn.dataset.device, btn.dataset.plan));
+});
+
+function resetAll(){
+  activeDeviceId = null;
+  [...devicesEl.children].forEach(c=>{ c.classList.remove('is-active'); c.setAttribute('aria-pressed','false'); });
+  stepsBlock.hidden = true; stepsBlock.classList.remove('show');
+  rokuMsg.hidden = true;
+  resetBtn.hidden = true;
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function setLang(lang){
+  LANG.current = lang;
+  const html = document.documentElement;
+  html.lang = lang; html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  [...langToggle.querySelectorAll('button')].forEach(b=>{
+    const on = b.dataset.lang === lang;
+    b.classList.toggle('is-active', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  applyStaticText();
+  renderDevices();
+  if(activeDeviceId) renderSteps();
+}
+
+langToggle.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=>setLang(b.dataset.lang)));
+resetBtn.addEventListener('click', resetAll);
+
+setLang('en');
+</script>
+</body>
+</html>
