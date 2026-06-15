@@ -4,6 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Hossam TV — Setup Guide</title>
+<link rel="icon" type="image/png" href="https://hossamurai.github.io/roundlogo.png">
+<link rel="apple-touch-icon" href="https://hossamurai.github.io/roundlogo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -26,6 +28,7 @@
   --warn:#b45309;
   --warn-bg:#fffbeb;
   --warn-border:#fde68a;
+  --wa:#25D366;
   --radius:16px;
   --radius-sm:12px;
   --shadow-sm:0 1px 2px rgba(16,24,40,.06);
@@ -37,30 +40,32 @@
 html,body{ margin:0; padding:0; }
 body{ font-family:var(--font); color:var(--text); background:var(--bg); min-height:100vh; -webkit-font-smoothing:antialiased; line-height:1.5; }
 
-.wrap{ max-width:900px; margin:0 auto; padding:40px 22px 96px; }
+.wrap{ max-width:900px; margin:0 auto; padding:32px 22px 0; }
 
-/* ---------- top bar ---------- */
-.topbar{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:34px; }
-.brand{ display:inline-flex; align-items:center; gap:9px; }
-.brand-mark{ width:30px; height:30px; border-radius:8px; display:grid; place-items:center; background:var(--accent); color:#fff; }
-.brand-mark svg{ width:18px; height:18px; }
-.brand-name{ font-weight:700; font-size:15px; letter-spacing:-.01em; }
+/* ---------- sticky top bar (locked LTR so it never moves on toggle) ---------- */
+.topbar{ position:sticky; top:0; z-index:100; direction:ltr;
+  background:rgba(245,246,248,0.88); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border); }
+.topbar-inner{ max-width:900px; margin:0 auto; padding:12px 22px; display:flex; align-items:center; justify-content:space-between; gap:14px; }
+.brand{ display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); }
+.brand-logo{ width:34px; height:34px; border-radius:22%; display:block; object-fit:cover; box-shadow:0 2px 6px rgba(16,24,40,.18); }
+.brand-name{ font-weight:700; font-size:16px; letter-spacing:-.01em; }
 
-.lang-toggle{ display:inline-flex; align-items:center; gap:4px; background:#fff; border:2px solid var(--accent); border-radius:999px; padding:5px; box-shadow:var(--shadow); }
-.lang-toggle .globe{ display:grid; place-items:center; width:20px; height:20px; color:var(--accent); margin-inline-start:8px; }
+.lang-toggle{ display:inline-flex; align-items:center; gap:4px; background:#fff; border:2px solid var(--accent); border-radius:999px; padding:4px; box-shadow:var(--shadow); }
+.lang-toggle .globe{ display:grid; place-items:center; width:18px; height:18px; color:var(--accent); margin-inline-start:7px; }
 .lang-toggle .globe svg{ width:100%; height:100%; }
-.lang-toggle button{ border:0; background:transparent; cursor:pointer; font-family:var(--font); font-weight:700; font-size:15px; padding:9px 18px; border-radius:999px; color:var(--accent); transition:background .15s ease, color .15s ease; }
+.lang-toggle button{ border:0; background:transparent; cursor:pointer; font-family:var(--font); font-weight:700; font-size:14px; padding:8px 15px; border-radius:999px; color:var(--accent); transition:background .15s ease, color .15s ease; }
 .lang-toggle button:hover{ background:var(--accent-soft); }
 .lang-toggle button.is-active{ background:var(--accent); color:#fff; }
 .lang-toggle button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
 /* ---------- header ---------- */
-.intro{ margin-bottom:8px; }
+.intro{ margin:34px 0 8px; }
 .intro h1{ font-weight:800; font-size:clamp(28px,4.6vw,40px); line-height:1.12; letter-spacing:-0.025em; margin:0 0 10px; }
 .intro p{ color:var(--muted); font-size:clamp(15px,2vw,17px); max-width:56ch; margin:0; }
 
 /* ---------- blocks ---------- */
-.block{ margin-top:40px; }
+.block{ margin-top:40px; scroll-margin-top:80px; }
 .block[hidden]{ display:none; }
 .block-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:18px; }
 .block-label{ display:flex; align-items:center; gap:10px; margin:0 0 18px; font-size:13px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
@@ -103,8 +108,17 @@ body{ font-family:var(--font); color:var(--text); background:var(--bg); min-heig
 
 .step-text a, .note a{ color:var(--accent); font-weight:600; text-decoration:none; border-bottom:1px solid var(--accent-soft-2); }
 .step-text a:hover, .note a:hover{ color:var(--accent-700); border-bottom-color:currentColor; }
-.code{ display:inline-block; direction:ltr; unicode-bidi:isolate; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:13.5px; font-weight:600; background:var(--accent-soft); color:var(--accent) !important; border:1px solid var(--accent-soft-2); border-bottom:1px solid var(--accent-soft-2) !important; padding:2px 9px; border-radius:7px; margin:0 1px; }
+
+/* code chips (copy + link variants) */
+.code{ display:inline-block; direction:ltr; unicode-bidi:isolate; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:13.5px; font-weight:600; background:var(--accent-soft); color:var(--accent) !important; border:1px solid var(--accent-soft-2); border-bottom:1px solid var(--accent-soft-2) !important; padding:3px 10px; border-radius:7px; margin:0 1px; }
 .code:hover{ background:var(--accent-soft-2); }
+.code-copy{ display:inline-flex; align-items:center; gap:6px; cursor:copy; }
+.code-copy svg{ width:13px; height:13px; opacity:.75; }
+.code-row{ display:inline-flex; align-items:center; gap:6px; direction:ltr; unicode-bidi:isolate; }
+.code-copybtn{ display:inline-grid; place-items:center; width:30px; height:30px; border-radius:8px; border:1px solid var(--accent-soft-2); background:var(--accent-soft); color:var(--accent); cursor:pointer; flex-shrink:0; }
+.code-copybtn:hover{ background:var(--accent-soft-2); }
+.code-copybtn svg{ width:15px; height:15px; }
+.code-copybtn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
 /* ---------- inline plan picker ---------- */
 .planpick{ margin-top:12px; background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:12px; }
@@ -113,7 +127,7 @@ body{ font-family:var(--font); color:var(--text); background:var(--bg); min-heig
 .pp:hover{ border-color:var(--accent); color:var(--accent); }
 .pp.is-active{ background:var(--accent); border-color:var(--accent); color:#fff; }
 .pp:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-.planpick-out{ font-size:14px; min-height:30px; display:flex; align-items:center; }
+.planpick-out{ font-size:14px; min-height:34px; display:flex; align-items:center; }
 .pp-prompt{ color:var(--faint); font-size:13.5px; }
 
 /* ---------- notes ---------- */
@@ -130,15 +144,44 @@ body{ font-family:var(--font); color:var(--text); background:var(--bg); min-heig
 .roku-emoji{ font-size:34px; line-height:1; }
 .roku-card p{ margin:0; font-size:16px; line-height:1.6; color:var(--text); }
 
+/* ---------- golden rule (always visible) ---------- */
+.golden{ margin-top:56px; background:var(--card); border:1px solid var(--border); border-inline-start:4px solid var(--accent); border-radius:16px; padding:24px; box-shadow:var(--shadow-sm); }
+.golden h3{ margin:0 0 4px; font-size:18px; font-weight:800; color:var(--text); display:flex; align-items:center; gap:10px; }
+.golden .gr-key{ width:21px; height:21px; color:var(--accent); flex-shrink:0; }
+.golden .gr-sub{ margin:0 0 16px; color:var(--accent); font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+.golden ul{ margin:0; padding:0; list-style:none; display:grid; gap:14px; }
+.golden li{ font-size:14.5px; line-height:1.55; color:var(--muted); }
+.golden li b{ display:block; color:var(--text); font-weight:700; margin-bottom:2px; }
+.golden .gr-eg{ margin:16px 0 0; padding-top:14px; border-top:1px solid var(--border); font-size:13.5px; color:var(--muted); }
+.golden .gr-eg b{ color:var(--text); }
+
+/* ---------- footer ---------- */
+.site-footer{ border-top:1px solid var(--border); background:#fff; margin-top:56px; }
+.footer-inner{ max-width:900px; margin:0 auto; padding:26px 22px 8px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.footer-brand{ display:inline-flex; align-items:center; gap:9px; text-decoration:none; color:var(--text); font-weight:700; font-size:15px; }
+.footer-brand img{ width:28px; height:28px; border-radius:22%; }
+.wa-btn{ display:inline-flex; align-items:center; gap:9px; background:var(--wa); color:#053d1c; font-weight:700; text-decoration:none; padding:11px 20px; border-radius:999px; font-size:14.5px; box-shadow:0 8px 20px -8px rgba(37,211,102,.6); }
+.wa-btn:hover{ filter:brightness(1.04); }
+.wa-btn svg{ width:19px; height:19px; }
+.footer-copy{ max-width:900px; margin:0 auto; padding:6px 22px 28px; color:var(--faint); font-size:13px; text-align:center; }
+
+/* ---------- copy toast ---------- */
+.toast{ position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(10px); background:var(--text); color:#fff; padding:10px 18px; border-radius:999px; font-size:14px; font-weight:600; opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:2000; }
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
 /* ---------- reveal ---------- */
 .reveal{ opacity:0; transform:translateY(8px); transition:opacity .28s ease, transform .28s ease; }
 .reveal.show{ opacity:1; transform:none; }
 
 /* ---------- responsive ---------- */
 @media (max-width:560px){
-  .wrap{ padding:28px 16px 72px; }
-  .topbar{ margin-bottom:26px; }
+  .wrap{ padding:24px 16px 0; }
+  .topbar-inner{ padding:10px 16px; }
+  .brand-logo{ width:30px; height:30px; }
+  .brand-name{ font-size:15px; }
+  .lang-toggle button{ padding:8px 12px; font-size:13.5px; }
   .device{ flex:1 1 calc(50% - 7px); }
+  .footer-inner{ justify-content:center; }
 }
 @media (prefers-reduced-motion:reduce){
   *{ transition:none !important; }
@@ -147,21 +190,22 @@ body{ font-family:var(--font); color:var(--text); background:var(--bg); min-heig
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="topbar">
-    <span class="brand">
-      <span class="brand-mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-      </span>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="https://hossamurai.github.io/Hossam_TV.html" aria-label="Hossam TV — home">
+      <img class="brand-logo" src="https://hossamurai.github.io/roundlogo.png" alt="Hossam TV" width="34" height="34">
       <span class="brand-name">Hossam TV</span>
-    </span>
+    </a>
     <div class="lang-toggle" id="langToggle" role="group" aria-label="Language">
       <span class="globe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.8 2.6 15.2 0 18M12 3c-2.6 2.8-2.6 15.2 0 18"/></svg></span>
       <button type="button" data-lang="en" aria-pressed="true">English</button>
       <button type="button" data-lang="ar" aria-pressed="false">العربية</button>
     </div>
   </div>
+</header>
 
+<div class="wrap">
   <header class="intro">
     <h1 data-t="title">Set up your subscription</h1>
     <p data-t="subtitle">Pick your device, then follow the steps. On Android, you’ll choose your plan along the way to get the right code.</p>
@@ -185,7 +229,25 @@ body{ font-family:var(--font); color:var(--text); background:var(--bg); min-heig
     <div class="notes" id="notes"></div>
     <div class="roku-wrap" id="rokuMsg" hidden></div>
   </section>
+
+  <section class="golden" id="golden"></section>
 </div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <a class="footer-brand" href="https://hossamurai.github.io/Hossam_TV.html">
+      <img src="https://hossamurai.github.io/roundlogo.png" alt="" width="28" height="28">
+      <span>Hossam TV</span>
+    </a>
+    <a class="wa-btn" href="https://wa.me/message/JZEZ3BNRYY2ED1" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15c-1.52 0-3.01-.41-4.3-1.18l-.31-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.35c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.25 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.41-.56-.42l-.48-.01c-.16 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>
+      <span data-t="waCta">Chat on WhatsApp</span>
+    </a>
+  </div>
+  <p class="footer-copy" data-t="footerNote">© 2026 Hossam TV — All rights reserved.</p>
+</footer>
+
+<div class="toast" id="toast" hidden></div>
 
 <script>
 /* ============================================================
@@ -198,6 +260,9 @@ const STR = {
     step1:'Choose your device',
     step2:'Follow the steps',
     reset:'Start over',
+    waCta:'Chat on WhatsApp',
+    footerNote:'© 2026 Hossam TV — All rights reserved.',
+    copied:'Copied',
     settingUp:(d)=>`Setting up <b>${d}</b>.`,
   },
   ar:{
@@ -206,6 +271,9 @@ const STR = {
     step1:'اختر جهازك',
     step2:'اتبع الخطوات',
     reset:'البدء من جديد',
+    waCta:'تواصل عبر واتساب',
+    footerNote:'© 2026 Hossam TV — جميع الحقوق محفوظة.',
+    copied:'تم النسخ',
     settingUp:(d)=>`إعداد <b>${d}</b>.`,
   },
 };
@@ -222,6 +290,8 @@ const ICONS = {
   laptop:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M2 19h20l-1.5-2H3.5L2 19Z"/></svg>`,
   roku:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="8" rx="2"/><circle cx="17" cy="12" r="1.1" fill="currentColor"/><path d="M6.5 12h5"/></svg>`,
   check:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4L19 7"/></svg>`,
+  copy:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>`,
+  key:`<svg class="gr-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4"/><path d="M10.3 12.7 20 3M17 6l2.5 2.5M14.5 8.5 17 11"/></svg>`,
 };
 
 /* ============================================================
@@ -232,10 +302,16 @@ const SMARTERS_VIDEO = 'https://youtu.be/jLxBqAIdYns';
 const SFVIP_ZIP      = 'https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file';
 const SFVIP_VIDEO    = 'https://youtu.be/dESni3uxAa4';
 
-function chip(code){
+/* copy-only chip (for codes typed into Downloader) */
+function copyChip(code){
+  const label = code.replace(/^https?:\/\//,'');
+  return `<button type="button" class="code code-copy" data-copy="${label}" aria-label="Copy ${label}">${label} ${ICONS.copy}</button>`;
+}
+/* clickable link + copy button (for phone/tablet, opened in a browser) */
+function linkChip(code){
   const url = code.startsWith('http') ? code : 'https://' + code;
   const label = code.replace(/^https?:\/\//,'');
-  return `<a class="code" href="${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+  return `<span class="code-row"><a class="code" href="${url}" target="_blank" rel="noopener noreferrer">${label}</a><button type="button" class="code-copybtn" data-copy="${label}" aria-label="Copy ${label}">${ICONS.copy}</button></span>`;
 }
 
 const PLAN_DATA = [
@@ -289,8 +365,8 @@ function buildDevices(lang){
     ],
     notes:[
       {type:'tip', label:lblAlt, html: ar
-        ? `تفضّل <b>IPTV Smarters Pro</b>؟ اكتب ${chip(SMARTERS_CODE)} في Downloader بدلاً من ذلك — يعمل مع كل الباقات باستخدام اسم المستخدم وكلمة المرور ورابط السيرفر. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`
-        : `Prefer <b>IPTV Smarters Pro</b>? Enter ${chip(SMARTERS_CODE)} in Downloader instead — it works on every plan using your username, password and host URL. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`},
+        ? `تفضّل <b>IPTV Smarters Pro</b>؟ اكتب ${copyChip(SMARTERS_CODE)} في Downloader بدلاً من ذلك — يعمل مع كل الباقات باستخدام اسم المستخدم وكلمة المرور ورابط السيرفر. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`
+        : `Prefer <b>IPTV Smarters Pro</b>? Enter ${copyChip(SMARTERS_CODE)} in Downloader instead — it works on every plan using your username, password and host URL. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`},
     ],
   };
 
@@ -305,8 +381,8 @@ function buildDevices(lang){
     ],
     notes:[
       {type:'tip', label:lblAlt, html: ar
-        ? `تفضّل <b>IPTV Smarters Pro</b>؟ اكتب ${chip(SMARTERS_CODE)} في Downloader بدلاً من ذلك — يعمل مع كل الباقات. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`
-        : `Prefer <b>IPTV Smarters Pro</b>? Enter ${chip(SMARTERS_CODE)} in Downloader instead — it works on every plan. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`},
+        ? `تفضّل <b>IPTV Smarters Pro</b>؟ اكتب ${copyChip(SMARTERS_CODE)} في Downloader بدلاً من ذلك — يعمل مع كل الباقات. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`
+        : `Prefer <b>IPTV Smarters Pro</b>? Enter ${copyChip(SMARTERS_CODE)} in Downloader instead — it works on every plan. <a href="${SMARTERS_VIDEO}" target="_blank" rel="noopener noreferrer">${watchTut}</a>.`},
     ],
   };
 
@@ -321,8 +397,8 @@ function buildDevices(lang){
     ],
     notes:[
       {type:'tip', label:lblAlt, html: ar
-        ? `يمكنك أيضًا تحميل تطبيق <b>Smarters Pro</b> للموبايل من ${chip(SMARTERS_CODE)}.`
-        : `You can also grab the mobile <b>Smarters Pro</b> app from ${chip(SMARTERS_CODE)}.`},
+        ? `يمكنك أيضًا تحميل تطبيق <b>Smarters Pro</b> للموبايل من ${linkChip(SMARTERS_CODE)}.`
+        : `You can also grab the mobile <b>Smarters Pro</b> app from ${linkChip(SMARTERS_CODE)}.`},
     ],
   };
 
@@ -396,8 +472,11 @@ const notesEl    = document.getElementById('notes');
 const rokuMsg    = document.getElementById('rokuMsg');
 const resetBtn   = document.getElementById('reset');
 const langToggle = document.getElementById('langToggle');
+const goldenEl   = document.getElementById('golden');
+const toastEl    = document.getElementById('toast');
 
 let activeDeviceId = null;
+let toastTimer = null;
 
 function reveal(el){
   el.hidden = false; el.classList.remove('show');
@@ -407,6 +486,32 @@ function reveal(el){
 function applyStaticText(){
   const t = STR[LANG.current];
   document.querySelectorAll('[data-t]').forEach(el=>{ el.textContent = t[el.dataset.t]; });
+}
+
+/* ---- always-visible Golden Rule ---- */
+function renderDisclaimer(){
+  const ar = LANG.current === 'ar';
+  if(ar){
+    goldenEl.innerHTML = `
+      <h3>${ICONS.key} القاعدة الذهبية</h3>
+      <p class="gr-sub">مشاهدة على جهاز واحد في نفس الوقت</p>
+      <ul>
+        <li><b>ثبّت على أي عدد من الأجهزة</b>يمكنك تثبيت الاشتراك على عدد غير محدود من الأجهزة — تلفاز، موبايل، أو تابلت.</li>
+        <li><b>التشغيل على جهاز واحد فقط</b>جهاز واحد فقط يمكنه التشغيل في نفس اللحظة. تشغيل أكثر من جهاز في نفس الوقت سيقفل الحساب تلقائيًا.</li>
+        <li><b>محتاج شاشتين في نفس الوقت؟</b>هذا يتطلب اشتراكين منفصلين.</li>
+      </ul>
+      <p class="gr-eg"><b>مثال (أسعار الباقة الأساسية):</b> حساب واحد لمدة سنة: 35 دولار — حسابان (كل منهما سنة): 60 دولار.</p>`;
+  } else {
+    goldenEl.innerHTML = `
+      <h3>${ICONS.key} Golden Rule</h3>
+      <p class="gr-sub">One stream at a time</p>
+      <ul>
+        <li><b>Install anywhere</b>Set it up on as many devices as you like — TV, phone, or tablet.</li>
+        <li><b>Play on one at a time</b>Only ONE device can stream at any moment. Playing on two at once will automatically lock your account.</li>
+        <li><b>Need two screens at once?</b>That requires two separate subscriptions.</li>
+      </ul>
+      <p class="gr-eg"><b>Example (Basic plan):</b> one account for a year is $35 — two accounts (a year each) is $60.</p>`;
+  }
 }
 
 function renderDevices(){
@@ -469,7 +574,7 @@ function renderSteps(){
   setTimeout(()=>stepsBlock.scrollIntoView({behavior:'smooth', block:'nearest'}), 80);
 }
 
-/* inline plan picker — fill in the code when a plan is tapped */
+/* inline plan picker — reveal the code (copy-only) or link (clickable) */
 stepsEl.addEventListener('click', e=>{
   const btn = e.target.closest('.pp');
   if(!btn) return;
@@ -479,7 +584,36 @@ stepsEl.addEventListener('click', e=>{
     b.classList.toggle('is-active', on);
     b.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
-  wrap.querySelector('.planpick-out').innerHTML = chip(codeFor(btn.dataset.device, btn.dataset.plan));
+  const deviceId = btn.dataset.device;
+  const code = codeFor(deviceId, btn.dataset.plan);
+  wrap.querySelector('.planpick-out').innerHTML = (deviceId === 'android') ? linkChip(code) : copyChip(code);
+});
+
+/* copy-to-clipboard for any [data-copy] chip/button */
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.hidden = false;
+  requestAnimationFrame(()=>toastEl.classList.add('show'));
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 1400);
+}
+function copyText(text){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>showToast(STR[LANG.current].copied)).catch(()=>fallbackCopy(text));
+  } else { fallbackCopy(text); }
+}
+function fallbackCopy(text){
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.setAttribute('readonly',''); ta.style.position='absolute'; ta.style.left='-9999px';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); showToast(STR[LANG.current].copied); } catch(e){}
+  document.body.removeChild(ta);
+}
+document.addEventListener('click', e=>{
+  const b = e.target.closest('[data-copy]');
+  if(!b) return;
+  e.preventDefault();
+  copyText(b.getAttribute('data-copy'));
 });
 
 function resetAll(){
@@ -501,6 +635,7 @@ function setLang(lang){
     b.setAttribute('aria-pressed', on ? 'true' : 'false');
   });
   applyStaticText();
+  renderDisclaimer();
   renderDevices();
   if(activeDeviceId) renderSteps();
 }
