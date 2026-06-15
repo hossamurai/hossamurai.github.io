@@ -60,7 +60,7 @@ body{ font-family:var(--font); color:var(--text); background:var(--bg); min-heig
 .lang-toggle button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 
 /* ---------- header ---------- */
-.intro{ margin:34px 0 8px; }
+.intro{ margin:0 0 8px; }
 .intro h1{ font-weight:800; font-size:clamp(28px,4.6vw,40px); line-height:1.12; letter-spacing:-0.025em; margin:0 0 10px; }
 .intro p{ color:var(--muted); font-size:clamp(15px,2vw,17px); max-width:56ch; margin:0; }
 
@@ -144,16 +144,16 @@ body{ font-family:var(--font); color:var(--text); background:var(--bg); min-heig
 .roku-emoji{ font-size:34px; line-height:1; }
 .roku-card p{ margin:0; font-size:16px; line-height:1.6; color:var(--text); }
 
-/* ---------- golden rule (always visible) ---------- */
-.golden{ margin-top:56px; background:var(--card); border:1px solid var(--border); border-inline-start:4px solid var(--accent); border-radius:16px; padding:24px; box-shadow:var(--shadow-sm); }
-.golden h3{ margin:0 0 4px; font-size:18px; font-weight:800; color:var(--text); display:flex; align-items:center; gap:10px; }
-.golden .gr-key{ width:21px; height:21px; color:var(--accent); flex-shrink:0; }
-.golden .gr-sub{ margin:0 0 16px; color:var(--accent); font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
-.golden ul{ margin:0; padding:0; list-style:none; display:grid; gap:14px; }
-.golden li{ font-size:14.5px; line-height:1.55; color:var(--muted); }
-.golden li b{ display:block; color:var(--text); font-weight:700; margin-bottom:2px; }
-.golden .gr-eg{ margin:16px 0 0; padding-top:14px; border-top:1px solid var(--border); font-size:13.5px; color:var(--muted); }
-.golden .gr-eg b{ color:var(--text); }
+/* ---------- golden rule banner (always visible, on top) ---------- */
+.golden{ margin:0 0 30px; display:flex; align-items:center; gap:14px;
+  background:linear-gradient(135deg,#fff7df,#fcebbd);
+  border:1px solid #eed487; border-radius:14px; padding:14px 18px;
+  box-shadow:0 8px 22px -12px rgba(184,134,11,.5); }
+.golden .gr-key{ width:26px; height:26px; color:#b8860b; flex-shrink:0; }
+.golden .gr-body{ min-width:0; }
+.golden .gr-title{ margin:0; font-size:15px; line-height:1.45; color:#5f4708; }
+.golden .gr-title b{ font-weight:800; color:#4d3a06; }
+.golden .gr-sub{ margin:3px 0 0; font-size:12.5px; line-height:1.45; color:#8a6d1f; }
 
 /* ---------- footer ---------- */
 .site-footer{ border-top:1px solid var(--border); background:#fff; margin-top:56px; }
@@ -206,6 +206,8 @@ body{ font-family:var(--font); color:var(--text); background:var(--bg); min-heig
 </header>
 
 <div class="wrap">
+  <section class="golden" id="golden"></section>
+
   <header class="intro">
     <h1 data-t="title">Set up your subscription</h1>
     <p data-t="subtitle">Pick your device, then follow the steps. On Android, you’ll choose your plan along the way to get the right code.</p>
@@ -229,8 +231,6 @@ body{ font-family:var(--font); color:var(--text); background:var(--bg); min-heig
     <div class="notes" id="notes"></div>
     <div class="roku-wrap" id="rokuMsg" hidden></div>
   </section>
-
-  <section class="golden" id="golden"></section>
 </div>
 
 <footer class="site-footer">
@@ -493,24 +493,18 @@ function renderDisclaimer(){
   const ar = LANG.current === 'ar';
   if(ar){
     goldenEl.innerHTML = `
-      <h3>${ICONS.key} القاعدة الذهبية</h3>
-      <p class="gr-sub">مشاهدة على جهاز واحد في نفس الوقت</p>
-      <ul>
-        <li><b>ثبّت على أي عدد من الأجهزة</b>يمكنك تثبيت الاشتراك على عدد غير محدود من الأجهزة — تلفاز، موبايل، أو تابلت.</li>
-        <li><b>التشغيل على جهاز واحد فقط</b>جهاز واحد فقط يمكنه التشغيل في نفس اللحظة. تشغيل أكثر من جهاز في نفس الوقت سيقفل الحساب تلقائيًا.</li>
-        <li><b>محتاج شاشتين في نفس الوقت؟</b>هذا يتطلب اشتراكين منفصلين.</li>
-      </ul>
-      <p class="gr-eg"><b>مثال (أسعار الباقة الأساسية):</b> حساب واحد لمدة سنة: 35 دولار — حسابان (كل منهما سنة): 60 دولار.</p>`;
+      ${ICONS.key}
+      <div class="gr-body">
+        <p class="gr-title"><b>القاعدة الذهبية:</b> يمكنك المشاهدة على جهاز واحد فقط في نفس الوقت.</p>
+        <p class="gr-sub">ثبّت الاشتراك على أي عدد من الأجهزة، لكن لا يمكن التشغيل إلا على جهاز واحد في نفس اللحظة.</p>
+      </div>`;
   } else {
     goldenEl.innerHTML = `
-      <h3>${ICONS.key} Golden Rule</h3>
-      <p class="gr-sub">One stream at a time</p>
-      <ul>
-        <li><b>Install anywhere</b>Set it up on as many devices as you like — TV, phone, or tablet.</li>
-        <li><b>Play on one at a time</b>Only ONE device can stream at any moment. Playing on two at once will automatically lock your account.</li>
-        <li><b>Need two screens at once?</b>That requires two separate subscriptions.</li>
-      </ul>
-      <p class="gr-eg"><b>Example (Basic plan):</b> one account for a year is $35 — two accounts (a year each) is $60.</p>`;
+      ${ICONS.key}
+      <div class="gr-body">
+        <p class="gr-title"><b>Golden Rule:</b> you can stream on only one device at a time.</p>
+        <p class="gr-sub">Install on as many devices as you like — only one can play at once.</p>
+      </div>`;
   }
 }
 
