@@ -110,17 +110,15 @@
   /* --- SECTION BANDS --- */
   .band { position: relative; overflow: hidden; padding: 54px 0 64px; border-top: 1px solid var(--line); }
   .band > .container { position: relative; z-index: 1; }
-  .band-plans, .band-setup, .band-support, .band-faq { background: var(--bg); }
+  .band-plans, .band-setup, .band-faq { background: var(--bg); }
   .section-head { text-align: center; margin-bottom: 26px; }
   .kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 0.72rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
   .band-plans .kicker { color: var(--gold); }
   .band-setup .kicker { color: var(--cyan); }
-  .band-support .kicker { color: var(--red); }
   .band-faq .kicker { color: var(--green); }
   .section-head h2 { margin: 0; font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; }
   .band-plans .section-head h2 { color: var(--gold); }
   .band-setup .section-head h2 { color: var(--cyan); }
-  .band-support .section-head h2 { color: var(--red); }
   .band-faq .section-head h2 { color: var(--green); }
   .section-head p { margin: 10px 0 0; color: var(--muted); font-size: 0.95rem; }
   .step-title { font-size: 0.78rem; font-weight: 700; margin: 24px 0 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; text-align: center; }
@@ -252,24 +250,6 @@
   .faq-question { width: 100%; padding: 18px 20px; border: none; background: transparent; font-weight: 600; color: var(--ink); display: flex; justify-content: space-between; align-items: center; gap: 12px; cursor: pointer; font-family: inherit; font-size: 0.9rem; line-height: 1.4; text-align: start; }
   .faq-question i { transition: transform 0.3s ease; flex-shrink: 0; color: var(--green); }
   .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: rgba(17,24,39,0.022); padding: 0 20px; color: var(--muted); font-size: 0.9rem; text-align: start; }
-
-  /* --- SUPPORT (red) --- */
-  .holy-grail-box { background: var(--surface); border: 1px solid rgba(232,69,90,0.25); border-radius: var(--radius-card); padding: 26px 22px; box-shadow: var(--shadow); margin: 20px auto; display: none; animation: slideDown 0.5s ease-out; }
-  .holy-grail-box h3 { color: var(--ink); }
-  .hg-item { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; justify-content: flex-start; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
-  .hg-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-  .hg-icon { font-size: 1.4rem; color: var(--red); flex-shrink: 0; background: var(--red-soft); width: 46px; height: 46px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
-  .hg-content { text-align: start; }
-  .hg-content h4 { margin: 0 0 4px 0; font-size: 1rem; font-weight: 700; color: var(--ink); }
-  .hg-content p { margin: 0; font-size: 0.9rem; color: var(--muted); line-height: 1.4; }
-
-  .specific-box { background: rgba(232,69,90,0.06); border: 1px solid rgba(232,69,90,0.25); border-radius: var(--radius-card); padding: 26px 22px; margin-top: 20px; display: none; animation: slideDown 0.5s ease; box-shadow: var(--shadow); }
-  .specific-box h3 { color: var(--ink); margin-top: 0; }
-  .specific-step { background: var(--surface); border: 1px solid var(--line); padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 4px solid var(--red); font-size: 0.95rem; text-align: start; color: var(--ink); }
-  body.rtl .specific-step { border-left: 1px solid var(--line); border-right: 4px solid var(--red); }
-  .specific-step.alt { border-left-color: var(--gold); }
-  body.rtl .specific-step.alt { border-right-color: var(--gold); }
-  .specific-step strong { color: var(--red); }
 
   footer { text-align: center; padding: 44px 20px 36px; color: #9aa0ad; font-size: 0.8rem; border-top: 1px solid var(--line); }
   .footer-mark { font-family: 'Great Vibes', cursive; font-size: 1.9rem; color: var(--gold); display: block; margin-bottom: 2px; }
@@ -427,14 +407,6 @@
     #sx *{ transition:none !important; }
     #sx .reveal{ opacity:1; transform:none; }
   }
-  /* --- SUPPORT FIX STEPS --- */
-  .fix-steps { display: flex; flex-direction: column; gap: 14px; max-width: 640px; margin: 0 auto; }
-  .fix-step { display: flex; gap: 16px; align-items: flex-start; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-card); padding: 22px 20px; box-shadow: var(--shadow-sm); text-align: start; }
-  .fix-num { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: var(--red-soft); color: var(--red); font-weight: 800; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; }
-  .fix-body { min-width: 0; }
-  .fix-body h3 { margin: 2px 0 6px; font-size: 1.08rem; font-weight: 800; color: var(--ink); }
-  .fix-body p { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.55; }
-  .fix-body strong { color: var(--ink); }
 </style>
 </head>
 <body class="ltr">
@@ -447,8 +419,7 @@
   <div class="nav-links">
     <a href="#plans" data-nav="plans"><span class="view-en">Plans</span><span class="view-ar">الباقات</span></a>
     <a href="#setup" data-nav="setup"><span class="view-en">Setup</span><span class="view-ar">التثبيت</span></a>
-    <a href="#support" data-nav="support"><span class="view-en">Support</span><span class="view-ar">الدعم</span></a>
-    <a href="#faq" data-nav="faq"><span class="view-en">FAQ</span><span class="view-ar">الأسئلة</span></a>
+    <a href="#" data-nav="faq" onclick="showFaq(event)"><span class="view-en">FAQ</span><span class="view-ar">الأسئلة</span></a>
   </div>
   <a href="https://wa.me/message/JZEZ3BNRYY2ED1" class="nav-highlight">
     <i class="ph-fill ph-whatsapp-logo"></i>
@@ -609,43 +580,11 @@
   </div>
 </section>
 
-<!-- ============================ SUPPORT ============================ -->
-<section class="band band-support" id="support">
-  <div class="container">
-    <div class="section-head">
-      <span class="kicker"><i class="ph-fill ph-lifebuoy"></i> 03 — <span class="view-en">Support</span><span class="view-ar">الدعم</span></span>
-      <h2><span class="view-en">Not Working? Try This</span><span class="view-ar">لا تعمل؟ جرّب هذا</span></h2>
-      <p><span class="view-en">Two quick steps fix almost everything — on any device.</span><span class="view-ar">خطوتان سريعتان تحلّان أغلب المشاكل — على أي جهاز.</span></p>
-    </div>
-
-    <div class="fix-steps">
-      <div class="fix-step">
-        <span class="fix-num">1</span>
-        <div class="fix-body">
-          <h3><span class="view-en">Do the magic trick</span><span class="view-ar">جرّب الحل السحري</span></h3>
-          <p><span class="view-en">Unplug your internet router <strong>and</strong> your device or TV from power for <strong>10 seconds</strong>, then plug them back in.</span><span class="view-ar">افصل الراوتر <strong>والجهاز أو التلفزيون</strong> من الكهرباء لمدة <strong>10 ثوانٍ</strong>، ثم أعد توصيلهما مرة أخرى.</span></p>
-        </div>
-      </div>
-
-      <div class="fix-step">
-        <span class="fix-num">2</span>
-        <div class="fix-body">
-          <h3><span class="view-en">Still stuck? Message me</span><span class="view-ar">ما زالت لا تعمل؟ راسلني</span></h3>
-          <p><span class="view-en">Send me a picture of what you see on the screen and I'll tell you exactly what to do.</span><span class="view-ar">أرسل لي صورة لما يظهر على الشاشة وسأخبرك بالضبط بما يجب فعله.</span></p>
-          <a href="https://wa.me/message/JZEZ3BNRYY2ED1" class="action-btn wa" style="margin-top:14px;">
-            <i class="ph-fill ph-whatsapp-logo"></i> <span class="view-en">Message me on WhatsApp</span><span class="view-ar">راسلني على واتساب</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ============================ FAQ (last) ============================ -->
-<section class="band band-faq" id="faq">
+<section class="band band-faq" id="faq" style="display: none;">
   <div class="container">
     <div class="section-head">
-      <span class="kicker"><i class="ph-fill ph-question"></i> 04 — FAQ</span>
+      <span class="kicker"><i class="ph-fill ph-question"></i> 03 — FAQ</span>
       <h2><span class="view-en">Frequently Asked Questions</span><span class="view-ar">الأسئلة الشائعة</span></h2>
       <p><span class="view-en">Everything you need to know before subscribing.</span><span class="view-ar">كل ما تحتاج معرفته قبل الاشتراك.</span></p>
     </div>
@@ -737,7 +676,7 @@
 
   /* scroll-spy: highlight active nav as you scroll */
   (function () {
-    const ids = ['plans', 'setup', 'support', 'faq'];
+    const ids = ['plans', 'setup', 'faq'];
     const links = {};
     ids.forEach(function (id) { links[id] = document.querySelector('nav a[data-nav="' + id + '"]'); });
     if (!('IntersectionObserver' in window)) return;
@@ -785,7 +724,7 @@
         img:'https://hossamurai.github.io/basic.png',
         accent:'#3b7fe0', accentSoft:'rgba(59,127,224,0.10)', accentSoft2:'rgba(59,127,224,0.26)', accent700:'#2f6fd0',
         apps:[
-          { name:'4K Pro',   code:'tinyurl.com/my4kpro',   rec:true,  warnEn:['⚠️ Not available in UAE'], warnAr:['⚠️ لا يعمل في الإمارات'] },
+          { name:'4K Pro',   code:'tinyurl.com/my4kpro',   rec:true,  warnEn:['⚠️ Not available in UAE & KSA'], warnAr:['⚠️ لا يعمل في الإمارات'] },
           { name:'4K Prime', code:'tinyurl.com/my4kprime', rec:false, warnEn:[], warnAr:[] },
           { name:'4K XCA',   code:'tinyurl.com/my4kxca',   rec:false, warnEn:[], warnAr:[] },
         ]
@@ -796,7 +735,7 @@
         img:'https://hossamurai.github.io/premium.png',
         accent:'#c08a1e', accentSoft:'rgba(192,138,30,0.10)', accentSoft2:'rgba(192,138,30,0.26)', accent700:'#a3741a',
         apps:[
-          { name:'8K VIP',   code:'tinyurl.com/my8kvip',   rec:true,  warnEn:['⚠️ Does not work on Firestick','⚠️ Not available in UAE'], warnAr:['⚠️ لا يعمل على فايرستيك','⚠️ لا يعمل في الإمارات'] },
+          { name:'8K VIP',   code:'tinyurl.com/my8kvip',   rec:true,  warnEn:['⚠️ Does not work on Firestick','⚠️ Not available in UAE & KSA'], warnAr:['⚠️ لا يعمل على فايرستيك','⚠️ لا يعمل في الإمارات'] },
           { name:'8K Plus',  code:'tinyurl.com/my8kplus',  rec:false, warnEn:[], warnAr:[] },
           { name:'8K Prime', code:'tinyurl.com/my8kprime', rec:false, warnEn:[], warnAr:[] },
         ]
@@ -841,8 +780,7 @@
           : '';
         return `<div class="app-row${app.rec ? ' is-rec' : ''}">
           <div class="app-row-head"><span class="app-name">${app.name}</span>${recBadge}</div>
-          <div class="app-code-wrap">${codeEl}</div>
-          ${warnsHtml}
+          <div class="app-code-wrap">${codeEl}</div>${warnsHtml}
         </div>`;
       }).join('')}</div>`;
     }
@@ -1137,6 +1075,13 @@
       setPickedCard(key);
       selectPlan(plan);
       document.getElementById('setup').scrollIntoView({ behavior:'smooth', block:'start' });
+    };
+
+    window.showFaq = function(e){
+      e.preventDefault();
+      const faqSec = document.getElementById('faq');
+      faqSec.style.display = 'block';
+      faqSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
     sxRefresh();
