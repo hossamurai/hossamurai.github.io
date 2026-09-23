@@ -45,7 +45,6 @@
       overflow-x: hidden;
     }
 
-    /* Blueprint grid + grain atmosphere */
     body::before {
       content: "";
       position: fixed;
@@ -60,7 +59,6 @@
       z-index: 0;
     }
 
-    /* Top bar with centered pill buttons */
     .topbar {
       position: relative;
       z-index: 2;
@@ -72,7 +70,6 @@
       padding: 10px 16px 4px;
     }
 
-    /* Make both top-bar buttons equal size */
     .topbar .website-link,
     .topbar .reset-link {
       flex: 1 1 0;
@@ -115,9 +112,10 @@
       box-shadow: 0 8px 26px rgba(95, 208, 255, 0.18);
     }
 
-    .website-link:active { transform: translateY(0) scale(0.98); }
+    .website-link:active {
+      transform: translateY(0) scale(0.98);
+    }
 
-    /* Reset pill — matches the website button size/shape */
     .reset-link {
       display: inline-flex;
       align-items: center;
@@ -143,9 +141,10 @@
       transform: translateY(-1px);
     }
 
-    .reset-link:active { transform: translateY(0) scale(0.98); }
+    .reset-link:active {
+      transform: translateY(0) scale(0.98);
+    }
 
-    /* Stage holds the panel near the top so it grows downward */
     .stage {
       position: relative;
       z-index: 1;
@@ -176,7 +175,6 @@
       overflow: hidden;
     }
 
-    /* Thin accent rule along the top edge */
     .container::before {
       content: "";
       position: absolute;
@@ -189,11 +187,20 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(18px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .header { text-align: left; }
+    .header {
+      text-align: left;
+    }
 
     .eyebrow {
       font-family: var(--mono);
@@ -221,7 +228,11 @@
       line-height: 1.4;
     }
 
-    .input-section { display: flex; flex-direction: column; gap: 10px; }
+    .input-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
     .input-label {
       font-family: var(--mono);
@@ -231,7 +242,9 @@
       color: var(--text-muted);
     }
 
-    .input-wrapper { position: relative; }
+    .input-wrapper {
+      position: relative;
+    }
 
     .input-display {
       width: 100%;
@@ -294,7 +307,9 @@
       filter: brightness(1.05);
     }
 
-    .primary-btn:active { transform: scale(0.98); }
+    .primary-btn:active {
+      transform: scale(0.98);
+    }
 
     .result-section {
       display: flex;
@@ -311,8 +326,15 @@
     }
 
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .result-header {
@@ -343,13 +365,22 @@
       text-transform: uppercase;
     }
 
-    .badge[hidden] { display: none; }
+    .badge[hidden] {
+      display: none;
+    }
 
-    .badge.m3u { background: rgba(124, 119, 255, 0.16); color: #b5b1ff; border: 1px solid rgba(124, 119, 255, 0.3); }
-    .badge.phone { background: rgba(255, 196, 100, 0.16); color: #ffd592; border: 1px solid rgba(255, 196, 100, 0.3); }
+    .badge.m3u {
+      background: rgba(124, 119, 255, 0.16);
+      color: #b5b1ff;
+      border: 1px solid rgba(124, 119, 255, 0.3);
+    }
 
-    /* Fixed-height content area => the Copy button never moves,
-       no matter if the output is 1, 4, or 5 (wrapped) lines. */
+    .badge.phone {
+      background: rgba(255, 196, 100, 0.16);
+      color: #ffd592;
+      border: 1px solid rgba(255, 196, 100, 0.3);
+    }
+
     .result-content {
       font-family: var(--mono);
       font-size: 0.88rem;
@@ -382,7 +413,9 @@
       letter-spacing: 0.05em;
     }
 
-    .copy-btn:hover { background: rgba(255, 255, 255, 0.12); }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
 
     .copy-btn.copied {
       background: rgba(40, 220, 160, 0.18);
@@ -401,9 +434,17 @@
       transition: opacity 0.3s;
     }
 
-    .status-message.visible { opacity: 1; }
-    .status-message.success { color: #55efc4; }
-    .status-message.error { color: #ff7b7b; }
+    .status-message.visible {
+      opacity: 1;
+    }
+
+    .status-message.success {
+      color: #55efc4;
+    }
+
+    .status-message.error {
+      color: #ff7b7b;
+    }
 
     .footer {
       margin-top: 4px;
@@ -417,14 +458,20 @@
     }
 
     @media (max-width: 480px) {
-      .container { padding: 26px 22px; }
-      h1 { font-size: 1.7rem; }
+      .container {
+        padding: 26px 22px;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="topbar">
-    <a href="https://hossamurai.github.io/Hossam_TV.html" class="website-link">My Website</a>
+    <a href="https://hossamservices.com" class="website-link">My Website</a>
     <button type="button" class="reset-link" id="resetBtn">Reset</button>
   </div>
 
@@ -444,14 +491,15 @@
         <button class="primary-btn" id="processBtn">Paste &amp; Process</button>
       </div>
 
-      <!-- Result box is ALWAYS rendered so the Copy button keeps a fixed position -->
       <div class="result-section" id="resultSection">
         <div class="result-box">
           <div class="result-header">
             <span class="result-label" id="resultLabel">Result</span>
             <span class="badge" id="resultBadge" hidden></span>
           </div>
+
           <div class="result-content placeholder" id="resultContent">// result will appear here</div>
+
           <button class="copy-btn" id="copyBtn">Copy to Clipboard</button>
         </div>
       </div>
@@ -459,7 +507,7 @@
       <div class="status-message" id="statusMessage"></div>
 
       <div class="footer">
-          Powered by Hossam TV Services
+        Powered by Hossam TV Services
       </div>
     </div>
   </div>
@@ -478,7 +526,6 @@
 
       let currentRawContent = "";
 
-      // Optional: tapping the empty input still pastes (handy for manual edits)
       inputDisplay.addEventListener('click', () => {
         if (inputDisplay.textContent.trim() === "") {
           navigator.clipboard.readText().then(text => {
@@ -493,10 +540,10 @@
         hideStatus();
       });
 
-      // Process button now PASTES from clipboard + PROCESSES in a single tap
       processBtn.addEventListener('click', async function () {
         try {
           const text = await navigator.clipboard.readText();
+
           if (text && text.trim()) {
             inputDisplay.textContent = text.trim();
           }
@@ -515,7 +562,11 @@
       });
 
       function processInput(input) {
-        const looksLikeUrl = input.includes('http') || input.includes('username=') || input.includes('password=');
+        const looksLikeUrl =
+          input.includes('http') ||
+          input.includes('username=') ||
+          input.includes('password=');
+
         const digitCount = input.replace(/\D/g, '').length;
         const looksLikeNumber = !looksLikeUrl && digitCount > 5;
 
@@ -538,7 +589,10 @@
           host = url.origin;
         } catch {
           const hostMatch = input.match(/^(https?:\/\/[^\/]+)/);
-          if (hostMatch) host = hostMatch[1];
+
+          if (hostMatch) {
+            host = hostMatch[1];
+          }
         }
 
         if (!username && !password && !host) {
@@ -546,15 +600,25 @@
           return;
         }
 
-        const cleanContent = `Playlist name: anything\nUsername: ${username}\nPassword: ${password}\nURL: ${host}`;
-        const visualContent = `Playlist name: anything\n<strong>Username:</strong> ${username}\n<strong>Password:</strong> ${password}\n<strong>URL:</strong> ${host}`;
+        const cleanContent =
+          `Playlist name: anything\nUsername: ${username}\nPassword: ${password}\nURL: ${host}`;
 
-        showResult('Credentials Found', visualContent, cleanContent, 'm3u');
+        const visualContent =
+          `Playlist name: anything\n<strong>Username:</strong> ${username}\n<strong>Password:</strong> ${password}\n<strong>URL:</strong> ${host}`;
+
+        showResult(
+          'Credentials Found',
+          visualContent,
+          cleanContent,
+          'm3u'
+        );
+
         showStatus('M3U Link Processed', 'success');
       }
 
       function processNumber(input) {
         let cleaned = input.replace(/\D/g, "");
+
         if (cleaned.startsWith('2')) {
           cleaned = cleaned.substring(1);
         }
@@ -564,29 +628,41 @@
           return;
         }
 
-        showResult('Formatted Number', cleaned, cleaned, 'phone');
+        showResult(
+          'Formatted Number',
+          cleaned,
+          cleaned,
+          'phone'
+        );
+
         showStatus('Number Formatted', 'success');
       }
 
-      // Updates the SAME box in place — never rebuilds it, so Copy stays put
       function showResult(title, visualContent, rawContent, type) {
         currentRawContent = rawContent;
+
         resultLabel.textContent = title;
+
         resultBadge.textContent = type.toUpperCase();
         resultBadge.className = 'badge ' + type;
         resultBadge.hidden = false;
+
         resultContent.innerHTML = visualContent;
         resultContent.classList.remove('placeholder');
       }
 
       function clearResult() {
         currentRawContent = "";
+
         resultLabel.textContent = 'Result';
+
         resultBadge.hidden = true;
         resultBadge.className = 'badge';
         resultBadge.textContent = '';
+
         resultContent.classList.add('placeholder');
         resultContent.innerHTML = '// result will appear here';
+
         copyBtn.textContent = 'Copy to Clipboard';
         copyBtn.classList.remove('copied');
       }
@@ -596,9 +672,11 @@
           showStatus('Nothing to copy yet', 'error');
           return;
         }
+
         navigator.clipboard.writeText(currentRawContent).then(() => {
           copyBtn.textContent = 'Copied!';
           copyBtn.classList.add('copied');
+
           setTimeout(() => {
             copyBtn.textContent = 'Copy to Clipboard';
             copyBtn.classList.remove('copied');
@@ -611,6 +689,7 @@
       function showStatus(message, type) {
         statusMessage.textContent = message;
         statusMessage.className = `status-message visible ${type}`;
+
         setTimeout(() => hideStatus(), 3000);
       }
 
