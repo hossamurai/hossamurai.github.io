@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#fbf8f3">
+<title>Fix a problem — Hossam TV</title>
+<meta name="description" content="Hossam TV self-help: choose your plan and app, then follow step-by-step fixes for freezing, login errors, empty lists and more.">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf8f3;
+  --surface:#ffffff;
+  --surface-2:#f4efe7;
+  --ink:#17140f;
+  --ink-2:#3a342b;
+  --muted:#6f685d;
+  --line:#e8e1d5;
+  --line-2:#d8cfbf;
+
+  --live:#e5412d;
+  --wa:#1faa59;       /* WhatsApp-style green, darkened for contrast with white text */
+  --wa-ink:#ffffff;
+
+  --c-basic:#2f6fd6;
+  --c-premium:#b7801a;
+  --c-xtv:#d4304a;
+  --c-marvel:#178f5c;
+
+  --radius:20px;
+  --radius-sm:12px;
+  --shadow-sm:0 1px 2px rgba(23,20,15,.05), 0 4px 14px rgba(23,20,15,.05);
+  --shadow:0 2px 4px rgba(23,20,15,.04), 0 18px 40px rgba(23,20,15,.09);
+
+  --f-display:'Bricolage Grotesque', 'DM Sans', system-ui, sans-serif;
+  --f-body:'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-ar:'IBM Plex Sans Arabic', 'DM Sans', system-ui, sans-serif;
+  --f-mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+html[lang="ar"] body{font-family:var(--f-ar)}
+html[lang="en"] .ar, html[lang="ar"] .en{display:none !important}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--f-display);letter-spacing:-.02em;line-height:1.1;margin:0}
+html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3{font-family:var(--f-ar);letter-spacing:0;line-height:1.3;font-weight:700}
+.ic{width:1.15em;height:1.15em;flex-shrink:0;display:inline-block;vertical-align:-.2em}
+:focus-visible{outline:2.5px solid var(--ink);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.skip{position:absolute;inset-inline-start:8px;top:-60px;background:var(--ink);color:#fff;padding:8px 14px;border-radius:8px;z-index:100}
+.skip:focus{top:8px}
+
+/* broadcast colour-bar motif */
+.bars{display:flex;height:4px}
+.bars i{flex:1}
+.bars i:nth-child(1){background:var(--c-basic)}
+.bars i:nth-child(2){background:var(--c-premium)}
+.bars i:nth-child(3){background:var(--c-xtv)}
+.bars i:nth-child(4){background:var(--c-marvel)}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 20px;border-radius:999px;border:1.5px solid transparent;font-weight:700;font-size:.95rem;text-decoration:none;cursor:pointer;transition:transform .15s, background .15s, border-color .15s, box-shadow .15s;white-space:nowrap;line-height:1}
+.btn:active{transform:scale(.98)}
+.btn-wa{background:var(--wa);color:var(--wa-ink);box-shadow:0 8px 20px rgba(31,170,89,.25)}
+.btn-wa:hover{background:#1a9950}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:#2c271f}
+.btn-ghost{background:transparent;border-color:var(--line-2);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink);background:var(--surface)}
+.btn-sm{padding:9px 14px;font-size:.85rem}
+.link-arrow{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.9rem;text-decoration:none;color:var(--ink);background:none;border:0;padding:6px 0;cursor:pointer;border-bottom:1.5px solid var(--line-2)}
+.link-arrow:hover{border-bottom-color:var(--ink)}
+html[lang="ar"] .flip{transform:scaleX(-1)}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(251,248,243,.92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:14px;height:64px}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-weight:800;font-size:1.1rem;letter-spacing:-.02em}
+.brand img{width:34px;height:34px;border-radius:9px}
+.brand-fallback{width:34px;height:34px;border-radius:9px;background:var(--ink);color:#fff;display:none;place-items:center;font-size:.95rem}
+.nav-links{display:flex;gap:4px;margin-inline-start:auto}
+.nav-links a{padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:500;font-size:.92rem;color:var(--muted)}
+.nav-links a:hover{color:var(--ink);background:var(--surface-2)}
+.nav-links a.active{color:var(--ink);background:var(--surface-2)}
+.lang{border:1.5px solid var(--line-2);background:transparent;border-radius:999px;padding:8px 12px;font-weight:700;font-size:.85rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.lang:hover{border-color:var(--ink)}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 56px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.onair{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--live);background:#fdece8;border:1px solid #f6c9c0;padding:6px 12px;border-radius:999px}
+html[lang="ar"] .onair{letter-spacing:0}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--live);position:relative}
+.dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--live);opacity:0;animation:ping 1.8s ease-out infinite}
+@keyframes ping{0%{transform:scale(.6);opacity:.7}100%{transform:scale(1.6);opacity:0}}
+.hero h1{font-size:clamp(2.4rem,5.4vw,4.1rem);font-weight:800;margin:18px 0 18px}
+.hero h1 em{font-style:normal;background:linear-gradient(transparent 62%, #f7d98f 62%, #f7d98f 90%, transparent 90%)}
+.hero p.lead{font-size:1.13rem;color:var(--ink-2);max-width:520px;margin:0 0 28px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px}
+.trust{display:flex;flex-wrap:wrap;gap:10px 22px;margin:30px 0 0;padding:0;list-style:none;color:var(--muted);font-size:.9rem;font-weight:500}
+.trust li{display:inline-flex;align-items:center;gap:8px}
+.trust .ic{color:var(--ink)}
+
+/* TV mock */
+.tv{position:relative;background:var(--ink);border-radius:26px;padding:12px;box-shadow:var(--shadow);transform:rotate(-1.2deg)}
+html[lang="ar"] .tv{transform:rotate(1.2deg)}
+.tv-screen{background:var(--surface);border-radius:16px;overflow:hidden}
+.tv-top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px}
+.live-pill{display:inline-flex;align-items:center;gap:7px;background:var(--live);color:#fff;font-weight:700;font-size:.72rem;letter-spacing:.1em;padding:4px 10px;border-radius:6px}
+.live-pill .dot{background:#fff}
+.live-pill .dot::after{border-color:#fff}
+.tv-q{font-family:var(--f-mono);font-size:.72rem;font-weight:700;border:1.5px solid var(--ink);border-radius:5px;padding:2px 6px}
+.tv-rows{padding:4px 10px 14px}
+.tv-row{display:flex;align-items:center;gap:12px;padding:10px 8px;border-radius:12px}
+.tv-row + .tv-row{border-top:1px dashed var(--line)}
+.tv-row .sq{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:#fff;flex-shrink:0}
+.tv-row b{display:block;font-size:.95rem;line-height:1.25}
+.tv-row small{color:var(--muted);font-size:.8rem}
+.tv-row .chip{margin-inline-start:auto;font-size:.7rem;font-weight:700;color:var(--muted);background:var(--surface-2);padding:3px 8px;border-radius:6px;white-space:nowrap}
+.tv-stand{width:34%;height:12px;margin:0 auto;background:var(--line-2);border-radius:0 0 12px 12px}
+
+.region-auto{color:var(--muted);font-size:.85rem}
+
+/* ---------- sections ---------- */
+section.sec{padding:84px 0;border-top:1px solid var(--line)}
+.sec-head{max-width:640px;margin:0 0 36px}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+html[lang="ar"] .kicker{letter-spacing:0}
+.kicker .n{font-family:var(--f-mono);color:var(--ink);background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:1px 7px;letter-spacing:0}
+.sec-head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:800}
+.sec-head p{color:var(--muted);font-size:1.05rem;margin:12px 0 0}
+
+/* region switch */
+.region{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin:0 0 26px}
+.region-label{font-weight:700;font-size:.95rem}
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:4px}
+.seg button{border:0;background:transparent;padding:9px 16px;border-radius:999px;font-weight:600;font-size:.9rem;color:var(--muted);cursor:pointer}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
+.region-note{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--c-premium);border-radius:12px;padding:12px 16px;margin:0 0 22px;font-size:.93rem;color:var(--ink-2)}
+.region-note:empty{display:none}
+.region-note .ic{color:var(--c-premium);margin-top:3px}
+
+/* plan cards */
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.plan{--c:var(--ink);position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px 22px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;overflow:hidden;animation:rise .45s both}
+.plan::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--c)}
+.plan.featured{border-color:var(--c);box-shadow:0 0 0 1px var(--c), var(--shadow)}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.plan-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.plan-logo{width:56px;height:56px;border-radius:14px;object-fit:contain;background:var(--surface-2);flex-shrink:0}
+.plan-mono{width:56px;height:56px;border-radius:14px;background:var(--c);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.2rem;flex-shrink:0}
+.plan h3{font-size:1.35rem;font-weight:800}
+.plan .aka{display:block;font-size:.8rem;color:var(--muted);font-weight:500;margin-top:2px;font-family:var(--f-body)}
+.plan .tag{font-size:.93rem;color:var(--ink-2);margin:0 0 16px;min-height:2.9em}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;min-height:22px}
+.badge{font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 8px;border-radius:6px;background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
+html[lang="ar"] .badge{letter-spacing:0}
+.badge.solid{background:var(--c);color:#fff}
+.price{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.price .amt{font-family:var(--f-display);font-weight:800;font-size:2.1rem;letter-spacing:-.03em;color:var(--ink);line-height:1}
+html[lang="ar"] .price .amt{font-family:var(--f-ar);letter-spacing:0}
+.price .per{color:var(--muted);font-weight:500;font-size:.92rem}
+.price-2{color:var(--muted);font-size:.88rem;margin:6px 0 0;min-height:1.4em}
+.price-2 b{color:var(--ink)}
+.feat{list-style:none;margin:18px 0 0;padding:16px 0 0;border-top:1px dashed var(--line-2);display:grid;gap:9px;font-size:.92rem}
+.feat li{display:flex;gap:10px;align-items:flex-start;line-height:1.4}
+.feat li .ic{color:var(--c);margin-top:1px}
+.feat li.no .ic{color:var(--muted)}
+.feat li.no{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:16px 0 0}
+.stat{background:var(--surface-2);border-radius:10px;padding:8px 6px;text-align:center}
+.stat b{display:block;font-family:var(--f-display);font-weight:800;font-size:1rem;letter-spacing:-.02em;direction:ltr;unicode-bidi:isolate}
+html[lang="ar"] .stat b{font-family:var(--f-ar)}
+.stat span{font-size:.72rem;color:var(--muted)}
+.plan-actions{margin-top:auto;padding-top:20px;display:grid;gap:10px}
+.plan-actions .btn{width:100%}
+.plan-sub{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.trial-chip{font-size:.8rem;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+
+/* how it works */
+.how{display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:how;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.how li{list-style:none;padding:26px 22px;position:relative}
+.how li + li{border-inline-start:1px dashed var(--line-2)}
+.how .num{font-family:var(--f-mono);font-weight:700;font-size:.8rem;color:var(--muted)}
+.how h3{font-size:1.1rem;font-weight:800;margin:10px 0 6px}
+.how p{margin:0;color:var(--muted);font-size:.92rem}
+.how .ic{display:block;width:28px;height:28px;margin-top:14px}
+
+/* setup */
+.rule{display:flex;gap:14px;align-items:flex-start;background:#fff8e6;border:1px solid #f0dca6;border-radius:14px;padding:16px 18px;margin:0 0 30px}
+.rule .ic{width:26px;height:26px;color:#9a6b0c;margin-top:2px}
+.rule b{display:block;color:#4d3a06}
+.rule span{color:#6e5719;font-size:.93rem}
+.step-block{margin-top:30px}
+.step-block[hidden]{display:none}
+.step-label{display:flex;align-items:center;gap:10px;font-weight:700;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+html[lang="ar"] .step-label{letter-spacing:0}
+.step-label .n{width:24px;height:24px;border-radius:7px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:.8rem;letter-spacing:0}
+.pick{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pick-btn{--c:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;text-align:start;cursor:pointer;transition:border-color .15s, box-shadow .15s, background .15s}
+.pick-btn:hover{border-color:var(--line-2);box-shadow:var(--shadow-sm)}
+.pick-btn[aria-pressed="true"]{border-color:var(--c);box-shadow:0 0 0 1px var(--c)}
+.pick-btn .sw{width:12px;height:12px;border-radius:50%;background:var(--c);flex-shrink:0}
+.pick-btn b{display:block;font-size:.95rem;line-height:1.2}
+.pick-btn small{color:var(--muted);font-size:.78rem}
+.devices{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.dev{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;text-align:center;font-weight:600;font-size:.88rem;line-height:1.25;transition:border-color .15s, box-shadow .15s}
+.dev .ic{width:30px;height:30px}
+.dev:hover{border-color:var(--line-2);box-shadow:var(--shadow-sm)}
+.dev[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink);background:var(--surface)}
+.guide{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm)}
+.guide-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.guide-head h3{font-size:1.35rem;font-weight:800}
+.guide-head small{display:block;color:var(--muted);font-size:.88rem;font-family:var(--f-body);font-weight:500;margin-top:4px}
+ol.steps{list-style:none;margin:0;padding:0;position:relative}
+ol.steps::before{content:"";position:absolute;top:10px;bottom:22px;inset-inline-start:15px;width:2px;background:var(--line)}
+.st{display:flex;gap:16px;padding-bottom:22px;position:relative}
+.st:last-child{padding-bottom:4px}
+.st-n{width:32px;height:32px;border-radius:50%;background:var(--surface);border:2px solid var(--ink);display:grid;place-items:center;font-weight:700;font-size:.88rem;flex-shrink:0;position:relative;z-index:1}
+.st-b{padding-top:4px;min-width:0;flex:1}
+.st-b .hint{display:block;color:var(--muted);font-size:.88rem;margin-top:6px}
+.st-b a{font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.apps{display:grid;gap:10px;margin-top:12px}
+.app{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--bg)}
+.app.rec{border-color:var(--ink);background:var(--surface)}
+.app-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;font-weight:700}
+.rec-b{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;background:var(--ink);color:#fff;padding:3px 8px;border-radius:999px}
+.warn-t{display:flex;gap:6px;align-items:center;font-size:.84rem;color:#a4331f;font-weight:500;margin-top:6px}
+.code{display:inline-flex;align-items:center;gap:8px;direction:ltr;unicode-bidi:isolate;font-family:var(--f-mono);font-weight:700;font-size:.9rem;background:var(--surface-2);border:1px dashed var(--line-2);border-radius:8px;padding:7px 11px;cursor:copy;color:var(--ink);text-decoration:none}
+.code:hover{border-color:var(--ink)}
+.code .ic{width:15px;height:15px;opacity:.65}
+.notes{display:grid;gap:10px;margin-top:22px}
+.note{border:1px solid var(--line);border-inline-start:4px solid var(--ink);border-radius:10px;padding:12px 15px;font-size:.93rem;background:var(--bg)}
+.note .lbl{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+html[lang="ar"] .note .lbl{letter-spacing:0}
+.note.warn{border-inline-start-color:var(--c-premium);background:#fffaf0}
+.note a{font-weight:700}
+.roku{display:flex;gap:16px;align-items:center;background:var(--surface-2);border-radius:14px;padding:20px}
+.roku .ic{width:34px;height:34px;flex-shrink:0}
+.roku p{margin:0;font-size:1.02rem}
+
+/* payments */
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.pay-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.pay-card h3{font-size:1.2rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.pay-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.pay-list li{display:flex;justify-content:space-between;gap:14px;padding-bottom:10px;border-bottom:1px dashed var(--line)}
+.pay-list li:last-child{border-bottom:0;padding-bottom:0}
+.pay-list b{font-weight:700}
+.pay-list li > span{color:var(--muted);font-size:.88rem;text-align:end}
+.pay-foot{margin-top:18px;display:flex;gap:12px;align-items:center;background:var(--surface-2);border-radius:14px;padding:16px 18px;font-size:.95rem}
+.pay-foot .ic{width:24px;height:24px}
+
+/* faq */
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;align-items:start}
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:0 18px}
+details[open]{box-shadow:var(--shadow-sm)}
+summary{list-style:none;cursor:pointer;padding:16px 0;font-weight:700;display:flex;justify-content:space-between;gap:14px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary .ic{transition:transform .2s;color:var(--muted)}
+details[open] summary .ic{transform:rotate(45deg)}
+details p{margin:0 0 16px;color:var(--ink-2);font-size:.95rem}
+
+/* closing cta */
+.cta{background:var(--ink);color:#fff;border-radius:28px;padding:48px;display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:center;position:relative;overflow:hidden}
+.cta .bars{position:absolute;inset:0 0 auto 0;height:6px}
+.cta h2{font-size:clamp(1.8rem,3.4vw,2.5rem);font-weight:800}
+.cta p{color:#cfc7b8;margin:12px 0 0}
+.cta-actions{display:flex;flex-direction:column;gap:12px;align-items:stretch}
+.cta .btn-ghost{color:#fff;border-color:#5a5246}
+.cta .btn-ghost:hover{background:#2c271f;border-color:#fff}
+
+footer{padding:48px 0 60px;color:var(--muted);font-size:.9rem}
+.foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.foot a{font-weight:700;color:var(--ink);text-decoration:none;direction:ltr;unicode-bidi:isolate}
+.foot p{margin:6px 0 0}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,12px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;font-size:.9rem;opacity:0;pointer-events:none;transition:.2s;z-index:90}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- responsive ---------- */
+@media (max-width:960px){
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .tv{max-width:460px}
+  .how{grid-template-columns:1fr 1fr}
+  .how li:nth-child(3){border-inline-start:0}
+  .how li:nth-child(n+3){border-top:1px dashed var(--line-2)}
+  .pick{grid-template-columns:1fr 1fr}
+  .cta{grid-template-columns:1fr;padding:36px 26px}
+}
+@media (max-width:720px){
+  html{scroll-padding-top:112px}
+  .nav-in{flex-wrap:wrap;height:auto;padding:10px 0;gap:10px}
+  .nav-links{order:3;width:100%;margin:0;justify-content:space-between;border-top:1px solid var(--line);padding-top:8px;overflow-x:auto}
+  .nav-links a{padding:6px 10px;font-size:.88rem}
+  .nav-right{margin-inline-start:auto}
+  .hero{padding:40px 0 44px}
+  section.sec{padding:60px 0}
+  .pay,.faq,.plans{grid-template-columns:1fr}
+  .guide{padding:22px 18px}
+  .seg{width:100%;display:grid;grid-template-columns:1fr 1fr;border-radius:16px}
+  .seg button{padding:10px 8px;border-radius:12px}
+}
+@media (max-width:480px){
+  .wrap{padding:0 16px}
+  .how{grid-template-columns:1fr}
+  .how li + li{border-inline-start:0;border-top:1px dashed var(--line-2)}
+  .pick{grid-template-columns:1fr}
+  .devices{grid-template-columns:1fr 1fr}
+  .hero-cta .btn{flex:1 1 100%}
+  .nav .btn-wa .en, .nav .btn-wa .ar{display:none !important}
+  .nav .btn-wa{padding:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+}
+
+/* ---------- help page ---------- */
+.help-hero{padding:48px 0 8px}
+.help-hero h1{font-size:clamp(2rem,4.6vw,3.2rem);font-weight:800;margin:14px 0 10px}
+.help-hero p{color:var(--ink-2);font-size:1.08rem;max-width:620px;margin:0}
+.hsec{padding:26px 0 70px}
+.alerts{display:grid;gap:10px;margin:0 0 26px}
+.alerts:empty{display:none}
+.alert{display:flex;gap:12px;align-items:flex-start;background:#fdece8;border:1px solid #f6c9c0;border-inline-start:4px solid var(--live);border-radius:12px;padding:13px 16px;font-size:.95rem;color:#5c1d12}
+.alert .ic{color:var(--live);margin-top:3px}
+.alert b{display:block;color:#7a1f10}
+.hstep{margin-top:34px}
+.hstep[hidden]{display:none}
+.hstep:first-of-type{margin-top:0}
+.plan-pick{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.plan-pick .pick-btn{flex-direction:column;align-items:flex-start;gap:4px;padding:16px}
+.plan-pick .pick-btn .top{display:flex;align-items:center;gap:10px}
+.plan-pick .pick-btn small.aka{color:var(--muted);font-size:.78rem}
+.plan-pick .pick-btn .pr{color:#9a948a;font-size:.88rem;font-weight:500}
+.app-group{margin:0 0 18px}
+.app-group h3{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-family:var(--f-body)}
+html[lang="ar"] .app-group h3{letter-spacing:0}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip-btn{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:11px 14px;cursor:pointer;text-align:start;font-weight:600;font-size:.92rem;line-height:1.25;transition:border-color .15s, box-shadow .15s}
+.chip-btn small{display:block;color:var(--muted);font-weight:500;font-size:.76rem;margin-top:2px}
+.chip-btn:hover{border-color:var(--line-2);box-shadow:var(--shadow-sm)}
+.chip-btn[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.flow{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-sm)}
+.flow-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.flow-crumb{color:var(--muted);font-size:.88rem}
+.flow-crumb b{color:var(--ink)}
+.progress{height:6px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin:0 0 20px}
+.progress i{display:block;height:100%;background:var(--ink);border-radius:99px;transition:width .25s}
+.flow h3{font-size:1.35rem;font-weight:800;margin:0 0 12px}
+.flow-body{font-size:1rem;line-height:1.65;color:var(--ink-2)}
+.flow-body ol,.flow-body ul{margin:8px 0 0;padding-inline-start:22px}
+.flow-body li{margin:4px 0}
+.flow-body a{font-weight:700;text-decoration:underline;text-underline-offset:3px;color:var(--ink)}
+.flow-body .code{margin:4px 0}
+.warn-box{background:#fff8e6;border:1px solid #f0dca6;border-radius:12px;padding:11px 14px;margin:14px 0 0;font-size:.92rem;color:#5f4708}
+.host-list{display:grid;gap:8px;margin:10px 0 0}
+.host-list .code{justify-content:space-between;width:100%;max-width:420px}
+.host-list small{color:var(--muted);font-size:.78rem;margin-inline-start:6px;font-family:var(--f-body);font-weight:500}
+.flow-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.flow-actions .btn{white-space:normal;text-align:center;line-height:1.25}
+.btn-ok{background:#1faa59;color:#fff}
+.btn-ok:hover{background:#1a9950}
+.done{text-align:center;padding:10px 0}
+.done .big{font-size:2.4rem;line-height:1}
+.done h3{margin:10px 0 6px}
+.more{margin-top:48px}
+.more .faq{margin-top:14px}
+@media (max-width:860px){ .plan-pick{grid-template-columns:1fr 1fr} }
+@media (max-width:480px){ .flow{padding:20px 16px} .flow-actions .btn{flex:1 1 100%} }
+
+.m3u{margin-top:16px;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:16px}
+.m3u-title{margin:0 0 10px;font-weight:800;color:var(--ink)}
+.m3u-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.m3u-grid label{display:flex;flex-direction:column;gap:5px;font-size:.82rem;font-weight:700;color:var(--muted)}
+.m3u-grid input,.m3u-grid select{font:inherit;font-size:.95rem;font-weight:500;color:var(--ink);background:var(--surface);border:1.5px solid var(--line-2);border-radius:10px;padding:10px 12px;min-width:0}
+.m3u-grid input:focus,.m3u-grid select:focus{outline:none;border-color:var(--ink)}
+.m3u-out{margin-top:12px}
+.m3u-out .code{display:flex;width:100%;white-space:normal;word-break:break-all;text-align:start;justify-content:space-between}
+.m3u-hint{margin:12px 0 0;color:var(--muted);font-size:.9rem}
+.m3u-note{margin:10px 0 0;color:var(--muted);font-size:.8rem}
+@media (max-width:640px){ .m3u-grid{grid-template-columns:1fr} }
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-3.9A8 8 0 1 1 8.4 19.3L4 20Z"/><path d="M9 10.5h.01M12 10.5h.01M15 10.5h.01"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-4k" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M7 9v3.5h3M9.5 9v6M14 9v6M17.5 9 14.5 12l3 3"/></symbol>
+    <symbol id="i-devices" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="14" height="10" rx="1.5"/><path d="M6 18h6M9 14v4"/><rect x="17" y="8" width="5" height="12" rx="1.2"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></symbol>
+    <symbol id="i-ball" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m12 7.5 4 2.9-1.5 4.7h-5L8 10.4l4-2.9ZM12 3v4.5M16 10.4l4.5-1.2M14.5 15.1l2.6 4M9.5 15.1l-2.6 4M8 10.4 3.5 9.2"/></symbol>
+    <symbol id="i-film" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/></symbol>
+    <symbol id="i-series" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M8 2.5 12 6l4-3.5M10 10.5v5l4-2.5-4-2.5Z"/></symbol>
+    <symbol id="i-kids" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5c1.8 2 5.2 2 7 0M9 9.5h.01M15 9.5h.01"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3 4.5 6v6c0 4.5 3.2 7.8 7.5 9 4.3-1.2 7.5-4.5 7.5-9V6L12 3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4"/><path d="M10.3 12.7 20 3M17 6l2.5 2.5M14.5 8.5 17 11"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17h.01"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19M6 15h4"/></symbol>
+    <symbol id="i-receipt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2V3Z"/><path d="M9 8h6M9 12h6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></symbol>
+    <symbol id="i-tv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+    <symbol id="i-androidtv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4M7.5 9.5l2 2M16.5 9.5l-2 2"/></symbol>
+    <symbol id="i-stick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2.5" width="8" height="14" rx="2"/><path d="M10 16.5v3a2 2 0 0 0 4 0v-3M12 6.5h.01"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+    <symbol id="i-apple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8c-1.4-1-3-1-4.2-.2C6 8.9 5.6 11.4 6.6 14c.8 2 1.9 3.5 3.2 4 .8.3 1.4-.2 2.2-.2s1.4.5 2.2.2c1.3-.5 2.4-2 3.2-4 1-2.6.6-5.1-1.2-6.2-1.2-.8-2.8-.8-4.2.2Z"/><path d="M12 8c0-1.7 1.2-3 3-3"/></symbol>
+    <symbol id="i-laptop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="10" rx="1.5"/><path d="M2 19h20l-1.5-2H3.5L2 19Z"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="8" rx="2"/><circle cx="17" cy="12" r="1.1" fill="currentColor"/><path d="M6.5 12h5"/></symbol>
+  </defs>
+</svg>
+<header class="nav">
+  <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap nav-in">
+    <a class="brand" href="/" aria-label="Hossam TV">
+      <img src="logo.png" alt="" width="34" height="34" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+      <span class="brand-fallback" aria-hidden="true">H</span>
+      <span>Hossam TV</span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="/#plans"><span class="en">Plans</span><span class="ar">الباقات</span></a>
+      <a href="/#setup"><span class="en">Setup</span><span class="ar">التثبيت</span></a>
+      <a href="help.html" class="active" aria-current="page"><span class="en">Fix a problem</span><span class="ar">حل المشاكل</span></a>
+      <a href="/#faq"><span class="en">FAQ</span><span class="ar">الأسئلة</span></a>
+    </nav>
+    <div class="nav-right" style="display:flex;gap:8px;align-items:center">
+      <button class="lang" type="button" id="langBtn" aria-label="Switch language">
+        <svg class="ic"><use href="#i-globe"/></svg><span class="en">العربية</span><span class="ar">English</span>
+      </button>
+      <a class="btn btn-wa btn-sm" data-wa="subscribe" href="https://wa.me/201117250227" target="_blank" rel="noopener">
+        <svg class="ic"><use href="#i-chat"/></svg><span class="en">Subscribe</span><span class="ar">اشترك</span>
+      </a>
+    </div>
+  </div>
+</header>
+<main id="top">
+  <section class="help-hero">
+    <div class="wrap">
+      <span class="onair"><span class="dot"></span><span class="en">Self-help</span><span class="ar">مساعدة ذاتية</span></span>
+      <h1><span class="en">Fix a problem in 2 minutes</span><span class="ar">حل مشكلتك في دقيقتين</span></h1>
+      <p><span class="en">Pick your plan, your app and what's happening — then follow the steps one by one. If nothing works, one tap sends Hossam everything you tried.</span><span class="ar">اختار باقتك والتطبيق والمشكلة — وبعدين اتبع الخطوات واحدة واحدة. لو مفيش حاجة نفعت، بضغطة واحدة بتبعت لحسام كل اللي جربته.</span></p>
+    </div>
+  </section>
+
+  <section class="hsec">
+    <div class="wrap">
+      <div class="alerts" id="alerts" aria-live="polite"></div>
+
+      <div class="hstep">
+        <p class="step-label"><span class="n">1</span><span class="en">Your plan</span><span class="ar">باقتك</span></p>
+        <div class="pick plan-pick" id="planPick" role="group" aria-label="Plan"></div>
+      </div>
+
+      <div class="hstep" id="appStep" hidden>
+        <p class="step-label"><span class="n">2</span><span class="en">The app you're using</span><span class="ar">التطبيق اللي بتستخدمه</span></p>
+        <div id="appPick"></div>
+      </div>
+
+      <div class="hstep" id="symStep" hidden>
+        <p class="step-label"><span class="n">3</span><span class="en">What's happening?</span><span class="ar">إيه المشكلة؟</span></p>
+        <div class="chips" id="symPick" role="group" aria-label="Problem"></div>
+      </div>
+
+      <div class="hstep" id="flowStep" hidden>
+        <p class="step-label"><span class="n">4</span><span class="en">Follow the steps</span><span class="ar">اتبع الخطوات</span></p>
+        <div class="flow" id="flow" aria-live="polite"></div>
+      </div>
+
+      <div class="more">
+        <p class="step-label"><span class="en">Other questions</span><span class="ar">أسئلة تانية</span></p>
+        <div class="faq" id="moreFaq"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <strong style="color:var(--ink);font-family:var(--f-display);font-size:1.1rem">Hossam TV</strong>
+      <p><span class="en">WhatsApp (chat only, no calls):</span><span class="ar">واتساب (رسائل فقط، بدون مكالمات):</span> <a href="https://wa.me/201117250227" target="_blank" rel="noopener">+20 111 725 0227</a></p>
+      <p><span class="en">Save our number — updates and maintenance notices are posted on our WhatsApp Status.</span><span class="ar">احفظ رقمنا — التحديثات وأخبار الصيانة تُنشر على حالة الواتساب.</span></p>
+    </div>
+    <p>&copy; <span id="yr">2026</span> Hossam TV Services</p>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(function(){
+  "use strict";
+  var MAIN = '201117250227', BOT = '201013113996';
+
+  /* =====================================================================
+     LIVE DATA — hosts and outages come from the WhatsApp bot's knowledge
+     (n8n workflow "Website Data API"). Needs n8n on HTTPS.
+     If it can't be reached, the page uses FALLBACK_HOSTS below.
+     ===================================================================== */
+  var SITE_DATA_URL = 'https://n8n.hossamservices.com/webhook/site-data';
+  var FALLBACK_HOSTS = {
+    basic:   ['http://cf.hossamtv.site', 'http://pro.hossamtv.site'],
+    premium: ['http://cf.hossam8k.site', 'http://pro.hossam8k.site'],
+    xtv:     ['http://smartott.org:80', 'http://rfcot.com:80', 'http://vireexaa.com:80'],
+    marvel:  ['http://fgt123.eu', 'http://mar22.sbs', 'http://mar10.sbs']
+  };
+  var live = { hosts: null, outages: [] };
+  function getHosts(plan){ return (live.hosts && live.hosts[plan] && live.hosts[plan].length) ? live.hosts[plan] : (FALLBACK_HOSTS[plan] || []); }
+  function loadLive(){
+    if(!window.fetch || !SITE_DATA_URL) return;
+    var ctrl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function(){ if(ctrl) ctrl.abort(); }, 4000);
+    fetch(SITE_DATA_URL, ctrl ? {signal: ctrl.signal} : {})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        clearTimeout(timer);
+        if(!d) return;
+        if(d.hosts && typeof d.hosts === 'object') live.hosts = d.hosts;
+        if(Array.isArray(d.outages)) live.outages = d.outages;
+        renderAlerts();
+        var ae = document.activeElement && document.activeElement.id || '';
+        if(state.flow.length && !state.done && ae.indexOf('m3u') !== 0) renderFlow();
+      })['catch'](function(){});
+  }
+  var doc = document.documentElement;
+  function store(k, v){ try{ if(v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
+  function lang(){ return doc.lang === 'ar' ? 'ar' : 'en'; }
+  function t(o){ return typeof o === 'string' ? o : (o[lang()] || o.en); }
+  function icon(id){ return '<svg class="ic"><use href="#i-' + id + '"/></svg>'; }
+  function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+  function wa(num, text){ return 'https://wa.me/' + num + '?text=' + encodeURIComponent(text); }
+  function copyBtn(v){ return '<button type="button" class="code" data-copy="' + esc(v) + '">' + esc(v) + icon('copy') + '</button>'; }
+  function ext(url, label){ return '<a href="' + url + '" target="_blank" rel="noopener">' + (label || url.replace(/^https?:\/\//, '')) + '</a>'; }
+
+  /* ------------------------------------------------ DATA ------------------------------------------------ */
+  var PLANS = [
+    {id:'basic',   color:'var(--c-basic)',   name:{en:'Basic', ar:'الأساسية'}, aka:'Neo 4K',    price:{en:'$35 / year', ar:'35 دولار / سنة'}},
+    {id:'premium', color:'var(--c-premium)', name:{en:'Premium', ar:'بريميوم'}, aka:'Strong 4K', price:{en:'$55 / year', ar:'55 دولار / سنة'}},
+    {id:'xtv',     color:'var(--c-xtv)',     name:{en:'XTV (X server)', ar:'سيرفر XTV (اكس)'}, aka:null, price:{en:'400 EGP / year', ar:'400 جنيه / سنة'}},
+    {id:'marvel',  color:'var(--c-marvel)',  name:{en:'Marvel', ar:'سيرفر مارفل'}, aka:null, price:{en:'400 EGP / year', ar:'400 جنيه / سنة'}}
+  ];
+  var APPS = [
+    {id:'4kpro',   name:'4K Pro',   cat:'plan', plans:['basic'],   fix:true},
+    {id:'4kprime', name:'4K Prime', cat:'plan', plans:['basic']},
+    {id:'4kxca',   name:'4K XCA',   cat:'plan', plans:['basic']},
+    {id:'8kvip',   name:'8K VIP',   cat:'plan', plans:['premium'], fix:true},
+    {id:'8kplus',  name:'8K Plus',  cat:'plan', plans:['premium']},
+    {id:'8kprime', name:'8K Prime', cat:'plan', plans:['premium']},
+    {id:'xtvapp',  name:'XTV app',  cat:'plan', plans:['xtv']},
+    {id:'marvelapp', name:'Marvel app', cat:'plan', plans:['marvel']},
+    {id:'smarters',  name:'IPTV Smarters', sub:{en:'Android TV / Firestick / phone', ar:'أندرويد / فايرستيك / موبايل'}, cat:'manual'},
+    {id:'smarterstv', name:'IPTV Smarters', sub:{en:'Samsung / LG TV', ar:'شاشة سامسونج / LG'}, cat:'smarterstv'},
+    {id:'lite',      name:'Smarters Player Lite', sub:{en:'iPhone / Apple TV / Mac', ar:'آيفون / أبل تي في / ماك'}, cat:'manual'},
+    {id:'xciptv',    name:'XCIPTV', cat:'manual'},
+    {id:'televizo',  name:'Televizo', cat:'manual'},
+    {id:'tivimate',  name:'TiviMate', cat:'manual'},
+    {id:'sfvip',     name:'SFVIP Player', sub:{en:'Windows', ar:'ويندوز'}, cat:'manual'},
+    {id:'ibo',   name:'IBO Player',  sub:{en:'Samsung / LG / Vidaa…', ar:'سامسونج / LG / Vidaa…'}, cat:'managed', site:'https://iboplayer.com/device/login'},
+    {id:'bob',   name:'Bob Player',  cat:'managed', site:'https://www.bobplayer.com/login'},
+    {id:'iboxp', name:'IBO XPlayer', cat:'managed', site:'https://iboxiptvplayer.com/device/login'},
+    {id:'web',   name:'my.splayer.in', sub:{en:'Web browser', ar:'المتصفح'}, cat:'web', plans:['xtv','marvel']}
+  ];
+  var GROUPS = [
+    {cat:'plan', title:{en:'Official app for your plan', ar:'التطبيق الرسمي لباقتك'}},
+    {cat:'manual', title:{en:'Other players (username + password + host)', ar:'مشغلات أخرى (اسم مستخدم + باسورد + هوست)'}},
+    {cat:'managed', title:{en:'Smart TV players (Device ID + Key)', ar:'تطبيقات الشاشات (Device ID + Key)'}},
+    {cat:'web', title:{en:'In the browser', ar:'من المتصفح'}}
+  ];
+  var SYMPTOMS = [
+    {id:'all',    t:{en:'Nothing works', ar:'مفيش حاجة شغالة'}, s:{en:'Nothing loads or plays', ar:'مفيش حاجة بتحمل أو بتشتغل'}},
+    {id:'one',    t:{en:'Only one channel or movie', ar:'قناة أو فيلم واحد بس'}, s:{en:'Everything else works', ar:'والباقي شغال'}},
+    {id:'freeze', t:{en:'Freezing / buffering', ar:'تقطيع / تحميل'}, s:{en:'Plays but keeps stopping', ar:'بيشتغل بس بيقف'}},
+    {id:'login',  t:{en:"Can't log in / error", ar:'مش قادر أسجل دخول / رسالة خطأ'}, s:{en:'Authentication, expired…', ar:'Authentication أو انتهاء…'}},
+    {id:'open',   t:{en:"App won't open", ar:'التطبيق مش بيفتح'}, s:{en:'Crashes or stuck on start', ar:'بيقفل أو واقف على البداية'}},
+    {id:'host',   t:{en:'Empty list / need new host', ar:'القائمة فاضية / محتاج هوست جديد'}, s:{en:'0 channels, playlist empty', ar:'0 قنوات أو القائمة فاضية'}},
+    {id:'k4',     t:{en:'Only 4K doesn\'t work', ar:'الـ 4K بس اللي مش شغال'}, s:{en:'Black screen on 4K', ar:'شاشة سودا على الـ 4K'}},
+    {id:'av',     t:{en:'Sound or picture problem', ar:'مشكلة في الصوت أو الصورة'}, s:{en:'Sound but no picture…', ar:'صوت من غير صورة…'}},
+    {id:'epg',    t:{en:'TV guide wrong or empty', ar:'دليل البرامج غلط أو فاضي'}, s:{en:'EPG times', ar:'مواعيد الـ EPG'}}
+  ];
+
+  /* ------------------------------------------------ STEPS ------------------------------------------------ */
+  function hostsHTML(){
+    var H = getHosts(state.plan);
+    if(!H.length) return '<p>' + (lang()==='ar' ? 'اطلب الهوست من حسام على الواتساب.' : 'Ask Hossam for the host on WhatsApp.') + '</p>';
+    return '<div class="host-list">' + H.map(function(h, i){
+      return '<div>' + copyBtn(h) + (i === 0 ? '<small>' + (lang()==='ar' ? 'الأساسي' : 'main') + '</small>' : '<small>' + (lang()==='ar' ? 'احتياطي' : 'backup') + '</small>') + '</div>';
+    }).join('') + '</div>';
+  }
+  function planName(){ var p = PLANS.filter(function(x){ return x.id === state.plan; })[0]; return p ? t(p.name) : ''; }
+  function appObj(){ return APPS.filter(function(x){ return x.id === state.app; })[0]; }
+
+  var NEVER_DELETE = {en:'⚠️ Never delete the app or reset the TV — the paid activation is lost and you would have to pay again.', ar:'⚠️ متمسحش التطبيق ومتعملش ريست للشاشة — التفعيل المدفوع هيضيع وهتدفع تاني.'};
+  var NEVER_REINSTALL = {en:'⚠️ Don\'t uninstall or reinstall the app — some apps can\'t be downloaded again.', ar:'⚠️ متمسحش التطبيق ومتنزلوش تاني — بعض التطبيقات مش بتتنزل تاني.'};
+
+  var STEPS = {
+    magic: {t:{en:'Do the "magic trick"', ar:'اعمل "الحركة السحرية"'}, b:function(ar){ return ar
+      ? '<ol><li>افصل الراوتر والتلفزيون/الجهاز من الكهرباء.</li><li>استنى 10 ثواني.</li><li>وصّلهم تاني واستنى الإنترنت يرجع.</li><li>افتح التطبيق وجرّب.</li></ol>'
+      : '<ol><li>Unplug the router and the TV/device from power.</li><li>Wait 10 seconds.</li><li>Plug them back in and wait for the internet to come back.</li><li>Open the app and try again.</li></ol>'; }},
+    inuse: {t:{en:'Make sure nobody else is watching', ar:'اتأكد إن مفيش حد تاني بيتفرج'}, b:function(ar){ return ar
+      ? 'الاشتراك بيشتغل على جهاز واحد بس في نفس الوقت.<ul><li>اقفل التطبيق على أي جهاز تاني.</li><li>على أجهزة الأندرويد: Settings ← Apps ← التطبيق ← Force stop.</li><li>استنى 5–10 دقايق وجرّب تاني. (نفس الحل لو الكهرباء قطعت أو قفلت التطبيق من غير ما توقف الفيديو.)</li></ul>'
+      : 'Only one device can watch at a time.<ul><li>Close the app on any other device.</li><li>Android devices: Settings → Apps → the app → Force stop.</li><li>Wait 5–10 minutes and try again. (Same fix after a power cut, or if you left the app without stopping the video.)</li></ul>'; }},
+    elsewhere: {t:{en:'Try another device and mobile data', ar:'جرّب جهاز تاني وداتا الموبايل'}, b:function(ar){ return ar
+      ? '<ul><li><b>اشتغل على جهاز تاني أو على داتا الموبايل؟</b> يبقى المشكلة في الجهاز أو إنترنت البيت — كمّل الخطوات.</li><li><b>مش شغال في أي مكان؟</b> شوف تاريخ انتهاء اشتراكك في الصورة اللي حسام بعتهالك على الواتساب، وشوف حالة الواتساب الأساسي لو في عطل.</li></ul>'
+      : '<ul><li><b>Works on another device or on mobile data?</b> Then your device or home internet is the cause — continue.</li><li><b>Fails everywhere?</b> Check your expiry date in the picture Hossam sent you on WhatsApp, and check the main WhatsApp Status for outage news.</li></ul>'; }},
+    speed: {t:{en:'Check your internet speed', ar:'اختبر سرعة الإنترنت'}, b:function(ar){ return ar
+      ? 'افتح ' + ext('https://fast.com','fast.com') + ' <b>على التلفزيون نفسه</b> أو على موبايل جنبه على نفس الواي فاي.<ul><li>محتاج 10 ميجا على الأقل (25+ للـ 4K).</li><li>ضعيفة؟ قرّب الراوتر، استخدم كابل لو ينفع، ووقف أي تحميلات تانية.</li></ul>'
+      : 'Open ' + ext('https://fast.com','fast.com') + ' <b>on the TV itself</b>, or on a phone right next to it on the same Wi-Fi.<ul><li>You need at least 10 Mbps (25+ for 4K).</li><li>Too slow? Move the router closer, use a cable if you can, and stop other downloads.</li></ul>'; }},
+    wedns: {t:{en:'In Egypt on WE internet?', ar:'في مصر وعلى إنترنت WE؟'}, b:function(ar){ return ar
+      ? 'لو شغال على داتا الموبايل ومش شغال على WE، ممكن WE غيّرت الـ DNS بعد تجديد الباقة:<ol><li>غيّر الـ DNS في الراوتر إلى 8.8.8.8 و 8.8.4.4.</li><li>اعمل ريستارت للراوتر من الفيشة.</li><li>مش عارف؟ كلّم خدمة عملاء WE واطلب منهم يغيروها — ولو سألوا ليه قول: "المسؤول الفني طلب مني كده".</li></ol>مش على WE؟ اضغط "الخطوة اللي بعدها".'
+      : 'If it works on mobile data but not on WE, WE may have changed your router DNS after renewing your plan:<ol><li>Set the router DNS to 8.8.8.8 and 8.8.4.4.</li><li>Restart the router from the power plug.</li><li>Can\'t do it? Call WE customer service and ask them to set it — if they ask why, say "the technical support asked me to".</li></ol>Not on WE? Tap "next step".'; }},
+    lower: {t:{en:'Check your login details', ar:'راجع بيانات الدخول'}, b:function(ar){ return ar
+      ? '<ul><li>اسم المستخدم والباسورد <b>حروف صغيرة كلها</b> ومن غير مسافات.</li><li>على أندرويد/فايرستيك: Settings ← Date & time ← خليها <b>تلقائي</b> (الساعة الغلط بتمنع الدخول).</li></ul>'
+      : '<ul><li>Username and password are <b>all lowercase</b>, with no spaces.</li><li>Android/Firestick: Settings → Date & time → set to <b>automatic</b> (a wrong clock blocks logins).</li></ul>'; }},
+    hosts: {t:{en:'Switch to another host', ar:'غيّر الهوست'}, b:function(ar){ return (ar
+      ? 'نفس اسم المستخدم والباسورد شغالين على كل هوستات باقة ' + esc(planName()) + '. جرّب اللي بعده:'
+      : 'The same username and password work on every ' + esc(planName()) + ' host. Try the next one:') + hostsHTML()
+      + '<p style="margin-top:10px">' + (ar ? 'كلهم مش شغالين؟ غالباً الهوست محجوب — كمّل.' : 'None work? The host is probably blocked — continue.') + '</p>'; }},
+    playlistfix: {t:{en:'Fix the playlist in the app', ar:'صلّح الـ Playlist في التطبيق'}, b:function(ar){ return ar
+      ? '<ol><li>من الشاشة الرئيسية افتح <b>Playlists</b>.</li><li>هتلاقي 2: واحدة متصلة وواحدة لأ.</li><li>اضغط <b>Edit</b> على اللي مش متصلة.</li><li>راجع اسم المستخدم والباسورد (حروف صغيرة).</li><li>اضغط <b>Update</b> ثم اتصل بيها.</li></ol>'
+      : '<ol><li>On the main screen open <b>Playlists</b>.</li><li>You\'ll see 2 — one connected, one not.</li><li>Click <b>Edit</b> on the one that is not connected.</li><li>Check the username and password (lowercase).</li><li>Click <b>Update</b>, then connect to it.</li></ol>'; }},
+    officialwait: {t:{en:'Use a free app while the official one updates', ar:'استخدم تطبيق مجاني لحد ما الرسمي يتحدث'}, b:function(ar){ return (ar
+      ? 'التطبيقات الرسمية بتحدّث السيرفر لوحدها، بس ممكن تاخد وقت. لو مش قادر تستنى، استخدم تطبيق مجاني باسم المستخدم والباسورد والهوست: <b>IPTV Smarters</b> (بالـ Downloader) أو <b>XCIPTV</b> / <b>Televizo</b> من Google Play.'
+      : 'Official apps update their server by themselves, but it can take a while. If you can\'t wait, use a free app with your username, password and host: <b>IPTV Smarters</b> (via Downloader) or <b>XCIPTV</b> / <b>Televizo</b> from Google Play.')
+      + '<p style="margin-top:10px"><b>' + (ar ? 'الهوست لباقتك:' : 'Host for your plan:') + '</b></p>' + hostsHTML()
+      + '<div class="warn-box">' + t(NEVER_REINSTALL) + '</div>'; }},
+    cache: {t:{en:'Clear the app cache', ar:'امسح الكاش بتاع التطبيق'}, b:function(ar){ return (ar
+      ? '<ol><li>Settings ← Apps ← التطبيق ← Storage ← <b>Clear cache</b>.</li><li>لسه؟ <b>Clear data</b> وبعدين سجّل دخول تاني (حروف صغيرة).</li></ol>الأسماء ممكن تختلف شوية حسب نوع الجهاز.'
+      : '<ol><li>Settings → Apps → the app → Storage → <b>Clear cache</b>.</li><li>Still not working? <b>Clear data</b>, then log in again (lowercase).</li></ol>Menu names can differ slightly by brand.')
+      + '<div class="warn-box">' + t(NEVER_REINSTALL) + '</div>'; }},
+    mgr_reload: {t:{en:'Reload or change server', ar:'Reload أو غيّر السيرفر'}, b:function(ar){ return (ar
+      ? '<ul><li>رسالة حمرا؟ اضغط <b>Reload</b>.</li><li>لسه؟ من الشاشة الرئيسية اضغط <b>Change server</b> وجرّب القوائم التانية (غالباً في 2 أو أكتر).</li><li>ظهرت <b>server urls fail</b>؟ اكتب ' + copyBtn('iboplayers.pro') + ' واضغط <b>Try again</b>.</li></ul>'
+      : '<ul><li>Red error? Press <b>Reload</b>.</li><li>Still nothing? On the main screen press <b>Change server</b> and try the other playlists (there are usually 2 or more).</li><li>Seeing <b>server urls fail</b>? Enter ' + copyBtn('iboplayers.pro') + ' and press <b>Try again</b>.</li></ul>')
+      + '<div class="warn-box">' + t(NEVER_DELETE) + '</div>'; }},
+    mgr_playlist: {t:{en:'Update your playlist on the app\'s website', ar:'حدّث القائمة من موقع التطبيق'}, b:function(ar){
+      var a = appObj() || {}, site = a.site || 'https://iboplayer.com/device/login';
+      return (ar
+        ? '<ol><li>اعمل رابط الـ M3U من الخانات اللي تحت وانسخه.</li><li>من الشاشة الرئيسية للتطبيق هات الـ <b>MAC (Device ID)</b> والـ <b>Device Key</b> (في النسخ القديمة اضغط Change server أو Playlists عشان تظهر).</li><li>ادخل على ' + ext(site) + ' وسجّل بيهم.</li><li>اضغط <b>Add M3U</b> والصق الرابط.</li><li>احفظ واقفل التطبيق وافتحه تاني.</li></ol>'
+        : '<ol><li>Make your M3U link in the boxes below and copy it.</li><li>On the app\'s main screen find the <b>MAC (Device ID)</b> and <b>Device Key</b> (on old versions press Change server or Playlists to see them).</li><li>Go to ' + ext(site) + ' and log in with them.</li><li>Click <b>Add M3U</b> and paste the link.</li><li>Save, then close and reopen the app.</li></ol>')
+        + m3uHTML(ar)
+        + '<div class="warn-box">' + t(NEVER_DELETE) + '</div>'; }},
+    one: {t:{en:'Only one channel or movie', ar:'قناة أو فيلم واحد بس'}, b:function(ar){ return ar
+      ? 'يبقى المشكلة في المحتوى ده نفسه، مش عندك. ابعت لحسام <b>اسمه وصورة/بوستر</b> ليه على الواتساب وهو هيتابعه.'
+      : 'Then the problem is that one item, not your setup. Send Hossam its <b>name and a screenshot/poster</b> on WhatsApp and he\'ll look into it.'; }, final:true},
+    k4: {t:{en:'Your device can\'t play 4K', ar:'جهازك مش بيدعم الـ 4K'}, b:function(ar){ return ar
+      ? 'لو الـ 4K بس اللي مش شغال والباقي تمام، يبقى الجهاز مش بيدعم 4K — ومفيش حل من ناحية الخدمة. اختار نسخة HD/FHD من نفس القناة أو الفيلم، أو استخدم جهاز بيدعم 4K.'
+      : 'If only 4K fails and everything else works, your device doesn\'t support 4K — nothing can fix that on the service side. Pick the HD/FHD version of the same channel or movie, or use a 4K-capable device.'; }},
+    av: {t:{en:'Change the player\'s decoder', ar:'غيّر الـ Decoder في المشغل'}, b:function(ar){ return ar
+      ? 'دي نصيحة عامة للمشغل (مش مشكلة في الخدمة):<ol><li>جرّب قناة/فيلم تاني — لو واحد بس، ابعت اسمه لحسام.</li><li>من إعدادات المشغل غيّر الـ Decoder (Hardware ↔ Software). في TiviMate: Settings ← Player ← Audio.</li><li>اقفل Passthrough / SPDIF لو موجودة.</li><li>من إعدادات صوت التلفزيون خلي الـ output على <b>PCM</b>.</li></ol>'
+      : 'General player tip (not a service problem):<ol><li>Try another channel/movie — if it\'s just one, send its name to Hossam.</li><li>In the player settings switch the decoder (Hardware ↔ Software). TiviMate: Settings → Player → Audio.</li><li>Turn off Passthrough / SPDIF if present.</li><li>In the TV sound settings set the output to <b>PCM</b>.</li></ol>'; }},
+    epg: {t:{en:'Fix the TV guide', ar:'صلّح دليل البرامج'}, b:function(ar){ return ar
+      ? 'نصيحة عامة (مش مشكلة في الخدمة):<ul><li><b>مواعيد غلط:</b> خلي التاريخ والساعة والمنطقة الزمنية في الجهاز <b>تلقائي</b>.</li><li><b>فاضي:</b> اعمل Update للـ EPG من إعدادات التطبيق أو استنى شوية — مش كل القنوات ليها دليل.</li></ul>'
+      : 'General tip (not a service problem):<ul><li><b>Wrong times:</b> set the device date, time and time zone to <b>automatic</b>.</li><li><b>Empty:</b> update the EPG in the app settings, or wait a while — not every channel has a guide.</li></ul>'; }},
+    web: {t:{en:'Use an app instead', ar:'استخدم تطبيق بدل المتصفح'}, b:function(ar){ return ar
+      ? 'المتصفح طريقة احتياطية. الأسهل تنزّل تطبيق لجهازك — شوف ' + ext('index.html#setup','دليل التثبيت') + '.'
+      : 'The browser is a backup method. The easiest fix is an app for your device — see the ' + ext('index.html#setup','setup guide') + '.'; }},
+    smarterstv: {t:{en:'Switch to IBO Player', ar:'غيّر لـ IBO Player'}, b:function(ar){ return (ar
+      ? 'IPTV Smarters على شاشات سامسونج و LG فيه مشكلة (ومش موجود على موديلات سامسونج 2026 وبعض 2025) — متتعبش نفسك معاه.<ol><li>نزّل <b>IBO Player</b> من متجر التلفزيون. مش موجود؟ نزّل <b>Bob Player</b> أو <b>IBO XPlayer</b>.</li><li>افتحه وصوّر الـ <b>Device ID</b> والـ <b>Device Key</b>.</li><li>ابعت الصورة مع اسم المستخدم لحسام على الواتساب.</li></ol>السعر مع حسام: أول شاشة مجاناً في Basic وPremium، وبعدها 4 دولار مدى الحياة؛ XTV ومارفل 200 جنيه مدى الحياة (السعر الرسمي حوالي 10 يورو).'
+      : 'IPTV Smarters on Samsung and LG TVs has an issue (and isn\'t available on 2026 Samsung models and some 2025 ones) — don\'t waste time on it.<ol><li>Install <b>IBO Player</b> from the TV\'s store. Not there? Install <b>Bob Player</b> or <b>IBO XPlayer</b>.</li><li>Open it and take a photo of the <b>Device ID</b> and <b>Device Key</b>.</li><li>Send the photo with your username to Hossam on WhatsApp.</li></ol>Price with Hossam: first TV free on Basic and Premium, then $4 lifetime; XTV and Marvel 200 EGP lifetime (official price is about €10).')
+      + '<div class="warn-box">' + t(NEVER_DELETE) + '</div>'; }, final:true}
+  };
+
+  /* ---------- M3U maker (runs only in the browser — nothing is sent anywhere) ---------- */
+  var m3u = {user:'', pass:'', host:0};
+  function m3uLink(){
+    var H = getHosts(state.plan), host = H[m3u.host] || H[0] || '';
+    if(!host || !m3u.user || !m3u.pass) return '';
+    return host.replace(/\/+$/, '') + '/get.php?username=' + encodeURIComponent(m3u.user) + '&password=' + encodeURIComponent(m3u.pass) + '&type=m3u_plus&output=ts';
+  }
+  function m3uOutHTML(ar){
+    var link = m3uLink();
+    return link ? '<div class="m3u-out">' + copyBtn(link) + '</div>'
+      : '<p class="m3u-hint">' + (ar ? 'اكتب اسم المستخدم والباسورد وهيظهر الرابط هنا.' : 'Type your username and password and the link appears here.') + '</p>';
+  }
+  function m3uHTML(ar){
+    var H = getHosts(state.plan);
+    return '<div class="m3u"><p class="m3u-title">' + (ar ? 'اعمل رابط الـ M3U بتاعك' : 'Make your M3U link') + '</p>'
+      + '<div class="m3u-grid">'
+      + '<label>' + (ar ? 'اسم المستخدم' : 'Username') + '<input id="m3uUser" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" dir="ltr" value="' + esc(m3u.user) + '"></label>'
+      + '<label>' + (ar ? 'الباسورد' : 'Password') + '<input id="m3uPass" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" dir="ltr" value="' + esc(m3u.pass) + '"></label>'
+      + '<label>' + (ar ? 'الهوست' : 'Host') + '<select id="m3uHost" dir="ltr">' + H.map(function(h, i){ return '<option value="' + i + '"' + (i === m3u.host ? ' selected' : '') + '>' + esc(h.replace(/^https?:\/\//, '')) + (i === 0 ? (ar ? ' (الأساسي)' : ' (main)') : (ar ? ' (احتياطي)' : ' (backup)')) + '</option>'; }).join('') + '</select></label>'
+      + '</div><div id="m3uOut">' + m3uOutHTML(ar) + '</div>'
+      + '<p class="m3u-note">🔒 ' + (ar ? 'البيانات بتفضل على الصفحة دي بس — مش بتتبعت لأي حد. الحروف بتتحول لصغيرة تلقائياً. الرابط مش شغال؟ جرّب الهوست الاحتياطي.' : 'Your details stay on this page — nothing is sent anywhere. Letters are made lowercase automatically. Link not working? Try the backup host.') + '</p></div>';
+  }
+  document.addEventListener('input', function(e){
+    var id = e.target && e.target.id;
+    if(id !== 'm3uUser' && id !== 'm3uPass' && id !== 'm3uHost') return;
+    if(id === 'm3uHost'){ m3u.host = parseInt(e.target.value, 10) || 0; }
+    else {
+      var v = e.target.value.toLowerCase().replace(/\s+/g, '');
+      if(v !== e.target.value) e.target.value = v;
+      if(id === 'm3uUser') m3u.user = v; else m3u.pass = v;
+    }
+    var out = document.getElementById('m3uOut'); if(out) out.innerHTML = m3uOutHTML(lang() === 'ar');
+  });
+  document.addEventListener('change', function(e){ if(e.target && e.target.id === 'm3uHost'){ m3u.host = parseInt(e.target.value, 10) || 0; var out = document.getElementById('m3uOut'); if(out) out.innerHTML = m3uOutHTML(lang() === 'ar'); } });
+
+  function flowFor(){
+    var a = appObj() || {}, c = a.cat, s = state.sym, f = [];
+    if(c === 'smarterstv') return ['smarterstv'];
+    if(s === 'one') return ['one'];
+    if(s === 'k4') return ['k4'];
+    if(s === 'av') return ['av'];
+    if(s === 'epg') return ['epg'];
+    if(c === 'web') return s === 'freeze' ? ['magic','speed','web'] : ['magic','web'];
+    var byCat = {
+      all:   {plan: (a.fix ? ['playlistfix'] : []).concat(['officialwait']), manual:['lower','hosts'], managed:['mgr_reload','mgr_playlist']},
+      freeze:{plan:['officialwait'], manual:['hosts'], managed:['mgr_reload']},
+      login: {plan: (a.fix ? ['playlistfix'] : []).concat(['officialwait']), manual:['hosts'], managed:['mgr_playlist']},
+      open:  {plan:['cache','officialwait'], manual:['cache','hosts'], managed:[]},
+      host:  {plan:['officialwait'], manual:['hosts'], managed:['mgr_playlist']}
+    };
+    var head = {
+      all:['magic','inuse','elsewhere'], freeze:['magic','speed','elsewhere','wedns'],
+      login:['lower','inuse','elsewhere'], open:['magic','speed'], host:[]
+    }[s] || ['magic'];
+    f = head.concat((byCat[s] || {})[c] || []);
+    if(s === 'all' && c !== 'managed') f.push('wedns');
+    return f;
+  }
+
+  /* ------------------------------------------------ STATE + RENDER ------------------------------------------------ */
+  var state = {plan:null, app:null, sym:null, i:0, flow:[], done:false};
+
+  function renderAlerts(){
+    var box = document.getElementById('alerts'), ar = lang() === 'ar';
+    box.innerHTML = (live.outages || []).map(function(o){
+      var what = o.label || o.target || '';
+      return '<div class="alert">' + icon('warn') + '<div><b>' + (ar ? 'في مشكلة حالياً: ' : 'Known issue right now: ') + esc(what) + '</b>' + (o.details ? esc(o.details) : '')
+        + '<br><small>' + (ar ? 'لو ده السيرفر أو التطبيق بتاعك، مش محتاج تجرب حاجة — جاري الإصلاح.' : 'If this is your server or app, no need to troubleshoot — it\'s being fixed.') + '</small></div></div>';
+    }).join('');
+  }
+  function renderPlans(){
+    document.getElementById('planPick').innerHTML = PLANS.map(function(p){
+      return '<button type="button" class="pick-btn" data-plan="' + p.id + '" style="--c:' + p.color + '" aria-pressed="' + (state.plan === p.id) + '">'
+        + '<span class="top"><span class="sw"></span><b>' + t(p.name) + '</b></span>'
+        + (p.aka ? '<small class="aka">' + (lang()==='ar' ? 'تُعرف أيضاً باسم ' : 'Also known as ') + p.aka + '</small>' : '')
+        + '<span class="pr">' + t(p.price) + '</span></button>';
+    }).join('');
+  }
+  function renderApps(){
+    var el = document.getElementById('appPick');
+    el.innerHTML = GROUPS.map(function(g){
+      var apps = APPS.filter(function(a){
+        var cat = a.cat === 'smarterstv' ? 'manual' : a.cat;
+        return cat === g.cat && (!a.plans || a.plans.indexOf(state.plan) > -1);
+      });
+      if(!apps.length) return '';
+      return '<div class="app-group"><h3>' + t(g.title) + '</h3><div class="chips">' + apps.map(function(a){
+        return '<button type="button" class="chip-btn" data-app="' + a.id + '" aria-pressed="' + (state.app === a.id) + '">' + esc(a.name) + (a.sub ? '<small>' + t(a.sub) + '</small>' : '') + '</button>';
+      }).join('') + '</div></div>';
+    }).join('');
+  }
+  function renderSyms(){
+    document.getElementById('symPick').innerHTML = SYMPTOMS.map(function(s){
+      return '<button type="button" class="chip-btn" data-sym="' + s.id + '" aria-pressed="' + (state.sym === s.id) + '">' + t(s.t) + '<small>' + t(s.s) + '</small></button>';
+    }).join('');
+  }
+  function contactHTML(){
+    var ar = lang() === 'ar', a = appObj() || {}, sym = SYMPTOMS.filter(function(x){ return x.id === state.sym; })[0];
+    var tried = state.flow.slice(0, state.i + 1).map(function(id){ return t(STEPS[id].t); });
+    var lines = [
+      ar ? 'مرحباً حسام، محتاج مساعدة.' : 'Hi Hossam, I need help.',
+      (ar ? 'الباقة: ' : 'Plan: ') + planName(),
+      (ar ? 'التطبيق: ' : 'App: ') + (a.name || '') + (a.sub ? ' (' + t(a.sub) + ')' : ''),
+      (ar ? 'المشكلة: ' : 'Problem: ') + (sym ? t(sym.t) : '—'),
+      (ar ? 'جربت: ' : 'Already tried: ') + (tried.length ? tried.join(' / ') : '—')
+    ];
+    if(a.cat === 'managed' || a.cat === 'smarterstv') lines.push(ar ? '(هبعت صورة الـ Device ID والـ Device Key)' : '(I\'ll send a photo of my Device ID and Device Key)');
+    if(state.sym === 'one') lines.push(ar ? 'اسم القناة/الفيلم: ' : 'Channel/movie name: ');
+    var link = wa(MAIN, lines.join('\n'));
+    return '<div class="done"><div class="big">💬</div><h3>' + (ar ? 'كلّم حسام' : 'Message Hossam') + '</h3><p class="flow-body">'
+      + (ar ? 'الرسالة جاهزة فيها باقتك والتطبيق وكل اللي جربته — بس اضغط إرسال.' : 'The message is ready with your plan, app and everything you tried — just press send.')
+      + ((a.cat === 'managed' || a.cat === 'smarterstv') ? (ar ? ' ابعت كمان صورة الـ Device ID والـ Device Key.' : ' Also attach a photo of your Device ID and Device Key.') : '')
+      + '</p><div class="flow-actions" style="justify-content:center"><a class="btn btn-wa" href="' + link + '" target="_blank" rel="noopener">' + icon('chat') + (ar ? 'ابعت لحسام على الواتساب' : 'Send to Hossam on WhatsApp') + '</a>'
+      + '<button type="button" class="btn btn-ghost" data-act="restart">' + (ar ? 'ابدأ من الأول' : 'Start over') + '</button></div></div>';
+  }
+  function renderFlow(){
+    var el = document.getElementById('flow'), ar = lang() === 'ar';
+    var a = appObj() || {}, sym = SYMPTOMS.filter(function(x){ return x.id === state.sym; })[0];
+    var crumb = '<div class="flow-top"><span class="flow-crumb"><b>' + esc(planName()) + '</b> · <b>' + esc(a.name || '') + '</b>' + (sym && a.cat !== 'smarterstv' ? ' · ' + t(sym.t) : '') + '</span>'
+      + '<button type="button" class="btn btn-ghost btn-sm" data-act="restart">' + (ar ? 'ابدأ من الأول' : 'Start over') + '</button></div>';
+    if(state.done === 'fixed'){
+      el.innerHTML = crumb + '<div class="done"><div class="big">🎉</div><h3>' + (ar ? 'تمام! استمتع بالمشاهدة' : 'Great — enjoy watching!') + '</h3></div>';
+      return;
+    }
+    if(state.done === 'contact'){ el.innerHTML = crumb + contactHTML(); return; }
+    var id = state.flow[state.i], st = STEPS[id], total = state.flow.length;
+    var pct = Math.round(((state.i + 1) / (total + 1)) * 100);
+    var nextLabel = (st.final || state.i === total - 1) ? (ar ? 'لسه مش شغال — كلّم حسام' : 'Still not working — message Hossam') : (ar ? 'منفعش، الخطوة اللي بعدها' : 'Didn\'t work — next step');
+    el.innerHTML = crumb
+      + '<div class="progress" aria-hidden="true"><i style="width:' + pct + '%"></i></div>'
+      + '<p class="flow-crumb" style="margin:0 0 6px">' + (ar ? 'خطوة ' : 'Step ') + (state.i + 1) + (ar ? ' من ' : ' of ') + total + '</p>'
+      + '<h3>' + t(st.t) + '</h3><div class="flow-body">' + st.b(ar) + '</div>'
+      + '<div class="flow-actions">'
+      + (st.final ? '' : '<button type="button" class="btn btn-ok" data-act="fixed">' + icon('check') + (ar ? 'اتحلت!' : 'Fixed!') + '</button>')
+      + '<button type="button" class="btn ' + (st.final ? 'btn-wa' : 'btn-ghost') + '" data-act="next">' + nextLabel + (st.final ? '' : ' ' + '<svg class="ic flip"><use href="#i-arrow"/></svg>') + '</button>'
+      + (state.i > 0 ? '<button type="button" class="btn btn-ghost" data-act="back">' + (ar ? 'رجوع' : 'Back') + '</button>' : '')
+      + '</div>';
+  }
+  function show(id, on){ document.getElementById(id).hidden = !on; }
+  function go(id){ var el = document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  function startFlow(){
+    state.flow = flowFor(); state.i = 0; state.done = false;
+    show('flowStep', true); renderFlow(); go('flowStep');
+  }
+  function renderAll(){
+    renderAlerts(); renderPlans();
+    if(state.plan){ renderApps(); }
+    if(state.app){ renderSyms(); }
+    if(state.flow.length){ renderFlow(); }
+    renderMore();
+  }
+
+  document.addEventListener('click', function(e){
+    var b;
+    if((b = e.target.closest('[data-plan]'))){
+      state.plan = b.getAttribute('data-plan'); state.app = null; state.sym = null; state.flow = []; m3u.host = 0;
+      renderPlans(); renderApps(); show('appStep', true); show('symStep', false); show('flowStep', false); go('appStep'); return;
+    }
+    if((b = e.target.closest('[data-app]'))){
+      state.app = b.getAttribute('data-app'); state.sym = null; state.flow = [];
+      renderApps(); show('flowStep', false);
+      if((appObj() || {}).cat === 'smarterstv'){ show('symStep', false); startFlow(); }
+      else { renderSyms(); show('symStep', true); go('symStep'); }
+      return;
+    }
+    if((b = e.target.closest('[data-sym]'))){ state.sym = b.getAttribute('data-sym'); renderSyms(); startFlow(); return; }
+    if((b = e.target.closest('[data-act]'))){
+      var act = b.getAttribute('data-act');
+      if(act === 'fixed'){ state.done = 'fixed'; }
+      else if(act === 'next'){ var st = STEPS[state.flow[state.i]]; if(st.final || state.i >= state.flow.length - 1) state.done = 'contact'; else state.i++; }
+      else if(act === 'back'){ state.i = Math.max(0, state.i - 1); state.done = false; }
+      else if(act === 'restart'){ state.plan = state.app = state.sym = null; state.flow = []; state.done = false; renderPlans(); show('appStep', false); show('symStep', false); show('flowStep', false); go('top'); return; }
+      renderFlow(); go('flowStep'); return;
+    }
+    if((b = e.target.closest('[data-copy]'))){ e.preventDefault(); copy(b.getAttribute('data-copy')); }
+  });
+
+  /* ------------------------------------------------ OTHER QUESTIONS ------------------------------------------------ */
+  var MORE = [
+    {q:{en:'Can I change the video quality?', ar:'أقدر أغيّر الجودة؟'}, a:{en:'No — each channel/movie has a fixed quality. Some titles exist in more than one version (HD and 4K): search for another version.', ar:'لا — كل قناة أو فيلم ليه جودة ثابتة. بعض الأعمال ليها أكتر من نسخة (HD و 4K): دور على نسخة تانية.'}},
+    {q:{en:'Wrong subtitles or audio language?', ar:'الترجمة أو اللغة غلط؟'}, a:{en:'Some titles have built-in subtitles. In Basic and Premium the same show often exists dubbed, with different subtitles, or original — search the title and pick the version you like.', ar:'بعض الأعمال الترجمة فيها ثابتة. في Basic وPremium نفس المسلسل غالباً موجود مدبلج، وبترجمات مختلفة، وأصلي — دور على الاسم واختار النسخة اللي تناسبك.'}},
+    {q:{en:'Can I watch something that already aired?', ar:'أقدر أتفرج على حاجة اتعرضت خلاص؟'}, a:{en:'Basic and Premium have channels marked +6 at the end of the channel list — they replay the same channel 6 hours later.', ar:'في Basic وPremium في قنوات عليها +6 في آخر قائمة القنوات — بتعيد نفس القناة بعد 6 ساعات.'}},
+    {q:{en:'The app asks for a PIN', ar:'التطبيق بيطلب PIN'}, a:{en:'Most apps use 0000 as the default PIN. We don\'t provide adult content.', ar:'أغلب التطبيقات الـ PIN الافتراضي فيها 0000. إحنا مش بنوفر محتوى للكبار.'}},
+    {q:{en:'My favorites disappeared', ar:'المفضلة اتمسحت'}, a:{en:'Favorites reset when the host is changed (needed to keep the service running). Add them again: highlight the item, hold OK and choose Favorite (or press the yellow button).', ar:'المفضلة بتتمسح لما الهوست يتغير (ده لازم عشان الخدمة تفضل شغالة). ضيفها تاني: قف على المحتوى، دوس مطولاً على OK واختار Favorite (أو الزرار الأصفر).'}},
+    {q:{en:'Can you add a channel, movie or series?', ar:'ممكن تضيفوا قناة أو فيلم أو مسلسل؟'}, a:{en:'New channels are usually not possible. Movies and series can be requested: send the name and poster to Hossam on WhatsApp — not guaranteed, but usually added within 2–3 days.', ar:'القنوات الجديدة غالباً مش ممكنة. الأفلام والمسلسلات ممكن تطلبها: ابعت الاسم والبوستر لحسام على الواتساب — مش مضمون، بس غالباً بتتضاف خلال 2–3 أيام.'}},
+    {q:{en:'Can I delete and reinstall the app?', ar:'أقدر أمسح التطبيق وأنزله تاني؟'}, a:{en:'No. IBO Player, Bob Player and IBO XPlayer lose their paid activation (you\'d pay again), and some other apps can\'t be downloaded again.', ar:'لا. IBO Player وBob Player وIBO XPlayer بيضيع تفعيلهم المدفوع (وهتدفع تاني)، وبعض التطبيقات التانية مش بتتنزل تاني.'}}
+  ];
+  function renderMore(){
+    document.getElementById('moreFaq').innerHTML = MORE.map(function(f){
+      return '<details><summary>' + t(f.q) + icon('plus') + '</summary><p>' + t(f.a) + '</p></details>';
+    }).join('');
+  }
+
+  /* ------------------------------------------------ LANGUAGE + UTIL ------------------------------------------------ */
+  function setLang(l, save){
+    doc.lang = l; doc.dir = l === 'ar' ? 'rtl' : 'ltr';
+    if(save) store('htv-lang', l);
+    var sub = document.querySelector('[data-wa="subscribe"]');
+    if(sub) sub.href = wa(MAIN, l === 'ar' ? 'مرحباً، أريد الاشتراك في Hossam TV.' : 'Hi Hossam TV, I\'d like to subscribe.');
+    renderAll();
+  }
+  document.getElementById('langBtn').addEventListener('click', function(){ setLang(lang() === 'ar' ? 'en' : 'ar', true); });
+  var toastT;
+  function toast(msg){ var el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(function(){ el.classList.remove('show'); }, 1400); }
+  function copy(text){
+    var done = function(){ toast(lang() === 'ar' ? 'تم النسخ' : 'Copied'); };
+    if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(text).then(done, fallback); } else { fallback(); }
+    function fallback(){ var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(); }catch(e){} document.body.removeChild(ta); }
+  }
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  loadLive();
+  var saved = store('htv-lang');
+  setLang(saved === 'ar' || saved === 'en' ? saved : ((navigator.language || '').toLowerCase().indexOf('ar') === 0 ? 'ar' : 'en'), false);
+})();
+
+</script>
+</body>
+</html>
