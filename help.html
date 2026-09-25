@@ -301,7 +301,7 @@ footer{padding:48px 0 60px;color:var(--muted);font-size:.9rem}
   html{scroll-padding-top:112px}
   .nav-in{flex-wrap:wrap;height:auto;padding:10px 0;gap:10px}
   .nav-links{order:3;width:100%;margin:0;justify-content:space-between;border-top:1px solid var(--line);padding-top:8px;overflow-x:auto}
-  .nav-links a{padding:6px 10px;font-size:.88rem}
+  .nav-links a{padding:6px 10px;font-size:.88rem;white-space:nowrap;flex:0 0 auto}
   .nav-right{margin-inline-start:auto}
   .hero{padding:40px 0 44px}
   section.sec{padding:60px 0}
@@ -429,16 +429,18 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
 <header class="nav">
   <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="wrap nav-in">
-    <a class="brand" href="/" aria-label="Hossam TV">
+    <a class="brand" data-page="index.html" href="/" aria-label="Hossam TV">
       <img src="logo.png" alt="" width="34" height="34" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
       <span class="brand-fallback" aria-hidden="true">H</span>
       <span>Hossam TV</span>
     </a>
     <nav class="nav-links" aria-label="Main">
-      <a href="/#plans"><span class="en">Plans</span><span class="ar">الباقات</span></a>
-      <a href="/#setup"><span class="en">Setup</span><span class="ar">التثبيت</span></a>
-      <a href="help.html" class="active" aria-current="page"><span class="en">Fix a problem</span><span class="ar">حل المشاكل</span></a>
-      <a href="/#faq"><span class="en">FAQ</span><span class="ar">الأسئلة</span></a>
+      <a data-page="index.html" href="/"><span class="en">Home</span><span class="ar">الرئيسية</span></a>
+      <a data-page="plans.html" href="/"><span class="en">Plans</span><span class="ar">الباقات</span></a>
+      <a data-page="channels.html" href="/"><span class="en">Channels</span><span class="ar">القنوات</span></a>
+      <a data-page="setup/index.html" href="/"><span class="en">Setup</span><span class="ar">التثبيت</span></a>
+      <a href="help.html" class="active" aria-current="page"><span class="en">Fix a problem</span><span class="ar">حل مشكلة</span></a>
+      <a data-page="help.html" href="/"><span class="en">Help</span><span class="ar">المساعدة</span></a>
     </nav>
     <div class="nav-right" style="display:flex;gap:8px;align-items:center">
       <button class="lang" type="button" id="langBtn" aria-label="Switch language">
@@ -873,6 +875,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
     if(save) store('htv-lang', l);
     var sub = document.querySelector('[data-wa="subscribe"]');
     if(sub) sub.href = wa(MAIN, l === 'ar' ? 'مرحباً، أريد الاشتراك في Hossam TV.' : 'Hi Hossam TV, I\'d like to subscribe.');
+    document.querySelectorAll('[data-page]').forEach(function(a){ a.href = '/' + l + '/' + a.getAttribute('data-page'); });
     renderAll();
   }
   document.getElementById('langBtn').addEventListener('click', function(){ setLang(lang() === 'ar' ? 'en' : 'ar', true); });
