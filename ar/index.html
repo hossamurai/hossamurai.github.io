@@ -315,6 +315,18 @@
   </div>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+/* Customer rating from the WhatsApp assistant (shown only after 5+ ratings) */
+(function(){ if(!window.fetch) return; var ar = document.documentElement.lang === 'ar';
+  fetch('https://n8n.hossamservices.com/webhook/site-data').then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+    if(!d || !d.ratings || d.ratings.count < 5 || !d.ratings.avg) return;
+    var ul = document.querySelector('.trust'); if(!ul) return;
+    var li = document.createElement('li');
+    li.innerHTML = '<span aria-hidden="true" style="color:#f5a524;font-size:1.05em">★</span>' + (ar ? 'تقييم العملاء ' + d.ratings.avg + '/5 (' + d.ratings.count + ' تقييم)' : 'Rated ' + d.ratings.avg + '/5 by ' + d.ratings.count + ' customers');
+    ul.appendChild(li);
+  })['catch'](function(){});
+})();
+</script>
 <script src="../assets/site.js" defer></script>
 <script>
 (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=function(){if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get:function(target,prop){if(prop==="q"){return target.q}return function(){var a=Array.prototype.slice.call(arguments);return target.apply(null,[prop].concat(a))}}})}var onLoad=function(){var s=document.createElement("script");s.src="https://www.chatbase.co/embed.min.js";s.id="UR4AT8qVyiMZfTLECiywM";s.domain="www.chatbase.co";document.body.appendChild(s)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
