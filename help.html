@@ -538,6 +538,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
         if(!d) return;
         if(d.hosts && typeof d.hosts === 'object') live.hosts = d.hosts;
         if(Array.isArray(d.outages)) live.outages = d.outages;
+        if(d.prices){ PLANS.forEach(function(p){ var v = d.prices[p.id]; if(v && v.y1){ p.price.en = p.price.en.replace(/\d[\d,.]*/, v.y1); p.price.ar = p.price.ar.replace(/\d[\d,.]*/, v.y1); } }); renderPlans(); }
         if(d.ratings && d.ratings.count >= 5 && d.ratings.avg){ var rb = document.getElementById('ratingBadge'); if(rb){ rb.innerHTML = '<span class="star" aria-hidden="true">★</span><span class="en">Rated ' + d.ratings.avg + '/5 by ' + d.ratings.count + ' customers on WhatsApp</span><span class="ar">تقييم العملاء ' + d.ratings.avg + '/5 (' + d.ratings.count + ' تقييم على واتساب)</span>'; rb.hidden = false; } }
         renderAlerts();
         var ae = document.activeElement && document.activeElement.id || '';
@@ -899,5 +900,6 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
 })();
 
 </script>
+<script src="assets/bot.js" defer></script>
 </body>
 </html>
