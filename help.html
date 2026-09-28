@@ -744,12 +744,22 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
   /* ------------------------------------------------ STATE + RENDER ------------------------------------------------ */
   var state = {plan:null, app:null, sym:null, i:0, flow:[], done:false};
 
+  function outageName(o){
+    var ar = lang() === 'ar', t = String(o.label || o.target || '').trim();
+    if(/neo|basic|أساسي/i.test(t)) return ar ? 'الباقة الأساسية (Neo 4K)' : 'the Basic plan (Neo 4K)';
+    if(/strong|premium|بريميوم/i.test(t)) return ar ? 'باقة بريميوم (Strong 4K)' : 'the Premium plan (Strong 4K)';
+    if(/\bxtv\b|x\s*server|^\s*x\s*$|اكس|إكس/i.test(t)) return ar ? 'باقة XTV' : 'the XTV plan';
+    if(/marvel|مارفل/i.test(t)) return ar ? 'باقة مارفل' : 'the Marvel plan';
+    if(/^all$|all\s*(plans|servers)|كل/i.test(t)) return ar ? 'جميع الباقات' : 'all plans';
+    return t;
+  }
   function renderAlerts(){
-    var box = document.getElementById('alerts'), ar = lang() === 'ar';
+    var box = document.getElementById('alerts'), ar = lang() === 'ar', seen = [];
     box.innerHTML = (live.outages || []).map(function(o){
-      var what = o.label || o.target || '';
-      return '<div class="alert">' + icon('warn') + '<div><b>' + (ar ? 'في مشكلة حالياً: ' : 'Known issue right now: ') + esc(what) + '</b>' + (o.details ? esc(o.details) : '')
-        + '<br><small>' + (ar ? 'لو ده السيرفر أو التطبيق بتاعك، مش محتاج تجرب حاجة — جاري الإصلاح.' : 'If this is your server or app, no need to troubleshoot — it\'s being fixed.') + '</small></div></div>';
+      var n = outageName(o); if(!n || seen.indexOf(n) > -1) return ''; seen.push(n);
+      var cap = n.charAt(0).toUpperCase() + n.slice(1);
+      return '<div class="alert">' + icon('warn') + '<div><b>' + (ar ? 'توجد مشكلة مؤقتة في ' + esc(n) + '.' : esc(cap) + ' is having a temporary problem.') + '</b>'
+        + '<br><small>' + (ar ? 'لو ده باقتك، مش محتاج تجرب أي خطوات — إحنا بنصلحها والخدمة هترجع لوحدها.' : 'If this is your plan, no need to try any steps — we\'re fixing it and it will come back on its own.') + '</small></div></div>';
     }).join('');
   }
   function renderPlans(){

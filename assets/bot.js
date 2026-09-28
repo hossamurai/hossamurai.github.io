@@ -98,15 +98,28 @@
       else { setNum(amt, v.y1); setNum(two, v.y2); }
     });
   }
+  /* customer-friendly name for what is down (the admin may write "Neo 4K", "X server", "IBO"…) */
+  function outageName(o){
+    var t = String(o.label || o.target || '').trim();
+    if(/neo|basic|أساسي/i.test(t)) return T('the Basic plan (Neo 4K)', 'الباقة الأساسية (Neo 4K)');
+    if(/strong|premium|بريميوم/i.test(t)) return T('the Premium plan (Strong 4K)', 'باقة بريميوم (Strong 4K)');
+    if(/\bxtv\b|x\s*server|^\s*x\s*$|اكس|إكس/i.test(t)) return T('the XTV plan', 'باقة XTV');
+    if(/marvel|مارفل/i.test(t)) return T('the Marvel plan', 'باقة مارفل');
+    if(/^all$|all\s*(plans|servers)|كل/i.test(t)) return T('all plans', 'جميع الباقات');
+    return t;
+  }
   function applyOutages(list){
     if(!list || !list.length) return;
     var header = document.querySelector('header.nav'); if(!header) return;
+    var names = [];
+    list.forEach(function(o){ var n = outageName(o); if(n && names.indexOf(n) < 0) names.push(n); });
+    if(!names.length) return;
+    var joined = names.length === 1 ? names[0] : names.slice(0, -1).join(', ') + T(' and ', ' و') + names[names.length - 1];
     var box = document.createElement('div'); box.className = 'htv-alert'; box.setAttribute('role', 'status');
-    box.innerHTML = list.slice(0, 3).map(function(o){
-      return '<div class="wrap">' + ICON_WARN + '<div><b>' + T('Known issue right now: ', 'توجد مشكلة معروفة الآن: ') + esc(o.label || o.target || '') + '</b>'
-        + (o.details ? ' — ' + esc(o.details) : '') + ' ' + T('We\'re fixing it — no need to change anything on your device.', 'نعمل على إصلاحها — لا داعي لتغيير أي شيء في جهازك.')
-        + ' <a href="/help.html">' + T('Fix a problem', 'حل مشكلة') + '</a></div></div>';
-    }).join('');
+    box.innerHTML = '<div class="wrap">' + ICON_WARN + '<div>'
+      + T('<b>' + esc(joined.charAt(0).toUpperCase() + joined.slice(1)) + ' ' + (names.length > 1 ? 'are' : 'is') + ' having a temporary problem.</b> We\'re already working on it — you don\'t need to restart or change anything. It will come back on its own.',
+          '<b>توجد مشكلة مؤقتة في ' + esc(joined) + '.</b> نعمل على إصلاحها الآن، ولا داعي لإعادة تشغيل جهازك أو تغيير أي شيء — ستعود الخدمة تلقائياً.')
+      + '</div></div>';
     header.parentNode.insertBefore(box, header.nextSibling);
   }
   function applyRatings(r){
