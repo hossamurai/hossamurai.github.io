@@ -328,6 +328,9 @@ footer{padding:48px 0 60px;color:var(--muted);font-size:.9rem}
 .help-hero{padding:48px 0 8px}
 .help-hero h1{font-size:clamp(2rem,4.6vw,3.2rem);font-weight:800;margin:14px 0 10px}
 .help-hero p{color:var(--ink-2);font-size:1.08rem;max-width:620px;margin:0}
+.help-hero .rating-badge{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:.95rem;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+.help-hero .rating-badge[hidden]{display:none}
+.rating-badge .star{color:#f5a524;font-size:1.1rem;line-height:1}
 .hsec{padding:26px 0 70px}
 .alerts{display:grid;gap:10px;margin:0 0 26px}
 .alerts:empty{display:none}
@@ -458,6 +461,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
       <span class="onair"><span class="dot"></span><span class="en">Self-help</span><span class="ar">مساعدة ذاتية</span></span>
       <h1><span class="en">Fix a problem in 2 minutes</span><span class="ar">حل مشكلتك في دقيقتين</span></h1>
       <p><span class="en">Pick your plan, your app and what's happening — then follow the steps one by one. If nothing works, one tap sends Hossam everything you tried.</span><span class="ar">اختار باقتك والتطبيق والمشكلة — وبعدين اتبع الخطوات واحدة واحدة. لو مفيش حاجة نفعت، بضغطة واحدة بتبعت لحسام كل اللي جربته.</span></p>
+      <p class="rating-badge" id="ratingBadge" hidden></p>
     </div>
   </section>
 
@@ -534,6 +538,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
         if(!d) return;
         if(d.hosts && typeof d.hosts === 'object') live.hosts = d.hosts;
         if(Array.isArray(d.outages)) live.outages = d.outages;
+        if(d.ratings && d.ratings.count >= 5 && d.ratings.avg){ var rb = document.getElementById('ratingBadge'); if(rb){ rb.innerHTML = '<span class="star" aria-hidden="true">★</span><span class="en">Rated ' + d.ratings.avg + '/5 by ' + d.ratings.count + ' customers on WhatsApp</span><span class="ar">تقييم العملاء ' + d.ratings.avg + '/5 (' + d.ratings.count + ' تقييم على واتساب)</span>'; rb.hidden = false; } }
         renderAlerts();
         var ae = document.activeElement && document.activeElement.id || '';
         if(state.flow.length && !state.done && ae.indexOf('m3u') !== 0) renderFlow();
