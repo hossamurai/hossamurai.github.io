@@ -77,7 +77,7 @@
   <h1>Terms, refunds & privacy</h1>
   <p class="lead">Written in plain language so you know exactly how things work.</p>
   
-  <p class="updated">Last updated: 23 September 2026</p>
+  <p class="updated">Last updated: 3 October 2026</p>
 </div></section>
 <section class="sec first"><div class="wrap" style="max-width:820px">
   <div class="policy-nav"><a class="btn btn-ghost btn-sm" href="#terms">Terms of service</a><a class="btn btn-ghost btn-sm" href="#refund">Refund policy</a><a class="btn btn-ghost btn-sm" href="#privacy">Privacy policy</a></div>
@@ -125,9 +125,9 @@
 <p>Only to activate your subscription, help with setup and support, and contact you about renewals and maintenance. We don't sell your data, and we only share it as far as needed to activate your subscription (for example, registering your TV's Device ID in the player app).</p>
 <h3>This website</h3>
 <ul>
-<li>There are no accounts or forms on this site.</li>
-<li>The site saves your language, country and plan choice in your browser (localStorage) so it remembers them next time.</li>
-<li>The chat assistant on this site is provided by Chatbase. Messages you type there are processed by Chatbase.</li>
+<li>There are no accounts on this site. When you tap Subscribe or Free trial, a short form opens. Your choices (country, plan, device, and your name if you type it) are sent to our server so we can prepare your order, then WhatsApp opens.</li>
+<li>The site saves your language, country and plan choice in your browser (localStorage) so it remembers them next time. It also keeps your chat with the assistant there for 24 hours.</li>
+<li>The chat assistant on this site is an <b>automated AI bot</b>, not a person and not our main WhatsApp. Messages you type there are sent to our server and processed by AI to write the replies. Don't type passwords or payment details in it.</li>
 <li>Fonts are loaded from Google Fonts.</li>
 </ul>
 <h3>Your choices</h3>
@@ -159,8 +159,6 @@
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="../assets/site.js" defer></script>
-<script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=function(){if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get:function(target,prop){if(prop==="q"){return target.q}return function(){var a=Array.prototype.slice.call(arguments);return target.apply(null,[prop].concat(a))}}})}var onLoad=function(){var s=document.createElement("script");s.src="https://www.chatbase.co/embed.min.js";s.id="UR4AT8qVyiMZfTLECiywM";s.domain="www.chatbase.co";document.body.appendChild(s)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
+<script src="../assets/bot.js" defer></script>
 </body>
 </html>

@@ -875,9 +875,9 @@ def policies(c):
 <p>فقط لتفعيل اشتراكك، ومساعدتك في التثبيت والدعم، والتواصل معك بخصوص التجديد والصيانة. لا نبيع بياناتك، ولا نشاركها إلا بالقدر اللازم لتفعيل اشتراكك (مثل تسجيل بيانات شاشتك في تطبيق المشاهدة).</p>
 <h3>هذا الموقع</h3>
 <ul>
-<li>لا يوجد تسجيل حسابات أو نماذج في الموقع.</li>
-<li>يحفظ الموقع اختيارك للغة والبلد والباقة في متصفحك (localStorage) حتى يتذكرها في زيارتك القادمة.</li>
-<li>مساعد المحادثة في الموقع مقدَّم من Chatbase، والرسائل التي تكتبها فيه تتم معالجتها لدى Chatbase.</li>
+<li>لا يوجد تسجيل حسابات في الموقع. عند الضغط على «اشترك» أو «تجربة مجانية» يظهر نموذج قصير، ويتم إرسال اختياراتك (البلد والباقة والجهاز، واسمك إن كتبته) إلى خادمنا حتى نجهّز طلبك، ثم يُفتح واتساب.</li>
+<li>يحفظ الموقع اختيارك للغة والبلد والباقة في متصفحك (localStorage) حتى يتذكرها في زيارتك القادمة، ويحفظ محادثتك مع المساعد الآلي لمدة 24 ساعة.</li>
+<li>مساعد المحادثة في الموقع <b>بوت آلي يعمل بالذكاء الاصطناعي</b>، وليس شخصاً وليس رقم الواتساب الرئيسي. الرسائل التي تكتبها فيه تُرسل إلى خادمنا ويتم معالجتها بالذكاء الاصطناعي لكتابة الردود. لا تكتب فيه كلمات مرور أو بيانات دفع.</li>
 <li>الخطوط يتم تحميلها من Google Fonts.</li>
 </ul>
 <h3>اختياراتك</h3>
@@ -928,9 +928,9 @@ def policies(c):
 <p>Only to activate your subscription, help with setup and support, and contact you about renewals and maintenance. We don't sell your data, and we only share it as far as needed to activate your subscription (for example, registering your TV's Device ID in the player app).</p>
 <h3>This website</h3>
 <ul>
-<li>There are no accounts or forms on this site.</li>
-<li>The site saves your language, country and plan choice in your browser (localStorage) so it remembers them next time.</li>
-<li>The chat assistant on this site is provided by Chatbase. Messages you type there are processed by Chatbase.</li>
+<li>There are no accounts on this site. When you tap Subscribe or Free trial, a short form opens. Your choices (country, plan, device, and your name if you type it) are sent to our server so we can prepare your order, then WhatsApp opens.</li>
+<li>The site saves your language, country and plan choice in your browser (localStorage) so it remembers them next time. It also keeps your chat with the assistant there for 24 hours.</li>
+<li>The chat assistant on this site is an <b>automated AI bot</b>, not a person and not our main WhatsApp. Messages you type there are sent to our server and processed by AI to write the replies. Don't type passwords or payment details in it.</li>
 <li>Fonts are loaded from Google Fonts.</li>
 </ul>
 <h3>Your choices</h3>

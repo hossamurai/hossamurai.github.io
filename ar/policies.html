@@ -77,7 +77,7 @@
   <h1>الشروط والاسترجاع والخصوصية</h1>
   <p class="lead">مكتوبة بلغة بسيطة لتعرف بالضبط كيف تسير الأمور.</p>
   
-  <p class="updated">آخر تحديث: 23 سبتمبر 2026</p>
+  <p class="updated">آخر تحديث: 3 أكتوبر 2026</p>
 </div></section>
 <section class="sec first"><div class="wrap" style="max-width:820px">
   <div class="policy-nav"><a class="btn btn-ghost btn-sm" href="#terms">شروط الخدمة</a><a class="btn btn-ghost btn-sm" href="#refund">سياسة الاسترجاع</a><a class="btn btn-ghost btn-sm" href="#privacy">سياسة الخصوصية</a></div>
@@ -125,9 +125,9 @@
 <p>فقط لتفعيل اشتراكك، ومساعدتك في التثبيت والدعم، والتواصل معك بخصوص التجديد والصيانة. لا نبيع بياناتك، ولا نشاركها إلا بالقدر اللازم لتفعيل اشتراكك (مثل تسجيل بيانات شاشتك في تطبيق المشاهدة).</p>
 <h3>هذا الموقع</h3>
 <ul>
-<li>لا يوجد تسجيل حسابات أو نماذج في الموقع.</li>
-<li>يحفظ الموقع اختيارك للغة والبلد والباقة في متصفحك (localStorage) حتى يتذكرها في زيارتك القادمة.</li>
-<li>مساعد المحادثة في الموقع مقدَّم من Chatbase، والرسائل التي تكتبها فيه تتم معالجتها لدى Chatbase.</li>
+<li>لا يوجد تسجيل حسابات في الموقع. عند الضغط على «اشترك» أو «تجربة مجانية» يظهر نموذج قصير، ويتم إرسال اختياراتك (البلد والباقة والجهاز، واسمك إن كتبته) إلى خادمنا حتى نجهّز طلبك، ثم يُفتح واتساب.</li>
+<li>يحفظ الموقع اختيارك للغة والبلد والباقة في متصفحك (localStorage) حتى يتذكرها في زيارتك القادمة، ويحفظ محادثتك مع المساعد الآلي لمدة 24 ساعة.</li>
+<li>مساعد المحادثة في الموقع <b>بوت آلي يعمل بالذكاء الاصطناعي</b>، وليس شخصاً وليس رقم الواتساب الرئيسي. الرسائل التي تكتبها فيه تُرسل إلى خادمنا ويتم معالجتها بالذكاء الاصطناعي لكتابة الردود. لا تكتب فيه كلمات مرور أو بيانات دفع.</li>
 <li>الخطوط يتم تحميلها من Google Fonts.</li>
 </ul>
 <h3>اختياراتك</h3>
@@ -159,8 +159,6 @@
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="../assets/site.js" defer></script>
-<script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=function(){if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get:function(target,prop){if(prop==="q"){return target.q}return function(){var a=Array.prototype.slice.call(arguments);return target.apply(null,[prop].concat(a))}}})}var onLoad=function(){var s=document.createElement("script");s.src="https://www.chatbase.co/embed.min.js";s.id="UR4AT8qVyiMZfTLECiywM";s.domain="www.chatbase.co";document.body.appendChild(s)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>
+<script src="../assets/bot.js" defer></script>
 </body>
 </html>

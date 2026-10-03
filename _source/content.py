@@ -15,7 +15,7 @@ SITE_NAME = 'Hossam TV'
 BASE_URL = 'https://hossamurai.github.io'      # change to your custom domain later (no trailing slash)
 WHATSAPP = '201117250227'                       # international format, digits only
 WHATSAPP_DISPLAY = '+20 111 725 0227'
-LAST_UPDATED = L('23 September 2026', '23 سبتمبر 2026')   # shown on the policies page
+LAST_UPDATED = L('3 October 2026', '3 أكتوبر 2026')   # shown on the policies page
 
 # Licensing text for the About page. Leave both empty to hide the section.
 LICENSE_TEXT = L('', '')

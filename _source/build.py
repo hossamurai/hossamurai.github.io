@@ -106,12 +106,6 @@ SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="tru
 </defs></svg>'''
 
 
-# Old Chatbase widget — still live on the Help and Policies pages; every other page uses assets/bot.js.
-CHATBASE_PAGES = {'help', 'policies'}
-CHATBASE = '''<script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=function(){if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get:function(target,prop){if(prop==="q"){return target.q}return function(){var a=Array.prototype.slice.call(arguments);return target.apply(null,[prop].concat(a))}}})}var onLoad=function(){var s=document.createElement("script");s.src="https://www.chatbase.co/embed.min.js";s.id="UR4AT8qVyiMZfTLECiywM";s.domain="www.chatbase.co";document.body.appendChild(s)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>'''
-
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800'
@@ -225,7 +219,7 @@ def layout(c, title, desc, body):
 {footer(c)}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="{c.root}assets/site.js" defer></script>
-{CHATBASE if c.key in CHATBASE_PAGES else f'<script src="{c.root}assets/bot.js" defer></script>'}
+<script src="{c.root}assets/bot.js" defer></script>
 </body>
 </html>
 '''
