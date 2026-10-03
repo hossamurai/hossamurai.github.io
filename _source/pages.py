@@ -79,8 +79,22 @@ def cta_block(c):
 </div></section>'''
 
 
-def note(kind, lbl, html):
-    return f'<div class="note{" warn" if kind == "warn" else ""}"><span class="lbl">{lbl}</span>{html}</div>'
+def note(kind, lbl, html, img=''):
+    body = f'<span class="lbl">{lbl}</span>{html}'
+    if img:
+        body = f'{img}<div>{body}</div>'
+    return f'<div class="note{" warn" if kind == "warn" else ""}{" has-app" if img else ""}">{body}</div>'
+
+
+def app_img(c, key, size=40):
+    src, name = APP_ICONS[key]
+    return f'<img class="app-ic" src="{c.root}{src}" alt="{name}" width="{size}" height="{size}" loading="lazy">'
+
+
+def need_list(c, keys):
+    or_ = c.t(L('or', 'أو'))
+    items = f'<li class="or">{or_}</li>'.join(f'<li>{app_img(c, k, 30)}{APP_ICONS[k][1]}</li>' for k in keys)
+    return f'<div class="need-wrap"><span class="need-lbl">{c.t(L("App you need", "التطبيق المطلوب"))}</span><ul class="need">{items}</ul></div>'
 
 
 # ----------------------------------------------------------------------------
@@ -271,7 +285,7 @@ def home(c):
 </div></section>
 
 <section class="sec"><div class="wrap">
-  {sec_head('04', t(L('Setup', 'التثبيت')), t(L('Works on the devices you already have', 'يعمل على أجهزتك الحالية')), t(L('Step-by-step guides for every device — most take under 10 minutes.', 'أدلة خطوة بخطوة لكل جهاز — معظمها يستغرق أقل من 10 دقائق.')))}
+  {sec_head('04', t(L('Setup', 'التثبيت')), t(L('Works on the devices you already have', 'يعمل على أجهزتك الحالية')), t(L(f'Step-by-step guides for every device — most take under 10 minutes. Something not working? <a href="{c.root}help.html">Fix it step by step</a>.', f'أدلة خطوة بخطوة لكل جهاز — معظمها يستغرق أقل من 10 دقائق. عندك مشكلة؟ <a href="{c.root}help.html">حلها خطوة بخطوة</a>.')))}
   {dev_grid(c)}
 </div></section>
 {reviews}
@@ -532,7 +546,7 @@ def smarters_note(c):
     t = c.t
     return note('tip', t(L('Alternative app', 'تطبيق بديل')), t(L(
         f'Prefer <b>IPTV Smarters Pro</b>? Type {copy_btn(SMARTERS)} in Downloader — it works with every plan. <a href="{SMARTERS_VIDEO}" target="_blank" rel="noopener">Watch the tutorial</a>',
-        f'تفضّل <b>IPTV Smarters Pro</b>؟ اكتب {copy_btn(SMARTERS)} في Downloader — يعمل مع كل الباقات. <a href="{SMARTERS_VIDEO}" target="_blank" rel="noopener">شاهد الشرح</a>')))
+        f'تفضّل <b>IPTV Smarters Pro</b>؟ اكتب {copy_btn(SMARTERS)} في Downloader — يعمل مع كل الباقات. <a href="{SMARTERS_VIDEO}" target="_blank" rel="noopener">شاهد الشرح</a>')), app_img(c, 'smarters-pro'))
 
 
 def trouble_links(c, ids):
@@ -546,6 +560,7 @@ def device_data(c, slug):
     P = lambda en, ar: t(L(en, ar))
     if slug == 'android-tv':
         return dict(
+            apps=['downloader'],
             h1=P('Install Hossam TV on Android TV & TV boxes', 'تثبيت Hossam TV على أندرويد تي في وأجهزة البوكس'),
             lead=P('Works on Android TV and Google TV sets and most Android TV boxes. It takes about 10 minutes.',
                    'يعمل على شاشات Android TV و Google TV ومعظم أجهزة أندرويد بوكس. يستغرق التثبيت حوالي 10 دقائق.'),
@@ -568,6 +583,7 @@ def device_data(c, slug):
             "Newer Firesticks running <b>Vega OS</b> — such as the <b>Fire TV Stick 4K Select</b> and the 2026 <b>Fire TV Stick HD</b> — can't run IPTV apps. To check: <span class=\"path\">Settings → My Fire TV → About</span>. If the software version says <b>Fire OS</b>, you're good. If it just says <b>OS</b> with a version starting with 1, it's Vega OS — use an Android TV box or another device instead.",
             'أجهزة فايرستيك الأحدث التي تعمل بنظام <b>Vega OS</b> — مثل <b>Fire TV Stick 4K Select</b> و<b>Fire TV Stick HD</b> إصدار 2026 — لا تدعم تطبيقات IPTV. للتأكد: <span class="path"><bdi dir="ltr">Settings → My Fire TV → About</bdi></span>. إذا كان إصدار النظام مكتوباً <b>Fire OS</b> فجهازك مناسب. إذا كان مكتوباً <b>OS</b> فقط ويبدأ الرقم بـ 1، فهو Vega OS — استخدم أندرويد بوكس أو جهازاً آخر.'))
         return dict(
+            apps=['downloader'],
             h1=P('Install Hossam TV on Amazon Firestick', 'تثبيت Hossam TV على أمازون فايرستيك'),
             lead=P('Works on Fire TV Sticks and Fire TV devices running Fire OS. It takes about 10 minutes.',
                    'يعمل على أجهزة Fire TV Stick و Fire TV التي تعمل بنظام Fire OS. يستغرق التثبيت حوالي 10 دقائق.'),
@@ -601,11 +617,12 @@ def device_data(c, slug):
                   'بعد تحميل ملف <b>APK</b>، افتحه واضغط <b>تثبيت</b>.<span class="hint">إذا سألك الهاتف، اسمح للمتصفح بتثبيت التطبيقات. وإذا ظهر تحذير Google Play Protect، اضغط <b>مزيد من التفاصيل ← التثبيت على أي حال</b>.</span>'),
                 sign_in(c),
             ],
-            notes=[note('tip', P('Alternative app', 'تطبيق بديل'), P(f'You can also get <b>IPTV Smarters Pro</b> from {open_link(SMARTERS)}', f'يمكنك أيضاً تحميل <b>IPTV Smarters Pro</b> من {open_link(SMARTERS)}'))],
+            notes=[note('tip', P('Alternative app', 'تطبيق بديل'), P(f'You can also get <b>IPTV Smarters Pro</b> from {open_link(SMARTERS)}', f'يمكنك أيضاً تحميل <b>IPTV Smarters Pro</b> من {open_link(SMARTERS)}'), app_img(c, 'smarters-pro'))],
             trouble=['install', 'login', 'buffering'],
         )
     if slug == 'apple':
         return dict(
+            apps=['smarters-lite'],
             h1=P('Install Hossam TV on iPhone, iPad, Mac & Apple TV', 'تثبيت Hossam TV على آيفون وآيباد وماك وأبل تي في'),
             lead=P('Apple devices use the free Smarters Player Lite app from the App Store. It takes about 5 minutes and works the same for every plan.',
                    'أجهزة أبل تستخدم تطبيق Smarters Player Lite المجاني من App Store. يستغرق حوالي 5 دقائق ونفس الخطوات لكل الباقات.'),
@@ -623,6 +640,7 @@ def device_data(c, slug):
         )
     if slug == 'smart-tv':
         return dict(
+            apps=['ibo', 'bob'],
             h1=P('Install Hossam TV on Samsung & LG Smart TVs', 'تثبيت Hossam TV على شاشات سامسونج و LG'),
             lead=P("Smart TVs use IBO Player (or Bob Player). You install the app, send us your TV's code, and we load your playlist for you.",
                    'الشاشات الذكية تستخدم تطبيق IBO Player (أو Bob Player). تثبّت التطبيق، ترسل لنا كود الشاشة، ونحن نجهّز لك القائمة.'),
@@ -700,7 +718,8 @@ def device_page(slug):
             steps = ''.join(f'<li class="st"><span class="st-n">{i + 1}</span><div class="st-b">{s}</div></li>' for i, s in enumerate(data['steps']))
             notes = f'<div class="notes">{"".join(data["notes"])}</div>' if data.get('notes') else ''
             trouble = f'<div class="trouble prose"><h2>{t(L("Having trouble?", "تواجه مشكلة؟"))}</h2>{trouble_links(c, data["trouble"])}</div>'
-            main = f'<div class="guide">{pre}<h2>{t(L("Steps", "الخطوات"))}</h2><ol class="steps">{steps}</ol>{notes}{trouble}</div>'
+            need = need_list(c, data['apps']) if data.get('apps') else ''
+            main = f'<div class="guide">{pre}<h2>{t(L("Steps", "الخطوات"))}</h2>{need}<ol class="steps">{steps}</ol>{notes}{trouble}</div>'
         body = hero + f'''<section class="sec first"><div class="wrap">
   {golden_rule(c) if not data.get('roku') else ''}
   <div class="setup-layout"><div>{main}</div>{side}</div>
@@ -856,9 +875,9 @@ def policies(c):
 <p>فقط لتفعيل اشتراكك، ومساعدتك في التثبيت والدعم، والتواصل معك بخصوص التجديد والصيانة. لا نبيع بياناتك، ولا نشاركها إلا بالقدر اللازم لتفعيل اشتراكك (مثل تسجيل بيانات شاشتك في تطبيق المشاهدة).</p>
 <h3>هذا الموقع</h3>
 <ul>
-<li>لا يوجد تسجيل حسابات أو نماذج في الموقع.</li>
-<li>يحفظ الموقع اختيارك للغة والبلد والباقة في متصفحك (localStorage) حتى يتذكرها في زيارتك القادمة.</li>
-<li>مساعد المحادثة في الموقع مقدَّم من Chatbase، والرسائل التي تكتبها فيه تتم معالجتها لدى Chatbase.</li>
+<li>لا يوجد تسجيل حسابات في الموقع. عند الضغط على «اشترك» أو «تجربة مجانية» يظهر نموذج قصير، ويتم إرسال اختياراتك (البلد والباقة والجهاز، واسمك إن كتبته) إلى خادمنا حتى نجهّز طلبك، ثم يُفتح واتساب.</li>
+<li>يحفظ الموقع اختيارك للغة والبلد والباقة في متصفحك (localStorage) حتى يتذكرها في زيارتك القادمة، ويحفظ محادثتك مع المساعد الآلي لمدة 24 ساعة.</li>
+<li>مساعد المحادثة في الموقع <b>بوت آلي يعمل بالذكاء الاصطناعي</b>، وليس شخصاً وليس رقم الواتساب الرئيسي. الرسائل التي تكتبها فيه تُرسل إلى خادمنا ويتم معالجتها بالذكاء الاصطناعي لكتابة الردود. لا تكتب فيه كلمات مرور أو بيانات دفع.</li>
 <li>الخطوط يتم تحميلها من Google Fonts.</li>
 </ul>
 <h3>اختياراتك</h3>
@@ -909,9 +928,9 @@ def policies(c):
 <p>Only to activate your subscription, help with setup and support, and contact you about renewals and maintenance. We don't sell your data, and we only share it as far as needed to activate your subscription (for example, registering your TV's Device ID in the player app).</p>
 <h3>This website</h3>
 <ul>
-<li>There are no accounts or forms on this site.</li>
-<li>The site saves your language, country and plan choice in your browser (localStorage) so it remembers them next time.</li>
-<li>The chat assistant on this site is provided by Chatbase. Messages you type there are processed by Chatbase.</li>
+<li>There are no accounts on this site. When you tap Subscribe or Free trial, a short form opens. Your choices (country, plan, device, and your name if you type it) are sent to our server so we can prepare your order, then WhatsApp opens.</li>
+<li>The site saves your language, country and plan choice in your browser (localStorage) so it remembers them next time. It also keeps your chat with the assistant there for 24 hours.</li>
+<li>The chat assistant on this site is an <b>automated AI bot</b>, not a person and not our main WhatsApp. Messages you type there are sent to our server and processed by AI to write the replies. Don't type passwords or payment details in it.</li>
 <li>Fonts are loaded from Google Fonts.</li>
 </ul>
 <h3>Your choices</h3>

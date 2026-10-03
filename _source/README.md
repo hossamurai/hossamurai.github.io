@@ -7,7 +7,7 @@ A 14-page site in English and Arabic (28 pages in total), ready for GitHub Pages
 1. Open your `hossamurai.github.io` repository on GitHub.
 2. Delete the old `index.html`. **Keep your images**: `logo.png`, `basic.png`, `premium.png`, `X.png`, `marvel.png`.
 3. Upload everything in this zip (drag the files and folders into GitHub's "Add file → Upload files" page) and commit.
-4. Wait a minute, then open https://hossamurai.github.io. Visitors are sent to Arabic or English automatically, and the site remembers their choice.
+4. Wait a minute, then open https://hossamservices.com. Visitors are sent to Arabic or English automatically, and the site remembers their choice.
 
 ## What's inside
 
@@ -42,9 +42,8 @@ It regenerates `en/`, `ar/`, `assets/`, `index.html`, `404.html` and the sitemap
 
 For a quick text fix you can also edit the HTML files in `en/` and `ar/` directly. Just remember that the next build will overwrite those edits.
 
-## Custom domain (recommended)
+## Custom domain
 
-1. Buy a domain (for example `hossamtv.com`).
-2. In the repository, go to **Settings → Pages → Custom domain**, enter it and save.
-3. At your domain provider, add the DNS records GitHub shows you.
-4. Change `BASE_URL` in `content.py` to `https://yourdomain.com`, rebuild and upload.
+The site is set up for **https://hossamservices.com** (the `CNAME` file in the repo root and `BASE_URL` in `content.py`). The old `hossamurai.github.io` address redirects there automatically.
+
+To change it later, edit both `CNAME` and `BASE_URL`, rebuild and upload, then update **Settings → Pages → Custom domain**.

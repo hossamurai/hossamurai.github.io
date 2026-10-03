@@ -1,5 +1,5 @@
 /* Hossam TV — website ↔ WhatsApp-bot features (ES5 so it also runs on older TV browsers)
-   1. Chat bubble: the same AI assistant as WhatsApp       (n8n webhook: site-chat)
+   1. Chat bubble: the AI bot, clearly labelled as a bot    (n8n webhook: site-chat)
    2. Prices come from the bot's knowledge                 (n8n webhook: site-data)
    3. Outage banner while a known issue is active          (site-data)
    4. "Stuck on this step?" WhatsApp links on setup guides
@@ -54,7 +54,9 @@
   + '.htv-in textarea:focus{outline:none;border-color:var(--ink,#17140f)}'
   + '.htv-send{width:44px;height:44px;flex-shrink:0;border:0;border-radius:50%;background:var(--ink,#17140f);color:#fff;cursor:pointer;display:grid;place-items:center}.htv-send:disabled{opacity:.4;cursor:default}.htv-send svg{width:20px;height:20px}'
   + 'html[dir="rtl"] .htv-send svg{transform:scaleX(-1)}'
-  + '.htv-note{padding:0 14px 8px;font-size:.72rem;color:var(--muted,#6f685d);text-align:center}'
+  + '.htv-note{padding:0 14px 8px;font-size:.72rem;color:var(--muted,#6f685d);text-align:center}.htv-note a{color:inherit;font-weight:700}'
+  + '.htv-badge{display:inline-block;vertical-align:2px;margin-inline-start:6px;padding:1px 7px;border-radius:999px;background:var(--ink,#17140f);color:#fff;font-size:.62rem;font-weight:700;letter-spacing:.06em}'
+  + '.htv-fab .htv-badge{background:#fff;color:var(--ink,#17140f);margin-inline-start:0}'
   + '.htv-ov{position:fixed;inset:0;z-index:95;background:rgba(23,20,15,.45);display:flex;align-items:center;justify-content:center;padding:16px}'
   + '.htv-ov[hidden]{display:none}'
   + '.htv-form{width:440px;max-width:100%;max-height:calc(100vh - 32px);overflow-y:auto;background:var(--surface,#fff);color:var(--ink,#17140f);border-radius:22px;padding:22px;box-shadow:0 24px 60px rgba(23,20,15,.3)}'
@@ -287,20 +289,21 @@
     return '<div class="htv-chips">' + list.map(function(c){ return '<button type="button" class="htv-chip">' + esc(c) + '</button>'; }).join('') + '</div>';
   }
   function renderChat(){
-    var hello = T('Hi! 👋 I\'m Hossam TV\'s assistant. Ask me about plans, prices, setup or any problem — I reply in seconds.',
-                  'مرحباً! 👋 أنا مساعد Hossam TV. اسألني عن الباقات والأسعار والتثبيت أو أي مشكلة، وسأردّ خلال ثوانٍ.');
-    fab.innerHTML = ICON_CHAT + '<span>' + T('Ask us', 'اسألنا') + '</span>';
-    fab.setAttribute('aria-label', T('Open chat', 'افتح المحادثة'));
-    panel.setAttribute('aria-label', T('Chat with Hossam TV', 'محادثة Hossam TV'));
+    var hello = T('Hi! 👋 I\'m Hossam TV\'s automated assistant — a bot, not a person, and not our main WhatsApp. Ask me about plans, prices, setup or any problem and I\'ll reply in seconds.',
+                  'مرحباً! 👋 أنا المساعد الآلي لـ Hossam TV — بوت وليس شخصاً، ولست رقم الواتساب الرئيسي. اسألني عن الباقات والأسعار والتثبيت أو أي مشكلة وسأردّ خلال ثوانٍ.');
+    fab.innerHTML = ICON_CHAT + '<span>' + T('Ask our bot', 'اسأل البوت') + '</span><span class="htv-badge">' + T('BOT', 'آلي') + '</span>';
+    fab.setAttribute('aria-label', T('Chat with our automated assistant (bot)', 'تحدث مع المساعد الآلي (بوت)'));
+    panel.setAttribute('aria-label', T('Chat with the Hossam TV bot', 'محادثة مع بوت Hossam TV'));
     var logoSrc = (document.querySelector('.brand img, link[rel="icon"]') || {});
     logoSrc = logoSrc.src || logoSrc.href || '/logo.png';
-    panel.innerHTML = '<div class="htv-chat-h"><img src="' + esc(logoSrc) + '" alt=""><div><b>' + T('Hossam TV assistant', 'مساعد Hossam TV') + '</b><small>' + T('AI · usually replies in seconds', 'ذكاء اصطناعي · يردّ عادةً خلال ثوانٍ') + '</small></div>'
+    panel.innerHTML = '<div class="htv-chat-h"><img src="' + esc(logoSrc) + '" alt=""><div><b>' + T('Hossam TV assistant', 'مساعد Hossam TV') + '<span class="htv-badge">' + T('BOT', 'آلي') + '</span></b><small>' + T('Automated AI replies · not a person', 'ردود آلية بالذكاء الاصطناعي · ليس شخصاً') + '</small></div>'
       + '<button type="button" class="htv-x" data-close aria-label="' + T('Close', 'إغلاق') + '">×</button></div>'
       + '<div class="htv-msgs" aria-live="polite">' + msgHTML({ who: 'bot', text: hello }) + chat.msgs.map(msgHTML).join('') + (busy ? '<div class="htv-typing" aria-label="…"><i></i><i></i><i></i></div>' : '') + '</div>'
       + chips()
       + '<form class="htv-in"><textarea rows="1" maxlength="600" dir="auto" placeholder="' + T('Type your message…', 'اكتب رسالتك…') + '" aria-label="' + T('Message', 'الرسالة') + '"></textarea>'
       + '<button type="submit" class="htv-send" aria-label="' + T('Send', 'إرسال') + '"' + (busy ? ' disabled' : '') + '>' + ICON_SEND + '</button></form>'
-      + '<div class="htv-note">' + T('For your account or payments, we\'ll move you to WhatsApp.', 'لأمور حسابك أو الدفع سننقلك إلى واتساب.') + '</div>';
+      + '<div class="htv-note">' + T('This is a bot. To talk to a person, ', 'هذا بوت آلي. للتحدث مع شخص، ')
+      + '<a href="https://wa.me/' + MAIN + '" target="_blank" rel="noopener">' + T('message Hossam on WhatsApp', 'راسل حسام على واتساب') + '</a>.</div>';
     var box = panel.querySelector('.htv-msgs'); box.scrollTop = box.scrollHeight;
   }
   function setOpen(open){

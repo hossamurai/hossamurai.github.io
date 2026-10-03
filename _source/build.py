@@ -4,7 +4,9 @@ Hossam TV static site generator.
 Usage (from this _source folder):   python build.py
 Writes the finished site into the parent folder (the root of your GitHub repo):
   index.html, 404.html, sitemap.xml, robots.txt, assets/, en/, ar/
-Your images (logo.png, basic.png, premium.png, X.png, marvel.png) stay in the repo root.
+Your full-size images (logo.png, basic.png, premium.png, X.png, marvel.png) stay in the repo root;
+the pages use the small copies in assets/img/ (re-make them if you replace an image).
+assets/bot.js and assets/apps/ are kept: style.css and site.js are copied over them, nothing is deleted.
 """
 import os, shutil, posixpath, urllib.parse
 from content import *
@@ -104,9 +106,6 @@ SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="tru
 <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="8" rx="2"/><circle cx="17" cy="12" r="1.1" fill="currentColor"/><path d="M6.5 12h5"/></symbol>
 </defs></svg>'''
 
-CHATBASE = '''<script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=function(){if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get:function(target,prop){if(prop==="q"){return target.q}return function(){var a=Array.prototype.slice.call(arguments);return target.apply(null,[prop].concat(a))}}})}var onLoad=function(){var s=document.createElement("script");s.src="https://www.chatbase.co/embed.min.js";s.id="UR4AT8qVyiMZfTLECiywM";s.domain="www.chatbase.co";document.body.appendChild(s)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-</script>'''
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
@@ -121,6 +120,13 @@ NAV = [
     ('help', 'help.html', L('Help', 'المساعدة')),
     ('about', 'about.html', L('About', 'من نحن')),
 ]
+FIX_LINK = L('Fix a problem', 'حل مشكلة')   # the standalone help.html troubleshooter in the repo root
+
+
+def nav_items(c):
+    items = [(k, c.href(p), lbl) for k, p, lbl in NAV]
+    items.insert(4, ('fix', c.root + 'help.html', FIX_LINK))
+    return items
 
 
 def canonical(lang, path):
@@ -130,13 +136,13 @@ def canonical(lang, path):
 
 def header(c):
     links = ''.join(
-        f'<a href="{c.href(p)}"{ARIA_CUR if c.section == k else ""}>{c.t(lbl)}</a>' for k, p, lbl in NAV)
+        f'<a href="{h}"{ARIA_CUR if c.section == k else ""}>{c.t(lbl)}</a>' for k, h, lbl in nav_items(c))
     other = 'en' if c.ar else 'ar'
     return f'''<header class="nav">
   <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="wrap nav-in">
     <a class="brand" href="{c.href('index.html')}" aria-label="{SITE_NAME} — {c.t(L('home', 'الرئيسية'))}">
-      <img src="{c.root}logo.png" alt="" width="34" height="34" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+      <img src="{c.root}assets/img/logo.png" alt="" width="34" height="34" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
       <span class="brand-fallback" aria-hidden="true">H</span><span>{SITE_NAME}</span>
     </a>
     <nav class="nav-links" id="navLinks" aria-label="{c.t(L('Main', 'القائمة الرئيسية'))}">{links}</nav>
@@ -151,7 +157,7 @@ def header(c):
 
 def footer(c):
     t = c.t
-    explore = ''.join(f'<li><a href="{c.href(p)}">{t(lbl)}</a></li>' for k, p, lbl in NAV)
+    explore = ''.join(f'<li><a href="{h}">{t(lbl)}</a></li>' for k, h, lbl in nav_items(c))
     devs = ''.join(f'<li><a href="{c.href("setup/" + d["slug"] + ".html")}">{t(d["name"])}</a></li>' for d in DEVICES if not d.get('off'))
     pol = [('policies.html#terms', L('Terms of service', 'شروط الخدمة')),
            ('policies.html#refund', L('Refund policy', 'سياسة الاسترجاع')),
@@ -194,12 +200,16 @@ def layout(c, title, desc, body):
 {alt}
 <meta property="og:title" content="{full_title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="{BASE_URL}/logo.png">
+<meta property="og:image" content="{BASE_URL}/assets/img/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hossam TV — live sports, movies and series up to 4K">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{canonical(c.lang, c.path)}">
 <meta property="og:locale" content="{'ar_EG' if c.ar else 'en_US'}">
-<link rel="icon" type="image/png" href="{c.root}logo.png">
-<link rel="apple-touch-icon" href="{c.root}logo.png">
+<link rel="icon" type="image/png" href="{c.root}assets/img/logo.png">
+<link rel="apple-touch-icon" href="{c.root}assets/img/logo-180.png">
 {FONTS}
 <link rel="stylesheet" href="{c.root}assets/style.css">
 </head>
@@ -213,7 +223,7 @@ def layout(c, title, desc, body):
 {footer(c)}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="{c.root}assets/site.js" defer></script>
-{CHATBASE}
+<script src="{c.root}assets/bot.js" defer></script>
 </body>
 </html>
 '''
@@ -233,8 +243,16 @@ def root_index():
 <link rel="alternate" hreflang="en" href="{BASE_URL}/en/">
 <link rel="alternate" hreflang="ar" href="{BASE_URL}/ar/">
 <link rel="alternate" hreflang="x-default" href="{BASE_URL}/">
-<meta property="og:image" content="{BASE_URL}/logo.png">
-<link rel="icon" type="image/png" href="logo.png">
+<meta property="og:title" content="{SITE_NAME} — Live Sports, Movies &amp; Series in 4K">
+<meta property="og:description" content="Live sports, movies and series on any screen, up to 4K. Free trial on WhatsApp. | مباريات وأفلام ومسلسلات على أي شاشة. تجربة مجانية عبر واتساب.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{BASE_URL}/">
+<meta property="og:image" content="{BASE_URL}/assets/img/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hossam TV — live sports, movies and series up to 4K">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="assets/img/logo.png">
 <script>
 (function(){{
   var l = null;
@@ -252,7 +270,7 @@ def root_index():
 </head>
 <body>
 <div class="center-page"><div>
-  <img src="logo.png" alt="" width="64" height="64" style="margin:0 auto 12px;border-radius:16px">
+  <img src="assets/img/logo.png" alt="" width="64" height="64" style="margin:0 auto 12px;border-radius:16px">
   <h1>{SITE_NAME}</h1>
   <div class="row">
     <a class="btn btn-ink" href="ar/index.html" lang="ar">العربية</a>
@@ -273,7 +291,7 @@ def page_404():
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
 <title>Page not found — {SITE_NAME}</title>
-<link rel="icon" type="image/png" href="/logo.png">
+<link rel="icon" type="image/png" href="/assets/img/logo.png">
 {FONTS}
 <link rel="stylesheet" href="/assets/style.css">
 </head>
@@ -304,7 +322,8 @@ def sitemap(paths):
             rows.append(f'  <url><loc>{canonical(l, p)}</loc>{alts}</url>')
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
-            + '\n'.join(rows) + '\n</urlset>\n')
+            + '\n'.join(rows) + f'\n  <url><loc>{BASE_URL}/help.html</loc></url>'
+            + '\n</urlset>\n')
 
 
 # ----------------------------------------------------------------------------
@@ -316,9 +335,10 @@ def write(rel, text):
 
 
 def main():
-    for d in ['en', 'ar', 'assets']:
+    for d in ['en', 'ar']:
         shutil.rmtree(os.path.join(OUT, d), ignore_errors=True)
-    shutil.copytree(os.path.join(HERE, 'assets'), os.path.join(OUT, 'assets'))
+    # Copy over assets/ instead of wiping it: bot.js and the app icons in assets/apps/ live only there.
+    shutil.copytree(os.path.join(HERE, 'assets'), os.path.join(OUT, 'assets'), dirs_exist_ok=True)
 
     pages = list(PAGE_BUILDERS) + list(DEVICE_PAGES)
     count = 0
