@@ -12,7 +12,7 @@ def L(en, ar):
 # BASICS
 # ----------------------------------------------------------------------------
 SITE_NAME = 'Hossam TV'
-BASE_URL = 'https://hossamurai.github.io'      # change to your custom domain later (no trailing slash)
+BASE_URL = 'https://hossamservices.com'          # your custom domain (no trailing slash). Must match the CNAME file.
 WHATSAPP = '201117250227'                       # international format, digits only
 WHATSAPP_DISPLAY = '+20 111 725 0227'
 LAST_UPDATED = L('3 October 2026', '3 أكتوبر 2026')   # shown on the policies page
