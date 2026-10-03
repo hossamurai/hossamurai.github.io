@@ -184,7 +184,7 @@ WARN = {
     'uaeksa': L('Not available in UAE & Saudi Arabia', 'غير متاح في الإمارات والسعودية'),
     'firestick': L("Doesn't work on Firestick", 'لا يعمل على فايرستيك'),
 }
-# Small app icons shown on the setup guides (96px copies made from the uploads in assets/apps/ and the repo root)
+# Small app icons shown on the setup guides (96px copies of the app logos)
 APP_ICONS = {
     'downloader': ('assets/apps/icons/downloader.png', 'Downloader'),
     'ibo': ('assets/apps/icons/ibo-player.png', 'IBO Player'),
