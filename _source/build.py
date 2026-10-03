@@ -4,7 +4,8 @@ Hossam TV static site generator.
 Usage (from this _source folder):   python build.py
 Writes the finished site into the parent folder (the root of your GitHub repo):
   index.html, 404.html, sitemap.xml, robots.txt, assets/, en/, ar/
-Your images (logo.png, basic.png, premium.png, X.png, marvel.png) stay in the repo root.
+Your full-size images (logo.png, basic.png, premium.png, X.png, marvel.png) stay in the repo root;
+the pages use the small copies in assets/img/ (re-make them if you replace an image).
 assets/bot.js and assets/apps/ are kept: style.css and site.js are copied over them, nothing is deleted.
 """
 import os, shutil, posixpath, urllib.parse
@@ -119,13 +120,12 @@ NAV = [
     ('help', 'help.html', L('Help', 'المساعدة')),
     ('about', 'about.html', L('About', 'من نحن')),
 ]
-FIX_LINK = L('Fix a problem', 'حل مشكلة')   # the standalone ../help.html troubleshooter, linked from the home page
+FIX_LINK = L('Fix a problem', 'حل مشكلة')   # the standalone help.html troubleshooter in the repo root
 
 
 def nav_items(c):
     items = [(k, c.href(p), lbl) for k, p, lbl in NAV]
-    if c.section == 'home':
-        items.insert(4, ('fix', c.root + 'help.html', FIX_LINK))
+    items.insert(4, ('fix', c.root + 'help.html', FIX_LINK))
     return items
 
 
@@ -142,7 +142,7 @@ def header(c):
   <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="wrap nav-in">
     <a class="brand" href="{c.href('index.html')}" aria-label="{SITE_NAME} — {c.t(L('home', 'الرئيسية'))}">
-      <img src="{c.root}logo.png" alt="" width="34" height="34" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+      <img src="{c.root}assets/img/logo.png" alt="" width="34" height="34" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
       <span class="brand-fallback" aria-hidden="true">H</span><span>{SITE_NAME}</span>
     </a>
     <nav class="nav-links" id="navLinks" aria-label="{c.t(L('Main', 'القائمة الرئيسية'))}">{links}</nav>
@@ -200,12 +200,16 @@ def layout(c, title, desc, body):
 {alt}
 <meta property="og:title" content="{full_title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="{BASE_URL}/logo.png">
+<meta property="og:image" content="{BASE_URL}/assets/img/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hossam TV — live sports, movies and series up to 4K">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{canonical(c.lang, c.path)}">
 <meta property="og:locale" content="{'ar_EG' if c.ar else 'en_US'}">
-<link rel="icon" type="image/png" href="{c.root}logo.png">
-<link rel="apple-touch-icon" href="{c.root}logo.png">
+<link rel="icon" type="image/png" href="{c.root}assets/img/logo.png">
+<link rel="apple-touch-icon" href="{c.root}assets/img/logo-180.png">
 {FONTS}
 <link rel="stylesheet" href="{c.root}assets/style.css">
 </head>
@@ -239,8 +243,16 @@ def root_index():
 <link rel="alternate" hreflang="en" href="{BASE_URL}/en/">
 <link rel="alternate" hreflang="ar" href="{BASE_URL}/ar/">
 <link rel="alternate" hreflang="x-default" href="{BASE_URL}/">
-<meta property="og:image" content="{BASE_URL}/logo.png">
-<link rel="icon" type="image/png" href="logo.png">
+<meta property="og:title" content="{SITE_NAME} — Live Sports, Movies &amp; Series in 4K">
+<meta property="og:description" content="Live sports, movies and series on any screen, up to 4K. Free trial on WhatsApp. | مباريات وأفلام ومسلسلات على أي شاشة. تجربة مجانية عبر واتساب.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{BASE_URL}/">
+<meta property="og:image" content="{BASE_URL}/assets/img/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Hossam TV — live sports, movies and series up to 4K">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="assets/img/logo.png">
 <script>
 (function(){{
   var l = null;
@@ -258,7 +270,7 @@ def root_index():
 </head>
 <body>
 <div class="center-page"><div>
-  <img src="logo.png" alt="" width="64" height="64" style="margin:0 auto 12px;border-radius:16px">
+  <img src="assets/img/logo.png" alt="" width="64" height="64" style="margin:0 auto 12px;border-radius:16px">
   <h1>{SITE_NAME}</h1>
   <div class="row">
     <a class="btn btn-ink" href="ar/index.html" lang="ar">العربية</a>
@@ -279,7 +291,7 @@ def page_404():
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
 <title>Page not found — {SITE_NAME}</title>
-<link rel="icon" type="image/png" href="/logo.png">
+<link rel="icon" type="image/png" href="/assets/img/logo.png">
 {FONTS}
 <link rel="stylesheet" href="/assets/style.css">
 </head>
@@ -310,7 +322,8 @@ def sitemap(paths):
             rows.append(f'  <url><loc>{canonical(l, p)}</loc>{alts}</url>')
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
-            + '\n'.join(rows) + '\n</urlset>\n')
+            + '\n'.join(rows) + f'\n  <url><loc>{BASE_URL}/help.html</loc></url>'
+            + '\n</urlset>\n')
 
 
 # ----------------------------------------------------------------------------

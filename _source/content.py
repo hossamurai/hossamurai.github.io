@@ -30,7 +30,7 @@ REVIEWS = []
 # ----------------------------------------------------------------------------
 PLANS = {
     'basic': {
-        'color': 'var(--c-basic)', 'img': 'basic.png', 'mono': 'B',
+        'color': 'var(--c-basic)', 'img': 'assets/img/basic.png', 'mono': 'B',
         'name': L('Basic', 'الأساسية'), 'aka': L('Neo 4K', 'Neo 4K'),
         'tag': L('Football and Arabic channels — the favourite of Arabic-speaking viewers.',
                  'كرة القدم والقنوات العربية — الاختيار المفضل للمشاهد العربي.'),
@@ -44,7 +44,7 @@ PLANS = {
         'apps': L('4K Pro · 4K Prime · 4K XCA', '4K Pro · 4K Prime · 4K XCA'),
     },
     'premium': {
-        'color': 'var(--c-premium)', 'img': 'premium.png', 'mono': 'P',
+        'color': 'var(--c-premium)', 'img': 'assets/img/premium.png', 'mono': 'P',
         'name': L('Premium', 'بريميوم'), 'aka': L('Strong 4K', 'Strong 4K'),
         'tag': L('The biggest international library, all sports and true 4K.',
                  'أكبر مكتبة عالمية، كل الرياضات، وجودة 4K حقيقية.'),
@@ -58,7 +58,7 @@ PLANS = {
         'apps': L('8K VIP · 8K Plus · 8K Prime', '8K VIP · 8K Plus · 8K Prime'),
     },
     'xtv': {
-        'color': 'var(--c-xtv)', 'img': 'X.png', 'mono': 'X',
+        'color': 'var(--c-xtv)', 'img': 'assets/img/xtv.png', 'mono': 'X',
         'name': L('XTV', 'XTV'), 'aka': None,
         'tag': L('Our pick for Egypt: stable football and safe for the whole family.',
                  'اختيارنا لمصر: ثبات في المباريات ومناسب لكل أفراد الأسرة.'),
@@ -72,7 +72,7 @@ PLANS = {
         'apps': L('XTV app', 'تطبيق XTV'),
     },
     'marvel': {
-        'color': 'var(--c-marvel)', 'img': 'marvel.png', 'mono': 'M',
+        'color': 'var(--c-marvel)', 'img': 'assets/img/marvel.png', 'mono': 'M',
         'name': L('Marvel', 'Marvel'), 'aka': None,
         'tag': L("For movie and series lovers who don't mind skipping football.",
                  'لمحبي الأفلام والمسلسلات غير المهتمين بكرة القدم.'),
