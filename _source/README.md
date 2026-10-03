@@ -44,6 +44,6 @@ For a quick text fix you can also edit the HTML files in `en/` and `ar/` directl
 
 ## Custom domain
 
-The site is set up for **https://hossamservices.com** (the `CNAME` file in the repo root and `BASE_URL` in `content.py`). The old `hossamurai.github.io` address redirects there automatically.
+Links, the sitemap and share previews use **https://hossamservices.com** (`BASE_URL` in `content.py`).
 
-To change it later, edit both `CNAME` and `BASE_URL`, rebuild and upload, then update **Settings → Pages → Custom domain**.
+There is deliberately **no `CNAME` file**: adding one makes GitHub redirect `hossamurai.github.io` to the custom domain, and tools like `test.html` lose the clipboard permission the browser gave them on the old address.
