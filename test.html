@@ -538,6 +538,7 @@
 
       processBtn.addEventListener('click', async function () {
         // Use what the user typed/pasted into the box; otherwise read the clipboard fresh
+        let clipError = null;
         if (!typedByUser || !inputDisplay.textContent.trim()) {
           try {
             const text = await navigator.clipboard.readText();
@@ -547,13 +548,22 @@
             }
           } catch (err) {
             // Clipboard blocked/denied — the user can type or paste into the box instead
+            clipError = err;
           }
         }
 
         const input = inputDisplay.textContent.trim();
 
         if (!input) {
-          showStatus('Nothing to process — type or paste into the box, or copy something first', 'error');
+          if (clipError) {
+            // Say why the browser refused, so it can be fixed in its settings
+            let state = 'unknown';
+            try { state = (await navigator.permissions.query({ name: 'clipboard-read' })).state; } catch (e) {}
+            const framed = window.self !== window.top ? ', inside a frame' : '';
+            showStatus(`Browser blocked clipboard access (${clipError.name || 'error'}, permission: ${state}${framed}). Long-press the box and tap Paste instead.`, 'error', 10000);
+          } else {
+            showStatus('Nothing to process — type or paste into the box, or copy something first', 'error');
+          }
           return;
         }
 
@@ -717,11 +727,12 @@
         }
       }
 
-      function showStatus(message, type) {
+      function showStatus(message, type, ms) {
         statusMessage.textContent = message;
         statusMessage.className = `status-message visible ${type}`;
 
-        setTimeout(() => hideStatus(), 3000);
+        clearTimeout(showStatus.timer);
+        showStatus.timer = setTimeout(() => hideStatus(), ms || 3000);
       }
 
       function hideStatus() {
