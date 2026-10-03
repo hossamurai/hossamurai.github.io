@@ -184,6 +184,14 @@ WARN = {
     'uaeksa': L('Not available in UAE & Saudi Arabia', 'غير متاح في الإمارات والسعودية'),
     'firestick': L("Doesn't work on Firestick", 'لا يعمل على فايرستيك'),
 }
+# Small app icons shown on the setup guides (96px copies made from the uploads in assets/apps/ and the repo root)
+APP_ICONS = {
+    'downloader': ('assets/apps/icons/downloader.png', 'Downloader'),
+    'ibo': ('assets/apps/icons/ibo-player.png', 'IBO Player'),
+    'bob': ('assets/apps/icons/bob-player.png', 'Bob Player'),
+    'smarters-lite': ('assets/apps/icons/smarters-lite.png', 'Smarters Player Lite'),
+    'smarters-pro': ('assets/apps/icons/smarters-pro.png', 'IPTV Smarters Pro'),
+}
 SMARTERS = 'tinyurl.com/smrtsapp'
 SMARTERS_VIDEO = 'https://youtu.be/jLxBqAIdYns'
 SFVIP_ZIP = 'https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file'

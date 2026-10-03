@@ -5,6 +5,7 @@ Usage (from this _source folder):   python build.py
 Writes the finished site into the parent folder (the root of your GitHub repo):
   index.html, 404.html, sitemap.xml, robots.txt, assets/, en/, ar/
 Your images (logo.png, basic.png, premium.png, X.png, marvel.png) stay in the repo root.
+assets/bot.js and assets/apps/ are kept: style.css and site.js are copied over them, nothing is deleted.
 """
 import os, shutil, posixpath, urllib.parse
 from content import *
@@ -104,6 +105,9 @@ SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="tru
 <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="8" rx="2"/><circle cx="17" cy="12" r="1.1" fill="currentColor"/><path d="M6.5 12h5"/></symbol>
 </defs></svg>'''
 
+
+# Old Chatbase widget — still live on the Help and Policies pages; every other page uses assets/bot.js.
+CHATBASE_PAGES = {'help', 'policies'}
 CHATBASE = '''<script>
 (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=function(){if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get:function(target,prop){if(prop==="q"){return target.q}return function(){var a=Array.prototype.slice.call(arguments);return target.apply(null,[prop].concat(a))}}})}var onLoad=function(){var s=document.createElement("script");s.src="https://www.chatbase.co/embed.min.js";s.id="UR4AT8qVyiMZfTLECiywM";s.domain="www.chatbase.co";document.body.appendChild(s)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
 </script>'''
@@ -121,6 +125,14 @@ NAV = [
     ('help', 'help.html', L('Help', 'المساعدة')),
     ('about', 'about.html', L('About', 'من نحن')),
 ]
+FIX_LINK = L('Fix a problem', 'حل مشكلة')   # the standalone ../help.html troubleshooter, linked from the home page
+
+
+def nav_items(c):
+    items = [(k, c.href(p), lbl) for k, p, lbl in NAV]
+    if c.section == 'home':
+        items.insert(4, ('fix', c.root + 'help.html', FIX_LINK))
+    return items
 
 
 def canonical(lang, path):
@@ -130,7 +142,7 @@ def canonical(lang, path):
 
 def header(c):
     links = ''.join(
-        f'<a href="{c.href(p)}"{ARIA_CUR if c.section == k else ""}>{c.t(lbl)}</a>' for k, p, lbl in NAV)
+        f'<a href="{h}"{ARIA_CUR if c.section == k else ""}>{c.t(lbl)}</a>' for k, h, lbl in nav_items(c))
     other = 'en' if c.ar else 'ar'
     return f'''<header class="nav">
   <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -151,7 +163,7 @@ def header(c):
 
 def footer(c):
     t = c.t
-    explore = ''.join(f'<li><a href="{c.href(p)}">{t(lbl)}</a></li>' for k, p, lbl in NAV)
+    explore = ''.join(f'<li><a href="{h}">{t(lbl)}</a></li>' for k, h, lbl in nav_items(c))
     devs = ''.join(f'<li><a href="{c.href("setup/" + d["slug"] + ".html")}">{t(d["name"])}</a></li>' for d in DEVICES if not d.get('off'))
     pol = [('policies.html#terms', L('Terms of service', 'شروط الخدمة')),
            ('policies.html#refund', L('Refund policy', 'سياسة الاسترجاع')),
@@ -213,7 +225,7 @@ def layout(c, title, desc, body):
 {footer(c)}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="{c.root}assets/site.js" defer></script>
-{CHATBASE}
+{CHATBASE if c.key in CHATBASE_PAGES else f'<script src="{c.root}assets/bot.js" defer></script>'}
 </body>
 </html>
 '''
@@ -316,9 +328,10 @@ def write(rel, text):
 
 
 def main():
-    for d in ['en', 'ar', 'assets']:
+    for d in ['en', 'ar']:
         shutil.rmtree(os.path.join(OUT, d), ignore_errors=True)
-    shutil.copytree(os.path.join(HERE, 'assets'), os.path.join(OUT, 'assets'))
+    # Copy over assets/ instead of wiping it: bot.js and the app icons in assets/apps/ live only there.
+    shutil.copytree(os.path.join(HERE, 'assets'), os.path.join(OUT, 'assets'), dirs_exist_ok=True)
 
     pages = list(PAGE_BUILDERS) + list(DEVICE_PAGES)
     count = 0
