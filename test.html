@@ -614,11 +614,13 @@
           return;
         }
 
+        const name = playlistName(host);
+
         const cleanContent =
-          `Playlist name: anything\nUsername: ${username}\nPassword: ${password}\nURL: ${host}`;
+          `Playlist name: ${name}\nUsername: ${username}\nPassword: ${password}\nURL: ${host}`;
 
         const visualContent =
-          `Playlist name: anything\n<strong>Username:</strong> ${username}\n<strong>Password:</strong> ${password}\n<strong>URL:</strong> ${host}`;
+          `Playlist name: ${name}\n<strong>Username:</strong> ${username}\n<strong>Password:</strong> ${password}\n<strong>URL:</strong> ${host}`;
 
         showResult(
           'Credentials Found',
@@ -628,6 +630,18 @@
         );
 
         showStatus('M3U Link Processed', 'success');
+      }
+
+      // Playlist name from the server host: hossamtv.site = basic, hossam8k.site = premium, anything else = blank
+      function playlistName(host) {
+        let hostname = '';
+        try { hostname = new URL(host).hostname.toLowerCase(); } catch (e) {}
+
+        const isHost = (domain) => hostname === domain || hostname.endsWith('.' + domain);
+
+        if (isHost('hossamtv.site')) return 'basic';
+        if (isHost('hossam8k.site')) return 'premium';
+        return '';
       }
 
       function processNumber(input) {
