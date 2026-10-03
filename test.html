@@ -488,7 +488,7 @@
       </div>
 
       <div class="actions">
-        <button class="primary-btn" id="processBtn">Paste &amp; Process</button>
+        <button class="primary-btn" id="processBtn">Paste, Process &amp; Copy</button>
       </div>
 
       <div class="result-section" id="resultSection">
@@ -525,16 +525,20 @@
       const copyBtn = document.getElementById('copyBtn');
 
       let currentRawContent = "";
+      let typedByUser = false; // true when the box was typed/pasted into since the last run
+
+      inputDisplay.addEventListener('input', () => { typedByUser = true; });
 
       resetBtn.addEventListener('click', function () {
         inputDisplay.textContent = '';
+        typedByUser = false;
         clearResult();
         hideStatus();
       });
 
       processBtn.addEventListener('click', async function () {
-        // Typed text wins; the clipboard is only read when the box is empty
-        if (!inputDisplay.textContent.trim()) {
+        // Use what the user typed/pasted into the box; otherwise read the clipboard fresh
+        if (!typedByUser || !inputDisplay.textContent.trim()) {
           try {
             const text = await navigator.clipboard.readText();
 
@@ -553,7 +557,12 @@
           return;
         }
 
+        typedByUser = false;
+        currentRawContent = '';
         processInput(input);
+
+        // Copy the result straight away
+        if (currentRawContent) copyResult(true);
       });
 
       function processInput(input) {
@@ -668,18 +677,45 @@
           return;
         }
 
-        navigator.clipboard.writeText(currentRawContent).then(() => {
+        copyResult(false);
+      });
+
+      // auto = true when called right after processing: the status line also says it was copied
+      function copyResult(auto) {
+        const text = currentRawContent;
+        const done = () => {
           copyBtn.textContent = 'Copied!';
           copyBtn.classList.add('copied');
+          if (auto) showStatus(statusMessage.textContent + ' — copied ✓', 'success');
 
           setTimeout(() => {
             copyBtn.textContent = 'Copy to Clipboard';
             copyBtn.classList.remove('copied');
           }, 2000);
-        }).catch(() => {
-          showStatus('Copy failed', 'error');
-        });
-      });
+        };
+        const failed = () => showStatus(auto ? 'Processed, but copy failed — tap Copy to Clipboard' : 'Copy failed', 'error');
+
+        // Fallback for browsers that block the clipboard API
+        const legacyCopy = () => {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          let ok = false;
+          try { ok = document.execCommand('copy'); } catch (e) {}
+          ta.remove();
+          ok ? done() : failed();
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(legacyCopy);
+        } else {
+          legacyCopy();
+        }
+      }
 
       function showStatus(message, type) {
         statusMessage.textContent = message;
