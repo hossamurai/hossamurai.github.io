@@ -261,7 +261,7 @@
       transition: all 0.2s ease;
       overflow-y: auto;
       word-break: break-all;
-      cursor: pointer;
+      cursor: text;
     }
 
     .input-display:focus {
@@ -271,7 +271,7 @@
     }
 
     .input-display:empty:before {
-      content: "// just hit Process — it pastes for you";
+      content: "// type or paste here — or just hit Process";
       color: rgba(255, 255, 255, 0.32);
       font-size: 0.8rem;
     }
@@ -483,7 +483,7 @@
 
       <div class="input-section">
         <div class="input-wrapper">
-          <div class="input-display" id="inputDisplay" contenteditable="true" inputmode="none"></div>
+          <div class="input-display" id="inputDisplay" contenteditable="true" spellcheck="false" autocapitalize="off" autocorrect="off"></div>
         </div>
       </div>
 
@@ -526,14 +526,6 @@
 
       let currentRawContent = "";
 
-      inputDisplay.addEventListener('click', () => {
-        if (inputDisplay.textContent.trim() === "") {
-          navigator.clipboard.readText().then(text => {
-            if (text) inputDisplay.textContent = text;
-          }).catch(() => {});
-        }
-      });
-
       resetBtn.addEventListener('click', function () {
         inputDisplay.textContent = '';
         clearResult();
@@ -541,20 +533,23 @@
       });
 
       processBtn.addEventListener('click', async function () {
-        try {
-          const text = await navigator.clipboard.readText();
+        // Typed text wins; the clipboard is only read when the box is empty
+        if (!inputDisplay.textContent.trim()) {
+          try {
+            const text = await navigator.clipboard.readText();
 
-          if (text && text.trim()) {
-            inputDisplay.textContent = text.trim();
+            if (text && text.trim()) {
+              inputDisplay.textContent = text.trim();
+            }
+          } catch (err) {
+            // Clipboard blocked/denied — the user can type or paste into the box instead
           }
-        } catch (err) {
-          // Clipboard blocked/denied — fall back to whatever's in the input box
         }
 
         const input = inputDisplay.textContent.trim();
 
         if (!input) {
-          showStatus('Clipboard empty — copy something first', 'error');
+          showStatus('Nothing to process — type or paste into the box, or copy something first', 'error');
           return;
         }
 
