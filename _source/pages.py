@@ -464,6 +464,11 @@ def setup_index(c):
             w = ''.join(f'<div class="warn-t">{icon("warn")}{t(WARN[x])}</div>' for x in a.get('warn', []))
             codes += f'<div style="margin-bottom:8px"><b>{a["name"]}</b>{(" · " + t(L("Recommended", "موصى به"))) if a.get("rec") else ""}<br>{copy_btn(a["code"])}{w}</div>'
         rows += f'<tr><th scope="row" style="--c:{p["color"]}"><span class="pchip" style="--c:{p["color"]}">{t(p["name"])}</span></th><td>{codes}</td></tr>'
+    host_rows = ''
+    for pid in PLAN_ORDER:
+        p = PLANS[pid]
+        hosts = ''.join(f'<div style="margin-bottom:8px"><b>{t(L("Main", "الأساسي")) if j == 0 else t(L(f"Backup {j}", f"احتياطي {j}"))}</b><br>{copy_btn(h)}</div>' for j, h in enumerate(HOSTS[pid]))
+        host_rows += f'<tr><th scope="row" style="--c:{p["color"]}"><span class="pchip" style="--c:{p["color"]}">{t(p["name"])}</span></th><td>{hosts}</td></tr>'
     rows += f'<tr><th scope="row">{t(L("Any plan", "أي باقة"))}</th><td><b>IPTV Smarters Pro</b> — {t(L("alternative app for Android devices", "تطبيق بديل لأجهزة أندرويد"))}<br>{copy_btn(SMARTERS)}</td></tr>'
 
     need = [
@@ -489,6 +494,11 @@ def setup_index(c):
 <section class="sec" id="codes"><div class="wrap">
   {sec_head('', t(L('Quick reference', 'مرجع سريع')), t(L('App codes by plan', 'أكواد التطبيقات حسب الباقة')), t(L('Type these in the Downloader app on TVs, or open them in your browser on a phone. Tap a code to copy it.', 'اكتبها في تطبيق Downloader على التلفزيون، أو افتحها في المتصفح على الموبايل. اضغط على الكود لنسخه.')))}
   <div class="table-wrap"><table class="cmp codes-table" style="min-width:0"><tbody>{rows}</tbody></table></div>
+</div></section>
+
+<section class="sec" id="hosts"><div class="wrap">
+  {sec_head('', t(L('Other players', 'مشغلات أخرى')), t(L('Server hosts by plan', 'الهوست حسب الباقة')), t(L('For apps where you type the details yourself — IPTV Smarters, Smarters Player Lite, SFVIP, XCIPTV, TiviMate and others. Use the server URL with the username and password we sent you. If the main host doesn’t work, try a backup.', 'للتطبيقات التي تكتب فيها البيانات بنفسك — IPTV Smarters و Smarters Player Lite و SFVIP و XCIPTV و TiviMate وغيرها. استخدم رابط السيرفر مع اسم المستخدم وكلمة المرور التي أرسلناها لك. لو الهوست الأساسي لا يعمل، جرّب الاحتياطي.')))}
+  <div class="table-wrap"><table class="cmp codes-table" style="min-width:0"><tbody>{host_rows}</tbody></table></div>
 </div></section>
 ''' + cta_block(c)
     return (t(L('Setup Guides for Every Device', 'أدلة التثبيت لكل الأجهزة')),
@@ -532,6 +542,27 @@ def apps_block(c, dev):
 <div class="seg" role="group" aria-label="{t(L('Plan', 'الباقة'))}">{tabs}</div></div>{panels}'''
 
 
+def hosts_block(c):
+    """Plan tabs + server hosts (server URL) for manual players."""
+    t = c.t
+    tabs = ''.join(
+        f'<button type="button" data-plan-btn="{pid}" aria-pressed="{"true" if i == 0 else "false"}">{t(PLANS[pid]["name"])}</button>'
+        for i, pid in enumerate(PLAN_ORDER))
+    panels = ''
+    for i, pid in enumerate(PLAN_ORDER):
+        items = ''.join(
+            f'<div class="app{" rec" if j == 0 else ""}"><div class="app-h">{t(L("Main host", "الهوست الأساسي")) if j == 0 else t(L(f"Backup host {j}", f"هوست احتياطي {j}"))}</div>{copy_btn(h)}</div>'
+            for j, h in enumerate(HOSTS[pid]))
+        panels += f'<div data-panel="{pid}"{"" if i == 0 else " hidden"}><div class="apps">{items}</div></div>'
+    return f'''<div class="plan-tabs"><span class="hint" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:6px">{t(L('Server URL (host) for your plan — tap to copy:', 'رابط السيرفر (الهوست) لباقتك — اضغط للنسخ:'))}</span>
+<div class="seg" role="group" aria-label="{t(L('Plan', 'الباقة'))}">{tabs}</div></div>{panels}<span class="hint">{t(L("If the main host doesn't work, try a backup — the same username and password work on all of them.", 'لو الهوست الأساسي لا يعمل، جرّب الاحتياطي — نفس اسم المستخدم وكلمة المرور تعمل عليها كلها.'))}</span>'''
+
+
+def manual_sign_in(c):
+    return c.t(L('Sign in with the <b>username</b> and <b>password</b> we sent you on WhatsApp, and the <b>server URL</b> for your plan:',
+                 'سجّل الدخول باسم <b>المستخدم</b> و<b>كلمة المرور</b> التي أرسلناها لك عبر واتساب، و<b>رابط السيرفر</b> الخاص بباقتك:')) + hosts_block(c)
+
+
 def mediafire(c):
     return c.t(L('The code opens a MediaFire page. Tap the <b>big blue Download</b> button — not "Download faster".',
                  'سيفتح الكود صفحة MediaFire. اضغط على زر التحميل <b>الأزرق الكبير</b> — وليس «Download faster».'))
@@ -546,7 +577,7 @@ def smarters_note(c):
     t = c.t
     return note('tip', t(L('Alternative app', 'تطبيق بديل')), t(L(
         f'Prefer <b>IPTV Smarters Pro</b>? Type {copy_btn(SMARTERS)} in Downloader — it works with every plan. <a href="{SMARTERS_VIDEO}" target="_blank" rel="noopener">Watch the tutorial</a>',
-        f'تفضّل <b>IPTV Smarters Pro</b>؟ اكتب {copy_btn(SMARTERS)} في Downloader — يعمل مع كل الباقات. <a href="{SMARTERS_VIDEO}" target="_blank" rel="noopener">شاهد الشرح</a>')), app_img(c, 'smarters-pro'))
+        f'تفضّل <b>IPTV Smarters Pro</b>؟ اكتب {copy_btn(SMARTERS)} في Downloader — يعمل مع كل الباقات. <a href="{SMARTERS_VIDEO}" target="_blank" rel="noopener">شاهد الشرح</a>')) + hosts_block(c), app_img(c, 'smarters-pro'))
 
 
 def trouble_links(c, ids):
@@ -617,7 +648,7 @@ def device_data(c, slug):
                   'بعد تحميل ملف <b>APK</b>، افتحه واضغط <b>تثبيت</b>.<span class="hint">إذا سألك الهاتف، اسمح للمتصفح بتثبيت التطبيقات. وإذا ظهر تحذير Google Play Protect، اضغط <b>مزيد من التفاصيل ← التثبيت على أي حال</b>.</span>'),
                 sign_in(c),
             ],
-            notes=[note('tip', P('Alternative app', 'تطبيق بديل'), P(f'You can also get <b>IPTV Smarters Pro</b> from {open_link(SMARTERS)}', f'يمكنك أيضاً تحميل <b>IPTV Smarters Pro</b> من {open_link(SMARTERS)}'), app_img(c, 'smarters-pro'))],
+            notes=[note('tip', P('Alternative app', 'تطبيق بديل'), P(f'You can also get <b>IPTV Smarters Pro</b> from {open_link(SMARTERS)}', f'يمكنك أيضاً تحميل <b>IPTV Smarters Pro</b> من {open_link(SMARTERS)}') + hosts_block(c), app_img(c, 'smarters-pro'))],
             trouble=['install', 'login', 'buffering'],
         )
     if slug == 'apple':
@@ -631,8 +662,8 @@ def device_data(c, slug):
             steps=[
                 P('Open the <b>App Store</b> and install <b>Smarters Player Lite</b>.', 'افتح <b>App Store</b> وثبّت تطبيق <b>Smarters Player Lite</b>.'),
                 P('Open the app, accept the terms and choose <b>Login with Xtream Codes API</b>.', 'افتح التطبيق، وافق على الشروط، ثم اختر <b>Login with Xtream Codes API</b>.'),
-                P('Enter any name you like, then the <b>username</b>, <b>password</b> and <b>server URL</b> we sent you on WhatsApp, and tap <b>Add user</b>.',
-                  'اكتب أي اسم تريده، ثم <b>اسم المستخدم</b> و<b>كلمة المرور</b> و<b>رابط السيرفر</b> التي أرسلناها لك عبر واتساب، واضغط <b>Add user</b>.'),
+                P('Enter any name you like, then the <b>username</b> and <b>password</b> we sent you on WhatsApp and the <b>server URL</b> for your plan, and tap <b>Add user</b>.',
+                  'اكتب أي اسم تريده، ثم <b>اسم المستخدم</b> و<b>كلمة المرور</b> التي أرسلناها لك عبر واتساب و<b>رابط السيرفر</b> الخاص بباقتك، واضغط <b>Add user</b>.') + hosts_block(c),
                 P('Wait for the channels and movies to load, then start watching.', 'انتظر حتى يتم تحميل القنوات والأفلام، ثم ابدأ المشاهدة.'),
             ],
             notes=[note('tip', P('Apple TV', 'أبل تي في'), P('The same app and the same steps work on Apple TV — search for it in the Apple TV App Store.', 'نفس التطبيق ونفس الخطوات تعمل على أبل تي في — ابحث عنه في App Store الخاص بأبل تي في.'))],
@@ -676,7 +707,7 @@ def device_data(c, slug):
                   f'حمّل <b>SFVIP Player</b> (ملف ZIP) من <a href="{SFVIP_ZIP}" target="_blank" rel="noopener">MediaFire</a>.<span class="hint">اضغط زر التحميل الأزرق الكبير — وليس «Download faster».</span>'),
                 P('Right-click the ZIP file, choose <b>Extract All</b>, then open the app inside.<span class="hint">If Windows shows "Windows protected your PC", click <b>More info → Run anyway</b>.</span>',
                   'اضغط بزر الماوس الأيمن على ملف ZIP واختر <b>Extract All</b>، ثم افتح البرنامج الموجود بداخله.<span class="hint">إذا ظهرت رسالة "Windows protected your PC"، اضغط <b>More info ← Run anyway</b>.</span>'),
-                sign_in(c),
+                manual_sign_in(c),
             ],
             notes=[note('tip', P('Video', 'فيديو'), P(f'Prefer video? <a href="{SFVIP_VIDEO}" target="_blank" rel="noopener">Watch the tutorial</a>', f'تفضّل الفيديو؟ <a href="{SFVIP_VIDEO}" target="_blank" rel="noopener">شاهد الشرح</a>'))],
             trouble=['login', 'buffering'],

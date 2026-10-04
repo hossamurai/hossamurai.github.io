@@ -193,6 +193,14 @@ APP_ICONS = {
     'smarters-pro': ('assets/apps/icons/smarters-pro.png', 'IPTV Smarters Pro'),
 }
 SMARTERS = 'tinyurl.com/smrtsapp'
+# Server hosts (server URL) for manual players like IPTV Smarters, Smarters Lite and SFVIP.
+# The first one is the main host; the rest are backups. Keep in sync with FALLBACK_HOSTS in help.html.
+HOSTS = {
+    'basic':   ['http://cf.hossamtv.site', 'http://pro.hossamtv.site'],
+    'premium': ['http://cf.hossam8k.site', 'http://pro.hossam8k.site'],
+    'xtv':     ['http://smartott.org:80', 'http://rfcot.com:80', 'http://vireexaa.com:80'],
+    'marvel':  ['http://fgt123.eu', 'http://mar22.sbs', 'http://mar10.sbs'],
+}
 SMARTERS_VIDEO = 'https://youtu.be/jLxBqAIdYns'
 SFVIP_ZIP = 'https://www.mediafire.com/file/sghsre0rgcuiemb/SFVIP_Player_x64.zip/file'
 SFVIP_VIDEO = 'https://youtu.be/dESni3uxAa4'
