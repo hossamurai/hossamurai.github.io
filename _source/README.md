@@ -5,7 +5,7 @@ A 14-page site in English and Arabic (28 pages in total), ready for GitHub Pages
 ## Upload it
 
 1. Open your `hossamurai.github.io` repository on GitHub.
-2. Delete the old `index.html`. **Keep your images**: `logo.png`, `basic.png`, `premium.png`, `X.png`, `marvel.png`.
+2. Delete the old `index.html`. **Keep `logo.png`** in the root — the chat bot uses it as a fallback. The plan images the pages use are in `assets/img/`.
 3. Upload everything in this zip (drag the files and folders into GitHub's "Add file → Upload files" page) and commit.
 4. Wait a minute, then open https://hossamservices.com. Visitors are sent to Arabic or English automatically, and the site remembers their choice.
 
