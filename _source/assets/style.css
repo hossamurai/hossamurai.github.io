@@ -384,6 +384,19 @@ details .ans li{margin-bottom:4px}
 .review{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;margin:0}
 .review blockquote{margin:0 0 14px;font-size:1rem}
 .review figcaption{color:var(--muted);font-size:.88rem;font-weight:600}
+.rev-stars{color:#f5a524;letter-spacing:2px;margin-bottom:8px}
+.rev-rating{display:inline-flex;align-items:center;gap:6px;font-weight:700;margin:-8px 0 18px}
+.rev-rating .s{color:#f5a524}
+.rev-empty{color:var(--muted);margin:0 0 16px}
+.rev-open{margin-top:18px}
+.rev-form{max-width:560px;margin-top:18px}
+.rev-form textarea{width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:11px 14px;border:1.5px solid var(--line-2);border-radius:12px;background:#fff;color:var(--ink);resize:vertical}
+.rev-form textarea:focus{outline:none;border-color:var(--ink)}
+.rev-form textarea + .hp + .remind-msg,.rev-form label + .stars{margin-top:4px}
+.rev-form input + label,.rev-form .stars + input + label{margin-top:12px}
+.stars{display:flex;gap:4px}
+.star{border:0;background:none;font-size:2rem;line-height:1;color:var(--line-2);cursor:pointer;padding:2px}
+.star.on{color:#f5a524}
 
 /* closing cta */
 .cta{background:var(--ink);color:#fff;border-radius:28px;padding:48px;display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:center;position:relative;overflow:hidden}

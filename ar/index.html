@@ -254,6 +254,28 @@
   <small>نحتاج كلمة المرور لأن بعض أسماء المستخدمين تتكرر. لا يُحفظ أي شيء على هذا الموقع.</small>
 </form>
 </div></section>
+<section class="sec" id="reviews"><div class="wrap">
+  <div class="sec-head"><span class="kicker">آراء العملاء</span><h2>ماذا يقول عملاؤنا</h2></div>
+  <p class="rev-rating" data-rating hidden></p>
+  <div class="reviews" data-reviews></div>
+  <p class="rev-empty" data-rev-empty>لا توجد آراء بعد — كن أول من يشاركنا رأيه.</p>
+  <button type="button" class="btn btn-ghost rev-open" data-rev-open aria-expanded="false" aria-controls="reviewForm"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>اكتب رأيك</button>
+  <form class="remind rev-form" id="reviewForm" data-review data-api="https://n8n.hossamservices.com/webhook/site-review" novalidate hidden>
+    <label>تقييمك</label>
+    <div class="stars" role="radiogroup" aria-label="تقييمك" dir="ltr"><button type="button" class="star" data-star="1" aria-label="1/5">★</button><button type="button" class="star" data-star="2" aria-label="2/5">★</button><button type="button" class="star" data-star="3" aria-label="3/5">★</button><button type="button" class="star" data-star="4" aria-label="4/5">★</button><button type="button" class="star" data-star="5" aria-label="5/5">★</button></div>
+    <input type="hidden" name="stars" value="5">
+    <label for="revName">الاسم</label>
+    <input id="revName" name="name" type="text" maxlength="30" autocomplete="given-name" style="font-family:inherit">
+    <label for="revPlace">المدينة أو الدولة (اختياري)</label>
+    <input id="revPlace" name="place" type="text" maxlength="30" style="font-family:inherit">
+    <label for="revText">رأيك</label>
+    <textarea id="revText" name="text" rows="4" maxlength="400"></textarea>
+    <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+    <p class="remind-msg" role="status" hidden data-msg-empty="من فضلك اكتب اسمك وبضع كلمات (10 حروف على الأقل)." data-msg-received="شكراً لك! سيظهر رأيك بعد مراجعة سريعة." data-msg-limited="شكراً — وصلنا رأيك اليوم بالفعل." data-msg-error="تعذّر الإرسال الآن. حاول بعد دقيقة."></p>
+    <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span>أرسل رأيك</span></button>
+    <small>تتم مراجعة الآراء قبل نشرها. يظهر اسمك ومدينتك فقط.</small>
+  </form>
+</div></section>
 
 <section class="sec"><div class="wrap">
   <div class="sec-head"><span class="kicker"><span class="n">03</span>طريقة الاشتراك</span><h2>من الدفع إلى المشاهدة في 4 خطوات</h2></div>
@@ -264,7 +286,6 @@
   <div class="sec-head"><span class="kicker"><span class="n">04</span>التثبيت</span><h2>يعمل على أجهزتك الحالية</h2><p>أدلة لكل جهاز. <a href="../help.html">عندك مشكلة؟</a></p></div>
   <div class="dev-grid"><a class="dev-card" href="setup/android-tv.html"><svg class="ic" aria-hidden="true"><use href="#i-androidtv"/></svg><span><b>أندرويد تي في والبوكس</b><small>تطبيق Downloader · 10 دقائق</small></span></a><a class="dev-card" href="setup/firestick.html"><svg class="ic" aria-hidden="true"><use href="#i-stick"/></svg><span><b>أمازون فايرستيك</b><small>تطبيق Downloader · 10 دقائق</small></span></a><a class="dev-card" href="setup/android.html"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><span><b>موبايل وتابلت أندرويد</b><small>تحميل مباشر · 5 دقائق</small></span></a><a class="dev-card" href="setup/apple.html"><svg class="ic" aria-hidden="true"><use href="#i-apple"/></svg><span><b>آيفون وآيباد وماك وأبل تي في</b><small>App Store · 5 دقائق</small></span></a><a class="dev-card" href="setup/smart-tv.html"><svg class="ic" aria-hidden="true"><use href="#i-tv"/></svg><span><b>شاشات سامسونج و LG</b><small>Bob Player · IBO Player</small></span></a><a class="dev-card" href="setup/windows.html"><svg class="ic" aria-hidden="true"><use href="#i-laptop"/></svg><span><b>كمبيوتر ولابتوب ويندوز</b><small>SFVIP Player · 5 دقائق</small></span></a><a class="dev-card off" href="setup/roku.html"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg><span><b>روكو</b><small>غير مدعوم</small></span></a></div>
 </div></section>
-
 <section class="sec"><div class="wrap">
   <div class="sec-head row"><div><span class="kicker"><span class="n">05</span>الأسئلة</span><h2>الأسئلة الشائعة</h2></div><a class="link-arrow" href="help.html">كل الأسئلة وحل المشكلات<svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
   <div class="faq"><details id="free-trial"><summary>هل توجد تجربة مجانية؟<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">نعم — 12 ساعة لسيرفر XTV و24 ساعة لباقي الباقات. تجربة واحدة لكل عميل. اطلبها عبر واتساب.</div></details><details id="which-plan"><summary>أي باقة أختار؟<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">في مصر: <b>XTV</b> للكرة والعائلة، و<b>Marvel</b> للأفلام والمسلسلات. في باقي الدول: <b>الأساسية</b> للقنوات العربية والكرة، و<b>بريميوم</b> لأكبر مكتبة وكل الرياضات وجودة 4K. غير متأكد؟ جرّب مجاناً أولاً.</div></details><details id="multi-device"><summary>هل يمكنني التشغيل على أكثر من جهاز؟<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">يمكنك التثبيت على أي عدد من الأجهزة ومشاركته مع العائلة، لكن المشاهدة تكون على جهاز واحد فقط في نفس الوقت. التشغيل على جهازين معاً قد يوقف الحساب.</div></details><details id="activation"><summary>كم يستغرق التفعيل؟<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">بعد إرسال صورة واضحة لإيصال الدفع عبر واتساب، يتم التفعيل عادةً خلال دقائق، وبحد أقصى 24 ساعة.</div></details></div>

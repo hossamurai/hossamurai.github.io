@@ -205,4 +205,37 @@
       var plans = document.getElementById('plans'); if(plans) plans.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+  /* reviews: "Write a review" form -> n8n site-review (saved as pending, shown only after Hossam approves) */
+  each('[data-rev-open]', function(b){
+    var f = document.getElementById(b.getAttribute('aria-controls'));
+    b.addEventListener('click', function(){ var open = f.hidden; f.hidden = !open; b.setAttribute('aria-expanded', open ? 'true' : 'false'); if(open) f.querySelector('.star').focus(); });
+  });
+  each('[data-review]', function(f){
+    var stars = f.querySelector('[name="stars"]'), msg = f.querySelector('.remind-msg'), btn = f.querySelector('[type="submit"]');
+    var name = f.querySelector('[name="name"]'), place = f.querySelector('[name="place"]'), text = f.querySelector('[name="text"]'), hp = f.querySelector('[name="website"]');
+    function paint(n){ each('.star', function(s){ var on = +s.getAttribute('data-star') <= n; s.classList.toggle('on', on); s.setAttribute('aria-pressed', on ? 'true' : 'false'); }, f); }
+    paint(5);
+    each('.star', function(s){ s.addEventListener('click', function(){ stars.value = s.getAttribute('data-star'); paint(+stars.value); }); }, f);
+    function say(key, ok){ msg.textContent = msg.getAttribute('data-msg-' + key) || ''; msg.className = 'remind-msg' + (ok ? ' ok' : ' err'); msg.hidden = false; }
+    var busy = false;
+    f.addEventListener('submit', function(e){
+      e.preventDefault(); if(busy) return;
+      var n = (name.value || '').trim(), tx = (text.value || '').trim();
+      if(n.length < 2 || tx.length < 10){ say('empty'); (n.length < 2 ? name : text).focus(); return; }
+      if(!window.fetch || !window.URLSearchParams){ say('error'); return; }
+      busy = true; btn.disabled = true; msg.hidden = true;
+      var body = new URLSearchParams();
+      body.append('p', JSON.stringify({ name: n, place: (place.value || '').trim(), text: tx, stars: +stars.value, lang: AR ? 'ar' : 'en', website: hp ? hp.value : '' }));
+      fetch(f.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit' })
+        .then(function(r){ return r.json()['catch'](function(){ return {}; }); })
+        .then(function(d){
+          var st = d && d.status;
+          if(d && d.ok && st === 'received'){ say('received', true); f.reset(); stars.value = '5'; paint(5); }
+          else if(st === 'limited'){ say('limited', true); }
+          else if(st === 'invalid'){ say('empty'); }
+          else { say('error'); }
+        })['catch'](function(){ say('error'); })
+        .then(function(){ busy = false; btn.disabled = false; });
+    });
+  });
 })();
