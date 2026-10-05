@@ -259,9 +259,8 @@ def pay_block(c):
 # ----------------------------------------------------------------------------
 def home(c):
     t = c.t
-    hero = f'''<section class="hero hero-fun"><div class="wrap">
-    <span class="doodle d1" aria-hidden="true"></span><span class="doodle d2" aria-hidden="true"></span>
-    <h1>{t(L('Every match, movie and series. On <span class="loop">any screen.</span>', 'كل المباريات والأفلام والمسلسلات. على <span class="loop">أي شاشة.</span>'))}</h1>
+    hero = f'''<section class="hero hero-apple"><div class="wrap">
+    <h1>{t(L('Every match, movie and series. <span class="grad">On any screen.</span>', 'كل المباريات والأفلام والمسلسلات. <span class="grad">على أي شاشة.</span>'))}</h1>
     <p class="lead">{t(L('Live sports, Arabic and international channels and movies — up to 4K.', 'مباريات مباشرة وقنوات عربية وعالمية وأفلام — بجودة حتى 4K.'))}</p>
     <div class="hero-cta">
       {btn_trial(c)}
