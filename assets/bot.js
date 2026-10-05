@@ -89,12 +89,14 @@
   function setNum(el, n){ if(el && n) el.textContent = el.textContent.replace(/\d[\d,.]*/, String(n)); }
   function applyPrices(p){
     if(!p) return;
-    each('article.plan', function(card){
+    each('article.plan, article.pcard', function(card){
       var plan = cardPlan(card), region = cardRegion(card), v = p[plan];
       if(!v) return;
-      var amt = card.querySelector('.price .amt'), two = card.querySelector('.price-2 b');
+      var amt = card.querySelector('.price .amt, .plan-price b'), two = card.querySelector('.price-2 b, .plan-price .p2');
       if(region === 'gulf') setNum(amt, v.gulf);
       else if(region === 'uae') setNum(amt, v.uae);
+      /* Basic & Premium are priced in EGP for Egypt: only an "eg" price may change them, never the USD one */
+      else if(region === 'eg' && (plan === 'basic' || plan === 'premium')) setNum(amt, v.eg);
       else { setNum(amt, v.y1); setNum(two, v.y2); }
     });
   }

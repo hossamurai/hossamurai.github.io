@@ -594,8 +594,8 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
     {id:'televizo',  name:'Televizo', cat:'manual'},
     {id:'tivimate',  name:'TiviMate', cat:'manual'},
     {id:'sfvip',     name:'SFVIP Player', sub:{en:'Windows', ar:'ويندوز'}, cat:'manual'},
-    {id:'ibo',   name:'IBO Player',  sub:{en:'Samsung / LG / Vidaa…', ar:'سامسونج / LG / Vidaa…'}, cat:'managed', site:'https://iboplayer.com/device/login'},
-    {id:'bob',   name:'Bob Player',  cat:'managed', site:'https://www.bobplayer.com/login'},
+    {id:'bob',   name:'Bob Player',  sub:{en:'Samsung / LG', ar:'سامسونج / LG'}, cat:'managed', site:'https://www.bobplayer.com/login'},
+    {id:'ibo',   name:'IBO Player',  sub:{en:'LG / Vidaa…', ar:'LG / Vidaa…'}, cat:'managed', site:'https://iboplayer.com/device/login'},
     {id:'iboxp', name:'IBO XPlayer', cat:'managed', site:'https://iboxiptvplayer.com/device/login'},
     {id:'web',   name:'my.splayer.in', sub:{en:'Web browser', ar:'المتصفح'}, cat:'web', plans:['xtv','marvel']}
   ];
@@ -692,9 +692,9 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
     web: {t:{en:'Use an app instead', ar:'استخدم تطبيق بدل المتصفح'}, b:function(ar){ return ar
       ? 'المتصفح طريقة احتياطية. الأسهل تنزّل تطبيق لجهازك — شوف ' + ext('index.html#setup','دليل التثبيت') + '.'
       : 'The browser is a backup method. The easiest fix is an app for your device — see the ' + ext('index.html#setup','setup guide') + '.'; }},
-    smarterstv: {t:{en:'Switch to IBO Player', ar:'غيّر لـ IBO Player'}, b:function(ar){ return (ar
-      ? 'IPTV Smarters على شاشات سامسونج و LG فيه مشكلة (ومش موجود على موديلات سامسونج 2026 وبعض 2025) — متتعبش نفسك معاه.<ol><li>نزّل <b>IBO Player</b> من متجر التلفزيون. مش موجود؟ نزّل <b>Bob Player</b> أو <b>IBO XPlayer</b>.</li><li>افتحه وصوّر الـ <b>Device ID</b> والـ <b>Device Key</b>.</li><li>ابعت الصورة مع اسم المستخدم لحسام على الواتساب.</li></ol>السعر مع حسام: أول شاشة مجاناً في Basic وPremium، وبعدها 4 دولار مدى الحياة؛ XTV ومارفل 200 جنيه مدى الحياة (السعر الرسمي حوالي 10 يورو).'
-      : 'IPTV Smarters on Samsung and LG TVs has an issue (and isn\'t available on 2026 Samsung models and some 2025 ones) — don\'t waste time on it.<ol><li>Install <b>IBO Player</b> from the TV\'s store. Not there? Install <b>Bob Player</b> or <b>IBO XPlayer</b>.</li><li>Open it and take a photo of the <b>Device ID</b> and <b>Device Key</b>.</li><li>Send the photo with your username to Hossam on WhatsApp.</li></ol>Price with Hossam: first TV free on Basic and Premium, then $4 lifetime; XTV and Marvel 200 EGP lifetime (official price is about €10).')
+    smarterstv: {t:{en:'Switch to Bob Player', ar:'غيّر لـ Bob Player'}, b:function(ar){ return (ar
+      ? 'IPTV Smarters على شاشات سامسونج و LG فيه مشكلة (ومش موجود على موديلات سامسونج 2026 وبعض 2025) — متتعبش نفسك معاه.<ol><li>نزّل <b>Bob Player</b> من متجر التلفزيون (على سامسونج IBO Player مش موجود حالياً). على LG ممكن تستخدم <b>IBO Player</b>.</li><li>افتحه وصوّر الـ <b>Device ID</b> والـ <b>Device Key</b>.</li><li>ابعت الصورة مع اسم المستخدم لحسام على الواتساب.</li></ol>السعر مع حسام: أول شاشة مجاناً في Basic وPremium، وبعدها 4 دولار مدى الحياة؛ XTV ومارفل 200 جنيه مدى الحياة (السعر الرسمي حوالي 10 يورو).'
+      : 'IPTV Smarters on Samsung and LG TVs has an issue (and isn\'t available on 2026 Samsung models and some 2025 ones) — don\'t waste time on it.<ol><li>Install <b>Bob Player</b> from the TV\'s store (IBO Player isn\'t in the Samsung store right now). On LG you can use <b>IBO Player</b>.</li><li>Open it and take a photo of the <b>Device ID</b> and <b>Device Key</b>.</li><li>Send the photo with your username to Hossam on WhatsApp.</li></ol>Price with Hossam: first TV free on Basic and Premium, then $4 lifetime; XTV and Marvel 200 EGP lifetime (official price is about €10).')
       + '<div class="warn-box">' + t(NEVER_DELETE) + '</div>'; }, final:true}
   };
 
