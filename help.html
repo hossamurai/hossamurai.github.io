@@ -290,6 +290,7 @@ details p{margin:0 0 16px;color:var(--ink-2);font-size:.95rem}
 
 footer{padding:48px 0 60px;color:var(--muted);font-size:.9rem}
 .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.foot-links a{color:var(--ink);text-decoration:none;font-weight:600}.foot-links a:hover{text-decoration:underline}
 .foot a{font-weight:700;color:var(--ink);text-decoration:none;direction:ltr;unicode-bidi:isolate}
 .foot p{margin:6px 0 0}
 
@@ -452,14 +453,15 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
       <a data-page="channels.html" href="/"><span class="en">Channels</span><span class="ar">القنوات</span></a>
       <a data-page="setup/index.html" href="/"><span class="en">Setup</span><span class="ar">التثبيت</span></a>
       <a href="help.html" class="active" aria-current="page"><span class="en">Fix a problem</span><span class="ar">حل مشكلة</span></a>
-      <a data-page="help.html" href="/"><span class="en">Help</span><span class="ar">المساعدة</span></a>
+      <a data-page="help.html" href="/"><span class="en">FAQ</span><span class="ar">الأسئلة الشائعة</span></a>
+      <a data-page="about.html" href="/"><span class="en">About</span><span class="ar">من نحن</span></a>
     </nav>
     <div class="nav-right" style="display:flex;gap:8px;align-items:center">
       <button class="lang" type="button" id="langBtn" aria-label="Switch language">
         <svg class="ic"><use href="#i-globe"/></svg><span class="en">العربية</span><span class="ar">English</span>
       </button>
-      <a class="btn btn-wa btn-sm" data-wa="subscribe" href="https://wa.me/201117250227" target="_blank" rel="noopener">
-        <svg class="ic"><use href="#i-chat"/></svg><span class="en">Subscribe</span><span class="ar">اشترك</span>
+      <a class="btn btn-wa btn-sm" data-wa="subscribe" href="https://wa.me/201117250227?text=Hi%20Hossam%20TV%2C%20I%27d%20like%20a%20free%20trial." target="_blank" rel="noopener">
+        <svg class="ic"><use href="#i-chat"/></svg><span class="en">Free trial</span><span class="ar">تجربة مجانية</span>
       </a>
     </div>
   </div>
@@ -513,7 +515,10 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
       <p><span class="en">WhatsApp (chat only, no calls):</span><span class="ar">واتساب (رسائل فقط، بدون مكالمات):</span> <a href="https://wa.me/201117250227" target="_blank" rel="noopener">+20 111 725 0227</a></p>
       <p><span class="en">Save our number — updates and maintenance notices are posted on our WhatsApp Status.</span><span class="ar">احفظ رقمنا — التحديثات وأخبار الصيانة تُنشر على حالة الواتساب.</span></p>
     </div>
-    <p>&copy; <span id="yr">2026</span> Hossam TV Services</p>
+    <div>
+      <p class="foot-links"><a data-page="plans.html" href="/"><span class="en">Plans</span><span class="ar">الباقات</span></a> · <a data-page="setup/index.html" href="/"><span class="en">Setup guides</span><span class="ar">أدلة التثبيت</span></a> · <a data-page="help.html" href="/"><span class="en">FAQ</span><span class="ar">الأسئلة الشائعة</span></a> · <a data-page="policies.html" href="/"><span class="en">Policies</span><span class="ar">السياسات</span></a></p>
+      <p>&copy; <span id="yr">2026</span> Hossam TV</p>
+    </div>
   </div>
 </footer>
 <div class="toast" id="toast" role="status"></div>
@@ -899,7 +904,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
     doc.lang = l; doc.dir = l === 'ar' ? 'rtl' : 'ltr';
     if(save) store('htv-lang', l);
     var sub = document.querySelector('[data-wa="subscribe"]');
-    if(sub) sub.href = wa(MAIN, l === 'ar' ? 'مرحباً، أريد الاشتراك في Hossam TV.' : 'Hi Hossam TV, I\'d like to subscribe.');
+    if(sub) sub.href = wa(MAIN, l === 'ar' ? 'مرحباً، أريد تجربة مجانية.' : 'Hi Hossam TV, I\'d like a free trial.');
     document.querySelectorAll('[data-page]').forEach(function(a){ a.href = '/' + l + '/' + a.getAttribute('data-page'); });
     renderAll();
   }

@@ -233,12 +233,12 @@ html[lang="ar"] .cmp thead th{font-family:var(--f-ar)}
 .how .ic{display:block;width:28px;height:28px;margin-top:14px}
 
 /* device link grid */
-.dev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.dev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
 .dev-card{display:flex;gap:14px;align-items:center;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:16px;text-decoration:none;transition:border-color .15s,box-shadow .15s}
 .dev-card:hover{border-color:var(--ink);box-shadow:var(--shadow-sm)}
-.dev-card > .ic{width:34px;height:34px}
+.dev-card > .ic{width:34px;height:34px;flex-shrink:0}
 .dev-card b{display:block;line-height:1.25}
-.dev-card small{color:var(--muted);font-size:.82rem}
+.dev-card small{display:block;margin-top:3px;line-height:1.4;color:var(--muted);font-size:.82rem}
 .dev-card.off{opacity:.75}
 
 /* setup */

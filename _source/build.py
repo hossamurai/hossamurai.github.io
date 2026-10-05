@@ -4,8 +4,8 @@ Hossam TV static site generator.
 Usage (from this _source folder):   python build.py
 Writes the finished site into the parent folder (the root of your GitHub repo):
   index.html, 404.html, sitemap.xml, robots.txt, assets/, en/, ar/
-Your full-size images (logo.png, basic.png, premium.png, X.png, marvel.png) stay in the repo root;
-the pages use the small copies in assets/img/ (re-make them if you replace an image).
+logo.png stays in the repo root (the chat bot falls back to it); the pages use the images in
+assets/img/ (re-make them there if you replace an image).
 assets/bot.js and assets/apps/ are kept: style.css and site.js are copied over them, nothing is deleted.
 """
 import os, shutil, posixpath, urllib.parse
@@ -117,7 +117,7 @@ NAV = [
     ('plans', 'plans.html', L('Plans', 'الباقات')),
     ('channels', 'channels.html', L('Channels', 'القنوات')),
     ('setup', 'setup/index.html', L('Setup', 'التثبيت')),
-    ('help', 'help.html', L('Help', 'المساعدة')),
+    ('help', 'help.html', L('FAQ', 'الأسئلة الشائعة')),
     ('about', 'about.html', L('About', 'من نحن')),
 ]
 FIX_LINK = L('Fix a problem', 'حل مشكلة')   # the standalone help.html troubleshooter in the repo root
