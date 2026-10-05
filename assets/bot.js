@@ -131,10 +131,32 @@
     li.innerHTML = '<span aria-hidden="true" style="color:#f5a524;font-size:1.05em">★</span>' + T('Rated ' + r.avg + '/5 by ' + r.count + ' customers', 'تقييم العملاء ' + r.avg + '/5 (' + r.count + ' تقييم)');
     ul.appendChild(li);
   }
+  /* approved customer reviews (n8n site-data) -> home page reviews section; text only, never HTML */
+  function applyReviews(list, r){
+    var box = document.querySelector('[data-reviews]'); if(!box) return;
+    var rt = document.querySelector('[data-rating]');
+    if(rt && r && r.count >= 5 && r.avg){
+      rt.textContent = '';
+      var s = document.createElement('span'); s.className = 's'; s.textContent = '★'; rt.appendChild(s);
+      rt.appendChild(document.createTextNode(T(r.avg + '/5 · ' + r.count + ' ratings on WhatsApp', r.avg + '/5 · ' + r.count + ' تقييم على واتساب')));
+      rt.hidden = false;
+    }
+    if(!list || !list.length) return;
+    box.textContent = '';
+    list.forEach(function(v){
+      var n = Math.max(1, Math.min(5, +v.stars || 5));
+      var fig = document.createElement('figure'); fig.className = 'review';
+      var st = document.createElement('div'); st.className = 'rev-stars'; st.textContent = '★★★★★'.slice(0, n) + '☆☆☆☆☆'.slice(0, 5 - n); st.setAttribute('aria-label', n + '/5');
+      var q = document.createElement('blockquote'); q.textContent = '“' + String(v.text || '') + '”';
+      var c = document.createElement('figcaption'); c.textContent = String(v.name || '');
+      fig.appendChild(st); fig.appendChild(q); fig.appendChild(c); box.appendChild(fig);
+    });
+    var empty = document.querySelector('[data-rev-empty]'); if(empty) empty.hidden = true;
+  }
   if(!HELP_PAGE){
     fetch(API + 'site-data', { credentials: 'omit' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
       if(!d) return;
-      applyPrices(d.prices); applyOutages(d.outages); applyRatings(d.ratings);
+      applyPrices(d.prices); applyOutages(d.outages); applyRatings(d.ratings); applyReviews(d.reviews, d.ratings);
     })['catch'](function(){});
   }
 

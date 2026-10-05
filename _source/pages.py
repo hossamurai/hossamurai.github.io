@@ -269,12 +269,34 @@ def home(c):
   </div></div>
 </section>'''
 
-    reviews = ''
-    if REVIEWS:
-        rv = ''.join(
-            f'<figure class="review"><blockquote>“{t(r["quote"])}”</blockquote><figcaption>{r["name"]} · {t(r["place"])}</figcaption></figure>'
-            for r in REVIEWS)
-        reviews = f'<section class="sec"><div class="wrap">{sec_head("", t(L("Reviews", "آراء العملاء")), t(L("What our customers say", "ماذا يقول عملاؤنا")))}<div class="reviews">{rv}</div></div></section>'
+    # Reviews: real reviews from customers. The form sends them to n8n (site-review) as pending;
+    # only reviews Hossam approves come back through site-data and are shown here.
+    rv = ''.join(
+        f'<figure class="review"><div class="rev-stars" aria-label="5/5">★★★★★</div><blockquote>“{t(r["quote"])}”</blockquote><figcaption>{r["name"]} · {t(r["place"])}</figcaption></figure>'
+        for r in REVIEWS)
+    star_btns = ''.join(f'<button type="button" class="star" data-star="{i}" aria-label="{i}/5">★</button>' for i in range(1, 6))
+    reviews = f'''<section class="sec" id="reviews"><div class="wrap">
+  {sec_head('', t(L('Reviews', 'آراء العملاء')), t(L('What customers say', 'ماذا يقول عملاؤنا')))}
+  <p class="rev-rating" data-rating hidden></p>
+  <div class="reviews" data-reviews>{rv}</div>
+  <p class="rev-empty" data-rev-empty{' hidden' if REVIEWS else ''}>{t(L('No reviews yet — be the first to share yours.', 'لا توجد آراء بعد — كن أول من يشاركنا رأيه.'))}</p>
+  <button type="button" class="btn btn-ghost rev-open" data-rev-open aria-expanded="false" aria-controls="reviewForm">{icon('chat')}{t(L('Write a review', 'اكتب رأيك'))}</button>
+  <form class="remind rev-form" id="reviewForm" data-review data-api="{N8N_WEBHOOK}site-review" novalidate hidden>
+    <label>{t(L('Your rating', 'تقييمك'))}</label>
+    <div class="stars" role="radiogroup" aria-label="{t(L('Your rating', 'تقييمك'))}" dir="ltr">{star_btns}</div>
+    <input type="hidden" name="stars" value="5">
+    <label for="revName">{t(L('Name', 'الاسم'))}</label>
+    <input id="revName" name="name" type="text" maxlength="30" autocomplete="given-name" style="font-family:inherit">
+    <label for="revPlace">{t(L('City or country (optional)', 'المدينة أو الدولة (اختياري)'))}</label>
+    <input id="revPlace" name="place" type="text" maxlength="30" style="font-family:inherit">
+    <label for="revText">{t(L('Your review', 'رأيك'))}</label>
+    <textarea id="revText" name="text" rows="4" maxlength="400"></textarea>
+    <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+    <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Please add your name and a few words (at least 10 letters).', 'من فضلك اكتب اسمك وبضع كلمات (10 حروف على الأقل).'))}" data-msg-received="{t(L("Thank you! Your review will appear after a quick check.", 'شكراً لك! سيظهر رأيك بعد مراجعة سريعة.'))}" data-msg-limited="{t(L('Thanks — we already got your review today.', 'شكراً — وصلنا رأيك اليوم بالفعل.'))}" data-msg-error="{t(L("Couldn't send right now. Please try again in a minute.", 'تعذّر الإرسال الآن. حاول بعد دقيقة.'))}"></p>
+    <button type="submit" class="btn btn-wa">{icon('check')}<span>{t(L('Send review', 'أرسل رأيك'))}</span></button>
+    <small>{t(L('Reviews are checked before they appear. Only your name and city are shown.', 'تتم مراجعة الآراء قبل نشرها. يظهر اسمك ومدينتك فقط.'))}</small>
+  </form>
+</div></section>'''
 
     fq = all_faq()
     teaser = ''.join(details(c, i, *fq[i]) for i in ['free-trial', 'which-plan', 'multi-device', 'activation'])
@@ -292,6 +314,7 @@ def home(c):
   </div>
   {reminder_card(c, compact=True)}
 </div></section>
+{reviews}
 
 <section class="sec"><div class="wrap">
   {sec_head('03', t(L('How it works', 'طريقة الاشتراك')), t(L('From payment to playing in four steps', 'من الدفع إلى المشاهدة في 4 خطوات')))}
@@ -302,7 +325,6 @@ def home(c):
   {sec_head('04', t(L('Setup', 'التثبيت')), t(L('Works on the devices you already have', 'يعمل على أجهزتك الحالية')), t(L(f'Guides for every device. <a href="{c.root}help.html">Something not working?</a>', f'أدلة لكل جهاز. <a href="{c.root}help.html">عندك مشكلة؟</a>')))}
   {dev_grid(c)}
 </div></section>
-{reviews}
 <section class="sec"><div class="wrap">
   {sec_head('05', 'FAQ' if not c.ar else 'الأسئلة', t(L('Questions, answered', 'الأسئلة الشائعة')), side=f'<a class="link-arrow" href="{c.href("help.html")}">{t(L("All questions & troubleshooting", "كل الأسئلة وحل المشكلات"))}{icon("arrow", "flip")}</a>')}
   <div class="faq">{teaser}</div>
