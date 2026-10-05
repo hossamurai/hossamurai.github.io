@@ -137,6 +137,11 @@
         || (/^Australia\//.test(tz) ? '61' : '');
       if(code && cc.querySelector('option[value="' + code + '"]')) cc.value = code;
       cc.setAttribute('data-home', cc.value);
+      /* the closed box only shows the code (e.g. +1); the list still shows country names */
+      var ccShow = f.querySelector('.cc-show');
+      var showCc = function(){ if(ccShow) ccShow.textContent = '+' + cc.value; };
+      cc.addEventListener('change', showCc); showCc();
+      f.addEventListener('reset', function(){ setTimeout(showCc, 0); });
     }
     var hp = f.querySelector('[name="website"]'), msg = f.querySelector('.remind-msg'), btn = f.querySelector('[type="submit"]'), show = f.querySelector('.remind-show');
     var busy = false;
@@ -175,7 +180,7 @@
         .then(function(r){ return r.json()['catch'](function(){ return {}; }); })
         .then(function(d){
           var st = d && d.status;
-          if(d && d.ok && st === 'linked'){ say('linked', true); f.reset(); if(cc) cc.value = cc.getAttribute('data-home') || cc.value; pass.type = 'password'; if(show){ show.textContent = show.getAttribute('data-show'); show.setAttribute('aria-pressed', 'false'); } }
+          if(d && d.ok && st === 'linked'){ say('linked', true); f.reset(); if(cc){ cc.value = cc.getAttribute('data-home') || cc.value; cc.dispatchEvent(new Event('change')); } pass.type = 'password'; if(show){ show.textContent = show.getAttribute('data-show'); show.setAttribute('aria-pressed', 'false'); } }
           else if(st === 'not_found'){ say('not_found'); pass.value = ''; pass.focus(); }
           else if(st === 'limited'){ say('limited'); }
           else if(st === 'invalid'){ say('phone'); }

@@ -448,6 +448,11 @@ html[lang="ar"] .foot-grid h3{font-family:var(--f-ar);letter-spacing:0;font-size
 .remind p{margin:0 0 14px;color:var(--muted);font-size:.93rem}
 .remind label{display:block;font-weight:700;font-size:.88rem;margin-bottom:6px}
 .phone-row{display:flex;gap:8px}
+.cc-wrap,.remind .phone-row .cc-wrap{position:relative;flex:0 0 auto;display:flex;align-self:stretch;margin:0;font-weight:600}
+.cc-show{display:flex;align-items:center;gap:6px;min-width:76px;min-height:48px;padding:0 12px;border:1.5px solid var(--line-2);border-radius:12px;background:#fff;font-size:16px;font-weight:600;color:var(--ink);pointer-events:none}
+.cc-show::after{content:"";width:7px;height:7px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg) translateY(-2px);margin-inline-start:auto}
+.cc-wrap select{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer}
+.cc-wrap:focus-within .cc-show{border-color:var(--ink)}
 .phone-row select{flex:0 0 auto;max-width:44%;font:inherit;font-size:15px;padding:11px 10px;border:1.5px solid var(--line-2);border-radius:12px;background:#fff;color:var(--ink);text-overflow:ellipsis}
 .phone-row select:focus{outline:none;border-color:var(--ink)}
 .phone-row input{flex:1;min-width:0}
