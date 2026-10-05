@@ -307,12 +307,15 @@ footer{padding:48px 0 60px;color:var(--muted);font-size:.9rem}
   .pick{grid-template-columns:1fr 1fr}
   .cta{grid-template-columns:1fr;padding:36px 26px}
 }
-@media (max-width:720px){
+@media (max-width:1000px){
   html{scroll-padding-top:112px}
-  .nav-in{flex-wrap:wrap;height:auto;padding:10px 0;gap:10px}
+  .nav-in{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:10px;gap:10px}
   .nav-links{order:3;width:100%;margin:0;justify-content:space-between;border-top:1px solid var(--line);padding-top:8px;overflow-x:auto}
   .nav-links a{padding:6px 10px;font-size:.88rem;white-space:nowrap;flex:0 0 auto}
   .nav-right{margin-inline-start:auto}
+}
+@media (max-width:720px){
+  .nav-links{flex-wrap:wrap;justify-content:flex-start;gap:2px 4px;overflow:visible}
   .hero{padding:40px 0 44px}
   section.sec{padding:60px 0}
   .pay,.faq,.plans{grid-template-columns:1fr}
