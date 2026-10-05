@@ -427,6 +427,10 @@ html[lang="ar"] .foot-grid h3{font-family:var(--f-ar);letter-spacing:0;font-size
 .remind h3 .ic{width:20px;height:20px}
 .remind p{margin:0 0 14px;color:var(--muted);font-size:.93rem}
 .remind label{display:block;font-weight:700;font-size:.88rem;margin-bottom:6px}
+.phone-row{display:flex;gap:8px}
+.phone-row select{flex:0 0 auto;max-width:44%;font:inherit;font-size:15px;padding:11px 10px;border:1.5px solid var(--line-2);border-radius:12px;background:#fff;color:var(--ink);text-overflow:ellipsis}
+.phone-row select:focus{outline:none;border-color:var(--ink)}
+.phone-row input{flex:1;min-width:0}
 .remind input{width:100%;box-sizing:border-box;font:inherit;font-size:16px;font-family:var(--f-mono);padding:11px 14px;border:1.5px solid var(--line-2);border-radius:12px;background:#fff;color:var(--ink)}
 .remind input:focus{outline:none;border-color:var(--ink)}
 .remind input[aria-invalid="true"]{border-color:#c0392b}

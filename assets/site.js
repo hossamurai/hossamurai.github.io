@@ -123,6 +123,21 @@
      which saves the number on the account in the Customers table. Nothing is stored on the website. */
   each('[data-remind]', function(f){
     var user = f.querySelector('[name="username"]'), pass = f.querySelector('[name="password"]'), phone = f.querySelector('[name="phone"]');
+    var cc = f.querySelector('[name="cc"]');
+    /* preselect the country code from the visitor's time zone (no location permission needed) */
+    if(cc){
+      var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
+      var TZ_CC = { 'Africa/Cairo':'20', 'Asia/Riyadh':'966', 'Asia/Dubai':'971', 'Asia/Kuwait':'965', 'Asia/Qatar':'974', 'Asia/Bahrain':'973',
+        'Asia/Muscat':'968', 'Asia/Amman':'962', 'Asia/Beirut':'961', 'Asia/Baghdad':'964', 'Asia/Gaza':'970', 'Asia/Hebron':'970',
+        'Asia/Damascus':'963', 'Asia/Aden':'967', 'Africa/Khartoum':'249', 'Africa/Tripoli':'218', 'Africa/Tunis':'216', 'Africa/Algiers':'213',
+        'Africa/Casablanca':'212', 'Europe/Istanbul':'90', 'Europe/London':'44', 'Europe/Berlin':'49', 'Europe/Paris':'33', 'Europe/Amsterdam':'31',
+        'Europe/Brussels':'32', 'Europe/Zurich':'41', 'Europe/Vienna':'43', 'Europe/Stockholm':'46', 'Europe/Oslo':'47', 'Europe/Copenhagen':'45',
+        'Europe/Rome':'39', 'Europe/Madrid':'34', 'Europe/Dublin':'353' };
+      var code = TZ_CC[tz] || (/^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Detroit|Toronto|Vancouver|Edmonton|Winnipeg|Halifax|Regina|St_Johns|Indiana|Kentucky|Boise)/.test(tz) ? '1' : '')
+        || (/^Australia\//.test(tz) ? '61' : '');
+      if(code && cc.querySelector('option[value="' + code + '"]')) cc.value = code;
+      cc.setAttribute('data-home', cc.value);
+    }
     var hp = f.querySelector('[name="website"]'), msg = f.querySelector('.remind-msg'), btn = f.querySelector('[type="submit"]'), show = f.querySelector('.remind-show');
     var busy = false;
     function say(key, ok){
@@ -143,6 +158,8 @@
       var u = (user.value || '').replace(/\s+/g, '').toLowerCase();
       var p = (pass.value || '').replace(/\s+/g, '');
       var ph = (phone.value || '').replace(/[^\d+]/g, '');
+      /* number typed with its own + or 00 country code wins; otherwise country code + number without the leading 0 */
+      if(cc && ph && ph.charAt(0) !== '+' && ph.indexOf('00') !== 0) ph = '+' + cc.value + ph.replace(/^0+/, '');
       var okU = /^[a-z0-9._@-]{2,64}$/.test(u), okP = p.length > 0, digits = ph.replace(/\D/g, '');
       var okPh = digits.length >= 8 && digits.length <= 15;
       bad(user, !okU); bad(pass, !okP); bad(phone, !okPh);
@@ -158,7 +175,7 @@
         .then(function(r){ return r.json()['catch'](function(){ return {}; }); })
         .then(function(d){
           var st = d && d.status;
-          if(d && d.ok && st === 'linked'){ say('linked', true); f.reset(); pass.type = 'password'; if(show){ show.textContent = show.getAttribute('data-show'); show.setAttribute('aria-pressed', 'false'); } }
+          if(d && d.ok && st === 'linked'){ say('linked', true); f.reset(); if(cc) cc.value = cc.getAttribute('data-home') || cc.value; pass.type = 'password'; if(show){ show.textContent = show.getAttribute('data-show'); show.setAttribute('aria-pressed', 'false'); } }
           else if(st === 'not_found'){ say('not_found'); pass.value = ''; pass.focus(); }
           else if(st === 'limited'){ say('limited'); }
           else if(st === 'invalid'){ say('phone'); }
