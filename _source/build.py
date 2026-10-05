@@ -170,6 +170,7 @@ def footer(c):
         <span class="foot-brand">{SITE_NAME}</span>
         <p>{t(L('Live sports, movies and series on any screen — with personal support on WhatsApp.', 'مباريات وأفلام ومسلسلات على أي شاشة — مع دعم شخصي عبر واتساب.'))}</p>
         <p>{t(L('WhatsApp (chat only, no calls):', 'واتساب (رسائل فقط، بدون مكالمات):'))}<br><a class="foot-wa" href="{wa()}" target="_blank" rel="noopener">{WHATSAPP_DISPLAY}</a></p>
+        <p><a class="foot-remind" href="{c.href('index.html#reminders')}">{icon('clock')}{t(L('Get renewal reminders', 'فعّل تنبيهات التجديد'))}</a></p>
       </div>
       <div><h3>{t(L('Explore', 'تصفح'))}</h3><ul>{explore}</ul></div>
       <div><h3>{t(L('Setup guides', 'أدلة التثبيت'))}</h3><ul>{devs}</ul></div>

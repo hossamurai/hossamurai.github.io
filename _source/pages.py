@@ -184,7 +184,35 @@ def dev_grid(c):
 
 
 def faq_answer(c, a):
-    return c.t(a).replace('{channels}', f'<a href="{c.href("channels.html")}">{c.t(L("Channels", "القنوات"))}</a>')
+    return (c.t(a).replace('{channels}', f'<a href="{c.href("channels.html")}">{c.t(L("Channels", "القنوات"))}</a>')
+            .replace('{reminders}', f'<a href="{c.href("index.html#reminders")}">{c.t(L("Renewal reminders", "تنبيهات التجديد"))}</a>'))
+
+
+def reminder_card(c):
+    """Renewal reminders: the customer enters username + password + WhatsApp number (always all three,
+    because usernames repeat). The form posts to the n8n 'site-link' webhook, which checks the Customers
+    table and saves the number there. Nothing is stored on the website."""
+    t = c.t
+    return f'''<form class="remind" id="reminders" data-remind data-api="{N8N_WEBHOOK}site-link" data-bot="{BOT_WHATSAPP}" novalidate>
+  <h3>{icon('clock')}{t(L('Renewal reminders', 'تنبيهات التجديد'))}</h3>
+  <p>{t(L("Link an account to a WhatsApp number and we'll message that number before the subscription ends. You can add a friend's account on their number too.",
+          'اربط الحساب برقم واتساب وسنراسل هذا الرقم قبل انتهاء الاشتراك. يمكنك أيضاً إضافة حساب صديق على رقمه.'))}</p>
+  <label for="remindUser">{t(L('Username', 'اسم المستخدم'))}</label>
+  <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="{t(L('e.g. ahmed123', 'مثال: ahmed123'))}">
+  <label for="remindPass">{t(L('Password', 'كلمة المرور'))}</label>
+  <div class="remind-pass" dir="ltr">
+    <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
+    <button type="button" class="remind-show" aria-pressed="false" data-show="{t(L('Show', 'إظهار'))}" data-hide="{t(L('Hide', 'إخفاء'))}">{t(L('Show', 'إظهار'))}</button>
+  </div>
+  <label for="remindPhone">{t(L('WhatsApp number for reminders', 'رقم الواتساب للتنبيهات'))}</label>
+  <input id="remindPhone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="{t(L('e.g. +20 101 234 5678', 'مثال: 01012345678'))}">
+  <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+  <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Fill in the username, password and WhatsApp number.', 'اكتب اسم المستخدم وكلمة المرور ورقم الواتساب.'))}" data-msg-phone="{t(L('Check the WhatsApp number — include the country code, e.g. +971 50 123 4567.', 'راجع رقم الواتساب — اكتب كود الدولة، مثال: 971501234567+.'))}" data-msg-not_found="{t(L("The username and password don't match an account. Check the picture we sent after payment and type both exactly. If you subscribed or renewed in the last week, try again in a few days.", 'اسم المستخدم وكلمة المرور لا يطابقان أي حساب. راجع الصورة التي أرسلناها بعد الدفع واكتبهما بالضبط. لو اشتركت أو جدّدت خلال الأسبوع الماضي، حاول مرة أخرى بعد أيام.'))}" data-msg-limited="{t(L('Too many tries today. Please try again tomorrow, or message our bot on WhatsApp.', 'محاولات كثيرة اليوم. حاول غداً، أو راسل البوت على واتساب.'))}" data-msg-error="{t(L("Couldn't connect right now. Try again in a minute, or message our bot on WhatsApp.", 'تعذّر الاتصال الآن. حاول بعد دقيقة، أو راسل البوت على واتساب.'))}" data-msg-linked="{t(L("Linked ✅ We'll send a WhatsApp reminder to that number before it expires. A confirmation message is on its way.", 'تم الربط ✅ سنرسل تذكيراً على هذا الرقم قبل انتهاء الاشتراك. ستصلك رسالة تأكيد على الواتساب.'))}"></p>
+  <p class="remind-week">{icon('clock')}<span>{t(L("Just subscribed or renewed? It can take up to a week before you can link it — we add new accounts and renewals to our list once a week.", "اشتركت أو جدّدت حديثاً؟ قد يستغرق الأمر حتى أسبوع قبل أن تتمكن من ربط الحساب — نضيف الحسابات الجديدة والتجديدات لقائمتنا مرة كل أسبوع."))}</span></p>
+  <button type="submit" class="btn btn-wa">{icon('check')}<span>{t(L('Link account', 'اربط الحساب'))}</span></button>
+  <small>{t(L(f'We need the password because some usernames are shared by more than one account. Your details are checked by our system and are not stored on this website. Prefer WhatsApp? Message our bot: <a href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener">{BOT_WHATSAPP_DISPLAY}</a>.',
+              f'نحتاج كلمة المرور لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. يتم التحقق من بياناتك عبر نظامنا ولا تُحفظ على هذا الموقع. تفضّل الواتساب؟ راسل البوت: <a href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener"><bdi dir="ltr">{BOT_WHATSAPP_DISPLAY}</bdi></a>.'))}</small>
+</form>'''
 
 
 def details(c, iid, q, a, search=False):
@@ -289,8 +317,19 @@ def home(c):
   {dev_grid(c)}
 </div></section>
 {reviews}
+<section class="sec" id="reminders-sec"><div class="wrap remind-home">
+  <div>
+    {sec_head('05', t(L('Renewal reminders', 'تنبيهات التجديد')), t(L('Never miss a renewal', 'لا تفوّت موعد التجديد')), t(L("Link your account once and we'll message you on WhatsApp before it expires — so there's no surprise cut in the middle of a match.", 'اربط حسابك مرة واحدة وسنراسلك على واتساب قبل انتهاء الاشتراك — بدون انقطاع مفاجئ في نص الماتش.')))}
+    <ul class="remind-points">
+      <li>{icon('check')}<span>{t(L('A WhatsApp reminder a few days before your subscription ends.', 'تذكير على واتساب قبل انتهاء اشتراكك بأيام.'))}</span></li>
+      <li>{icon('check')}<span>{t(L("Bought for family or a friend? Link their account to their own number.", 'اشتركت لأحد من العائلة أو صديق؟ اربط حسابه برقمه.'))}</span></li>
+      <li>{icon('check')}<span>{t(L('Takes 30 seconds — you only need the username and password from the picture we sent after payment.', 'يستغرق 30 ثانية — تحتاج فقط اسم المستخدم وكلمة المرور من الصورة التي أرسلناها بعد الدفع.'))}</span></li>
+    </ul>
+  </div>
+  {reminder_card(c)}
+</div></section>
 <section class="sec"><div class="wrap">
-  {sec_head('05', 'FAQ' if not c.ar else 'الأسئلة', t(L('Questions, answered', 'الأسئلة الشائعة')), side=f'<a class="link-arrow" href="{c.href("help.html")}">{t(L("All questions & troubleshooting", "كل الأسئلة وحل المشكلات"))}{icon("arrow", "flip")}</a>')}
+  {sec_head('06', 'FAQ' if not c.ar else 'الأسئلة', t(L('Questions, answered', 'الأسئلة الشائعة')), side=f'<a class="link-arrow" href="{c.href("help.html")}">{t(L("All questions & troubleshooting", "كل الأسئلة وحل المشكلات"))}{icon("arrow", "flip")}</a>')}
   <div class="faq">{teaser}</div>
 </div></section>
 ''' + cta_block(c)
@@ -779,6 +818,7 @@ def help_page(c):
         groups += f'<div class="faq-group" data-search-group><h2 class="h2">{t(g)}</h2><div class="faq">{its}</div></div>'
     body = hero + f'''
 <section class="sec first"><div class="wrap">
+  <div class="help-remind">{reminder_card(c)}</div>
   {groups}
   <p class="empty" id="helpEmpty">{t(L('No results. Try another word, or ask us on WhatsApp.', 'لا توجد نتائج. جرّب كلمة أخرى، أو اسألنا عبر واتساب.'))}</p>
 </div></section>
@@ -834,6 +874,7 @@ def about(c):
     <h2>{t(L('Where we serve', 'أين نقدم خدماتنا'))}</h2>
     <ul class="regions">{''.join('<li>' + t(r) + '</li>' for r in regions)}</ul>
   </div>
+  <div class="about-side">
   <aside class="contact-card">
     <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <h3>{t(L('Talk to us', 'تواصل معنا'))}</h3>
@@ -841,6 +882,8 @@ def about(c):
     <span class="num">{WHATSAPP_DISPLAY}</span>
     {ext(c.wa('sub'), icon('chat') + t(L('Message us on WhatsApp', 'راسلنا عبر واتساب')), 'btn btn-wa')}
   </aside>
+  {reminder_card(c)}
+  </div>
 </div></section>
 ''' + cta_block(c)
     return (t(L('About Us', 'من نحن')),

@@ -15,6 +15,9 @@ SITE_NAME = 'Hossam TV'
 BASE_URL = 'https://hossamservices.com'          # address used in links, sitemap and share previews (no trailing slash)
 WHATSAPP = '201117250227'                       # international format, digits only
 WHATSAPP_DISPLAY = '+20 111 725 0227'
+BOT_WHATSAPP = '201013113996'                   # the WhatsApp bot's number — renewal-reminder sign-ups go here
+BOT_WHATSAPP_DISPLAY = '+20 101 311 3996'
+N8N_WEBHOOK = 'https://n8n.hossamservices.com/webhook/'   # n8n webhooks; the renewal-reminders form posts to <this>site-link
 LAST_UPDATED = L('3 October 2026', '3 أكتوبر 2026')   # shown on the policies page
 
 # Licensing text for the About page. Leave both empty to hide the section.
@@ -293,6 +296,9 @@ FAQ = [
         ('renew', L('Does my subscription renew automatically?', 'هل يتجدد الاشتراك تلقائياً؟'),
          L("No. Message us on WhatsApp when it's time to renew. Subscriptions can't be paused.",
            'لا. راسلنا عبر واتساب عند موعد التجديد. لا يمكن إيقاف الاشتراك مؤقتاً.')),
+        ('renewal-reminders', L('Can you remind me before my subscription ends?', 'هل يمكن تنبيهي قبل انتهاء الاشتراك؟'),
+         L('Yes. Enter your username, password and WhatsApp number in {reminders} and we will message that number before it expires.',
+           'نعم. اكتب اسم المستخدم وكلمة المرور ورقم الواتساب في {reminders} وسنراسل هذا الرقم قبل انتهاء الاشتراك.')),
         ('change-plan', L('Can I change or upgrade my plan?', 'هل يمكنني تغيير الباقة أو ترقيتها؟'),
          L('Yes — once your current subscription ends, you can renew on any plan available in your country.',
            'نعم — بعد انتهاء اشتراكك الحالي يمكنك التجديد على أي باقة متاحة في بلدك.')),
