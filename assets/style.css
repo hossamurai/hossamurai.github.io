@@ -2,19 +2,20 @@
 :root{
   --bg:#ffffff;
   --surface:#ffffff;
-  --surface-2:#f7f7f7;
-  --ink:#222222;
-  --ink-2:#3f3f3f;
-  --muted:#6a6a6a;
-  --line:#ebebeb;
-  --line-2:#dddddd;
-  --brand:#ffcc33;
-  --brand-soft:#fff6d6;
-  --ink-line:#1a1a1a;
-  --brand-grad:#ffcc33;
+  --surface-2:#f5f5f7;
+  --ink:#1d1d1f;
+  --ink-2:#424245;
+  --muted:#6e6e73;
+  --line:#e8e8ed;
+  --line-2:#d2d2d7;
+  --brand:#e3101b;
+  --brand-soft:#f5f5f7;
+  --ink-line:#1d1d1f;
+  --brand-grad:#e3101b;
+  --ai-grad:linear-gradient(90deg,#ff5a4e 0%,#e3101b 55%,#a8000c 100%);
 
   --live:#e5412d;
-  --wa:#ffcc33;
+  --wa:#e3101b;
   --wa-ink:#ffffff;
 
   --c-basic:#2563eb;
@@ -27,9 +28,9 @@
   --shadow:0 6px 20px rgba(0,0,0,.10);
   --shadow-hover:0 6px 16px rgba(0,0,0,.12);
 
-  --f-display:'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --f-body:'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --f-ar:'IBM Plex Sans Arabic', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --f-display:-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, 'Segoe UI', sans-serif;
+  --f-body:-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, 'Segoe UI', sans-serif;
+  --f-ar:-apple-system, BlinkMacSystemFont, 'SF Arabic', 'IBM Plex Sans Arabic', system-ui, sans-serif;
   --f-mono:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
@@ -589,54 +590,70 @@ footer.site{background:var(--surface-2);border-top:1px solid var(--line);margin-
   .remind-compact .rf-grid .btn{margin-top:0;height:50px;width:auto;padding:0 22px}
   .remind-compact .remind-week{display:inline-flex}
 }
-/* ---------- playful yellow theme (inspired by HeyFriends!) ---------- */
-.btn{border-radius:999px}
-.btn-wa{background:var(--brand);color:var(--ink-line);border:2px solid var(--ink-line);box-shadow:0 3px 0 var(--ink-line);filter:none}
-.btn-wa:hover{background:#ffd75a;filter:none;transform:translateY(-1px);box-shadow:0 4px 0 var(--ink-line)}
-.btn-wa:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink-line)}
-.btn-ghost{background:#fff;border:2px solid var(--ink-line);color:var(--ink-line)}
-.btn-ghost:hover{background:var(--brand-soft)}
-.nav .btn-wa{box-shadow:0 2px 0 var(--ink-line)}
-.kicker{color:var(--ink-line);background:var(--brand);padding:3px 10px;border-radius:999px;font-size:.72rem}
-.page-hero{background:var(--brand-soft)}
-footer.site{background:#fffaf0}
-/* hero: big headline, hand-drawn loop around the key words, a couple of doodles */
-.hero-fun{position:relative;text-align:center;padding:72px 0 56px;overflow:hidden}
-.hero-fun h1{font-size:clamp(2.3rem,5.6vw,4.2rem);font-weight:800;line-height:1.05;letter-spacing:-.03em;max-width:860px;margin:0 auto 18px}
-.hero-fun .loop{position:relative;white-space:nowrap;z-index:0}
-.hero-fun .loop::after{content:"";position:absolute;inset:-18% -8% -22% -8%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 100' preserveAspectRatio='none'%3E%3Cpath d='M18 58C14 30 90 10 170 12s124 18 120 44-70 38-150 36S12 82 22 50c6-18 40-30 80-34' fill='none' stroke='%23ffcc33' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center/100% 100%;z-index:-1}
-.hero-fun .lead{margin:0 auto 30px;max-width:560px}
-.hero-fun .hero-cta{justify-content:center}
-.doodle{position:absolute;width:44px;height:44px;background:no-repeat center/contain;pointer-events:none}
-.doodle.d1{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 3v12M20 25v12M3 20h12M25 20h12' stroke='%231a1a1a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");top:52px;left:9%}
-.doodle.d2{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 30'%3E%3Cpath d='M3 18c8-12 16-12 22 0s14 12 22 0 14-12 22 0' fill='none' stroke='%23ffcc33' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E");width:90px;height:34px;bottom:40px;right:10%}
-/* plan cards: compact, outlined, playful shadow */
-.pgrid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
-.pcard{background:#fff;border:2px solid var(--ink-line);border-radius:22px;padding:20px;box-shadow:4px 4px 0 var(--ink-line);transition:transform .15s,box-shadow .15s}
-.pcard:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink-line)}
-.pcard.featured{background:var(--brand-soft);border:2px solid var(--ink-line);box-shadow:4px 4px 0 var(--ink-line)}
-.pcard.featured:hover{box-shadow:6px 6px 0 var(--ink-line)}
-.pcard .plan-body{padding:0}
-.pcard .badges{position:static;display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;min-height:0}
+/* ---------- Apple-inspired theme (Apple Intelligence page) ---------- */
+body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+h1,h2,h3{letter-spacing:-.025em}
+.btn{border-radius:980px;font-weight:600;border-width:0}
+.btn-wa{background:var(--brand);color:#fff;box-shadow:none;filter:none}
+.btn-wa:hover{background:#c90d17;filter:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:rgba(29,29,31,.05)}
+.link-arrow{color:var(--brand);border-bottom:0}
+.link-arrow:hover{text-decoration:underline}
+.nav{background:rgba(255,255,255,.8);backdrop-filter:saturate(1.8) blur(20px);-webkit-backdrop-filter:saturate(1.8) blur(20px)}
+.nav-links a{font-weight:400;font-size:.85rem;color:var(--ink)}
+.nav-links a[aria-current="page"],.nav-links a:hover{background:transparent;color:var(--ink);font-weight:600}
+.kicker{background:var(--ai-grad);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:.02em;text-transform:none;font-size:1.05rem;font-weight:600;padding:0;border-radius:0}
+.sec-head h2{font-size:clamp(2rem,4.4vw,3.4rem);font-weight:700;letter-spacing:-.03em;line-height:1.06}
+.page-hero{background:#fff;border-bottom:0;padding-top:56px}
+.page-hero h1{font-weight:700;letter-spacing:-.035em}
+footer.site{background:var(--surface-2);border-top:0;font-size:.8rem}
+/* home: centred headline with the Apple Intelligence gradient and a soft colour glow */
+.hero-apple{position:relative;text-align:center;padding:96px 0 72px;overflow:hidden}
+.hero-apple::before{content:"";position:absolute;left:50%;top:58%;width:min(900px,120vw);height:340px;transform:translate(-50%,-50%);background:var(--ai-grad);filter:blur(90px);opacity:.13;border-radius:50%;z-index:0;pointer-events:none}
+.hero-apple .wrap{position:relative;z-index:1}
+.hero-apple h1{font-size:clamp(2.6rem,6.6vw,5rem);font-weight:700;letter-spacing:-.04em;line-height:1.03;max-width:900px;margin:0 auto 20px}
+.hero-apple .grad{background:var(--ai-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-apple .lead{font-size:clamp(1.05rem,1.6vw,1.3rem);color:var(--muted);max-width:620px;margin:0 auto 34px}
+.hero-apple .hero-cta{justify-content:center;gap:14px}
+#plans .sec-head,#reviews .sec-head,.remind-sec .sec-head{text-align:center;margin-inline:auto}
+#plans .sec-head p,.remind-sec .sec-head p{margin-inline:auto}
+#plans .region{justify-content:center}
+#plans .more-link,#reviews .rev-open,#reviews .rev-rating,#reviews .rev-empty{display:flex;justify-content:center;margin-inline:auto}
+#reviews .rev-empty{text-align:center}
+/* bento-style tiles: big radius, light grey, no borders or shadows */
+.pgrid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-inline:auto}
+.pcard{background:var(--surface-2);border:0;border-radius:28px;padding:26px;box-shadow:none;transition:transform .25s}
+.pcard:hover{transform:scale(1.012);box-shadow:none}
+.pcard.featured{border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,var(--ai-grad) border-box;box-shadow:0 18px 50px rgba(227,16,27,.10)}
+.pcard.featured:hover{box-shadow:0 18px 50px rgba(227,16,27,.14)}
+.pcard .badges{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
 .pcard .badges:empty{display:none}
-.pcard .pill{background:var(--brand);border:1.5px solid var(--ink-line);box-shadow:none;font-size:.75rem;padding:3px 10px}
+.pcard .pill{background:#fff;color:var(--ink);border:0;box-shadow:0 1px 3px rgba(0,0,0,.08);font-size:.75rem;font-weight:600;padding:4px 11px}
+.pcard.featured .pill:first-child{background:var(--ai-grad);color:#fff;box-shadow:none}
 .pcard .pill-soft{background:#fff}
-.plan-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.plan-head .plan-logo{width:48px;height:48px;border-radius:12px;background:#fff;border:1.5px solid var(--line);padding:4px;object-fit:contain;box-shadow:none}
+.plan-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.plan-head .plan-logo{width:48px;height:48px;border-radius:12px;background:#fff;border:0;padding:4px;object-fit:contain;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .plan-head .plan-mono{width:48px;height:48px;border-radius:12px;font-size:1.1rem}
-.plan-head h3{font-size:1.2rem;font-weight:800}
-.plan-head .aka{display:block;font-size:.8rem;color:var(--muted);font-weight:500}
-.plan-head .plan-trial{margin-inline-start:auto;align-self:flex-start}
-.pcard .plan-price b{font-size:1.5rem;letter-spacing:-.02em}
-/* sections */
-section.sec.remind-sec{background:var(--brand-soft)}
-.remind-sec .remind{border:2px solid var(--ink-line);box-shadow:4px 4px 0 var(--ink-line)}
-.review{border:2px solid var(--ink-line);box-shadow:4px 4px 0 var(--ink-line)}
-.cta{background:var(--brand);border:2px solid var(--ink-line);box-shadow:6px 6px 0 var(--ink-line)}
-.cta p{color:var(--ink-2)}
-.cta .btn-wa{background:var(--ink-line);color:#fff;box-shadow:0 3px 0 #000}
-.cta .btn-ghost{background:#fff}
-.remind-week{background:#fff;border-color:var(--ink-line)}
+.plan-head h3{font-size:1.3rem;font-weight:700}
+.plan-head .aka{display:block;font-size:.8rem;color:var(--muted);font-weight:400}
+.plan-head .plan-trial{margin-inline-start:auto;align-self:flex-start;color:var(--muted)}
+.pcard .plan-price b{font-size:1.7rem;letter-spacing:-.03em}
+.pcard .plan-actions .btn{padding:11px 18px}
+.seg{background:var(--surface-2);border:0}
+.seg button[aria-pressed="true"]{box-shadow:0 1px 4px rgba(0,0,0,.1)}
+section.sec.remind-sec{background:var(--surface-2)}
+.remind-sec .remind{border:0;border-radius:28px;box-shadow:none;background:#fff}
+.remind-week{background:var(--surface-2);border:0;color:var(--ink-2)!important}
+.review{background:var(--surface-2);border:0;border-radius:24px;box-shadow:none}
+.cta{background:var(--surface-2);border:0;border-radius:28px;box-shadow:none;text-align:center;grid-template-columns:1fr;justify-items:center}
+.cta h2{font-size:clamp(1.9rem,4vw,3rem);letter-spacing:-.03em}
+.cta p{color:var(--muted)}
+.cta .cta-actions{flex-direction:row;flex-wrap:wrap;justify-content:center}
+.cta .btn-wa{background:var(--brand);color:#fff;box-shadow:none}
+.cta .btn-ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.contact-card,.remind,.side-card,.guide{border-color:var(--line);box-shadow:none;border-radius:24px}
+.code{border-radius:10px}
 
 @media (max-width:1000px){
   .menu-btn{display:grid}
@@ -741,12 +758,16 @@ section.sec.remind-sec{background:var(--brand-soft)}
   .plan-media .plan-logo,.plan-media .plan-mono{width:80px;height:80px}
 }
 @media (max-width:640px){
-  .hero-fun{padding:44px 0 36px}
-  .doodle{display:none}
-  .hero-fun .hero-cta .btn{flex:1 1 100%}
-  .pcard{box-shadow:3px 3px 0 var(--ink-line)}
+  .hero-apple{padding:56px 0 44px}
+  .hero-apple::before{height:240px;filter:blur(70px)}
+  .hero-apple .hero-cta .btn{flex:1 1 100%}
+  .pgrid{grid-template-columns:minmax(0,1fr)}
+  .pcard{padding:20px}
+  .cta .cta-actions .btn{flex:1 1 100%}
 }
 @media (max-width:360px){
+  .pcard .plan-actions{grid-template-columns:1fr}
+  .plan-head .plan-trial{display:none}
   .nav-in{gap:8px}
   .lang .ic{display:none}
   .lang{padding:7px 9px}
