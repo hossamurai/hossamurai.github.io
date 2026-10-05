@@ -193,7 +193,7 @@ def reminder_card(c):
     from their own WhatsApp (proves the number is theirs). Username + password, because some
     usernames repeat. The bot reads the '#remind <username> <password>' line."""
     t = c.t
-    return f'''<form class="remind" id="reminders" data-remind data-wa="{WHATSAPP}" novalidate>
+    return f'''<form class="remind" id="reminders" data-remind data-wa="{BOT_WHATSAPP}" novalidate>
   <h3>{icon('clock')}{t(L('Renewal reminders', 'تنبيهات التجديد'))}</h3>
   <p>{t(L("Link your account to your WhatsApp number and we'll message you before your subscription ends.",
           'اربط حسابك برقم الواتساب وسنراسلك قبل انتهاء اشتراكك.'))}</p>
@@ -206,8 +206,8 @@ def reminder_card(c):
   </div>
   <p class="remind-err" role="alert" hidden>{t(L('Enter the username and password we sent you on WhatsApp.', 'اكتب اسم المستخدم وكلمة المرور التي أرسلناها لك عبر واتساب.'))}</p>
   <button type="submit" class="btn btn-wa">{icon('chat')}{t(L('Link on WhatsApp', 'اربط عبر واتساب'))}</button>
-  <small>{t(L(f'WhatsApp opens with a ready message — just tap Send, from the number you want reminders on. We need the password too because some usernames are shared by more than one account. Only send it to our number, {WHATSAPP_DISPLAY}.',
-              f'سيفتح واتساب برسالة جاهزة — فقط اضغط إرسال، من الرقم الذي تريد التنبيهات عليه. نحتاج كلمة المرور أيضاً لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. أرسلها لرقمنا فقط: <bdi dir="ltr">{WHATSAPP_DISPLAY}</bdi>.'))}</small>
+  <small>{t(L(f'WhatsApp opens with a ready message — just tap Send, from the number you want reminders on. It goes to our reminders bot, {BOT_WHATSAPP_DISPLAY}. We need the password too because some usernames are shared by more than one account. Only send it to this number.',
+              f'سيفتح واتساب برسالة جاهزة — فقط اضغط إرسال، من الرقم الذي تريد التنبيهات عليه. ستصل لبوت التنبيهات على الرقم <bdi dir="ltr">{BOT_WHATSAPP_DISPLAY}</bdi>. نحتاج كلمة المرور أيضاً لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. أرسلها لهذا الرقم فقط.'))}</small>
 </form>'''
 
 

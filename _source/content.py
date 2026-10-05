@@ -15,6 +15,8 @@ SITE_NAME = 'Hossam TV'
 BASE_URL = 'https://hossamservices.com'          # address used in links, sitemap and share previews (no trailing slash)
 WHATSAPP = '201117250227'                       # international format, digits only
 WHATSAPP_DISPLAY = '+20 111 725 0227'
+BOT_WHATSAPP = '201013113996'                   # the WhatsApp bot's number — renewal-reminder sign-ups go here
+BOT_WHATSAPP_DISPLAY = '+20 101 311 3996'
 LAST_UPDATED = L('3 October 2026', '3 أكتوبر 2026')   # shown on the policies page
 
 # Licensing text for the About page. Leave both empty to hide the section.

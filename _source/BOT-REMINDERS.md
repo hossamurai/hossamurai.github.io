@@ -1,8 +1,9 @@
 # Renewal reminders — what the WhatsApp bot needs to do
 
 The website's **Renewal reminders** card (About page and Help page) does not send anything to n8n.
-It opens WhatsApp on the customer's phone with a ready message to **+20 111 725 0227**
-(`WHATSAPP` in `content.py`). The customer taps Send, so the message comes **from their own
+It opens WhatsApp on the customer's phone with a ready message to the **bot's number,
++20 101 311 3996** (`BOT_WHATSAPP` in `content.py`). Every other WhatsApp link on the site still goes to
+the main number, +20 111 725 0227. The customer taps Send, so the message comes **from their own
 number**. That proves the number is theirs, and nobody can sign up someone else's phone.
 
 The card asks for the **username and the password**, because some usernames are shared by more
@@ -41,7 +42,7 @@ The last line is the same in both languages. Match it with:
 
 ## What to add in n8n
 
-1. **In the WhatsApp message workflow:** when an incoming message matches the pattern above:
+1. **In the bot's WhatsApp message workflow (+20 101 311 3996):** when an incoming message matches the pattern above:
    - Look up the account by **username and password together** (in your panel or customer sheet).
      If no account matches, reply that the details weren't found and ask them to check.
    - Save the account (its unique ID from the panel, plus username), the sender's WhatsApp number
