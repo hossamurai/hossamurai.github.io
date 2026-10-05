@@ -8,16 +8,17 @@
   --muted:#6a6a6a;
   --line:#ebebeb;
   --line-2:#dddddd;
-  --brand:#e0294a;
+  --brand:#e31c5f;
+  --brand-grad:linear-gradient(to right,#e61e4d 0%,#e31c5f 50%,#d70466 100%);
 
   --live:#e5412d;
-  --wa:#1faa59;
+  --wa:#e31c5f;
   --wa-ink:#ffffff;
 
-  --c-basic:#2f6fd6;
-  --c-premium:#b7801a;
-  --c-xtv:#d4304a;
-  --c-marvel:#178f5c;
+  --c-basic:#2563eb;
+  --c-premium:#d08a0c;
+  --c-xtv:#dc2626;
+  --c-marvel:#059669;
 
   --radius:16px;
   --shadow-sm:0 1px 2px rgba(0,0,0,.06), 0 2px 8px rgba(0,0,0,.05);
@@ -497,6 +498,65 @@ footer.site{background:var(--surface-2);border-top:1px solid var(--line);margin-
 .catbar a:hover{color:var(--ink);border-bottom-color:var(--line-2)}
 .catbar .ic{width:26px;height:26px}
 
+/* ---------- modern light theme (Airbnb-like) ---------- */
+.btn-wa{background:var(--brand-grad);color:#fff}
+.btn-wa:hover{background:var(--brand-grad);filter:brightness(.94)}
+.link-arrow{border-bottom-color:var(--ink)}
+/* home hero: centred headline + pill finder */
+.hero-air{padding:48px 0 0;text-align:center}
+.hero-air h1{font-size:clamp(1.9rem,4vw,3rem);max-width:760px;margin:0 auto 28px}
+.finder{display:flex;align-items:center;max-width:720px;margin:0 auto;background:#fff;border:1px solid var(--line-2);border-radius:999px;box-shadow:0 3px 12px rgba(0,0,0,.08);padding:8px;text-align:start}
+.finder-field{flex:1;min-width:0;display:flex;flex-direction:column;padding:6px 24px;border-radius:999px;cursor:pointer}
+.finder-field:hover{background:var(--surface-2)}
+.finder-field + .finder-field{border-inline-start:1px solid var(--line)}
+.finder-field span{font-size:.75rem;font-weight:700;color:var(--ink)}
+.finder-field select{appearance:none;-webkit-appearance:none;border:0;background:transparent;font:inherit;font-size:.95rem;color:var(--muted);padding:2px 0;cursor:pointer;width:100%;text-overflow:ellipsis;outline:none}
+.finder-go{display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 22px;border:0;border-radius:999px;background:var(--brand-grad);color:#fff;font:inherit;font-weight:700;cursor:pointer;flex-shrink:0}
+.finder-go:hover{filter:brightness(.94)}
+.finder-go .ic{width:18px;height:18px}
+.hero-alt{margin:18px 0 0;color:var(--muted);font-size:.92rem}
+.hero-alt .link-arrow{font-size:.92rem;margin-inline-start:4px}
+.catbar-wrap{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:36px}
+.catbar{border-top:0;margin:0;padding-top:16px;justify-content:center}
+.catbar a{padding-bottom:12px}
+/* plan cards: picture first, little text */
+.pgrid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px 22px}
+.pgrid:has(> :nth-child(2):last-child){max-width:760px}
+.pcard{position:relative;display:flex;flex-direction:column;padding:0;border:0;background:transparent;box-shadow:none;overflow:visible}
+.pcard::before{display:none}
+.pcard.featured{border:0;box-shadow:none}
+.pcard:hover{box-shadow:none}
+.plan-media{position:relative;aspect-ratio:4/3;border-radius:16px;display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(circle at 50% 45%,#fff 0 30%,transparent 62%),linear-gradient(160deg,color-mix(in srgb,var(--c) 22%,#fff),color-mix(in srgb,var(--c) 8%,#fff));transition:transform .25s}
+.pcard:hover .plan-media{transform:scale(1.015)}
+.plan-media .plan-logo{width:96px;height:96px;border-radius:22px;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.10);padding:8px;object-fit:contain}
+.plan-media .plan-mono{width:96px;height:96px;border-radius:22px;font-size:2rem}
+.plan-media .badges{position:absolute;top:12px;inset-inline-start:12px;margin:0;min-height:0;gap:6px}
+.pill{display:inline-block;background:#fff;color:var(--ink);font-size:.8rem;font-weight:700;padding:5px 12px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.pill-soft{background:rgba(255,255,255,.85);font-weight:600;color:var(--ink-2)}
+.plan-body{padding:12px 2px 0;display:flex;flex-direction:column;flex:1}
+.plan-title{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.plan-title h3{font-size:1.05rem;font-weight:700;letter-spacing:0}
+.plan-title .aka{display:inline;font-size:.85rem;color:var(--muted);font-weight:500;margin:0}
+.plan-trial{display:inline-flex;align-items:center;gap:4px;font-size:.85rem;color:var(--ink-2);white-space:nowrap}
+.plan-trial .ic{width:14px;height:14px}
+.plan-line{margin:2px 0 0;color:var(--muted);font-size:.93rem;line-height:1.45}
+.plan-price{margin:8px 0 0;font-size:.95rem;color:var(--ink-2)}
+.plan-price b{font-size:1.15rem;color:var(--ink)}
+.plan-price .p2{color:var(--muted)}
+.pcard .plan-actions{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:14px;padding-top:0}
+.pcard .plan-actions .btn{width:auto;padding:11px 16px;font-size:.9rem}
+.plan-setup{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:.85rem;font-weight:600;color:var(--muted);text-decoration:none}
+.plan-setup:hover{color:var(--ink);text-decoration:underline}
+/* light versions of the dark blocks */
+.cta{background:linear-gradient(135deg,#fff1f4,#fff7ef);color:var(--ink);border:1px solid #ffe0e7}
+.cta > .bars,.contact-card > .bars{display:none}
+.cta p{color:var(--muted)}
+.cta .btn-ghost{color:var(--ink);border-color:var(--ink)}
+.cta .btn-ghost:hover{background:#fff;border-color:var(--ink)}
+.contact-card{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.contact-card p{color:var(--muted)}
+
 @media (max-width:1000px){
   .menu-btn{display:grid}
   .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 20px 18px;box-shadow:var(--shadow);gap:2px}
@@ -586,6 +646,18 @@ footer.site{background:var(--surface-2);border-top:1px solid var(--line);margin-
   /* footer: link lists side by side */
   .foot-grid{grid-template-columns:1fr 1fr;gap:28px 20px}
   .foot-grid > div:first-child,.foot-grid > div:last-child{grid-column:1 / -1}
+}
+@media (max-width:640px){
+  .hero-air{padding-top:28px}
+  .hero-air h1{margin-bottom:20px}
+  .finder{flex-direction:column;align-items:stretch;border-radius:20px;padding:6px}
+  .finder-field{padding:10px 14px;border-radius:14px}
+  .finder-field + .finder-field{border-inline-start:0;border-top:1px solid var(--line)}
+  .finder-go{justify-content:center;margin-top:6px;border-radius:14px;height:48px}
+  .catbar{justify-content:flex-start}
+  .pgrid:has(> :nth-child(2):last-child){max-width:none}
+  .plan-media{aspect-ratio:16/9}
+  .plan-media .plan-logo,.plan-media .plan-mono{width:80px;height:80px}
 }
 @media (max-width:360px){
   .nav-in{gap:8px}

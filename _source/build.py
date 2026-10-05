@@ -194,7 +194,7 @@ def layout(c, title, desc, body):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#fbf8f3">
+<meta name="theme-color" content="#ffffff">
 <title>{full_title}</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{canonical(c.lang, c.path)}">

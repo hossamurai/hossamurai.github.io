@@ -170,4 +170,22 @@
       el.addEventListener('input', function(){ bad(el, false); if(!msg.hidden && msg.className.indexOf('err') > -1) msg.hidden = true; });
     });
   });
+  /* home "finder" pill: Watching from + Device -> shows that country's plans, points Setup guide links at the device */
+  each('[data-finder]', function(f){
+    var reg = f.querySelector('[name="region"]'), dev = f.querySelector('[name="device"]');
+    var cur = document.querySelector('[data-region-btn][aria-pressed="true"]');
+    if(cur) reg.value = cur.getAttribute('data-region-btn');
+    var d = store('htv-device'); if(d && dev.querySelector('option[value="' + d + '"]')) dev.value = d;
+    function setDevice(){
+      var base = f.getAttribute('data-setup-base').replace(/\/?$/, '/');
+      each('[data-setup-link]', function(a){ a.href = base + dev.value + '.html'; });
+    }
+    if(d) setDevice();
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var b = document.querySelector('[data-region-btn="' + reg.value + '"]'); if(b) b.click();
+      store('htv-device', dev.value); setDevice();
+      var plans = document.getElementById('plans'); if(plans) plans.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 })();

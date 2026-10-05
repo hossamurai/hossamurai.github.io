@@ -108,39 +108,37 @@ def aka_text(c, pid):
 
 
 def plan_card(c, region, rp):
+    """Airbnb-style card: a soft picture area with the logo and badges, then a title, two grey lines and the price."""
     t, p, pid = c.t, PLANS[rp['id']], rp['id']
     nm, rl = t(p['name']), t(region['label'])
     badges = ''
     if rp.get('badge'):
-        badges += f'<span class="badge solid">{t(rp["badge"])}</span>'
+        badges += f'<span class="pill">{t(rp["badge"])}</span>'
     if p['egypt_only']:
-        badges += f'<span class="badge">{t(L("Egypt only", "مصر فقط"))}</span>'
-    p2 = '&nbsp;'
+        badges += f'<span class="pill pill-soft">{t(L("Egypt only", "مصر فقط"))}</span>'
+    p2 = ''
     if rp.get('p2'):
         m = money(c, rp['cur'], rp['p2'])
-        p2 = f'أو <b>{m}</b> لمدة سنتين' if c.ar else f'or <b>{m}</b> for 2 years'
-    feat = ''.join(
-        f'<li{CLS_NO if len(f) > 2 and f[2] else ""}>{icon(f[0])}<span>{t(f[1])}</span></li>' for f in p['feat'])
-    stats = ''.join(f'<div class="stat"><b>{v}</b><span>{t(lbl)}</span></div>' for v, lbl in p['stats'])
-    aka = aka_text(c, pid)
-    logo = (f'<img class="plan-logo" src="{c.root}{p["img"]}" alt="" width="56" height="56" loading="lazy" '
+        p2 = f'<span class="p2">· {m} لسنتين</span>' if c.ar else f'<span class="p2">· {m} for 2 years</span>'
+    aka = c.t(p['aka']) if p.get('aka') else ''
+    first = t(p['feat'][0][1])
+    stats = ' · '.join(f'{v} {t(lbl)}' for v, lbl in p['stats'])
+    logo = (f'<img class="plan-logo" src="{c.root}{p["img"]}" alt="" width="96" height="96" loading="lazy" '
             f'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'">'
             f'<span class="plan-mono" style="display:none">{p["mono"]}</span>')
-    trial_lbl = f'تجربة مجانية {p["trial"]} ساعة' if c.ar else f'Free {p["trial"]}-hour trial'
-    return f'''<article class="plan{" featured" if rp.get("featured") else ""}" style="--c:{p["color"]}">
-  <div class="badges">{badges}</div>
-  <div class="plan-top">{logo}<div><h3>{nm}</h3>{('<span class="aka">' + aka + '</span>') if aka else ''}</div></div>
-  <p class="tag">{t(p["tag"])}</p>
-  <div class="price"><span class="amt">{money(c, rp["cur"], rp["p1"])}</span><span class="per">{t(PERIOD[rp["per"]])}</span></div>
-  <p class="price-2">{p2}</p>
-  <ul class="feat">{feat}</ul>
-  <div class="stats">{stats}</div>
-  <div class="plan-actions">
-    {ext(c.wa('sub', plan=nm, region=rl), icon('chat') + t(L('Subscribe on WhatsApp', 'اشترك عبر واتساب')), 'btn btn-wa')}
-    <div class="plan-sub">
-      {ext(c.wa('trial', plan=nm, region=rl), icon('clock') + trial_lbl, 'link-arrow')}
-      <a class="link-arrow" href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}{icon('arrow', 'flip')}</a>
+    trial = f'{p["trial"]} ساعة تجربة' if c.ar else f'{p["trial"]}h trial'
+    return f'''<article class="pcard{" featured" if rp.get("featured") else ""}" style="--c:{p["color"]}">
+  <div class="plan-media"><div class="badges">{badges}</div>{logo}</div>
+  <div class="plan-body">
+    <div class="plan-title"><h3>{nm}{(' <span class="aka">' + aka + '</span>') if aka else ''}</h3><span class="plan-trial">{icon('clock')}{trial}</span></div>
+    <p class="plan-line">{first}</p>
+    <p class="plan-line ltr-nums">{stats}</p>
+    <p class="plan-price"><b>{money(c, rp["cur"], rp["p1"])}</b> {t(PERIOD[rp["per"]])} {p2}</p>
+    <div class="plan-actions">
+      {ext(c.wa('sub', plan=nm, region=rl), icon('chat') + t(L('Subscribe', 'اشترك')), 'btn btn-wa')}
+      {ext(c.wa('trial', plan=nm, region=rl), t(L('Free trial', 'تجربة مجانية')), 'btn btn-ghost')}
     </div>
+    <a class="plan-setup" data-setup-link href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}{icon('arrow', 'flip')}</a>
   </div>
 </article>'''
 
@@ -155,7 +153,7 @@ def region_block(c):
     for r in REGIONS:
         nt = f'<div class="region-note">{icon("info")}<span>{t(r["note"])}</span></div>' if r['note'] else ''
         cards = ''.join(plan_card(c, r, rp) for rp in r['plans'])
-        panels += f'<div data-region-panel="{r["id"]}"{"" if r["id"] == default else " hidden"}>{nt}<div class="plans">{cards}</div></div>'
+        panels += f'<div data-region-panel="{r["id"]}"{"" if r["id"] == default else " hidden"}>{nt}<div class="plans pgrid">{cards}</div></div>'
     return f'''<div class="region">
   <span class="region-label" id="regionLbl">{t(L("I'm watching from", 'أشاهد من'))}</span>
   <div class="seg" role="group" aria-labelledby="regionLbl">{seg}</div>
@@ -250,39 +248,23 @@ def pay_block(c):
 # ----------------------------------------------------------------------------
 def home(c):
     t = c.t
-    hero = f'''<section class="hero"><div class="wrap"><div class="hero-grid">
-  <div>
-    <span class="onair"><span class="dot"></span>{t(L('Live now', 'بث مباشر الآن'))}</span>
+    reg_opts = ''.join(f'<option value="{r["id"]}">{t(r["label"])}</option>' for r in REGIONS)
+    dev_opts = ''.join(f'<option value="{d["slug"]}">{t(d["name"])}</option>' for d in DEVICES if not d.get('off'))
+    hero = f'''<section class="hero hero-air"><div class="wrap">
     <h1>{t(L('Every match, movie and series. <em>On any screen.</em>', 'كل المباريات والأفلام والمسلسلات. <em>على أي شاشة.</em>'))}</h1>
-    <p class="lead">{t(L('Live sports, Arabic and international channels and movies — up to 4K, on all your devices.', 'مباريات مباشرة وقنوات عربية وعالمية وأفلام — بجودة حتى 4K على كل أجهزتك.'))}</p>
-    <div class="hero-cta">
-      {btn_trial(c)}
-      <a class="btn btn-ghost" href="{c.href('plans.html')}">{t(L('See plans & prices', 'الباقات والأسعار'))} {icon('arrow', 'flip')}</a>
-    </div>
-    <ul class="trust">
-      <li>{icon('clock')}{t(L('Free trial', 'تجربة مجانية'))}</li>
-      <li>{icon('bolt')}{t(L('Activated in minutes', 'تفعيل خلال دقائق'))}</li>
-      <li>{icon('chat')}{t(L('Help on WhatsApp', 'دعم عبر واتساب'))}</li>
-    </ul>
+    <form class="finder" data-finder data-setup-base="{c.href('setup/')}" role="search" aria-label="{t(L('Find your plan', 'اعثر على باقتك'))}">
+      <label class="finder-field"><span>{t(L('Watching from', 'أشاهد من'))}</span><select name="region">{reg_opts}</select></label>
+      <label class="finder-field"><span>{t(L('Device', 'الجهاز'))}</span><select name="device">{dev_opts}</select></label>
+      <button type="submit" class="finder-go">{icon('search')}<span>{t(L('Show plans', 'اعرض الباقات'))}</span></button>
+    </form>
+    <p class="hero-alt">{t(L('Not sure yet?', 'لسه مش متأكد؟'))} {ext(c.wa('trial'), t(L('Get a free trial', 'اطلب تجربة مجانية')), 'link-arrow')}</p>
   </div>
-  <div aria-hidden="true">
-    <div class="tv"><div class="tv-screen">
-      <div class="bars"><i></i><i></i><i></i><i></i></div>
-      <div class="tv-top"><span class="live-pill"><span class="dot"></span>LIVE</span><span class="tv-q">4K UHD</span></div>
-      <div class="tv-rows">
-        <div class="tv-row"><span class="sq" style="background:var(--c-xtv)">{icon('ball')}</span><div><b>{t(L('Live football', 'مباريات مباشرة'))}</b><small>{t(L('Every match day', 'في كل جولة'))}</small></div><span class="chip">LIVE</span></div>
-        <div class="tv-row"><span class="sq" style="background:var(--c-premium)">{icon('film')}</span><div><b>{t(L('Movies', 'أفلام'))}</b><small>{t(L('Arabic & international', 'عربية وعالمية'))}</small></div><span class="chip">4K</span></div>
-        <div class="tv-row"><span class="sq" style="background:var(--c-basic)">{icon('series')}</span><div><b>{t(L('Series', 'مسلسلات'))}</b><small>{t(L('Full seasons', 'مواسم كاملة'))}</small></div><span class="chip">VOD</span></div>
-        <div class="tv-row"><span class="sq" style="background:var(--c-marvel)">{icon('kids')}</span><div><b>{t(L('Kids & family', 'أطفال وعائلة'))}</b><small>{t(L('Family-friendly options', 'خيارات مناسبة للعائلة'))}</small></div><span class="chip">HD</span></div>
-      </div>
-    </div></div>
-    <div class="tv-stand"></div>
-  </div>
-</div>
+  <div class="catbar-wrap"><div class="wrap">
   <nav class="catbar" aria-label="{t(L('What you can watch', 'ماذا تشاهد'))}">{''.join(f'<a href="{c.href("channels.html")}">{icon(ic)}<span>{t(lbl)}</span></a>' for ic, lbl in [
       ('ball', L('Live football', 'مباريات مباشرة')), ('globe', L('Arabic channels', 'قنوات عربية')), ('film', L('Movies', 'أفلام')),
       ('series', L('Series', 'مسلسلات')), ('kids', L('Kids', 'أطفال')), ('4k', L('4K', '4K')), ('devices', L('All devices', 'كل الأجهزة'))])}</nav>
-</div></section>'''
+  </div></div>
+</section>'''
 
     reviews = ''
     if REVIEWS:
@@ -303,7 +285,7 @@ def home(c):
 
 <section class="sec remind-sec" id="reminders-sec"><div class="wrap remind-home">
   <div>
-    {sec_head('02', t(L('Renewal reminders', 'تنبيهات التجديد')), t(L('Never miss a renewal', 'لا تفوّت موعد التجديد')), t(L("Link your account once and we'll remind you on WhatsApp before it expires. Works for a friend's or family member's account too.", 'اربط حسابك مرة واحدة وسنذكّرك على واتساب قبل انتهاء الاشتراك. يمكنك أيضاً ربط حساب صديق أو أحد من العائلة.')))}
+    {sec_head('02', t(L('Renewal reminders', 'تنبيهات التجديد')), t(L('Never miss a renewal', 'لا تفوّت موعد التجديد')), t(L("A WhatsApp reminder before your subscription ends — for your account or a friend's.", 'تذكير على واتساب قبل انتهاء الاشتراك — لحسابك أو لحساب صديق.')))}
   </div>
   {reminder_card(c, compact=True)}
 </div></section>
@@ -314,7 +296,7 @@ def home(c):
 </div></section>
 
 <section class="sec"><div class="wrap">
-  {sec_head('04', t(L('Setup', 'التثبيت')), t(L('Works on the devices you already have', 'يعمل على أجهزتك الحالية')), t(L(f'Step-by-step guides for every device. Something not working? <a href="{c.root}help.html">Fix it step by step</a>.', f'أدلة خطوة بخطوة لكل جهاز. عندك مشكلة؟ <a href="{c.root}help.html">حلها خطوة بخطوة</a>.')))}
+  {sec_head('04', t(L('Setup', 'التثبيت')), t(L('Works on the devices you already have', 'يعمل على أجهزتك الحالية')), t(L(f'Guides for every device. <a href="{c.root}help.html">Something not working?</a>', f'أدلة لكل جهاز. <a href="{c.root}help.html">عندك مشكلة؟</a>')))}
   {dev_grid(c)}
 </div></section>
 {reviews}
@@ -336,8 +318,7 @@ def plans(c):
     t = c.t
     hero = page_hero(c, [(None, t(L('Plans', 'الباقات')))],
                      t(L('Plans & prices', 'الباقات والأسعار')),
-                     t(L('Choose your country to see the plans and prices available to you. Every plan comes with a free trial first.',
-                         'اختر بلدك لتظهر لك الباقات والأسعار المتاحة. كل باقة تبدأ بتجربة مجانية.')))
+                     t(L('Prices depend on your country. Every plan starts with a free trial.', 'الأسعار تختلف حسب بلدك. كل باقة تبدأ بتجربة مجانية.')))
 
     fit = [
         ('xtv', L('Football in Egypt, watching with family', 'كرة القدم في مصر مع العائلة')),
@@ -394,7 +375,7 @@ def plans(c):
 </div></section>
 
 <section class="sec" id="payment"><div class="wrap">
-  {sec_head('', t(L('Payment', 'الدفع')), t(L('Ways to pay', 'طرق الدفع')), t(L("Message us on WhatsApp and we'll send the payment details for your method.", 'راسلنا عبر واتساب وسنرسل لك بيانات الدفع للطريقة المناسبة لك.')))}
+  {sec_head('', t(L('Payment', 'الدفع')), t(L('Ways to pay', 'طرق الدفع')), t(L("Message us and we'll send the payment details.", 'راسلنا وسنرسل لك تفاصيل الدفع.')))}
   {pay_block(c)}
 </div></section>
 ''' + cta_block(c)
@@ -411,8 +392,7 @@ def channels(c):
     t = c.t
     hero = page_hero(c, [(None, t(L('Channels', 'القنوات')))],
                      t(L("What you can watch", 'ماذا يمكنك أن تشاهد')),
-                     t(L('Live sports, Arabic and international channels, movies, series and more. Here is what each plan is strongest at.',
-                         'رياضة مباشرة، قنوات عربية وعالمية، أفلام، مسلسلات والمزيد. إليك أقوى ما في كل باقة.')))
+                     t(L('What each plan is strongest at.', 'ما تتميز به كل باقة.')))
     cats = ''
     for ic, h, p, best in CATEGORIES:
         chips = ''.join(f'<span class="pchip" style="--c:{PLANS[b]["color"]}">{t(PLANS[b]["name"])}</span>' for b in best)
@@ -436,17 +416,17 @@ def channels(c):
 
     body = hero + f'''
 <section class="sec first"><div class="wrap">
-  {sec_head('', t(L('Categories', 'الفئات')), t(L('Something for everyone at home', 'شيء لكل فرد في البيت')), t(L('Coloured tags show which plans are strongest in each category.', 'الألوان توضح أقوى الباقات في كل فئة.')))}
+  {sec_head('', t(L('Categories', 'الفئات')), t(L('Something for everyone at home', 'شيء لكل فرد في البيت')), t(L('Tags show the strongest plans.', 'العلامات توضح أقوى الباقات.')))}
   <div class="cats">{cats}</div>
 </div></section>
 
 <section class="sec"><div class="wrap">
-  {sec_head('', t(L('By plan', 'حسب الباقة')), t(L('What each plan includes', 'ماذا تتضمن كل باقة')), t(L("Line-ups change often. Ask us on WhatsApp for the latest list — or take the free trial and browse everything yourself.", 'قوائم القنوات تتغير باستمرار. اطلب أحدث قائمة عبر واتساب — أو خذ التجربة المجانية وتصفح كل شيء بنفسك.')))}
+  {sec_head('', t(L('By plan', 'حسب الباقة')), t(L('What each plan includes', 'ماذا تتضمن كل باقة')), t(L("Line-ups change often — ask us on WhatsApp for the full list.", 'القوائم تتغير باستمرار — اطلب القائمة الكاملة على واتساب.')))}
   <div class="plans">{per}</div>
 </div></section>
 
 <section class="sec"><div class="wrap">
-  {sec_head('', t(L('Quality', 'الجودة')), t(L('What internet speed do you need?', 'ما سرعة الإنترنت التي تحتاجها؟')), t(L('For each screen that is watching. A network cable or 5 GHz Wi-Fi gives the smoothest picture.', 'لكل شاشة تشاهد. كابل الإنترنت أو واي فاي 5 GHz يعطي أفضل صورة.')))}
+  {sec_head('', t(L('Quality', 'الجودة')), t(L('What internet speed do you need?', 'ما سرعة الإنترنت التي تحتاجها؟')), t(L('Per screen. A cable or 5 GHz Wi-Fi works best.', 'لكل شاشة. الكابل أو واي فاي 5 جيجا هو الأفضل.')))}
   <div class="speed">
     <div><em>SD</em><b>5 Mbps</b><span>{t(L('Phones and small screens', 'الموبايل والشاشات الصغيرة'))}</span></div>
     <div><em>Full HD</em><b>10 Mbps</b><span>{t(L('Most TVs', 'معظم الشاشات'))}</span></div>
@@ -483,8 +463,7 @@ def setup_index(c):
     t = c.t
     hero = page_hero(c, [(None, t(L('Setup', 'التثبيت')))],
                      t(L('Installation guides', 'أدلة التثبيت')),
-                     t(L('Pick your device for step-by-step instructions. Most setups take under 10 minutes.',
-                         'اختر جهازك لتظهر لك الخطوات بالتفصيل. معظم الأجهزة تستغرق أقل من 10 دقائق.')))
+                     t(L('Pick your device. Most setups take under 10 minutes.', 'اختر جهازك. معظم الأجهزة تستغرق أقل من 10 دقائق.')))
     rows = ''
     for pid in PLAN_ORDER:
         p = PLANS[pid]
@@ -521,12 +500,12 @@ def setup_index(c):
 </div></section>
 
 <section class="sec" id="codes"><div class="wrap">
-  {sec_head('', t(L('Quick reference', 'مرجع سريع')), t(L('App codes by plan', 'أكواد التطبيقات حسب الباقة')), t(L('Type these in the Downloader app on TVs, or open them in your browser on a phone. Tap a code to copy it.', 'اكتبها في تطبيق Downloader على التلفزيون، أو افتحها في المتصفح على الموبايل. اضغط على الكود لنسخه.')))}
+  {sec_head('', t(L('Quick reference', 'مرجع سريع')), t(L('App codes by plan', 'أكواد التطبيقات حسب الباقة')), t(L('Type in Downloader on a TV, or open on a phone. Tap to copy.', 'اكتبها في Downloader على التلفزيون أو افتحها على الموبايل. اضغط للنسخ.')))}
   <div class="table-wrap"><table class="cmp codes-table" style="min-width:0"><tbody>{rows}</tbody></table></div>
 </div></section>
 
 <section class="sec" id="hosts"><div class="wrap">
-  {sec_head('', t(L('Other players', 'مشغلات أخرى')), t(L('Server hosts by plan', 'الهوست حسب الباقة')), t(L('For apps where you type the details yourself — IPTV Smarters, Smarters Player Lite, SFVIP, XCIPTV, TiviMate and others. Use the server URL with the username and password we sent you. If the main host doesn’t work, try a backup.', 'للتطبيقات التي تكتب فيها البيانات بنفسك — IPTV Smarters و Smarters Player Lite و SFVIP و XCIPTV و TiviMate وغيرها. استخدم رابط السيرفر مع اسم المستخدم وكلمة المرور التي أرسلناها لك. لو الهوست الأساسي لا يعمل، جرّب الاحتياطي.')))}
+  {sec_head('', t(L('Other players', 'مشغلات أخرى')), t(L('Server hosts by plan', 'الهوست حسب الباقة')), t(L('For apps where you type your own details (IPTV Smarters, SFVIP, TiviMate…). If the main host doesn’t work, try a backup.', 'للتطبيقات التي تكتب فيها بياناتك (IPTV Smarters و SFVIP و TiviMate…). لو الهوست الأساسي لا يعمل جرّب الاحتياطي.')))}
   <div class="table-wrap"><table class="cmp codes-table" style="min-width:0"><tbody>{host_rows}</tbody></table></div>
 </div></section>
 ''' + cta_block(c)
@@ -622,8 +601,7 @@ def device_data(c, slug):
         return dict(
             apps=['downloader'],
             h1=P('Install Hossam TV on Android TV & TV boxes', 'تثبيت Hossam TV على أندرويد تي في وأجهزة البوكس'),
-            lead=P('Works on Android TV and Google TV sets and most Android TV boxes. It takes about 10 minutes.',
-                   'يعمل على شاشات Android TV و Google TV ومعظم أجهزة أندرويد بوكس. يستغرق التثبيت حوالي 10 دقائق.'),
+            lead=P('Android TV, Google TV and most TV boxes. About 10 minutes.', 'أندرويد تي في وجوجل تي في ومعظم البوكسات. حوالي 10 دقائق.'),
             desc=P('Step-by-step: install Hossam TV on Android TV, Google TV and Android TV boxes using the Downloader app.',
                    'خطوة بخطوة: تثبيت Hossam TV على Android TV و Google TV وأجهزة أندرويد بوكس باستخدام تطبيق Downloader.'),
             steps=[
@@ -645,8 +623,7 @@ def device_data(c, slug):
         return dict(
             apps=['downloader'],
             h1=P('Install Hossam TV on Amazon Firestick', 'تثبيت Hossam TV على أمازون فايرستيك'),
-            lead=P('Works on Fire TV Sticks and Fire TV devices running Fire OS. It takes about 10 minutes.',
-                   'يعمل على أجهزة Fire TV Stick و Fire TV التي تعمل بنظام Fire OS. يستغرق التثبيت حوالي 10 دقائق.'),
+            lead=P('Fire TV devices running Fire OS. About 10 minutes.', 'أجهزة Fire TV بنظام Fire OS. حوالي 10 دقائق.'),
             desc=P('Step-by-step: install Hossam TV on Amazon Firestick with Downloader, and check if your Firestick runs Vega OS.',
                    'خطوة بخطوة: تثبيت Hossam TV على أمازون فايرستيك باستخدام Downloader، وطريقة التأكد إن كان جهازك يعمل بنظام Vega OS.'),
             pre=[vega],
@@ -666,8 +643,7 @@ def device_data(c, slug):
     if slug == 'android':
         return dict(
             h1=P('Install Hossam TV on Android phones & tablets', 'تثبيت Hossam TV على موبايل وتابلت أندرويد'),
-            lead=P('Download the app straight from your phone’s browser. It takes about 5 minutes.',
-                   'حمّل التطبيق مباشرة من متصفح الموبايل. يستغرق التثبيت حوالي 5 دقائق.'),
+            lead=P('Download from your phone’s browser. About 5 minutes.', 'حمّل التطبيق من متصفح الموبايل. حوالي 5 دقائق.'),
             desc=P('Step-by-step: install Hossam TV on an Android phone or tablet.',
                    'خطوة بخطوة: تثبيت Hossam TV على موبايل أو تابلت أندرويد.'),
             steps=[
@@ -684,8 +660,7 @@ def device_data(c, slug):
         return dict(
             apps=['smarters-lite'],
             h1=P('Install Hossam TV on iPhone, iPad, Mac & Apple TV', 'تثبيت Hossam TV على آيفون وآيباد وماك وأبل تي في'),
-            lead=P('Apple devices use the free Smarters Player Lite app from the App Store. It takes about 5 minutes and works the same for every plan.',
-                   'أجهزة أبل تستخدم تطبيق Smarters Player Lite المجاني من App Store. يستغرق حوالي 5 دقائق ونفس الخطوات لكل الباقات.'),
+            lead=P('Free Smarters Player Lite app. About 5 minutes, any plan.', 'تطبيق Smarters Player Lite المجاني. حوالي 5 دقائق، لكل الباقات.'),
             desc=P('Step-by-step: watch Hossam TV on iPhone, iPad, Mac and Apple TV with Smarters Player Lite.',
                    'خطوة بخطوة: شاهد Hossam TV على آيفون وآيباد وماك وأبل تي في باستخدام Smarters Player Lite.'),
             steps=[
@@ -702,8 +677,7 @@ def device_data(c, slug):
         return dict(
             apps=['ibo', 'bob'],
             h1=P('Install Hossam TV on Samsung & LG Smart TVs', 'تثبيت Hossam TV على شاشات سامسونج و LG'),
-            lead=P("Smart TVs use IBO Player (or Bob Player). You install the app, send us your TV's code, and we load your playlist for you.",
-                   'الشاشات الذكية تستخدم تطبيق IBO Player (أو Bob Player). تثبّت التطبيق، ترسل لنا كود الشاشة، ونحن نجهّز لك القائمة.'),
+            lead=P("Install IBO Player, send us your TV's code, and we load your channels.", 'ثبّت IBO Player، أرسل لنا كود الشاشة، ونحن نجهّز القنوات.'),
             desc=P('Step-by-step: watch Hossam TV on Samsung and LG Smart TVs with IBO Player or Bob Player, including app fees.',
                    'خطوة بخطوة: شاهد Hossam TV على شاشات سامسونج و LG باستخدام IBO Player أو Bob Player، مع توضيح رسوم التطبيق.'),
             steps=[
@@ -727,8 +701,7 @@ def device_data(c, slug):
     if slug == 'windows':
         return dict(
             h1=P('Install Hossam TV on Windows PC & laptop', 'تثبيت Hossam TV على كمبيوتر ويندوز'),
-            lead=P('Windows uses the free SFVIP Player. It takes about 5 minutes and works the same for every plan.',
-                   'ويندوز يستخدم برنامج SFVIP Player المجاني. يستغرق حوالي 5 دقائق ونفس الخطوات لكل الباقات.'),
+            lead=P('Free SFVIP Player. About 5 minutes, any plan.', 'برنامج SFVIP Player المجاني. حوالي 5 دقائق، لكل الباقات.'),
             desc=P('Step-by-step: watch Hossam TV on a Windows PC or laptop with SFVIP Player.',
                    'خطوة بخطوة: شاهد Hossam TV على كمبيوتر أو لابتوب ويندوز باستخدام SFVIP Player.'),
             steps=[
@@ -796,7 +769,7 @@ def help_page(c):
     search = f'''<div class="search">{icon('search')}<input id="helpSearch" type="search" placeholder="{t(L('Search: buffering, Firestick, refund…', 'ابحث: تقطيع، فايرستيك، استرجاع…'))}" aria-label="{t(L('Search help', 'ابحث في المساعدة'))}"></div>'''
     hero = page_hero(c, [(None, t(L('Help', 'المساعدة')))],
                      t(L('Help center', 'مركز المساعدة')),
-                     t(L('Quick fixes for common problems and answers to the questions we get most.', 'حلول سريعة للمشكلات الشائعة وإجابات لأكثر الأسئلة تكراراً.')),
+                     t(L('Quick fixes and common questions.', 'حلول سريعة وأسئلة شائعة.')),
                      extra=search)
     tr = ''.join(details(c, i, q, a, search=True) for i, q, a in TROUBLE)
     groups = f'''<div class="faq-group" data-search-group>
@@ -837,8 +810,7 @@ def about(c):
     t = c.t
     hero = page_hero(c, [(None, t(L('About', 'من نحن')))],
                      t(L('About Hossam TV', 'عن Hossam TV')),
-                     t(L('A small, personal IPTV service — you talk to a real person from your first trial to every renewal.',
-                         'خدمة IPTV صغيرة وشخصية — تتعامل مع شخص حقيقي من أول تجربة وحتى كل تجديد.')))
+                     t(L('A small, personal IPTV service — a real person helps you on WhatsApp.', 'خدمة IPTV صغيرة وشخصية — شخص حقيقي يساعدك على واتساب.')))
     lic = ''
     if t(LICENSE_TEXT):
         lic = f'<h2>{t(L("Licensing", "التراخيص"))}</h2><p>{t(LICENSE_TEXT)}</p>'
@@ -848,11 +820,9 @@ def about(c):
 <section class="sec first"><div class="wrap split">
   <div class="prose">
     <h2>{t(L('Who we are', 'من نحن'))}</h2>
-    <p>{t(L('Hossam TV is based in Egypt. We help viewers in Egypt, the Gulf and around the world watch live sports, Arabic and international channels, movies and series on the devices they already own.',
-            'يقع مقر Hossam TV في مصر. نساعد المشاهدين في مصر والخليج وحول العالم على مشاهدة المباريات المباشرة والقنوات العربية والعالمية والأفلام والمسلسلات على الأجهزة التي يملكونها بالفعل.'))}</p>
+    <p>{t(L('Based in Egypt, serving viewers in Egypt, the Gulf and worldwide.', 'مقرنا في مصر، ونخدم المشاهدين في مصر والخليج وحول العالم.'))}</p>
     <h2>{t(L('How we work', 'كيف نعمل'))}</h2>
-    <p>{t(L('Everything happens personally on WhatsApp: your free trial, payment, activation, setup help and renewals. We recommend the plan that actually fits how you watch — even when it is the cheaper one.',
-            'كل شيء يتم بشكل شخصي عبر واتساب: التجربة المجانية، والدفع، والتفعيل، والمساعدة في التثبيت، والتجديد. ونرشح لك الباقة المناسبة فعلاً لطريقة مشاهدتك — حتى لو كانت الأرخص.'))}</p>
+    <p>{t(L('Trial, payment, activation, setup and renewals — all personally on WhatsApp. We recommend the plan that fits you, even if it’s the cheaper one.', 'التجربة والدفع والتفعيل والتثبيت والتجديد — كلها بشكل شخصي على واتساب. ونرشح لك الباقة المناسبة حتى لو كانت الأرخص.'))}</p>
     <h2>{t(L('Our promises', 'وعودنا لك'))}</h2>
     <ul>
       <li>{t(L('<b>Try before you pay</b> — a free trial on every plan.', '<b>جرّب قبل أن تدفع</b> — تجربة مجانية لكل باقة.'))}</li>
@@ -889,7 +859,7 @@ def policies(c):
     t = c.t
     hero = page_hero(c, [(None, t(L('Policies', 'السياسات')))],
                      t(L('Terms, refunds & privacy', 'الشروط والاسترجاع والخصوصية')),
-                     t(L('Written in plain language so you know exactly how things work.', 'مكتوبة بلغة بسيطة لتعرف بالضبط كيف تسير الأمور.')),
+                     t(L('In plain language.', 'بلغة بسيطة.')),
                      extra=f'<p class="updated">{t(L("Last updated:", "آخر تحديث:"))} {t(LAST_UPDATED)}</p>')
     nav = ''.join(f'<a class="btn btn-ghost btn-sm" href="#{a}">{t(lbl)}</a>' for a, lbl in [
         ('terms', L('Terms of service', 'شروط الخدمة')), ('refund', L('Refund policy', 'سياسة الاسترجاع')), ('privacy', L('Privacy policy', 'سياسة الخصوصية'))])
