@@ -398,8 +398,14 @@ def channels(c):
                      t(L('What each plan is strongest at.', 'ما تتميز به كل باقة.')))
     cats = ''
     for ic, h, p, best in CATEGORIES:
-        chips = ''.join(f'<span class="pchip" style="--c:{PLANS[b]["color"]}">{t(PLANS[b]["name"])}</span>' for b in best)
-        cats += f'<div class="cat">{icon(ic)}<h3>{t(h)}</h3><p>{t(p)}</p><div class="dots">{chips}</div></div>'
+        # two rows: Egypt-only plans and plans sold worldwide
+        rows = ''
+        for lbl, group in [(L('Egypt', 'مصر'), [x for x in best if PLANS[x]['egypt_only']]),
+                           (L('Worldwide', 'كل الدول'), [x for x in best if not PLANS[x]['egypt_only']])]:
+            if group:
+                chips = ''.join(f'<span class="pchip" style="--c:{PLANS[x]["color"]}">{t(PLANS[x]["name"])}</span>' for x in group)
+                rows += f'<div class="dots"><span class="dots-lbl">{t(lbl)}</span>{chips}</div>'
+        cats += f'<div class="cat">{icon(ic)}<h3>{t(h)}</h3><p>{t(p)}</p><div class="dot-rows">{rows}</div></div>'
 
     per = ''
     for pid in PLAN_ORDER:
@@ -419,7 +425,7 @@ def channels(c):
 
     body = hero + f'''
 <section class="sec first"><div class="wrap">
-  {sec_head('', t(L('Categories', 'الفئات')), t(L('Something for everyone at home', 'شيء لكل فرد في البيت')), t(L('Tags show the strongest plans.', 'العلامات توضح أقوى الباقات.')))}
+  {sec_head('', t(L('Categories', 'الفئات')), t(L('Something for everyone at home', 'شيء لكل فرد في البيت')), t(L('The strongest plans in Egypt and worldwide.', 'أقوى الباقات في مصر وفي كل الدول.')))}
   <div class="cats">{cats}</div>
 </div></section>
 
