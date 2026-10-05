@@ -675,14 +675,14 @@ def device_data(c, slug):
         )
     if slug == 'smart-tv':
         return dict(
-            apps=['ibo', 'bob'],
+            apps=['bob', 'ibo'],
             h1=P('Install Hossam TV on Samsung & LG Smart TVs', 'تثبيت Hossam TV على شاشات سامسونج و LG'),
-            lead=P("Install IBO Player, send us your TV's code, and we load your channels.", 'ثبّت IBO Player، أرسل لنا كود الشاشة، ونحن نجهّز القنوات.'),
-            desc=P('Step-by-step: watch Hossam TV on Samsung and LG Smart TVs with IBO Player or Bob Player, including app fees.',
-                   'خطوة بخطوة: شاهد Hossam TV على شاشات سامسونج و LG باستخدام IBO Player أو Bob Player، مع توضيح رسوم التطبيق.'),
+            lead=P("Bob Player on Samsung, IBO Player on LG. Send us your TV's code and we load your channels.", 'Bob Player على سامسونج و IBO Player على LG. أرسل لنا كود الشاشة ونحن نجهّز القنوات.'),
+            desc=P('Step-by-step: watch Hossam TV on Samsung (Bob Player) and LG (IBO Player) Smart TVs, including app fees.',
+                   'خطوة بخطوة: شاهد Hossam TV على شاشات سامسونج (Bob Player) و LG (IBO Player)، مع توضيح رسوم التطبيق.'),
             steps=[
-                P("Open your TV's app store (<b>Apps</b> on Samsung, <b>LG Content Store</b> on LG) and search for <b>IBO Player</b>.<span class=\"hint\">Can't find it? Install <b>Bob Player</b> instead — same company, same steps.</span>",
-                  'افتح متجر التطبيقات في الشاشة (<b>Apps</b> في سامسونج، و<b>LG Content Store</b> في LG) وابحث عن <b>IBO Player</b>.<span class="hint">لا تجده؟ ثبّت <b>Bob Player</b> بدلاً منه — من نفس الشركة وبنفس الخطوات.</span>'),
+                P("Open your TV's app store and install the app: <b>Samsung</b> (<b>Apps</b>) → <b>Bob Player</b>. <b>LG</b> (<b>LG Content Store</b>) → <b>IBO Player</b>.<span class=\"hint\">IBO Player isn't in the Samsung store right now, so Samsung uses Bob Player — same company, same steps.</span>",
+                  'افتح متجر التطبيقات في الشاشة وثبّت التطبيق: <b>سامسونج</b> (<b>Apps</b>) ← <b>Bob Player</b>. <b>LG</b> (<b>LG Content Store</b>) ← <b>IBO Player</b>.<span class="hint">IBO Player غير موجود حالياً في متجر سامسونج، لذلك نستخدم Bob Player على سامسونج — من نفس الشركة وبنفس الخطوات.</span>'),
                 P('Install and open it. The screen shows a <b>Device ID</b> (MAC) and a <b>Device Key</b>.', 'ثبّت التطبيق وافتحه. ستظهر على الشاشة بيانات <b>Device ID</b> (MAC) و <b>Device Key</b>.'),
                 P(f'Send a clear photo of them on WhatsApp together with your subscription <b>username</b>. {ext(c.wa("tv"), "Send on WhatsApp")}',
                   f'أرسل صورة واضحة لهما عبر واتساب مع <b>اسم المستخدم</b> الخاص باشتراكك. {ext(c.wa("tv"), "أرسل عبر واتساب")}'),
@@ -690,11 +690,11 @@ def device_data(c, slug):
             ],
             notes=[
                 note('tip', P('App fee — Basic & Premium', 'رسوم التطبيق — الأساسية وبريميوم'),
-                     P('IBO / Bob Player activation is <b>free for your first TV</b> with your plan. Each extra TV is <b>$4</b> for lifetime.',
-                       'تفعيل IBO / Bob Player <b>مجاني لأول شاشة</b> مع باقتك. كل شاشة إضافية <b>4 دولارات</b> مدى الحياة.')),
+                     P('Bob / IBO Player activation is <b>free for your first TV</b> with your plan. Each extra TV is <b>$4</b> for lifetime.',
+                       'تفعيل Bob / IBO Player <b>مجاني لأول شاشة</b> مع باقتك. كل شاشة إضافية <b>4 دولارات</b> مدى الحياة.')),
                 note('warn', P('App fee — XTV & Marvel', 'رسوم التطبيق — XTV و Marvel'),
-                     P('IBO / Bob Player activation is separate from your subscription: <b>100 EGP</b> for 1 year or <b>200 EGP</b> for lifetime, per TV. The app gives you a 7-day free trial first.',
-                       'تفعيل IBO / Bob Player منفصل عن الاشتراك: <b>100 جنيه</b> لسنة أو <b>200 جنيه</b> مدى الحياة لكل شاشة. التطبيق يتيح تجربة مجانية 7 أيام أولاً.')),
+                     P('Bob / IBO Player activation is separate from your subscription: <b>100 EGP</b> for 1 year or <b>200 EGP</b> for lifetime, per TV. The app gives you a 7-day free trial first.',
+                       'تفعيل Bob / IBO Player منفصل عن الاشتراك: <b>100 جنيه</b> لسنة أو <b>200 جنيه</b> مدى الحياة لكل شاشة. التطبيق يتيح تجربة مجانية 7 أيام أولاً.')),
             ],
             trouble=['buffering', 'locked'],
         )
