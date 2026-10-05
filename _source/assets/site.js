@@ -119,13 +119,18 @@
 
   var yr = document.getElementById('yr');
   if(yr) yr.textContent = new Date().getFullYear();
-  /* renewal reminders: open WhatsApp with a prefilled "link my account" message.
-     Sent from the customer's own WhatsApp, so the bot knows the number is theirs.
-     Username + password, because some usernames repeat.
-     The bot reads the last line: "#remind <username> <password>". */
+  /* renewal reminders: username + password + WhatsApp number are checked by n8n (site-link webhook),
+     which saves the number on the account in the Customers table. Nothing is stored on the website. */
   each('[data-remind]', function(f){
-    var user = f.querySelector('[name="username"]'), pass = f.querySelector('[name="password"]');
-    var err = f.querySelector('.remind-err'), show = f.querySelector('.remind-show');
+    var user = f.querySelector('[name="username"]'), pass = f.querySelector('[name="password"]'), phone = f.querySelector('[name="phone"]');
+    var hp = f.querySelector('[name="website"]'), msg = f.querySelector('.remind-msg'), btn = f.querySelector('[type="submit"]'), show = f.querySelector('.remind-show');
+    var busy = false;
+    function say(key, ok){
+      msg.textContent = msg.getAttribute('data-msg-' + key) || '';
+      msg.className = 'remind-msg' + (ok ? ' ok' : ' err');
+      msg.hidden = false;
+    }
+    function bad(el, on){ el.setAttribute('aria-invalid', on ? 'true' : 'false'); }
     if(show) show.addEventListener('click', function(){
       var on = pass.type === 'password';
       pass.type = on ? 'text' : 'password';
@@ -134,21 +139,35 @@
     });
     f.addEventListener('submit', function(e){
       e.preventDefault();
+      if(busy) return;
       var u = (user.value || '').replace(/\s+/g, '').toLowerCase();
       var p = (pass.value || '').replace(/\s+/g, '');
-      var okU = /^[a-z0-9._@-]{2,64}$/.test(u), okP = p.length >= 1 && p.length <= 64;
-      user.setAttribute('aria-invalid', okU ? 'false' : 'true');
-      pass.setAttribute('aria-invalid', okP ? 'false' : 'true');
-      if(err) err.hidden = okU && okP;
-      if(!okU){ user.focus(); return; }
-      if(!okP){ pass.focus(); return; }
-      var msg = AR
-        ? 'مرحباً Hossam TV، أرجو إرسال تنبيهات التجديد على رقم الواتساب هذا.\nاسم المستخدم: ' + u + '\nكلمة المرور: ' + p + '\n#remind ' + u + ' ' + p
-        : 'Hi Hossam TV, please send renewal reminders to this WhatsApp number.\nUsername: ' + u + '\nPassword: ' + p + '\n#remind ' + u + ' ' + p;
-      window.open('https://wa.me/' + f.getAttribute('data-wa') + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+      var ph = (phone.value || '').replace(/[^\d+]/g, '');
+      var okU = /^[a-z0-9._@-]{2,64}$/.test(u), okP = p.length > 0, digits = ph.replace(/\D/g, '');
+      var okPh = digits.length >= 8 && digits.length <= 15;
+      bad(user, !okU); bad(pass, !okP); bad(phone, !okPh);
+      if(!okU || !okP){ say('empty'); (okU ? pass : user).focus(); return; }
+      if(!okPh){ say(phone.value ? 'phone' : 'empty'); phone.focus(); return; }
+      if(!window.fetch || !window.URLSearchParams){ say('error'); return; }
+      busy = true; btn.disabled = true; msg.hidden = true;
+      var body = new URLSearchParams();
+      body.append('p', JSON.stringify({ username: u, password: p, phone: ph, lang: AR ? 'ar' : 'en', website: hp ? hp.value : '' }));
+      var ctrl = window.AbortController ? new AbortController() : null;
+      var timer = setTimeout(function(){ if(ctrl) ctrl.abort(); }, 15000);
+      fetch(f.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit', signal: ctrl ? ctrl.signal : undefined })
+        .then(function(r){ return r.json()['catch'](function(){ return {}; }); })
+        .then(function(d){
+          var st = d && d.status;
+          if(d && d.ok && st === 'linked'){ say('linked', true); f.reset(); pass.type = 'password'; if(show){ show.textContent = show.getAttribute('data-show'); show.setAttribute('aria-pressed', 'false'); } }
+          else if(st === 'not_found'){ say('not_found'); pass.value = ''; pass.focus(); }
+          else if(st === 'limited'){ say('limited'); }
+          else if(st === 'invalid'){ say('phone'); }
+          else { say('error'); }
+        })['catch'](function(){ say('error'); })
+        .then(function(){ clearTimeout(timer); busy = false; btn.disabled = false; });
     });
-    [user, pass].forEach(function(el){
-      el.addEventListener('input', function(){ if(err && !err.hidden){ err.hidden = true; user.setAttribute('aria-invalid', 'false'); pass.setAttribute('aria-invalid', 'false'); } });
+    [user, pass, phone].forEach(function(el){
+      el.addEventListener('input', function(){ bad(el, false); if(!msg.hidden && msg.className.indexOf('err') > -1) msg.hidden = true; });
     });
   });
 })();

@@ -108,19 +108,22 @@
     <span class="num">+20 111 725 0227</span>
     <a class="btn btn-wa" href="https://wa.me/201117250227?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20Hossam%20TV." target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>راسلنا عبر واتساب</a>
   </aside>
-  <form class="remind" id="reminders" data-remind data-wa="201013113996" novalidate>
+  <form class="remind" id="reminders" data-remind data-api="https://n8n.hossamservices.com/webhook/site-link" data-bot="201013113996" novalidate>
   <h3><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>تنبيهات التجديد</h3>
-  <p>اربط حسابك برقم الواتساب وسنراسلك قبل انتهاء اشتراكك.</p>
+  <p>اربط الحساب برقم واتساب وسنراسل هذا الرقم قبل انتهاء الاشتراك. يمكنك أيضاً إضافة حساب صديق على رقمه.</p>
   <label for="remindUser">اسم المستخدم</label>
-  <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="مثال: ahmed123">
+  <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="مثال: ahmed123">
   <label for="remindPass">كلمة المرور</label>
   <div class="remind-pass" dir="ltr">
-    <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
+    <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
     <button type="button" class="remind-show" aria-pressed="false" data-show="إظهار" data-hide="إخفاء">إظهار</button>
   </div>
-  <p class="remind-err" role="alert" hidden>اكتب اسم المستخدم وكلمة المرور التي أرسلناها لك عبر واتساب.</p>
-  <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>اربط عبر واتساب</button>
-  <small>سيفتح واتساب برسالة جاهزة — فقط اضغط إرسال، من الرقم الذي تريد التنبيهات عليه. ستصل لبوت التنبيهات على الرقم <bdi dir="ltr">+20 101 311 3996</bdi>. نحتاج كلمة المرور أيضاً لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. أرسلها لهذا الرقم فقط.</small>
+  <label for="remindPhone">رقم الواتساب للتنبيهات</label>
+  <input id="remindPhone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="مثال: 01012345678">
+  <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+  <p class="remind-msg" role="status" hidden data-msg-empty="اكتب اسم المستخدم وكلمة المرور ورقم الواتساب." data-msg-phone="راجع رقم الواتساب — اكتب كود الدولة، مثال: 971501234567+." data-msg-not_found="اسم المستخدم وكلمة المرور لا يطابقان أي حساب. راجع الصورة التي أرسلناها بعد الدفع واكتبهما بالضبط." data-msg-limited="محاولات كثيرة اليوم. حاول غداً، أو راسل البوت على واتساب." data-msg-error="تعذّر الاتصال الآن. حاول بعد دقيقة، أو راسل البوت على واتساب." data-msg-linked="تم الربط ✅ سنرسل تذكيراً على هذا الرقم قبل انتهاء الاشتراك. ستصلك رسالة تأكيد على الواتساب."></p>
+  <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span>اربط الحساب</span></button>
+  <small>نحتاج كلمة المرور لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. يتم التحقق من بياناتك عبر نظامنا ولا تُحفظ على هذا الموقع. تفضّل الواتساب؟ راسل البوت: <a href="https://wa.me/201013113996" target="_blank" rel="noopener"><bdi dir="ltr">+20 101 311 3996</bdi></a>.</small>
 </form>
   </div>
 </div></section>

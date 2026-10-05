@@ -427,11 +427,17 @@ html[lang="ar"] .foot-grid h3{font-family:var(--f-ar);letter-spacing:0;font-size
 .remind input{width:100%;box-sizing:border-box;font:inherit;font-size:16px;font-family:var(--f-mono);padding:11px 14px;border:1.5px solid var(--line-2);border-radius:12px;background:#fff;color:var(--ink)}
 .remind input:focus{outline:none;border-color:var(--ink)}
 .remind input[aria-invalid="true"]{border-color:#c0392b}
-.remind label + .remind-pass,.remind input + label{margin-top:12px}
+.remind input + label,.remind .remind-pass + label{margin-top:12px}
 .remind-pass{position:relative}
 .remind-pass input{padding-inline-end:76px}
 .remind-show{position:absolute;inset-block:5px;inset-inline-end:5px;border:0;border-radius:8px;background:var(--surface-2);color:var(--ink);font:inherit;font-size:.82rem;font-weight:700;padding:0 12px;cursor:pointer}
-.remind .remind-err{color:#b3261e;font-size:.85rem;margin:6px 0 0}
+.remind-msg{margin:12px 0 0!important;padding:10px 12px;border-radius:10px;font-size:.9rem!important;line-height:1.5}
+.remind-msg.err{background:#fdecea;color:#8c1d18!important}
+.remind-msg.ok{background:#e7f6ec;color:#14532d!important}
+.remind .hp{position:absolute;top:0;width:1px;height:1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);opacity:0;pointer-events:none}
+.remind{position:relative}
+.remind .btn:disabled{opacity:.6;cursor:wait}
+.remind small a{color:inherit;font-weight:700;white-space:nowrap}
 .remind .btn{width:100%;margin-top:12px}
 .remind small{display:block;margin-top:10px;color:var(--muted);font-size:.8rem;line-height:1.5}
 .help-remind{max-width:560px;margin:0 0 36px}

@@ -108,19 +108,22 @@
     <span class="num">+20 111 725 0227</span>
     <a class="btn btn-wa" href="https://wa.me/201117250227?text=Hi%20Hossam%20TV%2C%20I%27d%20like%20to%20subscribe." target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>Message us on WhatsApp</a>
   </aside>
-  <form class="remind" id="reminders" data-remind data-wa="201013113996" novalidate>
+  <form class="remind" id="reminders" data-remind data-api="https://n8n.hossamservices.com/webhook/site-link" data-bot="201013113996" novalidate>
   <h3><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Renewal reminders</h3>
-  <p>Link your account to your WhatsApp number and we'll message you before your subscription ends.</p>
-  <label for="remindUser">Your username</label>
-  <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="e.g. ahmed123">
-  <label for="remindPass">Your password</label>
+  <p>Link an account to a WhatsApp number and we'll message that number before the subscription ends. You can add a friend's account on their number too.</p>
+  <label for="remindUser">Username</label>
+  <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="e.g. ahmed123">
+  <label for="remindPass">Password</label>
   <div class="remind-pass" dir="ltr">
-    <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
+    <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
     <button type="button" class="remind-show" aria-pressed="false" data-show="Show" data-hide="Hide">Show</button>
   </div>
-  <p class="remind-err" role="alert" hidden>Enter the username and password we sent you on WhatsApp.</p>
-  <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>Link on WhatsApp</button>
-  <small>WhatsApp opens with a ready message — just tap Send, from the number you want reminders on. It goes to our reminders bot, +20 101 311 3996. We need the password too because some usernames are shared by more than one account. Only send it to this number.</small>
+  <label for="remindPhone">WhatsApp number for reminders</label>
+  <input id="remindPhone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="e.g. +20 101 234 5678">
+  <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+  <p class="remind-msg" role="status" hidden data-msg-empty="Fill in the username, password and WhatsApp number." data-msg-phone="Check the WhatsApp number — include the country code, e.g. +971 50 123 4567." data-msg-not_found="The username and password don't match an account. Check the picture we sent after payment and type both exactly." data-msg-limited="Too many tries today. Please try again tomorrow, or message our bot on WhatsApp." data-msg-error="Couldn't connect right now. Try again in a minute, or message our bot on WhatsApp." data-msg-linked="Linked ✅ We'll send a WhatsApp reminder to that number before it expires. A confirmation message is on its way."></p>
+  <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span>Link account</span></button>
+  <small>We need the password because some usernames are shared by more than one account. Your details are checked by our system and are not stored on this website. Prefer WhatsApp? Message our bot: <a href="https://wa.me/201013113996" target="_blank" rel="noopener">+20 101 311 3996</a>.</small>
 </form>
   </div>
 </div></section>

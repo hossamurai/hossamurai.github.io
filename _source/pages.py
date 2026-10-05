@@ -189,25 +189,28 @@ def faq_answer(c, a):
 
 
 def reminder_card(c):
-    """Customer links their account to their WhatsApp number by sending a prefilled message
-    from their own WhatsApp (proves the number is theirs). Username + password, because some
-    usernames repeat. The bot reads the '#remind <username> <password>' line."""
+    """Renewal reminders: the customer enters username + password + WhatsApp number (always all three,
+    because usernames repeat). The form posts to the n8n 'site-link' webhook, which checks the Customers
+    table and saves the number there. Nothing is stored on the website."""
     t = c.t
-    return f'''<form class="remind" id="reminders" data-remind data-wa="{BOT_WHATSAPP}" novalidate>
+    return f'''<form class="remind" id="reminders" data-remind data-api="{N8N_WEBHOOK}site-link" data-bot="{BOT_WHATSAPP}" novalidate>
   <h3>{icon('clock')}{t(L('Renewal reminders', 'تنبيهات التجديد'))}</h3>
-  <p>{t(L("Link your account to your WhatsApp number and we'll message you before your subscription ends.",
-          'اربط حسابك برقم الواتساب وسنراسلك قبل انتهاء اشتراكك.'))}</p>
-  <label for="remindUser">{t(L('Your username', 'اسم المستخدم'))}</label>
-  <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="{t(L('e.g. ahmed123', 'مثال: ahmed123'))}">
-  <label for="remindPass">{t(L('Your password', 'كلمة المرور'))}</label>
+  <p>{t(L("Link an account to a WhatsApp number and we'll message that number before the subscription ends. You can add a friend's account on their number too.",
+          'اربط الحساب برقم واتساب وسنراسل هذا الرقم قبل انتهاء الاشتراك. يمكنك أيضاً إضافة حساب صديق على رقمه.'))}</p>
+  <label for="remindUser">{t(L('Username', 'اسم المستخدم'))}</label>
+  <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="{t(L('e.g. ahmed123', 'مثال: ahmed123'))}">
+  <label for="remindPass">{t(L('Password', 'كلمة المرور'))}</label>
   <div class="remind-pass" dir="ltr">
-    <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
+    <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
     <button type="button" class="remind-show" aria-pressed="false" data-show="{t(L('Show', 'إظهار'))}" data-hide="{t(L('Hide', 'إخفاء'))}">{t(L('Show', 'إظهار'))}</button>
   </div>
-  <p class="remind-err" role="alert" hidden>{t(L('Enter the username and password we sent you on WhatsApp.', 'اكتب اسم المستخدم وكلمة المرور التي أرسلناها لك عبر واتساب.'))}</p>
-  <button type="submit" class="btn btn-wa">{icon('chat')}{t(L('Link on WhatsApp', 'اربط عبر واتساب'))}</button>
-  <small>{t(L(f'WhatsApp opens with a ready message — just tap Send, from the number you want reminders on. It goes to our reminders bot, {BOT_WHATSAPP_DISPLAY}. We need the password too because some usernames are shared by more than one account. Only send it to this number.',
-              f'سيفتح واتساب برسالة جاهزة — فقط اضغط إرسال، من الرقم الذي تريد التنبيهات عليه. ستصل لبوت التنبيهات على الرقم <bdi dir="ltr">{BOT_WHATSAPP_DISPLAY}</bdi>. نحتاج كلمة المرور أيضاً لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. أرسلها لهذا الرقم فقط.'))}</small>
+  <label for="remindPhone">{t(L('WhatsApp number for reminders', 'رقم الواتساب للتنبيهات'))}</label>
+  <input id="remindPhone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="{t(L('e.g. +20 101 234 5678', 'مثال: 01012345678'))}">
+  <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+  <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Fill in the username, password and WhatsApp number.', 'اكتب اسم المستخدم وكلمة المرور ورقم الواتساب.'))}" data-msg-phone="{t(L('Check the WhatsApp number — include the country code, e.g. +971 50 123 4567.', 'راجع رقم الواتساب — اكتب كود الدولة، مثال: 971501234567+.'))}" data-msg-not_found="{t(L("The username and password don't match an account. Check the picture we sent after payment and type both exactly.", 'اسم المستخدم وكلمة المرور لا يطابقان أي حساب. راجع الصورة التي أرسلناها بعد الدفع واكتبهما بالضبط.'))}" data-msg-limited="{t(L('Too many tries today. Please try again tomorrow, or message our bot on WhatsApp.', 'محاولات كثيرة اليوم. حاول غداً، أو راسل البوت على واتساب.'))}" data-msg-error="{t(L("Couldn't connect right now. Try again in a minute, or message our bot on WhatsApp.", 'تعذّر الاتصال الآن. حاول بعد دقيقة، أو راسل البوت على واتساب.'))}" data-msg-linked="{t(L("Linked ✅ We'll send a WhatsApp reminder to that number before it expires. A confirmation message is on its way.", 'تم الربط ✅ سنرسل تذكيراً على هذا الرقم قبل انتهاء الاشتراك. ستصلك رسالة تأكيد على الواتساب.'))}"></p>
+  <button type="submit" class="btn btn-wa">{icon('check')}<span>{t(L('Link account', 'اربط الحساب'))}</span></button>
+  <small>{t(L(f'We need the password because some usernames are shared by more than one account. Your details are checked by our system and are not stored on this website. Prefer WhatsApp? Message our bot: <a href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener">{BOT_WHATSAPP_DISPLAY}</a>.',
+              f'نحتاج كلمة المرور لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. يتم التحقق من بياناتك عبر نظامنا ولا تُحفظ على هذا الموقع. تفضّل الواتساب؟ راسل البوت: <a href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener"><bdi dir="ltr">{BOT_WHATSAPP_DISPLAY}</bdi></a>.'))}</small>
 </form>'''
 
 
