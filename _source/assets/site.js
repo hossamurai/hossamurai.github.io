@@ -119,4 +119,36 @@
 
   var yr = document.getElementById('yr');
   if(yr) yr.textContent = new Date().getFullYear();
+  /* renewal reminders: open WhatsApp with a prefilled "link my account" message.
+     Sent from the customer's own WhatsApp, so the bot knows the number is theirs.
+     Username + password, because some usernames repeat.
+     The bot reads the last line: "#remind <username> <password>". */
+  each('[data-remind]', function(f){
+    var user = f.querySelector('[name="username"]'), pass = f.querySelector('[name="password"]');
+    var err = f.querySelector('.remind-err'), show = f.querySelector('.remind-show');
+    if(show) show.addEventListener('click', function(){
+      var on = pass.type === 'password';
+      pass.type = on ? 'text' : 'password';
+      show.setAttribute('aria-pressed', on ? 'true' : 'false');
+      show.textContent = show.getAttribute(on ? 'data-hide' : 'data-show');
+    });
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var u = (user.value || '').replace(/\s+/g, '').toLowerCase();
+      var p = (pass.value || '').replace(/\s+/g, '');
+      var okU = /^[a-z0-9._@-]{2,64}$/.test(u), okP = p.length >= 1 && p.length <= 64;
+      user.setAttribute('aria-invalid', okU ? 'false' : 'true');
+      pass.setAttribute('aria-invalid', okP ? 'false' : 'true');
+      if(err) err.hidden = okU && okP;
+      if(!okU){ user.focus(); return; }
+      if(!okP){ pass.focus(); return; }
+      var msg = AR
+        ? 'مرحباً Hossam TV، أرجو إرسال تنبيهات التجديد على رقم الواتساب هذا.\nاسم المستخدم: ' + u + '\nكلمة المرور: ' + p + '\n#remind ' + u + ' ' + p
+        : 'Hi Hossam TV, please send renewal reminders to this WhatsApp number.\nUsername: ' + u + '\nPassword: ' + p + '\n#remind ' + u + ' ' + p;
+      window.open('https://wa.me/' + f.getAttribute('data-wa') + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+    });
+    [user, pass].forEach(function(el){
+      el.addEventListener('input', function(){ if(err && !err.hidden){ err.hidden = true; user.setAttribute('aria-invalid', 'false'); pass.setAttribute('aria-invalid', 'false'); } });
+    });
+  });
 })();

@@ -184,7 +184,31 @@ def dev_grid(c):
 
 
 def faq_answer(c, a):
-    return c.t(a).replace('{channels}', f'<a href="{c.href("channels.html")}">{c.t(L("Channels", "القنوات"))}</a>')
+    return (c.t(a).replace('{channels}', f'<a href="{c.href("channels.html")}">{c.t(L("Channels", "القنوات"))}</a>')
+            .replace('{reminders}', f'<a href="{c.href("about.html#reminders")}">{c.t(L("Renewal reminders", "تنبيهات التجديد"))}</a>'))
+
+
+def reminder_card(c):
+    """Customer links their account to their WhatsApp number by sending a prefilled message
+    from their own WhatsApp (proves the number is theirs). Username + password, because some
+    usernames repeat. The bot reads the '#remind <username> <password>' line."""
+    t = c.t
+    return f'''<form class="remind" id="reminders" data-remind data-wa="{WHATSAPP}" novalidate>
+  <h3>{icon('clock')}{t(L('Renewal reminders', 'تنبيهات التجديد'))}</h3>
+  <p>{t(L("Link your account to your WhatsApp number and we'll message you before your subscription ends.",
+          'اربط حسابك برقم الواتساب وسنراسلك قبل انتهاء اشتراكك.'))}</p>
+  <label for="remindUser">{t(L('Your username', 'اسم المستخدم'))}</label>
+  <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="{t(L('e.g. ahmed123', 'مثال: ahmed123'))}">
+  <label for="remindPass">{t(L('Your password', 'كلمة المرور'))}</label>
+  <div class="remind-pass" dir="ltr">
+    <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
+    <button type="button" class="remind-show" aria-pressed="false" data-show="{t(L('Show', 'إظهار'))}" data-hide="{t(L('Hide', 'إخفاء'))}">{t(L('Show', 'إظهار'))}</button>
+  </div>
+  <p class="remind-err" role="alert" hidden>{t(L('Enter the username and password we sent you on WhatsApp.', 'اكتب اسم المستخدم وكلمة المرور التي أرسلناها لك عبر واتساب.'))}</p>
+  <button type="submit" class="btn btn-wa">{icon('chat')}{t(L('Link on WhatsApp', 'اربط عبر واتساب'))}</button>
+  <small>{t(L(f'WhatsApp opens with a ready message — just tap Send, from the number you want reminders on. We need the password too because some usernames are shared by more than one account. Only send it to our number, {WHATSAPP_DISPLAY}.',
+              f'سيفتح واتساب برسالة جاهزة — فقط اضغط إرسال، من الرقم الذي تريد التنبيهات عليه. نحتاج كلمة المرور أيضاً لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. أرسلها لرقمنا فقط: <bdi dir="ltr">{WHATSAPP_DISPLAY}</bdi>.'))}</small>
+</form>'''
 
 
 def details(c, iid, q, a, search=False):
@@ -779,6 +803,7 @@ def help_page(c):
         groups += f'<div class="faq-group" data-search-group><h2 class="h2">{t(g)}</h2><div class="faq">{its}</div></div>'
     body = hero + f'''
 <section class="sec first"><div class="wrap">
+  <div class="help-remind">{reminder_card(c)}</div>
   {groups}
   <p class="empty" id="helpEmpty">{t(L('No results. Try another word, or ask us on WhatsApp.', 'لا توجد نتائج. جرّب كلمة أخرى، أو اسألنا عبر واتساب.'))}</p>
 </div></section>
@@ -834,6 +859,7 @@ def about(c):
     <h2>{t(L('Where we serve', 'أين نقدم خدماتنا'))}</h2>
     <ul class="regions">{''.join('<li>' + t(r) + '</li>' for r in regions)}</ul>
   </div>
+  <div class="about-side">
   <aside class="contact-card">
     <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <h3>{t(L('Talk to us', 'تواصل معنا'))}</h3>
@@ -841,6 +867,8 @@ def about(c):
     <span class="num">{WHATSAPP_DISPLAY}</span>
     {ext(c.wa('sub'), icon('chat') + t(L('Message us on WhatsApp', 'راسلنا عبر واتساب')), 'btn btn-wa')}
   </aside>
+  {reminder_card(c)}
+  </div>
 </div></section>
 ''' + cta_block(c)
     return (t(L('About Us', 'من نحن')),
