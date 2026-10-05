@@ -145,7 +145,7 @@ def plan_card(c, region, rp):
 
 def region_block(c):
     t = c.t
-    default = REGIONS[0]['id']
+    default = 'intl'   # most customers are in Canada -> start on 'Other countries' (the script still picks Egypt/Gulf/UAE by time zone)
     seg = ''.join(
         f'<button type="button" data-region-btn="{r["id"]}" aria-pressed="{"true" if r["id"] == default else "false"}">{t(r["label"])}</button>'
         for r in REGIONS)
