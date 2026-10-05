@@ -229,28 +229,34 @@
   <div class="more-link"><a class="link-arrow" href="plans.html#compare">قارن بين كل الباقات<svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
 </div></section>
 
-<section class="sec remind-sec" id="reminders-sec"><div class="wrap remind-home">
-  <div>
-    <div class="sec-head"><span class="kicker"><span class="n">02</span>تنبيهات التجديد</span><h2>لا تفوّت موعد التجديد</h2><p>تذكير على واتساب قبل انتهاء الاشتراك — لحسابك أو لحساب صديق.</p></div>
-  </div>
+<section class="sec remind-sec" id="reminders-sec"><div class="wrap">
+  <div class="sec-head"><span class="kicker">تنبيهات التجديد</span><h2>لا تفوّت موعد التجديد</h2><p>تذكير على واتساب قبل انتهاء الاشتراك — لحسابك أو لحساب صديق.</p></div>
   <form class="remind remind-compact" id="reminders" data-remind data-api="https://n8n.hossamservices.com/webhook/site-link" data-bot="201013113996" novalidate>
   
+  <div class="rf-grid">
+  <div class="rf">
   <label for="remindUser">اسم المستخدم</label>
   <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="مثال: ahmed123">
+  </div>
+  <div class="rf">
   <label for="remindPass">كلمة المرور</label>
   <div class="remind-pass" dir="ltr">
     <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
     <button type="button" class="remind-show" aria-pressed="false" data-show="إظهار" data-hide="إخفاء">إظهار</button>
   </div>
+  </div>
+  <div class="rf rf-phone">
   <label for="remindPhone">رقم الواتساب للتنبيهات</label>
   <div class="phone-row" dir="ltr">
     <select name="cc" aria-label="كود الدولة"><option value="20" selected>+20 مصر</option><option value="966">+966 السعودية</option><option value="971">+971 الإمارات</option><option value="965">+965 الكويت</option><option value="974">+974 قطر</option><option value="973">+973 البحرين</option><option value="968">+968 عُمان</option><option value="962">+962 الأردن</option><option value="961">+961 لبنان</option><option value="964">+964 العراق</option><option value="970">+970 فلسطين</option><option value="963">+963 سوريا</option><option value="967">+967 اليمن</option><option value="249">+249 السودان</option><option value="218">+218 ليبيا</option><option value="216">+216 تونس</option><option value="213">+213 الجزائر</option><option value="212">+212 المغرب</option><option value="90">+90 تركيا</option><option value="1">+1 أمريكا / كندا</option><option value="44">+44 بريطانيا</option><option value="49">+49 ألمانيا</option><option value="33">+33 فرنسا</option><option value="31">+31 هولندا</option><option value="32">+32 بلجيكا</option><option value="41">+41 سويسرا</option><option value="43">+43 النمسا</option><option value="46">+46 السويد</option><option value="47">+47 النرويج</option><option value="45">+45 الدنمارك</option><option value="39">+39 إيطاليا</option><option value="34">+34 إسبانيا</option><option value="353">+353 أيرلندا</option><option value="61">+61 أستراليا</option></select>
     <input id="remindPhone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel-national" maxlength="20" placeholder="الرقم">
   </div>
+  </div>
+  <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span>اربط الحساب</span></button>
+  </div>
   <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
   <p class="remind-msg" role="status" hidden data-msg-empty="اكتب اسم المستخدم وكلمة المرور ورقم الواتساب." data-msg-phone="راجع رقم الواتساب — اكتب كود الدولة، مثال: 971501234567+." data-msg-not_found="اسم المستخدم وكلمة المرور لا يطابقان أي حساب. راجع الصورة التي أرسلناها بعد الدفع واكتبهما بالضبط. لو اشتركت أو جدّدت خلال الأسبوع الماضي، حاول مرة أخرى بعد أيام." data-msg-limited="محاولات كثيرة اليوم. حاول غداً، أو راسل البوت على واتساب." data-msg-error="تعذّر الاتصال الآن. حاول بعد دقيقة، أو راسل البوت على واتساب." data-msg-linked="تم الربط ✅ سنرسل تذكيراً على هذا الرقم قبل انتهاء الاشتراك. ستصلك رسالة تأكيد على الواتساب."></p>
   <p class="remind-week"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><span>اشتراك جديد أو تجديد؟ قد يستغرق حتى أسبوع قبل أن تتمكن من ربطه.</span></p>
-  <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span>اربط الحساب</span></button>
   <small>نحتاج كلمة المرور لأن بعض أسماء المستخدمين تتكرر. لا يُحفظ أي شيء على هذا الموقع.</small>
 </form>
 </div></section>
@@ -277,19 +283,7 @@
   </form>
 </div></section>
 
-<section class="sec"><div class="wrap">
-  <div class="sec-head"><span class="kicker"><span class="n">03</span>طريقة الاشتراك</span><h2>من الدفع إلى المشاهدة في 4 خطوات</h2></div>
-  <ol class="how"><li><span class="num">01</span><svg class="ic" aria-hidden="true"><use href="#i-4k"/></svg><h3>اختر باقتك</h3><p>اختر باقة بلدك، أو اطلب تجربة مجانية أولاً.</p></li><li><span class="num">02</span><svg class="ic" aria-hidden="true"><use href="#i-receipt"/></svg><h3>ادفع وأرسل الإيصال</h3><p>ادفع، ثم أرسل صورة واضحة للإيصال عبر واتساب.</p></li><li><span class="num">03</span><svg class="ic" aria-hidden="true"><use href="#i-key"/></svg><h3>استلم بيانات الدخول</h3><p>عادةً خلال دقائق — وبحد أقصى 24 ساعة.</p></li><li><span class="num">04</span><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><h3>ثبّت وشاهد</h3><p>اتبع دليل التثبيت الخاص بجهازك.</p></li></ol>
-</div></section>
 
-<section class="sec"><div class="wrap">
-  <div class="sec-head"><span class="kicker"><span class="n">04</span>التثبيت</span><h2>يعمل على أجهزتك الحالية</h2><p>أدلة لكل جهاز. <a href="../help.html">عندك مشكلة؟</a></p></div>
-  <div class="dev-grid"><a class="dev-card" href="setup/android-tv.html"><svg class="ic" aria-hidden="true"><use href="#i-androidtv"/></svg><span><b>أندرويد تي في والبوكس</b><small>تطبيق Downloader · 10 دقائق</small></span></a><a class="dev-card" href="setup/firestick.html"><svg class="ic" aria-hidden="true"><use href="#i-stick"/></svg><span><b>أمازون فايرستيك</b><small>تطبيق Downloader · 10 دقائق</small></span></a><a class="dev-card" href="setup/android.html"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><span><b>موبايل وتابلت أندرويد</b><small>تحميل مباشر · 5 دقائق</small></span></a><a class="dev-card" href="setup/apple.html"><svg class="ic" aria-hidden="true"><use href="#i-apple"/></svg><span><b>آيفون وآيباد وماك وأبل تي في</b><small>App Store · 5 دقائق</small></span></a><a class="dev-card" href="setup/smart-tv.html"><svg class="ic" aria-hidden="true"><use href="#i-tv"/></svg><span><b>شاشات سامسونج و LG</b><small>Bob Player · IBO Player</small></span></a><a class="dev-card" href="setup/windows.html"><svg class="ic" aria-hidden="true"><use href="#i-laptop"/></svg><span><b>كمبيوتر ولابتوب ويندوز</b><small>SFVIP Player · 5 دقائق</small></span></a><a class="dev-card off" href="setup/roku.html"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg><span><b>روكو</b><small>غير مدعوم</small></span></a></div>
-</div></section>
-<section class="sec"><div class="wrap">
-  <div class="sec-head row"><div><span class="kicker"><span class="n">05</span>الأسئلة</span><h2>الأسئلة الشائعة</h2></div><a class="link-arrow" href="help.html">كل الأسئلة وحل المشكلات<svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
-  <div class="faq"><details id="free-trial"><summary>هل توجد تجربة مجانية؟<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">نعم — 12 ساعة لسيرفر XTV و24 ساعة لباقي الباقات. تجربة واحدة لكل عميل. اطلبها عبر واتساب.</div></details><details id="which-plan"><summary>أي باقة أختار؟<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">في مصر: <b>XTV</b> للكرة والعائلة، و<b>Marvel</b> للأفلام والمسلسلات. في باقي الدول: <b>الأساسية</b> للقنوات العربية والكرة، و<b>بريميوم</b> لأكبر مكتبة وكل الرياضات وجودة 4K. غير متأكد؟ جرّب مجاناً أولاً.</div></details><details id="multi-device"><summary>هل يمكنني التشغيل على أكثر من جهاز؟<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">يمكنك التثبيت على أي عدد من الأجهزة ومشاركته مع العائلة، لكن المشاهدة تكون على جهاز واحد فقط في نفس الوقت. التشغيل على جهازين معاً قد يوقف الحساب.</div></details><details id="activation"><summary>كم يستغرق التفعيل؟<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">بعد إرسال صورة واضحة لإيصال الدفع عبر واتساب، يتم التفعيل عادةً خلال دقائق، وبحد أقصى 24 ساعة.</div></details></div>
-</div></section>
 <section class="sec first tight"><div class="wrap">
   <div class="cta">
     <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>

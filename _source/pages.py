@@ -202,22 +202,30 @@ def reminder_card(c, compact=False):
               f'نحتاج كلمة المرور لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. يتم التحقق من بياناتك عبر نظامنا ولا تُحفظ على هذا الموقع. تفضّل الواتساب؟ راسل البوت: <a href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener"><bdi dir="ltr">{BOT_WHATSAPP_DISPLAY}</bdi></a>.'))
     return f'''<form class="remind{' remind-compact' if compact else ''}" id="reminders" data-remind data-api="{N8N_WEBHOOK}site-link" data-bot="{BOT_WHATSAPP}" novalidate>
   {head}
+  <div class="rf-grid">
+  <div class="rf">
   <label for="remindUser">{t(L('Username', 'اسم المستخدم'))}</label>
   <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="{t(L('e.g. ahmed123', 'مثال: ahmed123'))}">
+  </div>
+  <div class="rf">
   <label for="remindPass">{t(L('Password', 'كلمة المرور'))}</label>
   <div class="remind-pass" dir="ltr">
     <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
     <button type="button" class="remind-show" aria-pressed="false" data-show="{t(L('Show', 'إظهار'))}" data-hide="{t(L('Hide', 'إخفاء'))}">{t(L('Show', 'إظهار'))}</button>
   </div>
+  </div>
+  <div class="rf rf-phone">
   <label for="remindPhone">{t(L('WhatsApp number for reminders', 'رقم الواتساب للتنبيهات'))}</label>
   <div class="phone-row" dir="ltr">
     <select name="cc" aria-label="{t(L('Country code', 'كود الدولة'))}">{''.join(f'<option value="{cc}"{" selected" if cc == "20" else ""}>+{cc} {t(nm)}</option>' for cc, nm in REMIND_CC)}</select>
     <input id="remindPhone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel-national" maxlength="20" placeholder="{t(L('Number', 'الرقم'))}">
   </div>
+  </div>
+  <button type="submit" class="btn btn-wa">{icon('check')}<span>{t(L('Link account', 'اربط الحساب'))}</span></button>
+  </div>
   <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
   <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Fill in the username, password and WhatsApp number.', 'اكتب اسم المستخدم وكلمة المرور ورقم الواتساب.'))}" data-msg-phone="{t(L('Check the WhatsApp number — include the country code, e.g. +971 50 123 4567.', 'راجع رقم الواتساب — اكتب كود الدولة، مثال: 971501234567+.'))}" data-msg-not_found="{t(L("The username and password don't match an account. Check the picture we sent after payment and type both exactly. If you subscribed or renewed in the last week, try again in a few days.", 'اسم المستخدم وكلمة المرور لا يطابقان أي حساب. راجع الصورة التي أرسلناها بعد الدفع واكتبهما بالضبط. لو اشتركت أو جدّدت خلال الأسبوع الماضي، حاول مرة أخرى بعد أيام.'))}" data-msg-limited="{t(L('Too many tries today. Please try again tomorrow, or message our bot on WhatsApp.', 'محاولات كثيرة اليوم. حاول غداً، أو راسل البوت على واتساب.'))}" data-msg-error="{t(L("Couldn't connect right now. Try again in a minute, or message our bot on WhatsApp.", 'تعذّر الاتصال الآن. حاول بعد دقيقة، أو راسل البوت على واتساب.'))}" data-msg-linked="{t(L("Linked ✅ We'll send a WhatsApp reminder to that number before it expires. A confirmation message is on its way.", 'تم الربط ✅ سنرسل تذكيراً على هذا الرقم قبل انتهاء الاشتراك. ستصلك رسالة تأكيد على الواتساب.'))}"></p>
   <p class="remind-week">{icon('clock')}<span>{t(week)}</span></p>
-  <button type="submit" class="btn btn-wa">{icon('check')}<span>{t(L('Link account', 'اربط الحساب'))}</span></button>
   <small>{t(fine)}</small>
 </form>'''
 
@@ -308,27 +316,13 @@ def home(c):
   <div class="more-link"><a class="link-arrow" href="{c.href('plans.html#compare')}">{t(L('Compare all plans side by side', 'قارن بين كل الباقات'))}{icon('arrow', 'flip')}</a></div>
 </div></section>
 
-<section class="sec remind-sec" id="reminders-sec"><div class="wrap remind-home">
-  <div>
-    {sec_head('02', t(L('Renewal reminders', 'تنبيهات التجديد')), t(L('Never miss a renewal', 'لا تفوّت موعد التجديد')), t(L("A WhatsApp reminder before your subscription ends — for your account or a friend's.", 'تذكير على واتساب قبل انتهاء الاشتراك — لحسابك أو لحساب صديق.')))}
-  </div>
+<section class="sec remind-sec" id="reminders-sec"><div class="wrap">
+  {sec_head('', t(L('Renewal reminders', 'تنبيهات التجديد')), t(L('Never miss a renewal', 'لا تفوّت موعد التجديد')), t(L("A WhatsApp reminder before your subscription ends — for your account or a friend's.", 'تذكير على واتساب قبل انتهاء الاشتراك — لحسابك أو لحساب صديق.')))}
   {reminder_card(c, compact=True)}
 </div></section>
 {reviews}
 
-<section class="sec"><div class="wrap">
-  {sec_head('03', t(L('How it works', 'طريقة الاشتراك')), t(L('From payment to playing in four steps', 'من الدفع إلى المشاهدة في 4 خطوات')))}
-  {how_block(c)}
-</div></section>
 
-<section class="sec"><div class="wrap">
-  {sec_head('04', t(L('Setup', 'التثبيت')), t(L('Works on the devices you already have', 'يعمل على أجهزتك الحالية')), t(L(f'Guides for every device. <a href="{c.root}help.html">Something not working?</a>', f'أدلة لكل جهاز. <a href="{c.root}help.html">عندك مشكلة؟</a>')))}
-  {dev_grid(c)}
-</div></section>
-<section class="sec"><div class="wrap">
-  {sec_head('05', 'FAQ' if not c.ar else 'الأسئلة', t(L('Questions, answered', 'الأسئلة الشائعة')), side=f'<a class="link-arrow" href="{c.href("help.html")}">{t(L("All questions & troubleshooting", "كل الأسئلة وحل المشكلات"))}{icon("arrow", "flip")}</a>')}
-  <div class="faq">{teaser}</div>
-</div></section>
 ''' + cta_block(c)
     return (t(L('Hossam TV — Live Sports, Movies & Series in 4K', 'Hossam TV — مباريات وأفلام ومسلسلات بجودة 4K')),
             t(L('Live sports, movies and series on any screen, up to 4K. Plans for Egypt, the Gulf and worldwide. Free 12–24 hour trial on WhatsApp.',
@@ -397,6 +391,11 @@ def plans(c):
 <section class="sec"><div class="wrap">
   {sec_head('', t(L('Included', 'مع كل باقة')), t(L('What you get with every plan', 'ما تحصل عليه مع كل باقة')))}
   <ul class="included">{inc_html}</ul>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  {sec_head('', t(L('How it works', 'طريقة الاشتراك')), t(L('From payment to playing in four steps', 'من الدفع إلى المشاهدة في 4 خطوات')))}
+  {how_block(c)}
 </div></section>
 
 <section class="sec" id="payment"><div class="wrap">

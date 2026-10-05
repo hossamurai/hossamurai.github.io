@@ -229,28 +229,34 @@
   <div class="more-link"><a class="link-arrow" href="plans.html#compare">Compare all plans side by side<svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
 </div></section>
 
-<section class="sec remind-sec" id="reminders-sec"><div class="wrap remind-home">
-  <div>
-    <div class="sec-head"><span class="kicker"><span class="n">02</span>Renewal reminders</span><h2>Never miss a renewal</h2><p>A WhatsApp reminder before your subscription ends — for your account or a friend's.</p></div>
-  </div>
+<section class="sec remind-sec" id="reminders-sec"><div class="wrap">
+  <div class="sec-head"><span class="kicker">Renewal reminders</span><h2>Never miss a renewal</h2><p>A WhatsApp reminder before your subscription ends — for your account or a friend's.</p></div>
   <form class="remind remind-compact" id="reminders" data-remind data-api="https://n8n.hossamservices.com/webhook/site-link" data-bot="201013113996" novalidate>
   
+  <div class="rf-grid">
+  <div class="rf">
   <label for="remindUser">Username</label>
   <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="e.g. ahmed123">
+  </div>
+  <div class="rf">
   <label for="remindPass">Password</label>
   <div class="remind-pass" dir="ltr">
     <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
     <button type="button" class="remind-show" aria-pressed="false" data-show="Show" data-hide="Hide">Show</button>
   </div>
+  </div>
+  <div class="rf rf-phone">
   <label for="remindPhone">WhatsApp number for reminders</label>
   <div class="phone-row" dir="ltr">
     <select name="cc" aria-label="Country code"><option value="20" selected>+20 Egypt</option><option value="966">+966 Saudi Arabia</option><option value="971">+971 UAE</option><option value="965">+965 Kuwait</option><option value="974">+974 Qatar</option><option value="973">+973 Bahrain</option><option value="968">+968 Oman</option><option value="962">+962 Jordan</option><option value="961">+961 Lebanon</option><option value="964">+964 Iraq</option><option value="970">+970 Palestine</option><option value="963">+963 Syria</option><option value="967">+967 Yemen</option><option value="249">+249 Sudan</option><option value="218">+218 Libya</option><option value="216">+216 Tunisia</option><option value="213">+213 Algeria</option><option value="212">+212 Morocco</option><option value="90">+90 Turkey</option><option value="1">+1 USA / Canada</option><option value="44">+44 UK</option><option value="49">+49 Germany</option><option value="33">+33 France</option><option value="31">+31 Netherlands</option><option value="32">+32 Belgium</option><option value="41">+41 Switzerland</option><option value="43">+43 Austria</option><option value="46">+46 Sweden</option><option value="47">+47 Norway</option><option value="45">+45 Denmark</option><option value="39">+39 Italy</option><option value="34">+34 Spain</option><option value="353">+353 Ireland</option><option value="61">+61 Australia</option></select>
     <input id="remindPhone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel-national" maxlength="20" placeholder="Number">
   </div>
+  </div>
+  <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span>Link account</span></button>
+  </div>
   <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
   <p class="remind-msg" role="status" hidden data-msg-empty="Fill in the username, password and WhatsApp number." data-msg-phone="Check the WhatsApp number — include the country code, e.g. +971 50 123 4567." data-msg-not_found="The username and password don't match an account. Check the picture we sent after payment and type both exactly. If you subscribed or renewed in the last week, try again in a few days." data-msg-limited="Too many tries today. Please try again tomorrow, or message our bot on WhatsApp." data-msg-error="Couldn't connect right now. Try again in a minute, or message our bot on WhatsApp." data-msg-linked="Linked ✅ We'll send a WhatsApp reminder to that number before it expires. A confirmation message is on its way."></p>
   <p class="remind-week"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><span>New subscription or renewal? It can take up to a week before you can link it.</span></p>
-  <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span>Link account</span></button>
   <small>The password is needed because some usernames are shared. Nothing is stored on this website.</small>
 </form>
 </div></section>
@@ -277,19 +283,7 @@
   </form>
 </div></section>
 
-<section class="sec"><div class="wrap">
-  <div class="sec-head"><span class="kicker"><span class="n">03</span>How it works</span><h2>From payment to playing in four steps</h2></div>
-  <ol class="how"><li><span class="num">01</span><svg class="ic" aria-hidden="true"><use href="#i-4k"/></svg><h3>Choose a plan</h3><p>Pick the plan for your country, or ask for a free trial first.</p></li><li><span class="num">02</span><svg class="ic" aria-hidden="true"><use href="#i-receipt"/></svg><h3>Pay & send receipt</h3><p>Pay, then send a clear screenshot of the receipt on WhatsApp.</p></li><li><span class="num">03</span><svg class="ic" aria-hidden="true"><use href="#i-key"/></svg><h3>Get your login</h3><p>Usually within minutes — please allow up to 24 hours.</p></li><li><span class="num">04</span><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><h3>Install & watch</h3><p>Follow the setup guide for your device.</p></li></ol>
-</div></section>
 
-<section class="sec"><div class="wrap">
-  <div class="sec-head"><span class="kicker"><span class="n">04</span>Setup</span><h2>Works on the devices you already have</h2><p>Guides for every device. <a href="../help.html">Something not working?</a></p></div>
-  <div class="dev-grid"><a class="dev-card" href="setup/android-tv.html"><svg class="ic" aria-hidden="true"><use href="#i-androidtv"/></svg><span><b>Android TV & TV boxes</b><small>Downloader app · 10 min</small></span></a><a class="dev-card" href="setup/firestick.html"><svg class="ic" aria-hidden="true"><use href="#i-stick"/></svg><span><b>Amazon Firestick</b><small>Downloader app · 10 min</small></span></a><a class="dev-card" href="setup/android.html"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg><span><b>Android phone & tablet</b><small>Direct download · 5 min</small></span></a><a class="dev-card" href="setup/apple.html"><svg class="ic" aria-hidden="true"><use href="#i-apple"/></svg><span><b>iPhone, iPad, Mac & Apple TV</b><small>App Store · 5 min</small></span></a><a class="dev-card" href="setup/smart-tv.html"><svg class="ic" aria-hidden="true"><use href="#i-tv"/></svg><span><b>Samsung & LG Smart TV</b><small>Bob Player · IBO Player</small></span></a><a class="dev-card" href="setup/windows.html"><svg class="ic" aria-hidden="true"><use href="#i-laptop"/></svg><span><b>Windows PC & laptop</b><small>SFVIP Player · 5 min</small></span></a><a class="dev-card off" href="setup/roku.html"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg><span><b>Roku</b><small>Not supported</small></span></a></div>
-</div></section>
-<section class="sec"><div class="wrap">
-  <div class="sec-head row"><div><span class="kicker"><span class="n">05</span>FAQ</span><h2>Questions, answered</h2></div><a class="link-arrow" href="help.html">All questions & troubleshooting<svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
-  <div class="faq"><details id="free-trial"><summary>Is there a free trial?<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">Yes — 12 hours for XTV and 24 hours for every other plan. One trial per customer. Request it on WhatsApp.</div></details><details id="which-plan"><summary>Which plan should I choose?<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">In Egypt: <b>XTV</b> for football and families, <b>Marvel</b> for movies and series. Everywhere else: <b>Basic</b> for Arabic channels and football, <b>Premium</b> for the biggest library, all sports and 4K. Not sure? Try one free first.</div></details><details id="multi-device"><summary>Can I use it on more than one device?<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">You can install it on as many devices as you like and share it with family, but only one device can watch at a time. Watching on two at once can lock the account.</div></details><details id="activation"><summary>How long does activation take?<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">After you send a clear screenshot of your payment on WhatsApp, activation usually takes a few minutes. Please allow up to 24 hours.</div></details></div>
-</div></section>
 <section class="sec first tight"><div class="wrap">
   <div class="cta">
     <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
