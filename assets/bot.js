@@ -2,8 +2,7 @@
    1. Chat bubble: the AI bot, clearly labelled as a bot    (n8n webhook: site-chat)
    2. Prices come from the bot's knowledge                 (n8n webhook: site-data)
    3. Outage banner while a known issue is active          (site-data)
-   4. "Stuck on this step?" WhatsApp links on setup guides
-   5. Order / free-trial form before WhatsApp opens        (n8n webhook: site-order)
+   4. Order / free-trial form before WhatsApp opens        (n8n webhook: site-order)
    Everything fails quietly: if n8n is unreachable the page works exactly as before. */
 (function(){
   'use strict';
@@ -28,8 +27,6 @@
   + '.htv-alert{background:#fff4e5;border-bottom:1px solid #f3d19c;color:#5c3b00;font-size:.92rem}'
   + '.htv-alert .wrap{display:flex;gap:10px;align-items:flex-start;padding-top:10px;padding-bottom:10px}'
   + '.htv-alert .ic{color:#b76e00;margin-top:.25em}.htv-alert a{font-weight:700;white-space:nowrap}'
-  + '.htv-stuck{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:.8rem;font-weight:700;color:var(--muted,#6f685d);text-decoration:none;border-bottom:1px dashed currentColor;line-height:1.4}'
-  + '.htv-stuck:hover{color:var(--wa,#1faa59)}'
   + '.htv-fab{position:fixed;inset-inline-end:18px;bottom:18px;z-index:80;display:flex;align-items:center;gap:8px;height:54px;padding:0 20px 0 16px;border:0;border-radius:999px;background:var(--ink,#17140f);color:#fff;font:inherit;font-weight:700;font-size:.95rem;cursor:pointer;box-shadow:0 10px 28px rgba(23,20,15,.28)}'
   + '.htv-fab svg{width:22px;height:22px}.htv-fab:hover{background:#2c271f}.htv-fab[hidden]{display:none}'
   + '.htv-chat{position:fixed;inset-inline-end:18px;bottom:18px;z-index:81;width:380px;max-width:calc(100vw - 24px);height:min(600px,calc(100vh - 36px));display:flex;flex-direction:column;background:var(--surface,#fff);color:var(--ink,#17140f);border:1px solid var(--line,#e8e1d5);border-radius:20px;box-shadow:0 24px 60px rgba(23,20,15,.25);overflow:hidden}'
@@ -138,33 +135,7 @@
     })['catch'](function(){});
   }
 
-  /* ---------------------------------------------------------------- 4: "Stuck on this step?" on setup guides */
-  var PLAN_NAMES = { basic: 'Basic', premium: 'Premium', xtv: 'XTV', marvel: 'Marvel' };
-  if(document.querySelector('.steps .st')){
-    var h1 = document.querySelector('h1');
-    var device = h1 ? h1.textContent.replace(/^\s*(Install Hossam TV on|Hossam TV on|تثبيت Hossam TV على|Hossam TV على)\s*/i, '').trim() : '';
-    each('.steps', function(ol){
-      each('.st', function(li, i){
-        var body = li.querySelector('.st-b'); if(!body || body.querySelector('.htv-stuck')) return;
-        var a = document.createElement('a'); a.className = 'htv-stuck'; a.target = '_blank'; a.rel = 'noopener';
-        a.href = 'https://wa.me/' + MAIN;
-        a.innerHTML = ICON_WA.replace('width="18" height="18"', 'width="14" height="14"') + '<span>' + T('Stuck on this step?', 'توقفت عند هذه الخطوة؟') + '</span>';
-        a.addEventListener('click', function(){
-          var btn = document.querySelector('[data-plan-btn][aria-pressed="true"]');
-          var plan = btn ? btn.textContent.trim() : '';
-          var num = (li.querySelector('.st-n') || {}).textContent || String(i + 1);
-          var stepText = body.textContent.replace(T('Stuck on this step?', 'توقفت عند هذه الخطوة؟'), '').replace(/\s+/g, ' ').trim().slice(0, 90);
-          var msg = ar()
-            ? 'مرحباً حسام، أتبع دليل التثبيت على الموقع (' + device + ')' + (plan ? ' لباقة ' + plan : '') + ' وتوقفت عند الخطوة ' + num + ':\n"' + stepText + '…"'
-            : 'Hi Hossam, I\'m following the setup guide on the website (' + device + ')' + (plan ? ' for ' + plan : '') + ' and I\'m stuck at step ' + num + ':\n"' + stepText + '…"';
-          a.href = 'https://wa.me/' + MAIN + '?text=' + encodeURIComponent(msg);
-        });
-        body.appendChild(document.createElement('br')); body.appendChild(a);
-      });
-    });
-  }
-
-  /* ---------------------------------------------------------------- 5: order / free-trial form */
+  /* ---------------------------------------------------------------- 4: order / free-trial form */
   var REGIONS = { eg: ['Egypt', 'مصر'], gulf: ['Saudi & Gulf', 'السعودية والخليج'], uae: ['UAE', 'الإمارات'], intl: ['Other countries', 'دول أخرى'] };
   var PLANS = { xtv: ['XTV', 'XTV'], marvel: ['Marvel', 'مارفل'], basic: ['Basic', 'الأساسية'], premium: ['Premium', 'بريميوم'] };
   var DEVICES = [['androidtv', 'Android TV / TV box', 'أندرويد تي في / بوكس'], ['firestick', 'Firestick', 'فايرستيك'], ['smarttv', 'Samsung / LG TV', 'شاشة سامسونج / LG'],
