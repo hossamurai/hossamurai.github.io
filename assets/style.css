@@ -615,7 +615,8 @@ h1,h2,h3{letter-spacing:-.025em}
 .page-hero h1{font-weight:700;letter-spacing:-.035em}
 footer.site{background:var(--surface-2);border-top:0;font-size:.8rem}
 /* home: centred headline with the Apple Intelligence gradient and a soft colour glow */
-.hero-apple{position:relative;text-align:center;padding:96px 0 72px;overflow:hidden}
+.hero-apple{position:relative;text-align:center;padding:88px 0 40px;overflow:hidden}
+.hero-apple + #plans{padding-top:32px}
 .hero-apple::before{content:"";position:absolute;left:50%;top:58%;width:min(900px,120vw);height:340px;transform:translate(-50%,-50%);background:var(--ai-grad);filter:blur(90px);opacity:.13;border-radius:50%;z-index:0;pointer-events:none}
 .hero-apple .wrap{position:relative;z-index:1}
 .hero-apple h1{font-size:clamp(2.6rem,6.6vw,5rem);font-weight:700;letter-spacing:-.04em;line-height:1.03;max-width:900px;margin:0 auto 20px}
@@ -773,7 +774,8 @@ section.sec.remind-sec{background:var(--surface-2)}
   .plan-media .plan-logo,.plan-media .plan-mono{width:80px;height:80px}
 }
 @media (max-width:640px){
-  .hero-apple{padding:56px 0 44px}
+  .hero-apple{padding:48px 0 24px}
+  .hero-apple + #plans{padding-top:24px}
   .hero-apple::before{height:240px;filter:blur(70px)}
   .hero-apple .hero-cta .btn{flex:1 1 100%}
   .pgrid{grid-template-columns:minmax(0,1fr)}

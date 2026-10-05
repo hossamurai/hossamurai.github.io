@@ -264,7 +264,6 @@ def home(c):
     <p class="lead">{t(L('Live sports, Arabic and international channels and movies — up to 4K.', 'مباريات مباشرة وقنوات عربية وعالمية وأفلام — بجودة حتى 4K.'))}</p>
     <div class="hero-cta">
       {btn_trial(c)}
-      <a class="btn btn-ghost" href="#plans">{t(L('See plans', 'الباقات'))} {icon('arrow', 'flip')}</a>
     </div>
   </div>
 </section>'''
