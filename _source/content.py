@@ -17,6 +17,42 @@ WHATSAPP = '201117250227'                       # international format, digits o
 WHATSAPP_DISPLAY = '+20 111 725 0227'
 BOT_WHATSAPP = '201013113996'                   # the WhatsApp bot's number — renewal-reminder sign-ups go here
 BOT_WHATSAPP_DISPLAY = '+20 101 311 3996'
+REMIND_CC = [
+    ('20', L('Egypt', 'مصر')),
+    ('966', L('Saudi Arabia', 'السعودية')),
+    ('971', L('UAE', 'الإمارات')),
+    ('965', L('Kuwait', 'الكويت')),
+    ('974', L('Qatar', 'قطر')),
+    ('973', L('Bahrain', 'البحرين')),
+    ('968', L('Oman', 'عُمان')),
+    ('962', L('Jordan', 'الأردن')),
+    ('961', L('Lebanon', 'لبنان')),
+    ('964', L('Iraq', 'العراق')),
+    ('970', L('Palestine', 'فلسطين')),
+    ('963', L('Syria', 'سوريا')),
+    ('967', L('Yemen', 'اليمن')),
+    ('249', L('Sudan', 'السودان')),
+    ('218', L('Libya', 'ليبيا')),
+    ('216', L('Tunisia', 'تونس')),
+    ('213', L('Algeria', 'الجزائر')),
+    ('212', L('Morocco', 'المغرب')),
+    ('90', L('Turkey', 'تركيا')),
+    ('1', L('USA / Canada', 'أمريكا / كندا')),
+    ('44', L('UK', 'بريطانيا')),
+    ('49', L('Germany', 'ألمانيا')),
+    ('33', L('France', 'فرنسا')),
+    ('31', L('Netherlands', 'هولندا')),
+    ('32', L('Belgium', 'بلجيكا')),
+    ('41', L('Switzerland', 'سويسرا')),
+    ('43', L('Austria', 'النمسا')),
+    ('46', L('Sweden', 'السويد')),
+    ('47', L('Norway', 'النرويج')),
+    ('45', L('Denmark', 'الدنمارك')),
+    ('39', L('Italy', 'إيطاليا')),
+    ('34', L('Spain', 'إسبانيا')),
+    ('353', L('Ireland', 'أيرلندا')),
+    ('61', L('Australia', 'أستراليا')),
+]
 N8N_WEBHOOK = 'https://n8n.hossamservices.com/webhook/'   # n8n webhooks; the renewal-reminders form posts to <this>site-link
 LAST_UPDATED = L('3 October 2026', '3 أكتوبر 2026')   # shown on the policies page
 
