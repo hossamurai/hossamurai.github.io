@@ -639,12 +639,14 @@ footer.site{background:var(--surface-2);border-top:0;font-size:.8rem}
 .pcard .pill{background:#fff;color:var(--ink);border:0;box-shadow:0 1px 3px rgba(0,0,0,.08);font-size:.75rem;font-weight:600;padding:4px 11px}
 .pcard.featured .pill:first-child{background:var(--ai-grad);color:#fff;box-shadow:none}
 .pcard .pill-soft{background:#fff}
-.plan-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.plan-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:12px}
 .plan-head .plan-logo{width:48px;height:48px;border-radius:12px;background:#fff;border:0;padding:4px;object-fit:contain;box-shadow:0 1px 3px rgba(0,0,0,.08)}
 .plan-head .plan-mono{width:48px;height:48px;border-radius:12px;font-size:1.1rem}
 .plan-head h3{font-size:1.3rem;font-weight:700}
 .plan-head .aka{display:block;font-size:.8rem;color:var(--muted);font-weight:400}
-.plan-head .plan-trial{margin-inline-start:auto;align-self:flex-start;color:var(--muted)}
+.plan-head .plan-trial{margin-inline-start:auto;align-self:flex-start;color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-2)}
+.plan-head .plan-trial:hover{text-decoration-color:var(--ink)}
+.pcard .plan-actions{grid-template-columns:1fr}
 .pcard .plan-price b{font-size:1.7rem;letter-spacing:-.03em}
 .pcard .plan-actions .btn{padding:11px 18px}
 .seg{background:var(--surface-2);border:0}
@@ -784,7 +786,6 @@ section.sec.remind-sec{background:var(--surface-2)}
 }
 @media (max-width:360px){
   .pcard .plan-actions{grid-template-columns:1fr}
-  .plan-head .plan-trial{display:none}
   .nav-in{gap:8px}
   .lang .ic{display:none}
   .lang{padding:7px 9px}

@@ -126,17 +126,16 @@ def plan_card(c, region, rp):
     logo = (f'<img class="plan-logo" src="{c.root}{p["img"]}" alt="" width="48" height="48" loading="lazy" '
             f'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'">'
             f'<span class="plan-mono" style="display:none">{p["mono"]}</span>')
-    trial = f'{p["trial"]} ساعة تجربة' if c.ar else f'{p["trial"]}h trial'
+    trial = f'تجربة مجانية {p["trial"]} ساعة' if c.ar else f'{p["trial"]}h free trial'
     return f'''<article class="pcard{" featured" if rp.get("featured") else ""}" style="--c:{p["color"]}">
   <div class="plan-body">
     <div class="badges">{badges}</div>
-    <div class="plan-head">{logo}<div><h3>{nm}</h3>{('<span class="aka">' + aka + '</span>') if aka else ''}</div><span class="plan-trial">{icon('clock')}{trial}</span></div>
+    <div class="plan-head">{logo}<div><h3>{nm}</h3>{('<span class="aka">' + aka + '</span>') if aka else ''}</div>{ext(c.wa('trial', plan=nm, region=rl), icon('clock') + trial, 'plan-trial')}</div>
     <p class="plan-line">{first}</p>
     <p class="plan-line ltr-nums">{stats}</p>
     <p class="plan-price"><b>{money(c, rp["cur"], rp["p1"])}</b> {t(PERIOD[rp["per"]])} {p2}</p>
     <div class="plan-actions">
       {ext(c.wa('sub', plan=nm, region=rl), icon('chat') + t(L('Subscribe', 'اشترك')), 'btn btn-wa')}
-      {ext(c.wa('trial', plan=nm, region=rl), t(L('Free trial', 'تجربة مجانية')), 'btn btn-ghost')}
     </div>
     <a class="plan-setup" data-setup-link href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}{icon('arrow', 'flip')}</a>
   </div>
@@ -314,7 +313,7 @@ def home(c):
 {reviews}
 
 
-''' + cta_block(c)
+'''
     return (t(L('Hossam TV — Live Sports, Movies & Series in 4K', 'Hossam TV — مباريات وأفلام ومسلسلات بجودة 4K')),
             t(L('Live sports, movies and series on any screen, up to 4K. Plans for Egypt, the Gulf and worldwide. Free 12–24 hour trial on WhatsApp.',
                 'مباريات مباشرة وأفلام ومسلسلات على أي شاشة بجودة حتى 4K. باقات لمصر والخليج وكل الدول. تجربة مجانية 12–24 ساعة عبر واتساب.')),
