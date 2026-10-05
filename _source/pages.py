@@ -184,7 +184,25 @@ def dev_grid(c):
 
 
 def faq_answer(c, a):
-    return c.t(a).replace('{channels}', f'<a href="{c.href("channels.html")}">{c.t(L("Channels", "القنوات"))}</a>')
+    return (c.t(a).replace('{channels}', f'<a href="{c.href("channels.html")}">{c.t(L("Channels", "القنوات"))}</a>')
+            .replace('{reminders}', f'<a href="{c.href("about.html#reminders")}">{c.t(L("Renewal reminders", "تنبيهات التجديد"))}</a>'))
+
+
+def reminder_card(c):
+    """Customer links their username to their WhatsApp number by sending a prefilled message
+    from their own WhatsApp (proves the number is theirs). The bot reads the '#remind <username>' line."""
+    t = c.t
+    return f'''<form class="remind" id="reminders" data-remind data-wa="{WHATSAPP}" novalidate>
+  <h3>{icon('clock')}{t(L('Renewal reminders', 'تنبيهات التجديد'))}</h3>
+  <p>{t(L("Link your username to your WhatsApp number and we'll message you before your subscription ends.",
+          'اربط اسم المستخدم برقم الواتساب وسنراسلك قبل انتهاء اشتراكك.'))}</p>
+  <label for="remindUser">{t(L('Your username', 'اسم المستخدم'))}</label>
+  <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="64" placeholder="{t(L('e.g. ahmed123', 'مثال: ahmed123'))}">
+  <p class="remind-err" role="alert" hidden>{t(L('Enter the username we sent you (letters, numbers, . _ - only).', 'اكتب اسم المستخدم الذي أرسلناه لك (حروف وأرقام و . _ - فقط).'))}</p>
+  <button type="submit" class="btn btn-wa">{icon('chat')}{t(L('Link on WhatsApp', 'اربط عبر واتساب'))}</button>
+  <small>{t(L('WhatsApp opens with a ready message — just tap Send. Send it from the number you want reminders on. Never share your password.',
+              'سيفتح واتساب برسالة جاهزة — فقط اضغط إرسال. أرسلها من الرقم الذي تريد التنبيهات عليه. لا ترسل كلمة المرور أبداً.'))}</small>
+</form>'''
 
 
 def details(c, iid, q, a, search=False):
@@ -779,6 +797,7 @@ def help_page(c):
         groups += f'<div class="faq-group" data-search-group><h2 class="h2">{t(g)}</h2><div class="faq">{its}</div></div>'
     body = hero + f'''
 <section class="sec first"><div class="wrap">
+  <div class="help-remind">{reminder_card(c)}</div>
   {groups}
   <p class="empty" id="helpEmpty">{t(L('No results. Try another word, or ask us on WhatsApp.', 'لا توجد نتائج. جرّب كلمة أخرى، أو اسألنا عبر واتساب.'))}</p>
 </div></section>
@@ -834,6 +853,7 @@ def about(c):
     <h2>{t(L('Where we serve', 'أين نقدم خدماتنا'))}</h2>
     <ul class="regions">{''.join('<li>' + t(r) + '</li>' for r in regions)}</ul>
   </div>
+  <div class="about-side">
   <aside class="contact-card">
     <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <h3>{t(L('Talk to us', 'تواصل معنا'))}</h3>
@@ -841,6 +861,8 @@ def about(c):
     <span class="num">{WHATSAPP_DISPLAY}</span>
     {ext(c.wa('sub'), icon('chat') + t(L('Message us on WhatsApp', 'راسلنا عبر واتساب')), 'btn btn-wa')}
   </aside>
+  {reminder_card(c)}
+  </div>
 </div></section>
 ''' + cta_block(c)
     return (t(L('About Us', 'من نحن')),

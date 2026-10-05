@@ -119,4 +119,23 @@
 
   var yr = document.getElementById('yr');
   if(yr) yr.textContent = new Date().getFullYear();
+  /* renewal reminders: open WhatsApp with a prefilled "link my username" message.
+     Sent from the customer's own WhatsApp, so the bot knows the number is theirs.
+     The bot reads the last line: "#remind <username>". */
+  each('[data-remind]', function(f){
+    var input = f.querySelector('input'), err = f.querySelector('.remind-err');
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var u = (input.value || '').replace(/\s+/g, '').toLowerCase();
+      var ok = /^[a-z0-9._@-]{2,64}$/.test(u);
+      input.setAttribute('aria-invalid', ok ? 'false' : 'true');
+      if(err) err.hidden = ok;
+      if(!ok){ input.focus(); return; }
+      var msg = AR
+        ? 'مرحباً Hossam TV، أرجو إرسال تنبيهات التجديد على رقم الواتساب هذا.\nاسم المستخدم: ' + u + '\n#remind ' + u
+        : 'Hi Hossam TV, please send renewal reminders to this WhatsApp number.\nUsername: ' + u + '\n#remind ' + u;
+      window.open('https://wa.me/' + f.getAttribute('data-wa') + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+    });
+    input.addEventListener('input', function(){ if(err && !err.hidden){ err.hidden = true; input.setAttribute('aria-invalid', 'false'); } });
+  });
 })();
