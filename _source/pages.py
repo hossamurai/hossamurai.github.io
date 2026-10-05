@@ -250,7 +250,7 @@ def pay_block(c):
 # ----------------------------------------------------------------------------
 def home(c):
     t = c.t
-    hero = f'''<section class="hero"><div class="wrap hero-grid">
+    hero = f'''<section class="hero"><div class="wrap"><div class="hero-grid">
   <div>
     <span class="onair"><span class="dot"></span>{t(L('Live now', 'بث مباشر الآن'))}</span>
     <h1>{t(L('Every match, movie and series. <em>On any screen.</em>', 'كل المباريات والأفلام والمسلسلات. <em>على أي شاشة.</em>'))}</h1>
@@ -278,6 +278,10 @@ def home(c):
     </div></div>
     <div class="tv-stand"></div>
   </div>
+</div>
+  <nav class="catbar" aria-label="{t(L('What you can watch', 'ماذا تشاهد'))}">{''.join(f'<a href="{c.href("channels.html")}">{icon(ic)}<span>{t(lbl)}</span></a>' for ic, lbl in [
+      ('ball', L('Live football', 'مباريات مباشرة')), ('globe', L('Arabic channels', 'قنوات عربية')), ('film', L('Movies', 'أفلام')),
+      ('series', L('Series', 'مسلسلات')), ('kids', L('Kids', 'أطفال')), ('4k', L('4K', '4K')), ('devices', L('All devices', 'كل الأجهزة'))])}</nav>
 </div></section>'''
 
     reviews = ''
