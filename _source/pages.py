@@ -217,7 +217,7 @@ def reminder_card(c, compact=False):
   <div class="rf rf-phone">
   <label for="remindPhone">{t(L('WhatsApp number for reminders', 'رقم الواتساب للتنبيهات'))}</label>
   <div class="phone-row" dir="ltr">
-    <select name="cc" aria-label="{t(L('Country code', 'كود الدولة'))}">{''.join(f'<option value="{cc}"{" selected" if cc == "20" else ""}>+{cc} {t(nm)}</option>' for cc, nm in REMIND_CC)}</select>
+    <label class="cc-wrap"><span class="cc-show" aria-hidden="true">+20</span><select name="cc" aria-label="{t(L('Country code', 'كود الدولة'))}">{''.join(f'<option value="{cc}"{" selected" if cc == "20" else ""}>+{cc} {t(nm)}</option>' for cc, nm in REMIND_CC)}</select></label>
     <input id="remindPhone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel-national" maxlength="20" placeholder="{t(L('Number', 'الرقم'))}">
   </div>
   </div>
