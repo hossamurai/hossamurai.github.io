@@ -577,6 +577,16 @@ footer.site{background:var(--surface-2);border-top:1px solid var(--line);margin-
 .contact-card{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
 .contact-card p{color:var(--muted)}
 
+/* reminders form: fields grouped; on the home page (compact) they sit in one row on wide screens */
+.rf-grid{display:grid;gap:12px}
+.rf label{display:block;margin-bottom:6px}
+.rf-grid .btn{margin-top:4px}
+.remind-sec .remind-compact{margin-top:6px}
+@media (min-width:900px){
+  .remind-compact .rf-grid{grid-template-columns:1fr 1fr 1.6fr auto;align-items:end;gap:14px}
+  .remind-compact .rf-grid .btn{margin-top:0;height:50px;width:auto;padding:0 22px}
+  .remind-compact .remind-week{display:inline-flex}
+}
 @media (max-width:1000px){
   .menu-btn{display:grid}
   .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 20px 18px;box-shadow:var(--shadow);gap:2px}

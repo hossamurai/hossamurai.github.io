@@ -111,22 +111,30 @@
   <form class="remind" id="reminders" data-remind data-api="https://n8n.hossamservices.com/webhook/site-link" data-bot="201013113996" novalidate>
   <h3><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>تنبيهات التجديد</h3>
   <p>اربط الحساب برقم واتساب وسنراسل هذا الرقم قبل انتهاء الاشتراك. يمكنك أيضاً إضافة حساب صديق على رقمه.</p>
+  <div class="rf-grid">
+  <div class="rf">
   <label for="remindUser">اسم المستخدم</label>
   <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="مثال: ahmed123">
+  </div>
+  <div class="rf">
   <label for="remindPass">كلمة المرور</label>
   <div class="remind-pass" dir="ltr">
     <input id="remindPass" name="password" type="password" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
     <button type="button" class="remind-show" aria-pressed="false" data-show="إظهار" data-hide="إخفاء">إظهار</button>
   </div>
+  </div>
+  <div class="rf rf-phone">
   <label for="remindPhone">رقم الواتساب للتنبيهات</label>
   <div class="phone-row" dir="ltr">
     <select name="cc" aria-label="كود الدولة"><option value="20" selected>+20 مصر</option><option value="966">+966 السعودية</option><option value="971">+971 الإمارات</option><option value="965">+965 الكويت</option><option value="974">+974 قطر</option><option value="973">+973 البحرين</option><option value="968">+968 عُمان</option><option value="962">+962 الأردن</option><option value="961">+961 لبنان</option><option value="964">+964 العراق</option><option value="970">+970 فلسطين</option><option value="963">+963 سوريا</option><option value="967">+967 اليمن</option><option value="249">+249 السودان</option><option value="218">+218 ليبيا</option><option value="216">+216 تونس</option><option value="213">+213 الجزائر</option><option value="212">+212 المغرب</option><option value="90">+90 تركيا</option><option value="1">+1 أمريكا / كندا</option><option value="44">+44 بريطانيا</option><option value="49">+49 ألمانيا</option><option value="33">+33 فرنسا</option><option value="31">+31 هولندا</option><option value="32">+32 بلجيكا</option><option value="41">+41 سويسرا</option><option value="43">+43 النمسا</option><option value="46">+46 السويد</option><option value="47">+47 النرويج</option><option value="45">+45 الدنمارك</option><option value="39">+39 إيطاليا</option><option value="34">+34 إسبانيا</option><option value="353">+353 أيرلندا</option><option value="61">+61 أستراليا</option></select>
     <input id="remindPhone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel-national" maxlength="20" placeholder="الرقم">
   </div>
+  </div>
+  <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span>اربط الحساب</span></button>
+  </div>
   <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
   <p class="remind-msg" role="status" hidden data-msg-empty="اكتب اسم المستخدم وكلمة المرور ورقم الواتساب." data-msg-phone="راجع رقم الواتساب — اكتب كود الدولة، مثال: 971501234567+." data-msg-not_found="اسم المستخدم وكلمة المرور لا يطابقان أي حساب. راجع الصورة التي أرسلناها بعد الدفع واكتبهما بالضبط. لو اشتركت أو جدّدت خلال الأسبوع الماضي، حاول مرة أخرى بعد أيام." data-msg-limited="محاولات كثيرة اليوم. حاول غداً، أو راسل البوت على واتساب." data-msg-error="تعذّر الاتصال الآن. حاول بعد دقيقة، أو راسل البوت على واتساب." data-msg-linked="تم الربط ✅ سنرسل تذكيراً على هذا الرقم قبل انتهاء الاشتراك. ستصلك رسالة تأكيد على الواتساب."></p>
   <p class="remind-week"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><span>اشتركت أو جدّدت حديثاً؟ قد يستغرق الأمر حتى أسبوع قبل أن تتمكن من ربط الحساب — نضيف الحسابات الجديدة والتجديدات لقائمتنا مرة كل أسبوع.</span></p>
-  <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span>اربط الحساب</span></button>
   <small>نحتاج كلمة المرور لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. يتم التحقق من بياناتك عبر نظامنا ولا تُحفظ على هذا الموقع. تفضّل الواتساب؟ راسل البوت: <a href="https://wa.me/201013113996" target="_blank" rel="noopener"><bdi dir="ltr">+20 101 311 3996</bdi></a>.</small>
 </form>
   </div>
