@@ -456,6 +456,54 @@ html[lang="ar"] .foot-grid h3{font-family:var(--f-ar);letter-spacing:0;font-size
   .lang{padding:8px 10px}
   .brand{font-size:1rem}
 }
+@media (max-width:600px){
+  /* tighter page tops and sections */
+  .page-hero{padding:26px 0 24px}
+  section.sec{padding:44px 0}
+  section.sec.tight{padding:40px 0}
+  /* hero TV: smaller so the page continues sooner */
+  .tv{max-width:300px;margin:0 auto;padding:9px;border-radius:20px}
+  .tv-top{padding:10px 12px 6px}
+  .tv-row{padding:7px 6px;gap:10px}
+  .tv-row .sq{width:32px;height:32px;border-radius:9px}
+  /* lists of cards become one card with compact rows */
+  .features,.cats,.included{grid-template-columns:1fr;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .fcard,.cat,.included li{border:0;border-radius:0;background:none}
+  .fcard + .fcard,.cat + .cat,.included li + li{border-top:1px dashed var(--line-2)}
+  .fcard,.cat{display:grid;grid-template-columns:auto 1fr;column-gap:14px;align-items:start;padding:16px 18px}
+  .fcard .ic{grid-row:span 2;width:22px;height:22px;padding:7px}
+  .fcard h3,.cat h3{margin:2px 0 3px;font-size:1rem}
+  .fcard p,.cat p{font-size:.9rem}
+  .cat .ic{grid-row:span 3;width:24px;height:24px;margin-top:2px}
+  .cat p{margin:0 0 8px}
+  .included li{padding:13px 16px}
+  .dev-grid{gap:0;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .dev-card{border:0;border-radius:0;background:none;padding:14px 16px}
+  .dev-card + .dev-card{border-top:1px dashed var(--line-2)}
+  .dev-card:hover{box-shadow:none;background:var(--surface-2)}
+  .fit{grid-template-columns:1fr 1fr;gap:10px}
+  .fit a{padding:14px}
+  .fit .q{font-size:.82rem}
+  /* how it works: numbered rows like the setup steps */
+  .how{grid-template-columns:1fr}
+  .how li{display:grid;grid-template-columns:auto 1fr;column-gap:14px;padding:16px 18px}
+  .how li + li{border-inline-start:0;border-top:1px dashed var(--line-2)}
+  .how .ic{display:none}
+  .how .num{grid-row:span 2;width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;color:var(--ink);font-size:.75rem}
+  .how h3{margin:4px 0 3px;font-size:1rem}
+  /* code tables: plan label on top, codes full width */
+  .codes-table,.codes-table tbody,.codes-table tr,.codes-table th,.codes-table td{display:block;width:auto}
+  .codes-table tbody th{width:auto;padding:14px 16px 0;border-bottom:0}
+  .codes-table td{padding:10px 16px 14px}
+  .code{text-align:start}
+  /* compare table: keep the row labels visible while scrolling sideways */
+  .cmp:not(.codes-table) tbody th,.cmp thead th:first-child{position:sticky;inset-inline-start:0;z-index:1;background:var(--surface)}
+  .cmp:not(.codes-table) tbody th{min-width:96px;box-shadow:inset -1px 0 0 var(--line)}
+  html[dir="rtl"] .cmp:not(.codes-table) tbody th{box-shadow:inset 1px 0 0 var(--line)}
+  /* footer: link lists side by side */
+  .foot-grid{grid-template-columns:1fr 1fr;gap:28px 20px}
+  .foot-grid > div:first-child,.foot-grid > div:last-child{grid-column:1 / -1}
+}
 @media (max-width:360px){
   .nav-in{gap:8px}
   .lang .ic{display:none}
