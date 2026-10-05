@@ -8,11 +8,13 @@
   --muted:#6a6a6a;
   --line:#ebebeb;
   --line-2:#dddddd;
-  --brand:#e31c5f;
-  --brand-grad:linear-gradient(to right,#e61e4d 0%,#e31c5f 50%,#d70466 100%);
+  --brand:#ffcc33;
+  --brand-soft:#fff6d6;
+  --ink-line:#1a1a1a;
+  --brand-grad:#ffcc33;
 
   --live:#e5412d;
-  --wa:#e31c5f;
+  --wa:#ffcc33;
   --wa-ink:#ffffff;
 
   --c-basic:#2563eb;
@@ -587,6 +589,55 @@ footer.site{background:var(--surface-2);border-top:1px solid var(--line);margin-
   .remind-compact .rf-grid .btn{margin-top:0;height:50px;width:auto;padding:0 22px}
   .remind-compact .remind-week{display:inline-flex}
 }
+/* ---------- playful yellow theme (inspired by HeyFriends!) ---------- */
+.btn{border-radius:999px}
+.btn-wa{background:var(--brand);color:var(--ink-line);border:2px solid var(--ink-line);box-shadow:0 3px 0 var(--ink-line);filter:none}
+.btn-wa:hover{background:#ffd75a;filter:none;transform:translateY(-1px);box-shadow:0 4px 0 var(--ink-line)}
+.btn-wa:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink-line)}
+.btn-ghost{background:#fff;border:2px solid var(--ink-line);color:var(--ink-line)}
+.btn-ghost:hover{background:var(--brand-soft)}
+.nav .btn-wa{box-shadow:0 2px 0 var(--ink-line)}
+.kicker{color:var(--ink-line);background:var(--brand);padding:3px 10px;border-radius:999px;font-size:.72rem}
+.page-hero{background:var(--brand-soft)}
+footer.site{background:#fffaf0}
+/* hero: big headline, hand-drawn loop around the key words, a couple of doodles */
+.hero-fun{position:relative;text-align:center;padding:72px 0 56px;overflow:hidden}
+.hero-fun h1{font-size:clamp(2.3rem,5.6vw,4.2rem);font-weight:800;line-height:1.05;letter-spacing:-.03em;max-width:860px;margin:0 auto 18px}
+.hero-fun .loop{position:relative;white-space:nowrap;z-index:0}
+.hero-fun .loop::after{content:"";position:absolute;inset:-18% -8% -22% -8%;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 100' preserveAspectRatio='none'%3E%3Cpath d='M18 58C14 30 90 10 170 12s124 18 120 44-70 38-150 36S12 82 22 50c6-18 40-30 80-34' fill='none' stroke='%23ffcc33' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center/100% 100%;z-index:-1}
+.hero-fun .lead{margin:0 auto 30px;max-width:560px}
+.hero-fun .hero-cta{justify-content:center}
+.doodle{position:absolute;width:44px;height:44px;background:no-repeat center/contain;pointer-events:none}
+.doodle.d1{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 3v12M20 25v12M3 20h12M25 20h12' stroke='%231a1a1a' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");top:52px;left:9%}
+.doodle.d2{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 30'%3E%3Cpath d='M3 18c8-12 16-12 22 0s14 12 22 0 14-12 22 0' fill='none' stroke='%23ffcc33' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E");width:90px;height:34px;bottom:40px;right:10%}
+/* plan cards: compact, outlined, playful shadow */
+.pgrid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+.pcard{background:#fff;border:2px solid var(--ink-line);border-radius:22px;padding:20px;box-shadow:4px 4px 0 var(--ink-line);transition:transform .15s,box-shadow .15s}
+.pcard:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink-line)}
+.pcard.featured{background:var(--brand-soft);border:2px solid var(--ink-line);box-shadow:4px 4px 0 var(--ink-line)}
+.pcard.featured:hover{box-shadow:6px 6px 0 var(--ink-line)}
+.pcard .plan-body{padding:0}
+.pcard .badges{position:static;display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;min-height:0}
+.pcard .badges:empty{display:none}
+.pcard .pill{background:var(--brand);border:1.5px solid var(--ink-line);box-shadow:none;font-size:.75rem;padding:3px 10px}
+.pcard .pill-soft{background:#fff}
+.plan-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.plan-head .plan-logo{width:48px;height:48px;border-radius:12px;background:#fff;border:1.5px solid var(--line);padding:4px;object-fit:contain;box-shadow:none}
+.plan-head .plan-mono{width:48px;height:48px;border-radius:12px;font-size:1.1rem}
+.plan-head h3{font-size:1.2rem;font-weight:800}
+.plan-head .aka{display:block;font-size:.8rem;color:var(--muted);font-weight:500}
+.plan-head .plan-trial{margin-inline-start:auto;align-self:flex-start}
+.pcard .plan-price b{font-size:1.5rem;letter-spacing:-.02em}
+/* sections */
+section.sec.remind-sec{background:var(--brand-soft)}
+.remind-sec .remind{border:2px solid var(--ink-line);box-shadow:4px 4px 0 var(--ink-line)}
+.review{border:2px solid var(--ink-line);box-shadow:4px 4px 0 var(--ink-line)}
+.cta{background:var(--brand);border:2px solid var(--ink-line);box-shadow:6px 6px 0 var(--ink-line)}
+.cta p{color:var(--ink-2)}
+.cta .btn-wa{background:var(--ink-line);color:#fff;box-shadow:0 3px 0 #000}
+.cta .btn-ghost{background:#fff}
+.remind-week{background:#fff;border-color:var(--ink-line)}
+
 @media (max-width:1000px){
   .menu-btn{display:grid}
   .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 20px 18px;box-shadow:var(--shadow);gap:2px}
@@ -688,6 +739,12 @@ footer.site{background:var(--surface-2);border-top:1px solid var(--line);margin-
   .pgrid:has(> :nth-child(2):last-child){max-width:none}
   .plan-media{aspect-ratio:16/9}
   .plan-media .plan-logo,.plan-media .plan-mono{width:80px;height:80px}
+}
+@media (max-width:640px){
+  .hero-fun{padding:44px 0 36px}
+  .doodle{display:none}
+  .hero-fun .hero-cta .btn{flex:1 1 100%}
+  .pcard{box-shadow:3px 3px 0 var(--ink-line)}
 }
 @media (max-width:360px){
   .nav-in{gap:8px}
