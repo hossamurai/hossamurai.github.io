@@ -445,6 +445,8 @@ html[lang="ar"] .foot-grid h3{font-family:var(--f-ar);letter-spacing:0;font-size
 .remind-week .ic{width:16px;height:16px;flex-shrink:0;margin-top:2px}
 .remind-home{display:grid;grid-template-columns:1fr minmax(0,440px);gap:40px;align-items:start}
 .remind-home .remind{box-shadow:var(--shadow-sm)}
+section.sec.remind-sec{background:var(--surface-2)}
+.remind-home{align-items:center}
 .remind-points{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:12px}
 .remind-points li{display:flex;gap:10px;align-items:flex-start}
 .remind-points .ic{color:var(--c-marvel);flex-shrink:0;margin-top:3px}
@@ -496,6 +498,9 @@ html[lang="ar"] .foot-grid h3{font-family:var(--f-ar);letter-spacing:0;font-size
   .page-hero{padding:26px 0 24px}
   section.sec{padding:44px 0}
   section.sec.tight{padding:40px 0}
+  /* hero TV is decoration only: hidden on phones so the plans come sooner */
+  .hero-grid > [aria-hidden="true"]{display:none}
+  .hero{padding-bottom:36px}
   /* hero TV: smaller so the page continues sooner */
   .tv{max-width:300px;margin:0 auto;padding:9px;border-radius:20px}
   .tv-top{padding:10px 12px 6px}

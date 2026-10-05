@@ -188,15 +188,22 @@ def faq_answer(c, a):
             .replace('{reminders}', f'<a href="{c.href("index.html#reminders")}">{c.t(L("Renewal reminders", "تنبيهات التجديد"))}</a>'))
 
 
-def reminder_card(c):
+def reminder_card(c, compact=False):
     """Renewal reminders: the customer enters username + password + WhatsApp number (always all three,
     because usernames repeat). The form posts to the n8n 'site-link' webhook, which checks the Customers
     table and saves the number there. Nothing is stored on the website."""
     t = c.t
-    return f'''<form class="remind" id="reminders" data-remind data-api="{N8N_WEBHOOK}site-link" data-bot="{BOT_WHATSAPP}" novalidate>
-  <h3>{icon('clock')}{t(L('Renewal reminders', 'تنبيهات التجديد'))}</h3>
+    head = '' if compact else f'''<h3>{icon('clock')}{t(L('Renewal reminders', 'تنبيهات التجديد'))}</h3>
   <p>{t(L("Link an account to a WhatsApp number and we'll message that number before the subscription ends. You can add a friend's account on their number too.",
-          'اربط الحساب برقم واتساب وسنراسل هذا الرقم قبل انتهاء الاشتراك. يمكنك أيضاً إضافة حساب صديق على رقمه.'))}</p>
+          'اربط الحساب برقم واتساب وسنراسل هذا الرقم قبل انتهاء الاشتراك. يمكنك أيضاً إضافة حساب صديق على رقمه.'))}</p>'''
+    week = (L('New subscription or renewal? It can take up to a week before you can link it.', 'اشتراك جديد أو تجديد؟ قد يستغرق حتى أسبوع قبل أن تتمكن من ربطه.') if compact else
+            L("Just subscribed or renewed? It can take up to a week before you can link it — we add new accounts and renewals to our list once a week.",
+              "اشتركت أو جدّدت حديثاً؟ قد يستغرق الأمر حتى أسبوع قبل أن تتمكن من ربط الحساب — نضيف الحسابات الجديدة والتجديدات لقائمتنا مرة كل أسبوع."))
+    fine = (L('The password is needed because some usernames are shared. Nothing is stored on this website.', 'نحتاج كلمة المرور لأن بعض أسماء المستخدمين تتكرر. لا يُحفظ أي شيء على هذا الموقع.') if compact else
+            L(f'We need the password because some usernames are shared by more than one account. Your details are checked by our system and are not stored on this website. Prefer WhatsApp? Message our bot: <a href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener">{BOT_WHATSAPP_DISPLAY}</a>.',
+              f'نحتاج كلمة المرور لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. يتم التحقق من بياناتك عبر نظامنا ولا تُحفظ على هذا الموقع. تفضّل الواتساب؟ راسل البوت: <a href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener"><bdi dir="ltr">{BOT_WHATSAPP_DISPLAY}</bdi></a>.'))
+    return f'''<form class="remind{' remind-compact' if compact else ''}" id="reminders" data-remind data-api="{N8N_WEBHOOK}site-link" data-bot="{BOT_WHATSAPP}" novalidate>
+  {head}
   <label for="remindUser">{t(L('Username', 'اسم المستخدم'))}</label>
   <input id="remindUser" name="username" type="text" dir="ltr" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64" placeholder="{t(L('e.g. ahmed123', 'مثال: ahmed123'))}">
   <label for="remindPass">{t(L('Password', 'كلمة المرور'))}</label>
@@ -208,10 +215,9 @@ def reminder_card(c):
   <input id="remindPhone" name="phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="{t(L('e.g. +20 101 234 5678', 'مثال: 01012345678'))}">
   <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
   <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Fill in the username, password and WhatsApp number.', 'اكتب اسم المستخدم وكلمة المرور ورقم الواتساب.'))}" data-msg-phone="{t(L('Check the WhatsApp number — include the country code, e.g. +971 50 123 4567.', 'راجع رقم الواتساب — اكتب كود الدولة، مثال: 971501234567+.'))}" data-msg-not_found="{t(L("The username and password don't match an account. Check the picture we sent after payment and type both exactly. If you subscribed or renewed in the last week, try again in a few days.", 'اسم المستخدم وكلمة المرور لا يطابقان أي حساب. راجع الصورة التي أرسلناها بعد الدفع واكتبهما بالضبط. لو اشتركت أو جدّدت خلال الأسبوع الماضي، حاول مرة أخرى بعد أيام.'))}" data-msg-limited="{t(L('Too many tries today. Please try again tomorrow, or message our bot on WhatsApp.', 'محاولات كثيرة اليوم. حاول غداً، أو راسل البوت على واتساب.'))}" data-msg-error="{t(L("Couldn't connect right now. Try again in a minute, or message our bot on WhatsApp.", 'تعذّر الاتصال الآن. حاول بعد دقيقة، أو راسل البوت على واتساب.'))}" data-msg-linked="{t(L("Linked ✅ We'll send a WhatsApp reminder to that number before it expires. A confirmation message is on its way.", 'تم الربط ✅ سنرسل تذكيراً على هذا الرقم قبل انتهاء الاشتراك. ستصلك رسالة تأكيد على الواتساب.'))}"></p>
-  <p class="remind-week">{icon('clock')}<span>{t(L("Just subscribed or renewed? It can take up to a week before you can link it — we add new accounts and renewals to our list once a week.", "اشتركت أو جدّدت حديثاً؟ قد يستغرق الأمر حتى أسبوع قبل أن تتمكن من ربط الحساب — نضيف الحسابات الجديدة والتجديدات لقائمتنا مرة كل أسبوع."))}</span></p>
+  <p class="remind-week">{icon('clock')}<span>{t(week)}</span></p>
   <button type="submit" class="btn btn-wa">{icon('check')}<span>{t(L('Link account', 'اربط الحساب'))}</span></button>
-  <small>{t(L(f'We need the password because some usernames are shared by more than one account. Your details are checked by our system and are not stored on this website. Prefer WhatsApp? Message our bot: <a href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener">{BOT_WHATSAPP_DISPLAY}</a>.',
-              f'نحتاج كلمة المرور لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. يتم التحقق من بياناتك عبر نظامنا ولا تُحفظ على هذا الموقع. تفضّل الواتساب؟ راسل البوت: <a href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener"><bdi dir="ltr">{BOT_WHATSAPP_DISPLAY}</bdi></a>.'))}</small>
+  <small>{t(fine)}</small>
 </form>'''
 
 
@@ -248,16 +254,15 @@ def home(c):
   <div>
     <span class="onair"><span class="dot"></span>{t(L('Live now', 'بث مباشر الآن'))}</span>
     <h1>{t(L('Every match, movie and series. <em>On any screen.</em>', 'كل المباريات والأفلام والمسلسلات. <em>على أي شاشة.</em>'))}</h1>
-    <p class="lead">{t(L('Live sports, Arabic and international channels, and huge movie libraries in up to 4K. Install on all your devices — activation usually takes minutes.', 'مباريات مباشرة، قنوات عربية وعالمية، ومكتبات أفلام ضخمة بجودة تصل إلى 4K. ثبّت الاشتراك على كل أجهزتك — والتفعيل عادةً خلال دقائق.'))}</p>
+    <p class="lead">{t(L('Live sports, Arabic and international channels and movies — up to 4K, on all your devices.', 'مباريات مباشرة وقنوات عربية وعالمية وأفلام — بجودة حتى 4K على كل أجهزتك.'))}</p>
     <div class="hero-cta">
       {btn_trial(c)}
       <a class="btn btn-ghost" href="{c.href('plans.html')}">{t(L('See plans & prices', 'الباقات والأسعار'))} {icon('arrow', 'flip')}</a>
     </div>
     <ul class="trust">
-      <li>{icon('clock')}{t(L('12–24h free trial', 'تجربة مجانية 12–24 ساعة'))}</li>
-      <li>{icon('4k')}{t(L('Up to 4K / UHD', 'جودة حتى 4K'))}</li>
-      <li>{icon('devices')}{t(L('TV, phone, PC & more', 'تلفزيون، موبايل، كمبيوتر والمزيد'))}</li>
-      <li>{icon('bolt')}{t(L('Activation in minutes', 'تفعيل خلال دقائق'))}</li>
+      <li>{icon('clock')}{t(L('Free trial', 'تجربة مجانية'))}</li>
+      <li>{icon('bolt')}{t(L('Activated in minutes', 'تفعيل خلال دقائق'))}</li>
+      <li>{icon('chat')}{t(L('Help on WhatsApp', 'دعم عبر واتساب'))}</li>
     </ul>
   </div>
   <div aria-hidden="true">
@@ -275,16 +280,6 @@ def home(c):
   </div>
 </div></section>'''
 
-    feats = [
-        ('clock', L('Try before you pay', 'جرّب قبل أن تدفع'), L('A free 12–24 hour trial on your own devices, before you spend anything.', 'تجربة مجانية 12–24 ساعة على أجهزتك قبل أن تدفع أي شيء.')),
-        ('4k', L('Up to 4K quality', 'جودة حتى 4K'), L('Full HD and 4K on supported plans, devices and connections.', 'جودة Full HD و 4K على الباقات والأجهزة والسرعات الداعمة.')),
-        ('devices', L('Every screen you own', 'كل شاشاتك'), L('Smart TV, Android box, Firestick, phone, tablet, Mac or PC.', 'شاشة ذكية، أندرويد بوكس، فايرستيك، موبايل، تابلت، ماك أو كمبيوتر.')),
-        ('bolt', L('Activated in minutes', 'تفعيل خلال دقائق'), L('Usually minutes after we receive your receipt — never more than 24 hours.', 'عادةً خلال دقائق من استلام الإيصال — وبحد أقصى 24 ساعة.')),
-        ('chat', L('Real help on WhatsApp', 'دعم حقيقي عبر واتساب'), L('Setup help and support in Arabic and English, from a real person.', 'مساعدة في التثبيت ودعم بالعربية والإنجليزية من شخص حقيقي.')),
-        ('shield', L('No contracts', 'بدون التزامات'), L('Nothing renews automatically. You renew only when you want to.', 'لا يوجد تجديد تلقائي. تجدد فقط عندما تريد.')),
-    ]
-    fcards = ''.join(f'<div class="fcard">{icon(i)}<h3>{t(h)}</h3><p>{t(p)}</p></div>' for i, h, p in feats)
-
     reviews = ''
     if REVIEWS:
         rv = ''.join(
@@ -293,18 +288,20 @@ def home(c):
         reviews = f'<section class="sec"><div class="wrap">{sec_head("", t(L("Reviews", "آراء العملاء")), t(L("What our customers say", "ماذا يقول عملاؤنا")))}<div class="reviews">{rv}</div></div></section>'
 
     fq = all_faq()
-    teaser = ''.join(details(c, i, *fq[i]) for i in ['free-trial', 'which-plan', 'multi-device', 'activation', 'speed', 'family'])
+    teaser = ''.join(details(c, i, *fq[i]) for i in ['free-trial', 'which-plan', 'multi-device', 'activation'])
 
     body = hero + f'''
-<section class="sec"><div class="wrap">
-  {sec_head('01', t(L('Why Hossam TV', 'لماذا Hossam TV')), t(L('Simple, personal and ready in minutes', 'خدمة بسيطة وشخصية وجاهزة خلال دقائق')))}
-  <div class="features">{fcards}</div>
-</div></section>
-
 <section class="sec" id="plans"><div class="wrap">
-  {sec_head('02', t(L('Plans', 'الباقات')), t(L('Pick a plan for where you watch', 'اختر الباقة المناسبة لبلدك')), t(L('Prices and plans depend on your country. Not sure? Start with a free trial.', 'الأسعار والباقات تختلف حسب بلدك. غير متأكد؟ ابدأ بتجربة مجانية.')))}
+  {sec_head('01', t(L('Plans', 'الباقات')), t(L('Pick a plan for where you watch', 'اختر الباقة المناسبة لبلدك')), t(L('Prices depend on your country.', 'الأسعار تختلف حسب بلدك.')))}
   {region_block(c)}
   <div class="more-link"><a class="link-arrow" href="{c.href('plans.html#compare')}">{t(L('Compare all plans side by side', 'قارن بين كل الباقات'))}{icon('arrow', 'flip')}</a></div>
+</div></section>
+
+<section class="sec remind-sec" id="reminders-sec"><div class="wrap remind-home">
+  <div>
+    {sec_head('02', t(L('Renewal reminders', 'تنبيهات التجديد')), t(L('Never miss a renewal', 'لا تفوّت موعد التجديد')), t(L("Link your account once and we'll remind you on WhatsApp before it expires. Works for a friend's or family member's account too.", 'اربط حسابك مرة واحدة وسنذكّرك على واتساب قبل انتهاء الاشتراك. يمكنك أيضاً ربط حساب صديق أو أحد من العائلة.')))}
+  </div>
+  {reminder_card(c, compact=True)}
 </div></section>
 
 <section class="sec"><div class="wrap">
@@ -313,23 +310,12 @@ def home(c):
 </div></section>
 
 <section class="sec"><div class="wrap">
-  {sec_head('04', t(L('Setup', 'التثبيت')), t(L('Works on the devices you already have', 'يعمل على أجهزتك الحالية')), t(L(f'Step-by-step guides for every device — most take under 10 minutes. Something not working? <a href="{c.root}help.html">Fix it step by step</a>.', f'أدلة خطوة بخطوة لكل جهاز — معظمها يستغرق أقل من 10 دقائق. عندك مشكلة؟ <a href="{c.root}help.html">حلها خطوة بخطوة</a>.')))}
+  {sec_head('04', t(L('Setup', 'التثبيت')), t(L('Works on the devices you already have', 'يعمل على أجهزتك الحالية')), t(L(f'Step-by-step guides for every device. Something not working? <a href="{c.root}help.html">Fix it step by step</a>.', f'أدلة خطوة بخطوة لكل جهاز. عندك مشكلة؟ <a href="{c.root}help.html">حلها خطوة بخطوة</a>.')))}
   {dev_grid(c)}
 </div></section>
 {reviews}
-<section class="sec" id="reminders-sec"><div class="wrap remind-home">
-  <div>
-    {sec_head('05', t(L('Renewal reminders', 'تنبيهات التجديد')), t(L('Never miss a renewal', 'لا تفوّت موعد التجديد')), t(L("Link your account once and we'll message you on WhatsApp before it expires — so there's no surprise cut in the middle of a match.", 'اربط حسابك مرة واحدة وسنراسلك على واتساب قبل انتهاء الاشتراك — بدون انقطاع مفاجئ في نص الماتش.')))}
-    <ul class="remind-points">
-      <li>{icon('check')}<span>{t(L('A WhatsApp reminder a few days before your subscription ends.', 'تذكير على واتساب قبل انتهاء اشتراكك بأيام.'))}</span></li>
-      <li>{icon('check')}<span>{t(L("Bought for family or a friend? Link their account to their own number.", 'اشتركت لأحد من العائلة أو صديق؟ اربط حسابه برقمه.'))}</span></li>
-      <li>{icon('check')}<span>{t(L('Takes 30 seconds — you only need the username and password from the picture we sent after payment.', 'يستغرق 30 ثانية — تحتاج فقط اسم المستخدم وكلمة المرور من الصورة التي أرسلناها بعد الدفع.'))}</span></li>
-    </ul>
-  </div>
-  {reminder_card(c)}
-</div></section>
 <section class="sec"><div class="wrap">
-  {sec_head('06', 'FAQ' if not c.ar else 'الأسئلة', t(L('Questions, answered', 'الأسئلة الشائعة')), side=f'<a class="link-arrow" href="{c.href("help.html")}">{t(L("All questions & troubleshooting", "كل الأسئلة وحل المشكلات"))}{icon("arrow", "flip")}</a>')}
+  {sec_head('05', 'FAQ' if not c.ar else 'الأسئلة', t(L('Questions, answered', 'الأسئلة الشائعة')), side=f'<a class="link-arrow" href="{c.href("help.html")}">{t(L("All questions & troubleshooting", "كل الأسئلة وحل المشكلات"))}{icon("arrow", "flip")}</a>')}
   <div class="faq">{teaser}</div>
 </div></section>
 ''' + cta_block(c)
