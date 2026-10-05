@@ -123,14 +123,14 @@ def plan_card(c, region, rp):
     aka = c.t(p['aka']) if p.get('aka') else ''
     first = t(p['feat'][0][1])
     stats = ' · '.join(f'{v} {t(lbl)}' for v, lbl in p['stats'])
-    logo = (f'<img class="plan-logo" src="{c.root}{p["img"]}" alt="" width="96" height="96" loading="lazy" '
+    logo = (f'<img class="plan-logo" src="{c.root}{p["img"]}" alt="" width="48" height="48" loading="lazy" '
             f'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'">'
             f'<span class="plan-mono" style="display:none">{p["mono"]}</span>')
     trial = f'{p["trial"]} ساعة تجربة' if c.ar else f'{p["trial"]}h trial'
     return f'''<article class="pcard{" featured" if rp.get("featured") else ""}" style="--c:{p["color"]}">
-  <div class="plan-media"><div class="badges">{badges}</div>{logo}</div>
   <div class="plan-body">
-    <div class="plan-title"><h3>{nm}{(' <span class="aka">' + aka + '</span>') if aka else ''}</h3><span class="plan-trial">{icon('clock')}{trial}</span></div>
+    <div class="badges">{badges}</div>
+    <div class="plan-head">{logo}<div><h3>{nm}</h3>{('<span class="aka">' + aka + '</span>') if aka else ''}</div><span class="plan-trial">{icon('clock')}{trial}</span></div>
     <p class="plan-line">{first}</p>
     <p class="plan-line ltr-nums">{stats}</p>
     <p class="plan-price"><b>{money(c, rp["cur"], rp["p1"])}</b> {t(PERIOD[rp["per"]])} {p2}</p>
@@ -259,22 +259,15 @@ def pay_block(c):
 # ----------------------------------------------------------------------------
 def home(c):
     t = c.t
-    reg_opts = ''.join(f'<option value="{r["id"]}">{t(r["label"])}</option>' for r in REGIONS)
-    dev_opts = ''.join(f'<option value="{d["slug"]}">{t(d["name"])}</option>' for d in DEVICES if not d.get('off'))
-    hero = f'''<section class="hero hero-air"><div class="wrap">
-    <h1>{t(L('Every match, movie and series. <em>On any screen.</em>', 'كل المباريات والأفلام والمسلسلات. <em>على أي شاشة.</em>'))}</h1>
-    <form class="finder" data-finder data-setup-base="{c.href('setup/')}" role="search" aria-label="{t(L('Find your plan', 'اعثر على باقتك'))}">
-      <label class="finder-field"><span>{t(L('Watching from', 'أشاهد من'))}</span><select name="region">{reg_opts}</select></label>
-      <label class="finder-field"><span>{t(L('Device', 'الجهاز'))}</span><select name="device">{dev_opts}</select></label>
-      <button type="submit" class="finder-go">{icon('search')}<span>{t(L('Show plans', 'اعرض الباقات'))}</span></button>
-    </form>
-    <p class="hero-alt">{t(L('Not sure yet?', 'لسه مش متأكد؟'))} {ext(c.wa('trial'), t(L('Get a free trial', 'اطلب تجربة مجانية')), 'link-arrow')}</p>
+    hero = f'''<section class="hero hero-fun"><div class="wrap">
+    <span class="doodle d1" aria-hidden="true"></span><span class="doodle d2" aria-hidden="true"></span>
+    <h1>{t(L('Every match, movie and series. On <span class="loop">any screen.</span>', 'كل المباريات والأفلام والمسلسلات. على <span class="loop">أي شاشة.</span>'))}</h1>
+    <p class="lead">{t(L('Live sports, Arabic and international channels and movies — up to 4K.', 'مباريات مباشرة وقنوات عربية وعالمية وأفلام — بجودة حتى 4K.'))}</p>
+    <div class="hero-cta">
+      {btn_trial(c)}
+      <a class="btn btn-ghost" href="#plans">{t(L('See plans', 'الباقات'))} {icon('arrow', 'flip')}</a>
+    </div>
   </div>
-  <div class="catbar-wrap"><div class="wrap">
-  <nav class="catbar" aria-label="{t(L('What you can watch', 'ماذا تشاهد'))}">{''.join(f'<a href="{c.href("channels.html")}">{icon(ic)}<span>{t(lbl)}</span></a>' for ic, lbl in [
-      ('ball', L('Live football', 'مباريات مباشرة')), ('globe', L('Arabic channels', 'قنوات عربية')), ('film', L('Movies', 'أفلام')),
-      ('series', L('Series', 'مسلسلات')), ('kids', L('Kids', 'أطفال')), ('4k', L('4K', '4K')), ('devices', L('All devices', 'كل الأجهزة'))])}</nav>
-  </div></div>
 </section>'''
 
     # Reviews: real reviews from customers. The form sends them to n8n (site-review) as pending;
@@ -311,9 +304,9 @@ def home(c):
 
     body = hero + f'''
 <section class="sec" id="plans"><div class="wrap">
-  {sec_head('01', t(L('Plans', 'الباقات')), t(L('Pick a plan for where you watch', 'اختر الباقة المناسبة لبلدك')), t(L('Prices depend on your country.', 'الأسعار تختلف حسب بلدك.')))}
+  {sec_head('', t(L('Plans', 'الباقات')), t(L('Pick your plan', 'اختر باقتك')))}
   {region_block(c)}
-  <div class="more-link"><a class="link-arrow" href="{c.href('plans.html#compare')}">{t(L('Compare all plans side by side', 'قارن بين كل الباقات'))}{icon('arrow', 'flip')}</a></div>
+  <div class="more-link"><a class="link-arrow" href="{c.href('plans.html#compare')}">{t(L('Compare all plans', 'قارن بين الباقات'))}{icon('arrow', 'flip')}</a></div>
 </div></section>
 
 <section class="sec remind-sec" id="reminders-sec"><div class="wrap">
