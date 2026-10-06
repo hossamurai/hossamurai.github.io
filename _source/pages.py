@@ -37,11 +37,16 @@ def money(c, cur, n):
     return f'{cc[c.lang]}{n}' if cc.get('pre') else f'{n} {cc[c.lang]}'
 
 
+def poster_wall(n=40):
+    """Faint wall of made-up 'poster' tiles behind page tops (pure CSS art — no real, copyrighted posters)."""
+    return '<div class="poster-wall" aria-hidden="true">' + '<i></i>' * n + '</div>'
+
+
 def page_hero(c, crumbs, h1, lead, actions='', extra=''):
     items = [(c.href('index.html'), c.t(L('Home', 'الرئيسية')))] + crumbs
     cr = ''.join(
         f'<li><a href="{h}">{lbl}</a></li>' if h else f'<li aria-current="page">{lbl}</li>' for h, lbl in items)
-    return f'''<section class="page-hero"><div class="wrap">
+    return f'''<section class="page-hero">{poster_wall(30)}<div class="wrap">
   <nav aria-label="{c.t(L('Breadcrumb', 'مسار التنقل'))}"><ol class="crumbs">{cr}</ol></nav>
   <h1>{h1}</h1>
   <p class="lead">{lead}</p>
@@ -258,7 +263,7 @@ def pay_block(c):
 # ----------------------------------------------------------------------------
 def home(c):
     t = c.t
-    hero = f'''<section class="hero hero-apple"><div class="wrap">
+    hero = f'''<section class="hero hero-apple">{poster_wall(40)}<div class="wrap">
     <h1>{t(L('Every match, movie and series. <span class="grad">On any screen.</span>', 'كل المباريات والأفلام والمسلسلات. <span class="grad">على أي شاشة.</span>'))}</h1>
     <p class="lead">{t(L('Live sports, Arabic and international channels and movies — up to 4K.', 'مباريات مباشرة وقنوات عربية وعالمية وأفلام — بجودة حتى 4K.'))}</p>
     <div class="hero-cta">

@@ -673,6 +673,33 @@ section.sec.remind-sec{background:var(--surface-2)}
 .pcard.featured:hover{box-shadow:0 1px 2px rgba(0,0,0,.05),0 26px 60px rgba(0,0,0,.13)}
 .pcard.featured .pill:first-child{background:var(--ink);color:#fff}
 
+/* faint 'poster wall' behind page tops: made-up cinematic tiles, faded out behind the text */
+.hero-apple,.page-hero{position:relative;overflow:hidden}
+.page-hero > .wrap{position:relative;z-index:1}
+.poster-wall{position:absolute;inset:-25% -10%;display:grid;grid-template-columns:repeat(10,1fr);gap:16px;transform:rotate(-9deg);opacity:.26;filter:saturate(.85);pointer-events:none;z-index:0;
+  -webkit-mask-image:radial-gradient(ellipse 60% 55% at 50% 50%,transparent 0,transparent 30%,#000 80%);mask-image:radial-gradient(ellipse 60% 55% at 50% 50%,transparent 0,transparent 30%,#000 80%);
+  animation:wallDrift 70s linear infinite alternate}
+.page-hero .poster-wall{opacity:.17;-webkit-mask-image:linear-gradient(90deg,transparent 0,transparent 35%,#000 85%);mask-image:linear-gradient(90deg,transparent 0,transparent 35%,#000 85%)}
+html[dir="rtl"] .page-hero .poster-wall{-webkit-mask-image:linear-gradient(270deg,transparent 0,transparent 35%,#000 85%);mask-image:linear-gradient(270deg,transparent 0,transparent 35%,#000 85%)}
+.poster-wall i{display:block;aspect-ratio:2/3;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.25);
+  background:radial-gradient(circle at var(--p),rgba(255,255,255,.45) 0 9%,transparent 10%),
+             linear-gradient(to top,rgba(0,0,0,.6) 0 16%,rgba(0,0,0,0) 42%),
+             linear-gradient(160deg,var(--a),var(--b))}
+.poster-wall i:nth-child(odd){transform:translateY(22%)}
+.poster-wall i:nth-child(10n+1){--a:#0f3d4a;--b:#e07a3f;--p:50% 32%}
+.poster-wall i:nth-child(10n+2){--a:#0b1a3a;--b:#3a6ea5;--p:70% 22%}
+.poster-wall i:nth-child(10n+3){--a:#3a0a12;--b:#c0392b;--p:40% 40%}
+.poster-wall i:nth-child(10n+4){--a:#2a0b45;--b:#b04cff;--p:55% 28%}
+.poster-wall i:nth-child(10n+5){--a:#4a2c0a;--b:#e0a84b;--p:30% 30%}
+.poster-wall i:nth-child(10n+6){--a:#0d2b1e;--b:#3fa36b;--p:60% 38%}
+.poster-wall i:nth-child(10n+7){--a:#1d1d1f;--b:#8e9aa8;--p:50% 25%}
+.poster-wall i:nth-child(10n+8){--a:#4a0d2e;--b:#ff6fa5;--p:45% 35%}
+.poster-wall i:nth-child(10n+9){--a:#123a6b;--b:#9fd3ff;--p:65% 30%}
+.poster-wall i:nth-child(10n+10){--a:#2b2b2b;--b:#d9c7a8;--p:35% 28%}
+@keyframes wallDrift{from{translate:0 -3%}to{translate:0 3%}}
+.hero-apple::before{z-index:0}
+.hero-apple::after,.page-hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(rgba(255,255,255,0),#fff);z-index:0;pointer-events:none}
+
 @media (max-width:1000px){
   .menu-btn{display:grid}
   .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 20px 18px;box-shadow:var(--shadow);gap:2px}
@@ -783,6 +810,10 @@ section.sec.remind-sec{background:var(--surface-2)}
   .pgrid{grid-template-columns:minmax(0,1fr)}
   .pcard{padding:20px}
   .cta .cta-actions .btn{flex:1 1 100%}
+}
+@media (max-width:640px){
+  .poster-wall{grid-template-columns:repeat(6,1fr);gap:12px;inset:-15% -30%}
+  .hero-apple .poster-wall{opacity:.2}
 }
 @media (max-width:360px){
   .pcard .plan-actions{grid-template-columns:1fr}
