@@ -251,7 +251,7 @@
   if(dlg && typeof dlg.showModal === 'function'){
     var tf = dlg.querySelector('[data-trial-form]');
     var F = function(n){ return tf.querySelector('[name="' + n + '"]'); };
-    var tName = F('name'), tCountry = F('country'), tPlan = F('plan'), tDevice = F('device'), tPay = F('pay'), tUser = F('username'), tHp = F('website');
+    var tName = F('name'), tCountry = F('country'), tPlan = F('plan'), tDevice = F('device'), tPay = F('pay'), tApp = F('app'), tUser = F('username'), tHp = F('website');
     var tGuide = tf.querySelector('[data-trial-guide]'), tMsg = tf.querySelector('.remind-msg'), payNote = tf.querySelector('[data-pay-note]');
     var mode = 'trial';
     var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
@@ -271,9 +271,13 @@
       if(opt(tPlan) && opt(tPlan).disabled) tPlan.value = '';
       if(opt(tPay) && opt(tPay).disabled) tPay.value = '';
       syncPay();
+      if(typeof syncApps === 'function') syncApps();
     };
     var syncPay = function(){ var o = opt(tPay), n = o && o.getAttribute('data-note'); payNote.textContent = n || ''; payNote.hidden = !n; };
     var syncGuide = function(){ var o = opt(tDevice); if(tGuide && o && o.getAttribute('data-guide')) tGuide.href = o.getAttribute('data-guide'); };
+    /* app list follows the plan: its own apps + the players that work with every plan */
+    var syncApps = function(){ var pl = tPlan.value; each('option[data-plan]', function(o){ showOpt(o, !pl || o.getAttribute('data-plan') === pl); }, tApp); if(opt(tApp) && opt(tApp).disabled) tApp.value = ''; };
+    tPlan.addEventListener('change', syncApps);
     tCountry.addEventListener('change', syncCountry); tDevice.addEventListener('change', syncGuide); tPay.addEventListener('change', syncPay);
     syncCountry();
     var setMode = function(m){
@@ -283,6 +287,7 @@
     var openForm = function(m, pl, user){
       setMode(m);
       if(pl){ var po = tPlan.querySelector('option[value="' + pl + '"]'); if(po && po.disabled && tCountry.querySelector('option[value="20"]')){ tCountry.value = '20'; syncCountry(); } tPlan.value = pl; }
+      syncApps();
       if(user) tUser.value = user;
       tMsg.hidden = true;
       if(nav) nav.classList.remove('open');
@@ -302,23 +307,24 @@
       e.preventDefault();
       var n = (tName.value || '').replace(/\s+/g, ' ').trim(), u = (tUser.value || '').replace(/\s+/g, '');
       var miss = mode === 'renew' && u.length < 2 ? tUser : n.length < 2 ? tName : !tCountry.value ? tCountry : !tPlan.value ? tPlan
-        : !tDevice.value ? tDevice : mode !== 'trial' && !tPay.value ? tPay : null;
+        : mode === 'renew' ? (!tApp.value ? tApp : null) : !tDevice.value ? tDevice : null;
+      if(!miss && mode !== 'trial' && !tPay.value) miss = tPay;
       if(miss){ tMsg.textContent = tMsg.getAttribute('data-msg-empty'); tMsg.className = 'remind-msg err'; tMsg.hidden = false; miss.focus(); return; }
       var lbl = function(sel){ return opt(sel).textContent; };
       var trial = mode === 'trial';
       if(window.fetch && window.URLSearchParams){
         var body = new URLSearchParams();
-        body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: tDevice.value,
+        body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: mode === 'renew' ? '' : tDevice.value, app: mode === 'renew' ? tApp.value : '',
           pay: trial ? '' : tPay.value, username: mode === 'renew' ? u : '', lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
         try{ fetch(tf.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit', keepalive: true })['catch'](function(){}); }catch(err){}
       }
       var lines = AR
         ? [trial ? 'مرحباً، أريد تجربة مجانية.' : mode === 'renew' ? 'مرحباً، أريد تجديد اشتراكي.' : 'مرحباً، أريد الاشتراك.']
           .concat(mode === 'renew' ? ['اسم المستخدم: ' + u] : [], ['الاسم: ' + n, 'الدولة: ' + lbl(tCountry), 'الباقة: ' + lbl(tPlan)],
-                  ['الجهاز: ' + lbl(tDevice)], trial ? [] : ['الدفع: ' + lbl(tPay)])
+                  mode === 'renew' ? ['التطبيق: ' + lbl(tApp)] : ['الجهاز: ' + lbl(tDevice)], trial ? [] : ['الدفع: ' + lbl(tPay)])
         : [trial ? "Hi Hossam TV, I'd like a free trial." : mode === 'renew' ? "Hi Hossam TV, I'd like to renew my subscription." : "Hi Hossam TV, I'd like to subscribe."]
           .concat(mode === 'renew' ? ['Username: ' + u] : [], ['Name: ' + n, 'Country: ' + lbl(tCountry), 'Plan: ' + lbl(tPlan)],
-                  ['Device: ' + lbl(tDevice)], trial ? [] : ['Payment: ' + lbl(tPay)]);
+                  mode === 'renew' ? ['App: ' + lbl(tApp)] : ['Device: ' + lbl(tDevice)], trial ? [] : ['Payment: ' + lbl(tPay)]);
       var url = 'https://wa.me/' + tf.getAttribute('data-wa') + '?text=' + encodeURIComponent(lines.join('\n'));
       dlg.close();
       var w = window.open(url, '_blank');

@@ -87,7 +87,7 @@ def order_link(c, kind, inner, cls='', plan='', user=''):
 
 def trial_dialog(c):
     """One form for free trial, subscribe and renew. Trial asks for the device; subscribe/renew ask how they'll pay
-    (renew also asks the username); every mode asks for the device. Sends the choices to n8n (site-order) and opens WhatsApp with them filled in."""
+    (renew also asks the username); trial/subscribe ask for the device, renew asks for the app. Sends the choices to n8n (site-order) and opens WhatsApp with them filled in."""
     t = c.t
     countries = [('ca', L('Canada', 'كندا')), ('us', L('USA', 'أمريكا'))] + [x for x in REMIND_CC if x[0] != '1']
     def region(cc):
@@ -98,6 +98,10 @@ def trial_dialog(c):
     devs = {d['slug']: d for d in DEVICES}
     dopts = ''.join(f'<option value="{key}" data-guide="{c.href("setup/" + slug + ".html")}">{t(devs[slug]["name"])}</option>' for slug, key in TRIAL_DEVICES)
     dopts += f'<option value="other" data-guide="{c.href("setup/index.html")}">{t(L("Other / not sure", "جهاز آخر / لست متأكداً"))}</option>'
+    # renew asks which app they use: the plan's own apps first (shown only for that plan), then the players that work with every plan
+    aopts = ''.join(f'<option value="{a["name"]}" data-plan="{pid}">{a["name"]}</option>' for pid in PLAN_ORDER for a in APPS[pid])
+    aopts += ''.join(f'<option value="{n}">{n}</option>' for n in ('IPTV Smarters Pro', 'Smarters Player Lite', 'IBO Player', 'Bob Player', 'SFVIP Player'))
+    aopts += f'<option value="Other">{t(L("Other / not sure", "تطبيق آخر / لست متأكداً"))}</option>'
     payopts = ''.join(f'<option value="{k}" data-note="{t(note)}"{" data-eg" if eg else ""}{" data-intl" if intl else ""}>{t(nm)}</option>'
                       for k, nm, note, eg, intl in PAY_FORM)
     pick = t(L('Choose…', 'اختر…'))
@@ -116,10 +120,11 @@ def trial_dialog(c):
       <div class="rf rf-full"><label for="trName">{t(L('Name', 'الاسم'))}</label><input id="trName" name="name" type="text" maxlength="40" autocomplete="name" required></div>
       <div class="rf"><label for="trCountry">{t(L('Country', 'الدولة'))}</label><select id="trCountry" name="country" required><option value="">{pick}</option>{copts}</select></div>
       <div class="rf"><label for="trPlan">{t(L('Plan', 'الباقة'))}</label><select id="trPlan" name="plan" required><option value="">{pick}</option>{popts}</select></div>
-      <div class="rf rf-full"><label for="trDevice">{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device"><option value="">{pick}</option>{dopts}</select></div>
+      <div class="rf rf-full" data-for="renew"><label for="trApp">{t(L('App', 'التطبيق'))}</label><select id="trApp" name="app"><option value="">{pick}</option>{aopts}</select></div>
+      <div class="rf rf-full" data-for="trial subscribe"><label for="trDevice">{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device"><option value="">{pick}</option>{dopts}</select></div>
       <div class="rf rf-full" data-for="subscribe renew"><label for="trPay">{t(L('How will you pay?', 'طريقة الدفع'))}</label><select id="trPay" name="pay"><option value="">{pick}</option>{payopts}</select><small class="pay-note" data-pay-note hidden></small></div>
     </div>
-    <p class="trial-note">{icon('info')}<span>{t(L('Install the app first so everything is ready:', 'ثبّت التطبيق أولاً ليكون كل شيء جاهزاً:'))} <a data-trial-guide href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}</a></span></p>
+    <p class="trial-note" data-for="trial subscribe">{icon('info')}<span>{t(L('Install the app first so everything is ready:', 'ثبّت التطبيق أولاً ليكون كل شيء جاهزاً:'))} <a data-trial-guide href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}</a></span></p>
     <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
     <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Please fill in all the fields.', 'من فضلك املأ كل الحقول.'))}"></p>
     <button type="submit" class="btn btn-wa">{icon('chat')}<span>{t(L('Send on WhatsApp', 'أرسل عبر واتساب'))}</span></button>
