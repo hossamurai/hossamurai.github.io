@@ -302,23 +302,23 @@
       e.preventDefault();
       var n = (tName.value || '').replace(/\s+/g, ' ').trim(), u = (tUser.value || '').replace(/\s+/g, '');
       var miss = mode === 'renew' && u.length < 2 ? tUser : n.length < 2 ? tName : !tCountry.value ? tCountry : !tPlan.value ? tPlan
-        : mode === 'trial' && !tDevice.value ? tDevice : mode !== 'trial' && !tPay.value ? tPay : null;
+        : !tDevice.value ? tDevice : mode !== 'trial' && !tPay.value ? tPay : null;
       if(miss){ tMsg.textContent = tMsg.getAttribute('data-msg-empty'); tMsg.className = 'remind-msg err'; tMsg.hidden = false; miss.focus(); return; }
       var lbl = function(sel){ return opt(sel).textContent; };
       var trial = mode === 'trial';
       if(window.fetch && window.URLSearchParams){
         var body = new URLSearchParams();
-        body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: trial ? tDevice.value : '',
+        body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: tDevice.value,
           pay: trial ? '' : tPay.value, username: mode === 'renew' ? u : '', lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
         try{ fetch(tf.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit', keepalive: true })['catch'](function(){}); }catch(err){}
       }
       var lines = AR
         ? [trial ? 'مرحباً، أريد تجربة مجانية.' : mode === 'renew' ? 'مرحباً، أريد تجديد اشتراكي.' : 'مرحباً، أريد الاشتراك.']
           .concat(mode === 'renew' ? ['اسم المستخدم: ' + u] : [], ['الاسم: ' + n, 'الدولة: ' + lbl(tCountry), 'الباقة: ' + lbl(tPlan)],
-                  trial ? ['الجهاز: ' + lbl(tDevice)] : ['الدفع: ' + lbl(tPay)])
+                  ['الجهاز: ' + lbl(tDevice)], trial ? [] : ['الدفع: ' + lbl(tPay)])
         : [trial ? "Hi Hossam TV, I'd like a free trial." : mode === 'renew' ? "Hi Hossam TV, I'd like to renew my subscription." : "Hi Hossam TV, I'd like to subscribe."]
           .concat(mode === 'renew' ? ['Username: ' + u] : [], ['Name: ' + n, 'Country: ' + lbl(tCountry), 'Plan: ' + lbl(tPlan)],
-                  trial ? ['Device: ' + lbl(tDevice)] : ['Payment: ' + lbl(tPay)]);
+                  ['Device: ' + lbl(tDevice)], trial ? [] : ['Payment: ' + lbl(tPay)]);
       var url = 'https://wa.me/' + tf.getAttribute('data-wa') + '?text=' + encodeURIComponent(lines.join('\n'));
       dlg.close();
       var w = window.open(url, '_blank');
