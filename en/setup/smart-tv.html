@@ -70,7 +70,7 @@
     <nav class="nav-links" id="navLinks" aria-label="Main"><a href="../index.html">Home</a><a href="../plans.html">Plans</a><a href="../channels.html">Channels</a><a href="index.html" aria-current="page">Setup</a><a href="../../help.html">Fix a problem</a><a href="../help.html">FAQ</a><a href="../about.html">About</a></nav>
     <div class="nav-right">
       <a class="lang" href="../../ar/setup/smart-tv.html" hreflang="ar" lang="ar" data-setlang="ar"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg>العربية</a>
-      <a class="btn btn-wa btn-sm" href="https://wa.me/201117250227?text=Hi%20Hossam%20TV%2C%20I%27d%20like%20a%20free%20trial." target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span class="lbl">Free trial</span></a>
+      <a class="btn btn-wa btn-sm" href="https://wa.me/201117250227?text=Hi%20Hossam%20TV%2C%20I%27d%20like%20a%20free%20trial." target="_blank" rel="noopener" data-trial><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span class="lbl">Free trial</span></a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="Menu"><svg class="ic i-open" aria-hidden="true"><use href="#i-menu"/></svg><svg class="ic i-close" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
   </div>
@@ -113,6 +113,23 @@
     </div>
   </div>
 </footer>
+<dialog class="trial-dlg" id="trialDlg" aria-labelledby="trialTitle">
+  <form class="remind trial-form" method="dialog" data-trial-form data-api="https://n8n.hossamservices.com/webhook/site-order" data-wa="201117250227" novalidate>
+    <button type="button" class="trial-x" data-trial-close aria-label="Close"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <h3 id="trialTitle"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Free trial</h3>
+    <p>12 hours for XTV, 24 hours for the other plans.</p>
+    <div class="rf-grid">
+      <div class="rf"><label for="trName">Name</label><input id="trName" name="name" type="text" maxlength="40" autocomplete="name" required></div>
+      <div class="rf"><label for="trCountry">Country</label><select id="trCountry" name="country" required><option value="">Choose…</option><option value="ca" data-region="intl">Canada</option><option value="us" data-region="intl">USA</option><option value="20" data-region="eg">Egypt</option><option value="966" data-region="gulf">Saudi Arabia</option><option value="971" data-region="uae">UAE</option><option value="965" data-region="gulf">Kuwait</option><option value="974" data-region="gulf">Qatar</option><option value="973" data-region="gulf">Bahrain</option><option value="968" data-region="gulf">Oman</option><option value="962" data-region="intl">Jordan</option><option value="961" data-region="intl">Lebanon</option><option value="964" data-region="intl">Iraq</option><option value="970" data-region="intl">Palestine</option><option value="963" data-region="intl">Syria</option><option value="967" data-region="intl">Yemen</option><option value="249" data-region="intl">Sudan</option><option value="218" data-region="intl">Libya</option><option value="216" data-region="intl">Tunisia</option><option value="213" data-region="intl">Algeria</option><option value="212" data-region="intl">Morocco</option><option value="90" data-region="intl">Turkey</option><option value="44" data-region="intl">UK</option><option value="49" data-region="intl">Germany</option><option value="33" data-region="intl">France</option><option value="31" data-region="intl">Netherlands</option><option value="32" data-region="intl">Belgium</option><option value="41" data-region="intl">Switzerland</option><option value="43" data-region="intl">Austria</option><option value="46" data-region="intl">Sweden</option><option value="47" data-region="intl">Norway</option><option value="45" data-region="intl">Denmark</option><option value="39" data-region="intl">Italy</option><option value="34" data-region="intl">Spain</option><option value="353" data-region="intl">Ireland</option><option value="61" data-region="intl">Australia</option><option value="other" data-region="intl">Other country</option></select></div>
+      <div class="rf"><label for="trPlan">Plan</label><select id="trPlan" name="plan" required><option value="">Choose…</option><option value="basic">Basic</option><option value="premium">Premium</option><option value="xtv" data-eg>XTV</option><option value="marvel" data-eg>Marvel</option></select></div>
+      <div class="rf"><label for="trDevice">Device</label><select id="trDevice" name="device" required><option value="">Choose…</option><option value="androidtv" data-guide="android-tv.html">Android TV & TV boxes</option><option value="firestick" data-guide="firestick.html">Amazon Firestick</option><option value="smarttv" data-guide="smart-tv.html">Samsung & LG Smart TV</option><option value="android" data-guide="android.html">Android phone & tablet</option><option value="apple" data-guide="apple.html">iPhone, iPad, Mac & Apple TV</option><option value="windows" data-guide="windows.html">Windows PC & laptop</option><option value="other" data-guide="index.html">Other / not sure</option></select></div>
+    </div>
+    <p class="trial-note"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg><span>Install the app first so your trial is ready to use: <a data-trial-guide href="index.html">Setup guide</a></span></p>
+    <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+    <p class="remind-msg" role="status" hidden data-msg-empty="Please fill in all four fields."></p>
+    <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span>Send on WhatsApp</span></button>
+  </form>
+</dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="../../assets/site.js" defer></script>
 <script src="../../assets/bot.js" defer></script>

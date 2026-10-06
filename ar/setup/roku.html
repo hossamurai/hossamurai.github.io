@@ -70,7 +70,7 @@
     <nav class="nav-links" id="navLinks" aria-label="القائمة الرئيسية"><a href="../index.html">الرئيسية</a><a href="../plans.html">الباقات</a><a href="../channels.html">القنوات</a><a href="index.html" aria-current="page">التثبيت</a><a href="../../help.html">حل مشكلة</a><a href="../help.html">الأسئلة الشائعة</a><a href="../about.html">من نحن</a></nav>
     <div class="nav-right">
       <a class="lang" href="../../en/setup/roku.html" hreflang="en" lang="en" data-setlang="en"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg>English</a>
-      <a class="btn btn-wa btn-sm" href="https://wa.me/201117250227?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9." target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span class="lbl">تجربة مجانية</span></a>
+      <a class="btn btn-wa btn-sm" href="https://wa.me/201117250227?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9." target="_blank" rel="noopener" data-trial><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span class="lbl">تجربة مجانية</span></a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="القائمة"><svg class="ic i-open" aria-hidden="true"><use href="#i-menu"/></svg><svg class="ic i-close" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
   </div>
@@ -114,6 +114,23 @@
     </div>
   </div>
 </footer>
+<dialog class="trial-dlg" id="trialDlg" aria-labelledby="trialTitle">
+  <form class="remind trial-form" method="dialog" data-trial-form data-api="https://n8n.hossamservices.com/webhook/site-order" data-wa="201117250227" novalidate>
+    <button type="button" class="trial-x" data-trial-close aria-label="إغلاق"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <h3 id="trialTitle"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>تجربة مجانية</h3>
+    <p>12 ساعة لـ XTV و24 ساعة لباقي الباقات.</p>
+    <div class="rf-grid">
+      <div class="rf"><label for="trName">الاسم</label><input id="trName" name="name" type="text" maxlength="40" autocomplete="name" required></div>
+      <div class="rf"><label for="trCountry">الدولة</label><select id="trCountry" name="country" required><option value="">اختر…</option><option value="ca" data-region="intl">كندا</option><option value="us" data-region="intl">أمريكا</option><option value="20" data-region="eg">مصر</option><option value="966" data-region="gulf">السعودية</option><option value="971" data-region="uae">الإمارات</option><option value="965" data-region="gulf">الكويت</option><option value="974" data-region="gulf">قطر</option><option value="973" data-region="gulf">البحرين</option><option value="968" data-region="gulf">عُمان</option><option value="962" data-region="intl">الأردن</option><option value="961" data-region="intl">لبنان</option><option value="964" data-region="intl">العراق</option><option value="970" data-region="intl">فلسطين</option><option value="963" data-region="intl">سوريا</option><option value="967" data-region="intl">اليمن</option><option value="249" data-region="intl">السودان</option><option value="218" data-region="intl">ليبيا</option><option value="216" data-region="intl">تونس</option><option value="213" data-region="intl">الجزائر</option><option value="212" data-region="intl">المغرب</option><option value="90" data-region="intl">تركيا</option><option value="44" data-region="intl">بريطانيا</option><option value="49" data-region="intl">ألمانيا</option><option value="33" data-region="intl">فرنسا</option><option value="31" data-region="intl">هولندا</option><option value="32" data-region="intl">بلجيكا</option><option value="41" data-region="intl">سويسرا</option><option value="43" data-region="intl">النمسا</option><option value="46" data-region="intl">السويد</option><option value="47" data-region="intl">النرويج</option><option value="45" data-region="intl">الدنمارك</option><option value="39" data-region="intl">إيطاليا</option><option value="34" data-region="intl">إسبانيا</option><option value="353" data-region="intl">أيرلندا</option><option value="61" data-region="intl">أستراليا</option><option value="other" data-region="intl">دولة أخرى</option></select></div>
+      <div class="rf"><label for="trPlan">الباقة</label><select id="trPlan" name="plan" required><option value="">اختر…</option><option value="basic">الأساسية</option><option value="premium">بريميوم</option><option value="xtv" data-eg>XTV</option><option value="marvel" data-eg>Marvel</option></select></div>
+      <div class="rf"><label for="trDevice">الجهاز</label><select id="trDevice" name="device" required><option value="">اختر…</option><option value="androidtv" data-guide="android-tv.html">أندرويد تي في والبوكس</option><option value="firestick" data-guide="firestick.html">أمازون فايرستيك</option><option value="smarttv" data-guide="smart-tv.html">شاشات سامسونج و LG</option><option value="android" data-guide="android.html">موبايل وتابلت أندرويد</option><option value="apple" data-guide="apple.html">آيفون وآيباد وماك وأبل تي في</option><option value="windows" data-guide="windows.html">كمبيوتر ولابتوب ويندوز</option><option value="other" data-guide="index.html">جهاز آخر / لست متأكداً</option></select></div>
+    </div>
+    <p class="trial-note"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg><span>ثبّت التطبيق أولاً حتى تكون التجربة جاهزة: <a data-trial-guide href="index.html">دليل التثبيت</a></span></p>
+    <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+    <p class="remind-msg" role="status" hidden data-msg-empty="من فضلك املأ الحقول الأربعة."></p>
+    <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span>أرسل عبر واتساب</span></button>
+  </form>
+</dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="../../assets/site.js" defer></script>
 <script src="../../assets/bot.js" defer></script>

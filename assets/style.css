@@ -831,3 +831,22 @@ html[dir="rtl"] .page-hero .poster-wall{-webkit-mask-image:linear-gradient(270de
 }
 @media print{.nav,.fab,footer.site,.cta{display:none}}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* free-trial form (dialog) */
+.trial-dlg{border:0;padding:0;background:transparent;width:min(460px,calc(100vw - 32px));max-height:calc(100dvh - 32px);overflow:auto;color:var(--ink)}
+.trial-dlg::backdrop{background:rgba(29,29,31,.45);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.trial-form{border-radius:24px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.trial-form h3{padding-inline-end:40px}
+.trial-x{position:absolute;top:14px;inset-inline-end:14px;width:36px;height:36px;border:0;border-radius:50%;background:var(--surface-2);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.trial-x .ic{width:16px;height:16px}
+.trial-form select{width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:11px 12px;border:1.5px solid var(--line-2);border-radius:12px;background:#fff;color:var(--ink)}
+.trial-form select:focus{outline:none;border-color:var(--ink)}
+.trial-form input[name="name"]{font-family:inherit}
+.trial-form .rf-grid{grid-template-columns:1fr 1fr}
+.trial-form .rf-grid .rf:first-child{grid-column:1/-1}
+.trial-note{display:flex;gap:8px;align-items:flex-start;margin:14px 0 0!important;padding:10px 12px;border-radius:12px;background:var(--surface-2);font-size:.88rem!important;color:var(--ink)!important}
+.trial-note .ic{width:18px;height:18px;flex-shrink:0;margin-top:2px}
+.trial-note a{font-weight:700;color:var(--ink)}
+.trial-form > .btn{width:100%;margin-top:16px}
+@media (max-width:380px){.trial-form .rf-grid{grid-template-columns:1fr}}
+.trial-form .rf-grid .rf:last-child{grid-column:1/-1}

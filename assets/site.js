@@ -243,4 +243,63 @@
         .then(function(){ busy = false; btn.disabled = false; });
     });
   });
+
+  /* free trial: every [data-trial] link opens a short form (name, country, plan, device).
+     The choices go to n8n (site-order, which tells Hossam) and WhatsApp opens with them filled in.
+     Without JavaScript or <dialog> support the link just opens WhatsApp. */
+  var dlg = document.getElementById('trialDlg');
+  if(dlg && typeof dlg.showModal === 'function'){
+    var tf = dlg.querySelector('[data-trial-form]');
+    var tName = tf.querySelector('[name="name"]'), tCountry = tf.querySelector('[name="country"]'), tPlan = tf.querySelector('[name="plan"]'),
+        tDevice = tf.querySelector('[name="device"]'), tGuide = tf.querySelector('[data-trial-guide]'), tMsg = tf.querySelector('.remind-msg'), tHp = tf.querySelector('[name="website"]');
+    var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
+    var guess = tz === 'Africa/Cairo' ? '20' : tz === 'Asia/Dubai' ? '971' : tz === 'Asia/Riyadh' ? '966' : tz === 'Asia/Kuwait' ? '965' : tz === 'Asia/Qatar' ? '974'
+      : tz === 'Asia/Bahrain' ? '973' : tz === 'Asia/Muscat' ? '968' : tz === 'Europe/London' ? '44' : tz === 'Europe/Berlin' ? '49' : tz === 'Europe/Istanbul' ? '90'
+      : /^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|Regina|St_Johns|Montreal|Moncton|Whitehorse|Yellowknife|Iqaluit)/.test(tz) ? 'ca'
+      : /^America\//.test(tz) ? 'us' : /^Australia\//.test(tz) ? '61' : '';
+    if(guess && tCountry.querySelector('option[value="' + guess + '"]')) tCountry.value = guess;
+    var opt = function(sel){ return sel.options[sel.selectedIndex]; };
+    var region = function(){ var o = opt(tCountry); return (o && o.getAttribute('data-region')) || ''; };
+    /* XTV and Marvel are only sold in Egypt */
+    var syncPlans = function(){
+      var eg = region() === 'eg';
+      each('option[data-eg]', function(o){ o.hidden = !eg; o.disabled = !eg; }, tPlan);
+      if(opt(tPlan) && opt(tPlan).disabled) tPlan.value = '';
+    };
+    var syncGuide = function(){ var o = opt(tDevice); if(tGuide && o && o.getAttribute('data-guide')) tGuide.href = o.getAttribute('data-guide'); };
+    tCountry.addEventListener('change', syncPlans); tDevice.addEventListener('change', syncGuide);
+    syncPlans();
+    each('[data-trial]', function(a){
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        var pl = a.getAttribute('data-plan');
+        if(pl){ var po = tPlan.querySelector('option[value="' + pl + '"]'); if(po && po.disabled && tCountry.querySelector('option[value="20"]')){ tCountry.value = '20'; syncPlans(); } tPlan.value = pl; }
+        tMsg.hidden = true;
+        if(nav) nav.classList.remove('open');
+        dlg.showModal();
+        (tName.value ? tCountry : tName).focus();
+      });
+    });
+    each('[data-trial-close]', function(b){ b.addEventListener('click', function(){ dlg.close(); }); }, dlg);
+    dlg.addEventListener('click', function(e){ if(e.target === dlg) dlg.close(); });
+    tf.addEventListener('submit', function(e){
+      e.preventDefault();
+      var n = (tName.value || '').replace(/\s+/g, ' ').trim();
+      var miss = n.length < 2 ? tName : !tCountry.value ? tCountry : !tPlan.value ? tPlan : !tDevice.value ? tDevice : null;
+      if(miss){ tMsg.textContent = tMsg.getAttribute('data-msg-empty'); tMsg.className = 'remind-msg err'; tMsg.hidden = false; miss.focus(); return; }
+      var lbl = function(sel){ return opt(sel).textContent; };
+      if(window.fetch && window.URLSearchParams){
+        var body = new URLSearchParams();
+        body.append('p', JSON.stringify({ kind: 'trial', name: n, plan: tPlan.value, region: region(), device: tDevice.value, lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
+        try{ fetch(tf.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit', keepalive: true })['catch'](function(){}); }catch(err){}
+      }
+      var text = AR
+        ? 'مرحباً، أريد تجربة مجانية.\nالاسم: ' + n + '\nالدولة: ' + lbl(tCountry) + '\nالباقة: ' + lbl(tPlan) + '\nالجهاز: ' + lbl(tDevice)
+        : "Hi Hossam TV, I'd like a free trial.\nName: " + n + '\nCountry: ' + lbl(tCountry) + '\nPlan: ' + lbl(tPlan) + '\nDevice: ' + lbl(tDevice);
+      var url = 'https://wa.me/' + tf.getAttribute('data-wa') + '?text=' + encodeURIComponent(text);
+      dlg.close();
+      var w = window.open(url, '_blank');
+      if(w){ try{ w.opener = null; }catch(err){} } else { location.href = url; }
+    });
+  }
 })();

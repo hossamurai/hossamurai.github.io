@@ -64,7 +64,51 @@ def sec_head(n, kicker, h2, p='', side=''):
 
 
 def btn_trial(c, label=None, cls='btn btn-wa'):
-    return ext(c.wa('trial'), icon('chat') + (label or c.t(L('Get a free trial', 'اطلب تجربة مجانية'))), cls)
+    return trial_link(c, icon('chat') + (label or c.t(L('Get a free trial', 'اطلب تجربة مجانية'))), cls)
+
+
+def trial_link(c, inner, cls='', plan=''):
+    """Opens the free-trial form (trial_dialog). Without JavaScript it falls back to WhatsApp."""
+    return (f'<a{cls_attr(cls) if cls else ""} href="{c.wa("trial")}" target="_blank" rel="noopener" data-trial'
+            f'{f" data-plan={chr(34)}{plan}{chr(34)}" if plan else ""}>{inner}</a>')
+
+
+# devices for the trial form -> keys the n8n site-order webhook accepts
+TRIAL_DEVICES = [('android-tv', 'androidtv'), ('firestick', 'firestick'), ('smart-tv', 'smarttv'),
+                 ('android', 'android'), ('apple', 'apple'), ('windows', 'windows')]
+GULF_CC = ('966', '965', '974', '973', '968')
+
+
+def trial_dialog(c):
+    """Free-trial form: name, country, plan, device. Sends the choices to n8n (site-order) and opens WhatsApp with them filled in."""
+    t = c.t
+    countries = [('ca', L('Canada', 'كندا')), ('us', L('USA', 'أمريكا'))] + [x for x in REMIND_CC if x[0] != '1']
+    def region(cc):
+        return 'eg' if cc == '20' else 'uae' if cc == '971' else 'gulf' if cc in GULF_CC else 'intl'
+    copts = ''.join(f'<option value="{cc}" data-region="{region(cc)}">{t(nm)}</option>' for cc, nm in countries)
+    copts += f'<option value="other" data-region="intl">{t(L("Other country", "دولة أخرى"))}</option>'
+    popts = ''.join(f'<option value="{pid}"{" data-eg" if PLANS[pid]["egypt_only"] else ""}>{t(PLANS[pid]["name"])}</option>' for pid in PLAN_ORDER)
+    devs = {d['slug']: d for d in DEVICES}
+    dopts = ''.join(f'<option value="{key}" data-guide="{c.href("setup/" + slug + ".html")}">{t(devs[slug]["name"])}</option>' for slug, key in TRIAL_DEVICES)
+    dopts += f'<option value="other" data-guide="{c.href("setup/index.html")}">{t(L("Other / not sure", "جهاز آخر / لست متأكداً"))}</option>'
+    pick = t(L('Choose…', 'اختر…'))
+    return f'''<dialog class="trial-dlg" id="trialDlg" aria-labelledby="trialTitle">
+  <form class="remind trial-form" method="dialog" data-trial-form data-api="{N8N_WEBHOOK}site-order" data-wa="{WHATSAPP}" novalidate>
+    <button type="button" class="trial-x" data-trial-close aria-label="{t(L('Close', 'إغلاق'))}">{icon('x')}</button>
+    <h3 id="trialTitle">{icon('clock')}{t(L('Free trial', 'تجربة مجانية'))}</h3>
+    <p>{t(L('12 hours for XTV, 24 hours for the other plans.', '12 ساعة لـ XTV و24 ساعة لباقي الباقات.'))}</p>
+    <div class="rf-grid">
+      <div class="rf"><label for="trName">{t(L('Name', 'الاسم'))}</label><input id="trName" name="name" type="text" maxlength="40" autocomplete="name" required></div>
+      <div class="rf"><label for="trCountry">{t(L('Country', 'الدولة'))}</label><select id="trCountry" name="country" required><option value="">{pick}</option>{copts}</select></div>
+      <div class="rf"><label for="trPlan">{t(L('Plan', 'الباقة'))}</label><select id="trPlan" name="plan" required><option value="">{pick}</option>{popts}</select></div>
+      <div class="rf"><label for="trDevice">{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device" required><option value="">{pick}</option>{dopts}</select></div>
+    </div>
+    <p class="trial-note">{icon('info')}<span>{t(L('Install the app first so your trial is ready to use:', 'ثبّت التطبيق أولاً حتى تكون التجربة جاهزة:'))} <a data-trial-guide href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}</a></span></p>
+    <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+    <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Please fill in all four fields.', 'من فضلك املأ الحقول الأربعة.'))}"></p>
+    <button type="submit" class="btn btn-wa">{icon('chat')}<span>{t(L('Send on WhatsApp', 'أرسل عبر واتساب'))}</span></button>
+  </form>
+</dialog>'''
 
 
 def cta_block(c):
@@ -78,7 +122,6 @@ def cta_block(c):
     </div>
     <div class="cta-actions">
       {btn_trial(c, t(L('Request a free trial', 'اطلب تجربة مجانية')))}
-      {ext(c.wa('sub'), t(L('Subscribe now', 'اشترك الآن')), 'btn btn-ghost')}
     </div>
   </div>
 </div></section>'''
@@ -135,7 +178,7 @@ def plan_card(c, region, rp):
     return f'''<article class="pcard{" featured" if rp.get("featured") else ""}" style="--c:{p["color"]}">
   <div class="plan-body">
     <div class="badges">{badges}</div>
-    <div class="plan-head">{logo}<div><h3>{nm}</h3>{('<span class="aka">' + aka + '</span>') if aka else ''}</div>{ext(c.wa('trial', plan=nm, region=rl), icon('clock') + trial, 'plan-trial')}</div>
+    <div class="plan-head">{logo}<div><h3>{nm}</h3>{('<span class="aka">' + aka + '</span>') if aka else ''}</div>{trial_link(c, icon('clock') + trial, 'plan-trial', pid)}</div>
     <p class="plan-line">{first}</p>
     <p class="plan-line ltr-nums">{stats}</p>
     <p class="plan-price"><b>{money(c, rp["cur"], rp["p1"])}</b> {t(PERIOD[rp["per"]])} {p2}</p>
@@ -933,7 +976,7 @@ def policies(c):
 <p>فقط لتفعيل اشتراكك، ومساعدتك في التثبيت والدعم، والتواصل معك بخصوص التجديد والصيانة. لا نبيع بياناتك، ولا نشاركها إلا بالقدر اللازم لتفعيل اشتراكك (مثل تسجيل بيانات شاشتك في تطبيق المشاهدة).</p>
 <h3>هذا الموقع</h3>
 <ul>
-<li>لا يوجد تسجيل حسابات في الموقع. عند الضغط على «اشترك» أو «تجربة مجانية» يظهر نموذج قصير، ويتم إرسال اختياراتك (البلد والباقة والجهاز، واسمك إن كتبته) إلى خادمنا حتى نجهّز طلبك، ثم يُفتح واتساب.</li>
+<li>لا يوجد تسجيل حسابات في الموقع. عند الضغط على «تجربة مجانية» يظهر نموذج قصير، ويتم إرسال اسمك واختياراتك (البلد والباقة والجهاز) إلى خادمنا حتى نجهّز طلبك، ثم يُفتح واتساب.</li>
 <li>يحفظ الموقع اختيارك للغة والبلد والباقة في متصفحك (localStorage) حتى يتذكرها في زيارتك القادمة، ويحفظ محادثتك مع المساعد الآلي لمدة 24 ساعة.</li>
 <li>مساعد المحادثة في الموقع <b>بوت آلي يعمل بالذكاء الاصطناعي</b>، وليس شخصاً وليس رقم الواتساب الرئيسي. الرسائل التي تكتبها فيه تُرسل إلى خادمنا ويتم معالجتها بالذكاء الاصطناعي لكتابة الردود. لا تكتب فيه كلمات مرور أو بيانات دفع.</li>
 <li>الخطوط يتم تحميلها من Google Fonts.</li>
@@ -986,7 +1029,7 @@ def policies(c):
 <p>Only to activate your subscription, help with setup and support, and contact you about renewals and maintenance. We don't sell your data, and we only share it as far as needed to activate your subscription (for example, registering your TV's Device ID in the player app).</p>
 <h3>This website</h3>
 <ul>
-<li>There are no accounts on this site. When you tap Subscribe or Free trial, a short form opens. Your choices (country, plan, device, and your name if you type it) are sent to our server so we can prepare your order, then WhatsApp opens.</li>
+<li>There are no accounts on this site. When you tap Free trial, a short form opens. Your name and choices (country, plan, device) are sent to our server so we can prepare your order, then WhatsApp opens.</li>
 <li>The site saves your language, country and plan choice in your browser (localStorage) so it remembers them next time. It also keeps your chat with the assistant there for 24 hours.</li>
 <li>The chat assistant on this site is an <b>automated AI bot</b>, not a person and not our main WhatsApp. Messages you type there are sent to our server and processed by AI to write the replies. Don't type passwords or payment details in it.</li>
 <li>Fonts are loaded from Google Fonts.</li>
