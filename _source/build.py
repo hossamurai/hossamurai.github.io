@@ -10,7 +10,7 @@ assets/bot.js and assets/apps/ are kept: style.css and site.js are copied over t
 """
 import os, shutil, posixpath, urllib.parse
 from content import *
-from pages import PAGE_BUILDERS, DEVICE_PAGES, icon, wa, ARIA_CUR
+from pages import PAGE_BUILDERS, DEVICE_PAGES, icon, wa, ARIA_CUR, trial_dialog
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(HERE)
@@ -148,7 +148,7 @@ def header(c):
     <nav class="nav-links" id="navLinks" aria-label="{c.t(L('Main', 'القائمة الرئيسية'))}">{links}</nav>
     <div class="nav-right">
       <a class="lang" href="{c.other_lang_href()}" hreflang="{other}" lang="{other}" data-setlang="{other}">{icon('globe')}{'English' if c.ar else 'العربية'}</a>
-      <a class="btn btn-wa btn-sm" href="{c.wa('trial')}" target="_blank" rel="noopener">{icon('chat')}<span class="lbl">{c.t(L('Free trial', 'تجربة مجانية'))}</span></a>
+      <a class="btn btn-wa btn-sm" href="{c.wa('trial')}" target="_blank" rel="noopener" data-trial>{icon('chat')}<span class="lbl">{c.t(L('Free trial', 'تجربة مجانية'))}</span></a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="{c.t(L('Menu', 'القائمة'))}">{icon('menu', 'i-open')}{icon('x', 'i-close')}</button>
     </div>
   </div>
@@ -222,6 +222,7 @@ def layout(c, title, desc, body):
 {body}
 </main>
 {footer(c)}
+{trial_dialog(c)}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="{c.root}assets/site.js" defer></script>
 <script src="{c.root}assets/bot.js" defer></script>
