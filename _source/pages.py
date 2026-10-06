@@ -375,6 +375,7 @@ def home(c):
 <section class="sec remind-sec" id="reminders-sec"><div class="wrap">
   {sec_head('', t(L('Renewal reminders', 'تنبيهات التجديد')), t(L('Never miss a renewal', 'لا تفوّت موعد التجديد')), t(L("A WhatsApp reminder before your subscription ends — for your account or a friend's.", 'تذكير على واتساب قبل انتهاء الاشتراك — لحسابك أو لحساب صديق.')))}
   {reminder_card(c, compact=True)}
+  {account_card(c, compact=True)}
 </div></section>
 {reviews}
 
@@ -853,7 +854,7 @@ def help_page(c):
         groups += f'<div class="faq-group" data-search-group><h2 class="h2">{t(g)}</h2><div class="faq">{its}</div></div>'
     body = hero + f'''
 <section class="sec first"><div class="wrap">
-  <div class="help-remind">{reminder_card(c)}</div>
+  <div class="help-remind">{reminder_card(c)}{account_card(c)}</div>
   {groups}
   <p class="empty" id="helpEmpty">{t(L('No results. Try another word, or ask us on WhatsApp.', 'لا توجد نتائج. جرّب كلمة أخرى، أو اسألنا عبر واتساب.'))}</p>
 </div></section>
@@ -1065,14 +1066,11 @@ def status_line(c):
     return f'<p class="svc-status" data-status hidden data-ok="{c.t(L("All servers working", "كل السيرفرات تعمل"))}" data-bad="{c.t(L("Problem with {x} — we’re on it", "مشكلة في {x} — نعمل عليها"))}"></p>'
 
 
-def account(c):
+def account_card(c, compact=False):
+    """Check my subscription: username + password -> plan, expiry, days left, reminders on/off (n8n site-account).
+    Sits under the renewal-reminders form. Nothing is stored on the website."""
     t = c.t
-    hero = page_hero(c, [(None, t(L('My account', 'حسابي')))],
-                     t(L('My account', 'حسابي')),
-                     t(L('Check your plan and when it ends.', 'اعرف باقتك وموعد انتهائها.')), extra=status_line(c))
-    body = hero + f'''
-<section class="sec first"><div class="wrap acct-wrap">
-  <form class="remind acct-form" data-account data-api="{N8N_WEBHOOK}site-account" novalidate>
+    return f'''<form class="remind acct-form{' remind-compact' if compact else ''}" id="account" data-account data-api="{N8N_WEBHOOK}site-account" novalidate>
     <h3>{icon('key')}{t(L('Check my subscription', 'استعلم عن اشتراكي'))}</h3>
     <div class="rf-grid">
       <div class="rf"><label for="acctUser">{t(L('Username', 'اسم المستخدم'))}</label>
@@ -1088,17 +1086,12 @@ def account(c):
       data-msg-not_found="{t(L("No account matches that username and password. Type both exactly as in the picture we sent. Renewed in the last week? Try again in a few days.", 'لا يوجد حساب بهذا الاسم وكلمة المرور. اكتبهما بالضبط كما في الصورة التي أرسلناها. جدّدت خلال الأسبوع الماضي؟ حاول بعد أيام.'))}"
       data-msg-limited="{t(L('Too many checks today. Please try again tomorrow.', 'محاولات كثيرة اليوم. حاول غداً.'))}"
       data-msg-error="{t(L("Couldn't connect right now. Try again in a minute.", 'تعذّر الاتصال الآن. حاول بعد دقيقة.'))}"></p>
-    <small>{t(L('Your details are checked by our system and are not stored on this website.', 'يتم التحقق من بياناتك عبر نظامنا ولا تُحفظ على هذا الموقع.'))}</small>
-  </form>
-  <div class="acct-out" data-acct-out hidden
-    data-l-expires="{t(L('Ends on', 'ينتهي في'))}" data-l-left="{t(L('{n} days left', 'باقي {n} يوم'))}" data-l-today="{t(L('Ends today', 'ينتهي اليوم'))}"
-    data-l-expired="{t(L('Expired', 'منتهي'))}" data-l-rem-on="{t(L('Renewal reminders are on', 'تنبيهات التجديد مفعّلة'))}"
-    data-l-rem-off="{t(L('Turn on renewal reminders', 'فعّل تنبيهات التجديد'))}" data-l-renew="{t(L('Renew', 'جدّد'))}"
-    data-reminders="{c.href('index.html')}#reminders" data-locale="{'ar-EG' if c.ar else 'en-CA'}"></div>
-</div></section>''' + cta_block(c)
-    return (t(L('My account', 'حسابي')),
-            t(L('Check your Hossam TV plan and expiry date, renew, and turn on renewal reminders.', 'اعرف باقتك وموعد انتهاء اشتراك Hossam TV، وجدّد، وفعّل تنبيهات التجديد.')),
-            body)
+    <div class="acct-out" data-acct-out hidden
+      data-l-expires="{t(L('Ends on', 'ينتهي في'))}" data-l-left="{t(L('{n} days left', 'باقي {n} يوم'))}" data-l-today="{t(L('Ends today', 'ينتهي اليوم'))}"
+      data-l-expired="{t(L('Expired', 'منتهي'))}" data-l-rem-on="{t(L('Renewal reminders are on', 'تنبيهات التجديد مفعّلة'))}"
+      data-l-rem-off="{t(L('Turn on renewal reminders', 'فعّل تنبيهات التجديد'))}" data-l-renew="{t(L('Renew', 'جدّد'))}"
+      data-reminders="#reminders" data-locale="{'ar-EG' if c.ar else 'en-CA'}"></div>
+  </form>'''
 
 
 PAGE_BUILDERS = [
@@ -1108,7 +1101,6 @@ PAGE_BUILDERS = [
     ('setup', 'setup/index.html', 'setup', setup_index),
     ('help', 'help.html', 'help', help_page),
     ('about', 'about.html', 'about', about),
-    ('account', 'account.html', 'account', account),
     ('policies', 'policies.html', None, policies),
 ]
 DEVICE_PAGES = [('setup-' + d['slug'], 'setup/' + d['slug'] + '.html', 'setup', device_page(d['slug'])) for d in DEVICES]
