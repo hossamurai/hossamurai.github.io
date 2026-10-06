@@ -850,3 +850,5 @@ html[dir="rtl"] .page-hero .poster-wall{-webkit-mask-image:linear-gradient(270de
 .trial-form > .btn{width:100%;margin-top:16px}
 @media (max-width:380px){.trial-form .rf-grid{grid-template-columns:1fr}}
 .trial-form .rf-grid .rf:last-child{grid-column:1/-1}
+.swipe-hint{display:none}
+@media (max-width:720px){.swipe-hint{display:flex;align-items:center;justify-content:flex-end;gap:6px;margin:0 0 8px;font-size:.85rem;font-weight:600;color:var(--muted)}.swipe-hint .ic{width:16px;height:16px}}

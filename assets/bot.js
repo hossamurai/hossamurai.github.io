@@ -71,7 +71,7 @@
   + '.htv-form-wrap{position:relative}.htv-form .htv-x{position:absolute;top:-6px;inset-inline-end:-6px}'
   + '.htv-hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;overflow:hidden}'
   + '@media (max-width:560px){.htv-chat{inset:auto 0 0 0;width:100%;max-width:100%;height:calc(100% - 56px);border-radius:20px 20px 0 0;border-bottom:0}'
-  + '.htv-fab{bottom:14px;inset-inline-end:14px;height:50px;padding:0 16px 0 13px}.htv-ov{align-items:flex-end;padding:0}.htv-form{border-radius:22px 22px 0 0;max-height:92vh}}'
+  + '.htv-fab{bottom:14px;inset-inline-end:14px;width:46px;height:46px;padding:0;transition:transform .25s,opacity .25s}.htv-fab.htv-away{transform:translateY(90px);opacity:0;pointer-events:none}.htv-ov{align-items:flex-end;padding:0}.htv-form{border-radius:22px 22px 0 0;max-height:92vh}}'
   + '@media (prefers-reduced-motion:reduce){.htv-typing i{animation:none}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
@@ -161,7 +161,7 @@
   }
 
   /* ---------------------------------------------------------------- 4: order / free-trial form */
-  var REGIONS = { eg: ['Egypt', 'مصر'], gulf: ['Saudi & Gulf', 'السعودية والخليج'], uae: ['UAE', 'الإمارات'], intl: ['Other countries', 'دول أخرى'] };
+  var REGIONS = { eg: ['Egypt', 'مصر'], gulf: ['Saudi & Gulf', 'السعودية والخليج'], uae: ['UAE', 'الإمارات'], intl: ['Canada & worldwide', 'كندا وباقي الدول'] };
   var PLANS = { xtv: ['XTV', 'XTV'], marvel: ['Marvel', 'مارفل'], basic: ['Basic', 'الأساسية'], premium: ['Premium', 'بريميوم'] };
   var DEVICES = [['androidtv', 'Android TV / TV box', 'أندرويد تي في / بوكس'], ['firestick', 'Firestick', 'فايرستيك'], ['smarttv', 'Samsung / LG TV', 'شاشة سامسونج / LG'],
                  ['android', 'Android phone', 'موبايل أندرويد'], ['apple', 'iPhone / Apple TV', 'آيفون / أبل تي في'], ['windows', 'Windows PC', 'كمبيوتر ويندوز'], ['other', 'Other / not sure', 'جهاز آخر / لست متأكداً']];
@@ -262,6 +262,15 @@
   var fab = document.createElement('button'); fab.type = 'button'; fab.className = 'htv-fab';
   var panel = document.createElement('div'); panel.className = 'htv-chat'; panel.hidden = true; panel.setAttribute('role', 'dialog');
   document.body.appendChild(fab); document.body.appendChild(panel);
+  /* phones: tuck the button away while scrolling down so it doesn't cover text; bring it back on scroll up or when scrolling stops */
+  var lastY = window.pageYOffset || 0, stopT = null;
+  window.addEventListener('scroll', function(){
+    if(window.innerWidth > 560) return;
+    var y = window.pageYOffset || 0;
+    if(y > lastY + 6) fab.classList.add('htv-away'); else if(y < lastY - 6) fab.classList.remove('htv-away');
+    lastY = y; clearTimeout(stopT);
+    stopT = setTimeout(function(){ fab.classList.remove('htv-away'); }, 1200);
+  }, { passive: true });
   var busy = false;
 
   function fmt(text){

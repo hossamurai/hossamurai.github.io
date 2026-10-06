@@ -160,7 +160,7 @@ REGIONS = [
         {'id': 'basic', 'cur': 'aed', 'p1': 35, 'per': 'm3', 'featured': True},
         {'id': 'premium', 'cur': 'aed', 'p1': 50, 'per': 'm3'},
     ]},
-    {'id': 'intl', 'label': L('Other countries', 'دول أخرى'), 'note': None, 'plans': [
+    {'id': 'intl', 'label': L('Canada & worldwide', 'كندا وباقي الدول'), 'note': None, 'plans': [
         {'id': 'basic', 'cur': 'usd', 'p1': 35, 'per': 'y1', 'p2': 60, 'featured': True, 'badge': L('Best seller', 'الأكثر مبيعاً')},
         {'id': 'premium', 'cur': 'usd', 'p1': 55, 'per': 'y1', 'p2': 100, 'badge': L('Most content', 'أكبر محتوى')},
     ]},

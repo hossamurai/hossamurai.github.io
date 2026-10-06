@@ -192,7 +192,7 @@ def plan_card(c, region, rp):
 
 def region_block(c):
     t = c.t
-    default = 'intl'   # most customers are in Canada -> start on 'Other countries' (the script still picks Egypt/Gulf/UAE by time zone)
+    default = 'intl'   # most customers are in Canada -> start on 'Canada & worldwide' (the script still picks Egypt/Gulf/UAE by time zone)
     seg = ''.join(
         f'<button type="button" data-region-btn="{r["id"]}" aria-pressed="{"true" if r["id"] == default else "false"}">{t(r["label"])}</button>'
         for r in REGIONS)
@@ -403,15 +403,6 @@ def plans(c):
     rows += '<tr><th scope="row">' + t(L('Apps', 'التطبيقات')) + '</th>' + ''.join(
         f'<td><span class="ltr">{t(PLANS[p]["apps"])}</span></td>' for p in PLAN_ORDER) + '</tr>'
 
-    inc = [
-        ('devices', L('Install on all your devices', 'التثبيت على كل أجهزتك'), L('Watch on one screen at a time.', 'المشاهدة على شاشة واحدة في نفس الوقت.')),
-        ('clock', L('Free trial first', 'تجربة مجانية أولاً'), L('12 hours for XTV, 24 hours for the rest.', '12 ساعة لـ XTV و24 ساعة لباقي الباقات.')),
-        ('bolt', L('Activation in minutes', 'تفعيل خلال دقائق'), L('Please allow up to 24 hours.', 'وبحد أقصى 24 ساعة.')),
-        ('chat', L('Setup help on WhatsApp', 'مساعدة في التثبيت عبر واتساب'), L('Arabic and English.', 'بالعربية والإنجليزية.')),
-        ('refresh', L('No automatic renewal', 'بدون تجديد تلقائي'), L('You renew only when you want to.', 'تجدد فقط عندما تريد.')),
-        ('info', L('Maintenance updates', 'أخبار الصيانة'), L('Posted on our WhatsApp Status.', 'تُنشر على حالة الواتساب.')),
-    ]
-    inc_html = ''.join(f'<li>{icon("check")}<div><b>{t(h)}</b><span>{t(p)}</span></div></li>' for _, h, p in inc)
 
     body = hero + f'''
 <section class="sec first"><div class="wrap">{region_block(c)}</div></section>
@@ -423,12 +414,8 @@ def plans(c):
 
 <section class="sec" id="compare"><div class="wrap">
   {sec_head('', t(L('Compare', 'مقارنة')), t(L('All plans side by side', 'كل الباقات جنباً إلى جنب')))}
+  <p class="swipe-hint">{t(L('Swipe to see all plans', 'اسحب لرؤية كل الباقات'))} {icon('arrow', 'flip')}</p>
   <div class="table-wrap"><table class="cmp"><thead><tr><th scope="col"><span class="sr-only"></span></th>{head}</tr></thead><tbody>{rows}</tbody></table></div>
-</div></section>
-
-<section class="sec"><div class="wrap">
-  {sec_head('', t(L('Included', 'مع كل باقة')), t(L('What you get with every plan', 'ما تحصل عليه مع كل باقة')))}
-  <ul class="included">{inc_html}</ul>
 </div></section>
 
 <section class="sec"><div class="wrap">
@@ -488,7 +475,7 @@ def channels(c):
 </div></section>
 
 <section class="sec"><div class="wrap">
-  {sec_head('', t(L('By plan', 'حسب الباقة')), t(L('What each plan includes', 'ماذا تتضمن كل باقة')), t(L("Line-ups change often — ask us on WhatsApp for the full list.", 'القوائم تتغير باستمرار — اطلب القائمة الكاملة على واتساب.')))}
+  {sec_head('', t(L('By plan', 'حسب الباقة')), t(L('What each plan includes', 'ماذا تتضمن كل باقة')), t(L('Each plan at a glance.', 'كل باقة بنظرة سريعة.')))}
   <div class="plans">{per}</div>
 </div></section>
 
@@ -881,13 +868,13 @@ def about(c):
     lic = ''
     if t(LICENSE_TEXT):
         lic = f'<h2>{t(L("Licensing", "التراخيص"))}</h2><p>{t(LICENSE_TEXT)}</p>'
-    regions = [L('Egypt', 'مصر'), L('Saudi Arabia', 'السعودية'), L('Kuwait', 'الكويت'), L('Qatar', 'قطر'),
+    regions = [L('Canada', 'كندا'), L('Egypt', 'مصر'), L('Saudi Arabia', 'السعودية'), L('Kuwait', 'الكويت'), L('Qatar', 'قطر'),
                L('Bahrain', 'البحرين'), L('Oman', 'عُمان'), L('UAE', 'الإمارات'), L('Worldwide', 'باقي دول العالم')]
     body = hero + f'''
 <section class="sec first"><div class="wrap split">
   <div class="prose">
     <h2>{t(L('Who we are', 'من نحن'))}</h2>
-    <p>{t(L('Based in Egypt, serving viewers in Egypt, the Gulf and worldwide.', 'مقرنا في مصر، ونخدم المشاهدين في مصر والخليج وحول العالم.'))}</p>
+    <p>{t(L('Based in Egypt, serving viewers in Canada, Egypt, the Gulf and worldwide.', 'مقرنا في مصر، ونخدم المشاهدين في كندا ومصر والخليج وحول العالم.'))}</p>
     <h2>{t(L('How we work', 'كيف نعمل'))}</h2>
     <p>{t(L('Trial, payment, activation, setup and renewals — all personally on WhatsApp. We recommend the plan that fits you, even if it’s the cheaper one.', 'التجربة والدفع والتفعيل والتثبيت والتجديد — كلها بشكل شخصي على واتساب. ونرشح لك الباقة المناسبة حتى لو كانت الأرخص.'))}</p>
     <h2>{t(L('Our promises', 'وعودنا لك'))}</h2>
@@ -909,7 +896,6 @@ def about(c):
     <span class="num">{WHATSAPP_DISPLAY}</span>
     {ext(c.wa('sub'), icon('chat') + t(L('Message us on WhatsApp', 'راسلنا عبر واتساب')), 'btn btn-wa')}
   </aside>
-  {reminder_card(c)}
   </div>
 </div></section>
 ''' + cta_block(c)
