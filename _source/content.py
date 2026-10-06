@@ -252,11 +252,21 @@ PAY_EGYPT = [
     ('Vodafone Cash', L('Instant', 'فوري')),
 ]
 PAY_ABROAD = [
-    ('TapTap Send', L('No transfer fees · debit card', 'بدون رسوم تحويل · بطاقة خصم')),
-    ('PayPal', L('Friends & Family · you cover the fee', 'Friends & Family · الرسوم على العميل')),
-    ('Sendwave', L('Debit card', 'بطاقة خصم')),
-    ('Whish Money', L('You cover the fee', 'الرسوم على العميل')),
-    (L('Bank transfer', 'تحويل بنكي'), L('Saudi Arabia · Egypt · Europe', 'السعودية · مصر · أوروبا')),
+    ('PayPal', L('Friends & Family · PayPal fees on you', 'Friends & Family · رسوم PayPal على العميل')),
+    ('TapTap Send', L('No transfer fees · debit card · ID check', 'بدون رسوم تحويل · بطاقة خصم · تأكيد هوية')),
+    ('Sendwave', L('Debit card · ID check', 'بطاقة خصم · تأكيد هوية')),
+    ('Whish Money', L('Transfer fees on you', 'رسوم التحويل على العميل')),
+    (L('Bank transfer', 'تحويل بنكي'), L('From Saudi Arabia, Egypt or Bulgaria (Europe)', 'من السعودية أو مصر أو بلغاريا (أوروبا)')),
+]
+# payment choices in the subscribe / renew form: (key sent to n8n, name, note, shown for Egypt?, shown elsewhere?)
+PAY_FORM = [
+    ('instapay', 'InstaPay', L('Instant', 'فوري'), True, False),
+    ('vodafone', 'Vodafone Cash', L('Instant', 'فوري'), True, False),
+    ('paypal', 'PayPal', PAY_ABROAD[0][1], False, True),
+    ('taptap', 'TapTap Send', PAY_ABROAD[1][1], False, True),
+    ('sendwave', 'Sendwave', PAY_ABROAD[2][1], False, True),
+    ('whish', 'Whish Money', PAY_ABROAD[3][1], False, True),
+    ('bank', L('Bank transfer', 'تحويل بنكي'), PAY_ABROAD[4][1], True, True),
 ]
 
 # ----------------------------------------------------------------------------

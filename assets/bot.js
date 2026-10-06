@@ -124,6 +124,18 @@
       + '</div></div>';
     header.parentNode.insertBefore(box, header.nextSibling);
   }
+  /* "All servers working" / "Problem with …" line ([data-status] on Home, FAQ and My account) */
+  function applyStatus(list){
+    if(!Array.isArray(list)) return;
+    var names = [];
+    list.forEach(function(o){ var n = outageName(o); if(n && names.indexOf(n) < 0) names.push(n); });
+    each('[data-status]', function(p){
+      var bad = names.length > 0;
+      p.textContent = bad ? p.getAttribute('data-bad').replace('{x}', names.join(T(', ', '، '))) : p.getAttribute('data-ok');
+      p.className = 'svc-status ' + (bad ? 'bad' : 'ok');
+      p.hidden = false;
+    });
+  }
   function applyRatings(r){
     if(!r || r.count < 5 || !r.avg) return;
     var ul = document.querySelector('.trust'); if(!ul || ul.querySelector('.htv-rating')) return;
@@ -156,7 +168,7 @@
   if(!HELP_PAGE){
     fetch(API + 'site-data', { credentials: 'omit' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
       if(!d) return;
-      applyPrices(d.prices); applyOutages(d.outages); applyRatings(d.ratings); applyReviews(d.reviews, d.ratings);
+      applyPrices(d.prices); applyOutages(d.outages); applyStatus(d.outages); applyRatings(d.ratings); applyReviews(d.reviews, d.ratings);
     })['catch'](function(){});
   }
 

@@ -79,8 +79,15 @@ TRIAL_DEVICES = [('android-tv', 'androidtv'), ('firestick', 'firestick'), ('smar
 GULF_CC = ('966', '965', '974', '973', '968')
 
 
+def order_link(c, kind, inner, cls='', plan='', user=''):
+    """Opens the order form in subscribe or renew mode (order_dialog). Without JavaScript it falls back to WhatsApp."""
+    extra = (f' data-plan="{plan}"' if plan else '') + (f' data-user="{user}"' if user else '')
+    return f'<a{cls_attr(cls) if cls else ""} href="{c.wa("sub")}" target="_blank" rel="noopener" data-order="{kind}"{extra}>{inner}</a>'
+
+
 def trial_dialog(c):
-    """Free-trial form: name, country, plan, device. Sends the choices to n8n (site-order) and opens WhatsApp with them filled in."""
+    """One form for free trial, subscribe and renew. Trial asks for the device; subscribe/renew ask how they'll pay
+    (renew also asks the username). Sends the choices to n8n (site-order) and opens WhatsApp with them filled in."""
     t = c.t
     countries = [('ca', L('Canada', 'كندا')), ('us', L('USA', 'أمريكا'))] + [x for x in REMIND_CC if x[0] != '1']
     def region(cc):
@@ -91,21 +98,30 @@ def trial_dialog(c):
     devs = {d['slug']: d for d in DEVICES}
     dopts = ''.join(f'<option value="{key}" data-guide="{c.href("setup/" + slug + ".html")}">{t(devs[slug]["name"])}</option>' for slug, key in TRIAL_DEVICES)
     dopts += f'<option value="other" data-guide="{c.href("setup/index.html")}">{t(L("Other / not sure", "جهاز آخر / لست متأكداً"))}</option>'
+    payopts = ''.join(f'<option value="{k}" data-note="{t(note)}"{" data-eg" if eg else ""}{" data-intl" if intl else ""}>{t(nm)}</option>'
+                      for k, nm, note, eg, intl in PAY_FORM)
     pick = t(L('Choose…', 'اختر…'))
     return f'''<dialog class="trial-dlg" id="trialDlg" aria-labelledby="trialTitle">
-  <form class="remind trial-form" method="dialog" data-trial-form data-api="{N8N_WEBHOOK}site-order" data-wa="{WHATSAPP}" novalidate>
+  <form class="remind trial-form" method="dialog" data-trial-form data-mode="trial" data-api="{N8N_WEBHOOK}site-order" data-wa="{WHATSAPP}" novalidate>
     <button type="button" class="trial-x" data-trial-close aria-label="{t(L('Close', 'إغلاق'))}">{icon('x')}</button>
-    <h3 id="trialTitle">{icon('clock')}{t(L('Free trial', 'تجربة مجانية'))}</h3>
-    <p>{t(L('12 hours for XTV, 24 hours for the other plans.', '12 ساعة لـ XTV و24 ساعة لباقي الباقات.'))}</p>
+    <h3 id="trialTitle">
+      <span data-for="trial">{icon('clock')}{t(L('Free trial', 'تجربة مجانية'))}</span>
+      <span data-for="subscribe">{icon('card')}{t(L('Subscribe', 'اشترك'))}</span>
+      <span data-for="renew">{icon('refresh')}{t(L('Renew', 'جدّد اشتراكك'))}</span>
+    </h3>
+    <p data-for="trial">{t(L('12 hours for XTV, 24 hours for the other plans.', '12 ساعة لـ XTV و24 ساعة لباقي الباقات.'))}</p>
+    <p data-for="subscribe renew">{t(L("We'll reply with the payment details.", 'سنرد عليك بتفاصيل الدفع.'))}</p>
     <div class="rf-grid">
-      <div class="rf"><label for="trName">{t(L('Name', 'الاسم'))}</label><input id="trName" name="name" type="text" maxlength="40" autocomplete="name" required></div>
+      <div class="rf rf-full" data-for="renew"><label for="trUser">{t(L('Username', 'اسم المستخدم'))}</label><input id="trUser" name="username" type="text" maxlength="64" autocomplete="username" autocapitalize="none" spellcheck="false" dir="ltr"></div>
+      <div class="rf rf-full"><label for="trName">{t(L('Name', 'الاسم'))}</label><input id="trName" name="name" type="text" maxlength="40" autocomplete="name" required></div>
       <div class="rf"><label for="trCountry">{t(L('Country', 'الدولة'))}</label><select id="trCountry" name="country" required><option value="">{pick}</option>{copts}</select></div>
       <div class="rf"><label for="trPlan">{t(L('Plan', 'الباقة'))}</label><select id="trPlan" name="plan" required><option value="">{pick}</option>{popts}</select></div>
-      <div class="rf"><label for="trDevice">{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device" required><option value="">{pick}</option>{dopts}</select></div>
+      <div class="rf rf-full" data-for="trial"><label for="trDevice">{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device"><option value="">{pick}</option>{dopts}</select></div>
+      <div class="rf rf-full" data-for="subscribe renew"><label for="trPay">{t(L('How will you pay?', 'طريقة الدفع'))}</label><select id="trPay" name="pay"><option value="">{pick}</option>{payopts}</select><small class="pay-note" data-pay-note hidden></small></div>
     </div>
-    <p class="trial-note">{icon('info')}<span>{t(L('Install the app first so your trial is ready to use:', 'ثبّت التطبيق أولاً حتى تكون التجربة جاهزة:'))} <a data-trial-guide href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}</a></span></p>
+    <p class="trial-note" data-for="trial">{icon('info')}<span>{t(L('Install the app first so your trial is ready to use:', 'ثبّت التطبيق أولاً حتى تكون التجربة جاهزة:'))} <a data-trial-guide href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}</a></span></p>
     <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
-    <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Please fill in all four fields.', 'من فضلك املأ الحقول الأربعة.'))}"></p>
+    <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Please fill in all the fields.', 'من فضلك املأ كل الحقول.'))}"></p>
     <button type="submit" class="btn btn-wa">{icon('chat')}<span>{t(L('Send on WhatsApp', 'أرسل عبر واتساب'))}</span></button>
   </form>
 </dialog>'''
@@ -183,7 +199,7 @@ def plan_card(c, region, rp):
     <p class="plan-line ltr-nums">{stats}</p>
     <p class="plan-price"><b>{money(c, rp["cur"], rp["p1"])}</b> {t(PERIOD[rp["per"]])} {p2}</p>
     <div class="plan-actions">
-      {ext(c.wa('sub', plan=nm, region=rl), icon('chat') + t(L('Subscribe', 'اشترك')), 'btn btn-wa')}
+      {order_link(c, 'subscribe', icon('chat') + t(L('Subscribe', 'اشترك')), 'btn btn-wa', pid)}
     </div>
     <a class="plan-setup" data-setup-link href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}{icon('arrow', 'flip')}</a>
   </div>
@@ -298,6 +314,7 @@ def pay_block(c):
   <div class="pay-card"><h3>{icon('card')}{t(L('Inside Egypt', 'داخل مصر'))}</h3><ul class="pay-list">{eg}</ul></div>
   <div class="pay-card"><h3>{icon('globe')}{t(L('From abroad', 'من خارج مصر'))}</h3><ul class="pay-list">{ab}</ul></div>
 </div>
+<div class="pay-renew">{order_link(c, 'renew', icon('refresh') + t(L('Renew my subscription', 'جدّد اشتراكي')), 'btn btn-wa')}</div>
 <div class="pay-foot">{icon('receipt')}<span>{t(L("After paying, send a <b>clear screenshot of the receipt</b> on WhatsApp. Subscriptions don't renew automatically — just message us when it's time.", 'بعد الدفع، أرسل <b>صورة واضحة للإيصال</b> عبر واتساب. الاشتراك لا يتجدد تلقائياً — راسلنا عند موعد التجديد.'))}</span></div>'''
 
 
@@ -312,6 +329,7 @@ def home(c):
     <div class="hero-cta">
       {btn_trial(c)}
     </div>
+    {status_line(c)}
   </div>
 </section>'''
 
@@ -824,7 +842,7 @@ def help_page(c):
     hero = page_hero(c, [(None, t(L('Help', 'المساعدة')))],
                      t(L('Help center', 'مركز المساعدة')),
                      t(L('Quick fixes and common questions.', 'حلول سريعة وأسئلة شائعة.')),
-                     extra=search)
+                     extra=search + status_line(c))
     tr = ''.join(details(c, i, q, a, search=True) for i, q, a in TROUBLE)
     groups = f'''<div class="faq-group" data-search-group>
   <h2 class="h2">{icon('refresh')} {t(L('Troubleshooting', 'حل المشكلات'))}</h2>
@@ -1039,6 +1057,50 @@ def policies(c):
 # ----------------------------------------------------------------------------
 # registry: (key, path inside language folder, nav section, builder)
 # ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+# MY ACCOUNT — username + password -> plan, expiry, reminders (n8n site-account). Nothing is stored on the website.
+# ----------------------------------------------------------------------------
+def status_line(c):
+    """Filled in by bot.js from site-data: 'All servers working' or which plan has a problem. Hidden until the data arrives."""
+    return f'<p class="svc-status" data-status hidden data-ok="{c.t(L("All servers working", "كل السيرفرات تعمل"))}" data-bad="{c.t(L("Problem with {x} — we’re on it", "مشكلة في {x} — نعمل عليها"))}"></p>'
+
+
+def account(c):
+    t = c.t
+    hero = page_hero(c, [(None, t(L('My account', 'حسابي')))],
+                     t(L('My account', 'حسابي')),
+                     t(L('Check your plan and when it ends.', 'اعرف باقتك وموعد انتهائها.')), extra=status_line(c))
+    body = hero + f'''
+<section class="sec first"><div class="wrap acct-wrap">
+  <form class="remind acct-form" data-account data-api="{N8N_WEBHOOK}site-account" novalidate>
+    <h3>{icon('key')}{t(L('Check my subscription', 'استعلم عن اشتراكي'))}</h3>
+    <div class="rf-grid">
+      <div class="rf"><label for="acctUser">{t(L('Username', 'اسم المستخدم'))}</label>
+        <input id="acctUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64"></div>
+      <div class="rf"><label for="acctPass">{t(L('Password', 'كلمة المرور'))}</label>
+        <div class="remind-pass" dir="ltr"><input id="acctPass" name="password" type="password" dir="ltr" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
+        <button type="button" class="remind-show" data-acct-show aria-pressed="false" data-show="{t(L('Show', 'إظهار'))}" data-hide="{t(L('Hide', 'إخفاء'))}">{t(L('Show', 'إظهار'))}</button></div></div>
+      <button type="submit" class="btn btn-wa">{icon('search')}<span>{t(L('Check', 'استعلم'))}</span></button>
+    </div>
+    <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+    <p class="remind-msg" role="status" hidden
+      data-msg-empty="{t(L('Type your username and password.', 'اكتب اسم المستخدم وكلمة المرور.'))}"
+      data-msg-not_found="{t(L("No account matches that username and password. Type both exactly as in the picture we sent. Renewed in the last week? Try again in a few days.", 'لا يوجد حساب بهذا الاسم وكلمة المرور. اكتبهما بالضبط كما في الصورة التي أرسلناها. جدّدت خلال الأسبوع الماضي؟ حاول بعد أيام.'))}"
+      data-msg-limited="{t(L('Too many checks today. Please try again tomorrow.', 'محاولات كثيرة اليوم. حاول غداً.'))}"
+      data-msg-error="{t(L("Couldn't connect right now. Try again in a minute.", 'تعذّر الاتصال الآن. حاول بعد دقيقة.'))}"></p>
+    <small>{t(L('Your details are checked by our system and are not stored on this website.', 'يتم التحقق من بياناتك عبر نظامنا ولا تُحفظ على هذا الموقع.'))}</small>
+  </form>
+  <div class="acct-out" data-acct-out hidden
+    data-l-expires="{t(L('Ends on', 'ينتهي في'))}" data-l-left="{t(L('{n} days left', 'باقي {n} يوم'))}" data-l-today="{t(L('Ends today', 'ينتهي اليوم'))}"
+    data-l-expired="{t(L('Expired', 'منتهي'))}" data-l-rem-on="{t(L('Renewal reminders are on', 'تنبيهات التجديد مفعّلة'))}"
+    data-l-rem-off="{t(L('Turn on renewal reminders', 'فعّل تنبيهات التجديد'))}" data-l-renew="{t(L('Renew', 'جدّد'))}"
+    data-reminders="{c.href('index.html')}#reminders" data-locale="{'ar-EG' if c.ar else 'en-CA'}"></div>
+</div></section>''' + cta_block(c)
+    return (t(L('My account', 'حسابي')),
+            t(L('Check your Hossam TV plan and expiry date, renew, and turn on renewal reminders.', 'اعرف باقتك وموعد انتهاء اشتراك Hossam TV، وجدّد، وفعّل تنبيهات التجديد.')),
+            body)
+
+
 PAGE_BUILDERS = [
     ('home', 'index.html', 'home', home),
     ('plans', 'plans.html', 'plans', plans),
@@ -1046,6 +1108,7 @@ PAGE_BUILDERS = [
     ('setup', 'setup/index.html', 'setup', setup_index),
     ('help', 'help.html', 'help', help_page),
     ('about', 'about.html', 'about', about),
+    ('account', 'account.html', 'account', account),
     ('policies', 'policies.html', None, policies),
 ]
 DEVICE_PAGES = [('setup-' + d['slug'], 'setup/' + d['slug'] + '.html', 'setup', device_page(d['slug'])) for d in DEVICES]
