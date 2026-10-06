@@ -244,14 +244,16 @@
     });
   });
 
-  /* free trial: every [data-trial] link opens a short form (name, country, plan, device).
+  /* order form (free trial / subscribe / renew): [data-trial] opens it in trial mode, [data-order="subscribe|renew"] in that mode.
      The choices go to n8n (site-order, which tells Hossam) and WhatsApp opens with them filled in.
-     Without JavaScript or <dialog> support the link just opens WhatsApp. */
+     Without JavaScript or <dialog> support the links just open WhatsApp. */
   var dlg = document.getElementById('trialDlg');
   if(dlg && typeof dlg.showModal === 'function'){
     var tf = dlg.querySelector('[data-trial-form]');
-    var tName = tf.querySelector('[name="name"]'), tCountry = tf.querySelector('[name="country"]'), tPlan = tf.querySelector('[name="plan"]'),
-        tDevice = tf.querySelector('[name="device"]'), tGuide = tf.querySelector('[data-trial-guide]'), tMsg = tf.querySelector('.remind-msg'), tHp = tf.querySelector('[name="website"]');
+    var F = function(n){ return tf.querySelector('[name="' + n + '"]'); };
+    var tName = F('name'), tCountry = F('country'), tPlan = F('plan'), tDevice = F('device'), tPay = F('pay'), tUser = F('username'), tHp = F('website');
+    var tGuide = tf.querySelector('[data-trial-guide]'), tMsg = tf.querySelector('.remind-msg'), payNote = tf.querySelector('[data-pay-note]');
+    var mode = 'trial';
     var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
     var guess = tz === 'Africa/Cairo' ? '20' : tz === 'Asia/Dubai' ? '971' : tz === 'Asia/Riyadh' ? '966' : tz === 'Asia/Kuwait' ? '965' : tz === 'Asia/Qatar' ? '974'
       : tz === 'Asia/Bahrain' ? '973' : tz === 'Asia/Muscat' ? '968' : tz === 'Europe/London' ? '44' : tz === 'Europe/Berlin' ? '49' : tz === 'Europe/Istanbul' ? '90'
@@ -260,46 +262,128 @@
     if(guess && tCountry.querySelector('option[value="' + guess + '"]')) tCountry.value = guess;
     var opt = function(sel){ return sel.options[sel.selectedIndex]; };
     var region = function(){ var o = opt(tCountry); return (o && o.getAttribute('data-region')) || ''; };
-    /* XTV and Marvel are only sold in Egypt */
-    var syncPlans = function(){
+    var showOpt = function(o, on){ o.hidden = !on; o.disabled = !on; };
+    /* XTV and Marvel are only sold in Egypt; InstaPay / Vodafone Cash only inside Egypt, the rest only abroad */
+    var syncCountry = function(){
       var eg = region() === 'eg';
-      each('option[data-eg]', function(o){ o.hidden = !eg; o.disabled = !eg; }, tPlan);
+      each('option[data-eg]', function(o){ showOpt(o, eg); }, tPlan);
+      each('option[value]:not([value=""])', function(o){ showOpt(o, eg ? o.hasAttribute('data-eg') : o.hasAttribute('data-intl')); }, tPay);
       if(opt(tPlan) && opt(tPlan).disabled) tPlan.value = '';
+      if(opt(tPay) && opt(tPay).disabled) tPay.value = '';
+      syncPay();
     };
+    var syncPay = function(){ var o = opt(tPay), n = o && o.getAttribute('data-note'); payNote.textContent = n || ''; payNote.hidden = !n; };
     var syncGuide = function(){ var o = opt(tDevice); if(tGuide && o && o.getAttribute('data-guide')) tGuide.href = o.getAttribute('data-guide'); };
-    tCountry.addEventListener('change', syncPlans); tDevice.addEventListener('change', syncGuide);
-    syncPlans();
-    each('[data-trial]', function(a){
-      a.addEventListener('click', function(e){
-        e.preventDefault();
-        var pl = a.getAttribute('data-plan');
-        if(pl){ var po = tPlan.querySelector('option[value="' + pl + '"]'); if(po && po.disabled && tCountry.querySelector('option[value="20"]')){ tCountry.value = '20'; syncPlans(); } tPlan.value = pl; }
-        tMsg.hidden = true;
-        if(nav) nav.classList.remove('open');
-        dlg.showModal();
-        (tName.value ? tCountry : tName).focus();
-      });
+    tCountry.addEventListener('change', syncCountry); tDevice.addEventListener('change', syncGuide); tPay.addEventListener('change', syncPay);
+    syncCountry();
+    var setMode = function(m){
+      mode = m; tf.setAttribute('data-mode', m);
+      each('[data-for]', function(el){ el.hidden = (' ' + el.getAttribute('data-for') + ' ').indexOf(' ' + m + ' ') < 0; }, tf);
+    };
+    var openForm = function(m, pl, user){
+      setMode(m);
+      if(pl){ var po = tPlan.querySelector('option[value="' + pl + '"]'); if(po && po.disabled && tCountry.querySelector('option[value="20"]')){ tCountry.value = '20'; syncCountry(); } tPlan.value = pl; }
+      if(user) tUser.value = user;
+      tMsg.hidden = true;
+      if(nav) nav.classList.remove('open');
+      dlg.showModal();
+      (m === 'renew' && !tUser.value ? tUser : tName.value ? tCountry : tName).focus();
+    };
+    window.htvOrder = openForm;   /* used by the "My account" page */
+    document.addEventListener('click', function(e){
+      var a = e.target.closest ? e.target.closest('[data-trial], [data-order]') : null;
+      if(!a) return;
+      e.preventDefault();
+      openForm(a.hasAttribute('data-trial') ? 'trial' : a.getAttribute('data-order'), a.getAttribute('data-plan'), a.getAttribute('data-user'));
     });
     each('[data-trial-close]', function(b){ b.addEventListener('click', function(){ dlg.close(); }); }, dlg);
     dlg.addEventListener('click', function(e){ if(e.target === dlg) dlg.close(); });
     tf.addEventListener('submit', function(e){
       e.preventDefault();
-      var n = (tName.value || '').replace(/\s+/g, ' ').trim();
-      var miss = n.length < 2 ? tName : !tCountry.value ? tCountry : !tPlan.value ? tPlan : !tDevice.value ? tDevice : null;
+      var n = (tName.value || '').replace(/\s+/g, ' ').trim(), u = (tUser.value || '').replace(/\s+/g, '');
+      var miss = mode === 'renew' && u.length < 2 ? tUser : n.length < 2 ? tName : !tCountry.value ? tCountry : !tPlan.value ? tPlan
+        : mode === 'trial' && !tDevice.value ? tDevice : mode !== 'trial' && !tPay.value ? tPay : null;
       if(miss){ tMsg.textContent = tMsg.getAttribute('data-msg-empty'); tMsg.className = 'remind-msg err'; tMsg.hidden = false; miss.focus(); return; }
       var lbl = function(sel){ return opt(sel).textContent; };
+      var trial = mode === 'trial';
       if(window.fetch && window.URLSearchParams){
         var body = new URLSearchParams();
-        body.append('p', JSON.stringify({ kind: 'trial', name: n, plan: tPlan.value, region: region(), device: tDevice.value, lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
+        body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: trial ? tDevice.value : '',
+          pay: trial ? '' : tPay.value, username: mode === 'renew' ? u : '', lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
         try{ fetch(tf.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit', keepalive: true })['catch'](function(){}); }catch(err){}
       }
-      var text = AR
-        ? 'مرحباً، أريد تجربة مجانية.\nالاسم: ' + n + '\nالدولة: ' + lbl(tCountry) + '\nالباقة: ' + lbl(tPlan) + '\nالجهاز: ' + lbl(tDevice)
-        : "Hi Hossam TV, I'd like a free trial.\nName: " + n + '\nCountry: ' + lbl(tCountry) + '\nPlan: ' + lbl(tPlan) + '\nDevice: ' + lbl(tDevice);
-      var url = 'https://wa.me/' + tf.getAttribute('data-wa') + '?text=' + encodeURIComponent(text);
+      var lines = AR
+        ? [trial ? 'مرحباً، أريد تجربة مجانية.' : mode === 'renew' ? 'مرحباً، أريد تجديد اشتراكي.' : 'مرحباً، أريد الاشتراك.']
+          .concat(mode === 'renew' ? ['اسم المستخدم: ' + u] : [], ['الاسم: ' + n, 'الدولة: ' + lbl(tCountry), 'الباقة: ' + lbl(tPlan)],
+                  trial ? ['الجهاز: ' + lbl(tDevice)] : ['الدفع: ' + lbl(tPay)])
+        : [trial ? "Hi Hossam TV, I'd like a free trial." : mode === 'renew' ? "Hi Hossam TV, I'd like to renew my subscription." : "Hi Hossam TV, I'd like to subscribe."]
+          .concat(mode === 'renew' ? ['Username: ' + u] : [], ['Name: ' + n, 'Country: ' + lbl(tCountry), 'Plan: ' + lbl(tPlan)],
+                  trial ? ['Device: ' + lbl(tDevice)] : ['Payment: ' + lbl(tPay)]);
+      var url = 'https://wa.me/' + tf.getAttribute('data-wa') + '?text=' + encodeURIComponent(lines.join('\n'));
       dlg.close();
       var w = window.open(url, '_blank');
       if(w){ try{ w.opener = null; }catch(err){} } else { location.href = url; }
     });
   }
+  /* "My account": username + password -> n8n site-account answers with plan, expiry, days left and whether reminders are on.
+     Nothing is kept on the website; the password box is cleared after each check. */
+  each('[data-account]', function(f){
+    var user = f.querySelector('[name="username"]'), pass = f.querySelector('[name="password"]'), hp = f.querySelector('[name="website"]');
+    var msg = f.querySelector('.remind-msg'), btn = f.querySelector('[type="submit"]'), show = f.querySelector('[data-acct-show]');
+    var out = document.querySelector('[data-acct-out]'), busy = false;
+    var L = function(k){ return out.getAttribute('data-l-' + k) || ''; };
+    var PLAN = { basic: 'basic', premium: 'premium', xtv: 'xtv', marvel: 'marvel', neo: 'basic', strong: 'premium' };
+    if(show) show.addEventListener('click', function(){
+      var on = pass.type === 'password'; pass.type = on ? 'text' : 'password';
+      show.textContent = show.getAttribute(on ? 'data-hide' : 'data-show'); show.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    function say(key){ msg.textContent = msg.getAttribute('data-msg-' + key) || ''; msg.className = 'remind-msg err'; msg.hidden = false; }
+    function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
+    function render(list){
+      out.textContent = '';
+      list.forEach(function(a){
+        var card = el('div', 'acct-card');
+        var top = el('div', 'acct-top');
+        top.appendChild(el('b', 'acct-plan', String(a.plan || '')));
+        top.appendChild(el('span', 'acct-user', String(a.username || '')));
+        card.appendChild(top);
+        var d = a.days_left, when = '';
+        try{ when = a.expiry ? new Date(a.expiry + 'T12:00:00').toLocaleDateString(out.getAttribute('data-locale'), { day: 'numeric', month: 'long', year: 'numeric' }) : ''; }catch(e){ when = a.expiry; }
+        var st = el('p', 'acct-exp' + (d == null ? '' : d < 0 ? ' bad' : d <= 7 ? ' warn' : ' good'));
+        st.appendChild(el('span', '', (d != null && d < 0 ? L('expired') : L('expires')) + ' ' + when));
+        if(d != null && d >= 0) st.appendChild(el('strong', '', d === 0 ? L('today') : L('left').replace('{n}', d)));
+        card.appendChild(st);
+        var act = el('div', 'acct-actions');
+        var renew = el('a', 'btn btn-wa', L('renew'));
+        var key = String(a.plan || '').toLowerCase().split(/\s/)[0];
+        renew.href = '#'; renew.setAttribute('data-order', 'renew'); renew.setAttribute('data-user', String(a.username || ''));
+        if(PLAN[key]) renew.setAttribute('data-plan', PLAN[key]);
+        act.appendChild(renew);
+        if(a.reminders){ act.appendChild(el('span', 'acct-rem on', '✓ ' + L('rem-on'))); }
+        else { var r = el('a', 'acct-rem', L('rem-off')); r.href = out.getAttribute('data-reminders'); act.appendChild(r); }
+        card.appendChild(act);
+        out.appendChild(card);
+      });
+      out.hidden = false;
+    }
+    f.addEventListener('submit', function(e){
+      e.preventDefault(); if(busy) return;
+      var u = (user.value || '').replace(/\s+/g, ''), pw = (pass.value || '').replace(/\s+/g, '');
+      if(u.length < 2 || !pw){ say('empty'); (u.length < 2 ? user : pass).focus(); return; }
+      if(!window.fetch || !window.URLSearchParams){ say('error'); return; }
+      busy = true; btn.disabled = true; msg.hidden = true; out.hidden = true;
+      var body = new URLSearchParams();
+      body.append('p', JSON.stringify({ username: u, password: pw, website: hp ? hp.value : '' }));
+      fetch(f.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit' })
+        .then(function(r){ return r.json()['catch'](function(){ return {}; }); })
+        .then(function(d){
+          if(d && d.ok && d.accounts && d.accounts.length){ render(d.accounts); pass.value = ''; }
+          else if(d && d.status === 'not_found') say('not_found');
+          else if(d && d.status === 'limited') say('limited');
+          else if(d && d.status === 'invalid') say('empty');
+          else say('error');
+        })['catch'](function(){ say('error'); })
+        .then(function(){ busy = false; btn.disabled = false; });
+    });
+  });
 })();
