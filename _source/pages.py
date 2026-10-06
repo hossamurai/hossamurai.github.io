@@ -432,11 +432,10 @@ def channels(c):
         eg = f'<span class="badge">{t(L("Egypt only", "مصر فقط"))}</span>' if p['egypt_only'] else ''
         per += f'''<article class="plan" style="--c:{p["color"]}">
   <div class="badges">{eg}</div>
-  <div class="plan-top"><span class="plan-mono">{p["mono"]}</span><div><h3>{nm}</h3>{('<span class="aka">' + aka_text(c, pid) + '</span>') if p.get('aka') else ''}</div></div>
+  <div class="plan-top"><img class="plan-logo" src="{c.root}{p["img"]}" alt="" width="56" height="56" loading="lazy"><div><h3>{nm}</h3>{('<span class="aka">' + aka_text(c, pid) + '</span>') if p.get('aka') else ''}</div></div>
   <p class="tag">{t(p["tag"])}</p>
   <div class="stats">{stats}</div>
   <ul class="feat">{feat}</ul>
-  <div class="plan-actions">{ext(c.wa('channels', plan=nm), icon('chat') + t(L('Ask for the full channel list', 'اطلب قائمة القنوات الكاملة')), 'btn btn-ghost')}</div>
 </article>'''
 
     body = hero + f'''

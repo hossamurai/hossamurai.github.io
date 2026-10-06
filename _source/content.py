@@ -308,8 +308,8 @@ FAQ = [
          L("We don't offer adult channels, but some movies and series can contain mature scenes. XTV is our family-friendly option, with almost all mature content removed, and many apps have parental controls.",
            'لا نوفر قنوات للكبار، لكن بعض الأفلام والمسلسلات قد تحتوي على مشاهد غير مناسبة. سيرفر XTV هو الخيار العائلي وتم حذف معظم المحتوى غير اللائق منه، كما تحتوي كثير من التطبيقات على رقابة أبوية.')),
         ('channels', L('Which channels are included?', 'ما القنوات المتاحة؟'),
-         L('Sports (mainly football), Arabic and international channels, movies, series, news and kids. Exact line-ups vary by plan — see the {channels} page, or ask us on WhatsApp for the latest list.',
-           'قنوات رياضية (كرة القدم بشكل أساسي)، قنوات عربية وعالمية، أفلام، مسلسلات، أخبار، وأطفال. القائمة تختلف حسب الباقة — راجع صفحة {channels}، أو اطلب أحدث قائمة عبر واتساب.')),
+         L('Sports (mainly football), Arabic and international channels, movies, series, news and kids. Exact line-ups vary by plan — see the {channels} page.',
+           'قنوات رياضية (كرة القدم بشكل أساسي)، قنوات عربية وعالمية، أفلام، مسلسلات، أخبار، وأطفال. القائمة تختلف حسب الباقة — راجع صفحة {channels}.')),
     ]),
     (L('Plans, payment & renewal', 'الباقات والدفع والتجديد'), [
         ('which-plan', L('Which plan should I choose?', 'أي باقة أختار؟'),
