@@ -67,7 +67,7 @@
       <img src="../assets/img/logo.png" alt="" width="34" height="34" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
       <span class="brand-fallback" aria-hidden="true">H</span><span>Hossam TV</span>
     </a>
-    <nav class="nav-links" id="navLinks" aria-label="Main"><a href="index.html" aria-current="page">Home</a><a href="plans.html">Plans</a><a href="channels.html">Channels</a><a href="setup/index.html">Setup</a><a href="../help.html">Fix a problem</a><a href="help.html">FAQ</a><a href="about.html">About</a><a href="account.html">My account</a></nav>
+    <nav class="nav-links" id="navLinks" aria-label="Main"><a href="index.html" aria-current="page">Home</a><a href="plans.html">Plans</a><a href="channels.html">Channels</a><a href="setup/index.html">Setup</a><a href="../help.html">Fix a problem</a><a href="help.html">FAQ</a><a href="about.html">About</a></nav>
     <div class="nav-right">
       <a class="lang" href="../ar/index.html" hreflang="ar" lang="ar" data-setlang="ar"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg>العربية</a>
       <a class="btn btn-wa btn-sm" href="https://wa.me/201117250227?text=Hi%20Hossam%20TV%2C%20I%27d%20like%20a%20free%20trial." target="_blank" rel="noopener" data-trial><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span class="lbl">Free trial</span></a>
@@ -245,6 +245,28 @@
   <p class="remind-week"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><span>New subscription or renewal? It can take up to a week before you can link it.</span></p>
   <small>The password is needed because some usernames are shared. Nothing is stored on this website.</small>
 </form>
+  <form class="remind acct-form remind-compact" id="account" data-account data-api="https://n8n.hossamservices.com/webhook/site-account" novalidate>
+    <h3><svg class="ic" aria-hidden="true"><use href="#i-key"/></svg>Check my subscription</h3>
+    <div class="rf-grid">
+      <div class="rf"><label for="acctUser">Username</label>
+        <input id="acctUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64"></div>
+      <div class="rf"><label for="acctPass">Password</label>
+        <div class="remind-pass" dir="ltr"><input id="acctPass" name="password" type="password" dir="ltr" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
+        <button type="button" class="remind-show" data-acct-show aria-pressed="false" data-show="Show" data-hide="Hide">Show</button></div></div>
+      <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><span>Check</span></button>
+    </div>
+    <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+    <p class="remind-msg" role="status" hidden
+      data-msg-empty="Type your username and password."
+      data-msg-not_found="No account matches that username and password. Type both exactly as in the picture we sent. Renewed in the last week? Try again in a few days."
+      data-msg-limited="Too many checks today. Please try again tomorrow."
+      data-msg-error="Couldn't connect right now. Try again in a minute."></p>
+    <div class="acct-out" data-acct-out hidden
+      data-l-expires="Ends on" data-l-left="{n} days left" data-l-today="Ends today"
+      data-l-expired="Expired" data-l-rem-on="Renewal reminders are on"
+      data-l-rem-off="Turn on renewal reminders" data-l-renew="Renew"
+      data-reminders="#reminders" data-locale="en-CA"></div>
+  </form>
 </div></section>
 <section class="sec" id="reviews"><div class="wrap">
   <div class="sec-head"><span class="kicker">Reviews</span><h2>What customers say</h2></div>
@@ -281,7 +303,7 @@
         <p>WhatsApp (chat only, no calls):<br><a class="foot-wa" href="https://wa.me/201117250227" target="_blank" rel="noopener">+20 111 725 0227</a></p>
         <p><a class="foot-remind" href="index.html#reminders"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>Get renewal reminders</a></p>
       </div>
-      <div><h3>Explore</h3><ul><li><a href="index.html">Home</a></li><li><a href="plans.html">Plans</a></li><li><a href="channels.html">Channels</a></li><li><a href="setup/index.html">Setup</a></li><li><a href="../help.html">Fix a problem</a></li><li><a href="help.html">FAQ</a></li><li><a href="about.html">About</a></li><li><a href="account.html">My account</a></li></ul></div>
+      <div><h3>Explore</h3><ul><li><a href="index.html">Home</a></li><li><a href="plans.html">Plans</a></li><li><a href="channels.html">Channels</a></li><li><a href="setup/index.html">Setup</a></li><li><a href="../help.html">Fix a problem</a></li><li><a href="help.html">FAQ</a></li><li><a href="about.html">About</a></li></ul></div>
       <div><h3>Setup guides</h3><ul><li><a href="setup/android-tv.html">Android TV & TV boxes</a></li><li><a href="setup/firestick.html">Amazon Firestick</a></li><li><a href="setup/android.html">Android phone & tablet</a></li><li><a href="setup/apple.html">iPhone, iPad, Mac & Apple TV</a></li><li><a href="setup/smart-tv.html">Samsung & LG Smart TV</a></li><li><a href="setup/windows.html">Windows PC & laptop</a></li></ul></div>
       <div><h3>Policies</h3><ul><li><a href="policies.html#terms">Terms of service</a></li><li><a href="policies.html#refund">Refund policy</a></li><li><a href="policies.html#privacy">Privacy policy</a></li></ul>
         <p style="margin-top:16px">Save our number — updates and maintenance notices are posted on our WhatsApp Status.</p></div>

@@ -67,7 +67,7 @@
       <img src="../assets/img/logo.png" alt="" width="34" height="34" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
       <span class="brand-fallback" aria-hidden="true">H</span><span>Hossam TV</span>
     </a>
-    <nav class="nav-links" id="navLinks" aria-label="القائمة الرئيسية"><a href="index.html">الرئيسية</a><a href="plans.html">الباقات</a><a href="channels.html">القنوات</a><a href="setup/index.html">التثبيت</a><a href="../help.html">حل مشكلة</a><a href="help.html" aria-current="page">الأسئلة الشائعة</a><a href="about.html">من نحن</a><a href="account.html">حسابي</a></nav>
+    <nav class="nav-links" id="navLinks" aria-label="القائمة الرئيسية"><a href="index.html">الرئيسية</a><a href="plans.html">الباقات</a><a href="channels.html">القنوات</a><a href="setup/index.html">التثبيت</a><a href="../help.html">حل مشكلة</a><a href="help.html" aria-current="page">الأسئلة الشائعة</a><a href="about.html">من نحن</a></nav>
     <div class="nav-right">
       <a class="lang" href="../en/help.html" hreflang="en" lang="en" data-setlang="en"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg>English</a>
       <a class="btn btn-wa btn-sm" href="https://wa.me/201117250227?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9%20%D9%85%D8%AC%D8%A7%D9%86%D9%8A%D8%A9." target="_blank" rel="noopener" data-trial><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span class="lbl">تجربة مجانية</span></a>
@@ -112,7 +112,28 @@
   <p class="remind-msg" role="status" hidden data-msg-empty="اكتب اسم المستخدم وكلمة المرور ورقم الواتساب." data-msg-phone="راجع رقم الواتساب — اكتب كود الدولة، مثال: 971501234567+." data-msg-not_found="اسم المستخدم وكلمة المرور لا يطابقان أي حساب. راجع الصورة التي أرسلناها بعد الدفع واكتبهما بالضبط. لو اشتركت أو جدّدت خلال الأسبوع الماضي، حاول مرة أخرى بعد أيام." data-msg-limited="محاولات كثيرة اليوم. حاول غداً، أو راسل البوت على واتساب." data-msg-error="تعذّر الاتصال الآن. حاول بعد دقيقة، أو راسل البوت على واتساب." data-msg-linked="تم الربط ✅ سنرسل تذكيراً على هذا الرقم قبل انتهاء الاشتراك. ستصلك رسالة تأكيد على الواتساب."></p>
   <p class="remind-week"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><span>اشتركت أو جدّدت حديثاً؟ قد يستغرق الأمر حتى أسبوع قبل أن تتمكن من ربط الحساب — نضيف الحسابات الجديدة والتجديدات لقائمتنا مرة كل أسبوع.</span></p>
   <small>نحتاج كلمة المرور لأن بعض أسماء المستخدمين تتكرر لأكثر من حساب. يتم التحقق من بياناتك عبر نظامنا ولا تُحفظ على هذا الموقع. تفضّل الواتساب؟ راسل البوت: <a href="https://wa.me/201013113996" target="_blank" rel="noopener"><bdi dir="ltr">+20 101 311 3996</bdi></a>.</small>
-</form></div>
+</form><form class="remind acct-form" id="account" data-account data-api="https://n8n.hossamservices.com/webhook/site-account" novalidate>
+    <h3><svg class="ic" aria-hidden="true"><use href="#i-key"/></svg>استعلم عن اشتراكي</h3>
+    <div class="rf-grid">
+      <div class="rf"><label for="acctUser">اسم المستخدم</label>
+        <input id="acctUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64"></div>
+      <div class="rf"><label for="acctPass">كلمة المرور</label>
+        <div class="remind-pass" dir="ltr"><input id="acctPass" name="password" type="password" dir="ltr" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64">
+        <button type="button" class="remind-show" data-acct-show aria-pressed="false" data-show="إظهار" data-hide="إخفاء">إظهار</button></div></div>
+      <button type="submit" class="btn btn-wa"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><span>استعلم</span></button>
+    </div>
+    <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+    <p class="remind-msg" role="status" hidden
+      data-msg-empty="اكتب اسم المستخدم وكلمة المرور."
+      data-msg-not_found="لا يوجد حساب بهذا الاسم وكلمة المرور. اكتبهما بالضبط كما في الصورة التي أرسلناها. جدّدت خلال الأسبوع الماضي؟ حاول بعد أيام."
+      data-msg-limited="محاولات كثيرة اليوم. حاول غداً."
+      data-msg-error="تعذّر الاتصال الآن. حاول بعد دقيقة."></p>
+    <div class="acct-out" data-acct-out hidden
+      data-l-expires="ينتهي في" data-l-left="باقي {n} يوم" data-l-today="ينتهي اليوم"
+      data-l-expired="منتهي" data-l-rem-on="تنبيهات التجديد مفعّلة"
+      data-l-rem-off="فعّل تنبيهات التجديد" data-l-renew="جدّد"
+      data-reminders="#reminders" data-locale="ar-EG"></div>
+  </form></div>
   <div class="faq-group" data-search-group>
   <h2 class="h2"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg> حل المشكلات</h2>
   <div class="faq"><details id="buffering" data-search-item><summary>التقطيع أو التجميد<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans"><ol><li>افصل الراوتر والتلفزيون/الجهاز من الكهرباء لمدة 10 ثوانٍ، ثم أعد توصيلهما وانتظر عودة الإنترنت.</li><li>اختبر سرعتك على <a href="https://fast.com" target="_blank" rel="noopener">fast.com</a> — تحتاج حوالي 10 ميجابت لجودة Full HD و25 ميجابت لجودة 4K.</li><li>استخدم كابل إنترنت أو شبكة واي فاي 5 GHz إن أمكن، وأوقف التحميلات الكبيرة على الأجهزة الأخرى.</li><li>جرّب أحد التطبيقات الأخرى الخاصة بباقتك من دليل التثبيت.</li><li>على أجهزة أندرويد، امسح ذاكرة التطبيق المؤقتة: <b>الإعدادات ← التطبيقات ← (التطبيق) ← التخزين ← مسح ذاكرة التخزين المؤقت</b>.</li></ol></div></details><details id="login" data-search-item><summary>لا أستطيع تسجيل الدخول<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans"><ol><li>اكتب اسم المستخدم وكلمة المرور كما أرسلناهما تماماً — الحروف الكبيرة والصغيرة مهمة ولا توجد مسافات.</li><li>تأكد أنك تستخدم تطبيق باقتك <b>أنت</b> (مثلاً تطبيقات 4K للباقة الأساسية، وتطبيقات 8K لباقة بريميوم).</li><li>تأكد أن اشتراكك لم ينتهِ.</li><li>ما زالت المشكلة قائمة؟ أرسل لنا صورة لرسالة الخطأ عبر واتساب.</li></ol></div></details><details id="locked" data-search-item><summary>الخدمة توقفت فجأة<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans"><ol><li>تأكد أنه لا يوجد شخص آخر يشاهد على حسابك — التشغيل على شاشتين في نفس الوقت قد يوقفه.</li><li>أعد تشغيل الراوتر والجهاز (افصلهما من الكهرباء لمدة 10 ثوانٍ).</li><li>تابع حالة الواتساب الخاصة بنا لأخبار الصيانة.</li><li>ثم راسلنا وسنفحص حسابك.</li></ol></div></details><details id="install" data-search-item><summary>التطبيق لا يتم تثبيته<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans"><ul><li><b>فايرستيك:</b> فعّل <b><bdi dir="ltr">Settings → My Fire TV → Developer options → Install unknown apps → Downloader</bdi></b>. لا تجد Developer options؟ افتح <b>About</b> واضغط على اسم جهازك 7 مرات.</li><li><b>أندرويد تي في / بوكس:</b> اسمح لتطبيق Downloader بتثبيت التطبيقات عند السؤال، أو من <b>الإعدادات ← التطبيقات ← الأمان والقيود ← مصادر غير معروفة</b> (المسار يختلف حسب الشركة).</li><li><b>الموبايل:</b> عندما يسألك الهاتف، اسمح للمتصفح بتثبيت التطبيقات. إذا ظهر تحذير Play Protect، اضغط <b>مزيد من التفاصيل ← التثبيت على أي حال</b>.</li><li>تأكد أنك ضغطت زر التحميل <b>الأزرق الكبير</b> في MediaFire — وليس «Download faster».</li></ul></div></details><details id="channel" data-search-item><summary>قناة أو فيلم واحد لا يعمل<svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></summary><div class="ans">أحياناً تتوقف قناة معينة لفترة قصيرة. جرّب مرة أخرى بعد دقائق أو استخدم تطبيقاً آخر لباقتك. إذا استمرت المشكلة، أرسل لنا اسم القناة عبر واتساب.</div></details></div>
@@ -141,7 +162,7 @@
         <p>واتساب (رسائل فقط، بدون مكالمات):<br><a class="foot-wa" href="https://wa.me/201117250227" target="_blank" rel="noopener">+20 111 725 0227</a></p>
         <p><a class="foot-remind" href="index.html#reminders"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg>فعّل تنبيهات التجديد</a></p>
       </div>
-      <div><h3>تصفح</h3><ul><li><a href="index.html">الرئيسية</a></li><li><a href="plans.html">الباقات</a></li><li><a href="channels.html">القنوات</a></li><li><a href="setup/index.html">التثبيت</a></li><li><a href="../help.html">حل مشكلة</a></li><li><a href="help.html">الأسئلة الشائعة</a></li><li><a href="about.html">من نحن</a></li><li><a href="account.html">حسابي</a></li></ul></div>
+      <div><h3>تصفح</h3><ul><li><a href="index.html">الرئيسية</a></li><li><a href="plans.html">الباقات</a></li><li><a href="channels.html">القنوات</a></li><li><a href="setup/index.html">التثبيت</a></li><li><a href="../help.html">حل مشكلة</a></li><li><a href="help.html">الأسئلة الشائعة</a></li><li><a href="about.html">من نحن</a></li></ul></div>
       <div><h3>أدلة التثبيت</h3><ul><li><a href="setup/android-tv.html">أندرويد تي في والبوكس</a></li><li><a href="setup/firestick.html">أمازون فايرستيك</a></li><li><a href="setup/android.html">موبايل وتابلت أندرويد</a></li><li><a href="setup/apple.html">آيفون وآيباد وماك وأبل تي في</a></li><li><a href="setup/smart-tv.html">شاشات سامسونج و LG</a></li><li><a href="setup/windows.html">كمبيوتر ولابتوب ويندوز</a></li></ul></div>
       <div><h3>السياسات</h3><ul><li><a href="policies.html#terms">شروط الخدمة</a></li><li><a href="policies.html#refund">سياسة الاسترجاع</a></li><li><a href="policies.html#privacy">سياسة الخصوصية</a></li></ul>
         <p style="margin-top:16px">احفظ رقمنا — التحديثات وأخبار الصيانة تُنشر على حالة الواتساب.</p></div>

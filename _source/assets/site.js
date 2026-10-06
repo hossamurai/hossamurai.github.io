@@ -289,7 +289,7 @@
       dlg.showModal();
       (m === 'renew' && !tUser.value ? tUser : tName.value ? tCountry : tName).focus();
     };
-    window.htvOrder = openForm;   /* used by the "My account" page */
+    window.htvOrder = openForm;   /* used by the account check */
     document.addEventListener('click', function(e){
       var a = e.target.closest ? e.target.closest('[data-trial], [data-order]') : null;
       if(!a) return;
@@ -330,7 +330,7 @@
   each('[data-account]', function(f){
     var user = f.querySelector('[name="username"]'), pass = f.querySelector('[name="password"]'), hp = f.querySelector('[name="website"]');
     var msg = f.querySelector('.remind-msg'), btn = f.querySelector('[type="submit"]'), show = f.querySelector('[data-acct-show]');
-    var out = document.querySelector('[data-acct-out]'), busy = false;
+    var out = f.querySelector('[data-acct-out]'), busy = false;
     var L = function(k){ return out.getAttribute('data-l-' + k) || ''; };
     var PLAN = { basic: 'basic', premium: 'premium', xtv: 'xtv', marvel: 'marvel', neo: 'basic', strong: 'premium' };
     if(show) show.addEventListener('click', function(){

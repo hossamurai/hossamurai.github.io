@@ -119,7 +119,6 @@ NAV = [
     ('setup', 'setup/index.html', L('Setup', 'التثبيت')),
     ('help', 'help.html', L('FAQ', 'الأسئلة الشائعة')),
     ('about', 'about.html', L('About', 'من نحن')),
-    ('account', 'account.html', L('My account', 'حسابي')),
 ]
 FIX_LINK = L('Fix a problem', 'حل مشكلة')   # the standalone help.html troubleshooter in the repo root
 
