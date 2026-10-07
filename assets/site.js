@@ -351,7 +351,7 @@
     });
     function say(key){ msg.textContent = msg.getAttribute('data-msg-' + key) || ''; msg.className = 'remind-msg err'; msg.hidden = false; }
     function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
-    function render(list){
+    function render(list, pw){
       out.textContent = '';
       list.forEach(function(a){
         var card = el('div', 'acct-card');
@@ -372,7 +372,20 @@
         if(PLAN[key]) renew.setAttribute('data-plan', PLAN[key]);
         act.appendChild(renew);
         if(a.reminders){ act.appendChild(el('span', 'acct-rem on', '✓ ' + L('rem-on'))); }
-        else { var r = el('a', 'acct-rem', L('rem-off')); r.href = out.getAttribute('data-reminders'); act.appendChild(r); }
+        else {
+          var r = el('a', 'acct-rem', L('rem-off')); r.href = out.getAttribute('data-reminders'); act.appendChild(r);
+          /* fill the reminders form above with this account and jump to the WhatsApp number box */
+          (function(acc){ r.addEventListener('click', function(e){
+            var rf = document.querySelector('[data-remind]'); if(!rf) return;
+            e.preventDefault();
+            rf.querySelector('[name="username"]').value = acc;
+            rf.querySelector('[name="password"]').value = pw;
+            var ph = rf.querySelector('[name="phone"]');
+            rf.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            rf.classList.add('remind-flash'); setTimeout(function(){ rf.classList.remove('remind-flash'); }, 1600);
+            setTimeout(function(){ try{ ph.focus({ preventScroll: true }); }catch(err){ ph.focus(); } }, 350);
+          }); })(String(a.username || ''));
+        }
         card.appendChild(act);
         out.appendChild(card);
       });
@@ -389,7 +402,7 @@
       fetch(f.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit' })
         .then(function(r){ return r.json()['catch'](function(){ return {}; }); })
         .then(function(d){
-          if(d && d.ok && d.accounts && d.accounts.length){ render(d.accounts); pass.value = ''; }
+          if(d && d.ok && d.accounts && d.accounts.length){ render(d.accounts, pw); pass.value = ''; }
           else if(d && d.status === 'not_found') say('not_found');
           else if(d && d.status === 'limited') say('limited');
           else if(d && d.status === 'invalid') say('empty');
