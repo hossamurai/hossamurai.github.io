@@ -99,6 +99,11 @@ html[lang="ar"] .flip{transform:scaleX(-1)}
 .nav-links a{padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:500;font-size:.92rem;color:var(--muted)}
 .nav-links a:hover{color:var(--ink);background:var(--surface-2)}
 .nav-links a.active{color:var(--ink);background:var(--surface-2)}
+.menu-btn{display:none;width:42px;height:42px;border-radius:12px;border:1.5px solid var(--line-2);background:transparent;cursor:pointer;place-items:center;color:var(--ink)}
+.menu-btn .ic{width:22px;height:22px}
+.menu-btn .i-close{display:none}
+.nav.open .menu-btn .i-open{display:none}
+.nav.open .menu-btn .i-close{display:block}
 .lang{border:1.5px solid var(--line-2);background:transparent;border-radius:999px;padding:8px 12px;font-weight:700;font-size:.85rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .lang:hover{border-color:var(--ink)}
 
@@ -308,14 +313,13 @@ footer{padding:48px 0 60px;color:var(--muted);font-size:.9rem}
   .cta{grid-template-columns:1fr;padding:36px 26px}
 }
 @media (max-width:1000px){
-  html{scroll-padding-top:112px}
-  .nav-in{flex-wrap:wrap;height:auto;padding-top:10px;padding-bottom:10px;gap:10px}
-  .nav-links{order:3;width:100%;margin:0;justify-content:space-between;border-top:1px solid var(--line);padding-top:8px;overflow-x:auto}
-  .nav-links a{padding:6px 10px;font-size:.88rem;white-space:nowrap;flex:0 0 auto}
+  .menu-btn{display:grid}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 20px 18px;box-shadow:var(--shadow);gap:2px}
+  .nav.open .nav-links{display:flex}
+  .nav-links a{font-size:1rem;padding:12px 14px;border-radius:12px}
   .nav-right{margin-inline-start:auto}
 }
 @media (max-width:720px){
-  .nav-links{flex-wrap:wrap;justify-content:flex-start;gap:2px 4px;overflow:visible}
   .hero{padding:40px 0 44px}
   section.sec{padding:60px 0}
   .pay,.faq,.plans{grid-template-columns:1fr}
@@ -414,6 +418,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
     <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-3.9A8 8 0 1 1 8.4 19.3L4 20Z"/><path d="M9 10.5h.01M12 10.5h.01M15 10.5h.01"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
     <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
     <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
@@ -465,6 +470,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
       <a class="btn btn-wa btn-sm" data-wa="subscribe" href="https://wa.me/201117250227?text=Hi%20Hossam%20TV%2C%20I%27d%20like%20a%20free%20trial." target="_blank" rel="noopener">
         <svg class="ic"><use href="#i-chat"/></svg><span class="en">Free trial</span><span class="ar">تجربة مجانية</span>
       </a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-label="Menu"><svg class="ic i-open"><use href="#i-menu"/></svg><svg class="ic i-close"><use href="#i-x"/></svg></button>
     </div>
   </div>
 </header>
@@ -524,6 +530,18 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
   </div>
 </footer>
 <div class="toast" id="toast" role="status"></div>
+<script>
+/* mobile menu (same as the rest of the site) */
+(function(){
+  var nav = document.querySelector('.nav'), b = document.getElementById('menuBtn');
+  if(!nav || !b) return;
+  function set(o){ nav.classList.toggle('open', o); b.setAttribute('aria-expanded', o ? 'true' : 'false'); }
+  b.addEventListener('click', function(e){ e.stopPropagation(); set(!nav.classList.contains('open')); });
+  document.addEventListener('click', function(e){ if(!nav.contains(e.target)) set(false); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') set(false); });
+  nav.querySelectorAll('.nav-links a').forEach(function(a){ a.addEventListener('click', function(){ set(false); }); });
+})();
+</script>
 <script>
 (function(){
   "use strict";
