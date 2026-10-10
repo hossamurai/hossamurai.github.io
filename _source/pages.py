@@ -389,11 +389,6 @@ def home(c):
   <div class="more-link"><a class="link-arrow" href="{c.href('plans.html#compare')}">{t(L('Compare all plans', 'قارن بين الباقات'))}{icon('arrow', 'flip')}</a></div>
 </div></section>
 
-<section class="sec matches-sec" data-matches-sec hidden><div class="wrap">
-  {sec_head('', t(L('Matches', 'المباريات')), t(L('Big matches this week', 'أهم مباريات الأسبوع')))}
-  {matches_block(c, 5)}
-  <div class="more-link"><a class="link-arrow" href="{c.href('matches.html')}">{t(L('All matches', 'كل المباريات'))}{icon('arrow', 'flip')}</a></div>
-</div></section>
 
 <section class="sec remind-sec" id="reminders-sec"><div class="wrap">
   {sec_head('', t(L('Renewal reminders', 'تنبيهات التجديد')), t(L('Never miss a renewal', 'لا تفوّت موعد التجديد')), t(L("A WhatsApp reminder before your subscription ends — for your account or a friend's.", 'تذكير على واتساب قبل انتهاء الاشتراك — لحسابك أو لحساب صديق.')))}
@@ -1124,6 +1119,15 @@ def matches_block(c, limit=0):
             f'data-l-cairo="{t(L("Cairo", "القاهرة"))}" data-l-toronto="{t(L("Toronto", "تورونتو"))}" '
             f'data-l-live="{t(L("Live now", "مباشر الآن"))}" data-l-empty="{t(L("No big matches in the next few days.", "لا توجد مباريات كبيرة في الأيام القادمة."))}" '
             f'data-locale="{"ar-EG" if c.ar else "en-CA"}" hidden></div>')
+
+
+def matches_ticker(c):
+    """Black airport-board bar under the header: big matches scroll by with Cairo and Toronto times. Filled by site.js."""
+    t = c.t
+    return (f'<a class="ticker" href="{c.href("matches.html")}" data-ticker data-src="{c.root}assets/data/matches.json" '
+            f'data-l-cai="{t(L("CAI", "القاهرة"))}" data-l-tor="{t(L("TOR", "تورونتو"))}" data-l-live="{t(L("LIVE", "مباشر"))}" '
+            f'aria-label="{t(L("Big matches this week", "أهم مباريات الأسبوع"))}" hidden><span class="ticker-tag">{icon("ball")}<span>{t(L("Matches", "المباريات"))}</span></span>'
+            f'<span class="ticker-win"><span class="ticker-track"></span></span></a>')
 
 
 def matches_page(c):

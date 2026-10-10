@@ -352,6 +352,29 @@ footer{padding:48px 0 60px;color:var(--muted);font-size:.9rem}
 .speed-out.good b{color:#14532d}.speed-out.ok b{color:#8a5300}.speed-out.bad b{color:#8c1d18}
 @media (max-width:480px){.speed-head .btn{width:100%}}
 
+/* airport-board matches ticker (under the header) */
+.ticker{display:flex;align-items:stretch;background:#0b0b0c;color:#f5f5f7;text-decoration:none;border-bottom:1px solid #000;overflow:hidden;height:38px;position:relative;z-index:5}
+.ticker[hidden]{display:none}
+.ticker-tag{display:flex;align-items:center;gap:6px;padding:0 12px;background:#e3101b;color:#fff;font-weight:800;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0;z-index:1}
+html[lang="ar"] .ticker-tag{letter-spacing:0;font-size:.8rem}
+.ticker-tag .ic{width:15px;height:15px}
+.ticker-win{flex:1;overflow:hidden;display:flex;align-items:center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
+.ticker-track{display:flex;width:max-content;animation:tickerMove 60s linear infinite}
+.ticker:hover .ticker-track,.ticker:focus .ticker-track{animation-play-state:paused}
+html[dir="rtl"] .ticker-track{animation-name:tickerMoveRtl}
+@keyframes tickerMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes tickerMoveRtl{from{transform:translateX(0)}to{transform:translateX(50%)}}
+.ticker-group{display:flex}
+.tk{display:inline-flex;align-items:center;gap:10px;padding:0 22px;white-space:nowrap;border-inline-end:1px solid #2a2a2d;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.82rem}
+html[lang="ar"] .tk{font-family:inherit}
+.tk-time{color:#ffb000;font-weight:700;letter-spacing:.02em}
+.tk-teams{color:#fff;font-weight:700;text-transform:uppercase}
+html[lang="ar"] .tk-teams{text-transform:none}
+.tk-ch{color:#9a9aa0;font-size:.74rem;border:1px solid #3a3a3e;border-radius:4px;padding:1px 6px}
+.tk-live{background:#e3101b;color:#fff;font-weight:800;font-size:.72rem;border-radius:4px;padding:2px 6px;animation:tkBlink 1.2s steps(2) infinite}
+@keyframes tkBlink{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.ticker-track{animation:none}.ticker-win{overflow-x:auto}}
+
 /* ---------- help page ---------- */
 .help-hero{padding:48px 0 8px}
 .help-hero h1{font-size:clamp(2rem,4.6vw,3.2rem);font-weight:800;margin:14px 0 10px}
@@ -485,6 +508,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
     </div>
   </div>
 </header>
+<a class="ticker" data-page="matches.html" href="/" id="ticker" hidden><span class="ticker-tag"><svg class="ic"><use href="#i-ball"/></svg><span class="en">Matches</span><span class="ar">المباريات</span></span><span class="ticker-win"><span class="ticker-track" id="tickerTrack"></span></span></a>
 <main id="top">
   <section class="help-hero">
     <div class="wrap">
@@ -553,6 +577,35 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
   </div>
 </footer>
 <div class="toast" id="toast" role="status"></div>
+<script>
+/* airport-board matches ticker (same data as the rest of the site: assets/data/matches.json) */
+(function(){
+  var bar = document.getElementById('ticker'), track = document.getElementById('tickerTrack'), data = null;
+  if(!bar || !window.fetch) return;
+  function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
+  function render(){
+    var ar = document.documentElement.lang === 'ar', now = Date.now();
+    var hm = function(d, tz){ try{ return d.toLocaleString(ar ? 'ar-EG' : 'en-GB', { timeZone: tz, weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).toUpperCase(); }catch(e){ return ''; } };
+    var list = ((data && data.events) || []).filter(function(e){ return Date.parse(e.utc) + 2 * 3600e3 > now; }).slice(0, 20);
+    track.textContent = '';
+    if(!list.length){ bar.hidden = true; return; }
+    var g = el('span', 'ticker-group');
+    list.forEach(function(e){
+      var k = new Date(e.utc), live = now >= k.getTime() && now < k.getTime() + 2 * 3600e3, it = el('span', 'tk');
+      var nm = function(x){ return x ? (ar ? x.ar : x.en) : ''; };
+      if(live) it.appendChild(el('span', 'tk-live', ar ? 'مباشر' : 'LIVE'));
+      else { it.appendChild(el('span', 'tk-time', (ar ? 'القاهرة ' : 'CAI ') + hm(k, 'Africa/Cairo'))); it.appendChild(el('span', 'tk-time', (ar ? 'تورونتو ' : 'TOR ') + hm(k, 'America/Toronto'))); }
+      it.appendChild(el('span', 'tk-teams', nm(e.home) + ' – ' + nm(e.away)));
+      if(e.channel) it.appendChild(el('span', 'tk-ch', ar ? e.channel.ar : e.channel.en));
+      g.appendChild(it);
+    });
+    track.appendChild(g); track.appendChild(g.cloneNode(true)); bar.hidden = false;
+    track.style.animationDuration = Math.max(20, Math.round((g.getBoundingClientRect().width || 1200) / 45)) + 's';
+  }
+  fetch('assets/data/matches.json', { cache: 'no-cache' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){ data = d; render(); })['catch'](function(){});
+  if(window.MutationObserver) new MutationObserver(function(){ if(data) render(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+})();
+</script>
 <script>
 /* internet speed check: downloads test data from Cloudflare's speed-test server for up to 8 seconds */
 (function(){

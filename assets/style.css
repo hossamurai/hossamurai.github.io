@@ -908,3 +908,25 @@ html[dir="rtl"] .page-hero .poster-wall{-webkit-mask-image:linear-gradient(270de
 @media (min-width:900px){.matches{grid-template-columns:1fr 1fr}}
 .country-cities{color:var(--muted);font-size:.92rem;line-height:1.8;text-align:center;max-width:760px;margin:0 auto}
 .country-cities b{color:var(--ink)}
+/* airport-board matches ticker (under the header) */
+.ticker{display:flex;align-items:stretch;background:#0b0b0c;color:#f5f5f7;text-decoration:none;border-bottom:1px solid #000;overflow:hidden;height:38px;position:relative;z-index:5}
+.ticker[hidden]{display:none}
+.ticker-tag{display:flex;align-items:center;gap:6px;padding:0 12px;background:#e3101b;color:#fff;font-weight:800;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0;z-index:1}
+html[lang="ar"] .ticker-tag{letter-spacing:0;font-size:.8rem}
+.ticker-tag .ic{width:15px;height:15px}
+.ticker-win{flex:1;overflow:hidden;display:flex;align-items:center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
+.ticker-track{display:flex;width:max-content;animation:tickerMove 60s linear infinite}
+.ticker:hover .ticker-track,.ticker:focus .ticker-track{animation-play-state:paused}
+html[dir="rtl"] .ticker-track{animation-name:tickerMoveRtl}
+@keyframes tickerMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes tickerMoveRtl{from{transform:translateX(0)}to{transform:translateX(50%)}}
+.ticker-group{display:flex}
+.tk{display:inline-flex;align-items:center;gap:10px;padding:0 22px;white-space:nowrap;border-inline-end:1px solid #2a2a2d;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.82rem}
+html[lang="ar"] .tk{font-family:inherit}
+.tk-time{color:#ffb000;font-weight:700;letter-spacing:.02em}
+.tk-teams{color:#fff;font-weight:700;text-transform:uppercase}
+html[lang="ar"] .tk-teams{text-transform:none}
+.tk-ch{color:#9a9aa0;font-size:.74rem;border:1px solid #3a3a3e;border-radius:4px;padding:1px 6px}
+.tk-live{background:#e3101b;color:#fff;font-weight:800;font-size:.72rem;border-radius:4px;padding:2px 6px;animation:tkBlink 1.2s steps(2) infinite}
+@keyframes tkBlink{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.ticker-track{animation:none}.ticker-win{overflow-x:auto}}

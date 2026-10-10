@@ -465,4 +465,37 @@
       box.hidden = false; if(sec) sec.hidden = false;
     })['catch'](function(){});
   });
+  /* airport-board ticker under the header: big matches with Cairo + Toronto times (assets/data/matches.json) */
+  each('[data-ticker]', function(bar){
+    if(!window.fetch) return;
+    var A = function(k){ return bar.getAttribute('data-l-' + k) || ''; }, track = bar.querySelector('.ticker-track');
+    var hm = function(d, tz){
+      try{ return d.toLocaleString(AR ? 'ar-EG' : 'en-GB', { timeZone: tz, weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).toUpperCase(); }catch(e){ return ''; }
+    };
+    function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
+    fetch(bar.getAttribute('data-src'), { cache: 'no-cache' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+      var now = Date.now(), list = ((d && d.events) || []).filter(function(e){ return Date.parse(e.utc) + 2 * 3600e3 > now; }).slice(0, 20);
+      if(!list.length) return;
+      var group = el('span', 'ticker-group');
+      list.forEach(function(e){
+        var k = new Date(e.utc), live = now >= k.getTime() && now < k.getTime() + 2 * 3600e3;
+        var it = el('span', 'tk');
+        if(live) it.appendChild(el('span', 'tk-live', A('live')));
+        else {
+          it.appendChild(el('span', 'tk-time', A('cai') + ' ' + hm(k, 'Africa/Cairo')));
+          it.appendChild(el('span', 'tk-time', A('tor') + ' ' + hm(k, 'America/Toronto')));
+        }
+        var nm = function(x){ return x ? (AR ? x.ar : x.en) : ''; };
+        it.appendChild(el('span', 'tk-teams', nm(e.home) + ' – ' + nm(e.away)));
+        if(e.channel) it.appendChild(el('span', 'tk-ch', AR ? e.channel.ar : e.channel.en));
+        group.appendChild(it);
+      });
+      track.appendChild(group);
+      track.appendChild(group.cloneNode(true));   /* second copy makes the loop seamless */
+      bar.hidden = false;
+      /* constant speed whatever the number of matches (~45 px per second) */
+      var w = group.getBoundingClientRect().width || 1200;
+      track.style.animationDuration = Math.max(20, Math.round(w / 45)) + 's';
+    })['catch'](function(){});
+  });
 })();
