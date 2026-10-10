@@ -341,6 +341,17 @@ footer{padding:48px 0 60px;color:var(--muted);font-size:.9rem}
   *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
 }
 
+/* ---------- internet speed check ---------- */
+.speed{margin:8px 0 34px;padding:20px;border-radius:22px;background:var(--surface-2)}
+.speed-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.speed-title{margin:0;font-weight:800;font-size:1.05rem}
+.speed-sub,.speed-need{margin:2px 0 0;color:var(--muted);font-size:.88rem}
+.speed-need{margin-top:12px}
+.speed-out{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin-top:14px;padding:14px 16px;border-radius:14px;background:#fff}
+.speed-out b{font-size:1.6rem;font-weight:800;white-space:nowrap}
+.speed-out.good b{color:#14532d}.speed-out.ok b{color:#8a5300}.speed-out.bad b{color:#8c1d18}
+@media (max-width:480px){.speed-head .btn{width:100%}}
+
 /* ---------- help page ---------- */
 .help-hero{padding:48px 0 8px}
 .help-hero h1{font-size:clamp(2rem,4.6vw,3.2rem);font-weight:800;margin:14px 0 10px}
@@ -508,6 +519,18 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
         <div class="flow" id="flow" aria-live="polite"></div>
       </div>
 
+      <div class="speed" id="speedBox">
+        <div class="speed-head">
+          <div>
+            <p class="speed-title"><span class="en">Is your internet fast enough?</span><span class="ar">هل الإنترنت عندك سريع كفاية؟</span></p>
+            <p class="speed-sub"><span class="en">Run this on the same Wi-Fi as your TV.</span><span class="ar">اعمل الاختبار على نفس الواي فاي اللي عليه الشاشة.</span></p>
+          </div>
+          <button type="button" class="btn btn-wa" id="speedBtn"><span class="en">Test my internet</span><span class="ar">اختبر الإنترنت</span></button>
+        </div>
+        <div class="speed-out" id="speedOut" hidden aria-live="polite"><b id="speedNum"></b><span id="speedMsg"></span></div>
+        <p class="speed-need"><span class="en">You need about 5 Mbps for SD, 10 for HD, 25 for 4K.</span><span class="ar">تحتاج حوالي 5 ميجا لجودة SD، و10 لـ HD، و25 لـ 4K.</span></p>
+      </div>
+
       <div class="more">
         <p class="step-label"><span class="en">Other questions</span><span class="ar">أسئلة تانية</span></p>
         <div class="faq" id="moreFaq"></div>
@@ -530,6 +553,46 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
   </div>
 </footer>
 <div class="toast" id="toast" role="status"></div>
+<script>
+/* internet speed check: downloads test data from Cloudflare's speed-test server for up to 8 seconds */
+(function(){
+  var btn = document.getElementById('speedBtn'), out = document.getElementById('speedOut'), num = document.getElementById('speedNum'), msg = document.getElementById('speedMsg');
+  if(!btn) return;
+  var AR = function(){ return document.documentElement.lang === 'ar'; };
+  var T = function(en, ar){ return AR() ? ar : en; };
+  function show(cls, n, text){ out.className = 'speed-out ' + cls; num.textContent = n; msg.textContent = text; out.hidden = false; }
+  btn.addEventListener('click', function(){
+    if(!window.fetch || !window.ReadableStream){ window.open('https://fast.com', '_blank', 'noopener'); return; }
+    btn.disabled = true; show('', T('Testing…', 'جاري الاختبار…'), T('about 8 seconds', 'حوالي 8 ثواني'));
+    var ctrl = window.AbortController ? new AbortController() : null, bytes = 0, t0 = 0, LIMIT = 8000;
+    var timer = setTimeout(function(){ if(ctrl) ctrl.abort(); }, LIMIT + 1500);
+    function done(){
+      clearTimeout(timer); btn.disabled = false;
+      var secs = (performance.now() - t0) / 1000, mbps = secs > 0 ? bytes * 8 / secs / 1e6 : 0;
+      if(bytes < 200000){ show('bad', '—', T("Couldn't run the test. Try fast.com instead.", 'تعذّر الاختبار. جرّب fast.com.')); return; }
+      var n = mbps >= 100 ? Math.round(mbps) : Math.round(mbps * 10) / 10;
+      if(mbps >= 25) show('good', n + ' Mbps', T('Great — fast enough for 4K.', 'ممتاز — كافي لجودة 4K.'));
+      else if(mbps >= 10) show('ok', n + ' Mbps', T('Good for HD. For 4K, use a cable or move closer to the router.', 'كويس لجودة HD. لـ 4K استخدم كابل أو قرّب من الراوتر.'));
+      else if(mbps >= 5) show('ok', n + ' Mbps', T('Enough for SD only — choose SD channels, or restart your router.', 'يكفي لجودة SD فقط — اختار قنوات SD، أو أعد تشغيل الراوتر.'));
+      else show('bad', n + ' Mbps', T('Too slow — this is likely why it freezes. Restart your router or use a cable.', 'بطيء جداً — غالباً ده سبب التقطيع. أعد تشغيل الراوتر أو استخدم كابل.'));
+    }
+    fetch('https://speed.cloudflare.com/__down?bytes=100000000', { cache: 'no-store', signal: ctrl ? ctrl.signal : undefined })
+      .then(function(r){
+        if(!r.ok || !r.body) throw new Error('bad');
+        var reader = r.body.getReader(); t0 = performance.now();
+        function pump(){
+          return reader.read().then(function(x){
+            if(x.done) return done();
+            bytes += x.value.length;
+            if(performance.now() - t0 > LIMIT){ try{ reader.cancel(); }catch(e){} return done(); }
+            return pump();
+          });
+        }
+        return pump();
+      })['catch'](function(){ if(t0) done(); else { clearTimeout(timer); btn.disabled = false; show('bad', '—', T("Couldn't run the test. Try fast.com instead.", 'تعذّر الاختبار. جرّب fast.com.')); } });
+  });
+})();
+</script>
 <script>
 /* mobile menu (same as the rest of the site) */
 (function(){

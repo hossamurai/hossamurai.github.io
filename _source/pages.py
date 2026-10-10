@@ -1111,6 +1111,76 @@ def account_card(c, compact=False):
   </form>'''
 
 
+# ----------------------------------------------------------------------------
+# COUNTRY PAGES — for Google searches like "Arabic TV in Canada". Same plans and prices as the Plans page
+# ("Canada & worldwide"), written for viewers in one country.
+# ----------------------------------------------------------------------------
+COUNTRY_PAGES = [
+    ('canada', L('Canada', 'كندا'), L('in Canada', 'في كندا')),
+    ('usa', L('the USA', 'أمريكا'), L('in the USA', 'في أمريكا')),
+    ('uk', L('the UK', 'بريطانيا'), L('in the UK', 'في بريطانيا')),
+    ('europe', L('Europe', 'أوروبا'), L('in Europe', 'في أوروبا')),
+]
+
+
+def _cat(*parts):
+    """Join L() texts: _cat(L('Pay from ', 'ادفع من '), name) -> one L()."""
+    return {k: ''.join(p[k] for p in parts) for k in parts[0]}
+
+
+def country_page(slug, name, where):
+    def build(c):
+        t = c.t
+        W, N = t(where), t(name)
+        hero = page_hero(c, [(None, t(L('Arabic TV', 'القنوات العربية')) + ' ' + W)],
+                         t(L('Arabic TV ', 'القنوات العربية ')) + W,
+                         t(L('Live football, Arabic channels, movies and series — on your TV, phone or laptop. Try it free first.',
+                             'مباريات مباشرة وقنوات عربية وأفلام ومسلسلات — على شاشتك أو موبايلك أو اللابتوب. جرّب مجاناً أولاً.')),
+                         actions=btn_trial(c), extra=status_line(c))
+        intl = next(r for r in REGIONS if r['id'] == 'intl')
+        cards = ''.join(plan_card(c, intl, rp) for rp in intl['plans'])
+        why = [
+            ('clock', L('Free trial first', 'تجربة مجانية أولاً'), L('Watch for 24 hours before you pay.', 'شاهد 24 ساعة قبل أن تدفع.')),
+            ('devices', L('Works on your devices', 'يعمل على أجهزتك'), L('Firestick, Android TV, Samsung & LG, iPhone, Android and PC.', 'فايرستيك وأندرويد تي في وسامسونج و LG وآيفون وأندرويد والكمبيوتر.')),
+            ('chat', L('A real person on WhatsApp', 'شخص حقيقي على واتساب'), L('Setup help in Arabic and English.', 'مساعدة في التثبيت بالعربية والإنجليزية.')),
+            ('card', _cat(L('Easy to pay from ', 'دفع سهل من '), name), L('PayPal, TapTap Send, Sendwave or Whish Money.', 'PayPal أو TapTap Send أو Sendwave أو Whish Money.')),
+        ]
+        why_html = ''.join(f'<li>{icon(ic)}<div><b>{t(h)}</b><span>{t(d)}</span></div></li>' for ic, h, d in why)
+        faq = [
+            (f'{slug}-works', _cat(L('Does it work ', 'هل يعمل '), where, L('?', '؟')),
+             L('Yes. All you need is an internet connection — 10 Mbps for HD, 25 Mbps for 4K.', 'نعم. كل ما تحتاجه هو اتصال إنترنت — 10 ميجا لجودة HD و25 ميجا لجودة 4K.')),
+            (f'{slug}-plan', L('Which plan should I pick?', 'أي باقة أختار؟'),
+             L('Basic if you mostly watch Arabic channels and football. Premium for the biggest library, all sports and channels from every country.', 'الأساسية لو أغلب مشاهدتك قنوات عربية وكرة قدم. بريميوم لأكبر مكتبة وكل الرياضات وقنوات من كل الدول.')),
+            (f'{slug}-pay', _cat(L('How do I pay from ', 'كيف أدفع من '), name, L('?', '؟')),
+             L("With PayPal, TapTap Send, Sendwave or Whish Money. Message us and we'll send the details.", 'عن طريق PayPal أو TapTap Send أو Sendwave أو Whish Money. راسلنا وسنرسل لك التفاصيل.')),
+        ]
+        faq_html = ''.join(f'<details id="{i}"><summary>{t(q)}{icon("plus")}</summary><div class="ans"><p>{t(a)}</p></div></details>' for i, q, a in faq)
+        body = hero + f'''
+<section class="sec first"><div class="wrap">
+  {sec_head('', t(L('Why Hossam TV', 'لماذا Hossam TV')), t(L('Made for Arabic viewers abroad', 'مصممة للمشاهد العربي في الخارج')))}
+  <ul class="country-why">{why_html}</ul>
+</div></section>
+<section class="sec"><div class="wrap">
+  {sec_head('', t(L('Plans', 'الباقات')), t(L('Plans & prices', 'الباقات والأسعار')), t(L('Prices in US dollars.', 'الأسعار بالدولار الأمريكي.')))}
+  <div class="plans pgrid">{cards}</div>
+  <div class="more-link"><a class="link-arrow" href="{c.href('plans.html#compare')}">{t(L('Compare all plans', 'قارن بين الباقات'))}{icon('arrow', 'flip')}</a></div>
+</div></section>
+<section class="sec"><div class="wrap">
+  {sec_head('', t(L('Setup', 'التثبيت')), t(L('Set up in minutes', 'التثبيت في دقائق')))}
+  {dev_grid(c)}
+</div></section>
+<section class="sec"><div class="wrap">
+  {sec_head('', t(L('Questions', 'أسئلة')), t(L('Good to know', 'معلومات مفيدة')))}
+  <div class="faq">{faq_html}</div>
+</div></section>
+''' + cta_block(c)
+        return (t(L('Arabic TV ', 'القنوات العربية ')) + W + t(L(' — Live Football, Arabic Channels & Movies', ' — مباريات وقنوات عربية وأفلام')),
+                t(L('Watch Arabic channels, live football, movies and series ', 'شاهد القنوات العربية والمباريات المباشرة والأفلام والمسلسلات ')) + W
+                + t(L(' on any screen. Free trial, setup help on WhatsApp, easy payment.', ' على أي شاشة. تجربة مجانية، ومساعدة في التثبيت على واتساب، ودفع سهل.')),
+                body)
+    return build
+
+
 PAGE_BUILDERS = [
     ('home', 'index.html', 'home', home),
     ('plans', 'plans.html', 'plans', plans),
@@ -1120,4 +1190,5 @@ PAGE_BUILDERS = [
     ('about', 'about.html', 'about', about),
     ('policies', 'policies.html', None, policies),
 ]
+PAGE_BUILDERS += [('tv-' + sl, 'arabic-tv-' + sl + '.html', None, country_page(sl, nm, wh)) for sl, nm, wh in COUNTRY_PAGES]
 DEVICE_PAGES = [('setup-' + d['slug'], 'setup/' + d['slug'] + '.html', 'setup', device_page(d['slug'])) for d in DEVICES]

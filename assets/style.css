@@ -885,3 +885,11 @@ html[dir="rtl"] .page-hero .poster-wall{-webkit-mask-image:linear-gradient(270de
 .tr-phone{display:flex;gap:8px}
 .tr-cc{display:flex;align-items:center;justify-content:center;min-width:64px;padding:0 12px;border:1.5px solid var(--line-2);border-radius:12px;background:var(--surface-2);font-weight:600;color:var(--ink)}
 .tr-phone input{flex:1;min-width:0}
+/* country pages */
+.country-why{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.country-why li{display:flex;gap:12px;align-items:flex-start;background:var(--surface-2);border-radius:20px;padding:18px}
+.country-why .ic{width:22px;height:22px;flex-shrink:0;margin-top:2px}
+.country-why b{display:block;margin-bottom:2px}
+.country-why span{color:var(--muted);font-size:.93rem}
+.foot-countries{font-size:.88rem}
+.foot-countries a{color:inherit}
