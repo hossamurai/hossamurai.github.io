@@ -1,4 +1,635 @@
 {
- "updated": "2026-10-10T23:51:16Z",
- "events": []
+ "updated": "2026-10-10T23:56:29Z",
+ "events": [
+  {
+   "id": "e401874940",
+   "utc": "2026-10-11T10:30:00Z",
+   "live": false,
+   "league": {
+    "en": "Serie A",
+    "ar": "الدوري الإيطالي"
+   },
+   "home": {
+    "en": "Como",
+    "ar": "Como"
+   },
+   "away": {
+    "en": "AS Roma",
+    "ar": "روما"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401879264",
+   "utc": "2026-10-11T15:30:00Z",
+   "live": false,
+   "league": {
+    "en": "Premier League",
+    "ar": "الدوري الإنجليزي"
+   },
+   "home": {
+    "en": "Liverpool",
+    "ar": "ليفربول"
+   },
+   "away": {
+    "en": "Manchester City",
+    "ar": "مانشستر سيتي"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401874789",
+   "utc": "2026-10-11T16:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Serie A",
+    "ar": "الدوري الإيطالي"
+   },
+   "home": {
+    "en": "Sassuolo",
+    "ar": "Sassuolo"
+   },
+   "away": {
+    "en": "AC Milan",
+    "ar": "ميلان"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "s2561121",
+   "utc": "2026-10-11T17:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Egyptian League",
+    "ar": "الدوري المصري"
+   },
+   "home": {
+    "en": "Zamalek",
+    "ar": "الزمالك"
+   },
+   "away": {
+    "en": "Al Ahly",
+    "ar": "الأهلي"
+   },
+   "channel": {
+    "en": "ON Time Sports",
+    "ar": "أون تايم سبورت"
+   }
+  },
+  {
+   "id": "e401874764",
+   "utc": "2026-10-11T18:45:00Z",
+   "live": false,
+   "league": {
+    "en": "Serie A",
+    "ar": "الدوري الإيطالي"
+   },
+   "home": {
+    "en": "Cagliari",
+    "ar": "Cagliari"
+   },
+   "away": {
+    "en": "Juventus",
+    "ar": "يوفنتوس"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "s2561124",
+   "utc": "2026-10-12T17:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Egyptian League",
+    "ar": "الدوري المصري"
+   },
+   "home": {
+    "en": "Pyramids",
+    "ar": "بيراميدز"
+   },
+   "away": {
+    "en": "Ceramica Cleopatra",
+    "ar": "Ceramica Cleopatra"
+   },
+   "channel": {
+    "en": "ON Time Sports",
+    "ar": "أون تايم سبورت"
+   }
+  },
+  {
+   "id": "e401915417",
+   "utc": "2026-10-13T19:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Arsenal",
+    "ar": "آرسنال"
+   },
+   "away": {
+    "en": "Lille",
+    "ar": "Lille"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401915412",
+   "utc": "2026-10-13T19:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Atlético Madrid",
+    "ar": "أتلتيكو مدريد"
+   },
+   "away": {
+    "en": "Manchester United",
+    "ar": "مانشستر يونايتد"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401915435",
+   "utc": "2026-10-13T19:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Galatasaray",
+    "ar": "Galatasaray"
+   },
+   "away": {
+    "en": "Barcelona",
+    "ar": "برشلونة"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401915413",
+   "utc": "2026-10-13T19:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Internazionale",
+    "ar": "إنتر ميلان"
+   },
+   "away": {
+    "en": "Club Brugge",
+    "ar": "Club Brugge"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401915411",
+   "utc": "2026-10-13T19:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Viking FK",
+    "ar": "Viking FK"
+   },
+   "away": {
+    "en": "Bayern Munich",
+    "ar": "بايرن ميونخ"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401915410",
+   "utc": "2026-10-13T19:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Villarreal",
+    "ar": "Villarreal"
+   },
+   "away": {
+    "en": "Napoli",
+    "ar": "نابولي"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401915415",
+   "utc": "2026-10-14T16:45:00Z",
+   "live": false,
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "LASK Linz",
+    "ar": "LASK Linz"
+   },
+   "away": {
+    "en": "Liverpool",
+    "ar": "ليفربول"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401915414",
+   "utc": "2026-10-14T19:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "AS Roma",
+    "ar": "روما"
+   },
+   "away": {
+    "en": "Real Madrid",
+    "ar": "ريال مدريد"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401915393",
+   "utc": "2026-10-14T19:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Bodo/Glimt",
+    "ar": "Bodo/Glimt"
+   },
+   "away": {
+    "en": "Borussia Dortmund",
+    "ar": "بوروسيا دورتموند"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401915407",
+   "utc": "2026-10-14T19:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Manchester City",
+    "ar": "مانشستر سيتي"
+   },
+   "away": {
+    "en": "Paris Saint-Germain",
+    "ar": "باريس سان جيرمان"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401915568",
+   "utc": "2026-10-15T16:45:00Z",
+   "live": false,
+   "league": {
+    "en": "Europa League",
+    "ar": "الدوري الأوروبي"
+   },
+   "home": {
+    "en": "RB Salzburg",
+    "ar": "RB Salzburg"
+   },
+   "away": {
+    "en": "AC Milan",
+    "ar": "ميلان"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401900905",
+   "utc": "2026-10-15T18:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Saudi Pro League",
+    "ar": "دوري روشن السعودي"
+   },
+   "home": {
+    "en": "Al Ahli",
+    "ar": "Al Ahli"
+   },
+   "away": {
+    "en": "Al Nassr",
+    "ar": "النصر"
+   },
+   "channel": {
+    "en": "Thmanyah",
+    "ar": "ثمانية"
+   }
+  },
+  {
+   "id": "e401915560",
+   "utc": "2026-10-15T19:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Europa League",
+    "ar": "الدوري الأوروبي"
+   },
+   "home": {
+    "en": "Celta Vigo",
+    "ar": "Celta Vigo"
+   },
+   "away": {
+    "en": "Juventus",
+    "ar": "يوفنتوس"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401914250",
+   "utc": "2026-10-16T13:30:00Z",
+   "live": false,
+   "league": {
+    "en": "CAF Champions League",
+    "ar": "دوري أبطال أفريقيا"
+   },
+   "home": {
+    "en": "El Merriekh Bentiu",
+    "ar": "El Merriekh Bentiu"
+   },
+   "away": {
+    "en": "Pyramids FC",
+    "ar": "بيراميدز"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401900900",
+   "utc": "2026-10-16T15:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Saudi Pro League",
+    "ar": "دوري روشن السعودي"
+   },
+   "home": {
+    "en": "Al Riyadh",
+    "ar": "Al Riyadh"
+   },
+   "away": {
+    "en": "Al Hilal",
+    "ar": "الهلال"
+   },
+   "channel": {
+    "en": "Thmanyah",
+    "ar": "ثمانية"
+   }
+  },
+  {
+   "id": "e401914216",
+   "utc": "2026-10-16T16:00:00Z",
+   "live": false,
+   "league": {
+    "en": "CAF Champions League",
+    "ar": "دوري أبطال أفريقيا"
+   },
+   "home": {
+    "en": "APR FC",
+    "ar": "APR FC"
+   },
+   "away": {
+    "en": "Zamalek",
+    "ar": "الزمالك"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401900903",
+   "utc": "2026-10-16T18:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Saudi Pro League",
+    "ar": "دوري روشن السعودي"
+   },
+   "home": {
+    "en": "Al Ittihad",
+    "ar": "الاتحاد"
+   },
+   "away": {
+    "en": "Al Shabab",
+    "ar": "Al Shabab"
+   },
+   "channel": {
+    "en": "Thmanyah",
+    "ar": "ثمانية"
+   }
+  },
+  {
+   "id": "e401878771",
+   "utc": "2026-10-17T11:30:00Z",
+   "live": false,
+   "league": {
+    "en": "Premier League",
+    "ar": "الدوري الإنجليزي"
+   },
+   "home": {
+    "en": "Everton",
+    "ar": "Everton"
+   },
+   "away": {
+    "en": "Chelsea",
+    "ar": "تشيلسي"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401882843",
+   "utc": "2026-10-17T12:00:00Z",
+   "live": false,
+   "league": {
+    "en": "La Liga",
+    "ar": "الدوري الإسباني"
+   },
+   "home": {
+    "en": "Espanyol",
+    "ar": "Espanyol"
+   },
+   "away": {
+    "en": "Atlético Madrid",
+    "ar": "أتلتيكو مدريد"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401874760",
+   "utc": "2026-10-17T13:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Serie A",
+    "ar": "الدوري الإيطالي"
+   },
+   "home": {
+    "en": "Venezia",
+    "ar": "Venezia"
+   },
+   "away": {
+    "en": "Napoli",
+    "ar": "نابولي"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401884769",
+   "utc": "2026-10-17T13:30:00Z",
+   "live": false,
+   "league": {
+    "en": "Bundesliga",
+    "ar": "الدوري الألماني"
+   },
+   "home": {
+    "en": "1. FC Union Berlin",
+    "ar": "1. FC Union Berlin"
+   },
+   "away": {
+    "en": "Borussia Dortmund",
+    "ar": "بوروسيا دورتموند"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401879262",
+   "utc": "2026-10-17T14:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Premier League",
+    "ar": "الدوري الإنجليزي"
+   },
+   "home": {
+    "en": "Brentford",
+    "ar": "Brentford"
+   },
+   "away": {
+    "en": "Liverpool",
+    "ar": "ليفربول"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401879259",
+   "utc": "2026-10-17T14:00:00Z",
+   "live": false,
+   "league": {
+    "en": "Premier League",
+    "ar": "الدوري الإنجليزي"
+   },
+   "home": {
+    "en": "Manchester City",
+    "ar": "مانشستر سيتي"
+   },
+   "away": {
+    "en": "Ipswich Town",
+    "ar": "Ipswich Town"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401876432",
+   "utc": "2026-10-17T15:15:00Z",
+   "live": false,
+   "league": {
+    "en": "Ligue 1",
+    "ar": "الدوري الفرنسي"
+   },
+   "home": {
+    "en": "Strasbourg",
+    "ar": "Strasbourg"
+   },
+   "away": {
+    "en": "Paris Saint-Germain",
+    "ar": "باريس سان جيرمان"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  }
+ ]
 }
