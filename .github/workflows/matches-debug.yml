@@ -1,0 +1,50 @@
+name: Matches debug (temporary)
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Probe sources
+        run: |
+          python3 - <<'PY'
+          import urllib.request, json
+          from datetime import datetime, timedelta, timezone
+          now = datetime.now(timezone.utc); d0 = now.strftime('%Y%m%d'); d7 = (now+timedelta(days=7)).strftime('%Y%m%d'); day = now.strftime('%Y-%m-%d')
+          UA = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36'}
+          tests = [
+            ('espn range+limit UA', f'https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates={d0}-{d7}&limit=300', UA),
+            ('espn range UA', f'https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates={d0}-{d7}', UA),
+            ('espn day UA', f'https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates={d0}', UA),
+            ('espn plain UA', 'https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard', UA),
+            ('espn plain noUA', 'https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard', {}),
+            ('espn egy plain', 'https://site.api.espn.com/apis/site/v2/sports/soccer/egy.1/scoreboard', UA),
+            ('espn ucl plain', 'https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard', UA),
+            ('sportsdb day', f'https://www.thesportsdb.com/api/v1/json/3/eventsday.php?d={day}&s=Soccer', UA),
+            ('sportsdb next epl', 'https://www.thesportsdb.com/api/v1/json/3/eventsnextleague.php?id=4328', UA),
+            ('sportsdb next egy', 'https://www.thesportsdb.com/api/v1/json/3/eventsnextleague.php?id=4829', UA),
+            ('fixturedownload epl', f'https://fixturedownload.com/feed/json/epl-{now.year if now.month>=7 else now.year-1}', UA),
+          ]
+          for name, url, h in tests:
+            try:
+              with urllib.request.urlopen(urllib.request.Request(url, headers=h), timeout=20) as r:
+                b = r.read()
+                print('OK ', name, r.status, len(b))
+                try:
+                  j = json.loads(b)
+                  if isinstance(j, dict):
+                    ev = j.get('events') or []
+                    print('    keys', list(j)[:8], 'events', len(ev))
+                    for e in ev[:6]:
+                      print('    ', e.get('date') or e.get('strTimestamp'), e.get('name') or e.get('strEvent'), '|', e.get('strLeague',''))
+                    if 'leagues' in j: print('    calendar', str(j['leagues'][0].get('calendar', ''))[:200])
+                  else:
+                    print('    list', len(j), json.dumps(j[:2])[:300])
+                except Exception as x:
+                  print('    not json', b[:200])
+            except Exception as e:
+              body = ''
+              try: body = e.read()[:200]
+              except Exception: pass
+              print('ERR', name, e, body)
+          PY
