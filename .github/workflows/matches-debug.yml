@@ -15,18 +15,15 @@ jobs:
           from datetime import datetime, timedelta, timezone
           now = datetime.now(timezone.utc); d0 = now.strftime('%Y%m%d'); d7 = (now+timedelta(days=7)).strftime('%Y%m%d'); day = now.strftime('%Y-%m-%d')
           UA = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36'}
-          tests = [
-            ('espn range+limit UA', f'https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates={d0}-{d7}&limit=300', UA),
-            ('espn range UA', f'https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates={d0}-{d7}', UA),
-            ('espn day UA', f'https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard?dates={d0}', UA),
-            ('espn plain UA', 'https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard', UA),
-            ('espn plain noUA', 'https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard', {}),
-            ('espn egy plain', 'https://site.api.espn.com/apis/site/v2/sports/soccer/egy.1/scoreboard', UA),
-            ('espn ucl plain', 'https://site.api.espn.com/apis/site/v2/sports/soccer/uefa.champions/scoreboard', UA),
-            ('sportsdb day', f'https://www.thesportsdb.com/api/v1/json/3/eventsday.php?d={day}&s=Soccer', UA),
-            ('sportsdb next epl', 'https://www.thesportsdb.com/api/v1/json/3/eventsnextleague.php?id=4328', UA),
-            ('sportsdb next egy', 'https://www.thesportsdb.com/api/v1/json/3/eventsnextleague.php?id=4829', UA),
-            ('fixturedownload epl', f'https://fixturedownload.com/feed/json/epl-{now.year if now.month>=7 else now.year-1}', UA),
+          tests = [(c, f'https://site.api.espn.com/apis/site/v2/sports/soccer/{c}/scoreboard?dates={d0}', UA) for c in
+                   ['egy.1','egypt.1','egy.premier','ksa.1','esp.1','ita.1','ger.1','fra.1','uefa.europa','caf.champions','caf.nations','fifa.worldq.caf','fifa.friendly','uefa.nations']]
+          tests += [
+            ('sdb season egy 2026-2027', 'https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4829&s=2026-2027', UA),
+            ('sdb season egy 2026', 'https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4829&s=2026', UA),
+            ('sdb past+next egy rounds', 'https://www.thesportsdb.com/api/v1/json/3/eventsround.php?id=4829&r=8&s=2026-2027', UA),
+            ('sdb lookup leagues egypt', 'https://www.thesportsdb.com/api/v1/json/3/search_all_leagues.php?c=Egypt&s=Soccer', UA),
+            ('sdb lookup leagues saudi', 'https://www.thesportsdb.com/api/v1/json/3/search_all_leagues.php?c=Saudi-Arabia&s=Soccer', UA),
+            ('fd ucl', f'https://fixturedownload.com/feed/json/champions-league-2026', UA),
           ]
           for name, url, h in tests:
             try:
@@ -36,6 +33,8 @@ jobs:
                 try:
                   j = json.loads(b)
                   if isinstance(j, dict):
+                    if j.get('countries') or j.get('countrys'):
+                      for L_ in (j.get('countries') or j.get('countrys'))[:10]: print('    league', L_.get('idLeague'), L_.get('strLeague'))
                     ev = j.get('events') or []
                     print('    keys', list(j)[:8], 'events', len(ev))
                     for e in ev[:6]:
