@@ -1,0 +1,37 @@
+name: Update matches
+
+# Refreshes assets/data/matches.json (big football matches for the next 7 days) for the website.
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '_source/matches/**'
+      - '.github/workflows/matches.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: matches
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch matches
+        run: python3 _source/matches/fetch_matches.py
+      - name: Commit if changed
+        run: |
+          if [ -n "$(git status --porcelain assets/data/matches.json)" ]; then
+            git config user.name "matches-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add assets/data/matches.json
+            git commit -m "Update matches"
+            git pull --rebase origin main
+            git push
+          fi

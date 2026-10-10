@@ -893,3 +893,18 @@ html[dir="rtl"] .page-hero .poster-wall{-webkit-mask-image:linear-gradient(270de
 .country-why span{color:var(--muted);font-size:.93rem}
 .foot-countries{font-size:.88rem}
 .foot-countries a{color:inherit}
+/* big matches */
+.matches{display:grid;gap:10px}
+.match{background:var(--surface-2);border-radius:18px;padding:14px 16px}
+.match.is-live{box-shadow:inset 0 0 0 2px var(--red)}
+.match-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);font-weight:600}
+.match-ch{display:inline-block;padding:3px 10px;border-radius:999px;background:#fff;color:var(--ink);font-weight:700;font-size:.78rem;white-space:nowrap}
+.match-live{padding:3px 10px;border-radius:999px;background:var(--red);color:#fff;font-weight:700;font-size:.78rem}
+.match-teams{margin:6px 0 8px;font-weight:800;font-size:1.02rem;line-height:1.3}
+.match-times{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.86rem;color:var(--ink-2,var(--ink))}
+.match-times b{font-weight:700;color:var(--muted);margin-inline-end:2px}
+.matches-note,.matches-empty{color:var(--muted);font-size:.86rem;margin-top:14px}
+.matches-sec .sec-head{text-align:center;margin-inline:auto}
+@media (min-width:900px){.matches{grid-template-columns:1fr 1fr}}
+.country-cities{color:var(--muted);font-size:.92rem;line-height:1.8;text-align:center;max-width:760px;margin:0 auto}
+.country-cities b{color:var(--ink)}

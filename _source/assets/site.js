@@ -431,4 +431,38 @@
         .then(function(){ busy = false; btn.disabled = false; });
     });
   });
+  /* big matches this week (assets/data/matches.json, refreshed every 6 hours by a GitHub Action) — times in Cairo and Toronto */
+  each('[data-matches]', function(box){
+    if(!window.fetch) return;
+    var A = function(k){ return box.getAttribute('data-l-' + k) || ''; }, loc = box.getAttribute('data-locale'), limit = +box.getAttribute('data-limit') || 0;
+    var sec = box.closest ? box.closest('[data-matches-sec]') : null;
+    var fmt = function(d, tz){
+      try{ return d.toLocaleString(loc, { timeZone: tz, weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }); }catch(e){ return d.toUTCString(); }
+    };
+    function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
+    fetch(box.getAttribute('data-src'), { cache: 'no-cache' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+      var now = Date.now(), list = ((d && d.events) || []).filter(function(e){ return Date.parse(e.utc) + 2 * 3600e3 > now; });
+      if(limit) list = list.slice(0, limit);
+      if(!list.length){ if(sec) return; box.appendChild(el('p', 'matches-empty', A('empty'))); box.hidden = false; return; }
+      list.forEach(function(e){
+        var k = new Date(e.utc), live = now >= k.getTime() && now < k.getTime() + 2 * 3600e3;
+        var row = el('div', 'match' + (live ? ' is-live' : ''));
+        var top = el('div', 'match-top');
+        top.appendChild(el('span', 'match-league', (e.league && (AR ? e.league.ar : e.league.en)) || ''));
+        if(live) top.appendChild(el('span', 'match-live', A('live')));
+        else if(e.channel) top.appendChild(el('span', 'match-ch', AR ? e.channel.ar : e.channel.en));
+        row.appendChild(top);
+        var nm = function(x){ return x ? (AR ? x.ar : x.en) : ''; };
+        row.appendChild(el('div', 'match-teams', nm(e.home) + '  –  ' + nm(e.away)));
+        var times = el('div', 'match-times');
+        var c1 = el('span', '', ''); c1.appendChild(el('b', '', A('cairo'))); c1.appendChild(document.createTextNode(' ' + fmt(k, 'Africa/Cairo')));
+        var c2 = el('span', '', ''); c2.appendChild(el('b', '', A('toronto'))); c2.appendChild(document.createTextNode(' ' + fmt(k, 'America/Toronto')));
+        times.appendChild(c1); times.appendChild(c2);
+        if(live && e.channel) times.appendChild(el('span', 'match-ch', AR ? e.channel.ar : e.channel.en));
+        row.appendChild(times);
+        box.appendChild(row);
+      });
+      box.hidden = false; if(sec) sec.hidden = false;
+    })['catch'](function(){});
+  });
 })();

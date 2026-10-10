@@ -171,7 +171,8 @@ def footer(c):
         <p>{t(L('Live sports, movies and series on any screen — with personal support on WhatsApp.', 'مباريات وأفلام ومسلسلات على أي شاشة — مع دعم شخصي عبر واتساب.'))}</p>
         <p>{t(L('WhatsApp (chat only, no calls):', 'واتساب (رسائل فقط، بدون مكالمات):'))}<br><a class="foot-wa" href="{wa()}" target="_blank" rel="noopener">{WHATSAPP_DISPLAY}</a></p>
         <p><a class="foot-remind" href="{c.href('index.html#reminders')}">{icon('clock')}{t(L('Get renewal reminders', 'فعّل تنبيهات التجديد'))}</a></p>
-        <p class="foot-countries">{t(L('Arabic TV in:', 'القنوات العربية في:'))} {' · '.join(f'<a href="{c.href("arabic-tv-" + sl + ".html")}">{t(nm)}</a>' for sl, nm, _ in COUNTRY_PAGES)}</p>
+        <p><a class="foot-remind" href="{c.href('matches.html')}">{icon('ball')}{t(L('Big matches this week', 'أهم مباريات الأسبوع'))}</a></p>
+        <p class="foot-countries">{t(L('Arabic TV in:', 'القنوات العربية في:'))} {' · '.join(f'<a href="{c.href("arabic-tv-" + sl + ".html")}">{t(nm)}</a>' for sl, nm, *_ in COUNTRY_PAGES)}</p>
       </div>
       <div><h3>{t(L('Explore', 'تصفح'))}</h3><ul>{explore}</ul></div>
       <div><h3>{t(L('Setup guides', 'أدلة التثبيت'))}</h3><ul>{devs}</ul></div>
