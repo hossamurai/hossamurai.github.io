@@ -10,7 +10,7 @@ assets/bot.js and assets/apps/ are kept: style.css and site.js are copied over t
 """
 import os, shutil, posixpath, urllib.parse
 from content import *
-from pages import PAGE_BUILDERS, DEVICE_PAGES, COUNTRY_PAGES, icon, wa, ARIA_CUR, trial_dialog
+from pages import PAGE_BUILDERS, DEVICE_PAGES, COUNTRY_PAGES, icon, wa, ARIA_CUR, trial_dialog, matches_ticker
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(HERE)
@@ -220,6 +220,7 @@ def layout(c, title, desc, body):
 {SPRITE}
 <a class="skip" href="#main">{c.t(L('Skip to content', 'انتقل إلى المحتوى'))}</a>
 {header(c)}
+{matches_ticker(c)}
 <main id="main">
 {body}
 </main>
