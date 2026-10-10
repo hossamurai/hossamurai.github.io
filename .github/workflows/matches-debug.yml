@@ -1,5 +1,8 @@
 name: Matches debug (temporary)
-on: workflow_dispatch
+on:
+  push:
+    branches: [claude/server-hosts-manual-apps-vgx26g]
+    paths: [".github/workflows/matches-debug.yml"]
 jobs:
   probe:
     runs-on: ubuntu-latest
