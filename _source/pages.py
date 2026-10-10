@@ -389,6 +389,12 @@ def home(c):
   <div class="more-link"><a class="link-arrow" href="{c.href('plans.html#compare')}">{t(L('Compare all plans', 'قارن بين الباقات'))}{icon('arrow', 'flip')}</a></div>
 </div></section>
 
+<section class="sec matches-sec" data-matches-sec hidden><div class="wrap">
+  {sec_head('', t(L('Matches', 'المباريات')), t(L('Big matches this week', 'أهم مباريات الأسبوع')))}
+  {matches_block(c, 5)}
+  <div class="more-link"><a class="link-arrow" href="{c.href('matches.html')}">{t(L('All matches', 'كل المباريات'))}{icon('arrow', 'flip')}</a></div>
+</div></section>
+
 <section class="sec remind-sec" id="reminders-sec"><div class="wrap">
   {sec_head('', t(L('Renewal reminders', 'تنبيهات التجديد')), t(L('Never miss a renewal', 'لا تفوّت موعد التجديد')), t(L("A WhatsApp reminder before your subscription ends — for your account or a friend's.", 'تذكير على واتساب قبل انتهاء الاشتراك — لحسابك أو لحساب صديق.')))}
   {reminder_card(c, compact=True)}
@@ -398,9 +404,9 @@ def home(c):
 
 
 '''
-    return (t(L('Hossam TV — Live Sports, Movies & Series in 4K', 'Hossam TV — مباريات وأفلام ومسلسلات بجودة 4K')),
-            t(L('Live sports, movies and series on any screen, up to 4K. Plans for Egypt, the Gulf and worldwide. Free 12–24 hour trial on WhatsApp.',
-                'مباريات مباشرة وأفلام ومسلسلات على أي شاشة بجودة حتى 4K. باقات لمصر والخليج وكل الدول. تجربة مجانية 12–24 ساعة عبر واتساب.')),
+    return (t(L('Hossam TV — Arabic TV, Live Football & Movies in Canada, the USA & Worldwide', 'Hossam TV — قنوات عربية ومباريات وأفلام في كندا وأمريكا وحول العالم')),
+            t(L('Arabic channels, live football, movies and series on any screen, up to 4K — for viewers in Canada, the USA, Egypt, the Gulf and worldwide. Free trial on WhatsApp.',
+                'قنوات عربية ومباريات مباشرة وأفلام ومسلسلات على أي شاشة بجودة حتى 4K — للمشاهدين في كندا وأمريكا ومصر والخليج وحول العالم. تجربة مجانية عبر واتساب.')),
             body)
 
 
@@ -1111,15 +1117,45 @@ def account_card(c, compact=False):
   </form>'''
 
 
+def matches_block(c, limit=0):
+    """Big matches (assets/data/matches.json, refreshed by a GitHub Action). Rendered by site.js; hidden until data loads."""
+    t = c.t
+    return (f'<div class="matches" data-matches data-src="{c.root}assets/data/matches.json" data-limit="{limit}" '
+            f'data-l-cairo="{t(L("Cairo", "القاهرة"))}" data-l-toronto="{t(L("Toronto", "تورونتو"))}" '
+            f'data-l-live="{t(L("Live now", "مباشر الآن"))}" data-l-empty="{t(L("No big matches in the next few days.", "لا توجد مباريات كبيرة في الأيام القادمة."))}" '
+            f'data-locale="{"ar-EG" if c.ar else "en-CA"}" hidden></div>')
+
+
+def matches_page(c):
+    t = c.t
+    hero = page_hero(c, [(None, t(L('Matches', 'المباريات')))],
+                     t(L('Big matches this week', 'أهم مباريات الأسبوع')),
+                     t(L('Kick-off times in Cairo and Toronto, and the channel that shows each match.', 'مواعيد المباريات بتوقيت القاهرة وتورونتو، والقناة الناقلة لكل مباراة.')))
+    body = hero + f'''
+<section class="sec first"><div class="wrap">
+  {matches_block(c)}
+  <p class="matches-note">{t(L('Updated automatically every few hours. Times can change — check closer to kick-off.', 'يتم التحديث تلقائياً كل بضع ساعات. المواعيد قد تتغير — راجعها قبل المباراة.'))}</p>
+</div></section>
+''' + cta_block(c)
+    return (t(L('Football on TV This Week — Times in Cairo & Toronto', 'مباريات الأسبوع على التلفزيون — بتوقيت القاهرة وتورونتو')),
+            t(L('This week’s big football matches with kick-off times in Cairo and Toronto (Canada) and the TV channel for each match.',
+                'أهم مباريات كرة القدم هذا الأسبوع بتوقيت القاهرة وتورونتو (كندا) والقناة الناقلة لكل مباراة.')),
+            body)
+
+
 # ----------------------------------------------------------------------------
 # COUNTRY PAGES — for Google searches like "Arabic TV in Canada". Same plans and prices as the Plans page
 # ("Canada & worldwide"), written for viewers in one country.
 # ----------------------------------------------------------------------------
-COUNTRY_PAGES = [
-    ('canada', L('Canada', 'كندا'), L('in Canada', 'في كندا')),
-    ('usa', L('the USA', 'أمريكا'), L('in the USA', 'في أمريكا')),
-    ('uk', L('the UK', 'بريطانيا'), L('in the UK', 'في بريطانيا')),
-    ('europe', L('Europe', 'أوروبا'), L('in Europe', 'في أوروبا')),
+COUNTRY_PAGES = [   # Canada first (most customers), then the USA
+    ('canada', L('Canada', 'كندا'), L('in Canada', 'في كندا'), 'America/Toronto',
+     L('Toronto · Mississauga · Montreal · Ottawa · Calgary · Edmonton · Vancouver · Windsor · London · Halifax',
+       'تورونتو · ميسيساجا · مونتريال · أوتاوا · كالجاري · إدمونتون · فانكوفر · وندسور · لندن أونتاريو · هاليفاكس')),
+    ('usa', L('the USA', 'أمريكا'), L('in the USA', 'في أمريكا'), 'America/New_York',
+     L('New York · New Jersey · Dearborn & Detroit · Chicago · Houston · Dallas · Los Angeles · San Francisco · Washington DC',
+       'نيويورك · نيوجيرسي · ديربورن وديترويت · شيكاغو · هيوستن · دالاس · لوس أنجلوس · سان فرانسيسكو · واشنطن')),
+    ('uk', L('the UK', 'بريطانيا'), L('in the UK', 'في بريطانيا'), 'Europe/London', None),
+    ('europe', L('Europe', 'أوروبا'), L('in Europe', 'في أوروبا'), 'Europe/Berlin', None),
 ]
 
 
@@ -1128,7 +1164,7 @@ def _cat(*parts):
     return {k: ''.join(p[k] for p in parts) for k in parts[0]}
 
 
-def country_page(slug, name, where):
+def country_page(slug, name, where, tz=None, cities=None):
     def build(c):
         t = c.t
         W, N = t(where), t(name)
@@ -1153,7 +1189,17 @@ def country_page(slug, name, where):
              L('Basic if you mostly watch Arabic channels and football. Premium for the biggest library, all sports and channels from every country.', 'الأساسية لو أغلب مشاهدتك قنوات عربية وكرة قدم. بريميوم لأكبر مكتبة وكل الرياضات وقنوات من كل الدول.')),
             (f'{slug}-pay', _cat(L('How do I pay from ', 'كيف أدفع من '), name, L('?', '؟')),
              L("With PayPal, TapTap Send, Sendwave or Whish Money. Message us and we'll send the details.", 'عن طريق PayPal أو TapTap Send أو Sendwave أو Whish Money. راسلنا وسنرسل لك التفاصيل.')),
+            (f'{slug}-egypt', _cat(L('Can I watch Egyptian and Arab football ', 'هل أقدر أشاهد الدوري المصري والكورة العربية '), where, L('?', '؟')),
+             L('Yes — the Egyptian league, Saudi league, Champions League and the big European leagues, live. See this week’s matches with Toronto and Cairo times on our matches page.',
+               'نعم — الدوري المصري والسعودي ودوري الأبطال والدوريات الأوروبية الكبرى مباشرة. شاهد مباريات الأسبوع بتوقيت تورونتو والقاهرة في صفحة المباريات.')),
         ]
+        import json as _json, html as _html, re as _re
+        _plain = lambda x: _re.sub(r'<[^>]+>', '', x)
+        ld = '<script type="application/ld+json">' + _json.dumps({'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+            {'@type': 'Question', 'name': _plain(t(q)), 'acceptedAnswer': {'@type': 'Answer', 'text': _plain(t(a))}} for _, q, a in faq]},
+            ensure_ascii=False).replace('</', '<\\/') + '</script>'
+        cities_html = (f'<section class="sec"><div class="wrap"><p class="country-cities"><b>{t(_cat(L("Viewers across ", "مشاهدون في كل "), name))}</b> {t(cities)}</p></div></section>'
+                       if cities else '')
         faq_html = ''.join(f'<details id="{i}"><summary>{t(q)}{icon("plus")}</summary><div class="ans"><p>{t(a)}</p></div></details>' for i, q, a in faq)
         body = hero + f'''
 <section class="sec first"><div class="wrap">
@@ -1170,9 +1216,16 @@ def country_page(slug, name, where):
   {dev_grid(c)}
 </div></section>
 <section class="sec"><div class="wrap">
+  {sec_head('', t(L('Matches', 'المباريات')), t(L('Big matches this week', 'أهم مباريات الأسبوع')))}
+  {matches_block(c, 4)}
+  <div class="more-link"><a class="link-arrow" href="{c.href('matches.html')}">{t(L('All matches', 'كل المباريات'))}{icon('arrow', 'flip')}</a></div>
+</div></section>
+<section class="sec"><div class="wrap">
   {sec_head('', t(L('Questions', 'أسئلة')), t(L('Good to know', 'معلومات مفيدة')))}
   <div class="faq">{faq_html}</div>
 </div></section>
+{cities_html}
+{ld}
 ''' + cta_block(c)
         return (t(L('Arabic TV ', 'القنوات العربية ')) + W + t(L(' — Live Football, Arabic Channels & Movies', ' — مباريات وقنوات عربية وأفلام')),
                 t(L('Watch Arabic channels, live football, movies and series ', 'شاهد القنوات العربية والمباريات المباشرة والأفلام والمسلسلات ')) + W
@@ -1190,5 +1243,6 @@ PAGE_BUILDERS = [
     ('about', 'about.html', 'about', about),
     ('policies', 'policies.html', None, policies),
 ]
-PAGE_BUILDERS += [('tv-' + sl, 'arabic-tv-' + sl + '.html', None, country_page(sl, nm, wh)) for sl, nm, wh in COUNTRY_PAGES]
+PAGE_BUILDERS += [('matches', 'matches.html', 'matches', matches_page)]
+PAGE_BUILDERS += [('tv-' + sl, 'arabic-tv-' + sl + '.html', None, country_page(sl, nm, wh, tz, ct)) for sl, nm, wh, tz, ct in COUNTRY_PAGES]
 DEVICE_PAGES = [('setup-' + d['slug'], 'setup/' + d['slug'] + '.html', 'setup', device_page(d['slug'])) for d in DEVICES]
