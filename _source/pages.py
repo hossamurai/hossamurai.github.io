@@ -1118,7 +1118,7 @@ def matches_block(c, limit=0):
     return (f'<div class="matches" data-matches data-src="{c.root}assets/data/matches.json" data-limit="{limit}" '
             f'data-l-cairo="{t(L("Cairo", "القاهرة"))}" data-l-toronto="{t(L("Toronto", "تورونتو"))}" '
             f'data-l-live="{t(L("Live now", "مباشر الآن"))}" data-l-empty="{t(L("No big matches in the next few days.", "لا توجد مباريات كبيرة في الأيام القادمة."))}" '
-            f'data-locale="{"ar-EG" if c.ar else "en-CA"}" hidden></div>')
+            f'data-locale="{"ar-EG" if c.ar else "en-US"}" hidden></div>')
 
 
 def matches_ticker(c):

@@ -470,7 +470,7 @@
     if(!window.fetch) return;
     var A = function(k){ return bar.getAttribute('data-l-' + k) || ''; }, track = bar.querySelector('.ticker-track');
     var hm = function(d, tz){
-      try{ return d.toLocaleString(AR ? 'ar-EG' : 'en-GB', { timeZone: tz, weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).toUpperCase(); }catch(e){ return ''; }
+      try{ return d.toLocaleString(AR ? 'ar-EG' : 'en-US', { timeZone: tz, weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true }).toUpperCase(); }catch(e){ return ''; }
     };
     function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
     fetch(bar.getAttribute('data-src'), { cache: 'no-cache' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
