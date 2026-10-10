@@ -1,7 +1,8 @@
 """Fetch this week's big football matches for the website (runs in GitHub Actions every 6 hours).
 
 Fixtures come from ESPN's public scoreboard feed; if ESPN refuses (it sometimes blocks cloud servers),
-they come from TheSportsDB's free daily feed instead. The TV channel is NOT in that feed for the Middle East,
+they come from TheSportsDB's free daily feed; if that fails too, from fixturedownload.com (big European leagues).
+If all three fail, the last good file is kept (past matches are hidden by the website), so the bar never breaks. The TV channel is NOT in that feed for the Middle East,
 so it comes from CHANNELS below (who holds the rights in the Middle East / North Africa). Check it each
 season and edit it if rights change.
 
@@ -41,6 +42,9 @@ TEAMS = {
     'juventus': 'يوفنتوس', 'internazionale': 'إنتر ميلان', 'ac milan': 'ميلان', 'napoli': 'نابولي', 'as roma': 'روما',
     'bayern munich': 'بايرن ميونخ', 'borussia dortmund': 'بوروسيا دورتموند', 'paris saint-germain': 'باريس سان جيرمان',
     'al hilal': 'الهلال', 'al nassr': 'النصر', 'al ittihad': 'الاتحاد', 'al-hilal': 'الهلال', 'al-nassr': 'النصر', 'al-ittihad': 'الاتحاد',
+    'man city': 'مانشستر سيتي', 'man utd': 'مانشستر يونايتد', 'spurs': 'توتنهام', 'inter': 'إنتر ميلان', 'milan': 'ميلان',
+    'atletico': 'أتلتيكو مدريد', 'atletico de madrid': 'أتلتيكو مدريد', 'bayern munchen': 'بايرن ميونخ', 'bayern': 'بايرن ميونخ',
+    'dortmund': 'بوروسيا دورتموند', 'paris': 'باريس سان جيرمان', 'psg': 'باريس سان جيرمان', 'roma': 'روما',
     'morocco': 'المغرب', 'algeria': 'الجزائر', 'tunisia': 'تونس', 'saudi arabia': 'السعودية',
 }
 
@@ -55,15 +59,24 @@ SPORTSDB = [
 ]
 
 
+# fixturedownload.com feed names (third source) -> the ESPN code above; season = year it starts
+FIXTUREDOWNLOAD = [('champions-league', 'uefa.champions'), ('epl', 'eng.1'), ('la-liga', 'esp.1'),
+                   ('serie-a', 'ita.1'), ('bundesliga', 'ger.1'), ('ligue-1', 'fra.1')]
+
+
 def norm(s):
     s = unicodedata.normalize('NFKD', s or '').encode('ascii', 'ignore').decode().lower().strip()
     return s
 
 
+# short names only count as an exact match ("Inter" yes, "Inter Miami" no; "Paris FC" is not PSG)
+EXACT_ONLY = {'inter', 'milan', 'paris', 'psg', 'bayern', 'roma', 'spurs', 'atletico', 'dortmund', 'man city', 'man utd', 'egypt'}
+
+
 def team_key(name):
     n = norm(name)
     for k in TEAMS:
-        if n == k or n.startswith(k + ' ') or n.endswith(' ' + k):
+        if n == k or (k not in EXACT_ONLY and (n.startswith(k + ' ') or n.endswith(' ' + k))):
             return k
     return None
 
@@ -148,9 +161,28 @@ def main():
                 add(code, 's' + str(ev.get('idEvent')), kick, status in ('1h', '2h', 'ht', 'live'), ev.get('strHomeTeam') or '', ev.get('strAwayTeam') or '')
             time.sleep(2)
 
+    # third source: fixturedownload.com season feeds
     if ok_leagues == 0:
-        print('No data from ESPN — keeping the old file', file=sys.stderr)
-        return 1
+        print('TheSportsDB unavailable — using fixturedownload.com', file=sys.stderr)
+        season = now.year if now.month >= 7 else now.year - 1
+        for slug, code in FIXTUREDOWNLOAD:
+            d = get(f'https://fixturedownload.com/feed/json/{slug}-{season}')
+            if not isinstance(d, list):
+                continue
+            ok_leagues += 1
+            for ev in d:
+                try:
+                    kick = datetime.strptime(str(ev.get('DateUtc', '')).replace('Z', '').strip(), '%Y-%m-%d %H:%M:%S').replace(tzinfo=timezone.utc)
+                except Exception:
+                    continue
+                if ev.get('HomeTeamScore') is not None or kick < now - timedelta(hours=2) or kick > end:
+                    continue
+                add(code, 'f' + slug + str(ev.get('MatchNumber')), kick, False, ev.get('HomeTeam') or '', ev.get('AwayTeam') or '')
+
+    # last line: nothing reachable -> keep the previous file untouched (the site hides matches that are over)
+    if ok_leagues == 0:
+        print('::warning::No match source reachable — keeping the previous matches.json')
+        return 0
     # keep the biggest games if there are too many: matches with 2 popular teams first, then by time
     events.sort(key=lambda e: e['utc'])
     if len(events) > MAX_EVENTS:
