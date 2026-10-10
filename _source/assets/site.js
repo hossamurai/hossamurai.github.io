@@ -301,6 +301,15 @@
       (m === 'renew' && !tUser.value ? tUser : tName.value ? tCountry : tName).focus();
     };
     window.htvOrder = openForm;   /* used by the account check */
+    /* links from the WhatsApp bot: hossamservices.com/#trial, #subscribe or #renew open the form right away */
+    var openFromHash = function(){
+      var h = (location.hash || '').slice(1);
+      if(h === 'trial' || h === 'subscribe' || h === 'renew'){
+        openForm(h);
+        try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+      }
+    };
+    openFromHash(); window.addEventListener('hashchange', openFromHash);
     document.addEventListener('click', function(e){
       var a = e.target.closest ? e.target.closest('[data-trial], [data-order]') : null;
       if(!a) return;
