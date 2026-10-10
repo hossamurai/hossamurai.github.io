@@ -1125,7 +1125,7 @@ def matches_ticker(c):
     """Black airport-board bar under the header: big matches scroll by with Cairo and Toronto times. Filled by site.js."""
     t = c.t
     return (f'<a class="ticker" href="{c.href("matches.html")}" data-ticker data-src="{c.root}assets/data/matches.json" '
-            f'data-l-cai="{t(L("CAI", "القاهرة"))}" data-l-tor="{t(L("TOR", "تورونتو"))}" data-l-live="{t(L("LIVE", "مباشر"))}" '
+            f'data-l-cai="{t(L("Cairo", "القاهرة"))}" data-l-tor="{t(L("Toronto", "تورونتو"))}" data-l-live="{t(L("LIVE", "مباشر"))}" '
             f'aria-label="{t(L("Big matches this week", "أهم مباريات الأسبوع"))}" hidden><span class="ticker-tag">{icon("ball")}<span>{t(L("Matches", "المباريات"))}</span></span>'
             f'<span class="ticker-win"><span class="ticker-track"></span></span></a>')
 
