@@ -131,13 +131,14 @@ def trial_dialog(c):
       <div class="rf rf-full"><label for="trName">{t(L('Name', 'الاسم'))}</label><input id="trName" name="name" type="text" maxlength="40" autocomplete="name" required></div>
       <div class="rf"><label for="trCountry">{t(L('Country', 'الدولة'))}</label><select id="trCountry" name="country" required><option value="">{pick}</option>{copts}</select></div>
       <div class="rf"><label for="trPlan"><span data-for="trial subscribe">{t(L('Plan', 'الباقة'))}</span><span data-for="renew">{t(L('Server', 'السيرفر'))}</span></label><select id="trPlan" name="plan" required><option value="">{pick}</option>{popts}</select></div>
+      <div class="rf rf-full" data-for="trial subscribe"><label for="trPhone">{t(L('WhatsApp number', 'رقم الواتساب'))}</label><div class="tr-phone" dir="ltr"><span class="tr-cc" data-tr-cc>+</span><input id="trPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" maxlength="20" placeholder="{t(L('Number', 'الرقم'))}"></div></div>
       <div class="rf rf-full" data-for="renew"><label for="trPeriod">{t(L('Renew for', 'مدة التجديد'))}</label><select id="trPeriod" name="period" data-prices="{prices_attr}"><option value="">{pick}</option></select></div>
       <div class="rf rf-full" data-for="trial subscribe"><label for="trDevice">{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device"><option value="">{pick}</option>{dopts}</select></div>
       <div class="rf rf-full" data-for="subscribe"><label for="trPay">{t(L('How will you pay?', 'طريقة الدفع'))}</label><select id="trPay" name="pay"><option value="">{pick}</option>{payopts}</select><small class="pay-note" data-pay-note hidden></small></div>
     </div>
     <p class="trial-note" data-for="trial subscribe">{icon('info')}<span>{t(L('Install the app first so everything is ready:', 'ثبّت التطبيق أولاً ليكون كل شيء جاهزاً:'))} <a data-trial-guide href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}</a></span></p>
     <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
-    <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Please fill in all the fields.', 'من فضلك املأ كل الحقول.'))}"></p>
+    <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Please fill in all the fields.', 'من فضلك املأ كل الحقول.'))}" data-msg-phone="{t(L('Check the WhatsApp number.', 'راجع رقم الواتساب.'))}"></p>
     <button type="submit" class="btn btn-wa">{icon('chat')}<span>{t(L('Send on WhatsApp', 'أرسل عبر واتساب'))}</span></button>
   </form>
 </dialog>'''

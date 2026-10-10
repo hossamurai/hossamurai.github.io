@@ -251,7 +251,7 @@
   if(dlg && typeof dlg.showModal === 'function'){
     var tf = dlg.querySelector('[data-trial-form]');
     var F = function(n){ return tf.querySelector('[name="' + n + '"]'); };
-    var tName = F('name'), tCountry = F('country'), tPlan = F('plan'), tDevice = F('device'), tPay = F('pay'), tPeriod = F('period'), tUser = F('username'), tHp = F('website');
+    var tName = F('name'), tCountry = F('country'), tPlan = F('plan'), tDevice = F('device'), tPay = F('pay'), tPeriod = F('period'), tPhone = F('phone'), tUser = F('username'), tHp = F('website');
     var tGuide = tf.querySelector('[data-trial-guide]'), tMsg = tf.querySelector('.remind-msg'), payNote = tf.querySelector('[data-pay-note]');
     var mode = 'trial';
     var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
@@ -261,6 +261,15 @@
       : /^America\//.test(tz) ? 'us' : /^Australia\//.test(tz) ? '61' : '';
     if(guess && tCountry.querySelector('option[value="' + guess + '"]')) tCountry.value = guess;
     var opt = function(sel){ return sel.options[sel.selectedIndex]; };
+    /* dial code from the chosen country (Canada/USA = 1; 'Other' = type it in the number) */
+    var dial = function(){ var v = tCountry.value; return v === 'ca' || v === 'us' ? '1' : /^\d+$/.test(v) ? v : ''; };
+    /* full international number: +<code><number>, local leading 0 dropped; a number typed with + or 00 is kept as is */
+    var fullPhone = function(){
+      var raw = (tPhone.value || '').replace(/[^\d+]/g, '');
+      if(/^\+/.test(raw)) return raw.replace(/\D/g, '');
+      if(/^00/.test(raw)) return raw.slice(2);
+      return dial() + raw.replace(/^0+/, '');
+    };
     var region = function(){ var o = opt(tCountry); return (o && o.getAttribute('data-region')) || ''; };
     var showOpt = function(o, on){ o.hidden = !on; o.disabled = !on; };
     /* XTV and Marvel are only sold in Egypt; InstaPay / Vodafone Cash only inside Egypt, the rest only abroad */
@@ -272,6 +281,7 @@
       if(opt(tPay) && opt(tPay).disabled) tPay.value = '';
       syncPay();
       if(typeof syncPeriods === 'function') syncPeriods();
+      var ccEl = tf.querySelector('[data-tr-cc]'); if(ccEl) ccEl.textContent = '+' + dial();
     };
     var syncPay = function(){ var o = opt(tPay), n = o && o.getAttribute('data-note'); payNote.textContent = n || ''; payNote.hidden = !n; };
     var syncGuide = function(){ var o = opt(tDevice); if(tGuide && o && o.getAttribute('data-guide')) tGuide.href = o.getAttribute('data-guide'); };
@@ -323,22 +333,23 @@
       var n = (tName.value || '').replace(/\s+/g, ' ').trim(), u = (tUser.value || '').replace(/\s+/g, '');
       var miss = mode === 'renew' && u.length < 2 ? tUser : n.length < 2 ? tName : !tCountry.value ? tCountry : !tPlan.value ? tPlan
         : mode === 'renew' ? (!tPeriod.value ? tPeriod : null) : !tDevice.value ? tDevice : null;
+      if(!miss && mode !== 'renew' && !/^[1-9]\d{7,14}$/.test(fullPhone())) miss = tPhone;
       if(!miss && mode === 'subscribe' && !tPay.value) miss = tPay;
-      if(miss){ tMsg.textContent = tMsg.getAttribute('data-msg-empty'); tMsg.className = 'remind-msg err'; tMsg.hidden = false; miss.focus(); return; }
+      if(miss){ tMsg.textContent = tMsg.getAttribute(miss === tPhone && tPhone.value ? 'data-msg-phone' : 'data-msg-empty'); tMsg.className = 'remind-msg err'; tMsg.hidden = false; miss.focus(); return; }
       var lbl = function(sel){ return opt(sel).textContent; };
       var trial = mode === 'trial';
       if(window.fetch && window.URLSearchParams){
         var body = new URLSearchParams();
         body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: mode === 'renew' ? '' : tDevice.value, period: mode === 'renew' ? tPeriod.value : '', price: mode === 'renew' ? lbl(tPeriod) : '',
-          pay: mode === 'subscribe' ? tPay.value : '', username: mode === 'renew' ? u : '', lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
+          pay: mode === 'subscribe' ? tPay.value : '', phone: mode === 'renew' ? '' : fullPhone(), username: mode === 'renew' ? u : '', lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
         try{ fetch(tf.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit', keepalive: true })['catch'](function(){}); }catch(err){}
       }
       var lines = AR
         ? [trial ? 'مرحباً، أريد تجربة مجانية.' : mode === 'renew' ? 'مرحباً، أريد تجديد اشتراكي.' : 'مرحباً، أريد الاشتراك.']
-          .concat(mode === 'renew' ? ['اسم المستخدم: ' + u] : [], ['الاسم: ' + n, 'الدولة: ' + lbl(tCountry)],
+          .concat(mode === 'renew' ? ['اسم المستخدم: ' + u] : [], ['الاسم: ' + n, 'الدولة: ' + lbl(tCountry)], mode === 'renew' ? [] : ['واتساب: +' + fullPhone()],
                   mode === 'renew' ? ['السيرفر: ' + lbl(tPlan), 'المدة: ' + lbl(tPeriod)] : ['الباقة: ' + lbl(tPlan), 'الجهاز: ' + lbl(tDevice)], mode === 'subscribe' ? ['الدفع: ' + lbl(tPay)] : [])
         : [trial ? "Hi Hossam TV, I'd like a free trial." : mode === 'renew' ? "Hi Hossam TV, I'd like to renew my subscription." : "Hi Hossam TV, I'd like to subscribe."]
-          .concat(mode === 'renew' ? ['Username: ' + u] : [], ['Name: ' + n, 'Country: ' + lbl(tCountry)],
+          .concat(mode === 'renew' ? ['Username: ' + u] : [], ['Name: ' + n, 'Country: ' + lbl(tCountry)], mode === 'renew' ? [] : ['WhatsApp: +' + fullPhone()],
                   mode === 'renew' ? ['Server: ' + lbl(tPlan), 'Period: ' + lbl(tPeriod)] : ['Plan: ' + lbl(tPlan), 'Device: ' + lbl(tDevice)], mode === 'subscribe' ? ['Payment: ' + lbl(tPay)] : []);
       var url = 'https://wa.me/' + tf.getAttribute('data-wa') + '?text=' + encodeURIComponent(lines.join('\n'));
       dlg.close();
