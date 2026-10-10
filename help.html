@@ -585,7 +585,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
   function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
   function render(){
     var ar = document.documentElement.lang === 'ar', now = Date.now();
-    var hm = function(d, tz){ try{ return d.toLocaleString(ar ? 'ar-EG' : 'en-GB', { timeZone: tz, weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).toUpperCase(); }catch(e){ return ''; } };
+    var hm = function(d, tz){ try{ return d.toLocaleString(ar ? 'ar-EG' : 'en-US', { timeZone: tz, weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true }).toUpperCase(); }catch(e){ return ''; } };
     var list = ((data && data.events) || []).filter(function(e){ return Date.parse(e.utc) + 2 * 3600e3 > now; }).slice(0, 20);
     track.textContent = '';
     if(!list.length){ bar.hidden = true; return; }
