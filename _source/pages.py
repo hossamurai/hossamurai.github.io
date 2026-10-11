@@ -263,7 +263,8 @@ def dev_grid(c):
 
 def faq_answer(c, a):
     return (c.t(a).replace('{channels}', f'<a href="{c.href("channels.html")}">{c.t(L("Channels", "القنوات"))}</a>')
-            .replace('{reminders}', f'<a href="{c.href("index.html#reminders")}">{c.t(L("Renewal reminders", "تنبيهات التجديد"))}</a>'))
+            .replace('{reminders}', f'<a href="{c.href("index.html#reminders")}">{c.t(L("Renewal reminders", "تنبيهات التجديد"))}</a>')
+            .replace('{speedtest}', f'<a href="{c.href("speed-test.html")}">{c.t(L("our speed test", "اختبار السرعة"))}</a>'))
 
 
 def reminder_card(c, compact=False):
@@ -1240,6 +1241,55 @@ def country_page(slug, name, where, tz=None, cities=None):
     return build
 
 
+# ----------------------------------------------------------------------------
+# SPEED TEST — its own page; "Fix a problem", the buffering fix and the FAQ link here.
+# ----------------------------------------------------------------------------
+def speed_page(c):
+    t = c.t
+    hero = page_hero(c, [(None, t(L('Speed test', 'اختبار السرعة')))],
+                     t(L('Internet speed test', 'اختبار سرعة الإنترنت')),
+                     t(L('Is your internet fast enough for HD and 4K? Run it on the same Wi-Fi as your TV.', 'هل الإنترنت عندك سريع كفاية لجودة HD و4K؟ اعمل الاختبار على نفس الواي فاي اللي عليه الشاشة.')))
+    lb = {
+        'again': L('Test again', 'اختبر مرة أخرى'), 'testing': L('Testing…', 'جاري الاختبار…'), 'wait': L('About 8 seconds…', 'حوالي 8 ثواني…'),
+        'error': L("Couldn't run the test. Try fast.com instead.", 'تعذّر الاختبار. جرّب fast.com.'),
+        'r4k': L('Great — fast enough for 4K.', 'ممتاز — كافي لجودة 4K.'),
+        'rhd': L('Good for HD. For 4K, use a cable or move closer to the router.', 'كويس لجودة HD. لـ 4K استخدم كابل أو قرّب من الراوتر.'),
+        'rsd': L('Enough for SD only — choose SD channels, or try the tips below.', 'يكفي لجودة SD فقط — اختار قنوات SD، أو جرّب النصائح بالأسفل.'),
+        'rslow': L('Too slow — this is likely why it freezes. Try the tips below.', 'بطيء جداً — غالباً ده سبب التقطيع. جرّب النصائح بالأسفل.'),
+    }
+    attrs = ' '.join(f'data-l-{k}="{t(v)}"' for k, v in lb.items())
+    needs = [(5, 'SD', L('Basic quality', 'جودة عادية')), (10, 'HD', L('Full HD', 'Full HD')), (25, '4K', L('Ultra HD', 'Ultra HD'))]
+    tiles = ''.join(f'<div class="st-need" data-need="{n}"><b>{q}</b><span>{n} Mbps</span><small>{t(d)}</small></div>' for n, q, d in needs)
+    tips = [L('Unplug the router for 10 seconds, then plug it back in.', 'افصل الراوتر 10 ثواني ثم أعد تشغيله.'),
+            L('Use a network cable, or 5 GHz Wi-Fi, for the TV.', 'استخدم كابل نت أو واي فاي 5 جيجا للشاشة.'),
+            L('Move the router closer to the TV, or add a Wi-Fi extender.', 'قرّب الراوتر من الشاشة أو استخدم مقوّي واي فاي.'),
+            L('Pause big downloads and other streams while you watch.', 'أوقف التحميلات الكبيرة والبث على الأجهزة الأخرى أثناء المشاهدة.')]
+    tips_html = ''.join(f'<li>{t(x)}</li>' for x in tips)
+    body = hero + f'''
+<section class="sec first"><div class="wrap st-wrap">
+  <div class="st-card" data-speedtest {attrs}>
+    <div class="st-num"><b data-st-num>—</b><span>Mbps</span></div>
+    <div class="st-track"><i data-st-bar></i></div>
+    <p class="st-msg" data-st-msg aria-live="polite">{t(L('Tap the button to start.', 'اضغط الزر للبدء.'))}</p>
+    <button type="button" class="btn btn-wa st-btn" data-st-start>{t(L('Start test', 'ابدأ الاختبار'))}</button>
+    <small class="st-note">{t(L('Uses up to 25 MB of data.', 'يستهلك حتى 25 ميجابايت من الباقة.'))}</small>
+  </div>
+  <h2 class="st-h">{t(L('What you need', 'السرعة المطلوبة'))}</h2>
+  <div class="st-needs">{tiles}</div>
+  <div class="st-tips" data-st-tips>
+    <h2 class="st-h">{t(L('Too slow? Try this', 'السرعة ضعيفة؟ جرّب هذا'))}</h2>
+    <ol>{tips_html}</ol>
+  </div>
+  <p class="st-more">{t(L('Still freezing with good speed?', 'لسه في تقطيع والسرعة كويسة؟'))} <a href="{c.root}help.html">{t(L('Fix a problem', 'حل مشكلة'))}</a></p>
+</div></section>
+<script src="{c.root}assets/speedtest.js" defer></script>
+'''
+    return (t(L('Internet Speed Test — Is It Fast Enough for HD & 4K?', 'اختبار سرعة الإنترنت — هل تكفي لجودة HD و4K؟')),
+            t(L('Free internet speed test: see if your connection is fast enough for SD, HD and 4K streaming, with quick tips to fix buffering.',
+                'اختبار سرعة إنترنت مجاني: اعرف هل الاتصال يكفي للبث بجودة SD وHD و4K، مع نصائح سريعة لحل التقطيع.')),
+            body)
+
+
 PAGE_BUILDERS = [
     ('home', 'index.html', 'home', home),
     ('plans', 'plans.html', 'plans', plans),
@@ -1249,6 +1299,6 @@ PAGE_BUILDERS = [
     ('about', 'about.html', 'about', about),
     ('policies', 'policies.html', None, policies),
 ]
-PAGE_BUILDERS += [('matches', 'matches.html', 'matches', matches_page)]
+PAGE_BUILDERS += [('matches', 'matches.html', 'matches', matches_page), ('speed', 'speed-test.html', 'speed', speed_page)]
 PAGE_BUILDERS += [('tv-' + sl, 'arabic-tv-' + sl + '.html', None, country_page(sl, nm, wh, tz, ct)) for sl, nm, wh, tz, ct in COUNTRY_PAGES]
 DEVICE_PAGES = [('setup-' + d['slug'], 'setup/' + d['slug'] + '.html', 'setup', device_page(d['slug'])) for d in DEVICES]

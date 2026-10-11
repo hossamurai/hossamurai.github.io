@@ -172,6 +172,7 @@ def footer(c):
         <p>{t(L('WhatsApp (chat only, no calls):', 'واتساب (رسائل فقط، بدون مكالمات):'))}<br><a class="foot-wa" href="{wa()}" target="_blank" rel="noopener">{WHATSAPP_DISPLAY}</a></p>
         <p><a class="foot-remind" href="{c.href('index.html#reminders')}">{icon('clock')}{t(L('Get renewal reminders', 'فعّل تنبيهات التجديد'))}</a></p>
         <p><a class="foot-remind" href="{c.href('matches.html')}">{icon('ball')}{t(L('Big matches this week', 'أهم مباريات الأسبوع'))}</a></p>
+        <p><a class="foot-remind" href="{c.href('speed-test.html')}">{icon('bolt')}{t(L('Internet speed test', 'اختبار سرعة الإنترنت'))}</a></p>
         <p class="foot-countries">{t(L('Arabic TV in:', 'القنوات العربية في:'))} {' · '.join(f'<a href="{c.href("arabic-tv-" + sl + ".html")}">{t(nm)}</a>' for sl, nm, *_ in COUNTRY_PAGES)}</p>
       </div>
       <div><h3>{t(L('Explore', 'تصفح'))}</h3><ul>{explore}</ul></div>
@@ -356,6 +357,10 @@ def main():
             write(f'{lang}/{path}', layout(c, title, desc, body))
             count += 1
     write('index.html', root_index())
+    # short link that picks the language: hossamservices.com/speed-test.html
+    write('speed-test.html', root_index().replace("l + '/index.html'", "l + '/speed-test.html'")
+          .replace('<html lang="ar" dir="rtl">', '<html lang="ar" dir="rtl">\n<!-- redirects to /en/ or /ar/speed-test.html -->')
+          .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
     write('404.html', page_404())
     write('sitemap.xml', sitemap([p for _, p, _, _ in pages]))
     write('robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {BASE_URL}/sitemap.xml\n')
