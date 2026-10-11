@@ -440,7 +440,15 @@
       try{ return d.toLocaleString(loc, { timeZone: tz, weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }); }catch(e){ return d.toUTCString(); }
     };
     function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
+    /* the admin's channel for the league if set (assets/matches.js), else the default */
+    var chName = function(e){ return window.htvChannelFor ? window.htvChannelFor(e) : (e.channel ? (AR ? e.channel.ar : e.channel.en) : ''); };
+    var redraw = null;
+    document.addEventListener('htv:channels', function(){ if(redraw) redraw(); });
     fetch(box.getAttribute('data-src'), { cache: 'no-cache' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+      redraw = function(){ box.textContent = ''; draw(d); };
+      draw(d);
+    })['catch'](function(){});
+    function draw(d){
       var now = Date.now(), list = ((d && d.events) || []).filter(function(e){ return Date.parse(e.utc) + 2 * 3600e3 > now; });
       if(limit) list = list.slice(0, limit);
       if(!list.length){ if(sec) return; box.appendChild(el('p', 'matches-empty', A('empty'))); box.hidden = false; return; }
@@ -450,7 +458,7 @@
         var top = el('div', 'match-top');
         top.appendChild(el('span', 'match-league', (e.league && (AR ? e.league.ar : e.league.en)) || ''));
         if(live) top.appendChild(el('span', 'match-live', A('live')));
-        else if(e.channel) top.appendChild(el('span', 'match-ch', AR ? e.channel.ar : e.channel.en));
+        else if(chName(e)) top.appendChild(el('span', 'match-ch', chName(e)));
         row.appendChild(top);
         var nm = function(x){ return x ? (AR ? x.ar : x.en) : ''; };
         row.appendChild(el('div', 'match-teams', nm(e.home) + '  –  ' + nm(e.away)));
@@ -458,11 +466,11 @@
         var c1 = el('span', '', ''); c1.appendChild(el('b', '', A('cairo'))); c1.appendChild(document.createTextNode(' ' + fmt(k, 'Africa/Cairo')));
         var c2 = el('span', '', ''); c2.appendChild(el('b', '', A('toronto'))); c2.appendChild(document.createTextNode(' ' + fmt(k, 'America/Toronto')));
         times.appendChild(c1); times.appendChild(c2);
-        if(live && e.channel) times.appendChild(el('span', 'match-ch', AR ? e.channel.ar : e.channel.en));
+        if(live && chName(e)) times.appendChild(el('span', 'match-ch', chName(e)));
         row.appendChild(times);
         box.appendChild(row);
       });
       box.hidden = false; if(sec) sec.hidden = false;
-    })['catch'](function(){});
+    }
   });
 })();
