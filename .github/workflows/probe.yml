@@ -10,33 +10,19 @@ jobs:
     steps:
       - run: |
           python3 - <<'PY'
-          import urllib.request, json
-          from datetime import datetime, timezone, timedelta
+          import urllib.request, json, time
           UA={'User-Agent':'Mozilla/5.0'}
           def get(u):
+              with urllib.request.urlopen(urllib.request.Request(u,headers=UA),timeout=20) as r: return json.loads(r.read())
+          for lid,name in [(4328,'EPL'),(4480,'UCL'),(4335,'LaLiga'),(4668,'Saudi'),(4829,'Egypt'),(4332,'SerieA')]:
               try:
-                  with urllib.request.urlopen(urllib.request.Request(u,headers=UA),timeout=20) as r: return r.status, r.read()
-              except Exception as e:
-                  return str(e), b''
-          today=datetime.now(timezone.utc).strftime('%Y-%m-%d'); tom=(datetime.now(timezone.utc)+timedelta(days=1)).strftime('%Y-%m-%d')
-          for d in (today, tom):
-              st,b=get(f'https://www.thesportsdb.com/api/v1/json/3/eventstv.php?d={d}')
-              print('eventstv',d,st,len(b)); 
-              try:
-                  j=json.loads(b); tv=j.get('tvevents') or j.get('events') or []
-                  print('  keys',list(j), 'n', len(tv) if tv else tv)
-                  ctry={}
-                  for t in (tv or []):
-                      ctry[t.get('strCountry')]=ctry.get(t.get('strCountry'),0)+1
-                  print('  countries',sorted(ctry.items(),key=lambda x:-x[1])[:40])
-                  for t in (tv or [])[:5]: print('  ',json.dumps(t)[:400])
-                  mena=[t for t in (tv or []) if str(t.get('strCountry')) in ('Egypt','Saudi Arabia','Qatar','United Arab Emirates','Middle East','MENA','Arab World','Kuwait','Algeria','Morocco','Jordan')]
-                  print('  MENA', len(mena))
-                  for t in mena[:15]: print('   ', t.get('strEvent'), '|', t.get('strChannel'), '|', t.get('strCountry'), '|', t.get('strSport'))
-              except Exception as e: print('  parse',e,b[:200])
-          st,b=get('https://www.thesportsdb.com/api/v1/json/3/eventsnextleague.php?id=4328')
-          try:
-              ev=json.loads(b)['events'][0]; print('next epl', ev['idEvent'], ev['strEvent'])
-              st,b=get(f"https://www.thesportsdb.com/api/v1/json/3/lookuptv.php?id={ev['idEvent']}"); print('lookuptv',st,b[:1500])
-          except Exception as e: print('lookup err',e)
+                  ev=get(f'https://www.thesportsdb.com/api/v1/json/3/eventsnextleague.php?id={lid}')['events'][0]
+                  tv=get(f"https://www.thesportsdb.com/api/v1/json/3/lookuptv.php?id={ev['idEvent']}").get('tvevent') or []
+                  print(name, ev['strEvent'], 'channels:', len(tv))
+                  print('   countries:', sorted({t.get('strCountry') for t in tv}))
+                  for t in tv:
+                      if t.get('strCountry') in ('Egypt','Saudi Arabia','Qatar','United Arab Emirates','Kuwait','Algeria','Morocco','Jordan','Iraq','Lebanon','Tunisia','Libya','Oman','Bahrain','Canada','United States','Middle East','MENA','Arab World','Worldwide','International'):
+                          print('     ', t.get('strCountry'), '->', t.get('strChannel'))
+              except Exception as e: print(name,'err',e)
+              time.sleep(2)
           PY
