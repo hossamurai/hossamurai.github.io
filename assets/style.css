@@ -974,7 +974,7 @@ html[lang="ar"] .tk-teams{text-transform:none}
 .st-needle line{stroke:#fff;stroke-width:4;stroke-linecap:round}
 .st-needle circle{fill:#fff}
 .st-card [hidden]{display:none!important}
-.st-go{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);width:112px;height:112px;border-radius:50%;border:0;cursor:pointer;color:#fff;font:800 1.9rem/1 inherit;letter-spacing:.06em;
+.st-go{position:absolute;left:50%;top:70%;transform:translate(-50%,-50%);width:112px;height:112px;border-radius:50%;border:0;cursor:pointer;color:#fff;font:800 1.9rem/1 inherit;letter-spacing:.06em;
   background:radial-gradient(circle at 35% 30%,#ff4b53,#e3101b 55%,#a50910);box-shadow:0 0 0 8px rgba(227,16,27,.18),0 12px 30px rgba(227,16,27,.45);animation:stPulse 2.2s ease-in-out infinite}
 .st-go:active{transform:translate(-50%,-50%) scale(.96)}
 @keyframes stPulse{50%{box-shadow:0 0 0 16px rgba(227,16,27,.06),0 12px 30px rgba(227,16,27,.45)}}
@@ -1001,3 +1001,6 @@ html[lang="ar"] .tk-teams{text-transform:none}
 .st-more{display:flex;align-items:center;gap:10px;margin-top:22px;padding:14px 16px;border-radius:18px;border:1.5px solid var(--line-2);color:var(--ink);text-decoration:none;font-weight:700}
 .st-more .ic{width:18px;height:18px;flex-shrink:0}.st-more .ic:last-child{margin-inline-start:auto}
 @media (max-width:520px){.st-tips ul{grid-template-columns:1fr}.st-go{width:92px;height:92px;font-size:1.6rem}.st-readout b{font-size:3rem}}
+.st-wifi{display:flex;gap:12px;align-items:flex-start;margin:0 0 14px;padding:14px 16px;border-radius:18px;background:#fff4d6;border:1.5px solid #f5b400;color:#5c3b00}
+.st-wifi .ic{width:26px;height:26px;flex-shrink:0;color:#d97706;margin-top:1px}
+.st-wifi b{display:block;font-size:1rem;color:#3d2600}.st-wifi span{font-size:.88rem}
