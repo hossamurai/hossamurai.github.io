@@ -44,11 +44,15 @@
   }
   function speed(track, group){ track.style.animationDuration = Math.max(20, Math.round((group.getBoundingClientRect().width || 1200) / 45)) + 's'; }
   /* fill a scrolling track: two copies make the loop seamless; a single short item just sits still */
-  function fill(track, group, still){
+  /* fill a scrolling track: the items are repeated until they're wider than the bar, then doubled,
+     so even a single match scrolls in a seamless loop */
+  function fill(track, group){
     track.textContent = '';
     track.appendChild(group);
-    if(still){ track.classList.add('still'); return; }
-    track.classList.remove('still');
+    var win = track.parentNode, need = Math.max((win && win.getBoundingClientRect().width) || 0, 800), items = Array.prototype.slice.call(group.children), n = 0;
+    while(group.getBoundingClientRect().width < need && group.getBoundingClientRect().width > 0 && n++ < 12){
+      items.forEach(function(it){ group.appendChild(it.cloneNode(true)); });
+    }
     track.appendChild(group.cloneNode(true));
     speed(track, group);
   }
@@ -73,7 +77,7 @@
         g.appendChild(it);
       });
       bar.hidden = false;
-      fill(track, g, false);
+      fill(track, g);
     });
   }
 
@@ -189,8 +193,7 @@
         g.appendChild(it);
       });
       bar.hidden = false;
-      /* one match fits -> stays still; more than one -> scrolls like the matches bar */
-      fill(track, g, rows.length < 2);
+      fill(track, g);
     });
   }
 
