@@ -228,6 +228,7 @@ def layout(c, title, desc, body):
 {trial_dialog(c)}
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="{c.root}assets/site.js" defer></script>
+<script src="{c.root}assets/matches.js" defer></script>
 <script src="{c.root}assets/bot.js" defer></script>
 </body>
 </html>

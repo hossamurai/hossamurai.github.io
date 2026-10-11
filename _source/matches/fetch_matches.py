@@ -116,6 +116,8 @@ def main():
             return
         events.append({
             'id': ev_id, 'utc': kick.strftime('%Y-%m-%dT%H:%M:%SZ'), 'live': live,
+            # for the live-score bar: the browser asks ESPN for this league's scoreboard during the match
+            'code': code, 'espn': ev_id[1:] if ev_id.startswith('e') else None,
             'league': {'en': len_, 'ar': lar},
             'home': {'en': home, 'ar': TEAMS.get(keys[0]) or home},
             'away': {'en': away, 'ar': TEAMS.get(keys[1]) or away},
