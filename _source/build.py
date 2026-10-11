@@ -221,6 +221,7 @@ def layout(c, title, desc, body):
 <a class="skip" href="#main">{c.t(L('Skip to content', 'انتقل إلى المحتوى'))}</a>
 {header(c)}
 {matches_ticker(c)}
+<script>/* show the bars from the last visit right away (assets/matches.js refreshes them) — avoids the page jumping */(function(){{try{{var c=JSON.parse(localStorage.getItem('htv-bars')||'null');if(!c||Date.now()-c.t>1800000||c.lang!==document.documentElement.lang)return;[['[data-ticker]','ticker'],['[data-live]','live']].forEach(function(p){{var b=document.querySelector(p[0]),x=c[p[1]];if(!b||!x||!x.html)return;var tr=b.querySelector('.ticker-track');tr.innerHTML=x.html;if(x.dur)tr.style.animationDuration=x.dur;b.hidden=false;}});if(c.live&&c.live.html)document.documentElement.classList.add('htv-live-on');}}catch(e){{}}}})();</script>
 <main id="main">
 {body}
 </main>
