@@ -1259,7 +1259,7 @@ def speed_page(c):
         'rslow': L('Too slow — this is likely why it freezes. Try the tips below.', 'بطيء جداً — غالباً ده سبب التقطيع. جرّب النصائح بالأسفل.'),
         'ping': L('Checking the delay…', 'جاري قياس زمن الاستجابة…'),
         'magic': L('If it ever freezes, do the magic trick: unplug the router and the TV for 10 seconds, then plug them back in.',
-                   'لو حصل تقطيع، اعمل الحركة السحرية: افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني.'),
+                   'لو حصل تقطيع، اعمل الحل السحري: افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني.'),
         'stable': L('Stable', 'ثابت'), 'shaky': L('Some dips', 'فيه تذبذب'),
     }
     attrs = ' '.join(f'data-l-{k}="{t(v)}"' for k, v in lb.items())
@@ -1281,7 +1281,7 @@ def speed_page(c):
     </svg>'''
     needs = [(5, 'SD', L('Basic quality', 'جودة عادية'), 'tv'), (10, 'HD', L('Full HD', 'Full HD'), 'tv'), (25, '4K', L('Ultra HD', 'Ultra HD'), '4k')]
     tiles = ''.join(f'<div class="st-need" data-need="{n}">{icon(ic)}<b>{q}</b><span dir="ltr">{n}+ Mbps</span><small>{t(d)}</small></div>' for n, q, d, ic in needs)
-    tips = [('refresh', L('Do the magic trick', 'اعمل الحركة السحرية'), L('Unplug the router and the TV for 10 seconds, then plug them back in.', 'افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني.')),
+    tips = [('refresh', L('Do the magic trick', 'اعمل الحل السحري'), L('Unplug the router and the TV for 10 seconds, then plug them back in.', 'افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني.')),
             ('bolt', L('Use a cable or 5 GHz', 'استخدم كابل أو 5 جيجا'), L('A network cable to the TV is the most stable.', 'كابل النت للشاشة هو الأكثر ثباتاً.')),
             ('devices', L('Move closer', 'قرّب من الراوتر'), L('Or add a Wi-Fi extender near the TV.', 'أو ضع مقوّي واي فاي قرب الشاشة.')),
             ('info', L('Free up the line', 'خفّف الضغط على الخط'), L('Pause big downloads and other streams.', 'أوقف التحميلات والبث على الأجهزة الأخرى.'))]
