@@ -358,8 +358,8 @@ def main():
             write(f'{lang}/{path}', layout(c, title, desc, body))
             count += 1
     write('index.html', root_index())
-    # short link that picks the language: hossamservices.com/speed-test.html
-    write('speed-test.html', root_index().replace("l + '/index.html'", "l + '/speed-test.html'")
+    # short link that picks the language: hossamservices.com/speed-test (GitHub Pages serves speed-test.html without the .html)
+    write('speed-test.html', root_index().replace("l + '/index.html'", "l + '/speed-test'")
           .replace('<html lang="ar" dir="rtl">', '<html lang="ar" dir="rtl">\n<!-- redirects to /en/ or /ar/speed-test.html -->')
           .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
     write('404.html', page_404())
