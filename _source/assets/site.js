@@ -50,6 +50,31 @@
     });
   }
 
+  /* visitors in Canada: show USD prices with a rough CAD amount next to them (rate refreshed once a day) */
+  (function(){
+    var spans = document.querySelectorAll('[data-cad]');
+    if(!spans.length) return;
+    var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
+    if(!/^America\/(Toronto|Montreal|Vancouver|Edmonton|Calgary|Winnipeg|Regina|Swift_Current|Halifax|Moncton|Glace_Bay|Goose_Bay|St_Johns|Whitehorse|Dawson|Dawson_Creek|Fort_Nelson|Creston|Yellowknife|Inuvik|Iqaluit|Rankin_Inlet|Cambridge_Bay|Resolute|Atikokan|Nipigon|Thunder_Bay|Rainy_River|Pangnirtung|Blanc-Sablon)$/.test(tz)) return;
+    var ar = document.documentElement.lang === 'ar';
+    function show(rate){
+      Array.prototype.forEach.call(spans, function(s){
+        var cad = Math.round(+s.getAttribute('data-cad') * rate);
+        s.textContent = s.hasAttribute('data-cad-short') ? (ar ? ' أمريكي' : ' USD')       /* the 2-year price: just name the currency */
+          : ar ? ' أمريكي (≈ ' + cad + ' دولار كندي)' : ' USD (≈ $' + cad + ' CAD)';
+        s.hidden = false;
+      });
+    }
+    var saved = null; try{ saved = JSON.parse(store('htv-cad') || 'null'); }catch(e){}
+    show(saved && saved.r ? saved.r : 1.38);
+    if(saved && Date.now() - saved.t < 864e5) return;
+    if(!window.fetch) return;
+    fetch('https://open.er-api.com/v6/latest/USD').then(function(r){ return r.json(); }).then(function(d){
+      var r = d && d.rates && d.rates.CAD;
+      if(r > 1 && r < 2){ store('htv-cad', JSON.stringify({ r: r, t: Date.now() })); show(r); }
+    })['catch'](function(){});
+  })();
+
   /* plan tabs (setup pages) — the chosen plan is remembered across device pages */
   var PLAN_KEY = 'htv-plan';
   function setPlan(id, save){
