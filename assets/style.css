@@ -952,3 +952,23 @@ html[lang="ar"] .tk-teams{text-transform:none}
 @media (max-width:720px){.htv-live-on [data-ticker]{display:none!important}}
 @media (prefers-reduced-motion:reduce){.ticker-track{animation:none}.ticker-win{overflow-x:auto}}
 .match-score{display:inline-block;background:#0b0b0c;color:#fff;border-radius:6px;padding:1px 9px;margin:0 4px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+/* speed test page */
+.st-wrap{max-width:640px}
+.st-card{text-align:center;background:#0b0b0c;color:#fff;border-radius:28px;padding:34px 22px 24px}
+.st-num b{display:block;font-size:4.2rem;line-height:1;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.st-num span{color:#9a9aa0;font-weight:700}
+.st-track{height:6px;border-radius:6px;background:#2a2a2d;margin:22px auto 16px;max-width:360px;overflow:hidden}
+.st-track i{display:block;height:100%;width:0;background:#e3101b;transition:width .25s}
+.st-msg{margin:0 0 18px;color:#d0d0d6;min-height:1.5em}
+.st-card .st-btn{background:#fff;color:#0b0b0c;min-width:200px}
+.st-card .st-btn:disabled{opacity:.6}
+.st-note{display:block;margin-top:12px;color:#7d7d84;font-size:.8rem}
+.st-good .st-num b{color:#4ade80}.st-ok .st-num b{color:#ffb000}.st-bad .st-num b{color:#ff5a5f}
+.st-h{font-size:1.15rem;margin:30px 0 12px}
+.st-needs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.st-need{background:var(--surface-2);border-radius:18px;padding:14px;text-align:center;border:2px solid transparent}
+.st-need b{display:block;font-size:1.3rem}.st-need span{font-weight:700}.st-need small{display:block;color:var(--muted);font-size:.78rem;margin-top:2px}
+.st-need.pass{border-color:#1f9d55}.st-need.pass b::after{content:" ✓";color:#1f9d55}
+.st-need.fail{opacity:.55}
+.st-tips ol{margin:0;padding-inline-start:20px;line-height:1.8}
+.st-more{margin-top:26px;color:var(--muted)}.st-more a{font-weight:700;color:var(--ink)}

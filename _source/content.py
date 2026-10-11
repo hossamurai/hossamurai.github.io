@@ -352,8 +352,8 @@ FAQ = [
          L('You can install it on as many devices as you like and share it with family, but only one device can watch at a time. Watching on two at once can lock the account.',
            'يمكنك التثبيت على أي عدد من الأجهزة ومشاركته مع العائلة، لكن المشاهدة تكون على جهاز واحد فقط في نفس الوقت. التشغيل على جهازين معاً قد يوقف الحساب.')),
         ('speed', L('What internet speed do I need?', 'ما سرعة الإنترنت المطلوبة؟'),
-         L('About 5 Mbps for SD, 10 Mbps for Full HD and 25 Mbps or more for 4K (plus a 4K-capable device).',
-           'حوالي 5 ميجابت لجودة SD، و10 ميجابت لجودة Full HD، و25 ميجابت أو أكثر لجودة 4K (مع جهاز يدعم 4K).')),
+         L('About 5 Mbps for SD, 10 Mbps for Full HD and 25 Mbps or more for 4K (plus a 4K-capable device). Check yours with {speedtest}.',
+           'حوالي 5 ميجابت لجودة SD، و10 ميجابت لجودة Full HD، و25 ميجابت أو أكثر لجودة 4K (مع جهاز يدعم 4K). اختبر سرعتك من {speedtest}.')),
         ('firestick', L('Does it work on my Firestick?', 'هل يعمل على الفايرستيك؟'),
          L('Most Firesticks work. The exception is newer models running Vega OS (like the Fire TV Stick 4K Select and the 2026 Fire TV Stick HD), which can\'t install IPTV apps. Check under <b>Settings → My Fire TV → About</b>: "Fire OS" is fine; plain "OS" with a version starting with 1 means Vega OS.',
            'معظم أجهزة الفايرستيك تعمل. الاستثناء هو الأجهزة الأحدث بنظام Vega OS (مثل Fire TV Stick 4K Select و Fire TV Stick HD إصدار 2026) لأنها لا تسمح بتثبيت تطبيقات IPTV. للتأكد: <b><bdi dir="ltr">Settings → My Fire TV → About</bdi></b>. إذا كان مكتوباً Fire OS فجهازك مناسب، أما إذا كان مكتوباً OS فقط ويبدأ الرقم بـ 1 فهو Vega OS.')),
@@ -372,12 +372,12 @@ FAQ = [
 TROUBLE = [
     ('buffering', L('Buffering or freezing', 'التقطيع أو التجميد'),
      L('<ol><li>Unplug your router and TV/device for 10 seconds, plug them back in and wait for the internet to come back.</li>'
-       '<li>Test your speed at <a href="https://fast.com" target="_blank" rel="noopener">fast.com</a> — you need about 10 Mbps for Full HD and 25 Mbps for 4K.</li>'
+       '<li>Test your speed with {speedtest} — you need about 10 Mbps for Full HD and 25 Mbps for 4K.</li>'
        '<li>Use a network cable or 5 GHz Wi-Fi if you can, and pause big downloads on other devices.</li>'
        '<li>Try one of the other apps for your plan from the setup guide.</li>'
        '<li>On Android devices, clear the app cache: <b>Settings → Apps → (the app) → Storage → Clear cache</b>.</li></ol>',
        '<ol><li>افصل الراوتر والتلفزيون/الجهاز من الكهرباء لمدة 10 ثوانٍ، ثم أعد توصيلهما وانتظر عودة الإنترنت.</li>'
-       '<li>اختبر سرعتك على <a href="https://fast.com" target="_blank" rel="noopener">fast.com</a> — تحتاج حوالي 10 ميجابت لجودة Full HD و25 ميجابت لجودة 4K.</li>'
+       '<li>اختبر سرعتك من {speedtest} — تحتاج حوالي 10 ميجابت لجودة Full HD و25 ميجابت لجودة 4K.</li>'
        '<li>استخدم كابل إنترنت أو شبكة واي فاي 5 GHz إن أمكن، وأوقف التحميلات الكبيرة على الأجهزة الأخرى.</li>'
        '<li>جرّب أحد التطبيقات الأخرى الخاصة بباقتك من دليل التثبيت.</li>'
        '<li>على أجهزة أندرويد، امسح ذاكرة التطبيق المؤقتة: <b>الإعدادات ← التطبيقات ← (التطبيق) ← التخزين ← مسح ذاكرة التخزين المؤقت</b>.</li></ol>')),
