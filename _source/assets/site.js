@@ -453,7 +453,7 @@
       draw(d);
     })['catch'](function(){});
     function draw(d){
-      var now = Date.now(), list = ((d && d.events) || []).filter(function(e){ return Date.parse(e.utc) + 2 * 3600e3 > now; });
+      var now = Date.now(), done = window.htvFinished || {}, list = ((d && d.events) || []).filter(function(e){ return !done[e.id] && Date.parse(e.utc) + 2 * 3600e3 > now; });
       if(limit) list = list.slice(0, limit);
       if(!list.length){ if(sec) return; box.appendChild(el('p', 'matches-empty', A('empty'))); box.hidden = false; return; }
       list.forEach(function(e){

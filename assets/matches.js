@@ -1,6 +1,7 @@
 /* Hossam TV — matches ticker + live-score bar (ES5). Used by every page, including help.html.
    - [data-ticker]: this week's big matches (assets/data/matches.json, refreshed every 6 hours by a GitHub Action)
-   - [data-live]:   only while a match is on — score, minute and goal scorers straight from ESPN, refreshed every 30 s */
+   - [data-live]:   only while a match is on — score, minute and goal scorers from ESPN (Egyptian league: TheSportsDB),
+                    refreshed every 30 s; a match leaves both bars as soon as it's over */
 (function(){
   'use strict';
   var L = {
@@ -9,7 +10,9 @@
   };
   var ESPN = 'https://site.api.espn.com/apis/site/v2/sports/soccer/';
   var LIVE_BEFORE = 5 * 60e3, LIVE_AFTER = 150 * 60e3;   /* a match counts as "on" from 5 min before kick-off to 2.5 h after */
-  var data = null, lastScore = {}, flashUntil = {};
+  var SDB = 'https://www.thesportsdb.com/api/v1/json/3/lookupevent.php?id=';
+  var NO_DATA_AFTER = 115 * 60e3;   /* no score source answered: assume a match lasts ~1 h 55 min */
+  var data = null, lastScore = {}, flashUntil = {}, finished = {};
 
   /* channel per league: the admin bot can override it ("channel: Premier League = beIN Sports 1"), via site-data.
      "English / عربي" in the admin's text gives a different name per language. */
@@ -53,7 +56,7 @@
   /* ---------- this week's matches ---------- */
   function renderTicker(){
     var now = Date.now();
-    var list = ((data && data.events) || []).filter(function(e){ return Date.parse(e.utc) + 2 * 3600e3 > now; }).slice(0, 20);
+    var list = ((data && data.events) || []).filter(function(e){ return !finished[e.id] && Date.parse(e.utc) + 2 * 3600e3 > now; }).slice(0, 20);
     Array.prototype.forEach.call(document.querySelectorAll('[data-ticker]'), function(bar){
       var track = bar.querySelector('.ticker-track');
       if(!list.length){ bar.hidden = true; return; }
@@ -77,7 +80,7 @@
   /* ---------- live scores ---------- */
   function liveNow(){
     var now = Date.now();
-    return ((data && data.events) || []).filter(function(e){ var k = Date.parse(e.utc); return now >= k - LIVE_BEFORE && now < k + LIVE_AFTER; });
+    return ((data && data.events) || []).filter(function(e){ var k = Date.parse(e.utc); return !finished[e.id] && now >= k - LIVE_BEFORE && now < k + LIVE_AFTER; });
   }
   /* ESPN's "day" is US Eastern: ask for the kick-off date there */
   function espnDay(utc){
@@ -116,6 +119,14 @@
         .then(function(r){ return r.ok ? r.json() : null; })
         .then(function(d){ ((d && d.events) || []).forEach(function(ev){ results[ev.id] = ev; }); })['catch'](function(){});
     });
+    /* Egyptian league (not on ESPN): TheSportsDB, one request per match */
+    var sdb = {};
+    on.forEach(function(e){
+      if(e.espn || String(e.id).charAt(0) !== 's') return;
+      jobs.push(fetch(SDB + String(e.id).slice(1), { cache: 'no-store' })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(d){ var x = d && d.events && d.events[0]; if(x) sdb[e.id] = x; })['catch'](function(){}));
+    });
     Promise.all(jobs).then(function(){
       on.forEach(function(e){
         var ev = e.espn && results[e.espn];
@@ -133,10 +144,25 @@
           if(prev != null && prev !== sc && row.state === 'in') flashUntil[e.id] = Date.now() + 12e3;
           lastScore[e.id] = sc;
         }
+        var x = sdb[e.id];
+        if(!ev && x){
+          var stt = String(x.strStatus || '').toUpperCase(), prog = String(x.strProgress || '').replace(/[^\d+]/g, '');
+          row.state = /^(FT|AET|PEN|MATCH FINISHED|AP|AWD|WO|CANC|PST|ABD)/.test(stt) ? 'post'
+                    : /^(NS|NOT STARTED|TBD|)$/.test(stt) ? 'pre' : 'in';
+          row.clock = stt === 'HT' ? T('ht') : row.state === 'pre' ? T('soon') : prog ? prog + "'" : '';
+          if(x.intHomeScore != null && x.intHomeScore !== '' && row.state !== 'pre'){ row.hs = x.intHomeScore; row.as = x.intAwayScore; }
+          var sc2 = row.hs + '-' + row.as, prev2 = lastScore[e.id];
+          if(prev2 != null && prev2 !== sc2 && row.state === 'in') flashUntil[e.id] = Date.now() + 12e3;
+          lastScore[e.id] = sc2;
+        }
+        /* over -> off both bars; no source at all -> assume ~1 h 55 min */
+        if(row.state === 'post' || (!ev && !x && Date.now() > Date.parse(e.utc) + NO_DATA_AFTER)){ finished[e.id] = true; return; }
         rows.push(row);
       });
+      if(Object.keys(finished).length) renderTicker();
       renderLive(rows);
       /* the matches page shows the same live score */
+      window.htvFinished = finished;
       window.htvLive = {};
       rows.forEach(function(r){ window.htvLive[r.e.id] = { hs: r.hs, as: r.as, clock: r.clock, state: r.state }; });
       try{ document.dispatchEvent(new CustomEvent('htv:live')); }catch(e){}
