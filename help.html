@@ -369,8 +369,6 @@ html[dir="rtl"] .ticker-track{animation-name:tickerMoveRtl}
 .tk{display:inline-flex;align-items:center;gap:12px;align-self:stretch;padding:0 22px;white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.82rem}
 .ticker-win{align-items:stretch!important}
 .ticker-track,.ticker-group{height:100%}
-.tk:nth-child(even){background:#1c1c1f}
-.tk::before{content:"";width:8px;height:8px;background:#e3101b;transform:rotate(45deg);flex-shrink:0}
 html[lang="ar"] .tk{font-family:inherit}
 .tk-time{color:#ffb000;font-weight:700;letter-spacing:.02em}
 .tk-teams{color:#fff;font-weight:700;text-transform:uppercase}
@@ -384,7 +382,8 @@ html[lang="ar"] .tk-teams{text-transform:none}
 .live-tag{background:#fff;color:#e3101b}
 .live-dot{width:8px;height:8px;border-radius:50%;background:#e3101b;animation:tkBlink 1.2s steps(2) infinite}
 .lv{display:inline-flex;align-items:center;gap:10px;align-self:stretch;padding:0 22px;white-space:nowrap;font-size:.86rem;color:#fff}
-.lv + .lv{border-inline-start:2px solid #e3101b}
+/* red line after every match (both bars) */
+.tk,.lv{border-inline-end:2px solid #e3101b}
 .lv-clock{color:#ffb000;font-weight:800;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-width:34px}
 .lv-team{font-weight:700}
 .lv-score{background:#fff;color:#0b0b0c;font-weight:800;border-radius:6px;padding:2px 9px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92rem}
