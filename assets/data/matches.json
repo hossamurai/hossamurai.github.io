@@ -1,29 +1,6 @@
 {
- "updated": "2026-10-11T02:38:47Z",
+ "updated": "2026-10-11T12:53:38Z",
  "events": [
-  {
-   "id": "e401874940",
-   "utc": "2026-10-11T10:30:00Z",
-   "live": false,
-   "code": "ita.1",
-   "espn": "401874940",
-   "league": {
-    "en": "Serie A",
-    "ar": "الدوري الإيطالي"
-   },
-   "home": {
-    "en": "Como",
-    "ar": "Como"
-   },
-   "away": {
-    "en": "AS Roma",
-    "ar": "روما"
-   },
-   "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
-   }
-  },
   {
    "id": "e401879264",
    "utc": "2026-10-11T15:30:00Z",
@@ -685,6 +662,29 @@
    "away": {
     "en": "Paris Saint-Germain",
     "ar": "باريس سان جيرمان"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401874953",
+   "utc": "2026-10-17T16:00:00Z",
+   "live": false,
+   "code": "ita.1",
+   "espn": "401874953",
+   "league": {
+    "en": "Serie A",
+    "ar": "الدوري الإيطالي"
+   },
+   "home": {
+    "en": "Bologna",
+    "ar": "Bologna"
+   },
+   "away": {
+    "en": "Internazionale",
+    "ar": "إنتر ميلان"
    },
    "channel": {
     "en": "beIN Sports",
