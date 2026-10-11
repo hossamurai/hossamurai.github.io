@@ -431,16 +431,19 @@
         .then(function(){ busy = false; btn.disabled = false; });
     });
   });
-  /* big matches this week (assets/data/matches.json, refreshed every 6 hours by a GitHub Action) — times in Cairo and Toronto */
+  /* big matches this week (assets/data/matches.json, refreshed every 6 hours by a GitHub Action) — times in the visitor's time zone */
   each('[data-matches]', function(box){
     if(!window.fetch) return;
     var A = function(k){ return box.getAttribute('data-l-' + k) || ''; }, loc = box.getAttribute('data-locale'), limit = +box.getAttribute('data-limit') || 0;
     var sec = box.closest ? box.closest('[data-matches-sec]') : null;
     var fmt = function(d, tz){
-      try{ return d.toLocaleString(loc, { timeZone: tz, weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }); }catch(e){ return d.toUTCString(); }
+      try{ return d.toLocaleString(loc, { timeZone: tz || undefined, weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }); }catch(e){ return d.toUTCString(); }
     };
     function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
     /* the admin's channel for the league if set (assets/matches.js), else the default */
+    /* kick-off in the visitor's own time zone (English shows its city, e.g. "Vancouver") */
+    var myTz; try{ myTz = Intl.DateTimeFormat().resolvedOptions().timeZone || undefined; }catch(e){}
+    var myLbl = (!AR && myTz && /\//.test(myTz)) ? myTz.split('/').pop().replace(/_/g, ' ') : A('mine');
     var chName = function(e){ return window.htvChannelFor ? window.htvChannelFor(e) : (e.channel ? (AR ? e.channel.ar : e.channel.en) : ''); };
     var redraw = null;
     document.addEventListener('htv:channels', function(){ if(redraw) redraw(); });
@@ -463,9 +466,8 @@
         var nm = function(x){ return x ? (AR ? x.ar : x.en) : ''; };
         row.appendChild(el('div', 'match-teams', nm(e.home) + '  –  ' + nm(e.away)));
         var times = el('div', 'match-times');
-        var c1 = el('span', '', ''); c1.appendChild(el('b', '', A('cairo'))); c1.appendChild(document.createTextNode(' ' + fmt(k, 'Africa/Cairo')));
-        var c2 = el('span', '', ''); c2.appendChild(el('b', '', A('toronto'))); c2.appendChild(document.createTextNode(' ' + fmt(k, 'America/Toronto')));
-        times.appendChild(c1); times.appendChild(c2);
+        var c1 = el('span', '', ''); c1.appendChild(el('b', '', myLbl)); c1.appendChild(document.createTextNode(' ' + fmt(k, myTz)));
+        times.appendChild(c1);
         if(live && chName(e)) times.appendChild(el('span', 'match-ch', chName(e)));
         row.appendChild(times);
         box.appendChild(row);
