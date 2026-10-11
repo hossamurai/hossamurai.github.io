@@ -37,6 +37,17 @@ def html_attr_json(o):
     return html.escape(json.dumps(o, ensure_ascii=False), quote=True)
 
 
+def ld_json(o):
+    """schema.org data for Google (rich results); '</' escaped so it can't close the script tag."""
+    import json, re
+    return '<script type="application/ld+json">' + json.dumps(o, ensure_ascii=False).replace('</', '<\\/') + '</script>'
+
+
+def _plain(x):
+    import re, html
+    return html.unescape(re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', ' ', x))).strip()
+
+
 def money(c, cur, n):
     cc = CURRENCY[cur]
     return f'{cc[c.lang]}{n}' if cc.get('pre') else f'{n} {cc[c.lang]}'
@@ -200,6 +211,8 @@ def plan_card(c, region, rp):
     p2 = ''
     if rp.get('p2'):
         m = money(c, rp['cur'], rp['p2'])
+        if rp['cur'] == 'usd':
+            m += f'<span class="cad" data-cad="{rp["p2"]}" data-cad-short hidden></span>'
         p2 = f'<span class="p2">· {m} لسنتين</span>' if c.ar else f'<span class="p2">· {m} for 2 years</span>'
     aka = c.t(p['aka']) if p.get('aka') else ''
     first = t(p['feat'][0][1])
@@ -208,13 +221,14 @@ def plan_card(c, region, rp):
             f'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'">'
             f'<span class="plan-mono" style="display:none">{p["mono"]}</span>')
     trial = f'تجربة مجانية {p["trial"]} ساعة' if c.ar else f'{p["trial"]}h free trial'
+    cad1 = f'<span class="cad" data-cad="{rp["p1"]}" hidden></span>' if rp['cur'] == 'usd' else ''  # filled for visitors in Canada
     return f'''<article class="pcard{" featured" if rp.get("featured") else ""}" style="--c:{p["color"]}">
   <div class="plan-body">
     <div class="badges">{badges}</div>
     <div class="plan-head">{logo}<div><h3>{nm}</h3>{('<span class="aka">' + aka + '</span>') if aka else ''}</div>{trial_link(c, icon('clock') + trial, 'plan-trial', pid)}</div>
     <p class="plan-line">{first}</p>
     <p class="plan-line ltr-nums">{stats}</p>
-    <p class="plan-price"><b>{money(c, rp["cur"], rp["p1"])}</b> {t(PERIOD[rp["per"]])} {p2}</p>
+    <p class="plan-price"><b>{money(c, rp["cur"], rp["p1"])}</b>{cad1} {t(PERIOD[rp["per"]])} {p2}</p>
     <div class="plan-actions">
       {order_link(c, 'subscribe', icon('chat') + t(L('Subscribe', 'اشترك')), 'btn btn-wa', pid)}
     </div>
@@ -400,6 +414,11 @@ def home(c):
 
 
 '''
+    body += ld_json({'@context': 'https://schema.org', '@graph': [
+        {'@type': 'Organization', '@id': BASE_URL + '/#org', 'name': SITE_NAME, 'url': BASE_URL + '/', 'logo': BASE_URL + '/assets/img/logo-180.png',
+         'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer support', 'telephone': '+' + WHATSAPP, 'availableLanguage': ['English', 'Arabic']},
+         'areaServed': ['CA', 'US', 'GB', 'EG', 'SA', 'AE']},
+        {'@type': 'WebSite', '@id': BASE_URL + '/#site', 'name': SITE_NAME, 'url': BASE_URL + '/', 'inLanguage': c.lang, 'publisher': {'@id': BASE_URL + '/#org'}}]})
     return (t(L('Hossam TV — Arabic TV, Live Football & Movies in Canada, the USA & Worldwide', 'Hossam TV — قنوات عربية ومباريات وأفلام في كندا وأمريكا وحول العالم')),
             t(L('Arabic channels, live football, movies and series on any screen, up to 4K — for viewers in Canada, the USA, Egypt, the Gulf and worldwide. Free trial on WhatsApp.',
                 'قنوات عربية ومباريات مباشرة وأفلام ومسلسلات على أي شاشة بجودة حتى 4K — للمشاهدين في كندا وأمريكا ومصر والخليج وحول العالم. تجربة مجانية عبر واتساب.')),
@@ -467,8 +486,8 @@ def plans(c):
 </div></section>
 ''' + cta_block(c)
     return (t(L('Plans & Prices', 'الباقات والأسعار')),
-            t(L('Hossam TV plans and prices for Egypt, Saudi Arabia & the Gulf, the UAE and worldwide. Compare Basic, Premium, XTV and Marvel.',
-                'باقات وأسعار Hossam TV لمصر والسعودية والخليج والإمارات وباقي الدول. قارن بين الأساسية وبريميوم و XTV و Marvel.')),
+            t(L('Hossam TV plans and prices for Canada, the USA and worldwide, plus Egypt and the Gulf. Arabic channels, live football and 4K — every plan starts with a free trial.',
+                'باقات وأسعار Hossam TV لكندا وأمريكا وباقي الدول، ومصر والخليج. قنوات عربية ومباريات مباشرة و4K — وكل باقة تبدأ بتجربة مجانية.')),
             body)
 
 
@@ -889,6 +908,9 @@ def help_page(c):
       <a class="btn btn-ghost" href="{c.href('setup/index.html')}">{t(L('Setup guides', 'أدلة التثبيت'))}</a></div>
   </div>
 </div></section>'''
+    body += ld_json({'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+        {'@type': 'Question', 'name': _plain(t(q)), 'acceptedAnswer': {'@type': 'Answer', 'text': _plain(faq_answer(c, a))}}
+        for _, items in FAQ for _, q, a in items]})
     return (t(L('Help Center & FAQ', 'مركز المساعدة والأسئلة الشائعة')),
             t(L('Fix buffering, login and installation problems, and find answers about plans, payment, renewal and devices.',
                 'حل مشكلات التقطيع وتسجيل الدخول والتثبيت، وإجابات عن الباقات والدفع والتجديد والأجهزة.')),
@@ -938,8 +960,8 @@ def about(c):
 </div></section>
 ''' + cta_block(c)
     return (t(L('About Us', 'من نحن')),
-            t(L('Hossam TV is a personal IPTV service based in Egypt, serving Egypt, the Gulf and worldwide with support on WhatsApp.',
-                'Hossam TV خدمة IPTV شخصية مقرها في مصر، تخدم مصر والخليج وباقي دول العالم مع دعم عبر واتساب.')),
+            t(L('Hossam TV is a personal IPTV service for Arabic viewers in Canada, the USA, Egypt, the Gulf and worldwide, with fast support on WhatsApp.',
+                'Hossam TV خدمة IPTV شخصية للمشاهدين العرب في كندا وأمريكا ومصر والخليج وحول العالم، مع دعم سريع عبر واتساب.')),
             body)
 
 
