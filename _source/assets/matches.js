@@ -4,8 +4,8 @@
 (function(){
   'use strict';
   var L = {
-    en: { cairo: 'Cairo', toronto: 'Toronto', live: 'LIVE', ht: 'HT', ft: 'FT', goal: 'GOAL!', og: 'OG', pen: 'pen', soon: 'Kick-off soon' },
-    ar: { cairo: 'القاهرة', toronto: 'تورونتو', live: 'مباشر', ht: 'استراحة', ft: 'انتهت', goal: 'جووول!', og: 'عكسي', pen: 'جزاء', soon: 'تبدأ قريباً' }
+    en: { mine: 'Your time', live: 'LIVE', ht: 'HT', ft: 'FT', goal: 'GOAL!', og: 'OG', pen: 'pen', soon: 'Kick-off soon' },
+    ar: { mine: 'بتوقيتك', live: 'مباشر', ht: 'استراحة', ft: 'انتهت', goal: 'جووول!', og: 'عكسي', pen: 'جزاء', soon: 'تبدأ قريباً' }
   };
   var ESPN = 'https://site.api.espn.com/apis/site/v2/sports/soccer/';
   var LIVE_BEFORE = 5 * 60e3, LIVE_AFTER = 150 * 60e3;   /* a match counts as "on" from 5 min before kick-off to 2.5 h after */
@@ -25,12 +25,19 @@
   }
   window.htvChannelFor = channel;
 
+  /* the visitor's own time zone (from the browser — no permission needed); English shows its city, e.g. "Vancouver" */
+  var TZ = ''; try{ TZ = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
+  function tzLabel(){
+    if(lang() === 'ar' || !/\//.test(TZ)) return T('mine');
+    return TZ.split('/').pop().replace(/_/g, ' ');
+  }
+
   function lang(){ return document.documentElement.lang === 'ar' ? 'ar' : 'en'; }
   function T(k){ return L[lang()][k]; }
   function nm(x){ return x ? (lang() === 'ar' ? x.ar : x.en) : ''; }
   function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
   function hm(d, tz){
-    try{ return d.toLocaleString(lang() === 'ar' ? 'ar-EG' : 'en-US', { timeZone: tz, weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true }).toUpperCase(); }catch(e){ return ''; }
+    try{ return d.toLocaleString(lang() === 'ar' ? 'ar-EG' : 'en-US', { timeZone: tz || undefined, weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true }).toUpperCase(); }catch(e){ return ''; }
   }
   function speed(track, group){ track.style.animationDuration = Math.max(20, Math.round((group.getBoundingClientRect().width || 1200) / 45)) + 's'; }
   /* fill a scrolling track: two copies make the loop seamless; a single short item just sits still */
@@ -53,12 +60,11 @@
       var g = el('span', 'ticker-group');
       list.forEach(function(e){
         var k = new Date(e.utc), on = now >= k.getTime() && now < k.getTime() + 2 * 3600e3, it = el('span', 'tk');
-        /* each match reads: ◆ TEAMS · Cairo time · Toronto time · channel */
+        /* each match reads: ◆ TEAMS · kick-off in the visitor's time zone · channel */
         it.appendChild(el('span', 'tk-teams', nm(e.home) + ' – ' + nm(e.away)));
         if(on) it.appendChild(el('span', 'tk-live', T('live')));
         else {
-          it.appendChild(el('span', 'tk-time', T('cairo') + ' ' + hm(k, 'Africa/Cairo')));
-          it.appendChild(el('span', 'tk-time', T('toronto') + ' ' + hm(k, 'America/Toronto')));
+          it.appendChild(el('span', 'tk-time', hm(k, TZ || undefined) + ' · ' + tzLabel()));
         }
         var ch = channel(e); if(ch) it.appendChild(el('span', 'tk-ch', ch));
         g.appendChild(it);
@@ -97,9 +103,9 @@
   }
   function pollLive(){
     var bars = document.querySelectorAll('[data-live]');
-    if(!bars.length) return;
+    if(!bars.length || document.hidden) return;   /* no polling in a background tab */
     var on = liveNow();
-    if(!on.length){ Array.prototype.forEach.call(bars, function(b){ b.hidden = true; }); return; }
+    if(!on.length){ Array.prototype.forEach.call(bars, function(b){ b.hidden = true; }); document.documentElement.classList.remove('htv-live-on'); return; }
     /* one ESPN request per league + day */
     var want = {}, rows = [];
     on.forEach(function(e){ if(e.espn && e.code) want[e.code + '|' + espnDay(e.utc)] = 1; });
@@ -133,6 +139,7 @@
     });
   }
   function renderLive(rows){
+    document.documentElement.classList.toggle('htv-live-on', rows.length > 0);
     Array.prototype.forEach.call(document.querySelectorAll('[data-live]'), function(bar){
       var track = bar.querySelector('.ticker-track');
       if(!rows.length){ bar.hidden = true; return; }
@@ -169,6 +176,8 @@
     })['catch'](function(){});
   /* the admin's channels arrive a moment later (site-data) -> redraw */
   document.addEventListener('htv:channels', function(){ if(data){ renderTicker(); pollLive(); } });
+  /* back to the tab -> fresh scores right away */
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden && data) pollLive(); });
   /* help.html switches language without reloading */
   if(window.MutationObserver) new MutationObserver(function(){ if(data){ renderTicker(); pollLive(); } })
     .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });

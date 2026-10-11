@@ -393,6 +393,7 @@ html[lang="ar"] .tk-teams{text-transform:none}
 .lv-goal{background:#e3101b}
 .lv-goal .lv-clock,.lv-goal .lv-goals{color:#fff}
 .lv-flash{font-weight:900;letter-spacing:.06em;animation:tkBlink .6s steps(2) infinite}
+@media (max-width:720px){.htv-live-on [data-ticker]{display:none!important}}
 @media (prefers-reduced-motion:reduce){.ticker-track{animation:none}.ticker-win{overflow-x:auto}}
 
 /* ---------- help page ---------- */
@@ -600,7 +601,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
 <div class="toast" id="toast" role="status"></div>
 <script src="assets/matches.js" defer></script>
 <script>
-/* internet speed check: downloads test data from Cloudflare's speed-test server for up to 8 seconds */
+/* internet speed check: downloads test data from Cloudflare's speed-test server for up to 8 seconds (25 MB at most — kind to mobile data) */
 (function(){
   var btn = document.getElementById('speedBtn'), out = document.getElementById('speedOut'), num = document.getElementById('speedNum'), msg = document.getElementById('speedMsg');
   if(!btn) return;
@@ -622,7 +623,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
       else if(mbps >= 5) show('ok', n + ' Mbps', T('Enough for SD only — choose SD channels, or restart your router.', 'يكفي لجودة SD فقط — اختار قنوات SD، أو أعد تشغيل الراوتر.'));
       else show('bad', n + ' Mbps', T('Too slow — this is likely why it freezes. Restart your router or use a cable.', 'بطيء جداً — غالباً ده سبب التقطيع. أعد تشغيل الراوتر أو استخدم كابل.'));
     }
-    fetch('https://speed.cloudflare.com/__down?bytes=100000000', { cache: 'no-store', signal: ctrl ? ctrl.signal : undefined })
+    fetch('https://speed.cloudflare.com/__down?bytes=25000000', { cache: 'no-store', signal: ctrl ? ctrl.signal : undefined })
       .then(function(r){
         if(!r.ok || !r.body) throw new Error('bad');
         var reader = r.body.getReader(); t0 = performance.now();

@@ -1116,7 +1116,7 @@ def matches_block(c, limit=0):
     """Big matches (assets/data/matches.json, refreshed by a GitHub Action). Rendered by site.js; hidden until data loads."""
     t = c.t
     return (f'<div class="matches" data-matches data-src="{c.root}assets/data/matches.json" data-limit="{limit}" '
-            f'data-l-cairo="{t(L("Cairo", "القاهرة"))}" data-l-toronto="{t(L("Toronto", "تورونتو"))}" '
+            f'data-l-mine="{t(L("Your time", "بتوقيتك"))}" '
             f'data-l-live="{t(L("Live now", "مباشر الآن"))}" data-l-empty="{t(L("No big matches in the next few days.", "لا توجد مباريات كبيرة في الأيام القادمة."))}" '
             f'data-locale="{"ar-EG" if c.ar else "en-US"}" hidden></div>')
 
@@ -1136,16 +1136,16 @@ def matches_page(c):
     t = c.t
     hero = page_hero(c, [(None, t(L('Matches', 'المباريات')))],
                      t(L('Big matches this week', 'أهم مباريات الأسبوع')),
-                     t(L('Kick-off times in Cairo and Toronto, and the channel that shows each match.', 'مواعيد المباريات بتوقيت القاهرة وتورونتو، والقناة الناقلة لكل مباراة.')))
+                     t(L('Kick-off times in your own time zone, and the channel that shows each match.', 'مواعيد المباريات بتوقيتك المحلي، والقناة الناقلة لكل مباراة.')))
     body = hero + f'''
 <section class="sec first"><div class="wrap">
   {matches_block(c)}
   <p class="matches-note">{t(L('Updated automatically every few hours. Times can change — check closer to kick-off.', 'يتم التحديث تلقائياً كل بضع ساعات. المواعيد قد تتغير — راجعها قبل المباراة.'))}</p>
 </div></section>
 ''' + cta_block(c)
-    return (t(L('Football on TV This Week — Times in Cairo & Toronto', 'مباريات الأسبوع على التلفزيون — بتوقيت القاهرة وتورونتو')),
-            t(L('This week’s big football matches with kick-off times in Cairo and Toronto (Canada) and the TV channel for each match.',
-                'أهم مباريات كرة القدم هذا الأسبوع بتوقيت القاهرة وتورونتو (كندا) والقناة الناقلة لكل مباراة.')),
+    return (t(L('Football on TV This Week — Kick-off Times & Channels', 'مباريات الأسبوع على التلفزيون — المواعيد والقنوات')),
+            t(L('This week’s big football matches with kick-off times in your time zone — Canada, the USA or anywhere — and the TV channel for each match.',
+                'أهم مباريات كرة القدم هذا الأسبوع بتوقيتك المحلي — في كندا أو أمريكا أو أي مكان — والقناة الناقلة لكل مباراة.')),
             body)
 
 
@@ -1196,8 +1196,8 @@ def country_page(slug, name, where, tz=None, cities=None):
             (f'{slug}-pay', _cat(L('How do I pay from ', 'كيف أدفع من '), name, L('?', '؟')),
              L("With PayPal, TapTap Send, Sendwave or Whish Money. Message us and we'll send the details.", 'عن طريق PayPal أو TapTap Send أو Sendwave أو Whish Money. راسلنا وسنرسل لك التفاصيل.')),
             (f'{slug}-egypt', _cat(L('Can I watch Egyptian and Arab football ', 'هل أقدر أشاهد الدوري المصري والكورة العربية '), where, L('?', '؟')),
-             L('Yes — the Egyptian league, Saudi league, Champions League and the big European leagues, live. See this week’s matches with Toronto and Cairo times on our matches page.',
-               'نعم — الدوري المصري والسعودي ودوري الأبطال والدوريات الأوروبية الكبرى مباشرة. شاهد مباريات الأسبوع بتوقيت تورونتو والقاهرة في صفحة المباريات.')),
+             L('Yes — the Egyptian league, Saudi league, Champions League and the big European leagues, live. See this week’s matches in your local time on our matches page.',
+               'نعم — الدوري المصري والسعودي ودوري الأبطال والدوريات الأوروبية الكبرى مباشرة. شاهد مباريات الأسبوع بتوقيتك المحلي في صفحة المباريات.')),
         ]
         import json as _json, html as _html, re as _re
         _plain = lambda x: _re.sub(r'<[^>]+>', '', x)

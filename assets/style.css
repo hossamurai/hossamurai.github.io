@@ -949,4 +949,5 @@ html[lang="ar"] .tk-teams{text-transform:none}
 .lv-goal{background:#e3101b}
 .lv-goal .lv-clock,.lv-goal .lv-goals{color:#fff}
 .lv-flash{font-weight:900;letter-spacing:.06em;animation:tkBlink .6s steps(2) infinite}
+@media (max-width:720px){.htv-live-on [data-ticker]{display:none!important}}
 @media (prefers-reduced-motion:reduce){.ticker-track{animation:none}.ticker-win{overflow-x:auto}}
