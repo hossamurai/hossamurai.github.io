@@ -1011,3 +1011,6 @@ html[lang="ar"] .st-stats small{text-transform:none;letter-spacing:0;font-size:.
 .st-stats b{display:block;font-size:1.05rem;margin-top:2px}
 .st-stats b.good{color:#4ade80}.st-stats b.warn{color:#ffb000}.st-stats b.bad{color:#ff5a5f}
 .st-explain{margin:14px 0 0;color:var(--muted);font-size:.9rem;line-height:1.6}
+.st-hint{display:flex;gap:8px;align-items:flex-start;justify-content:center;max-width:420px;margin:10px auto 0;color:#b8b8c0;font-size:.9rem;line-height:1.5;text-align:start}
+.st-hint svg{flex:none;width:18px;height:18px;margin-top:2px;color:#ffb000}
+.st-hint[hidden]{display:none!important}
