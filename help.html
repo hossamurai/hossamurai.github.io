@@ -350,7 +350,7 @@ html[dir="rtl"] .speed-link-go{transform:scaleX(-1)}
 /* airport-board matches ticker (under the header) */
 .ticker{display:flex;align-items:stretch;background:#0b0b0c;color:#f5f5f7;text-decoration:none;overflow:hidden;height:38px;position:relative;z-index:5}
 .ticker[hidden]{display:none}
-.ticker-tag{display:flex;align-items:center;gap:6px;padding:0 12px;background:#e3101b;color:#fff;font-weight:800;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0;z-index:1}
+.ticker-tag{display:flex;align-items:center;gap:6px;padding:0 12px;background:#e3101b;color:#fff;font-weight:800;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0;z-index:1;min-width:118px;justify-content:center;box-sizing:border-box}
 html[lang="ar"] .ticker-tag{letter-spacing:0;font-size:.8rem}
 .ticker-tag .ic{width:15px;height:15px}
 .ticker-win{flex:1;overflow:hidden;display:flex;align-items:center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
@@ -373,7 +373,7 @@ html[lang="ar"] .tk-teams{text-transform:none}
 @keyframes tkBlink{50%{opacity:.35}}
 .ticker-track.still{animation:none;transform:none}
 /* live-score bar: only while a match is on */
-.livebar{background:#141416;box-shadow:inset 0 1px 0 #2a2a2f}
+.livebar{background:#141416}
 .live-tag{background:#fff;color:#e3101b}
 .live-dot{width:8px;height:8px;border-radius:50%;background:#e3101b;animation:tkBlink 1.2s steps(2) infinite}
 .lv{display:inline-flex;align-items:center;gap:10px;align-self:stretch;padding:0 22px;white-space:nowrap;font-size:.86rem;color:#fff}
