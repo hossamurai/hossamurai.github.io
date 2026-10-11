@@ -360,7 +360,8 @@ html[lang="ar"] .ticker-tag{letter-spacing:0;font-size:.8rem}
 .ticker-tag .ic{width:15px;height:15px}
 .ticker-win{flex:1;overflow:hidden;display:flex;align-items:center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,transparent,#000 24px,#000 calc(100% - 24px),transparent)}
 .ticker-track{display:flex;width:max-content;animation:tickerMove 60s linear infinite}
-.ticker:hover .ticker-track,.ticker:focus .ticker-track{animation-play-state:paused}
+@media (hover:hover){.ticker:hover .ticker-track{animation-play-state:paused}}
+.ticker:focus-visible .ticker-track{animation-play-state:paused}
 html[dir="rtl"] .ticker-track{animation-name:tickerMoveRtl}
 @keyframes tickerMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes tickerMoveRtl{from{transform:translateX(0)}to{transform:translateX(50%)}}
@@ -530,7 +531,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
   </div>
 </header>
 <a class="ticker" data-page="matches.html" href="/" data-ticker data-src="assets/data/matches.json" hidden><span class="ticker-tag"><svg class="ic"><use href="#i-ball"/></svg><span class="en">Matches</span><span class="ar">المباريات</span></span><span class="ticker-win"><span class="ticker-track"></span></span></a>
-<div class="ticker livebar" data-live aria-live="polite" hidden><span class="ticker-tag live-tag"><i class="live-dot"></i><span class="en">Live</span><span class="ar">مباشر</span></span><span class="ticker-win"><span class="ticker-track"></span></span></div>
+<a class="ticker livebar" data-page="matches.html" href="/" data-live aria-live="polite" hidden><span class="ticker-tag live-tag"><i class="live-dot"></i><span class="en">Live</span><span class="ar">مباشر</span></span><span class="ticker-win"><span class="ticker-track"></span></span></a>
 <main id="top">
   <section class="help-hero">
     <div class="wrap">

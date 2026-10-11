@@ -136,6 +136,10 @@
         rows.push(row);
       });
       renderLive(rows);
+      /* the matches page shows the same live score */
+      window.htvLive = {};
+      rows.forEach(function(r){ window.htvLive[r.e.id] = { hs: r.hs, as: r.as, clock: r.clock, state: r.state }; });
+      try{ document.dispatchEvent(new CustomEvent('htv:live')); }catch(e){}
     });
   }
   function renderLive(rows){

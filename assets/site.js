@@ -447,6 +447,7 @@
     var chName = function(e){ return window.htvChannelFor ? window.htvChannelFor(e) : (e.channel ? (AR ? e.channel.ar : e.channel.en) : ''); };
     var redraw = null;
     document.addEventListener('htv:channels', function(){ if(redraw) redraw(); });
+    document.addEventListener('htv:live', function(){ if(redraw) redraw(); });
     fetch(box.getAttribute('data-src'), { cache: 'no-cache' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
       redraw = function(){ box.textContent = ''; draw(d); };
       draw(d);
@@ -457,14 +458,22 @@
       if(!list.length){ if(sec) return; box.appendChild(el('p', 'matches-empty', A('empty'))); box.hidden = false; return; }
       list.forEach(function(e){
         var k = new Date(e.utc), live = now >= k.getTime() && now < k.getTime() + 2 * 3600e3;
-        var row = el('div', 'match' + (live ? ' is-live' : ''));
+        var row = el('div', 'match' + (live || (window.htvLive || {})[e.id] ? ' is-live' : ''));
         var top = el('div', 'match-top');
         top.appendChild(el('span', 'match-league', (e.league && (AR ? e.league.ar : e.league.en)) || ''));
-        if(live) top.appendChild(el('span', 'match-live', A('live')));
+        var lv = (window.htvLive || {})[e.id];
+        if(live || lv) top.appendChild(el('span', 'match-live', lv && lv.clock ? A('live') + ' · ' + lv.clock : A('live')));
         else if(chName(e)) top.appendChild(el('span', 'match-ch', chName(e)));
         row.appendChild(top);
         var nm = function(x){ return x ? (AR ? x.ar : x.en) : ''; };
-        row.appendChild(el('div', 'match-teams', nm(e.home) + '  –  ' + nm(e.away)));
+        if(lv && lv.hs != null){
+          /* live score (from assets/matches.js); digits read left-to-right, so in Arabic the home score goes on the right */
+          var tm = el('div', 'match-teams');
+          tm.appendChild(document.createTextNode(nm(e.home) + ' '));
+          tm.appendChild(el('span', 'match-score', AR ? lv.as + ' – ' + lv.hs : lv.hs + ' – ' + lv.as));
+          tm.appendChild(document.createTextNode(' ' + nm(e.away)));
+          row.appendChild(tm);
+        } else row.appendChild(el('div', 'match-teams', nm(e.home) + '  –  ' + nm(e.away)));
         var times = el('div', 'match-times');
         var c1 = el('span', '', ''); c1.appendChild(el('b', '', myLbl)); c1.appendChild(document.createTextNode(' ' + fmt(k, myTz)));
         times.appendChild(c1);

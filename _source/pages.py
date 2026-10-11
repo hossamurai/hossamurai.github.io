@@ -1128,8 +1128,8 @@ def matches_ticker(c):
     return (f'<a class="ticker" href="{c.href("matches.html")}" data-ticker data-src="{c.root}assets/data/matches.json" '
             f'aria-label="{t(L("Big matches this week", "أهم مباريات الأسبوع"))}" hidden><span class="ticker-tag">{icon("ball")}<span>{t(L("Matches", "المباريات"))}</span></span>'
             f'<span class="ticker-win"><span class="ticker-track"></span></span></a>'
-            f'<div class="ticker livebar" data-live aria-live="polite" hidden><span class="ticker-tag live-tag"><i class="live-dot"></i><span>{t(L("Live", "مباشر"))}</span></span>'
-            f'<span class="ticker-win"><span class="ticker-track"></span></span></div>')
+            f'<a class="ticker livebar" href="{c.href("matches.html")}" data-live aria-live="polite" hidden><span class="ticker-tag live-tag"><i class="live-dot"></i><span>{t(L("Live", "مباشر"))}</span></span>'
+            f'<span class="ticker-win"><span class="ticker-track"></span></span></a>')
 
 
 def matches_page(c):
