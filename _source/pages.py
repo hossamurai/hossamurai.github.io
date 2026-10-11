@@ -1248,7 +1248,7 @@ def speed_page(c):
     t = c.t
     hero = page_hero(c, [(None, t(L('Speed test', 'اختبار السرعة')))],
                      t(L('Internet speed test', 'اختبار سرعة الإنترنت')),
-                     t(L('Is your internet fast enough for HD and 4K? Run it on the same Wi-Fi as your TV.', 'هل الإنترنت عندك سريع كفاية لجودة HD و4K؟ اعمل الاختبار على نفس الواي فاي اللي عليه الشاشة.')))
+                     t(L('Is your internet fast enough for HD and 4K?', 'هل الإنترنت عندك سريع كفاية لجودة HD و4K؟')))
     lb = {
         'again': L('Test again', 'اختبر مرة أخرى'), 'testing': L('Testing your download speed…', 'جاري قياس سرعة التحميل…'),
         'idle': L('Tap GO to start', 'اضغط GO للبدء'),
@@ -1284,6 +1284,8 @@ def speed_page(c):
     tips_html = ''.join(f'<li>{icon(ic)}<div><b>{t(h)}</b><span>{t(d)}</span></div></li>' for ic, h, d in tips)
     body = hero + f'''
 <section class="sec first"><div class="wrap st-wrap">
+  <div class="st-wifi" role="note">{icon('wifi')}<div><b>{t(L('Test on the same Wi-Fi as your TV', 'اعمل الاختبار على نفس الواي فاي اللي عليه الشاشة'))}</b>
+    <span>{t(L('Connect your phone to the same network the TV uses — on mobile data the result means nothing for the TV.', 'وصّل موبايلك بنفس الشبكة اللي عليها الشاشة — نتيجة بيانات الموبايل لا تعبّر عن سرعة الشاشة.'))}</span></div></div>
   <div class="st-card" data-speedtest {attrs}>
     <div class="st-dial">
       {gauge}
