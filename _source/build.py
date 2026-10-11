@@ -117,6 +117,7 @@ NAV = [
     ('plans', 'plans.html', L('Plans', 'الباقات')),
     ('channels', 'channels.html', L('Channels', 'القنوات')),
     ('setup', 'setup/index.html', L('Setup', 'التثبيت')),
+    ('speed', 'speed-test.html', L('Speed test', 'اختبار السرعة')),
     ('help', 'help.html', L('FAQ', 'الأسئلة الشائعة')),
     ('about', 'about.html', L('About', 'من نحن')),
 ]
