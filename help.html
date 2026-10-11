@@ -377,6 +377,22 @@ html[lang="ar"] .tk-teams{text-transform:none}
 .tk-ch{color:#9a9aa0;font-size:.74rem;border:1px solid #3a3a3e;border-radius:4px;padding:1px 6px}
 .tk-live{background:#e3101b;color:#fff;font-weight:800;font-size:.72rem;border-radius:4px;padding:2px 6px;animation:tkBlink 1.2s steps(2) infinite}
 @keyframes tkBlink{50%{opacity:.35}}
+.ticker-track.still{animation:none;transform:none}
+/* live-score bar: only while a match is on */
+.livebar{background:#141416;border-top:1px solid #000}
+.live-tag{background:#fff;color:#e3101b}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#e3101b;animation:tkBlink 1.2s steps(2) infinite}
+.lv{display:inline-flex;align-items:center;gap:10px;align-self:stretch;padding:0 22px;white-space:nowrap;font-size:.86rem;color:#fff}
+.lv + .lv{border-inline-start:2px solid #e3101b}
+.lv-clock{color:#ffb000;font-weight:800;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-width:34px}
+.lv-team{font-weight:700}
+.lv-score{background:#fff;color:#0b0b0c;font-weight:800;border-radius:6px;padding:2px 9px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92rem}
+.lv-vs{color:#9a9aa0}
+.lv-goals{color:#c9c9cf;font-size:.8rem}
+.lv-ft .lv-score{background:#3a3a3e;color:#fff}
+.lv-goal{background:#e3101b}
+.lv-goal .lv-clock,.lv-goal .lv-goals{color:#fff}
+.lv-flash{font-weight:900;letter-spacing:.06em;animation:tkBlink .6s steps(2) infinite}
 @media (prefers-reduced-motion:reduce){.ticker-track{animation:none}.ticker-win{overflow-x:auto}}
 
 /* ---------- help page ---------- */
@@ -512,7 +528,8 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
     </div>
   </div>
 </header>
-<a class="ticker" data-page="matches.html" href="/" id="ticker" hidden><span class="ticker-tag"><svg class="ic"><use href="#i-ball"/></svg><span class="en">Matches</span><span class="ar">المباريات</span></span><span class="ticker-win"><span class="ticker-track" id="tickerTrack"></span></span></a>
+<a class="ticker" data-page="matches.html" href="/" data-ticker data-src="assets/data/matches.json" hidden><span class="ticker-tag"><svg class="ic"><use href="#i-ball"/></svg><span class="en">Matches</span><span class="ar">المباريات</span></span><span class="ticker-win"><span class="ticker-track"></span></span></a>
+<div class="ticker livebar" data-live aria-live="polite" hidden><span class="ticker-tag live-tag"><i class="live-dot"></i><span class="en">Live</span><span class="ar">مباشر</span></span><span class="ticker-win"><span class="ticker-track"></span></span></div>
 <main id="top">
   <section class="help-hero">
     <div class="wrap">
@@ -581,35 +598,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
   </div>
 </footer>
 <div class="toast" id="toast" role="status"></div>
-<script>
-/* airport-board matches ticker (same data as the rest of the site: assets/data/matches.json) */
-(function(){
-  var bar = document.getElementById('ticker'), track = document.getElementById('tickerTrack'), data = null;
-  if(!bar || !window.fetch) return;
-  function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
-  function render(){
-    var ar = document.documentElement.lang === 'ar', now = Date.now();
-    var hm = function(d, tz){ try{ return d.toLocaleString(ar ? 'ar-EG' : 'en-US', { timeZone: tz, weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true }).toUpperCase(); }catch(e){ return ''; } };
-    var list = ((data && data.events) || []).filter(function(e){ return Date.parse(e.utc) + 2 * 3600e3 > now; }).slice(0, 20);
-    track.textContent = '';
-    if(!list.length){ bar.hidden = true; return; }
-    var g = el('span', 'ticker-group');
-    list.forEach(function(e){
-      var k = new Date(e.utc), live = now >= k.getTime() && now < k.getTime() + 2 * 3600e3, it = el('span', 'tk');
-      var nm = function(x){ return x ? (ar ? x.ar : x.en) : ''; };
-      it.appendChild(el('span', 'tk-teams', nm(e.home) + ' – ' + nm(e.away)));
-      if(live) it.appendChild(el('span', 'tk-live', ar ? 'مباشر' : 'LIVE'));
-      else { it.appendChild(el('span', 'tk-time', (ar ? 'القاهرة ' : 'Cairo ') + hm(k, 'Africa/Cairo'))); it.appendChild(el('span', 'tk-time', (ar ? 'تورونتو ' : 'Toronto ') + hm(k, 'America/Toronto'))); }
-      if(e.channel) it.appendChild(el('span', 'tk-ch', ar ? e.channel.ar : e.channel.en));
-      g.appendChild(it);
-    });
-    track.appendChild(g); track.appendChild(g.cloneNode(true)); bar.hidden = false;
-    track.style.animationDuration = Math.max(20, Math.round((g.getBoundingClientRect().width || 1200) / 45)) + 's';
-  }
-  fetch('assets/data/matches.json', { cache: 'no-cache' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){ data = d; render(); })['catch'](function(){});
-  if(window.MutationObserver) new MutationObserver(function(){ if(data) render(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
-})();
-</script>
+<script src="assets/matches.js" defer></script>
 <script>
 /* internet speed check: downloads test data from Cloudflare's speed-test server for up to 8 seconds */
 (function(){

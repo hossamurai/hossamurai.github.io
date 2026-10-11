@@ -1122,12 +1122,14 @@ def matches_block(c, limit=0):
 
 
 def matches_ticker(c):
-    """Black airport-board bar under the header: big matches scroll by with Cairo and Toronto times. Filled by site.js."""
+    """Black airport-board bar under the header (this week's big matches) + a red-edged live-score bar that only shows
+    while a match is on. Both are filled by assets/matches.js."""
     t = c.t
     return (f'<a class="ticker" href="{c.href("matches.html")}" data-ticker data-src="{c.root}assets/data/matches.json" '
-            f'data-l-cai="{t(L("Cairo", "القاهرة"))}" data-l-tor="{t(L("Toronto", "تورونتو"))}" data-l-live="{t(L("LIVE", "مباشر"))}" '
             f'aria-label="{t(L("Big matches this week", "أهم مباريات الأسبوع"))}" hidden><span class="ticker-tag">{icon("ball")}<span>{t(L("Matches", "المباريات"))}</span></span>'
-            f'<span class="ticker-win"><span class="ticker-track"></span></span></a>')
+            f'<span class="ticker-win"><span class="ticker-track"></span></span></a>'
+            f'<div class="ticker livebar" data-live aria-live="polite" hidden><span class="ticker-tag live-tag"><i class="live-dot"></i><span>{t(L("Live", "مباشر"))}</span></span>'
+            f'<span class="ticker-win"><span class="ticker-track"></span></span></div>')
 
 
 def matches_page(c):
