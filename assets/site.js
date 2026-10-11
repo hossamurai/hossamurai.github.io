@@ -480,13 +480,14 @@
       list.forEach(function(e){
         var k = new Date(e.utc), live = now >= k.getTime() && now < k.getTime() + 2 * 3600e3;
         var it = el('span', 'tk');
+        /* each match reads: ◆ TEAMS · Cairo time · Toronto time · channel */
+        var nm = function(x){ return x ? (AR ? x.ar : x.en) : ''; };
+        it.appendChild(el('span', 'tk-teams', nm(e.home) + ' – ' + nm(e.away)));
         if(live) it.appendChild(el('span', 'tk-live', A('live')));
         else {
           it.appendChild(el('span', 'tk-time', A('cai') + ' ' + hm(k, 'Africa/Cairo')));
           it.appendChild(el('span', 'tk-time', A('tor') + ' ' + hm(k, 'America/Toronto')));
         }
-        var nm = function(x){ return x ? (AR ? x.ar : x.en) : ''; };
-        it.appendChild(el('span', 'tk-teams', nm(e.home) + ' – ' + nm(e.away)));
         if(e.channel) it.appendChild(el('span', 'tk-ch', AR ? e.channel.ar : e.channel.en));
         group.appendChild(it);
       });

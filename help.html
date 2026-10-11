@@ -365,7 +365,11 @@ html[dir="rtl"] .ticker-track{animation-name:tickerMoveRtl}
 @keyframes tickerMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes tickerMoveRtl{from{transform:translateX(0)}to{transform:translateX(50%)}}
 .ticker-group{display:flex}
-.tk{display:inline-flex;align-items:center;gap:10px;padding:0 22px;white-space:nowrap;border-inline-end:1px solid #2a2a2d;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.82rem}
+.tk{display:inline-flex;align-items:center;gap:12px;align-self:stretch;padding:0 22px;white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.82rem}
+.ticker-win{align-items:stretch!important}
+.ticker-track,.ticker-group{height:100%}
+.tk:nth-child(even){background:#1c1c1f}
+.tk::before{content:"";width:8px;height:8px;background:#e3101b;transform:rotate(45deg);flex-shrink:0}
 html[lang="ar"] .tk{font-family:inherit}
 .tk-time{color:#ffb000;font-weight:700;letter-spacing:.02em}
 .tk-teams{color:#fff;font-weight:700;text-transform:uppercase}
@@ -593,9 +597,9 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
     list.forEach(function(e){
       var k = new Date(e.utc), live = now >= k.getTime() && now < k.getTime() + 2 * 3600e3, it = el('span', 'tk');
       var nm = function(x){ return x ? (ar ? x.ar : x.en) : ''; };
+      it.appendChild(el('span', 'tk-teams', nm(e.home) + ' – ' + nm(e.away)));
       if(live) it.appendChild(el('span', 'tk-live', ar ? 'مباشر' : 'LIVE'));
       else { it.appendChild(el('span', 'tk-time', (ar ? 'القاهرة ' : 'Cairo ') + hm(k, 'Africa/Cairo'))); it.appendChild(el('span', 'tk-time', (ar ? 'تورونتو ' : 'Toronto ') + hm(k, 'America/Toronto'))); }
-      it.appendChild(el('span', 'tk-teams', nm(e.home) + ' – ' + nm(e.away)));
       if(e.channel) it.appendChild(el('span', 'tk-ch', ar ? e.channel.ar : e.channel.en));
       g.appendChild(it);
     });
