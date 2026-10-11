@@ -42,19 +42,35 @@
   function hm(d, tz){
     try{ return d.toLocaleString(lang() === 'ar' ? 'ar-EG' : 'en-US', { timeZone: tz || undefined, weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true }).toUpperCase(); }catch(e){ return ''; }
   }
-  function speed(track, group){ track.style.animationDuration = Math.max(20, Math.round((group.getBoundingClientRect().width || 1200) / 45)) + 's'; }
-  /* fill a scrolling track: two copies make the loop seamless; a single short item just sits still */
   /* fill a scrolling track: the items are repeated until they're wider than the bar, then doubled,
-     so even a single match scrolls in a seamless loop */
+     so even a single match scrolls in a seamless loop.
+     No flicker: nothing is rebuilt if the text didn't change, and the scroll speed (animation duration) is only changed
+     when the width changes a lot — changing it restarts/jumps the scroll. */
   function fill(track, group){
-    track.textContent = '';
+    var sig = lang() + '|' + group.textContent;
+    if(track.getAttribute('data-sig') === sig && track.children.length) return;
+    track.setAttribute('data-sig', sig);
+    while(track.firstChild) track.removeChild(track.firstChild);
     track.appendChild(group);
     var win = track.parentNode, need = Math.max((win && win.getBoundingClientRect().width) || 0, 800), items = Array.prototype.slice.call(group.children), n = 0;
     while(group.getBoundingClientRect().width < need && group.getBoundingClientRect().width > 0 && n++ < 12){
       items.forEach(function(it){ group.appendChild(it.cloneNode(true)); });
     }
     track.appendChild(group.cloneNode(true));
-    speed(track, group);
+    var old = parseFloat(track.style.animationDuration) || 0, dur = Math.max(20, Math.round((group.getBoundingClientRect().width || 1200) / 45));
+    if(!old || Math.abs(dur - old) / old > 0.2) track.style.animationDuration = dur + 's';
+    save();
+  }
+  /* remember what the bars showed, so the next page opens with them already in place (no jump while loading) */
+  function save(){
+    try{
+      var c = { t: Date.now(), lang: document.documentElement.lang };
+      [['[data-ticker]', 'ticker'], ['[data-live]', 'live']].forEach(function(p){
+        var b = document.querySelector(p[0]), tr = b && b.querySelector('.ticker-track');
+        c[p[1]] = b && !b.hidden && tr ? { html: tr.innerHTML, dur: tr.style.animationDuration } : null;
+      });
+      localStorage.setItem('htv-bars', JSON.stringify(c));
+    }catch(e){}
   }
 
   /* ---------- this week's matches ---------- */
@@ -63,7 +79,7 @@
     var list = ((data && data.events) || []).filter(function(e){ return !finished[e.id] && Date.parse(e.utc) + 2 * 3600e3 > now; }).slice(0, 20);
     Array.prototype.forEach.call(document.querySelectorAll('[data-ticker]'), function(bar){
       var track = bar.querySelector('.ticker-track');
-      if(!list.length){ bar.hidden = true; return; }
+      if(!list.length){ bar.hidden = true; save(); return; }
       var g = el('span', 'ticker-group');
       list.forEach(function(e){
         var k = new Date(e.utc), on = now >= k.getTime() && now < k.getTime() + 2 * 3600e3, it = el('span', 'tk');
@@ -112,7 +128,7 @@
     var bars = document.querySelectorAll('[data-live]');
     if(!bars.length || document.hidden) return;   /* no polling in a background tab */
     var on = liveNow();
-    if(!on.length){ Array.prototype.forEach.call(bars, function(b){ b.hidden = true; }); document.documentElement.classList.remove('htv-live-on'); return; }
+    if(!on.length){ Array.prototype.forEach.call(bars, function(b){ b.hidden = true; }); document.documentElement.classList.remove('htv-live-on'); save(); return; }
     /* one ESPN request per league + day */
     var want = {}, rows = [];
     on.forEach(function(e){ if(e.espn && e.code) want[e.code + '|' + espnDay(e.utc)] = 1; });
@@ -176,7 +192,7 @@
     document.documentElement.classList.toggle('htv-live-on', rows.length > 0);
     Array.prototype.forEach.call(document.querySelectorAll('[data-live]'), function(bar){
       var track = bar.querySelector('.ticker-track');
-      if(!rows.length){ bar.hidden = true; return; }
+      if(!rows.length){ bar.hidden = true; save(); return; }
       var g = el('span', 'ticker-group');
       rows.forEach(function(r){
         var it = el('span', 'lv' + (flashUntil[r.e.id] > Date.now() ? ' lv-goal' : '') + (r.state === 'post' ? ' lv-ft' : ''));
