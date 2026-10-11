@@ -1257,6 +1257,11 @@ def speed_page(c):
         'rhd': L('Good for HD. For 4K, use a cable or move closer to the router.', 'كويس لجودة HD. لـ 4K استخدم كابل أو قرّب من الراوتر.'),
         'rsd': L('Enough for SD only — try the tips below.', 'يكفي لجودة SD فقط — جرّب النصائح بالأسفل.'),
         'rslow': L('Too slow — this is likely why it freezes. Try the tips below.', 'بطيء جداً — غالباً ده سبب التقطيع. جرّب النصائح بالأسفل.'),
+        'ping': L('Checking the delay…', 'جاري قياس زمن الاستجابة…'),
+        'unstable': L('Fast enough, but the connection is unstable — this can cause freezing. Try a cable or move closer to the router.',
+                      'السرعة كافية لكن الاتصال غير ثابت — وده ممكن يسبب تقطيع. جرّب كابل أو قرّب من الراوتر.'),
+        'slowstart': L('Good speed, but high delay — channels may take longer to start.', 'السرعة كويسة لكن زمن الاستجابة عالي — القنوات ممكن تتأخر في الفتح.'),
+        'stable': L('Stable', 'ثابت'), 'shaky': L('Unstable', 'غير ثابت'),
     }
     attrs = ' '.join(f'data-l-{k}="{t(v)}"' for k, v in lb.items())
     # gauge: semicircle centred at (160,170), radius 130; scale is stretched at the low end (0 5 10 25 50 100+)
@@ -1292,14 +1297,21 @@ def speed_page(c):
       <button type="button" class="st-go" data-st-start aria-label="{t(L('Start the speed test', 'ابدأ اختبار السرعة'))}">GO</button>
     </div>
     <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
+    <div class="st-stats" data-st-stats hidden>
+      <div><small>{t(L('Ping', 'البينج'))}</small><b dir="ltr" data-st-ping>—</b></div>
+      <div><small>{t(L('Jitter', 'التذبذب'))}</small><b dir="ltr" data-st-jitter>—</b></div>
+      <div><small>{t(L('Stability', 'الثبات'))}</small><b data-st-stab>—</b></div>
+    </div>
     <p class="st-msg" data-st-msg aria-live="polite">{t(lb['idle'])}</p>
     <button type="button" class="st-again" data-st-again hidden>{icon('refresh')}{t(lb['again'])}</button>
-    <small class="st-note">{t(L('Download test · up to 25 MB of data · about 8 seconds', 'اختبار تحميل · حتى 25 ميجابايت · حوالي 8 ثواني'))}</small>
+    <small class="st-note">{t(L('Delay + download test · up to 25 MB of data · about 10 seconds', 'اختبار الاستجابة والتحميل · حتى 25 ميجابايت · حوالي 10 ثواني'))}</small>
   </div>
 
   <h2 class="st-h">{t(L('What you need', 'السرعة المطلوبة'))}</h2>
   <div class="st-needs">{tiles}</div>
 
+  <p class="st-explain">{t(L('For TV, a <b>steady</b> connection matters as much as speed: if the speed keeps dropping, the picture freezes even when the average looks good. Ping under 100 ms is fine; it only affects how fast channels start.',
+      'في البث، <b>ثبات</b> الاتصال مهم زي السرعة بالظبط: لو السرعة بتنزل وتطلع الصورة بتقطّع حتى لو المتوسط كويس. زمن استجابة أقل من 100 ms كويس؛ وتأثيره بس على سرعة فتح القنوات.'))}</p>
   <div class="st-tips" data-st-tips>
     <h2 class="st-h">{t(L('Too slow? Try this', 'السرعة ضعيفة؟ جرّب هذا'))}</h2>
     <ul>{tips_html}</ul>

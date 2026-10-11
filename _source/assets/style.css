@@ -1004,3 +1004,10 @@ html[lang="ar"] .tk-teams{text-transform:none}
 .st-wifi{display:flex;gap:12px;align-items:flex-start;margin:0 0 14px;padding:14px 16px;border-radius:18px;background:#fff4d6;border:1.5px solid #f5b400;color:#5c3b00}
 .st-wifi .ic{width:26px;height:26px;flex-shrink:0;color:#d97706;margin-top:1px}
 .st-wifi b{display:block;font-size:1rem;color:#3d2600}.st-wifi span{font-size:.88rem}
+.st-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:420px;margin:16px auto 0}
+.st-stats div{background:#18181b;border:1px solid #2a2a2f;border-radius:14px;padding:10px 6px}
+.st-stats small{display:block;color:#8a8a92;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+html[lang="ar"] .st-stats small{text-transform:none;letter-spacing:0;font-size:.8rem}
+.st-stats b{display:block;font-size:1.05rem;margin-top:2px}
+.st-stats b.good{color:#4ade80}.st-stats b.warn{color:#ffb000}.st-stats b.bad{color:#ff5a5f}
+.st-explain{margin:14px 0 0;color:var(--muted);font-size:.9rem;line-height:1.6}
