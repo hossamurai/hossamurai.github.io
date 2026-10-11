@@ -1258,10 +1258,9 @@ def speed_page(c):
         'rsd': L('Enough for SD only — try the tips below.', 'يكفي لجودة SD فقط — جرّب النصائح بالأسفل.'),
         'rslow': L('Too slow — this is likely why it freezes. Try the tips below.', 'بطيء جداً — غالباً ده سبب التقطيع. جرّب النصائح بالأسفل.'),
         'ping': L('Checking the delay…', 'جاري قياس زمن الاستجابة…'),
-        'unstable': L('Fast enough, but the connection is unstable — this can cause freezing. Try a cable or move closer to the router.',
-                      'السرعة كافية لكن الاتصال غير ثابت — وده ممكن يسبب تقطيع. جرّب كابل أو قرّب من الراوتر.'),
-        'slowstart': L('Good speed, but high delay — channels may take longer to start.', 'السرعة كويسة لكن زمن الاستجابة عالي — القنوات ممكن تتأخر في الفتح.'),
-        'stable': L('Stable', 'ثابت'), 'shaky': L('Unstable', 'غير ثابت'),
+        'magic': L('If it ever freezes, do the magic trick: unplug the router and the TV for 10 seconds, then plug them back in.',
+                   'لو حصل تقطيع، اعمل الحركة السحرية: افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني.'),
+        'stable': L('Stable', 'ثابت'), 'shaky': L('Some dips', 'فيه تذبذب'),
     }
     attrs = ' '.join(f'data-l-{k}="{t(v)}"' for k, v in lb.items())
     # gauge: semicircle centred at (160,170), radius 130; scale is stretched at the low end (0 5 10 25 50 100+)
@@ -1282,7 +1281,7 @@ def speed_page(c):
     </svg>'''
     needs = [(5, 'SD', L('Basic quality', 'جودة عادية'), 'tv'), (10, 'HD', L('Full HD', 'Full HD'), 'tv'), (25, '4K', L('Ultra HD', 'Ultra HD'), '4k')]
     tiles = ''.join(f'<div class="st-need" data-need="{n}">{icon(ic)}<b>{q}</b><span dir="ltr">{n}+ Mbps</span><small>{t(d)}</small></div>' for n, q, d, ic in needs)
-    tips = [('refresh', L('Restart the router', 'أعد تشغيل الراوتر'), L('Unplug it for 10 seconds, then plug it back in.', 'افصله 10 ثواني ثم أعد توصيله.')),
+    tips = [('refresh', L('Do the magic trick', 'اعمل الحركة السحرية'), L('Unplug the router and the TV for 10 seconds, then plug them back in.', 'افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني.')),
             ('bolt', L('Use a cable or 5 GHz', 'استخدم كابل أو 5 جيجا'), L('A network cable to the TV is the most stable.', 'كابل النت للشاشة هو الأكثر ثباتاً.')),
             ('devices', L('Move closer', 'قرّب من الراوتر'), L('Or add a Wi-Fi extender near the TV.', 'أو ضع مقوّي واي فاي قرب الشاشة.')),
             ('info', L('Free up the line', 'خفّف الضغط على الخط'), L('Pause big downloads and other streams.', 'أوقف التحميلات والبث على الأجهزة الأخرى.'))]
@@ -1303,6 +1302,7 @@ def speed_page(c):
       <div><small>{t(L('Stability', 'الثبات'))}</small><b data-st-stab>—</b></div>
     </div>
     <p class="st-msg" data-st-msg aria-live="polite">{t(lb['idle'])}</p>
+    <p class="st-hint" data-st-hint hidden>{icon('refresh')}<span>{t(lb['magic'])}</span></p>
     <button type="button" class="st-again" data-st-again hidden>{icon('refresh')}{t(lb['again'])}</button>
     <small class="st-note">{t(L('Delay + download test · up to 25 MB of data · about 10 seconds', 'اختبار الاستجابة والتحميل · حتى 25 ميجابايت · حوالي 10 ثواني'))}</small>
   </div>
@@ -1310,8 +1310,6 @@ def speed_page(c):
   <h2 class="st-h">{t(L('What you need', 'السرعة المطلوبة'))}</h2>
   <div class="st-needs">{tiles}</div>
 
-  <p class="st-explain">{t(L('For TV, a <b>steady</b> connection matters as much as speed: if the speed keeps dropping, the picture freezes even when the average looks good. Ping under 100 ms is fine; it only affects how fast channels start.',
-      'في البث، <b>ثبات</b> الاتصال مهم زي السرعة بالظبط: لو السرعة بتنزل وتطلع الصورة بتقطّع حتى لو المتوسط كويس. زمن استجابة أقل من 100 ms كويس؛ وتأثيره بس على سرعة فتح القنوات.'))}</p>
   <div class="st-tips" data-st-tips>
     <h2 class="st-h">{t(L('Too slow? Try this', 'السرعة ضعيفة؟ جرّب هذا'))}</h2>
     <ul>{tips_html}</ul>

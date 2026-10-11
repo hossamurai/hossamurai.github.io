@@ -12,7 +12,7 @@
   var go = $('[data-st-start]'), again = $('[data-st-again]'), readout = $('[data-st-readout]'), stats = $('[data-st-stats]');
   var num = $('[data-st-num]'), msg = $('[data-st-msg]'), arc = $('[data-st-arc]'), needle = $('[data-st-needle]');
   var pingEl = $('[data-st-ping]'), jitEl = $('[data-st-jitter]'), stabEl = $('[data-st-stab]');
-  var tips = document.querySelector('[data-st-tips]'), tiles = document.querySelectorAll('[data-need]');
+  var hint = $('[data-st-hint]'), tips = document.querySelector('[data-st-tips]'), tiles = document.querySelectorAll('[data-need]');
   var CF = 'https://speed.cloudflare.com/__down?bytes=';
   var LIMIT = 8000, BYTES = 25000000, MARKS = [0, 5, 10, 25, 50, 100], SLICE = 500, WARMUP = 1500;
   var arcLen = arc.getTotalLength ? arc.getTotalLength() : 408;
@@ -114,23 +114,23 @@
     if(!d.ok){ setState('bad'); setSpeed(0); msg.textContent = A('error'); mark(null); return; }
     var st = stability(d.samples, d.mbps), mbps = d.mbps;
     setSpeed(mbps);
-    stat(stabEl, st.stable ? A('stable') : A('shaky'), st.stable ? 'good' : 'bad');
+    stat(stabEl, st.stable ? A('stable') : A('shaky'), st.stable ? 'good' : 'warn');
     if(p){
-      stat(pingEl, Math.round(p.ping) + ' ms', p.ping < 100 ? 'good' : p.ping < 200 ? 'warn' : 'bad');
-      stat(jitEl, Math.round(p.jitter) + ' ms', p.jitter < 30 ? 'good' : p.jitter < 80 ? 'warn' : 'bad');
+      stat(pingEl, Math.round(p.ping) + ' ms', p.ping < 150 ? 'good' : 'warn');
+      stat(jitEl, Math.round(p.jitter) + ' ms', p.jitter < 50 ? 'good' : 'warn');
     }
-    var shaky = !st.stable || (p && p.jitter >= 80);
-    if(mbps < 5){ setState('bad'); msg.textContent = A('rslow'); }
-    else if(shaky){ setState('bad'); msg.textContent = A('unstable'); }
-    else if(mbps >= 25){ setState(p && p.ping >= 200 ? 'ok' : 'good'); msg.textContent = p && p.ping >= 200 ? A('slowstart') : A('r4k'); }
+    var shaky = !st.stable || (p && (p.jitter >= 150 || p.ping >= 300));
+    if(mbps < 5){ setState('bad'); msg.textContent = A('rslow'); }               /* speed alone sets the verdict and colour */
+    else if(mbps >= 25){ setState('good'); msg.textContent = A('r4k'); }
     else if(mbps >= 10){ setState('ok'); msg.textContent = A('rhd'); }
     else { setState('ok'); msg.textContent = A('rsd'); }
+    if(hint) hint.hidden = !shaky || mbps < 5;                                   /* dips/delay: a calm tip, not an alarm */
     mark(mbps);
     if(tips) tips.hidden = mbps >= 25 && !shaky;
   }
   function run(){
     if(!window.fetch || !window.ReadableStream || !window.Promise){ window.open('https://fast.com', '_blank', 'noopener'); return; }
-    go.hidden = true; readout.hidden = false; again.hidden = true; stats.hidden = false;
+    go.hidden = true; if(hint) hint.hidden = true; readout.hidden = false; again.hidden = true; stats.hidden = false;
     stat(pingEl, '—'); stat(jitEl, '—'); stat(stabEl, '—');
     setState('run'); shown = 0; setSpeed(0); mark(null); msg.textContent = A('ping');
     var p = null;
