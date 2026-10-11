@@ -1,98 +1,6 @@
 {
- "updated": "2026-10-11T12:53:38Z",
+ "updated": "2026-10-11T21:59:43Z",
  "events": [
-  {
-   "id": "e401879264",
-   "utc": "2026-10-11T15:30:00Z",
-   "live": false,
-   "code": "eng.1",
-   "espn": "401879264",
-   "league": {
-    "en": "Premier League",
-    "ar": "الدوري الإنجليزي"
-   },
-   "home": {
-    "en": "Liverpool",
-    "ar": "ليفربول"
-   },
-   "away": {
-    "en": "Manchester City",
-    "ar": "مانشستر سيتي"
-   },
-   "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
-   }
-  },
-  {
-   "id": "e401874789",
-   "utc": "2026-10-11T16:00:00Z",
-   "live": false,
-   "code": "ita.1",
-   "espn": "401874789",
-   "league": {
-    "en": "Serie A",
-    "ar": "الدوري الإيطالي"
-   },
-   "home": {
-    "en": "Sassuolo",
-    "ar": "Sassuolo"
-   },
-   "away": {
-    "en": "AC Milan",
-    "ar": "ميلان"
-   },
-   "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
-   }
-  },
-  {
-   "id": "s2561121",
-   "utc": "2026-10-11T17:00:00Z",
-   "live": false,
-   "code": "egy.1",
-   "espn": null,
-   "league": {
-    "en": "Egyptian League",
-    "ar": "الدوري المصري"
-   },
-   "home": {
-    "en": "Zamalek",
-    "ar": "الزمالك"
-   },
-   "away": {
-    "en": "Al Ahly",
-    "ar": "الأهلي"
-   },
-   "channel": {
-    "en": "ON Time Sports",
-    "ar": "أون تايم سبورت"
-   }
-  },
-  {
-   "id": "e401874764",
-   "utc": "2026-10-11T18:45:00Z",
-   "live": false,
-   "code": "ita.1",
-   "espn": "401874764",
-   "league": {
-    "en": "Serie A",
-    "ar": "الدوري الإيطالي"
-   },
-   "home": {
-    "en": "Cagliari",
-    "ar": "Cagliari"
-   },
-   "away": {
-    "en": "Juventus",
-    "ar": "يوفنتوس"
-   },
-   "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
-   }
-  },
   {
    "id": "s2561124",
    "utc": "2026-10-12T17:00:00Z",
@@ -685,6 +593,98 @@
    "away": {
     "en": "Internazionale",
     "ar": "إنتر ميلان"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401882846",
+   "utc": "2026-10-17T16:30:00Z",
+   "live": false,
+   "code": "esp.1",
+   "espn": "401882846",
+   "league": {
+    "en": "La Liga",
+    "ar": "الدوري الإسباني"
+   },
+   "home": {
+    "en": "Real Betis",
+    "ar": "Real Betis"
+   },
+   "away": {
+    "en": "Barcelona",
+    "ar": "برشلونة"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401884772",
+   "utc": "2026-10-17T16:30:00Z",
+   "live": false,
+   "code": "ger.1",
+   "espn": "401884772",
+   "league": {
+    "en": "Bundesliga",
+    "ar": "الدوري الألماني"
+   },
+   "home": {
+    "en": "Bayern Munich",
+    "ar": "بايرن ميونخ"
+   },
+   "away": {
+    "en": "RB Leipzig",
+    "ar": "RB Leipzig"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401874935",
+   "utc": "2026-10-17T18:45:00Z",
+   "live": false,
+   "code": "ita.1",
+   "espn": "401874935",
+   "league": {
+    "en": "Serie A",
+    "ar": "الدوري الإيطالي"
+   },
+   "home": {
+    "en": "AS Roma",
+    "ar": "روما"
+   },
+   "away": {
+    "en": "Genoa",
+    "ar": "Genoa"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   }
+  },
+  {
+   "id": "e401879260",
+   "utc": "2026-10-18T13:00:00Z",
+   "live": false,
+   "code": "eng.1",
+   "espn": "401879260",
+   "league": {
+    "en": "Premier League",
+    "ar": "الدوري الإنجليزي"
+   },
+   "home": {
+    "en": "Leeds United",
+    "ar": "Leeds United"
+   },
+   "away": {
+    "en": "Manchester United",
+    "ar": "مانشستر يونايتد"
    },
    "channel": {
     "en": "beIN Sports",
