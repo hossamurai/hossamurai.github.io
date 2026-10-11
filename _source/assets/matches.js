@@ -11,6 +11,20 @@
   var LIVE_BEFORE = 5 * 60e3, LIVE_AFTER = 150 * 60e3;   /* a match counts as "on" from 5 min before kick-off to 2.5 h after */
   var data = null, lastScore = {}, flashUntil = {};
 
+  /* channel per league: the admin bot can override it ("channel: Premier League = beIN Sports 1"), via site-data.
+     "English / عربي" in the admin's text gives a different name per language. */
+  function key(t){ return String(t || '').toLowerCase().replace(/[^a-z\u0600-\u06ff]+/g, ''); }
+  function channel(e){
+    var o = window.htvChannels || {}, lg = e.league || {}, names = [key(lg.en), key(lg.ar)], hit = null;
+    Object.keys(o).forEach(function(k){
+      var kk = key(k);
+      if(kk && names.some(function(n){ return n && (n === kk || n.indexOf(kk) >= 0 || kk.indexOf(n) >= 0); })) hit = String(o[k]);
+    });
+    if(hit){ var parts = hit.split(/\s+\/\s+/); return lang() === 'ar' && parts[1] ? parts[1] : parts[0]; }
+    return e.channel ? (lang() === 'ar' ? e.channel.ar : e.channel.en) : '';
+  }
+  window.htvChannelFor = channel;
+
   function lang(){ return document.documentElement.lang === 'ar' ? 'ar' : 'en'; }
   function T(k){ return L[lang()][k]; }
   function nm(x){ return x ? (lang() === 'ar' ? x.ar : x.en) : ''; }
@@ -46,7 +60,7 @@
           it.appendChild(el('span', 'tk-time', T('cairo') + ' ' + hm(k, 'Africa/Cairo')));
           it.appendChild(el('span', 'tk-time', T('toronto') + ' ' + hm(k, 'America/Toronto')));
         }
-        if(e.channel) it.appendChild(el('span', 'tk-ch', lang() === 'ar' ? e.channel.ar : e.channel.en));
+        var ch = channel(e); if(ch) it.appendChild(el('span', 'tk-ch', ch));
         g.appendChild(it);
       });
       bar.hidden = false;
@@ -134,7 +148,7 @@
         it.appendChild(el('span', 'lv-team', nm(r.e.away)));
         var sc = r.g.all;
         if(sc.length) it.appendChild(el('span', 'lv-goals', '⚽ ' + sc.join(' · ')));
-        if(r.e.channel) it.appendChild(el('span', 'tk-ch', lang() === 'ar' ? r.e.channel.ar : r.e.channel.en));
+        var ch = channel(r.e); if(ch) it.appendChild(el('span', 'tk-ch', ch));
         g.appendChild(it);
       });
       bar.hidden = false;
@@ -153,6 +167,8 @@
       setInterval(pollLive, 30e3);          /* live scores every 30 s */
       setInterval(renderTicker, 5 * 60e3);  /* move finished matches off the ticker */
     })['catch'](function(){});
+  /* the admin's channels arrive a moment later (site-data) -> redraw */
+  document.addEventListener('htv:channels', function(){ if(data){ renderTicker(); pollLive(); } });
   /* help.html switches language without reloading */
   if(window.MutationObserver) new MutationObserver(function(){ if(data){ renderTicker(); pollLive(); } })
     .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
