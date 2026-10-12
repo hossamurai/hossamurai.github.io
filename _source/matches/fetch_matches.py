@@ -50,6 +50,20 @@ TEAMS = {
 }
 
 
+# Arabic names for teams that often sit near the top (only for the Arabic name — they don't make a match 'big')
+EXTRA_AR = {
+    'al qadsiah': 'القادسية', 'al ahli': 'الأهلي السعودي', 'al-ahli': 'الأهلي السعودي', 'al ettifaq': 'الاتفاق', 'al shabab': 'الشباب',
+    'al taawoun': 'التعاون', 'al fateh': 'الفتح', 'al khaleej': 'الخليج', 'al fayha': 'الفيحاء',
+    'ceramica cleopatra': 'سيراميكا كليوباترا', 'al masry': 'المصري', 'ismaily': 'الإسماعيلي', 'future fc': 'فيوتشر',
+    'modern sport': 'مودرن سبورت', 'national bank of egypt': 'البنك الأهلي', 'enppi': 'إنبي', 'smouha': 'سموحة',
+    'zed fc': 'زد', 'el gouna': 'الجونة', 'pharco': 'فاركو', 'petrojet': 'بتروجت', 'talaea el gaish': 'طلائع الجيش',
+    'ghazl el mahalla': 'غزل المحلة', 'al ittihad alexandria': 'الاتحاد السكندري', 'wadi degla': 'وادي دجلة', 'haras el hodoud': 'حرس الحدود',
+    'brighton & hove albion': 'برايتون', 'newcastle united': 'نيوكاسل', 'aston villa': 'أستون فيلا', 'nottingham forest': 'نوتنغهام فورست',
+    'real betis': 'ريال بيتيس', 'villarreal': 'فياريال', 'athletic club': 'أتلتيك بلباو', 'real sociedad': 'ريال سوسيداد',
+    'girona': 'جيرونا', 'sevilla': 'إشبيلية', 'valencia': 'فالنسيا', }
+
+
+
 # TheSportsDB league ids (Egyptian league always; the rest only if ESPN is down)
 SPORTSDB_IDS = {'egy.1': 4829, 'uefa.champions': 4480, 'eng.1': 4328, 'esp.1': 4335, 'ita.1': 4332,
                 'ger.1': 4331, 'fra.1': 4334, 'ksa.1': 4668, 'uefa.europa': 4481}
@@ -119,8 +133,8 @@ def main():
             # for the live-score bar: the browser asks ESPN for this league's scoreboard during the match
             'code': code, 'espn': ev_id[1:] if ev_id.startswith('e') else None,
             'league': {'en': len_, 'ar': lar},
-            'home': {'en': home, 'ar': TEAMS.get(keys[0]) or home},
-            'away': {'en': away, 'ar': TEAMS.get(keys[1]) or away},
+            'home': {'en': home, 'ar': TEAMS.get(keys[0]) or EXTRA_AR.get(norm(home)) or home},
+            'away': {'en': away, 'ar': TEAMS.get(keys[1]) or EXTRA_AR.get(norm(away)) or away},
             'channel': {'en': chen, 'ar': char} if chen else None,
             'big': sum(1 for k in keys if k),
         })

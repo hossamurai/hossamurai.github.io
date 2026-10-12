@@ -205,10 +205,10 @@ def layout(c, title, desc, body):
 {alt}
 <meta property="og:title" content="{full_title}">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="{BASE_URL}/assets/img/share.jpg">
+<meta property="og:image" content="{BASE_URL}/assets/img/share.jpg?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Hossam TV — live sports, movies and series up to 4K">
+<meta property="og:image:alt" content="Hossam TV — Arabic TV, live football and movies on any screen, up to 4K">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{canonical(c.lang, c.path)}">
@@ -256,10 +256,10 @@ def root_index():
 <meta property="og:description" content="Live sports, movies and series on any screen, up to 4K. Free trial on WhatsApp. | مباريات وأفلام ومسلسلات على أي شاشة. تجربة مجانية عبر واتساب.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{BASE_URL}/">
-<meta property="og:image" content="{BASE_URL}/assets/img/share.jpg">
+<meta property="og:image" content="{BASE_URL}/assets/img/share.jpg?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Hossam TV — live sports, movies and series up to 4K">
+<meta property="og:image:alt" content="Hossam TV — Arabic TV, live football and movies on any screen, up to 4K">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="assets/img/logo.png">
 <script>
