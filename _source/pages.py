@@ -1145,14 +1145,30 @@ def matches_block(c, limit=0):
             f'data-locale="{"ar-EG" if c.ar else "en-US"}" hidden></div>')
 
 
-def next_match(c):
-    """Countdown to the next big match (filled by assets/matches.js from matches.json; hidden when there's none)."""
+def next_match(c, more=True):
+    """Countdown to the next high-profile match (filled by assets/matches.js from matches.json; hidden when there's none).
+    "Add to calendar" downloads a small .ics file with a 30-minute reminder."""
+    t = c.t
     units = ''.join(f'<div class="nm-unit"><b data-next-v="{u}">00</b><small data-next-l="{u}"></small></div>' for u in 'dhms')
-    return (f'<a class="nextm" href="{c.href("matches.html")}" data-next data-src="{c.root}assets/data/matches.json" hidden>'
+    team = lambda side: (f'<b><img class="nm-logo" data-next-{side}-logo alt="" width="40" height="40" hidden>'
+                         f'<span data-next-{side}></span></b>')
+    link = (f'<a class="nm-btn nm-more" href="{c.href("matches.html")}">{t(L("All matches", "كل المباريات"))}{icon("arrow", "flip")}</a>'
+            if more else '')
+    return (f'<div class="nextm" data-next data-src="{c.root}assets/data/matches.json" '
+            f'data-l-cal="{t(L("Watch live on Hossam TV — hossamservices.com", "شاهدها مباشرة على Hossam TV — hossamservices.com"))}" hidden>'
             f'<span class="nm-league">{icon("ball")}<span data-next-league></span></span>'
-            f'<span class="nm-teams"><b data-next-home></b><i>{c.t(L("vs", "ضد"))}</i><b data-next-away></b></span>'
+            f'<span class="nm-teams">{team("home")}<i>{t(L("vs", "ضد"))}</i>{team("away")}</span>'
             f'<span class="nm-count">{units}</span>'
-            f'<span class="nm-when" data-next-when></span></a>')
+            f'<span class="nm-when" data-next-when></span>'
+            f'<span class="nm-actions"><button type="button" class="nm-btn nm-cal" data-next-cal>{icon("clock")}{t(L("Add to calendar", "أضف للتقويم"))}</button>{link}</span>'
+            f'</div>')
+
+
+def results_block(c):
+    """Last week's results of the big matches (matches.json "results"), filled by assets/matches.js."""
+    t = c.t
+    return (f'<section class="results" data-results hidden><h2 class="st-h">{t(L("Last results", "آخر النتائج"))}</h2>'
+            f'<div class="rs-list" data-results-list></div></section>')
 
 
 def matches_ticker(c):
@@ -1187,8 +1203,9 @@ def matches_page(c):
                      t(L('Kick-off times in your own time zone, and the channel that shows each match.', 'مواعيد المباريات بتوقيتك المحلي، والقناة الناقلة لكل مباراة.')))
     body = hero + f'''
 <section class="sec first"><div class="wrap">
-  {next_match(c)}
+  {next_match(c, more=False)}
   {matches_block(c)}
+  {results_block(c)}
   {standings_block(c)}
   <p class="matches-note">{t(L('Updated automatically every few hours. Times can change — check closer to kick-off.', 'يتم التحديث تلقائياً كل بضع ساعات. المواعيد قد تتغير — راجعها قبل المباراة.'))}</p>
 </div></section>

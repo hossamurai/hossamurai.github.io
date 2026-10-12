@@ -1025,7 +1025,7 @@ section.sec.nextm-sec{padding:12px 0 0;border-top:0}
 html[lang="ar"] .nm-league{letter-spacing:0;font-size:.85rem}
 .nm-league .ic{width:15px;height:15px}
 .nm-teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:10px;width:100%;font-size:1.05rem;line-height:1.25}
-.nm-teams b{display:flex;align-items:center;justify-content:center;min-height:58px;padding:10px 8px;border-radius:12px;background:#18181b;border:1px solid #2a2a2f;font-weight:800;text-align:center;overflow-wrap:break-word;hyphens:auto;min-width:0}
+.nm-teams b{display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;min-height:58px;padding:10px 8px;border-radius:12px;background:#18181b;border:1px solid #2a2a2f;font-weight:800;text-align:center;overflow-wrap:break-word;hyphens:auto;min-width:0}
 .nm-teams i{align-self:center;font-style:normal;color:#e3101b;font-size:.8rem;font-weight:800;text-transform:uppercase}
 .nm-count{display:flex;gap:8px;justify-content:center;width:100%}
 .nm-unit{flex:1;min-width:0;padding:8px 4px 6px;border-radius:12px;background:#18181b;border:1px solid #2a2a2f}
@@ -1054,3 +1054,25 @@ html[lang="ar"] .tb th{text-transform:none;letter-spacing:0;font-size:.8rem}
 .tb-pts{font-weight:800;font-variant-numeric:tabular-nums}
 .tb tbody tr:first-child .tb-rank{color:#e3101b}
 section.sec.nextm-sec+section.sec{padding-top:36px}
+.nm-logo{width:40px;height:40px;object-fit:contain}
+.nm-logo[hidden]{display:none!important}
+.nm-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;width:100%}
+.nm-btn{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 16px;border-radius:999px;font:inherit;font-size:.86rem;font-weight:700;cursor:pointer;text-decoration:none}
+.nm-btn .ic{width:16px;height:16px}
+.nm-cal{background:#e3101b;color:#fff;border:0}
+.nm-more{background:transparent;color:#f5f5f7;border:1px solid #3a3a3f}
+/* last results (matches page) */
+.results{margin:32px auto 0;max-width:640px}
+.results[hidden]{display:none!important}
+.rs-list{display:flex;flex-direction:column;gap:8px}
+.rs-row{border:1px solid var(--line,#e5e5ea);border-radius:14px;padding:10px 12px;background:#fff}
+.rs-meta{font-size:.74rem;color:#8a8a92;font-weight:600;margin-bottom:6px;text-align:center}
+.rs-line{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
+.rs-team{display:flex;align-items:center;gap:8px;min-width:0;font-weight:600;color:#3a3a3c}
+.rs-team span{line-height:1.2;font-size:.92rem;overflow-wrap:break-word;min-width:0}
+.rs-line .rs-team:first-child{justify-content:flex-end;text-align:end}
+.rs-line .rs-team:first-child img{order:2}
+.rs-team img{width:26px;height:26px;object-fit:contain;flex:none}
+.rs-team img[hidden]{display:none!important}
+.rs-team.win{color:#0b0b0c;font-weight:800}
+.rs-score{background:#0b0b0c;color:#fff;border-radius:8px;padding:4px 10px;font-variant-numeric:tabular-nums;white-space:nowrap;direction:ltr}

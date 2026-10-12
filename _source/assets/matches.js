@@ -106,6 +106,62 @@
                 'Internazionale': 'Inter Milan', 'Tottenham Hotspur': 'Tottenham', 'Bayern Munich': 'Bayern', 'Atlético Madrid': 'Atlético',
                 'Atletico Madrid': 'Atlético', 'Newcastle United': 'Newcastle', 'Paris Saint Germain': 'PSG' };
   function short(n){ return SHORT[n] || n; }
+  function logo(img, team){
+    if(!img) return;
+    var src = team && team.logo;
+    if(!src){ img.hidden = true; img.removeAttribute('src'); return; }
+    img.onerror = function(){ this.hidden = true; };
+    if(img.getAttribute('src') !== src) img.src = src;
+    img.hidden = false;
+  }
+  /* "Add to calendar": a tiny .ics file (works with Google, Apple and Samsung calendars) with a reminder 30 min before */
+  function addToCalendar(e, box){
+    if(!e) return;
+    var t = new Date(e.utc), end = new Date(t.getTime() + 2 * 3600e3), ch = channel(e);
+    function ics(d){ return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+    function esc(x){ return String(x || '').replace(/([,;\\])/g, '\\$1'); }
+    var title = nm(e.home) + ' – ' + nm(e.away) + ' (' + nm(e.league) + ')';
+    var text = [
+      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Hossam TV//Matches//EN', 'BEGIN:VEVENT',
+      'UID:' + e.id + '@hossamservices.com', 'DTSTAMP:' + ics(new Date()), 'DTSTART:' + ics(t), 'DTEND:' + ics(end),
+      'SUMMARY:' + esc(title), 'DESCRIPTION:' + esc((ch ? ch + ' · ' : '') + (box.getAttribute('data-l-cal') || '')),
+      'BEGIN:VALARM', 'TRIGGER:-PT30M', 'ACTION:DISPLAY', 'DESCRIPTION:' + esc(title), 'END:VALARM',
+      'END:VEVENT', 'END:VCALENDAR'
+    ].join('\r\n');
+    var a = document.createElement('a');
+    a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(text);
+    a.download = 'match.ics';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  }
+
+  /* ---------- last week's results (matches page) ---------- */
+  function renderResults(){
+    var box = document.querySelector('[data-results]');
+    if(!box) return;
+    var list = (data && data.results) || [], wrap = box.querySelector('[data-results-list]');
+    if(!list.length){ box.hidden = true; return; }
+    while(wrap.firstChild) wrap.removeChild(wrap.firstChild);
+    list.forEach(function(r){
+      var row = el('div', 'rs-row'), d = new Date(r.utc);
+      var meta = el('div', 'rs-meta');
+      var day = ''; try{ day = d.toLocaleDateString(lang() === 'ar' ? 'ar-EG' : 'en-US', { timeZone: TZ || undefined, weekday: 'short', day: 'numeric', month: 'short' }); }catch(x){}
+      meta.textContent = nm(r.league) + ' · ' + day;
+      row.appendChild(meta);
+      var line = el('div', 'rs-line');
+      [['home', r.hs, r.as], ['away', r.as, r.hs]].forEach(function(p, i){
+        var side = el('div', 'rs-team' + (p[1] > p[2] ? ' win' : ''));
+        var img = el('img'); img.alt = ''; img.width = 26; img.height = 26; img.loading = 'lazy';
+        logo(img, r[p[0]]);
+        side.appendChild(img); side.appendChild(el('span', null, short(nm(r[p[0]]))));
+        if(i === 1){ line.appendChild(el('b', 'rs-score', lang() === 'ar' ? r.as + ' – ' + r.hs : r.hs + ' – ' + r.as));   /* RTL: home team is on the right */ }
+        line.appendChild(side);
+      });
+      row.appendChild(line);
+      wrap.appendChild(row);
+    });
+    box.hidden = false;
+  }
+
   function pad(n){ return (n < 10 ? '0' : '') + n; }
   function renderNext(){
     var boxes = document.querySelectorAll('[data-next]');
@@ -119,6 +175,12 @@
       box.querySelector('[data-next-league]').textContent = T('next') + ' · ' + nm(e.league);
       box.querySelector('[data-next-home]').textContent = short(nm(e.home));
       box.querySelector('[data-next-away]').textContent = short(nm(e.away));
+      /* logos only when both teams have one, so the two boxes stay alike */
+      var hl = box.querySelector('[data-next-home-logo]'), al = box.querySelector('[data-next-away-logo]'), both = e.home.logo && e.away.logo;
+      logo(hl, both ? e.home : null); logo(al, both ? e.away : null);
+      hl.onerror = al.onerror = function(){ hl.hidden = al.hidden = true; };
+      var cal = box.querySelector('[data-next-cal]');
+      if(cal && !cal.getAttribute('data-on')){ cal.setAttribute('data-on', '1'); cal.addEventListener('click', function(){ addToCalendar(nextEvent, box); }); }
       box.querySelector('[data-next-when]').textContent = hm(k, TZ || undefined) + ' · ' + tzLabel() + (ch ? ' · ' + ch : '');
       ['d', 'h', 'm', 's'].forEach(function(u){ box.querySelector('[data-next-l="' + u + '"]').textContent = T(u); });
       box.hidden = false;
@@ -253,12 +315,12 @@
   }
 
   /* ---------- start ---------- */
-  var src = document.querySelector('[data-ticker]') || document.querySelector('[data-live]') || document.querySelector('[data-next]');
+  var src = document.querySelector('[data-ticker]') || document.querySelector('[data-live]') || document.querySelector('[data-next]') || document.querySelector('[data-results]');
   if(!src || !window.fetch) return;
   fetch(src.getAttribute('data-src'), { cache: 'no-cache' })
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(d){
-      data = d; renderTicker(); renderNext(); pollLive();
+      data = d; renderTicker(); renderNext(); renderResults(); pollLive();
       setInterval(pollLive, 30e3);          /* live scores every 30 s */
       setInterval(renderTicker, 5 * 60e3);  /* move finished matches off the ticker */
     })['catch'](function(){});
@@ -267,6 +329,6 @@
   /* back to the tab -> fresh scores right away */
   document.addEventListener('visibilitychange', function(){ if(!document.hidden && data) pollLive(); });
   /* help.html switches language without reloading */
-  if(window.MutationObserver) new MutationObserver(function(){ if(data){ renderTicker(); renderNext(); pollLive(); } })
+  if(window.MutationObserver) new MutationObserver(function(){ if(data){ renderTicker(); renderNext(); renderResults(); pollLive(); } })
     .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 })();

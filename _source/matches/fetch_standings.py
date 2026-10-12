@@ -8,7 +8,7 @@ Output: assets/data/standings.json  →  read by assets/standings.js (matches pa
 import json, os, sys
 from datetime import datetime, timezone
 
-from fetch_matches import TEAMS, EXTRA_AR, norm, team_key, get
+from fetch_matches import TEAMS, EXTRA_AR, norm, small_logo, team_key, get
 
 OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'assets', 'data', 'standings.json')
 TOP = 6
@@ -44,7 +44,7 @@ def espn(code):
             logo = (t.get('logos') or [{}])[0].get('href', '')
             rows.append({'rank': int(st.get('rank') or len(rows) + 1), 'en': t.get('shortDisplayName') or t['displayName'],
                          'full': t['displayName'], 'p': int(st.get('gamesPlayed') or 0),
-                         'gd': st.get('pointDifferential') or '0', 'pts': int(st.get('points') or 0), 'logo': logo})
+                         'gd': st.get('pointDifferential') or '0', 'pts': int(st.get('points') or 0), 'logo': small_logo(logo)})
         return rows
     except Exception as e:
         print('  espn', code, e, file=sys.stderr)
@@ -59,7 +59,7 @@ def sportsdb(lid):
             gd = int(x.get('intGoalDifference') or 0)
             logo = (x.get('strBadge') or '').replace('\\/', '/')
             rows.append({'rank': int(x['intRank']), 'en': x['strTeam'], 'full': x['strTeam'], 'p': int(x.get('intPlayed') or 0),
-                         'gd': f'+{gd}' if gd > 0 else str(gd), 'pts': int(x.get('intPoints') or 0), 'logo': logo})
+                         'gd': f'+{gd}' if gd > 0 else str(gd), 'pts': int(x.get('intPoints') or 0), 'logo': small_logo(logo)})
         return rows
     except Exception as e:
         print('  sportsdb', lid, e, file=sys.stderr)
