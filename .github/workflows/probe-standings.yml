@@ -1,0 +1,24 @@
+name: probe-standings
+on:
+  push:
+    branches: [claude/server-hosts-manual-apps-vgx26g]
+    paths: ['.github/workflows/probe-standings.yml']
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for c in eng.1 esp.1 ksa.1; do
+            echo "=== ESPN $c"; curl -s -m 20 "https://site.api.espn.com/apis/v2/sports/soccer/$c/standings" | python3 -c "
+          import json,sys
+          d=json.load(sys.stdin); ch=d.get('children') or [d]
+          print('keys',list(d.keys())[:8], 'children', len(d.get('children',[])))
+          s=ch[0].get('standings',{}); e=s.get('entries',[])
+          print('season', s.get('seasonDisplayName'), s.get('name'), 'entries', len(e))
+          for x in e[:3]:
+            t=x['team']; st={i['name']:i.get('displayValue') for i in x['stats']}
+            print(t.get('displayName'), t.get('shortDisplayName'), t.get('abbreviation'), [l.get('href') for l in t.get('logos',[])][:1], {k:st.get(k) for k in ['rank','gamesPlayed','points','pointDifferential','wins','ties','losses']})
+          " ; done
+          for s in 2026-2027 2025-2026; do
+            echo "=== TSDB egy $s"; curl -s -m 20 "https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=4829&s=$s" | head -c 1500; echo
+          done
