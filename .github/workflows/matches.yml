@@ -1,6 +1,7 @@
 name: Update matches
 
-# Refreshes assets/data/matches.json (big football matches for the next 7 days) and assets/data/standings.json (league tables) for the website.
+# Refreshes assets/data/matches.json (big football matches for the next 7 days) and assets/data/standings.json (league tables),
+# then rebuilds the site so the big-match pages (en/ar/match/…) appear and disappear on their own.
 on:
   schedule:
     - cron: '17 */6 * * *'
@@ -29,12 +30,14 @@ jobs:
       - name: Fetch league tables
         run: cd _source/matches && python3 fetch_standings.py
         continue-on-error: true
+      - name: Rebuild the site (big-match pages come and go with the data)
+        run: python3 _source/build.py
       - name: Commit if changed
         run: |
-          if [ -n "$(git status --porcelain assets/data/matches.json assets/data/standings.json)" ]; then
+          if [ -n "$(git status --porcelain assets/data en ar sitemap.xml)" ]; then
             git config user.name "matches-bot"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add assets/data/matches.json assets/data/standings.json 2>/dev/null || git add assets/data/matches.json
+            git add -A assets/data en ar sitemap.xml
             git commit -m "Update matches"
             git pull --rebase origin main
             git push

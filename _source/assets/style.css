@@ -1098,3 +1098,15 @@ section.sec.nextm-sec+section.sec{padding-top:36px}
 .st-log-num{grid-area:num;font-weight:800;text-align:end;font-variant-numeric:tabular-nums}
 .st-log-num.good{color:#1f9d55}.st-log-num.ok{color:#b7791f}.st-log-num.bad{color:#e3101b}
 .st-log-ex{grid-area:ex;color:#8a8a92;font-size:.78rem;text-align:end}
+/* big-match pages */
+.mp-wrap{max-width:640px}
+.mp-card{margin:0 auto}
+.mp-final{display:flex;flex-direction:column;align-items:center;gap:2px}
+.mp-final small{color:#8a8a92;font-weight:700;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em}
+.mp-final b{font-size:2.6rem;font-weight:800;font-variant-numeric:tabular-nums}
+.mp-live{display:inline-block;background:#e3101b;color:#fff;border-radius:999px;padding:8px 18px;font-weight:800;letter-spacing:.06em}
+.mp-cta{text-align:center;margin:22px 0 0}
+.mp-cta p{color:var(--muted);margin:0 0 12px}
+.mp-more{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.mp-more a{display:block;padding:12px 14px;border-radius:14px;border:1px solid var(--line,#e5e5ea);background:#fff;font-weight:700;color:var(--ink);text-decoration:none}
+.mp-links{margin:0 0 24px}
