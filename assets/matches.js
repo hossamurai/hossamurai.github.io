@@ -101,6 +101,11 @@
 
   /* ---------- countdown to the next big match (home + matches page) ---------- */
   var nextTimer = 0, nextEvent = null;
+  /* shorter English names so both team boxes fit on one line */
+  var SHORT = { 'Manchester United': 'Man United', 'Manchester City': 'Man City', 'Paris Saint-Germain': 'PSG', 'Borussia Dortmund': 'Dortmund',
+                'Internazionale': 'Inter Milan', 'Tottenham Hotspur': 'Tottenham', 'Bayern Munich': 'Bayern', 'Atlético Madrid': 'Atlético',
+                'Atletico Madrid': 'Atlético', 'Newcastle United': 'Newcastle', 'Paris Saint Germain': 'PSG' };
+  function short(n){ return SHORT[n] || n; }
   function pad(n){ return (n < 10 ? '0' : '') + n; }
   function renderNext(){
     var boxes = document.querySelectorAll('[data-next]');
@@ -112,8 +117,8 @@
       if(!nextEvent){ box.hidden = true; return; }
       var e = nextEvent, k = new Date(e.utc), ch = channel(e);
       box.querySelector('[data-next-league]').textContent = T('next') + ' · ' + nm(e.league);
-      box.querySelector('[data-next-home]').textContent = nm(e.home);
-      box.querySelector('[data-next-away]').textContent = nm(e.away);
+      box.querySelector('[data-next-home]').textContent = short(nm(e.home));
+      box.querySelector('[data-next-away]').textContent = short(nm(e.away));
       box.querySelector('[data-next-when]').textContent = hm(k, TZ || undefined) + ' · ' + tzLabel() + (ch ? ' · ' + ch : '');
       ['d', 'h', 'm', 's'].forEach(function(u){ box.querySelector('[data-next-l="' + u + '"]').textContent = T(u); });
       box.hidden = false;
