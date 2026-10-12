@@ -58,6 +58,7 @@
     if(!/^America\/(Toronto|Montreal|Vancouver|Edmonton|Calgary|Winnipeg|Regina|Swift_Current|Halifax|Moncton|Glace_Bay|Goose_Bay|St_Johns|Whitehorse|Dawson|Dawson_Creek|Fort_Nelson|Creston|Yellowknife|Inuvik|Iqaluit|Rankin_Inlet|Cambridge_Bay|Resolute|Atikokan|Nipigon|Thunder_Bay|Rainy_River|Pangnirtung|Blanc-Sablon)$/.test(tz)) return;
     var ar = document.documentElement.lang === 'ar';
     function show(rate){
+      window.htvCadRate = rate; try{ document.dispatchEvent(new CustomEvent('htv:cad')); }catch(e){}
       Array.prototype.forEach.call(spans, function(s){
         var cad = Math.round(+s.getAttribute('data-cad') * rate);
         s.textContent = s.hasAttribute('data-cad-short') ? (ar ? ' أمريكي' : ' USD')       /* the 2-year price: just name the currency */
@@ -73,6 +74,25 @@
       var r = d && d.rates && d.rates.CAD;
       if(r > 1 && r < 2){ store('htv-cad', JSON.stringify({ r: r, t: Date.now() })); show(r); }
     })['catch'](function(){});
+  })();
+
+  /* savings calculator (plans page): cable/satellite bill vs Hossam TV Basic, in CAD for visitors in Canada */
+  (function(){
+    var box = document.querySelector('[data-savings]');
+    if(!box) return;
+    var range = box.querySelector('[data-bill-range]'), bill = box.querySelector('[data-bill]'), save = box.querySelector('[data-save]'), note = box.querySelector('[data-calc-note]');
+    var basic = +box.getAttribute('data-basic') || 35;
+    function money(n){ var cad = !!window.htvCadRate; return '$' + Math.round(n).toLocaleString('en-US') + (cad ? ' CAD' : ''); }
+    function upd(){
+      var rate = window.htvCadRate || 1, month = +range.value, year = month * 12, plan = basic * rate;
+      bill.textContent = money(month);
+      save.textContent = money(Math.max(0, year - plan));
+      note.textContent = note.getAttribute('data-l').replace('{y}', money(year)).replace('{b}', money(plan));
+      range.style.setProperty('--p', ((month - range.min) / (range.max - range.min) * 100) + '%');
+    }
+    range.addEventListener('input', upd);
+    document.addEventListener('htv:cad', upd);
+    upd();
   })();
 
   /* plan tabs (setup pages) — the chosen plan is remembered across device pages */
