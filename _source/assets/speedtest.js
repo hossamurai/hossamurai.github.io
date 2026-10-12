@@ -142,8 +142,10 @@
     var body = new URLSearchParams(); body.append('p', JSON.stringify(r));
     fetch(box.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit' })
       .then(function(x){ return x.json()['catch'](function(){ return {}; }); })
-      .then(function(d){ if(d && d.tests) renderLog(d.tests); })['catch'](function(){});
-    r.at = new Date().toISOString(); renderLog([r].concat(lastLog.filter(function(x){ return x.at !== r.at; })).slice(0, 10));
+      .then(function(){})['catch'](function(){});
+    r.at = new Date().toISOString();
+    try{ var m = mine(); m.unshift(r); localStorage.setItem('htv-mytests', JSON.stringify(m.slice(0, 5))); }catch(e){}
+    renderLog(merge(lastLog));
   }
   var lastLog = [];
   function ago(iso){
@@ -170,9 +172,21 @@
     });
     logBox.hidden = false;
   }
-  /* the list from site-data (bot.js) */
-  if(window.htvSpeedtests) renderLog(window.htvSpeedtests);
-  document.addEventListener('htv:speedtests', function(e){ renderLog(e.detail); });
+  /* the list: fetched fresh here (site-data is cached for 2 min elsewhere, which would hide a test just taken);
+     the visitor's own recent tests are kept on the phone too, so they never vanish on refresh */
+  function mine(){ try{ return JSON.parse(localStorage.getItem('htv-mytests') || '[]').filter(function(r){ return Date.now() - Date.parse(r.at) < 7 * 864e5; }); }catch(e){ return []; } }
+  function merge(list){
+    var all = (list || []).concat(mine()), seen = {}, out = [];
+    all.sort(function(a, b){ return Date.parse(b.at) - Date.parse(a.at); }).forEach(function(r){
+      var k = String(r.name).toLowerCase() + '|' + r.mbps + '|' + Math.round(Date.parse(r.at) / 120000);   /* same test from both sources */
+      if(!seen[k]){ seen[k] = 1; out.push(r); }
+    });
+    return out.slice(0, 10);
+  }
+  if(mine().length) renderLog(merge([]));
+  if(window.fetch) fetch(box.getAttribute('data-api').replace(/site-speed$/, 'site-data'), { cache: 'no-store', credentials: 'omit' })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){ if(d && d.speedtests) renderLog(merge(d.speedtests)); })['catch'](function(){});
   function run(){
     if(nameIn && !nameIn.value.trim()){ msg.textContent = A('needname'); nameIn.focus(); nameIn.classList.add('st-need-name'); return; }
     if(nameIn){ nameIn.classList.remove('st-need-name'); try{ localStorage.setItem('htv-name', nameIn.value.trim()); }catch(e){} }
