@@ -175,6 +175,8 @@
       if(!d) return;
       applyPrices(d.prices); applyOutages(d.outages); applyStatus(d.outages, d.uptime); applyRatings(d.ratings); applyReviews(d.reviews, d.ratings);
       /* match channels set from the admin bot -> matches bars (assets/matches.js) and the matches page */
+      /* latest speed tests -> speed test page (assets/speedtest.js) */
+      if(d.speedtests){ window.htvSpeedtests = d.speedtests; try{ document.dispatchEvent(new CustomEvent('htv:speedtests', { detail: d.speedtests })); }catch(e){} }
       if(d.channels){ window.htvChannels = d.channels; try{ document.dispatchEvent(new CustomEvent('htv:channels', { detail: d.channels })); }catch(e){} }
     })['catch'](function(){});
   }

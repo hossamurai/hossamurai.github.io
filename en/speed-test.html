@@ -88,28 +88,35 @@
 <section class="sec first"><div class="wrap st-wrap">
   <div class="st-wifi" role="note"><svg class="ic" aria-hidden="true"><use href="#i-wifi"/></svg><div><b>Test on the same Wi-Fi as your TV</b>
     <span>Connect your phone to the same network the TV uses — on mobile data the result means nothing for the TV.</span></div></div>
-  <div class="st-card" data-speedtest data-l-again="Test again" data-l-testing="Testing your download speed…" data-l-idle="Tap GO to start" data-l-error="Couldn't run the test. Try fast.com instead." data-l-r4k="Great — fast enough for 4K." data-l-rhd="Good for HD. For 4K, use a cable or move closer to the router." data-l-rsd="Enough for SD only — try the tips below." data-l-rslow="Too slow — this is likely why it freezes. Try the tips below." data-l-ping="Checking the delay…" data-l-magic="If it ever freezes, do the magic trick: unplug the router and the TV for 10 seconds, then plug them back in." data-l-stable="Stable" data-l-shaky="Some dips">
+  <div class="st-card" data-speedtest data-api="https://n8n.hossamservices.com/webhook/site-speed" data-l-again="Test again" data-l-testing="Testing your download speed…" data-l-idle="Tap the play button to start" data-l-error="Couldn't run the test. Try fast.com instead." data-l-r4k="Great — fast enough for 4K." data-l-rhd="Good for HD. For 4K, use a cable or move closer to the router." data-l-rsd="Enough for SD only — try the tips below." data-l-rslow="Too slow — this is likely why it freezes. Try the tips below." data-l-ping="Checking the delay…" data-l-magic="If it ever freezes, do the magic trick: unplug the router and the TV for 10 seconds, then plug them back in." data-l-stable="Stable" data-l-shaky="Some dips" data-l-needname="Type your name first, then tap play.">
+    <label class="st-name"><span>Your name</span>
+      <input type="text" data-st-name maxlength="30" autocomplete="given-name" placeholder="So Hossam can see your result"></label>
     <div class="st-dial">
-      <svg class="st-gauge" viewBox="0 0 320 190" aria-hidden="true">
-      <defs><linearGradient id="stGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#e3101b"/><stop offset=".45" stop-color="#ffb000"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs>
-      <path class="st-arc-bg" d="M30 170 A130 130 0 0 1 290 170"/>
-      <path class="st-arc" data-st-arc d="M30 170 A130 130 0 0 1 290 170"/>
-      <g class="st-ticks"><text x="56.0" y="174.0">0</text><text x="75.9" y="112.9">5</text><text x="127.9" y="75.1">10</text><text x="192.1" y="75.1">25</text><text x="244.1" y="112.9">50</text><text x="264.0" y="174.0">100+</text></g>
-      <g class="st-needle" data-st-needle><line x1="160" y1="170" x2="160" y2="62"/><circle cx="160" cy="170" r="9"/></g>
+      <svg class="st-gauge" viewBox="0 0 320 262" aria-hidden="true">
+      <defs><linearGradient id="stGrad" x1="0" x2="1" y1="1" y2="0"><stop offset="0" stop-color="#d4d4da"/><stop offset=".55" stop-color="#ff4b53"/><stop offset="1" stop-color="#e3101b"/></linearGradient></defs>
+      <path class="st-arc-bg" d="M75.1 244.9 A120 120 0 1 1 244.9 244.9"/>
+      <path class="st-arc" data-st-arc d="M75.1 244.9 A120 120 0 1 1 244.9 244.9"/>
+      <g class="st-ticks"><text x="94.9" y="229.1">0</text><text x="69.1" y="149.6">5</text><text x="118.2" y="82.0">10</text><text x="201.8" y="82.0">25</text><text x="250.9" y="149.6">50</text><text x="225.1" y="229.1">100+</text></g>
+      <g class="st-needle" data-st-needle><circle cx="160" cy="40" r="9"/></g>
     </svg>
-      <button type="button" class="st-go" data-st-start aria-label="Start the speed test">GO</button>
+      <button type="button" class="st-go" data-st-start aria-label="Start the speed test"><svg viewBox="0 0 100 100" aria-hidden="true"><rect x="22" y="20" width="13" height="60" rx="5" fill="#141416"/><rect x="65" y="20" width="13" height="60" rx="5" fill="#141416"/><path d="M42 31 L62 50 L42 69 Z" fill="#e3101b" stroke="#e3101b" stroke-width="5" stroke-linejoin="round"/></svg></button>
+      <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
     </div>
-    <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
     <div class="st-stats" data-st-stats hidden>
       <div><small>Ping</small><b dir="ltr" data-st-ping>—</b></div>
       <div><small>Jitter</small><b dir="ltr" data-st-jitter>—</b></div>
       <div><small>Stability</small><b data-st-stab>—</b></div>
     </div>
-    <p class="st-msg" data-st-msg aria-live="polite">Tap GO to start</p>
+    <p class="st-msg" data-st-msg aria-live="polite">Tap the play button to start</p>
     <p class="st-hint" data-st-hint hidden><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg><span>If it ever freezes, do the magic trick: unplug the router and the TV for 10 seconds, then plug them back in.</span></p>
     <button type="button" class="st-again" data-st-again hidden><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg>Test again</button>
     <small class="st-note">Delay + download test · up to 25 MB of data · about 10 seconds</small>
   </div>
+
+  <section class="st-log" data-st-log hidden>
+    <h2 class="st-h">Latest tests</h2>
+    <div class="st-log-list" data-st-log-list></div>
+  </section>
 
   <h2 class="st-h">What you need</h2>
   <div class="st-needs"><div class="st-need" data-need="5"><svg class="ic" aria-hidden="true"><use href="#i-tv"/></svg><b>SD</b><span dir="ltr">5+ Mbps</span><small>Basic quality</small></div><div class="st-need" data-need="10"><svg class="ic" aria-hidden="true"><use href="#i-tv"/></svg><b>HD</b><span dir="ltr">10+ Mbps</span><small>Full HD</small></div><div class="st-need" data-need="25"><svg class="ic" aria-hidden="true"><use href="#i-4k"/></svg><b>4K</b><span dir="ltr">25+ Mbps</span><small>Ultra HD</small></div></div>
