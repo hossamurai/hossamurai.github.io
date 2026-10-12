@@ -174,7 +174,7 @@ def main():
             'id': rid, 'utc': kick.strftime('%Y-%m-%dT%H:%M:%SZ'), 'league': {'en': len_, 'ar': lar},
             'home': {'en': home, 'ar': TEAMS.get(keys[0]) or EXTRA_AR.get(norm(home)) or home, 'logo': small_logo(hlogo)},
             'away': {'en': away, 'ar': TEAMS.get(keys[1]) or EXTRA_AR.get(norm(away)) or away, 'logo': small_logo(alogo)},
-            'hs': hs, 'as': as_, 'big': sum(1 for x in keys if x),
+            'hs': hs, 'as': as_, 'big': sum(1 for x in keys if x), 'top': all(keys) or 'egypt' in keys,
         })
 
     def espn_event(code, ev):

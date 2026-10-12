@@ -1196,6 +1196,14 @@ def standings_block(c):
 <script src="{c.root}assets/standings.js" defer></script>'''
 
 
+def match_links(c):
+    """Links to the big-match pages (also helps Google find them)."""
+    t, vs = c.t, c.t(L('vs', 'ضد'))
+    items = ''.join(f'<li><a href="{c.href("match/" + sl + ".html")}">{t(L(e["home"]["en"], e["home"]["ar"]))} {vs} {t(L(e["away"]["en"], e["away"]["ar"]))}</a></li>'
+                    for sl, e, r in match_list() if not r)
+    return f'<div class="mp-links"><h2 class="st-h">{t(L("Big match pages", "صفحات القمم"))}</h2><ul class="mp-more">{items}</ul></div>' if items else ''
+
+
 def matches_page(c):
     t = c.t
     hero = page_hero(c, [(None, t(L('Matches', 'المباريات')))],
@@ -1204,6 +1212,7 @@ def matches_page(c):
     body = hero + f'''
 <section class="sec first"><div class="wrap">
   {next_match(c, more=False)}
+  {match_links(c)}
   {matches_block(c)}
   {results_block(c)}
   {standings_block(c)}
@@ -1403,6 +1412,133 @@ def speed_page(c):
             body)
 
 
+# ----------------------------------------------------------------------------
+# MATCH PAGES — one page per high-profile match ("Al Ahly vs Zamalek: kick-off time & channel"), made from
+# assets/data/matches.json on every build. The "Update matches" GitHub Action rebuilds the site every 6 hours,
+# so pages appear a week before kick-off and disappear 2 days after the final whistle.
+# ----------------------------------------------------------------------------
+def _match_data():
+    import json, os
+    try:
+        with open(os.path.join(os.path.dirname(__file__), '..', 'assets', 'data', 'matches.json'), encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _slug(x):
+    import re, unicodedata
+    x = unicodedata.normalize('NFKD', x or '').encode('ascii', 'ignore').decode().lower()
+    return re.sub(r'[^a-z0-9]+', '-', x).strip('-')
+
+
+def match_list():
+    """[(slug, event, result-or-None)] for upcoming top matches and top results of the last 2 days."""
+    from datetime import datetime, timedelta, timezone
+    d = _match_data()
+    now = datetime.now(timezone.utc)
+    out, seen = [], set()
+    for e in d.get('events', []):
+        if e.get('top'):
+            out.append((e, None))
+    for r in d.get('results', []):
+        try:
+            when = datetime.fromisoformat(r['utc'].replace('Z', '+00:00'))
+        except Exception:
+            continue
+        if r.get('top') and now - when < timedelta(days=2):
+            out.append((r, r))
+    pages = []
+    for e, res in sorted(out, key=lambda x: x[0]['utc']):
+        slug = f"{_slug(e['home']['en'])}-vs-{_slug(e['away']['en'])}-{e['utc'][:10]}"
+        if slug in seen:
+            continue
+        seen.add(slug)
+        pages.append((slug, e, res))
+    return pages
+
+
+def _fixed_times(utc):
+    """Kick-off written out for Google (the page also shows the visitor's own time): Toronto, New York, Cairo."""
+    from datetime import datetime
+    try:
+        from zoneinfo import ZoneInfo
+        k = datetime.fromisoformat(utc.replace('Z', '+00:00'))
+        f = lambda tz: k.astimezone(ZoneInfo(tz))
+        tor, ny, cai = f('America/Toronto'), f('America/New_York'), f('Africa/Cairo')
+        hm = lambda d: d.strftime('%I:%M %p').lstrip('0')
+        return tor.strftime('%a %d %b %Y'), hm(tor), hm(ny), hm(cai), cai.strftime('%Y-%m-%d')
+    except Exception:
+        return utc[:10], '', '', '', utc[:10]
+
+
+def match_page(slug, e, res):
+    def build(c):
+        t = c.t
+        H, A, LG = e['home'], e['away'], e['league']
+        hn, an, lg = t(L(H['en'], H['ar'])), t(L(A['en'], A['ar'])), t(L(LG['en'], LG['ar']))
+        ch = e.get('channel') or {}
+        chn = t(L(ch.get('en', ''), ch.get('ar', ''))) if ch else ''
+        day, tor, ny, cai, _ = _fixed_times(e['utc'])
+        vs = t(L('vs', 'ضد'))
+        logo = lambda x: (f'<img class="nm-logo" src="{x["logo"]}" alt="" width="40" height="40" loading="lazy" onerror="this.hidden=true">'
+                          if x.get('logo') else '')
+        team = lambda x, n: f'<b>{logo(x)}<span>{n}</span></b>'
+        if res:
+            middle = (f'<span class="mp-final"><small>{t(L("Full time", "انتهت"))}</small>'
+                      f'<b dir="ltr">{res["hs"] if not c.ar else res["as"]} – {res["as"] if not c.ar else res["hs"]}</b></span>')
+        else:
+            units = ''.join(f'<div class="nm-unit"><b data-mp-v="{u}">00</b><small>{t(L(*lbl))}</small></div>'
+                            for u, lbl in (('d', ('days', 'يوم')), ('h', ('hrs', 'ساعة')), ('m', ('min', 'دقيقة')), ('s', ('sec', 'ثانية'))))
+            middle = f'<span class="nm-count" data-mp-count>{units}</span>'
+        fixed = (f'{day} · {tor} Toronto · {ny} New York · {cai} Cairo' if not c.ar
+                 else f'{tor} تورونتو · {cai} القاهرة')
+        card = f'''<div class="nextm mp-card" data-mp data-utc="{e['utc']}" data-l-live="{t(L('Live now', 'مباشر الآن'))}" data-l-mine="{t(L('Your time', 'بتوقيتك'))}">
+  <span class="nm-league">{icon('ball')}<span>{lg}</span></span>
+  <span class="nm-teams">{team(H, hn)}<i>{vs}</i>{team(A, an)}</span>
+  {middle}
+  <span class="nm-when"><time datetime="{e['utc']}" data-mp-when>{fixed}</time>{(' · ' + chn) if chn else ''}</span>
+</div>'''
+        others = ''.join(f'<li><a href="{c.href("match/" + s2 + ".html")}">{t(L(e2["home"]["en"], e2["home"]["ar"]))} {vs} {t(L(e2["away"]["en"], e2["away"]["ar"]))}</a></li>'
+                         for s2, e2, r2 in match_list() if s2 != slug and not r2)
+        if res:
+            lead = t(L(f'{lg} · final score and where to watch the next big matches.', f'{lg} · النتيجة النهائية وأين تشاهد المباريات الكبيرة القادمة.'))
+        else:
+            lead = t(L(f'{lg} · kick-off in your own time zone and the TV channel.', f'{lg} · موعد المباراة بتوقيتك والقناة الناقلة.'))
+        hero = page_hero(c, [(c.href('matches.html'), t(L('Matches', 'المباريات'))), (None, f'{hn} {vs} {an}')],
+                         f'{hn} {vs} {an}', lead)
+        body = hero + f'''
+<section class="sec first"><div class="wrap mp-wrap">
+  {card}
+  <div class="mp-cta">
+    <p>{t(L('Watch it live on your TV, phone or laptop — up to 4K.', 'شاهدها مباشرة على الشاشة أو الموبايل أو اللابتوب — بجودة حتى 4K.'))}</p>
+    {btn_trial(c)}
+  </div>
+  {('<h2 class="st-h">' + t(L('More big matches', 'مباريات كبيرة أخرى')) + '</h2><ul class="mp-more">' + others + '</ul>') if others else ''}
+  <a class="st-more" href="{c.href('matches.html')}">{icon('ball')}<span>{t(L('All matches, results & tables', 'كل المباريات والنتائج والترتيب'))}</span>{icon('arrow', 'flip')}</a>
+</div></section>
+<script>/* kick-off in the visitor's own time zone + countdown (Toronto / New York / Cairo are written out for search engines) */
+(function(){{var b=document.querySelector('[data-mp]');if(!b)return;var k=Date.parse(b.getAttribute('data-utc')),ar=document.documentElement.lang==='ar',w=b.querySelector('[data-mp-when]'),z='';
+try{{z=Intl.DateTimeFormat().resolvedOptions().timeZone||'';}}catch(e){{}}
+try{{w.textContent=new Date(k).toLocaleString(ar?'ar-EG':'en-US',{{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',hour12:true}})+' · '+(ar||!/\\//.test(z)?b.getAttribute('data-l-mine'):z.split('/').pop().replace(/_/g,' '));}}catch(e){{}}
+var c=b.querySelector('[data-mp-count]');if(!c)return;function p(n){{return(n<10?'0':'')+n;}}
+function tick(){{var l=k-Date.now();if(l<=0){{c.innerHTML='';var s=document.createElement('b');s.className='mp-live';s.textContent=b.getAttribute('data-l-live');c.appendChild(s);return;}}
+var v={{d:Math.floor(l/864e5),h:Math.floor(l/36e5)%24,m:Math.floor(l/6e4)%60,s:Math.floor(l/1e3)%60}};['d','h','m','s'].forEach(function(u){{c.querySelector('[data-mp-v="'+u+'"]').textContent=u==='d'?v[u]:p(v[u]);}});setTimeout(tick,1000);}}tick();}})();</script>
+'''
+        if res:
+            title = t(L(f'{H["en"]} {res["hs"]}–{res["as"]} {A["en"]} — {LG["en"]} result',
+                        f'{H["ar"]} {res["hs"]}–{res["as"]} {A["ar"]} — نتيجة {LG["ar"]}'))
+            desc = t(L(f'{H["en"]} vs {A["en"]} ({LG["en"]}) ended {res["hs"]}–{res["as"]}. See the next big matches with kick-off times in your time zone and the TV channel.',
+                       f'انتهت مباراة {H["ar"]} و{A["ar"]} ({LG["ar"]}) بنتيجة {res["hs"]}–{res["as"]}. شاهد مواعيد المباريات الكبيرة القادمة بتوقيتك والقناة الناقلة.'))
+        else:
+            title = t(L(f'{H["en"]} vs {A["en"]} — Kick-off Time & TV Channel ({LG["en"]})',
+                        f'{H["ar"]} ضد {A["ar"]} — موعد المباراة والقناة الناقلة ({LG["ar"]})'))
+            desc = t(L(f'When is {H["en"]} vs {A["en"]}? {day}: {tor} Toronto, {ny} New York, {cai} Cairo{(" on " + ch.get("en", "")) if ch.get("en") else ""}. Watch it live with Hossam TV — free trial.',
+                       f'موعد مباراة {H["ar"]} و{A["ar"]}: {cai} بتوقيت القاهرة و{tor} بتوقيت تورونتو{(" على " + ch.get("ar", "")) if ch.get("ar") else ""}. شاهدها مباشرة مع Hossam TV — تجربة مجانية.'))
+        return title, desc, body
+    return build
+
+
 PAGE_BUILDERS = [
     ('home', 'index.html', 'home', home),
     ('plans', 'plans.html', 'plans', plans),
@@ -1414,4 +1550,6 @@ PAGE_BUILDERS = [
 ]
 PAGE_BUILDERS += [('matches', 'matches.html', 'matches', matches_page), ('speed', 'speed-test.html', 'speed', speed_page)]
 PAGE_BUILDERS += [('tv-' + sl, 'arabic-tv-' + sl + '.html', None, country_page(sl, nm, wh, tz, ct)) for sl, nm, wh, tz, ct in COUNTRY_PAGES]
+MATCH_PAGES = [('match-' + sl, 'match/' + sl + '.html', 'matches', match_page(sl, e, r)) for sl, e, r in match_list()]
+PAGE_BUILDERS += MATCH_PAGES
 DEVICE_PAGES = [('setup-' + d['slug'], 'setup/' + d['slug'] + '.html', 'setup', device_page(d['slug'])) for d in DEVICES]
