@@ -1017,7 +1017,7 @@ html[lang="ar"] .st-stats small{text-transform:none;letter-spacing:0;font-size:.
 .plan-price .cad{font-size:.85rem;color:var(--muted);font-weight:500}
 .cad[hidden]{display:none!important}
 /* countdown to the next big match */
-.nextm-sec{padding-top:8px;padding-bottom:8px}
+section.sec.nextm-sec{padding:12px 0 0;border-top:0}
 .nextm{display:flex;flex-direction:column;align-items:center;gap:10px;max-width:640px;margin:0 auto;padding:22px 18px;border-radius:22px;background:#0b0b0c;color:#f5f5f7;text-decoration:none;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.18)}
 .sec.first .nextm{margin-bottom:24px}
 .nextm[hidden]{display:none!important}
@@ -1053,3 +1053,4 @@ html[lang="ar"] .tb th{text-transform:none;letter-spacing:0;font-size:.8rem}
 .tb-num{color:#3a3a3c;font-variant-numeric:tabular-nums}
 .tb-pts{font-weight:800;font-variant-numeric:tabular-nums}
 .tb tbody tr:first-child .tb-rank{color:#e3101b}
+section.sec.nextm-sec+section.sec{padding-top:36px}
