@@ -729,8 +729,8 @@ def device_data(c, slug):
         )
     if slug == 'firestick':
         vega = note('warn', P('Check your Firestick first', 'تأكد من نوع الفايرستيك أولاً'), P(
-            "Newer Firesticks running <b>Vega OS</b> — such as the <b>Fire TV Stick 4K Select</b> and the 2026 <b>Fire TV Stick HD</b> — can't run IPTV apps. To check: <span class=\"path\">Settings → My Fire TV → About</span>. If the software version says <b>Fire OS</b>, you're good. If it just says <b>OS</b> with a version starting with 1, it's Vega OS — use an Android TV box or another device instead.",
-            'أجهزة فايرستيك الأحدث التي تعمل بنظام <b>Vega OS</b> — مثل <b>Fire TV Stick 4K Select</b> و<b>Fire TV Stick HD</b> إصدار 2026 — لا تدعم تطبيقات IPTV. للتأكد: <span class="path"><bdi dir="ltr">Settings → My Fire TV → About</bdi></span>. إذا كان إصدار النظام مكتوباً <b>Fire OS</b> فجهازك مناسب. إذا كان مكتوباً <b>OS</b> فقط ويبدأ الرقم بـ 1، فهو Vega OS — استخدم أندرويد بوكس أو جهازاً آخر.'))
+            "Newer Firesticks running <b>Vega OS</b> — such as the <b>Fire TV Stick 4K Select</b> and the 2026 <b>Fire TV Stick HD</b> — can't run our streaming apps. To check: <span class=\"path\">Settings → My Fire TV → About</span>. If the software version says <b>Fire OS</b>, you're good. If it just says <b>OS</b> with a version starting with 1, it's Vega OS — use an Android TV box or another device instead.",
+            'أجهزة فايرستيك الأحدث التي تعمل بنظام <b>Vega OS</b> — مثل <b>Fire TV Stick 4K Select</b> و<b>Fire TV Stick HD</b> إصدار 2026 — لا تدعم تطبيقات البث الخاصة بنا. للتأكد: <span class="path"><bdi dir="ltr">Settings → My Fire TV → About</bdi></span>. إذا كان إصدار النظام مكتوباً <b>Fire OS</b> فجهازك مناسب. إذا كان مكتوباً <b>OS</b> فقط ويبدأ الرقم بـ 1، فهو Vega OS — استخدم أندرويد بوكس أو جهازاً آخر.'))
         return dict(
             apps=['downloader'],
             h1=P('Install Hossam TV on Amazon Firestick', 'تثبيت Hossam TV على أمازون فايرستيك'),
@@ -924,7 +924,7 @@ def about(c):
     t = c.t
     hero = page_hero(c, [(None, t(L('About', 'من نحن')))],
                      t(L('About Hossam TV', 'عن Hossam TV')),
-                     t(L('A small, personal IPTV service — a real person helps you on WhatsApp.', 'خدمة IPTV صغيرة وشخصية — شخص حقيقي يساعدك على واتساب.')))
+                     t(L('A small, personal streaming service — a real person helps you on WhatsApp.', 'خدمة بث صغيرة وشخصية — شخص حقيقي يساعدك على واتساب.')))
     lic = ''
     if t(LICENSE_TEXT):
         lic = f'<h2>{t(L("Licensing", "التراخيص"))}</h2><p>{t(LICENSE_TEXT)}</p>'
@@ -960,8 +960,8 @@ def about(c):
 </div></section>
 ''' + cta_block(c)
     return (t(L('About Us', 'من نحن')),
-            t(L('Hossam TV is a personal IPTV service for Arabic viewers in Canada, the USA, Egypt, the Gulf and worldwide, with fast support on WhatsApp.',
-                'Hossam TV خدمة IPTV شخصية للمشاهدين العرب في كندا وأمريكا ومصر والخليج وحول العالم، مع دعم سريع عبر واتساب.')),
+            t(L('Hossam TV is a personal streaming service for Arabic viewers in Canada, the USA, Egypt, the Gulf and worldwide, with fast support on WhatsApp.',
+                'Hossam TV خدمة بث شخصية للمشاهدين العرب في كندا وأمريكا ومصر والخليج وحول العالم، مع دعم سريع عبر واتساب.')),
             body)
 
 
@@ -981,7 +981,7 @@ def policies(c):
         prose = f'''
 <h2 id="terms">شروط الخدمة</h2>
 <h3>الخدمة</h3>
-<p>توفر Hossam TV اشتراكات IPTV (قنوات مباشرة وأفلام ومسلسلات) تُشاهَد عبر الإنترنت، ويتم تفعيلها بشكل شخصي عبر واتساب.</p>
+<p>توفر Hossam TV اشتراكات بث (قنوات مباشرة وأفلام ومسلسلات) تُشاهَد عبر الإنترنت، ويتم تفعيلها بشكل شخصي عبر واتساب.</p>
 <h3>حسابك</h3>
 <ul>
 <li>يمكنك تثبيت الاشتراك على أي عدد من الأجهزة ومشاركته مع أفراد أسرتك، لكن التشغيل يكون على <b>شاشة واحدة فقط في نفس الوقت</b>.</li>
@@ -1001,7 +1001,7 @@ def policies(c):
 <h3>توفر المحتوى</h3>
 <ul>
 <li>القنوات والمحتوى قد تتغير، أو تتوقف مؤقتاً، أو تُحذف دون إشعار مسبق. ننشر أخبار الصيانة على حالة الواتساب كلما أمكن.</li>
-<li>بعض شركات الإنترنت (مثل الإمارات) قد تحجب خدمات IPTV، وهذا خارج عن إرادتنا.</li>
+<li>بعض شركات الإنترنت (مثل الإمارات) قد تحجب خدمات البث، وهذا خارج عن إرادتنا.</li>
 </ul>
 <h3>التطبيقات</h3>
 <p>تطبيقات المشاهدة (مثل IBO Player و Bob Player و Smarters و SFVIP) تابعة لمطوريها، وبعضها له رسوم تفعيل خاصة موضحة في أدلة التثبيت.</p>
@@ -1034,7 +1034,7 @@ def policies(c):
         prose = f'''
 <h2 id="terms">Terms of service</h2>
 <h3>The service</h3>
-<p>Hossam TV provides IPTV subscriptions (live channels, movies and series) watched over the internet, activated personally through WhatsApp.</p>
+<p>Hossam TV provides streaming subscriptions (live channels, movies and series) watched over the internet, activated personally through WhatsApp.</p>
 <h3>Your account</h3>
 <ul>
 <li>You can install your subscription on as many devices as you like and share it with your household, but only <b>one screen can play at a time</b>.</li>
@@ -1054,7 +1054,7 @@ def policies(c):
 <h3>Content availability</h3>
 <ul>
 <li>Channels and content can change, be temporarily unavailable or be removed without notice. We post maintenance news on our WhatsApp Status whenever we can.</li>
-<li>Some internet providers (for example in the UAE) may block IPTV services. This is outside our control.</li>
+<li>Some internet providers (for example in the UAE) may block streaming services. This is outside our control.</li>
 </ul>
 <h3>Apps</h3>
 <p>Player apps (such as IBO Player, Bob Player, Smarters and SFVIP) belong to their developers. Some have their own activation fees, which are listed in our setup guides.</p>
