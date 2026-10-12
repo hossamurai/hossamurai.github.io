@@ -158,8 +158,8 @@ REGIONS = [
         {'id': 'premium', 'cur': 'sar', 'p1': 200, 'per': 'm12', 'badge': L('Most content', 'أكبر محتوى')},
     ]},
     {'id': 'uae', 'label': L('UAE', 'الإمارات'),
-     'note': L('UAE networks block IPTV services from time to time, so UAE subscriptions are sold for up to 3 months at a time — a smaller amount at risk for you.',
-               'شبكات الإمارات تحجب خدمات IPTV من وقت لآخر، لذلك تُباع اشتراكات الإمارات لمدة 3 أشهر كحد أقصى — لتقليل المخاطرة عليك.'),
+     'note': L('UAE networks block streaming services from time to time, so UAE subscriptions are sold for up to 3 months at a time — a smaller amount at risk for you.',
+               'شبكات الإمارات تحجب خدمات البث من وقت لآخر، لذلك تُباع اشتراكات الإمارات لمدة 3 أشهر كحد أقصى — لتقليل المخاطرة عليك.'),
      'plans': [
         {'id': 'basic', 'cur': 'aed', 'p1': 35, 'per': 'm3', 'featured': True},
         {'id': 'premium', 'cur': 'aed', 'p1': 50, 'per': 'm3'},
@@ -305,8 +305,8 @@ CATEGORIES = [
 # ----------------------------------------------------------------------------
 FAQ = [
     (L('General', 'أسئلة عامة'), [
-        ('what-is-iptv', L('What is IPTV?', 'ما هو الـ IPTV؟'),
-         L('IPTV lets you watch live TV channels, sports and movies over the internet instead of satellite or cable.',
+        ('what-is-it', L('What is Hossam TV?', 'ما هي Hossam TV؟'),
+         L('A streaming service: watch live TV channels, sports and movies over the internet instead of satellite or cable.',
            'خدمة تتيح لك مشاهدة القنوات والمباريات والأفلام عبر الإنترنت بدلاً من الدش أو الكابل.')),
         ('what-do-i-need', L('What do I need?', 'ماذا أحتاج لتشغيل الخدمة؟'),
          L('A stable internet connection and a supported device: Android TV or box, Firestick (not Vega OS models), Samsung/LG Smart TV, Android phone, iPhone, iPad, Mac, Apple TV or a Windows PC.',
@@ -344,8 +344,8 @@ FAQ = [
          L("There are no refunds after activation — that's why we offer a free trial first.",
            'لا يوجد استرجاع للمبلغ بعد التفعيل — ولهذا نوفر تجربة مجانية أولاً.')),
         ('uae', L('Why are UAE plans only 3 months?', 'لماذا اشتراكات الإمارات 3 أشهر فقط؟'),
-         L('UAE networks block IPTV services from time to time. Shorter subscriptions mean less of your money is at risk if that happens.',
-           'شبكات الإمارات تحجب خدمات IPTV من وقت لآخر. الاشتراك الأقصر يعني مخاطرة أقل على أموالك إذا حدث ذلك.')),
+         L('UAE networks block streaming services from time to time. Shorter subscriptions mean less of your money is at risk if that happens.',
+           'شبكات الإمارات تحجب خدمات البث من وقت لآخر. الاشتراك الأقصر يعني مخاطرة أقل على أموالك إذا حدث ذلك.')),
     ]),
     (L('Devices & watching', 'الأجهزة والمشاهدة'), [
         ('multi-device', L('Can I use it on more than one device?', 'هل يمكنني التشغيل على أكثر من جهاز؟'),
@@ -355,8 +355,8 @@ FAQ = [
          L('About 5 Mbps for SD, 10 Mbps for Full HD and 25 Mbps or more for 4K (plus a 4K-capable device). Check yours with {speedtest}.',
            'حوالي 5 ميجابت لجودة SD، و10 ميجابت لجودة Full HD، و25 ميجابت أو أكثر لجودة 4K (مع جهاز يدعم 4K). اختبر سرعتك من {speedtest}.')),
         ('firestick', L('Does it work on my Firestick?', 'هل يعمل على الفايرستيك؟'),
-         L('Most Firesticks work. The exception is newer models running Vega OS (like the Fire TV Stick 4K Select and the 2026 Fire TV Stick HD), which can\'t install IPTV apps. Check under <b>Settings → My Fire TV → About</b>: "Fire OS" is fine; plain "OS" with a version starting with 1 means Vega OS.',
-           'معظم أجهزة الفايرستيك تعمل. الاستثناء هو الأجهزة الأحدث بنظام Vega OS (مثل Fire TV Stick 4K Select و Fire TV Stick HD إصدار 2026) لأنها لا تسمح بتثبيت تطبيقات IPTV. للتأكد: <b><bdi dir="ltr">Settings → My Fire TV → About</bdi></b>. إذا كان مكتوباً Fire OS فجهازك مناسب، أما إذا كان مكتوباً OS فقط ويبدأ الرقم بـ 1 فهو Vega OS.')),
+         L('Most Firesticks work. The exception is newer models running Vega OS (like the Fire TV Stick 4K Select and the 2026 Fire TV Stick HD), which can\'t install streaming apps like ours. Check under <b>Settings → My Fire TV → About</b>: "Fire OS" is fine; plain "OS" with a version starting with 1 means Vega OS.',
+           'معظم أجهزة الفايرستيك تعمل. الاستثناء هو الأجهزة الأحدث بنظام Vega OS (مثل Fire TV Stick 4K Select و Fire TV Stick HD إصدار 2026) لأنها لا تسمح بتثبيت تطبيقات البث الخاصة بنا. للتأكد: <b><bdi dir="ltr">Settings → My Fire TV → About</bdi></b>. إذا كان مكتوباً Fire OS فجهازك مناسب، أما إذا كان مكتوباً OS فقط ويبدأ الرقم بـ 1 فهو Vega OS.')),
         ('smart-tv-fee', L('Is there an extra fee for Samsung or LG TVs?', 'هل توجد رسوم إضافية لشاشات سامسونج و LG؟'),
          L('Smart TVs use Bob Player on Samsung (IBO Player isn’t in the Samsung store right now) or IBO Player on LG. With Basic and Premium, activation is free for your first TV and $4 (lifetime) for each extra TV. With XTV and Marvel, the app costs 100 EGP a year or 200 EGP lifetime per TV, after a 7-day free trial.',
            'الشاشات الذكية تستخدم Bob Player على سامسونج (IBO Player غير موجود حالياً في متجر سامسونج) أو IBO Player على LG. مع الباقة الأساسية وبريميوم، التفعيل مجاني لأول شاشة و4 دولارات (مدى الحياة) لكل شاشة إضافية. مع XTV و Marvel، يكلف التطبيق 100 جنيه سنوياً أو 200 جنيه مدى الحياة لكل شاشة، بعد تجربة مجانية 7 أيام.')),
