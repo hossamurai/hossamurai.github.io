@@ -62,6 +62,13 @@ EXTRA_AR = {
     'ghazl el mahalla': 'غزل المحلة', 'al ittihad alexandria': 'الاتحاد السكندري', 'wadi degla': 'وادي دجلة', 'haras el hodoud': 'حرس الحدود',
     'brighton & hove albion': 'برايتون', 'newcastle united': 'نيوكاسل', 'aston villa': 'أستون فيلا', 'nottingham forest': 'نوتنغهام فورست',
     'real betis': 'ريال بيتيس', 'villarreal': 'فياريال', 'athletic club': 'أتلتيك بلباو', 'real sociedad': 'ريال سوسيداد',
+    'atalanta': 'أتالانتا', 'lazio': 'لاتسيو', 'fiorentina': 'فيورنتينا', 'bologna': 'بولونيا', 'como': 'كومو', 'torino': 'تورينو',
+    'bayer leverkusen': 'باير ليفركوزن', 'rb leipzig': 'لايبزيغ', 'eintracht frankfurt': 'آينتراخت فرانكفورت', 'vfb stuttgart': 'شتوتغارت',
+    'sc freiburg': 'فرايبورغ', 'vfl wolfsburg': 'فولفسبورغ', 'borussia monchengladbach': 'مونشنغلادباخ', 'union berlin': 'أونيون برلين', '1. fc union berlin': 'أونيون برلين',
+    'marseille': 'مارسيليا', 'olympique de marseille': 'مارسيليا', 'monaco': 'موناكو', 'as monaco': 'موناكو', 'lille': 'ليل', 'losc lille': 'ليل',
+    'lyon': 'ليون', 'olympique lyonnais': 'ليون', 'nice': 'نيس', 'ogc nice': 'نيس', 'lens': 'لانس', 'rc lens': 'لانس', 'stade rennais': 'رين', 'rennes': 'رين',
+    'benfica': 'بنفيكا', 'porto': 'بورتو', 'sporting cp': 'سبورتنغ لشبونة', 'psv eindhoven': 'آيندهوفن', 'feyenoord': 'فينورد', 'ajax': 'أياكس',
+    'galatasaray': 'غلطة سراي', 'club brugge': 'كلوب بروج', 'celtic': 'سلتيك', 'shakhtar donetsk': 'شاختار', 'red bull salzburg': 'سالزبورغ',
     'girona': 'جيرونا', 'sevilla': 'إشبيلية', 'valencia': 'فالنسيا', }
 
 
