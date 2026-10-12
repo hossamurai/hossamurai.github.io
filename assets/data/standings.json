@@ -1,0 +1,248 @@
+{
+ "updated": "2026-10-12T14:19:15Z",
+ "leagues": [
+  {
+   "id": "egy",
+   "name": {
+    "en": "Egyptian League",
+    "ar": "الدوري المصري"
+   },
+   "rows": [
+    {
+     "rank": 1,
+     "en": "Al Ahly",
+     "p": 6,
+     "gd": "+8",
+     "pts": 16,
+     "logo": "https://r2.thesportsdb.com/images/media/team/badge/x8753q1751421890.png/tiny",
+     "ar": "الأهلي"
+    },
+    {
+     "rank": 2,
+     "en": "Pyramids",
+     "p": 5,
+     "gd": "+8",
+     "pts": 15,
+     "logo": "https://r2.thesportsdb.com/images/media/team/badge/8liy611607352549.png/tiny",
+     "ar": "بيراميدز"
+    },
+    {
+     "rank": 3,
+     "en": "Zamalek",
+     "p": 6,
+     "gd": "+5",
+     "pts": 13,
+     "logo": "https://r2.thesportsdb.com/images/media/team/badge/tgekj81580930027.png/tiny",
+     "ar": "الزمالك"
+    },
+    {
+     "rank": 4,
+     "en": "Ceramica Cleopatra",
+     "p": 5,
+     "gd": "+7",
+     "pts": 12,
+     "logo": "https://r2.thesportsdb.com/images/media/team/badge/xy4shs1751422167.png/tiny",
+     "ar": "سيراميكا كليوباترا"
+    },
+    {
+     "rank": 5,
+     "en": "Modern Sport",
+     "p": 5,
+     "gd": "+3",
+     "pts": 10,
+     "logo": "https://r2.thesportsdb.com/images/media/team/badge/larnky1729784569.png/tiny",
+     "ar": "مودرن سبورت"
+    }
+   ]
+  },
+  {
+   "id": "eng",
+   "name": {
+    "en": "Premier League",
+    "ar": "الدوري الإنجليزي"
+   },
+   "rows": [
+    {
+     "rank": 1,
+     "en": "Man City",
+     "p": 6,
+     "gd": "+11",
+     "pts": 18,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/382.png",
+     "ar": "مانشستر سيتي"
+    },
+    {
+     "rank": 2,
+     "en": "Arsenal",
+     "p": 6,
+     "gd": "+5",
+     "pts": 15,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+     "ar": "آرسنال"
+    },
+    {
+     "rank": 3,
+     "en": "Brighton",
+     "p": 6,
+     "gd": "+13",
+     "pts": 13,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/331.png",
+     "ar": "برايتون"
+    },
+    {
+     "rank": 4,
+     "en": "Brentford",
+     "p": 6,
+     "gd": "+6",
+     "pts": 10,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/337.png",
+     "ar": "Brentford"
+    },
+    {
+     "rank": 5,
+     "en": "Everton",
+     "p": 6,
+     "gd": "+3",
+     "pts": 10,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/368.png",
+     "ar": "Everton"
+    },
+    {
+     "rank": 6,
+     "en": "Chelsea",
+     "p": 6,
+     "gd": "+2",
+     "pts": 10,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+     "ar": "تشيلسي"
+    }
+   ]
+  },
+  {
+   "id": "esp",
+   "name": {
+    "en": "La Liga",
+    "ar": "الدوري الإسباني"
+   },
+   "rows": [
+    {
+     "rank": 1,
+     "en": "Barcelona",
+     "p": 8,
+     "gd": "+27",
+     "pts": 24,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/83.png",
+     "ar": "برشلونة"
+    },
+    {
+     "rank": 2,
+     "en": "Atlético",
+     "p": 8,
+     "gd": "+10",
+     "pts": 19,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/1068.png",
+     "ar": "أتلتيكو مدريد"
+    },
+    {
+     "rank": 3,
+     "en": "Betis",
+     "p": 8,
+     "gd": "+5",
+     "pts": 19,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/244.png",
+     "ar": "ريال بيتيس"
+    },
+    {
+     "rank": 4,
+     "en": "Real Madrid",
+     "p": 8,
+     "gd": "+11",
+     "pts": 18,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/86.png",
+     "ar": "ريال مدريد"
+    },
+    {
+     "rank": 5,
+     "en": "Sevilla",
+     "p": 7,
+     "gd": "+1",
+     "pts": 13,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/243.png",
+     "ar": "إشبيلية"
+    },
+    {
+     "rank": 6,
+     "en": "Real Sociedad",
+     "p": 8,
+     "gd": "-3",
+     "pts": 13,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/89.png",
+     "ar": "ريال سوسيداد"
+    }
+   ]
+  },
+  {
+   "id": "ksa",
+   "name": {
+    "en": "Saudi Pro League",
+    "ar": "دوري روشن السعودي"
+   },
+   "rows": [
+    {
+     "rank": 1,
+     "en": "Al Hilal",
+     "p": 8,
+     "gd": "+19",
+     "pts": 21,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/929.png",
+     "ar": "الهلال"
+    },
+    {
+     "rank": 2,
+     "en": "Al Qadsiah",
+     "p": 8,
+     "gd": "+13",
+     "pts": 19,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/22022.png",
+     "ar": "القادسية"
+    },
+    {
+     "rank": 3,
+     "en": "Al Nassr",
+     "p": 8,
+     "gd": "+12",
+     "pts": 19,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/817.png",
+     "ar": "النصر"
+    },
+    {
+     "rank": 4,
+     "en": "Al Ittihad",
+     "p": 8,
+     "gd": "+5",
+     "pts": 17,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/2276.png",
+     "ar": "الاتحاد"
+    },
+    {
+     "rank": 5,
+     "en": "Neom SC",
+     "p": 8,
+     "gd": "+7",
+     "pts": 16,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/130899.png",
+     "ar": "Neom SC"
+    },
+    {
+     "rank": 6,
+     "en": "Al Ahli",
+     "p": 8,
+     "gd": "+10",
+     "pts": 15,
+     "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/8346.png",
+     "ar": "الأهلي السعودي"
+    }
+   ]
+  }
+ ]
+}
