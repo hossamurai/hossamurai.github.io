@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-12T14:19:01Z",
+ "updated": "2026-10-12T14:25:49Z",
  "events": [
   {
    "id": "s2561124",
@@ -22,7 +22,8 @@
    "channel": {
     "en": "ON Time Sports",
     "ar": "أون تايم سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401915417",
@@ -45,7 +46,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401915412",
@@ -68,7 +70,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": true
   },
   {
    "id": "e401915435",
@@ -91,7 +94,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401915413",
@@ -114,7 +118,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401915411",
@@ -137,7 +142,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401915410",
@@ -160,7 +166,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401915415",
@@ -183,7 +190,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401915414",
@@ -206,7 +214,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": true
   },
   {
    "id": "e401915393",
@@ -229,7 +238,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401915407",
@@ -252,7 +262,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": true
   },
   {
    "id": "e401915568",
@@ -275,7 +286,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401900905",
@@ -298,7 +310,8 @@
    "channel": {
     "en": "Thmanyah",
     "ar": "ثمانية"
-   }
+   },
+   "top": true
   },
   {
    "id": "e401915560",
@@ -321,7 +334,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401914250",
@@ -344,7 +358,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401900900",
@@ -367,7 +382,8 @@
    "channel": {
     "en": "Thmanyah",
     "ar": "ثمانية"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401914216",
@@ -390,7 +406,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401900903",
@@ -413,7 +430,8 @@
    "channel": {
     "en": "Thmanyah",
     "ar": "ثمانية"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401878771",
@@ -436,7 +454,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401882843",
@@ -459,7 +478,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401874760",
@@ -482,7 +502,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401884769",
@@ -505,7 +526,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401879262",
@@ -528,7 +550,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401879259",
@@ -551,7 +574,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401876432",
@@ -574,7 +598,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401874953",
@@ -597,7 +622,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401882846",
@@ -620,7 +646,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401884772",
@@ -643,7 +670,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401874935",
@@ -666,7 +694,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   },
   {
    "id": "e401879260",
@@ -689,7 +718,8 @@
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
-   }
+   },
+   "top": false
   }
  ]
 }
