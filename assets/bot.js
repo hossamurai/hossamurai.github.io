@@ -125,14 +125,19 @@
     header.parentNode.insertBefore(box, header.nextSibling);
   }
   /* "All servers working" / "Problem with …" line ([data-status] on Home, FAQ and My account) */
-  function applyStatus(list){
+  /* uptime = share of the bot's status checks in the last 30 days with no outage on (site-data "uptime": { pct, days });
+     shown only after a week of records, so a fresh counter never makes a claim */
+  function applyStatus(list, up){
     if(!Array.isArray(list)) return;
     var names = [];
     list.forEach(function(o){ var n = outageName(o); if(n && names.indexOf(n) < 0) names.push(n); });
+    var pct = up && up.days >= 7 && up.pct > 0 ? (Math.floor(up.pct * 10) / 10) : 0;
+    var extra = pct ? T(' · ' + pct + '% uptime', ' · تشغيل ' + pct + '٪') : '', tip = pct ? T('Uptime over the last 30 days', 'نسبة التشغيل خلال آخر 30 يوم') : '';
     each('[data-status]', function(p){
       var bad = names.length > 0;
-      p.textContent = bad ? p.getAttribute('data-bad').replace('{x}', names.join(T(', ', '، '))) : p.getAttribute('data-ok');
+      p.textContent = bad ? p.getAttribute('data-bad').replace('{x}', names.join(T(', ', '، '))) : p.getAttribute('data-ok') + extra;
       p.className = 'svc-status ' + (bad ? 'bad' : 'ok');
+      if(tip && !bad) p.title = tip;
       p.hidden = false;
     });
   }
@@ -168,7 +173,7 @@
   if(!HELP_PAGE){
     fetch(API + 'site-data', { credentials: 'omit' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
       if(!d) return;
-      applyPrices(d.prices); applyOutages(d.outages); applyStatus(d.outages); applyRatings(d.ratings); applyReviews(d.reviews, d.ratings);
+      applyPrices(d.prices); applyOutages(d.outages); applyStatus(d.outages, d.uptime); applyRatings(d.ratings); applyReviews(d.reviews, d.ratings);
       /* match channels set from the admin bot -> matches bars (assets/matches.js) and the matches page */
       if(d.channels){ window.htvChannels = d.channels; try{ document.dispatchEvent(new CustomEvent('htv:channels', { detail: d.channels })); }catch(e){} }
     })['catch'](function(){});
