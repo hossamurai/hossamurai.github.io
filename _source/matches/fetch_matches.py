@@ -42,7 +42,7 @@ TEAMS = {
     'manchester united': 'مانشستر يونايتد', 'tottenham hotspur': 'توتنهام',
     'juventus': 'يوفنتوس', 'internazionale': 'إنتر ميلان', 'ac milan': 'ميلان', 'napoli': 'نابولي', 'as roma': 'روما',
     'bayern munich': 'بايرن ميونخ', 'borussia dortmund': 'بوروسيا دورتموند', 'paris saint-germain': 'باريس سان جيرمان',
-    'al hilal': 'الهلال', 'al nassr': 'النصر', 'al ittihad': 'الاتحاد', 'al-hilal': 'الهلال', 'al-nassr': 'النصر', 'al-ittihad': 'الاتحاد',
+    'al hilal': 'الهلال', 'al nassr': 'النصر', 'al ittihad': 'الاتحاد', 'al ahli': 'الأهلي السعودي', 'al-hilal': 'الهلال', 'al-nassr': 'النصر', 'al-ittihad': 'الاتحاد',
     'man city': 'مانشستر سيتي', 'man utd': 'مانشستر يونايتد', 'spurs': 'توتنهام', 'inter': 'إنتر ميلان', 'milan': 'ميلان',
     'atletico': 'أتلتيكو مدريد', 'atletico de madrid': 'أتلتيكو مدريد', 'bayern munchen': 'بايرن ميونخ', 'bayern': 'بايرن ميونخ',
     'dortmund': 'بوروسيا دورتموند', 'paris': 'باريس سان جيرمان', 'psg': 'باريس سان جيرمان', 'roma': 'روما',
@@ -137,6 +137,8 @@ def main():
             'away': {'en': away, 'ar': TEAMS.get(keys[1]) or EXTRA_AR.get(norm(away)) or away},
             'channel': {'en': chen, 'ar': char} if chen else None,
             'big': sum(1 for k in keys if k),
+            # high-profile = two popular teams (Ahly–Zamalek, Real–Barça, City–PSG…) or Egypt's national team → home-page countdown
+            'top': all(keys) or 'egypt' in keys,
         })
 
     def espn_event(code, ev):

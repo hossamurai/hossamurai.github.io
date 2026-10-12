@@ -6,9 +6,9 @@
   'use strict';
   var L = {
     en: { mine: 'Your time', live: 'LIVE', ht: 'HT', ft: 'FT', goal: 'GOAL!', og: 'OG', pen: 'pen', soon: 'Kick-off soon',
-          next: 'Next big match', d: 'days', h: 'hrs', m: 'min', s: 'sec' },
+          next: 'Big match', d: 'days', h: 'hrs', m: 'min', s: 'sec' },
     ar: { mine: 'بتوقيتك', live: 'مباشر', ht: 'استراحة', ft: 'انتهت', goal: 'جووول!', og: 'عكسي', pen: 'جزاء', soon: 'تبدأ قريباً',
-          next: 'المباراة الكبيرة القادمة', d: 'يوم', h: 'ساعة', m: 'دقيقة', s: 'ثانية' }
+          next: 'قمة قادمة', d: 'يوم', h: 'ساعة', m: 'دقيقة', s: 'ثانية' }
   };
   var ESPN = 'https://site.api.espn.com/apis/site/v2/sports/soccer/';
   var LIVE_BEFORE = 5 * 60e3, LIVE_AFTER = 150 * 60e3;   /* a match counts as "on" from 5 min before kick-off to 2.5 h after */
@@ -106,7 +106,7 @@
     var boxes = document.querySelectorAll('[data-next]');
     if(!boxes.length) return;
     var now = Date.now();
-    nextEvent = ((data && data.events) || []).filter(function(e){ return !finished[e.id] && Date.parse(e.utc) > now; })
+    nextEvent = ((data && data.events) || []).filter(function(e){ return e.top && !finished[e.id] && Date.parse(e.utc) > now; })   /* high-profile matches only */
       .sort(function(a, b){ return Date.parse(a.utc) - Date.parse(b.utc); })[0] || null;
     Array.prototype.forEach.call(boxes, function(box){
       if(!nextEvent){ box.hidden = true; return; }
