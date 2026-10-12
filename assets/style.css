@@ -1024,16 +1024,16 @@ section.sec.nextm-sec{padding:12px 0 0;border-top:0}
 .nm-league{display:inline-flex;align-items:center;gap:6px;color:#e3101b;font-weight:800;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase}
 html[lang="ar"] .nm-league{letter-spacing:0;font-size:.85rem}
 .nm-league .ic{width:15px;height:15px}
-.nm-teams{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;font-size:1.25rem;line-height:1.25}
-.nm-teams b{font-weight:800}
-.nm-teams i{font-style:normal;color:#8a8a92;font-size:.85rem;font-weight:600}
+.nm-teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:10px;width:100%;font-size:1.05rem;line-height:1.25}
+.nm-teams b{display:flex;align-items:center;justify-content:center;min-height:64px;padding:10px 8px;border-radius:14px;background:#18181b;border:1px solid #2a2a2f;font-weight:800;text-align:center;overflow-wrap:break-word;hyphens:auto;min-width:0}
+.nm-teams i{align-self:center;font-style:normal;color:#e3101b;font-size:.8rem;font-weight:800;text-transform:uppercase}
 .nm-count{display:flex;gap:8px;justify-content:center}
 .nm-unit{min-width:62px;padding:8px 4px 6px;border-radius:12px;background:#18181b;border:1px solid #2a2a2f}
 .nm-unit b{display:block;font-size:1.6rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
 .nm-unit small{display:block;color:#8a8a92;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
 html[lang="ar"] .nm-unit small{text-transform:none;letter-spacing:0;font-size:.74rem}
 .nm-when{color:#b8b8c0;font-size:.88rem}
-@media (max-width:380px){.nm-unit{min-width:54px}.nm-unit b{font-size:1.35rem}.nm-teams{font-size:1.1rem}}
+@media (max-width:380px){.nm-unit{min-width:54px}.nm-unit b{font-size:1.35rem}.nm-teams{font-size:.88rem;gap:6px}.nm-teams b{padding:8px 4px}.nextm{padding:18px 12px}}
 /* league tables (matches page) */
 .tables{margin:32px auto 0;max-width:640px}
 .tables[hidden]{display:none!important}
