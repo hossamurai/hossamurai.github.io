@@ -5,8 +5,10 @@
 (function(){
   'use strict';
   var L = {
-    en: { mine: 'Your time', live: 'LIVE', ht: 'HT', ft: 'FT', goal: 'GOAL!', og: 'OG', pen: 'pen', soon: 'Kick-off soon' },
-    ar: { mine: 'بتوقيتك', live: 'مباشر', ht: 'استراحة', ft: 'انتهت', goal: 'جووول!', og: 'عكسي', pen: 'جزاء', soon: 'تبدأ قريباً' }
+    en: { mine: 'Your time', live: 'LIVE', ht: 'HT', ft: 'FT', goal: 'GOAL!', og: 'OG', pen: 'pen', soon: 'Kick-off soon',
+          next: 'Next big match', d: 'days', h: 'hrs', m: 'min', s: 'sec' },
+    ar: { mine: 'بتوقيتك', live: 'مباشر', ht: 'استراحة', ft: 'انتهت', goal: 'جووول!', og: 'عكسي', pen: 'جزاء', soon: 'تبدأ قريباً',
+          next: 'المباراة الكبيرة القادمة', d: 'يوم', h: 'ساعة', m: 'دقيقة', s: 'ثانية' }
   };
   var ESPN = 'https://site.api.espn.com/apis/site/v2/sports/soccer/';
   var LIVE_BEFORE = 5 * 60e3, LIVE_AFTER = 150 * 60e3;   /* a match counts as "on" from 5 min before kick-off to 2.5 h after */
@@ -94,6 +96,38 @@
       });
       bar.hidden = false;
       fill(track, g);
+    });
+  }
+
+  /* ---------- countdown to the next big match (home + matches page) ---------- */
+  var nextTimer = 0, nextEvent = null;
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function renderNext(){
+    var boxes = document.querySelectorAll('[data-next]');
+    if(!boxes.length) return;
+    var now = Date.now();
+    nextEvent = ((data && data.events) || []).filter(function(e){ return !finished[e.id] && Date.parse(e.utc) > now; })
+      .sort(function(a, b){ return Date.parse(a.utc) - Date.parse(b.utc); })[0] || null;
+    Array.prototype.forEach.call(boxes, function(box){
+      if(!nextEvent){ box.hidden = true; return; }
+      var e = nextEvent, k = new Date(e.utc), ch = channel(e);
+      box.querySelector('[data-next-league]').textContent = T('next') + ' · ' + nm(e.league);
+      box.querySelector('[data-next-home]').textContent = nm(e.home);
+      box.querySelector('[data-next-away]').textContent = nm(e.away);
+      box.querySelector('[data-next-when]').textContent = hm(k, TZ || undefined) + ' · ' + tzLabel() + (ch ? ' · ' + ch : '');
+      ['d', 'h', 'm', 's'].forEach(function(u){ box.querySelector('[data-next-l="' + u + '"]').textContent = T(u); });
+      box.hidden = false;
+    });
+    tick();
+    if(!nextTimer) nextTimer = setInterval(tick, 1000);
+  }
+  function tick(){
+    if(document.hidden || !nextEvent) return;
+    var left = Date.parse(nextEvent.utc) - Date.now();
+    if(left <= 0){ renderNext(); return; }                     /* kicked off: the live bar takes over, show the next one */
+    var v = { d: Math.floor(left / 864e5), h: Math.floor(left / 36e5) % 24, m: Math.floor(left / 6e4) % 60, s: Math.floor(left / 1e3) % 60 };
+    Array.prototype.forEach.call(document.querySelectorAll('[data-next]'), function(box){
+      ['d', 'h', 'm', 's'].forEach(function(u){ var b = box.querySelector('[data-next-v="' + u + '"]'); var t = u === 'd' ? String(v[u]) : pad(v[u]); if(b.textContent !== t) b.textContent = t; });
     });
   }
 
@@ -214,20 +248,20 @@
   }
 
   /* ---------- start ---------- */
-  var src = document.querySelector('[data-ticker]') || document.querySelector('[data-live]');
+  var src = document.querySelector('[data-ticker]') || document.querySelector('[data-live]') || document.querySelector('[data-next]');
   if(!src || !window.fetch) return;
   fetch(src.getAttribute('data-src'), { cache: 'no-cache' })
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(d){
-      data = d; renderTicker(); pollLive();
+      data = d; renderTicker(); renderNext(); pollLive();
       setInterval(pollLive, 30e3);          /* live scores every 30 s */
       setInterval(renderTicker, 5 * 60e3);  /* move finished matches off the ticker */
     })['catch'](function(){});
   /* the admin's channels arrive a moment later (site-data) -> redraw */
-  document.addEventListener('htv:channels', function(){ if(data){ renderTicker(); pollLive(); } });
+  document.addEventListener('htv:channels', function(){ if(data){ renderTicker(); renderNext(); pollLive(); } });
   /* back to the tab -> fresh scores right away */
   document.addEventListener('visibilitychange', function(){ if(!document.hidden && data) pollLive(); });
   /* help.html switches language without reloading */
-  if(window.MutationObserver) new MutationObserver(function(){ if(data){ renderTicker(); pollLive(); } })
+  if(window.MutationObserver) new MutationObserver(function(){ if(data){ renderTicker(); renderNext(); pollLive(); } })
     .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 })();

@@ -398,6 +398,7 @@ def home(c):
     teaser = ''.join(details(c, i, *fq[i]) for i in ['free-trial', 'which-plan', 'multi-device', 'activation'])
 
     body = hero + f'''
+<section class="sec nextm-sec"><div class="wrap">{next_match(c)}</div></section>
 <section class="sec" id="plans"><div class="wrap">
   {sec_head('', t(L('Plans', 'الباقات')), t(L('Pick your plan', 'اختر باقتك')))}
   {region_block(c)}
@@ -1144,6 +1145,16 @@ def matches_block(c, limit=0):
             f'data-locale="{"ar-EG" if c.ar else "en-US"}" hidden></div>')
 
 
+def next_match(c):
+    """Countdown to the next big match (filled by assets/matches.js from matches.json; hidden when there's none)."""
+    units = ''.join(f'<div class="nm-unit"><b data-next-v="{u}">00</b><small data-next-l="{u}"></small></div>' for u in 'dhms')
+    return (f'<a class="nextm" href="{c.href("matches.html")}" data-next data-src="{c.root}assets/data/matches.json" hidden>'
+            f'<span class="nm-league">{icon("ball")}<span data-next-league></span></span>'
+            f'<span class="nm-teams"><b data-next-home></b><i>{c.t(L("vs", "ضد"))}</i><b data-next-away></b></span>'
+            f'<span class="nm-count">{units}</span>'
+            f'<span class="nm-when" data-next-when></span></a>')
+
+
 def matches_ticker(c):
     """Black airport-board bar under the header (this week's big matches) + a red-edged live-score bar that only shows
     while a match is on. Both are filled by assets/matches.js."""
@@ -1155,6 +1166,20 @@ def matches_ticker(c):
             f'<span class="ticker-win"><span class="ticker-track"></span></span></a>')
 
 
+def standings_block(c):
+    """League tables (top 6) — filled by assets/standings.js; hidden until the data loads."""
+    t = c.t
+    return f'''<section class="tables" data-standings data-src="{c.root}assets/data/standings.json" hidden>
+  <h2 class="st-h">{t(L('League tables', 'ترتيب الدوريات'))}</h2>
+  <div class="tb-tabs" role="tablist" data-st-tabs></div>
+  <div class="tb-wrap"><table class="tb">
+    <thead><tr><th>#</th><th class="tb-team">{t(L('Team', 'الفريق'))}</th><th>{t(L('P', 'لعب'))}</th><th>{t(L('GD', 'الفارق'))}</th><th>{t(L('Pts', 'نقاط'))}</th></tr></thead>
+    <tbody data-st-body></tbody>
+  </table></div>
+</section>
+<script src="{c.root}assets/standings.js" defer></script>'''
+
+
 def matches_page(c):
     t = c.t
     hero = page_hero(c, [(None, t(L('Matches', 'المباريات')))],
@@ -1162,7 +1187,9 @@ def matches_page(c):
                      t(L('Kick-off times in your own time zone, and the channel that shows each match.', 'مواعيد المباريات بتوقيتك المحلي، والقناة الناقلة لكل مباراة.')))
     body = hero + f'''
 <section class="sec first"><div class="wrap">
+  {next_match(c)}
   {matches_block(c)}
+  {standings_block(c)}
   <p class="matches-note">{t(L('Updated automatically every few hours. Times can change — check closer to kick-off.', 'يتم التحديث تلقائياً كل بضع ساعات. المواعيد قد تتغير — راجعها قبل المباراة.'))}</p>
 </div></section>
 ''' + cta_block(c)
