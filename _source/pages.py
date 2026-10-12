@@ -1232,7 +1232,7 @@ def matches_page(c):
   {matches_block(c)}
   {results_block(c)}
   {standings_block(c)}
-  <div class="tb-tabs lg-others">{''.join(f'<a class="tb-tab" href="{c.href("league/" + sl + ".html")}">{c.t(L((_standings().get(i) or {}).get("name", {}).get("en", sl), (_standings().get(i) or {}).get("name", {}).get("ar", sl)))} →</a>' for i, _, sl, _, _ in LEAGUE_PAGES)}</div>
+  <div class="tb-tabs lg-others">{''.join(f'<a class="tb-tab" href="{c.href("league/" + sl + ".html")}">{c.t(L(e, a))} →</a>' for _, _, sl, e, a, _, _ in LEAGUE_PAGES)}</div>
   <p class="matches-note">{t(L('Updated automatically every few hours. Times can change — check closer to kick-off.', 'يتم التحديث تلقائياً كل بضع ساعات. المواعيد قد تتغير — راجعها قبل المباراة.'))}</p>
 </div></section>
 ''' + cta_block(c)
@@ -1561,11 +1561,16 @@ var v={{d:Math.floor(l/864e5),h:Math.floor(l/36e5)%24,m:Math.floor(l/6e4)%60,s:M
 # last results and the channel. Rendered from assets/data/standings.json + matches.json on every build
 # (the "Update matches" Action rebuilds every 6 hours), so they stay current all season.
 # ----------------------------------------------------------------------------
-LEAGUE_PAGES = [  # (standings id, matches code, slug, channel EN, channel AR)
-    ('egy', 'egy.1', 'egyptian-league', 'ON Time Sports', 'أون تايم سبورت'),
-    ('eng', 'eng.1', 'premier-league', 'beIN Sports', 'بي إن سبورت'),
-    ('esp', 'esp.1', 'la-liga', 'beIN Sports', 'بي إن سبورت'),
-    ('ksa', 'ksa.1', 'saudi-pro-league', 'Thmanyah', 'ثمانية'),
+LEAGUE_PAGES = [  # (standings id or None, matches code, slug, name EN, name AR, channel EN, channel AR)
+    ('egy', 'egy.1', 'egyptian-league', 'Egyptian League', 'الدوري المصري', 'ON Time Sports', 'أون تايم سبورت'),
+    ('eng', 'eng.1', 'premier-league', 'Premier League', 'الدوري الإنجليزي', 'beIN Sports', 'بي إن سبورت'),
+    ('esp', 'esp.1', 'la-liga', 'La Liga', 'الدوري الإسباني', 'beIN Sports', 'بي إن سبورت'),
+    ('ksa', 'ksa.1', 'saudi-pro-league', 'Saudi Pro League', 'دوري روشن السعودي', 'Thmanyah', 'ثمانية'),
+    ('ucl', 'uefa.champions', 'champions-league', 'Champions League', 'دوري أبطال أوروبا', 'beIN Sports', 'بي إن سبورت'),
+    ('ita', 'ita.1', 'serie-a', 'Serie A', 'الدوري الإيطالي', 'beIN Sports', 'بي إن سبورت'),
+    ('ger', 'ger.1', 'bundesliga', 'Bundesliga', 'الدوري الألماني', 'beIN Sports', 'بي إن سبورت'),
+    ('fra', 'fra.1', 'ligue-1', 'Ligue 1', 'الدوري الفرنسي', 'beIN Sports', 'بي إن سبورت'),
+    (None, 'caf.champions', 'caf-champions-league', 'CAF Champions League', 'دوري أبطال أفريقيا', 'beIN Sports', 'بي إن سبورت'),
 ]
 
 
@@ -1591,12 +1596,12 @@ var lbl=ar||!/\\//.test(z)?(ar?'بتوقيتك':'your time'):z.split('/').pop().
 Array.prototype.forEach.call(document.querySelectorAll('time[data-local]'),function(t){try{t.textContent=new Date(t.getAttribute('datetime')).toLocaleString(ar?'ar-EG':'en-US',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',hour12:true})+' · '+lbl;}catch(e){}});})();</script>"""
 
 
-def league_page(sid, code, slug, ch_en, ch_ar):
+def league_page(sid, code, slug, n_en, n_ar, ch_en, ch_ar):
     def build(c):
         t = c.t
-        st = _standings().get(sid) or {}
+        st = (_standings().get(sid) or {}) if sid else {}
         md = _match_data()
-        nm = st.get('name') or {'en': slug.replace('-', ' ').title(), 'ar': slug}
+        nm = {'en': n_en, 'ar': n_ar}
         ln = t(L(nm['en'], nm['ar']))
         vs = t(L('vs', 'ضد'))
         name = lambda x: t(L(x['en'], x['ar']))
@@ -1620,8 +1625,8 @@ def league_page(sid, code, slug, ch_en, ch_ar):
         res_html = ''.join(f'<li><div><b>{name(r["home"])} <span dir="ltr">{r["hs"]} – {r["as"]}</span> {name(r["away"])}</b></div></li>' for r in res[:5])
         results = (f'<h2 class="st-h">{t(L("Last results", "آخر النتائج"))}</h2><ul class="lg-list">{res_html}</ul>') if res_html else ''
         chn = t(L(ch_en, ch_ar))
-        others = ''.join(f'<a class="tb-tab" href="{c.href("league/" + s2 + ".html")}">{t(L((_standings().get(i2) or {}).get("name", {}).get("en", s2), (_standings().get(i2) or {}).get("name", {}).get("ar", s2)))}</a>'
-                         for i2, _, s2, _, _ in LEAGUE_PAGES if s2 != slug)
+        others = ''.join(f'<a class="tb-tab" href="{c.href("league/" + s2 + ".html")}">{t(L(e2, a2))}</a>'
+                         for _, _, s2, e2, a2, _, _ in LEAGUE_PAGES if s2 != slug)
         hero = page_hero(c, [(c.href('matches.html'), t(L('Matches', 'المباريات'))), (None, ln)],
                          t(L(f'{nm["en"]} on TV — live in Canada, the USA & worldwide', f'{nm["ar"]} مباشر — في كندا وأمريكا وحول العالم')),
                          t(L(f'Every match live on {ch_en} with Hossam TV, plus the table and kick-off times in your time zone.',
@@ -1638,8 +1643,8 @@ def league_page(sid, code, slug, ch_en, ch_ar):
 </div></section>
 {LOCAL_TIME_JS}
 """
-        title = t(L(f'{nm["en"]} on TV in Canada & the USA — Live, Table & Kick-off Times',
-                    f'{nm["ar"]} مباشر في كندا وأمريكا — الترتيب ومواعيد المباريات والقناة'))
+        title = t(L(f'{nm["en"]} on TV in Canada & the USA — Live, {"Table & " if sid else ""}Kick-off Times',
+                    f'{nm["ar"]} مباشر في كندا وأمريكا — {"الترتيب و" if sid else ""}مواعيد المباريات والقناة'))
         desc = t(L(f'Watch the {nm["en"]} live in Canada, the USA and worldwide on {ch_en}. Current table, upcoming big matches in your time zone and last results — free trial with Hossam TV.',
                    f'شاهد {nm["ar"]} مباشرة في كندا وأمريكا وحول العالم على {ch_ar}. الترتيب الحالي ومواعيد المباريات الكبيرة بتوقيتك وآخر النتائج — تجربة مجانية مع Hossam TV.'))
         return title, desc, body
@@ -1659,5 +1664,5 @@ PAGE_BUILDERS += [('matches', 'matches.html', 'matches', matches_page), ('speed'
 PAGE_BUILDERS += [('tv-' + sl, 'arabic-tv-' + sl + '.html', None, country_page(sl, nm, wh, tz, ct)) for sl, nm, wh, tz, ct in COUNTRY_PAGES]
 MATCH_PAGES = [('match-' + sl, 'match/' + sl + '.html', 'matches', match_page(sl, e, r)) for sl, e, r in match_list()]
 PAGE_BUILDERS += MATCH_PAGES
-PAGE_BUILDERS += [('league-' + sl, 'league/' + sl + '.html', 'matches', league_page(i, cd, sl, ce, ca)) for i, cd, sl, ce, ca in LEAGUE_PAGES]
+PAGE_BUILDERS += [('league-' + x[2], 'league/' + x[2] + '.html', 'matches', league_page(*x)) for x in LEAGUE_PAGES]
 DEVICE_PAGES = [('setup-' + d['slug'], 'setup/' + d['slug'] + '.html', 'setup', device_page(d['slug'])) for d in DEVICES]

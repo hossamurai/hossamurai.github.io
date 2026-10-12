@@ -19,6 +19,10 @@ LEAGUES = [
     ('eng', 'Premier League', 'الدوري الإنجليزي', 'espn', 'eng.1'),
     ('esp', 'La Liga', 'الدوري الإسباني', 'espn', 'esp.1'),
     ('ksa', 'Saudi Pro League', 'دوري روشن السعودي', 'espn', 'ksa.1'),
+    ('ucl', 'Champions League', 'دوري أبطال أوروبا', 'espn', 'uefa.champions'),
+    ('ita', 'Serie A', 'الدوري الإيطالي', 'espn', 'ita.1'),
+    ('ger', 'Bundesliga', 'الدوري الألماني', 'espn', 'ger.1'),
+    ('fra', 'Ligue 1', 'الدوري الفرنسي', 'espn', 'fra.1'),
 ]
 
 def ar_name(en):
