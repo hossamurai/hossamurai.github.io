@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-12T23:40:00Z",
+ "updated": "2026-10-12T23:59:10Z",
  "leagues": [
   {
    "id": "egy",
@@ -241,6 +241,258 @@
      "pts": 15,
      "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/8346.png&w=80&h=80",
      "ar": "الأهلي السعودي"
+    }
+   ]
+  },
+  {
+   "id": "ucl",
+   "name": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "rows": [
+    {
+     "rank": 1,
+     "en": "PSG",
+     "p": 1,
+     "gd": "+5",
+     "pts": 3,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/160.png&w=80&h=80",
+     "ar": "باريس سان جيرمان"
+    },
+    {
+     "rank": 2,
+     "en": "Bayern",
+     "p": 1,
+     "gd": "+5",
+     "pts": 3,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/132.png&w=80&h=80",
+     "ar": "بايرن ميونخ"
+    },
+    {
+     "rank": 3,
+     "en": "Barcelona",
+     "p": 1,
+     "gd": "+4",
+     "pts": 3,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/83.png&w=80&h=80",
+     "ar": "برشلونة"
+    },
+    {
+     "rank": 4,
+     "en": "Man United",
+     "p": 1,
+     "gd": "+4",
+     "pts": 3,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/360.png&w=80&h=80",
+     "ar": "مانشستر يونايتد"
+    },
+    {
+     "rank": 5,
+     "en": "Como",
+     "p": 1,
+     "gd": "+3",
+     "pts": 3,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2572.png&w=80&h=80",
+     "ar": "كومو"
+    },
+    {
+     "rank": 6,
+     "en": "Sporting",
+     "p": 1,
+     "gd": "+2",
+     "pts": 3,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2250.png&w=80&h=80",
+     "ar": "سبورتنغ لشبونة"
+    }
+   ]
+  },
+  {
+   "id": "ita",
+   "name": {
+    "en": "Serie A",
+    "ar": "الدوري الإيطالي"
+   },
+   "rows": [
+    {
+     "rank": 1,
+     "en": "Inter Milan",
+     "p": 6,
+     "gd": "+10",
+     "pts": 16,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/110.png&w=80&h=80",
+     "ar": "إنتر ميلان"
+    },
+    {
+     "rank": 2,
+     "en": "Lazio",
+     "p": 6,
+     "gd": "+7",
+     "pts": 16,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/112.png&w=80&h=80",
+     "ar": "لاتسيو"
+    },
+    {
+     "rank": 3,
+     "en": "AS Roma",
+     "p": 6,
+     "gd": "+11",
+     "pts": 14,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/104.png&w=80&h=80",
+     "ar": "روما"
+    },
+    {
+     "rank": 4,
+     "en": "Cagliari",
+     "p": 6,
+     "gd": "+3",
+     "pts": 13,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2925.png&w=80&h=80",
+     "ar": "Cagliari"
+    },
+    {
+     "rank": 5,
+     "en": "Milan",
+     "p": 6,
+     "gd": "+6",
+     "pts": 12,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/103.png&w=80&h=80",
+     "ar": "ميلان"
+    },
+    {
+     "rank": 6,
+     "en": "Juventus",
+     "p": 6,
+     "gd": "+4",
+     "pts": 11,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/111.png&w=80&h=80",
+     "ar": "يوفنتوس"
+    }
+   ]
+  },
+  {
+   "id": "ger",
+   "name": {
+    "en": "Bundesliga",
+    "ar": "الدوري الألماني"
+   },
+   "rows": [
+    {
+     "rank": 1,
+     "en": "Freiburg",
+     "p": 5,
+     "gd": "+10",
+     "pts": 13,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/126.png&w=80&h=80",
+     "ar": "فرايبورغ"
+    },
+    {
+     "rank": 2,
+     "en": "Dortmund",
+     "p": 5,
+     "gd": "+7",
+     "pts": 13,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/124.png&w=80&h=80",
+     "ar": "بوروسيا دورتموند"
+    },
+    {
+     "rank": 3,
+     "en": "Bayern",
+     "p": 5,
+     "gd": "+12",
+     "pts": 11,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/132.png&w=80&h=80",
+     "ar": "بايرن ميونخ"
+    },
+    {
+     "rank": 4,
+     "en": "Leverkusen",
+     "p": 5,
+     "gd": "+6",
+     "pts": 10,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/131.png&w=80&h=80",
+     "ar": "باير ليفركوزن"
+    },
+    {
+     "rank": 5,
+     "en": "RB Leipzig",
+     "p": 5,
+     "gd": "+10",
+     "pts": 9,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/11420.png&w=80&h=80",
+     "ar": "لايبزيغ"
+    },
+    {
+     "rank": 6,
+     "en": "Augsburg",
+     "p": 5,
+     "gd": "+5",
+     "pts": 8,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3841.png&w=80&h=80",
+     "ar": "FC Augsburg"
+    }
+   ]
+  },
+  {
+   "id": "fra",
+   "name": {
+    "en": "Ligue 1",
+    "ar": "الدوري الفرنسي"
+   },
+   "rows": [
+    {
+     "rank": 1,
+     "en": "Monaco",
+     "p": 6,
+     "gd": "+5",
+     "pts": 14,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/174.png&w=80&h=80",
+     "ar": "موناكو"
+    },
+    {
+     "rank": 2,
+     "en": "Lille",
+     "p": 6,
+     "gd": "+5",
+     "pts": 13,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/166.png&w=80&h=80",
+     "ar": "ليل"
+    },
+    {
+     "rank": 3,
+     "en": "Rennes",
+     "p": 6,
+     "gd": "+2",
+     "pts": 13,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/169.png&w=80&h=80",
+     "ar": "رين"
+    },
+    {
+     "rank": 4,
+     "en": "Lyon",
+     "p": 6,
+     "gd": "+7",
+     "pts": 11,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/167.png&w=80&h=80",
+     "ar": "ليون"
+    },
+    {
+     "rank": 5,
+     "en": "Paris FC",
+     "p": 6,
+     "gd": "+4",
+     "pts": 11,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/6851.png&w=80&h=80",
+     "ar": "Paris FC"
+    },
+    {
+     "rank": 6,
+     "en": "PSG",
+     "p": 6,
+     "gd": "+3",
+     "pts": 11,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/160.png&w=80&h=80",
+     "ar": "باريس سان جيرمان"
     }
    ]
   }
