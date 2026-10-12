@@ -14,6 +14,8 @@ from datetime import datetime, timedelta, timezone
 
 OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'assets', 'data', 'matches.json')
 DAYS = 7
+RESULT_DAYS = 7      # finished big matches from the last week -> "Last results" on the matches page
+MAX_RESULTS = 12
 MAX_EVENTS = 30
 
 # ESPN league code -> (league name EN, AR, channel EN, channel AR, include every match?)
@@ -95,6 +97,16 @@ def team_key(name):
     return None
 
 
+def small_logo(url):
+    """Team badges at thumbnail size (ESPN's image resizer / TheSportsDB's /tiny), so pages stay light."""
+    url = (url or '').replace('\\/', '/')
+    if 'a.espncdn.com/i/teamlogos/' in url:
+        return 'https://a.espncdn.com/combiner/i?img=' + url.split('a.espncdn.com', 1)[1] + '&w=80&h=80'
+    if 'thesportsdb.com' in url and not url.endswith(('/tiny', '/small')):
+        return url + '/tiny'
+    return url
+
+
 def get(url, tries=2):
     for i in range(tries):
         try:
@@ -114,11 +126,12 @@ def get(url, tries=2):
 def main():
     now = datetime.now(timezone.utc)
     end = now + timedelta(days=DAYS)
-    events, ok_leagues = [], 0
+    events, results, ok_leagues = [], [], 0
+    since = now - timedelta(days=RESULT_DAYS)
 
     added = set()
 
-    def add(code, ev_id, kick, live, home, away):
+    def add(code, ev_id, kick, live, home, away, hlogo='', alogo=''):
         # same match from two lists / sources -> keep one
         k = (code, kick.strftime('%Y-%m-%dT%H'), norm(home)[:6], norm(away)[:6])
         if ev_id in added or k in added:
@@ -133,12 +146,35 @@ def main():
             # for the live-score bar: the browser asks ESPN for this league's scoreboard during the match
             'code': code, 'espn': ev_id[1:] if ev_id.startswith('e') else None,
             'league': {'en': len_, 'ar': lar},
-            'home': {'en': home, 'ar': TEAMS.get(keys[0]) or EXTRA_AR.get(norm(home)) or home},
-            'away': {'en': away, 'ar': TEAMS.get(keys[1]) or EXTRA_AR.get(norm(away)) or away},
+            'home': {'en': home, 'ar': TEAMS.get(keys[0]) or EXTRA_AR.get(norm(home)) or home, 'logo': small_logo(hlogo)},
+            'away': {'en': away, 'ar': TEAMS.get(keys[1]) or EXTRA_AR.get(norm(away)) or away, 'logo': small_logo(alogo)},
             'channel': {'en': chen, 'ar': char} if chen else None,
             'big': sum(1 for k in keys if k),
             # high-profile = two popular teams (Ahly–Zamalek, Real–Barça, City–PSG…) or Egypt's national team → home-page countdown
             'top': all(keys) or 'egypt' in keys,
+        })
+
+    done = set()
+
+    def add_result(code, rid, kick, home, away, hs, as_, hlogo='', alogo=''):
+        """A finished match with at least one popular team (or a league we show in full)."""
+        k = (code, kick.strftime('%Y-%m-%d'), norm(home)[:6], norm(away)[:6])
+        if rid in done or k in done or kick < since or hs is None or as_ is None:
+            return
+        done.update((rid, k))
+        len_, lar, _, _, all_matches = LEAGUES[code]
+        keys = [team_key(home), team_key(away)]
+        if not all_matches and not any(keys):
+            return
+        try:
+            hs, as_ = int(hs), int(as_)
+        except (TypeError, ValueError):
+            return
+        results.append({
+            'id': rid, 'utc': kick.strftime('%Y-%m-%dT%H:%M:%SZ'), 'league': {'en': len_, 'ar': lar},
+            'home': {'en': home, 'ar': TEAMS.get(keys[0]) or EXTRA_AR.get(norm(home)) or home, 'logo': small_logo(hlogo)},
+            'away': {'en': away, 'ar': TEAMS.get(keys[1]) or EXTRA_AR.get(norm(away)) or away, 'logo': small_logo(alogo)},
+            'hs': hs, 'as': as_, 'big': sum(1 for x in keys if x),
         })
 
     def espn_event(code, ev):
@@ -148,16 +184,20 @@ def main():
             kick = datetime.fromisoformat(ev['date'].replace('Z', '+00:00'))
         except Exception:
             return
-        if state == 'post' or kick < now - timedelta(hours=2) or kick > end:
-            return
         teams = sorted(comp.get('competitors', []), key=lambda c: 0 if c.get('homeAway') == 'home' else 1)
         if len(teams) != 2:
             return
         names = [t.get('team', {}).get('displayName', '') for t in teams]
-        add(code, 'e' + str(ev.get('id')), kick, state == 'in', names[0], names[1])
+        logos = [t.get('team', {}).get('logo', '') for t in teams]
+        if state == 'post':
+            add_result(code, 'e' + str(ev.get('id')), kick, names[0], names[1], teams[0].get('score'), teams[1].get('score'), *logos)
+            return
+        if kick < now - timedelta(hours=2) or kick > end:
+            return
+        add(code, 'e' + str(ev.get('id')), kick, state == 'in', names[0], names[1], *logos)
 
     # ESPN answers one day at a time (date ranges get "400 Bad Request")
-    days = [(now + timedelta(days=i)).strftime('%Y%m%d') for i in range(DAYS + 1)]
+    days = [(now + timedelta(days=i)).strftime('%Y%m%d') for i in range(-RESULT_DAYS, DAYS + 1)]
     seen, espn_raw = set(), 0
     for code in LEAGUES:
         if code in NO_ESPN:
@@ -166,6 +206,12 @@ def main():
             d = get(f'https://site.api.espn.com/apis/site/v2/sports/soccer/{code}/scoreboard?dates={day}')
             if not d:
                 break   # league not on ESPN (or ESPN down) -> skip its other days
+            if day < now.strftime('%Y%m%d'):
+                for ev in d.get('events', []):   # past days: results only
+                    if ev.get('id') not in seen:
+                        seen.add(ev.get('id'))
+                        espn_event(code, ev)
+                continue
             ok_leagues += 1
             espn_raw += len(d.get('events', []))
             for ev in d.get('events', []):
@@ -194,14 +240,28 @@ def main():
                 status = norm(ev.get('strStatus'))
                 if status in ('match finished', 'ft', 'aet', 'pen', 'postponed', 'cancelled') or kick < now - timedelta(hours=2) or kick > end:
                     continue
-                add(code, 's' + str(ev.get('idEvent')), kick, status in ('1h', '2h', 'ht', 'live'), ev.get('strHomeTeam') or '', ev.get('strAwayTeam') or '')
+                add(code, 's' + str(ev.get('idEvent')), kick, status in ('1h', '2h', 'ht', 'live'), ev.get('strHomeTeam') or '', ev.get('strAwayTeam') or '',
+                    ev.get('strHomeTeamBadge') or '', ev.get('strAwayTeamBadge') or '')
             time.sleep(1)
         return got
+
+    def sportsdb_results(code, lid):
+        """Last finished matches of one league (TheSportsDB) -> results."""
+        d = get(f'https://www.thesportsdb.com/api/v1/json/3/eventspastleague.php?id={lid}')
+        for ev in (d or {}).get('events') or []:
+            ts = ev.get('strTimestamp') or ((ev.get('dateEvent') or '') + 'T' + (ev.get('strTime') or '00:00:00'))
+            try:
+                kick = datetime.fromisoformat(ts.replace('Z', '')[:19]).replace(tzinfo=timezone.utc)
+            except Exception:
+                continue
+            add_result(code, 's' + str(ev.get('idEvent')), kick, ev.get('strHomeTeam') or '', ev.get('strAwayTeam') or '',
+                       ev.get('intHomeScore'), ev.get('intAwayScore'), ev.get('strHomeTeamBadge') or '', ev.get('strAwayTeamBadge') or '')
 
     # Egyptian league is not on ESPN: always from TheSportsDB
     for code in NO_ESPN:
         if sportsdb_league(code, SPORTSDB_IDS[code]):
             ok_leagues += 1
+        sportsdb_results(code, SPORTSDB_IDS[code])
 
     # second source: TheSportsDB for every league, if ESPN gave nothing
     if espn_raw == 0:
@@ -240,15 +300,24 @@ def main():
         events = [e for e in events if e['id'] in ids]
     for e in events:
         e.pop('big', None)
+    # last results: newest first, the biggest games if there are too many
+    results.sort(key=lambda r: r['utc'], reverse=True)
+    if len(results) > MAX_RESULTS:
+        keep = {r['id'] for r in sorted(results, key=lambda r: -r['big'])[:MAX_RESULTS]}   # stable sort: newest first within each group
+        results = [r for r in results if r['id'] in keep]
+    for r in results:
+        r.pop('big', None)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    data = {'updated': now.strftime('%Y-%m-%dT%H:%M:%SZ'), 'events': events}
+    data = {'updated': now.strftime('%Y-%m-%dT%H:%M:%SZ'), 'events': events, 'results': results}
     old = None
     if os.path.exists(OUT):
         try:
             old = json.load(open(OUT))
         except Exception:
             pass
-    if old and old.get('events') == events:
+    if not results and old and old.get('results'):
+        data['results'] = old['results']   # results source down -> keep last week's
+    if old and old.get('events') == events and old.get('results') == data['results']:
         print('No change')
         return 0
     json.dump(data, open(OUT, 'w'), ensure_ascii=False, indent=1)
