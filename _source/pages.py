@@ -1317,7 +1317,7 @@ def speed_page(c):
                      t(L('Is your internet fast enough for HD and 4K?', 'هل الإنترنت عندك سريع كفاية لجودة HD و4K؟')))
     lb = {
         'again': L('Test again', 'اختبر مرة أخرى'), 'testing': L('Testing your download speed…', 'جاري قياس سرعة التحميل…'),
-        'idle': L('Tap GO to start', 'اضغط GO للبدء'),
+        'idle': L('Tap the play button to start', 'اضغط زر التشغيل للبدء'),
         'error': L("Couldn't run the test. Try fast.com instead.", 'تعذّر الاختبار. جرّب fast.com.'),
         'r4k': L('Great — fast enough for 4K.', 'ممتاز — كافي لجودة 4K.'),
         'rhd': L('Good for HD. For 4K, use a cable or move closer to the router.', 'كويس لجودة HD. لـ 4K استخدم كابل أو قرّب من الراوتر.'),
@@ -1327,24 +1327,30 @@ def speed_page(c):
         'magic': L('If it ever freezes, do the magic trick: unplug the router and the TV for 10 seconds, then plug them back in.',
                    'لو حصل تقطيع، اعمل الحل السحري: افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني.'),
         'stable': L('Stable', 'ثابت'), 'shaky': L('Some dips', 'فيه تذبذب'),
+        'needname': L('Type your name first, then tap play.', 'اكتب اسمك الأول، وبعدين اضغط زر التشغيل.'),
     }
     attrs = ' '.join(f'data-l-{k}="{t(v)}"' for k, v in lb.items())
-    # gauge: semicircle centred at (160,170), radius 130; scale is stretched at the low end (0 5 10 25 50 100+)
+    # gauge: a 270° ring centred at (160,160), radius 120 (from bottom-left, clockwise to bottom-right);
+    # the scale is stretched at the low end (0 5 10 25 50 100+). Logo colours: silver → red.
     marks = [0, 5, 10, 25, 50, 100]
     import math
     ticks = ''
     for i, m in enumerate(marks):
         f = i / (len(marks) - 1)
-        a = math.pi * (1 - f)
-        x, y = 160 + 104 * math.cos(a), 170 - 104 * math.sin(a)
+        a = math.radians(135 + 270 * f)
+        x, y = 160 + 92 * math.cos(a), 160 + 92 * math.sin(a)
         ticks += f'<text x="{x:.1f}" y="{y + 4:.1f}">{m}{"+" if m == 100 else ""}</text>'
-    gauge = f'''<svg class="st-gauge" viewBox="0 0 320 190" aria-hidden="true">
-      <defs><linearGradient id="stGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#e3101b"/><stop offset=".45" stop-color="#ffb000"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs>
-      <path class="st-arc-bg" d="M30 170 A130 130 0 0 1 290 170"/>
-      <path class="st-arc" data-st-arc d="M30 170 A130 130 0 0 1 290 170"/>
+    ring = 'M75.1 244.9 A120 120 0 1 1 244.9 244.9'
+    gauge = f'''<svg class="st-gauge" viewBox="0 0 320 262" aria-hidden="true">
+      <defs><linearGradient id="stGrad" x1="0" x2="1" y1="1" y2="0"><stop offset="0" stop-color="#d4d4da"/><stop offset=".55" stop-color="#ff4b53"/><stop offset="1" stop-color="#e3101b"/></linearGradient></defs>
+      <path class="st-arc-bg" d="{ring}"/>
+      <path class="st-arc" data-st-arc d="{ring}"/>
       <g class="st-ticks">{ticks}</g>
-      <g class="st-needle" data-st-needle><line x1="160" y1="170" x2="160" y2="62"/><circle cx="160" cy="170" r="9"/></g>
+      <g class="st-needle" data-st-needle><circle cx="160" cy="40" r="9"/></g>
     </svg>'''
+    # the start button is the logo itself: |▶|
+    logo_btn = ('<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="22" y="20" width="13" height="60" rx="5" fill="#141416"/>'
+                '<rect x="65" y="20" width="13" height="60" rx="5" fill="#141416"/><path d="M42 31 L62 50 L42 69 Z" fill="#e3101b" stroke="#e3101b" stroke-width="5" stroke-linejoin="round"/></svg>')
     needs = [(5, 'SD', L('Basic quality', 'جودة عادية'), 'tv'), (10, 'HD', L('Full HD', 'Full HD'), 'tv'), (25, '4K', L('Ultra HD', 'Ultra HD'), '4k')]
     tiles = ''.join(f'<div class="st-need" data-need="{n}">{icon(ic)}<b>{q}</b><span dir="ltr">{n}+ Mbps</span><small>{t(d)}</small></div>' for n, q, d, ic in needs)
     tips = [('refresh', L('Do the magic trick', 'اعمل الحل السحري'), L('Unplug the router and the TV for 10 seconds, then plug them back in.', 'افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني.')),
@@ -1356,12 +1362,14 @@ def speed_page(c):
 <section class="sec first"><div class="wrap st-wrap">
   <div class="st-wifi" role="note">{icon('wifi')}<div><b>{t(L('Test on the same Wi-Fi as your TV', 'اعمل الاختبار على نفس الواي فاي اللي عليه الشاشة'))}</b>
     <span>{t(L('Connect your phone to the same network the TV uses — on mobile data the result means nothing for the TV.', 'وصّل موبايلك بنفس الشبكة اللي عليها الشاشة — نتيجة بيانات الموبايل لا تعبّر عن سرعة الشاشة.'))}</span></div></div>
-  <div class="st-card" data-speedtest {attrs}>
+  <div class="st-card" data-speedtest data-api="{N8N_WEBHOOK}site-speed" {attrs}>
+    <label class="st-name"><span>{t(L('Your name', 'اسمك'))}</span>
+      <input type="text" data-st-name maxlength="30" autocomplete="given-name" placeholder="{t(L('So Hossam can see your result', 'عشان حسام يشوف نتيجتك'))}"></label>
     <div class="st-dial">
       {gauge}
-      <button type="button" class="st-go" data-st-start aria-label="{t(L('Start the speed test', 'ابدأ اختبار السرعة'))}">GO</button>
+      <button type="button" class="st-go" data-st-start aria-label="{t(L('Start the speed test', 'ابدأ اختبار السرعة'))}">{logo_btn}</button>
+      <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
     </div>
-    <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
     <div class="st-stats" data-st-stats hidden>
       <div><small>{t(L('Ping', 'البينج'))}</small><b dir="ltr" data-st-ping>—</b></div>
       <div><small>{t(L('Jitter', 'التذبذب'))}</small><b dir="ltr" data-st-jitter>—</b></div>
@@ -1372,6 +1380,11 @@ def speed_page(c):
     <button type="button" class="st-again" data-st-again hidden>{icon('refresh')}{t(lb['again'])}</button>
     <small class="st-note">{t(L('Delay + download test · up to 25 MB of data · about 10 seconds', 'اختبار الاستجابة والتحميل · حتى 25 ميجابايت · حوالي 10 ثواني'))}</small>
   </div>
+
+  <section class="st-log" data-st-log hidden>
+    <h2 class="st-h">{t(L('Latest tests', 'آخر الاختبارات'))}</h2>
+    <div class="st-log-list" data-st-log-list></div>
+  </section>
 
   <h2 class="st-h">{t(L('What you need', 'السرعة المطلوبة'))}</h2>
   <div class="st-needs">{tiles}</div>

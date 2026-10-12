@@ -12,6 +12,8 @@
   var go = $('[data-st-start]'), again = $('[data-st-again]'), readout = $('[data-st-readout]'), stats = $('[data-st-stats]');
   var num = $('[data-st-num]'), msg = $('[data-st-msg]'), arc = $('[data-st-arc]'), needle = $('[data-st-needle]');
   var pingEl = $('[data-st-ping]'), jitEl = $('[data-st-jitter]'), stabEl = $('[data-st-stab]');
+  var nameIn = $('[data-st-name]'), logBox = document.querySelector('[data-st-log]'), logList = document.querySelector('[data-st-log-list]');
+  var AR = document.documentElement.lang === 'ar';
   var hint = $('[data-st-hint]'), tips = document.querySelector('[data-st-tips]'), tiles = document.querySelectorAll('[data-need]');
   var CF = 'https://speed.cloudflare.com/__down?bytes=';
   var LIMIT = 8000, BYTES = 25000000, MARKS = [0, 5, 10, 25, 50, 100], SLICE = 500, WARMUP = 1500;
@@ -32,7 +34,7 @@
     if(Math.abs(target - shown) < 0.05) shown = target;
     var f = frac(shown);
     arc.style.strokeDashoffset = arcLen * (1 - f);
-    needle.style.transform = 'rotate(' + (-90 + f * 180) + 'deg)';
+    needle.style.transform = 'rotate(' + (-135 + f * 270) + 'deg)';   /* the glowing dot rides the 270° ring */
     num.textContent = shown >= 100 ? Math.round(shown) : (Math.round(shown * 10) / 10).toFixed(shown < 10 ? 1 : 0);
     raf = shown !== target ? requestAnimationFrame(draw) : 0;
   }
@@ -127,8 +129,53 @@
     if(hint) hint.hidden = !shaky || mbps < 5;                                   /* dips/delay: a calm tip, not an alarm */
     mark(mbps);
     if(tips) tips.hidden = mbps >= 25 && !shaky;
+    send({ mbps: Math.round(mbps * 10) / 10, ping: p ? Math.round(p.ping) : null, jitter: p ? Math.round(p.jitter) : null, stable: !!st.stable });
   }
+
+  /* ---------- name + "Latest tests": each result goes to n8n (site-speed) so Hossam sees it without asking ---------- */
+  try{ if(nameIn) nameIn.value = localStorage.getItem('htv-name') || ''; }catch(e){}
+  function where(){ var z = ''; try{ z = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){} return z.split('/').pop().replace(/_/g, ' '); }
+  function send(r){
+    var n = nameIn ? nameIn.value.trim() : '';
+    if(!n || !window.fetch || !window.URLSearchParams) return;
+    r.name = n; r.where = where(); r.lang = AR ? 'ar' : 'en';
+    var body = new URLSearchParams(); body.append('p', JSON.stringify(r));
+    fetch(box.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit' })
+      .then(function(x){ return x.json()['catch'](function(){ return {}; }); })
+      .then(function(d){ if(d && d.tests) renderLog(d.tests); })['catch'](function(){});
+    r.at = new Date().toISOString(); renderLog([r].concat(lastLog.filter(function(x){ return x.at !== r.at; })).slice(0, 10));
+  }
+  var lastLog = [];
+  function ago(iso){
+    var m = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000));
+    if(m < 1) return AR ? 'الآن' : 'just now';
+    if(m < 60) return AR ? 'منذ ' + m + ' د' : m + ' min ago';
+    var h = Math.round(m / 60); if(h < 24) return AR ? 'منذ ' + h + ' س' : h + ' h ago';
+    var d = Math.round(h / 24); return AR ? 'منذ ' + d + ' يوم' : d + ' d ago';
+  }
+  function renderLog(list){
+    if(!logBox || !logList || !list || !list.length) return;
+    lastLog = list;
+    while(logList.firstChild) logList.removeChild(logList.firstChild);
+    list.slice(0, 10).forEach(function(r){
+      var row = document.createElement('div'); row.className = 'st-log-row';
+      var who = document.createElement('div'); who.className = 'st-log-who';
+      var b = document.createElement('b'); b.textContent = String(r.name || '').slice(0, 30); who.appendChild(b);
+      var sm = document.createElement('small'); sm.textContent = [r.where, ago(r.at)].filter(Boolean).join(' · '); who.appendChild(sm);
+      var sp = document.createElement('div'); sp.className = 'st-log-num ' + (r.mbps >= 25 ? 'good' : r.mbps >= 5 ? 'ok' : 'bad'); sp.dir = 'ltr'; sp.textContent = r.mbps + ' Mbps';
+      var ex = document.createElement('div'); ex.className = 'st-log-ex'; ex.dir = 'ltr';
+      ex.textContent = (r.ping != null ? r.ping + ' ms' : '—') + ' · ' + (r.stable ? A('stable') : A('shaky'));
+      row.appendChild(who); row.appendChild(sp); row.appendChild(ex);
+      logList.appendChild(row);
+    });
+    logBox.hidden = false;
+  }
+  /* the list from site-data (bot.js) */
+  if(window.htvSpeedtests) renderLog(window.htvSpeedtests);
+  document.addEventListener('htv:speedtests', function(e){ renderLog(e.detail); });
   function run(){
+    if(nameIn && !nameIn.value.trim()){ msg.textContent = A('needname'); nameIn.focus(); nameIn.classList.add('st-need-name'); return; }
+    if(nameIn){ nameIn.classList.remove('st-need-name'); try{ localStorage.setItem('htv-name', nameIn.value.trim()); }catch(e){} }
     if(!window.fetch || !window.ReadableStream || !window.Promise){ window.open('https://fast.com', '_blank', 'noopener'); return; }
     go.hidden = true; if(hint) hint.hidden = true; readout.hidden = false; again.hidden = true; stats.hidden = false;
     stat(pingEl, '—'); stat(jitEl, '—'); stat(stabEl, '—');
