@@ -1199,8 +1199,8 @@ def standings_block(c):
 def matches_page(c):
     t = c.t
     hero = page_hero(c, [(None, t(L('Matches', 'المباريات')))],
-                     t(L('Big matches this week', 'أهم مباريات الأسبوع')),
-                     t(L('Kick-off times in your own time zone, and the channel that shows each match.', 'مواعيد المباريات بتوقيتك المحلي، والقناة الناقلة لكل مباراة.')))
+                     t(L('Football — matches, results & tables', 'الكورة — المباريات والنتائج والترتيب')),
+                     t(L('This week’s big matches in your time zone with the channel, last results and league tables.', 'مباريات الأسبوع بتوقيتك والقناة الناقلة، وآخر النتائج وترتيب الدوريات.')))
     body = hero + f'''
 <section class="sec first"><div class="wrap">
   {next_match(c, more=False)}
@@ -1210,9 +1210,9 @@ def matches_page(c):
   <p class="matches-note">{t(L('Updated automatically every few hours. Times can change — check closer to kick-off.', 'يتم التحديث تلقائياً كل بضع ساعات. المواعيد قد تتغير — راجعها قبل المباراة.'))}</p>
 </div></section>
 ''' + cta_block(c)
-    return (t(L('Football on TV This Week — Kick-off Times & Channels', 'مباريات الأسبوع على التلفزيون — المواعيد والقنوات')),
-            t(L('This week’s big football matches with kick-off times in your time zone — Canada, the USA or anywhere — and the TV channel for each match.',
-                'أهم مباريات كرة القدم هذا الأسبوع بتوقيتك المحلي — في كندا أو أمريكا أو أي مكان — والقناة الناقلة لكل مباراة.')),
+    return (t(L('Football — Matches, Results & League Tables', 'الكورة — المباريات والنتائج وترتيب الدوريات')),
+            t(L('This week’s big football matches in your time zone (Canada, the USA or anywhere) with the TV channel, plus last results and league tables.',
+                'أهم مباريات الأسبوع بتوقيتك المحلي (كندا أو أمريكا أو أي مكان) والقناة الناقلة، مع آخر النتائج وترتيب الدوريات.')),
             body)
 
 
