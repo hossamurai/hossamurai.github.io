@@ -104,7 +104,7 @@
   /* shorter English names so both team boxes fit on one line */
   var SHORT = { 'Manchester United': 'Man United', 'Manchester City': 'Man City', 'Paris Saint-Germain': 'PSG', 'Borussia Dortmund': 'Dortmund',
                 'Internazionale': 'Inter Milan', 'Tottenham Hotspur': 'Tottenham', 'Bayern Munich': 'Bayern', 'Atlético Madrid': 'Atlético',
-                'Atletico Madrid': 'Atlético', 'Newcastle United': 'Newcastle', 'Paris Saint Germain': 'PSG' };
+                'Atletico Madrid': 'Atlético', 'Newcastle United': 'Newcastle', 'Paris Saint Germain': 'PSG', 'Pyramids FC': 'Pyramids' };
   function short(n){ return SHORT[n] || n; }
   window.htvShort = short;   /* also used by the matches list (assets/site.js) */
   function logo(img, team){
