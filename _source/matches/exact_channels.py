@@ -50,6 +50,10 @@ def same_team(a, b):
     ja, jb = ''.join(ka), ''.join(kb)
     if ja == jb or (min(len(ja), len(jb)) >= 4 and (ja in jb or jb in ja)):
         return True
+    # same consonants ("فايكنج" / "فايكينغ"): long vowels dropped, غ/ق/ج as one sound
+    sk = lambda w: re.sub('[غق]', 'ج', re.sub('[اوي]', '', w))
+    if len(sk(ja)) >= 3 and sk(ja) == sk(jb):
+        return True
     # one shared distinctive word ("مانشستر يونايتد" / "مان يونايتد" -> "يونايتد"); "مانشستر" alone is not enough
     common = {w for w in ka if len(w) >= 4} & {w for w in kb if len(w) >= 4} - {'مانشستر', 'ريال', 'اتلتيكو', 'بوروسيا', 'الاهلي', 'الاتحاد', 'سبورتنغ', 'انتر'}
     return bool(common)

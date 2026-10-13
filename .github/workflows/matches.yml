@@ -1,6 +1,6 @@
 name: Update matches
 
-# Refreshes assets/data/matches.json (big football matches for the next 7 days) and assets/data/standings.json (league tables),
+# Refreshes assets/data/matches.json (big football matches for the next 7 days, with the exact channel from FilGoal / Kooora) and assets/data/standings.json (league tables),
 # plus assets/data/bot.json (match channels from the admin bot) and assets/data/ramadan.json (Ramadan series from Wikipedia), then rebuilds the site so the big-match pages (en/ar/match/…) appear and disappear on their own.
 on:
   schedule:
