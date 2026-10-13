@@ -1,12 +1,13 @@
 """Ramadan series for the website's Ramadan page — fully automatic (runs in GitHub Actions every 6 hours).
 
 Sources (each one fills what the one before it missed; if all fail, the last good file is kept):
-  1. Arabic Wikipedia category "مسلسلات رمضان <Hijri year> هـ" — editors add every series of that Ramadan.
-  2. Arabic Wikipedia search for "رمضان <year>" in series articles — catches series announced before they are categorised.
+  1. elCinema (elcinema.com/ramadan/<year>/) — every series of that Ramadan with its poster, English name and cast;
+     the start date comes from each series' page ("تاريخ العرض"), fetched once and remembered.
+  2. Arabic Wikipedia: the category "مسلسلات رمضان <Hijri year> هـ" + a search for announced series — adds what
+     elCinema misses, and its posters / dates / English names (Wikidata) fill gaps.
   3. The last good assets/data/ramadan.json.
-For each series: Arabic + English name, start date (from the article's infobox, else the first day of Ramadan),
-lead actors and the poster (Arabic article, else the English one; only real poster uploads, never random photos —
-the page shows a designed title card when there is none).
+Posters: elCinema, else Wikipedia (real poster uploads only); the page shows a designed title card when there is none
+or when an image fails to load. No date = the first day of Ramadan.
 
 Output: assets/data/ramadan.json  →  _source/pages.py (build) and assets/ramadan.js (live, no-store).
 """
@@ -74,7 +75,7 @@ def stars_of(text):
     return '، '.join(names)
 
 
-def season_series(hijri, year, start, end):
+def wiki_series(hijri, year, start, end):
     """Every series of one Ramadan from Wikipedia; None if Wikipedia didn't answer at all."""
     titles, cat_titles, ok = [], set(), False
     try:   # 1. the category
@@ -163,6 +164,115 @@ def season_series(hijri, year, start, end):
     return out
 
 
+# ---------------------------------------------------------------- elCinema
+EC = 'https://elcinema.com'
+EC_HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36',
+              'Accept': 'text/html,application/xhtml+xml,*/*;q=0.8', 'Accept-Language': 'ar,en;q=0.8'}
+
+
+def ec_get(path):
+    req = urllib.request.Request(EC + path, headers=EC_HEADERS)
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.read().decode('utf-8', 'ignore')
+
+
+def ec_unescape(x):
+    import html
+    return re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', '', x or ''))).strip()
+
+
+def ec_cards(path):
+    """{id: {name, poster, cast}} from every page of an elCinema Ramadan list (stops when a page adds nothing new)."""
+    out = {}
+    for page in range(1, 15):
+        h = ec_get(f'{path}?page={page}')
+        new = 0
+        for wid, block in re.findall(r'<div class="row" id="w(\d+)">(.*?)(?=<div class="row" id="w\d+">|<hr />\s*</div>|$)', h, re.S):
+            if wid in out:
+                continue
+            title = re.search(r'<h3><a href="[^"]*/work/\d+/">(.*?)</a></h3>', block, re.S)
+            if not title:
+                continue
+            img = re.search(r'data-src="(https://[^"]+\.(?:jpg|jpeg|png|webp))"', block)
+            block = re.sub(r'<ul class="list-separator list-title">.*?</ul>', '', block, flags=re.S)
+            cast = [ec_unescape(n) for n in re.findall(r'<a href="[^"]*/person/\d+/">(.*?)</a>', block, re.S)][:2]
+            poster = img.group(1) if img and 'blank' not in img.group(1) else ''
+            out[wid] = {'name': ec_unescape(title.group(1)), 'poster': poster, 'cast': cast}
+            new += 1
+        if not new:
+            break
+    return out
+
+
+def ec_date(wid, start, end):
+    """Start date from the series' page: "تاريخ العرض: 19 فبراير 2026"."""
+    try:
+        h = ec_get(f'/work/{wid}/')
+    except Exception:
+        return ''
+    m = re.search(r'تاريخ العرض:(.{0,400})', h, re.S)
+    return infobox_date('| بث = ' + ec_unescape(m.group(1)) + '\n', start, end) if m else ''
+
+
+def ec_series(year, start, end, known):
+    """Every series of one Ramadan from elCinema (in elCinema's order = most popular first); None if elCinema didn't answer.
+    known = {elCinema id: (date, day it was last checked)} from the last file: each series' page is read once for its
+    start date; one without a date yet is checked again after 3 days (at most 120 pages per run)."""
+    try:
+        ar = ec_cards(f'/ramadan/{year}/')
+    except Exception as e:
+        print('  elcinema failed', year, e, file=sys.stderr)
+        return None
+    try:
+        en = ec_cards(f'/en/ramadan/{year}/')
+    except Exception as e:
+        print('  elcinema en failed', year, e, file=sys.stderr)
+        en = {}
+    today = date.today().isoformat()
+    stale = (date.today() - timedelta(days=3)).isoformat()
+    out, fetched = [], 0
+    for rank, (wid, x) in enumerate(ar.items()):
+        d, checked = known.get(wid, ('', ''))
+        if not d and checked < stale and fetched < 120:
+            d, checked = ec_date(wid, start, end), today
+            fetched += 1
+        e = en.get(wid) or {}
+        out.append({'ar': x['name'], 'en': e.get('name', '') if e.get('name') != x['name'] else '', 'date': d or '',
+                    'stars': '، '.join(x['cast']), 'poster': x['poster'] or e.get('poster', ''), 'ec': wid, 'dc': checked, 'rank': rank})
+    print('  elcinema', year, len(out), 'series,', fetched, 'pages read')
+    return out
+
+
+def match_key(name):
+    """Same series across sites: no diacritics/tatweel, one alef/yaa/taa form, no part/season numbers or brackets."""
+    x = re.sub(r'[ً-ٰٟـ]', '', str(name or '').lower())
+    x = re.sub('[أإآ]', 'ا', x).replace('ى', 'ي').replace('ة', 'ه')
+    x = re.sub(r'\(.*?\)|\bج\s*\d+|الجزء\s*\S+|الموسم\s*\S+|[0-9٠-٩]+', ' ', x)
+    return re.sub(r'[^a-z؀-ۿ]+', '', x)
+
+
+def season_series(hijri, year, start, end, old_items):
+    """elCinema + Wikipedia merged; None if both failed (the caller keeps the old list)."""
+    known = {x['ec']: (x.get('date') or '', x.get('dc') or '') for x in old_items or [] if x.get('ec')}
+    ec = ec_series(year, start, end, known)
+    wk = wiki_series(hijri, year, start, end)
+    if ec is None and wk is None:
+        return None
+    out = list(ec or [])
+    index = {match_key(x['ar']): x for x in out}
+    for w in wk or []:
+        x = index.get(match_key(w['ar']))
+        if x is None:
+            w['rank'] = 900 + len(out)       # after elCinema's list
+            out.append(w)
+            index[match_key(w['ar'])] = w
+            continue
+        for k in ('date', 'poster', 'en', 'stars'):
+            if not x.get(k) and w.get(k):
+                x[k] = w[k]
+    return out
+
+
 def main():
     old = {}
     try:
@@ -173,7 +283,7 @@ def main():
     a, b, year = ramadan_season()
     i = next(k for k, x in enumerate(RAMADAN) if x[0] == a.isoformat())
     hijri = RAMADAN[i][2]
-    now = season_series(hijri, year, a, b)
+    now = season_series(hijri, year, a, b, (old.get('season') or {}).get('series'))
     seasons = {'season': {'year': year, 'hijri': hijri, 'series': now if now is not None else (old.get('season') or {}).get('series', [])}}
     # last Ramadan too — shown as "watch again" until this year's list fills up
     pa, pb, py, ph = None, None, year - 1, hijri - 1
@@ -182,12 +292,14 @@ def main():
         pa, pb = date.fromisoformat(prev[0][0]), date.fromisoformat(prev[0][1])
     else:
         pa, pb = a - timedelta(days=355), b - timedelta(days=355)
-    last = season_series(ph, py, pa, pb)
+    last = season_series(ph, py, pa, pb, (old.get('last') or {}).get('series'))
     seasons['last'] = {'year': py, 'hijri': ph, 'start': pa.isoformat(),
                        'series': last if last is not None else (old.get('last') or {}).get('series', [])}
-    # by start date (none = the first day of Ramadan), series with a poster first, then by name
-    for k, first in (('season', a.isoformat()), ('last', pa.isoformat())):
-        seasons[k]['series'].sort(key=lambda x: (x.get('date') or first, not x.get('poster'), x['ar']))
+    # this Ramadan: by start date (none = the first day), series with a poster first, then elCinema's popularity;
+    # last Ramadan ("watch again"): the 48 most popular, with a poster
+    seasons['season']['series'].sort(key=lambda x: (x.get('date') or a.isoformat(), not x.get('poster'), x.get('rank', 999)))
+    seasons['last']['series'].sort(key=lambda x: (not x.get('poster'), x.get('rank', 999)))
+    seasons['last']['top'] = 48
     if {k: old.get(k) for k in seasons} == seasons:
         print('no change')
         return
