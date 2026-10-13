@@ -405,6 +405,7 @@ def home(c):
 
     body = hero + f'''
 <section class="sec nextm-sec"><div class="wrap">{next_match(c)}</div></section>
+{ramadan_teaser(c)}
 <section class="sec" id="plans"><div class="wrap">
   {sec_head('', t(L('Plans', 'الباقات')), t(L('Pick your plan', 'اختر باقتك')))}
   {region_block(c)}
@@ -1460,6 +1461,33 @@ def _slug(x):
     return re.sub(r'[^a-z0-9]+', '-', x).strip('-')
 
 
+def _bot_data():
+    """assets/data/bot.json: Ramadan series + match channels set from the admin bot (fetch_site.py, every 6 hours)."""
+    import json, os
+    try:
+        with open(os.path.join(os.path.dirname(__file__), '..', 'assets', 'data', 'bot.json'), encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _channel_for(league, default):
+    """The admin's channel for this league ("channel: Premier League = beIN Sports 1"), else the built-in one.
+    Same matching as assets/matches.js; "English / عربي" gives a name per language."""
+    import re
+    key = lambda x: re.sub(r'[^a-z\u0600-\u06ff]+', '', str(x or '').lower())
+    names = [n for n in (key(league.get('en')), key(league.get('ar'))) if n]
+    hit = None
+    for k, v in (_bot_data().get('channels') or {}).items():
+        kk = key(k)
+        if kk and any(n == kk or kk in n or n in kk for n in names):
+            hit = str(v)
+    if hit:
+        parts = [x.strip() for x in re.split(r'\s+/\s+', hit)]
+        return {'en': parts[0], 'ar': parts[1] if len(parts) > 1 else parts[0]}
+    return default or {}
+
+
 def match_list():
     """[(slug, event, result-or-None)] for upcoming top matches and top results of the last 2 days."""
     from datetime import datetime, timedelta, timezone
@@ -1507,7 +1535,8 @@ def match_ics(lang, e):
     f = lambda d: d.strftime('%Y%m%dT%H%M%SZ')
     nm = lambda x: x['ar'] if lang == 'ar' else x['en']
     esc = lambda x: str(x or '').replace('\\', '\\\\').replace(',', '\\,').replace(';', '\\;')
-    ch = nm(e['channel']) if e.get('channel') else ''
+    chd = _channel_for(e.get('league') or {}, e.get('channel'))
+    ch = nm(chd) if chd else ''
     title = f"{nm(e['home'])} – {nm(e['away'])} ({nm(e['league'])})"
     note = ('شاهدها مباشرة على Hossam TV — hossamservices.com' if lang == 'ar' else 'Watch live on Hossam TV — hossamservices.com')
     return '\r\n'.join([
@@ -1523,7 +1552,7 @@ def match_page(slug, e, res):
         t = c.t
         H, A, LG = e['home'], e['away'], e['league']
         hn, an, lg = t(L(H['en'], H['ar'])), t(L(A['en'], A['ar'])), t(L(LG['en'], LG['ar']))
-        ch = e.get('channel') or {}
+        ch = _channel_for(LG, e.get('channel'))
         chn = t(L(ch.get('en', ''), ch.get('ar', ''))) if ch else ''
         day, tor, ny, cai, _ = _fixed_times(e['utc'])
         vs = t(L('vs', 'ضد'))
@@ -1553,13 +1582,29 @@ def match_page(slug, e, res):
             lead = t(L(f'{lg} · kick-off in your own time zone and the TV channel.', f'{lg} · موعد المباراة بتوقيتك والقناة الناقلة.'))
         hero = page_hero(c, [(c.href('matches.html'), t(L('Matches', 'المباريات'))), (None, f'{hn} {vs} {an}')],
                          f'{hn} {vs} {an}', lead)
+        # "Where to watch" — what people search for ("where to watch Al Ahly vs Zamalek in Canada"); answered on the page and for Google
+        if res:
+            where = f'''<div class="mp-cta">
+    <p>{t(L('Watch the next big match live on your TV, phone or laptop — up to 4K.', 'شاهد المباراة الكبيرة القادمة مباشرة على الشاشة أو الموبايل أو اللابتوب — بجودة حتى 4K.'))}</p>
+    {btn_trial(c)}
+  </div>'''
+            ld = ''
+        else:
+            q_where = t(L(f'Where to watch {H["en"]} vs {A["en"]} in Canada and the USA?', f'أين أشاهد مباراة {H["ar"]} و{A["ar"]} في كندا وأمريكا؟'))
+            a_where = t(L(f'{H["en"]} vs {A["en"]} is live {("on " + ch.get("en", "") + " ") if ch.get("en") else ""}— watch it in Canada, the USA or anywhere with Hossam TV on your TV, phone or laptop, up to 4K, Arabic or English commentary.',
+                          f'مباراة {H["ar"]} و{A["ar"]} مذاعة {("على " + ch.get("ar", "") + " ") if ch.get("ar") else ""}— شاهدها في كندا أو أمريكا أو أي مكان مع Hossam TV على الشاشة أو الموبايل أو اللابتوب بجودة حتى 4K، بتعليق عربي أو إنجليزي.'))
+            q_time = t(L(f'What time is {H["en"]} vs {A["en"]}?', f'متى موعد مباراة {H["ar"]} و{A["ar"]}؟'))
+            a_time = t(L(f'{day}: {tor} in Toronto, {ny} in New York and {cai} in Cairo.', f'الساعة {cai} بتوقيت القاهرة و{tor} بتوقيت تورونتو و{ny} بتوقيت نيويورك.'))
+            where = f'''<div class="mp-where">
+    <div class="lg-ch">{icon('tv')}<div><small>{t(L('Where to watch', 'أين تشاهدها'))}</small><b>{chn or 'Hossam TV'}</b></div>{btn_trial(c)}</div>
+    <p>{a_where}</p>
+  </div>'''
+            ld = ld_json({'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+                {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in ((q_where, a_where), (q_time, a_time))]})
         body = hero + f'''
 <section class="sec first"><div class="wrap mp-wrap">
   {card}
-  <div class="mp-cta">
-    <p>{t(L('Watch it live on your TV, phone or laptop — up to 4K.', 'شاهدها مباشرة على الشاشة أو الموبايل أو اللابتوب — بجودة حتى 4K.'))}</p>
-    {btn_trial(c)}
-  </div>
+  {where}
   {('<h2 class="st-h">' + t(L('More big matches', 'مباريات كبيرة أخرى')) + '</h2><ul class="mp-more">' + others + '</ul>') if others else ''}
   <a class="st-more" href="{c.href('matches.html')}">{icon('ball')}<span>{t(L('All matches, results & tables', 'كل المباريات والنتائج والترتيب'))}</span>{icon('arrow', 'flip')}</a>
 </div></section>
@@ -1577,11 +1622,11 @@ var v={{d:Math.floor(l/864e5),h:Math.floor(l/36e5)%24,m:Math.floor(l/6e4)%60,s:M
             desc = t(L(f'{H["en"]} vs {A["en"]} ({LG["en"]}) ended {res["hs"]}–{res["as"]}. See the next big matches with kick-off times in your time zone and the TV channel.',
                        f'انتهت مباراة {H["ar"]} و{A["ar"]} ({LG["ar"]}) بنتيجة {res["hs"]}–{res["as"]}. شاهد مواعيد المباريات الكبيرة القادمة بتوقيتك والقناة الناقلة.'))
         else:
-            title = t(L(f'{H["en"]} vs {A["en"]} — Kick-off Time & TV Channel ({LG["en"]})',
-                        f'{H["ar"]} ضد {A["ar"]} — موعد المباراة والقناة الناقلة ({LG["ar"]})'))
+            title = t(L(f'Where to Watch {H["en"]} vs {A["en"]} — Time & TV Channel ({LG["en"]})',
+                        f'أين تشاهد {H["ar"]} ضد {A["ar"]} — الموعد والقناة الناقلة ({LG["ar"]})'))
             desc = t(L(f'When is {H["en"]} vs {A["en"]}? {day}: {tor} Toronto, {ny} New York, {cai} Cairo{(" on " + ch.get("en", "")) if ch.get("en") else ""}. Watch it live with Hossam TV — free trial.',
                        f'موعد مباراة {H["ar"]} و{A["ar"]}: {cai} بتوقيت القاهرة و{tor} بتوقيت تورونتو{(" على " + ch.get("ar", "")) if ch.get("ar") else ""}. شاهدها مباشرة مع Hossam TV — تجربة مجانية.'))
-        return title, desc, body
+        return title, desc, body + ld
     return build
 
 
@@ -1631,6 +1676,8 @@ def league_page(sid, code, slug, n_en, n_ar, ch_en, ch_ar):
         st = (_standings().get(sid) or {}) if sid else {}
         md = _match_data()
         nm = {'en': n_en, 'ar': n_ar}
+        chd = _channel_for(nm, {'en': ch_en, 'ar': ch_ar})
+        c_en, c_ar = chd['en'], chd['ar']
         ln = t(L(nm['en'], nm['ar']))
         vs = t(L('vs', 'ضد'))
         name = lambda x: t(L(x['en'], x['ar']))
@@ -1653,13 +1700,13 @@ def league_page(sid, code, slug, n_en, n_ar, ch_en, ch_ar):
         res = [r for r in md.get('results', []) if r.get('league', {}).get('en') == nm['en']]
         res_html = ''.join(f'<li><div><b>{name(r["home"])} <span dir="ltr">{r["hs"]} – {r["as"]}</span> {name(r["away"])}</b></div></li>' for r in res[:5])
         results = (f'<h2 class="st-h">{t(L("Last results", "آخر النتائج"))}</h2><ul class="lg-list">{res_html}</ul>') if res_html else ''
-        chn = t(L(ch_en, ch_ar))
+        chn = t(L(c_en, c_ar))
         others = ''.join(f'<a class="tb-tab" href="{c.href("league/" + s2 + ".html")}">{t(L(e2, a2))}</a>'
                          for _, _, s2, e2, a2, _, _ in LEAGUE_PAGES if s2 != slug)
         hero = page_hero(c, [(c.href('matches.html'), t(L('Matches', 'المباريات'))), (None, ln)],
                          t(L(f'{nm["en"]} on TV — live in Canada, the USA & worldwide', f'{nm["ar"]} مباشر — في كندا وأمريكا وحول العالم')),
-                         t(L(f'Every match live on {ch_en} with Hossam TV, plus the table and kick-off times in your time zone.',
-                             f'كل المباريات مباشرة على {ch_ar} مع Hossam TV، مع الترتيب ومواعيد المباريات بتوقيتك.')))
+                         t(L(f'Every match live on {c_en} with Hossam TV, plus the table and kick-off times in your time zone.',
+                             f'كل المباريات مباشرة على {c_ar} مع Hossam TV، مع الترتيب ومواعيد المباريات بتوقيتك.')))
         body = hero + f"""
 <section class="sec first"><div class="wrap mp-wrap">
   <div class="lg-ch">{icon('tv')}<div><small>{t(L('Channel', 'القناة'))}</small><b>{chn}</b></div>{btn_trial(c)}</div>
@@ -1674,10 +1721,118 @@ def league_page(sid, code, slug, n_en, n_ar, ch_en, ch_ar):
 """
         title = t(L(f'{nm["en"]} on TV in Canada & the USA — Live, {"Table & " if sid else ""}Kick-off Times',
                     f'{nm["ar"]} مباشر في كندا وأمريكا — {"الترتيب و" if sid else ""}مواعيد المباريات والقناة'))
-        desc = t(L(f'Watch the {nm["en"]} live in Canada, the USA and worldwide on {ch_en}. Current table, upcoming big matches in your time zone and last results — free trial with Hossam TV.',
-                   f'شاهد {nm["ar"]} مباشرة في كندا وأمريكا وحول العالم على {ch_ar}. الترتيب الحالي ومواعيد المباريات الكبيرة بتوقيتك وآخر النتائج — تجربة مجانية مع Hossam TV.'))
+        desc = t(L(f'Watch the {nm["en"]} live in Canada, the USA and worldwide on {c_en}. Current table, upcoming big matches in your time zone and last results — free trial with Hossam TV.',
+                   f'شاهد {nm["ar"]} مباشرة في كندا وأمريكا وحول العالم على {c_ar}. الترتيب الحالي ومواعيد المباريات الكبيرة بتوقيتك وآخر النتائج — تجربة مجانية مع Hossam TV.'))
         return title, desc, body
     return build
+
+
+# ----------------------------------------------------------------------------
+# RAMADAN SERIES — every series with its poster and the day it starts (no channels, no times).
+# The admin adds/changes series through the admin bot ("Ramadan series | …" knowledge entries). The page reads them live
+# from n8n site-data on every visit (assets/ramadan.js), so a change shows at once; the copy written into the HTML
+# for Google comes from assets/data/bot.json, refreshed by the "Update matches" Action every 6 hours.
+# ----------------------------------------------------------------------------
+RAMADAN = [  # (first day, last day) — expected dates; the exact start depends on the moon sighting
+    ('2027-02-08', '2027-03-09'),
+    ('2028-01-28', '2028-02-25'),
+    ('2029-01-16', '2029-02-13'),
+]
+MONTHS_AR = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر']
+
+
+def ramadan_season(today=None):
+    """(start, end, year) of the Ramadan to show: the next one, the current one, or the one that ended < 2 weeks ago."""
+    from datetime import date, timedelta
+    today = today or date.today()
+    for a, b in RAMADAN:
+        if date.fromisoformat(b) + timedelta(days=14) >= today:
+            return date.fromisoformat(a), date.fromisoformat(b), date.fromisoformat(a).year
+    a, b = RAMADAN[-1]
+    return date.fromisoformat(a), date.fromisoformat(b), date.fromisoformat(a).year
+
+
+def _rm_status(c, today=None):
+    from datetime import date
+    today = today or date.today()
+    a, b, yr = ramadan_season(today)
+    if today < a:
+        n = (a - today).days
+        day = a.strftime('%a %-d %b %Y') if not c.ar else f'{a.day} {MONTHS_AR[a.month - 1]} {a.year}'
+        return c.t(L(f'Ramadan starts in about {n} days — expected {day}', f'باقي حوالي {n} يوم على رمضان — متوقع {day}'))
+    if today <= b:
+        n = (today - a).days + 1
+        return c.t(L(f'Day {n} of Ramadan — Ramadan Kareem', f'اليوم {n} من رمضان — رمضان كريم'))
+    return c.t(L(f'Ramadan {yr} has ended — see you next year', f'انتهى رمضان {yr} — نراكم العام القادم'))
+
+
+def _rm_series():
+    """Series sorted by start date (no date = the first day of Ramadan), then name."""
+    a, _, _ = ramadan_season()
+    out = [x for x in (_bot_data().get('series') or []) if isinstance(x, dict) and (x.get('ar') or x.get('en'))]
+    return sorted(out, key=lambda x: (str(x.get('date') or a.isoformat()), str(x.get('ar') or x.get('en'))))
+
+
+def _rm_date(c, iso):
+    """'2027-02-08' -> 'Mon, Feb 8' / 'الاثنين 8 فبراير' (written into the HTML; the page script writes the same in the visitor's language)."""
+    from datetime import date
+    try:
+        d = date.fromisoformat(iso)
+    except Exception:
+        return ''
+    days_ar = ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد']
+    return f'{days_ar[d.weekday()]} {d.day} {MONTHS_AR[d.month - 1]}' if c.ar else d.strftime('%a, %b %-d')
+
+
+def ramadan_page(c):
+    import html
+    t = c.t
+    a, b, yr = ramadan_season()
+    esc = lambda x: html.escape(str(x or ''))
+    posters = _bot_data().get('posters') or {}
+    rows = []
+    for x in _rm_series():
+        main = (x.get('ar') or x.get('en')) if c.ar else (x.get('en') or x.get('ar'))
+        other = x.get('en') if c.ar else x.get('ar')
+        poster = x.get('poster') or posters.get(x.get('ar') or x.get('en')) or ''
+        hue = sum(map(ord, str(x.get('ar') or x.get('en')))) % 6
+        when = _rm_date(c, x.get('date') or a.isoformat())
+        rows.append(f'<li class="rm-card"><div class="rm-poster rm-h{hue}"><span class="rm-gen" aria-hidden="true">{icon("moon")}<b>{esc(main)}</b></span>'
+                    + (f'<img src="{esc(poster)}" alt="{esc(main)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">' if poster else '')
+                    + f'</div><div class="rm-info"><b class="rm-title">{esc(main)}</b>'
+                    + (f'<small>{esc(other)}</small>' if other and other != main else '')
+                    + f'<span class="rm-t">{esc(when)}</span>'
+                    + (f'<small class="rm-stars">{esc(x.get("stars"))}</small>' if x.get('stars') else '') + '</div></li>')
+    labels = {'new': t(L('New', 'جديد')),
+              'before': t(L('Ramadan starts in about {n} days — expected {d}', 'باقي حوالي {n} يوم على رمضان — متوقع {d}')),
+              'during': t(L('Day {n} of Ramadan — Ramadan Kareem', 'اليوم {n} من رمضان — رمضان كريم')),
+              'after': t(L('Ramadan {y} has ended — see you next year', 'انتهى رمضان {y} — نراكم العام القادم'))}
+    hero = page_hero(c, [(None, t(L('Ramadan series', 'مسلسلات رمضان')))],
+                     t(L(f'Ramadan {yr} series', f'مسلسلات رمضان {yr}')),
+                     t(L('Every series and the day it starts — all on Hossam TV.', 'كل المسلسلات وموعد بدايتها — كلها على Hossam TV.')))
+    body = hero + f'''
+<section class="sec first rm-sec"><div class="wrap rm-wrap" data-rm data-start="{a.isoformat()}" data-end="{b.isoformat()}" data-year="{yr}" data-l="{html_attr_json(labels)}" data-series="{html_attr_json(_rm_series())}" data-posters="{html_attr_json(posters)}" data-src="{c.root}assets/data/bot.json">
+  <div class="lg-ch rm-status">{icon('moon')}<div><small>{t(L('Ramadan', 'رمضان'))} {yr}</small><b data-rm-status>{_rm_status(c)}</b></div>{btn_trial(c)}</div>
+  <ul class="rm-list" data-rm-list>{''.join(rows)}</ul>
+  <p class="rm-empty" data-rm-empty{' hidden' if rows else ''}>{t(L('Series appear here as they are announced — check back soon.', 'المسلسلات تظهر هنا أول ما يتم الإعلان عنها — تابعنا قريباً.'))}</p>
+  <p class="matches-note">{t(L('Dates sometimes change — this page updates automatically.', 'المواعيد أحياناً تتغير — الصفحة تتحدث تلقائياً.'))}</p>
+</div></section>
+<script src="{c.root}assets/ramadan.js" defer></script>
+''' + cta_block(c)
+    return (t(L(f'Ramadan {yr} Series — Full List & Start Dates', f'مسلسلات رمضان {yr} — القائمة الكاملة ومواعيد العرض')),
+            t(L(f'All Ramadan {yr} series with posters and the day each one starts. Watch them in Canada, the USA or anywhere with Hossam TV.',
+                f'كل مسلسلات رمضان {yr} بالبوسترات وموعد بداية كل مسلسل. شاهدها في كندا أو أمريكا أو أي مكان مع Hossam TV.')),
+            body)
+
+
+def ramadan_teaser(c):
+    """Slim link on the home page from 60 days before Ramadan until it ends (the site is rebuilt every 6 hours)."""
+    from datetime import date, timedelta
+    a, b, yr = ramadan_season()
+    if not (a - timedelta(days=60) <= date.today() <= b):
+        return ''
+    return (f'<section class="sec rm-teaser-sec"><div class="wrap"><a class="st-more rm-teaser" href="{c.href("ramadan-series.html")}">{icon("moon")}'
+            f'<span>{c.t(L(f"Ramadan {yr} series", f"مسلسلات رمضان {yr}"))}</span>{icon("arrow", "flip")}</a></div></section>')
 
 
 PAGE_BUILDERS = [
@@ -1690,6 +1845,7 @@ PAGE_BUILDERS = [
     ('policies', 'policies.html', None, policies),
 ]
 PAGE_BUILDERS += [('matches', 'matches.html', 'matches', matches_page), ('speed', 'speed-test.html', 'speed', speed_page)]
+PAGE_BUILDERS += [('ramadan', 'ramadan-series.html', None, ramadan_page)]
 PAGE_BUILDERS += [('tv-' + sl, 'arabic-tv-' + sl + '.html', None, country_page(sl, nm, wh, tz, ct)) for sl, nm, wh, tz, ct in COUNTRY_PAGES]
 MATCH_PAGES = [('match-' + sl, 'match/' + sl + '.html', 'matches', match_page(sl, e, r)) for sl, e, r in match_list()]
 PAGE_BUILDERS += MATCH_PAGES
