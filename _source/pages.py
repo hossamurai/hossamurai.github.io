@@ -1354,6 +1354,7 @@ def speed_page(c):
                    'لو حصل تقطيع، اعمل الحل السحري: افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني.'),
         'stable': L('Stable', 'ثابت'), 'shaky': L('Some dips', 'فيه تذبذب'),
         'onmobile': L("You're on mobile data — to check the TV's speed, run the test on the same Wi-Fi as the TV.", 'إنت على بيانات الموبايل — عشان تعرف سرعة الشاشة، اعمل الاختبار على نفس الواي فاي اللي عليه الشاشة.'),
+        'neednet': L('Choose Wi-Fi or mobile data first, then tap play.', 'اختار واي فاي أو بيانات الموبايل الأول، وبعدين اضغط زر التشغيل.'),
         'needname': L('Type your name first, then tap play.', 'اكتب اسمك الأول، وبعدين اضغط زر التشغيل.'),
     }
     attrs = ' '.join(f'data-l-{k}="{t(v)}"' for k, v in lb.items())
@@ -1390,6 +1391,11 @@ def speed_page(c):
   <div class="st-card" data-speedtest data-api="{N8N_WEBHOOK}site-speed" {attrs}>
     <label class="st-name"><span>{t(L('Your name', 'اسمك'))}</span>
       <input type="text" data-st-name maxlength="30" autocomplete="given-name" placeholder="{t(L('So Hossam can see your result', 'عشان حسام يشوف نتيجتك'))}"></label>
+    <div class="st-net" data-st-net role="radiogroup" aria-label="{t(L('Connected through', 'متصل عن طريق'))}" hidden>
+      <span>{t(L('Connected through', 'متصل عن طريق'))}</span>
+      <button type="button" role="radio" aria-checked="false" data-net="wifi">📶 Wi-Fi</button>
+      <button type="button" role="radio" aria-checked="false" data-net="cellular">📱 {t(L('Mobile data', 'بيانات الموبايل'))}</button>
+    </div>
     <div class="st-dial">
       {gauge}
       <button type="button" class="st-go" data-st-start aria-label="{t(L('Start the speed test', 'ابدأ اختبار السرعة'))}"><img src="{c.root}assets/img/go.webp" alt="" width="118" height="118"></button>

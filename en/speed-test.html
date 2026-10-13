@@ -88,9 +88,14 @@
 <section class="sec first"><div class="wrap st-wrap">
   <div class="st-wifi" role="note"><svg class="ic" aria-hidden="true"><use href="#i-wifi"/></svg><div><b>Test on the same Wi-Fi as your TV</b>
     <span>Connect your phone to the same network the TV uses — on mobile data the result means nothing for the TV.</span></div></div>
-  <div class="st-card" data-speedtest data-api="https://n8n.hossamservices.com/webhook/site-speed" data-l-again="Test again" data-l-testing="Testing your download speed…" data-l-idle="Tap the play button to start" data-l-error="Couldn't run the test. Try fast.com instead." data-l-r4k="Great — fast enough for 4K." data-l-rhd="Good for HD. For 4K, use a cable or move closer to the router." data-l-rsd="Enough for SD only — try the tips below." data-l-rslow="Too slow — this is likely why it freezes. Try the tips below." data-l-ping="Checking the delay…" data-l-magic="If it ever freezes, do the magic trick: unplug the router and the TV for 10 seconds, then plug them back in." data-l-stable="Stable" data-l-shaky="Some dips" data-l-onmobile="You're on mobile data — to check the TV's speed, run the test on the same Wi-Fi as the TV." data-l-needname="Type your name first, then tap play.">
+  <div class="st-card" data-speedtest data-api="https://n8n.hossamservices.com/webhook/site-speed" data-l-again="Test again" data-l-testing="Testing your download speed…" data-l-idle="Tap the play button to start" data-l-error="Couldn't run the test. Try fast.com instead." data-l-r4k="Great — fast enough for 4K." data-l-rhd="Good for HD. For 4K, use a cable or move closer to the router." data-l-rsd="Enough for SD only — try the tips below." data-l-rslow="Too slow — this is likely why it freezes. Try the tips below." data-l-ping="Checking the delay…" data-l-magic="If it ever freezes, do the magic trick: unplug the router and the TV for 10 seconds, then plug them back in." data-l-stable="Stable" data-l-shaky="Some dips" data-l-onmobile="You're on mobile data — to check the TV's speed, run the test on the same Wi-Fi as the TV." data-l-neednet="Choose Wi-Fi or mobile data first, then tap play." data-l-needname="Type your name first, then tap play.">
     <label class="st-name"><span>Your name</span>
       <input type="text" data-st-name maxlength="30" autocomplete="given-name" placeholder="So Hossam can see your result"></label>
+    <div class="st-net" data-st-net role="radiogroup" aria-label="Connected through" hidden>
+      <span>Connected through</span>
+      <button type="button" role="radio" aria-checked="false" data-net="wifi">📶 Wi-Fi</button>
+      <button type="button" role="radio" aria-checked="false" data-net="cellular">📱 Mobile data</button>
+    </div>
     <div class="st-dial">
       <svg class="st-gauge" viewBox="0 0 320 262" aria-hidden="true">
       <defs><linearGradient id="stGrad" x1="0" x2="1" y1="1" y2="0"><stop offset="0" stop-color="#d4d4da"/><stop offset=".55" stop-color="#ff4b53"/><stop offset="1" stop-color="#e3101b"/></linearGradient></defs>
