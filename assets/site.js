@@ -41,10 +41,19 @@
     each('[data-region-panel]', function(p){ p.hidden = p.getAttribute('data-region-panel') !== id; });
     if(save) store(REGION_KEY, id);
   }
+  /* ISO country (Cloudflare) -> dial code used by the forms' country lists ('ca'/'us' in the trial form, '1' in the phone box) */
+  var ISO_DIAL = { EG:'20', SA:'966', AE:'971', KW:'965', QA:'974', BH:'973', OM:'968', JO:'962', LB:'961', IQ:'964', PS:'970', SY:'963', YE:'967',
+    SD:'249', LY:'218', TN:'216', DZ:'213', MA:'212', TR:'90', GB:'44', DE:'49', FR:'33', NL:'31', BE:'32', CH:'41', AT:'43', SE:'46', NO:'47',
+    DK:'45', IT:'39', ES:'34', IE:'353', AU:'61', CA:'1', US:'1' };
+  /* country code (from Cloudflare via site-data, by IP) -> prices tab */
+  function regionOf(cc){ return cc === 'EG' ? 'eg' : cc === 'AE' ? 'uae' : /^(SA|KW|QA|BH|OM)$/.test(cc) ? 'gulf' : 'intl'; }
   if(document.querySelector('[data-region-panel]')){
     var r = store(REGION_KEY);
-    if(!document.querySelector('[data-region-panel="' + r + '"]')) r = detectRegion();
+    /* a tab the visitor tapped wins; then the real country (when site-data arrives); the phone's time zone is only the first guess */
+    var chose = !!document.querySelector('[data-region-panel="' + r + '"]');
+    if(!chose) r = window.htvCountry ? regionOf(window.htvCountry) : detectRegion();
     setRegion(r, false);
+    if(!chose) document.addEventListener('htv:country', function(e){ if(!store(REGION_KEY)) setRegion(regionOf(e.detail), false); });
     each('[data-region-btn]', function(b){
       b.addEventListener('click', function(){ setRegion(b.getAttribute('data-region-btn'), true); });
     });
@@ -186,6 +195,10 @@
       var ccShow = f.querySelector('.cc-show');
       var showCc = function(){ if(ccShow) ccShow.textContent = '+' + cc.value; };
       cc.addEventListener('change', showCc); showCc();
+      var ccTouched = false; cc.addEventListener('change', function(e){ if(e.isTrusted) ccTouched = true; });
+      var ccFromIp = function(iso){ var d = ISO_DIAL[iso]; if(!ccTouched && d && cc.querySelector('option[value="' + d + '"]')){ cc.value = d; cc.setAttribute('data-home', d); showCc(); } };
+      if(window.htvCountry) ccFromIp(window.htvCountry);
+      document.addEventListener('htv:country', function(e){ ccFromIp(e.detail); });
       f.addEventListener('reset', function(){ setTimeout(showCc, 0); });
     }
     var hp = f.querySelector('[name="website"]'), msg = f.querySelector('.remind-msg'), btn = f.querySelector('[type="submit"]'), show = f.querySelector('.remind-show');
@@ -305,6 +318,14 @@
       : /^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|Regina|St_Johns|Montreal|Moncton|Whitehorse|Yellowknife|Iqaluit)/.test(tz) ? 'ca'
       : /^America\//.test(tz) ? 'us' : /^Australia\//.test(tz) ? '61' : '';
     if(guess && tCountry.querySelector('option[value="' + guess + '"]')) tCountry.value = guess;
+    /* the real country (Cloudflare, by IP) replaces the time-zone guess, unless the visitor already picked one */
+    var tcTouched = false;
+    var countryFromIp = function(iso){
+      var v = iso === 'CA' ? 'ca' : iso === 'US' ? 'us' : ISO_DIAL[iso];
+      if(!tcTouched && v && tCountry.querySelector('option[value="' + v + '"]')){ tCountry.value = v; if(typeof syncCountry === 'function') syncCountry(); }
+    };
+    tCountry.addEventListener('change', function(e){ if(e.isTrusted) tcTouched = true; });
+    document.addEventListener('htv:country', function(e){ countryFromIp(e.detail); });
     var opt = function(sel){ return sel.options[sel.selectedIndex]; };
     /* dial code from the chosen country (Canada/USA = 1; 'Other' = type it in the number) */
     var dial = function(){ var v = tCountry.value; return v === 'ca' || v === 'us' ? '1' : /^\d+$/.test(v) ? v : ''; };
