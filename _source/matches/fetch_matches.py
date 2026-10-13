@@ -54,6 +54,26 @@ TEAMS = {
 
 # Arabic names for teams that often sit near the top (only for the Arabic name — they don't make a match 'big')
 EXTRA_AR = {
+    # more European, Saudi and African clubs, so the Arabic pages never show English names
+    'brentford': 'برينتفورد', 'everton': 'إيفرتون', 'ipswich town': 'إبسويتش تاون', 'leeds united': 'ليدز يونايتد', 'brighton': 'برايتون',
+    'west ham united': 'وست هام', 'crystal palace': 'كريستال بالاس', 'fulham': 'فولهام', 'wolverhampton wanderers': 'وولفرهامبتون', 'bournemouth': 'بورنموث',
+    'afc bournemouth': 'بورنموث', 'burnley': 'بيرنلي', 'sunderland': 'سندرلاند', 'leicester city': 'ليستر سيتي', 'southampton': 'ساوثهامبتون',
+    'celta vigo': 'سيلتا فيغو', 'espanyol': 'إسبانيول', 'getafe': 'خيتافي', 'osasuna': 'أوساسونا', 'mallorca': 'مايوركا',
+    'rayo vallecano': 'رايو فايكانو', 'alaves': 'ألافيس', 'deportivo alaves': 'ألافيس', 'elche': 'إلتشي', 'levante': 'ليفانتي',
+    'real oviedo': 'ريال أوفييدو', 'cagliari': 'كالياري', 'frosinone': 'فروزينوني', 'genoa': 'جنوى', 'parma': 'بارما',
+    'sassuolo': 'ساسولو', 'venezia': 'فينيسيا', 'udinese': 'أودينيزي', 'lecce': 'ليتشي', 'verona': 'فيرونا',
+    'hellas verona': 'فيرونا', 'cremonese': 'كريمونيزي', 'pisa': 'بيزا', 'werder bremen': 'فيردر بريمن', 'mainz': 'ماينز',
+    'fsv mainz 05': 'ماينز', 'tsg hoffenheim': 'هوفنهايم', 'fc augsburg': 'أوغسبورغ', 'hamburg sv': 'هامبورغ', '1. fc koln': 'كولن',
+    'fc heidenheim': 'هايدنهايم', 'st. pauli': 'سانت باولي', 'strasbourg': 'ستراسبورغ', 'paris fc': 'باريس إف سي', 'le mans': 'لومان',
+    'nantes': 'نانت', 'toulouse': 'تولوز', 'brest': 'بريست', 'auxerre': 'أوكسير', 'angers': 'أنجيه',
+    'le havre': 'لوهافر', 'lorient': 'لوريان', 'metz': 'ميتز', 'rb salzburg': 'سالزبورغ', 'lask linz': 'لاسك لينز',
+    'lask': 'لاسك لينز', 'fc porto': 'بورتو', 'rangers': 'رينجرز', 'fenerbahce': 'فنربخشة', 'besiktas': 'بشكتاش',
+    'olympiacos': 'أولمبياكوس', 'dinamo zagreb': 'دينامو زغرب', 'young boys': 'يونغ بويز', 'slavia prague': 'سلافيا براغ', 'sparta prague': 'سبارتا براغ',
+    'copenhagen': 'كوبنهاغن', 'fc copenhagen': 'كوبنهاغن', 'al riyadh': 'الرياض', 'neom sc': 'نيوم', 'neom': 'نيوم',
+    'al kholood': 'الخلود', 'al okhdood': 'الأخدود', 'al hazem': 'الحزم', 'al najma': 'النجمة', 'damac': 'ضمك',
+    'al wehda': 'الوحدة', 'apr fc': 'إيه بي آر', 'el merriekh bentiu': 'المريخ بانتيو', 'al hilal omdurman': 'الهلال السوداني', 'esperance de tunis': 'الترجي',
+    'wydad casablanca': 'الوداد', 'raja casablanca': 'الرجاء', 'mamelodi sundowns': 'ماميلودي صن داونز', 'al merrikh': 'المريخ', 'petro de luanda': 'بترو أتلتيكو',
+    'orlando pirates': 'أورلاندو بايرتس', 'simba sc': 'سيمبا', 'young africans': 'يانغ أفريكانز',
     'bodo/glimt': 'بودو جليمت', 'bod/glimt': 'بودو جليمت', 'galatasaray': 'غلطة سراي', 'club brugge': 'كلوب بروج', 'viking fk': 'فايكنج', 'al qadsiah': 'القادسية', 'al ahli': 'الأهلي السعودي', 'al-ahli': 'الأهلي السعودي', 'al ettifaq': 'الاتفاق', 'al shabab': 'الشباب',
     'al taawoun': 'التعاون', 'al fateh': 'الفتح', 'al khaleej': 'الخليج', 'al fayha': 'الفيحاء',
     'ceramica cleopatra': 'سيراميكا كليوباترا', 'al masry': 'المصري', 'ismaily': 'الإسماعيلي', 'future fc': 'فيوتشر',

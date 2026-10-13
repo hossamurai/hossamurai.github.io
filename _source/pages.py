@@ -213,7 +213,7 @@ def plan_card(c, region, rp):
         m = money(c, rp['cur'], rp['p2'])
         if rp['cur'] == 'usd':
             m += f'<span class="cad" data-cad="{rp["p2"]}" data-cad-short hidden></span>'
-        p2 = f'<span class="p2">· {m} لسنتين</span>' if c.ar else f'<span class="p2">· {m} for 2 years</span>'
+        p2 = f'<span class="p2">{m} لسنتين</span>' if c.ar else f'<span class="p2">{m} for 2 years</span>'   # its own line under the yearly price
     aka = c.t(p['aka']) if p.get('aka') else ''
     first = t(p['feat'][0][1])
     stats = ' · '.join(f'{v} {t(lbl)}' for v, lbl in p['stats'])
@@ -1740,6 +1740,21 @@ var lbl=ar||!/\\//.test(z)?(ar?'بتوقيتك':'your time'):z.split('/').pop().
 Array.prototype.forEach.call(document.querySelectorAll('time[data-local]'),function(t){try{t.textContent=new Date(t.getAttribute('datetime')).toLocaleString(ar?'ar-EG':'en-US',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',hour12:true})+' · '+lbl;}catch(e){}});})();</script>"""
 
 
+
+def _mt_row(c, e, res=None):
+    """One aligned match row (same look as the matches list): home | score or "vs" | away, with logos."""
+    import html
+    def team(x, side):
+        img = (f'<img class="mt-logo" src="{html.escape(x["logo"])}" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">'
+               if x.get('logo') else '')
+        n = c.t(L(x['en'], x.get('ar') or x['en']))
+        return f'<span class="mt-team mt-{side}">{img}<span class="mt-name{" mt-long" if any(len(w) > 10 for w in n.split()) else ""}">{html.escape(n)}</span></span>'
+    if res:
+        mid = f'<b class="match-score">{res["as"] if c.ar else res["hs"]} – {res["hs"] if c.ar else res["as"]}</b>'
+    else:
+        mid = f'<span class="mt-vs">{c.t(L("vs", "ضد"))}</span>'
+    return f'<span class="mt-row">{team(e["home"], "home")}<span class="mt-mid">{mid}</span>{team(e["away"], "away")}</span>'
+
 def league_page(sid, code, slug, n_en, n_ar, ch_en, ch_ar):
     def build(c):
         t = c.t
@@ -1764,11 +1779,11 @@ def league_page(sid, code, slug, n_en, n_ar, ch_en, ch_ar):
         ups = [e for e in md.get('events', []) if e.get('code') == code]
         items = []
         for e in ups:
-            inner = f'<b>{name(e["home"])} {vs} {name(e["away"])}</b><small>{_when_html(c, e["utc"])}</small>'
+            inner = _mt_row(c, e) + f'<small>{_when_html(c, e["utc"])}</small>'
             items.append(f'<li><a href="{c.href("match/" + mp[e["id"]] + ".html")}">{inner}</a></li>' if e['id'] in mp else f'<li><div>{inner}</div></li>')
         upcoming = (f'<h2 class="st-h">{t(L("Upcoming big matches", "المباريات الكبيرة القادمة"))}</h2><ul class="lg-list">{"".join(items)}</ul>') if items else ''
         res = [r for r in md.get('results', []) if r.get('league', {}).get('en') == nm['en']]
-        res_html = ''.join(f'<li><div><b>{name(r["home"])} <span dir="ltr">{r["hs"]} – {r["as"]}</span> {name(r["away"])}</b></div></li>' for r in res[:5])
+        res_html = ''.join(f'<li><div>{_mt_row(c, r, r)}</div></li>' for r in res[:5])
         results = (f'<h2 class="st-h">{t(L("Last results", "آخر النتائج"))}</h2><ul class="lg-list">{res_html}</ul>') if res_html else ''
         chn = t(L(c_en, c_ar))
         others = ''.join(f'<a class="tb-tab" href="{c.href("league/" + s2 + ".html")}">{t(L(e2, a2))}</a>'
