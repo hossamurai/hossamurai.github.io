@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-13T19:17:35Z",
+ "updated": "2026-10-13T19:57:23Z",
  "events": [
   {
    "id": "e401915417",
@@ -117,7 +117,7 @@
    },
    "home": {
     "en": "Viking FK",
-    "ar": "Viking FK",
+    "ar": "فايكنج",
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/510.png&w=80&h=80"
    },
    "away": {
@@ -221,7 +221,7 @@
    },
    "home": {
     "en": "Bodo/Glimt",
-    "ar": "Bodo/Glimt",
+    "ar": "بودو جليمت",
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2980.png&w=80&h=80"
    },
    "away": {
