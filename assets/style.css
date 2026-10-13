@@ -1267,3 +1267,15 @@ section.sec.nextm-sec+section.sec{padding-top:36px}
 .lg-list .mt-row{border-top:0;padding:2px 0}
 .lg-list .mt-mid b{display:inline-block}
 .lg-list small{display:block;text-align:center;margin-top:4px}
+/* tapping hand in the matches / live bars — phones only; taps a few times when the page opens, then rests */
+.tap-hint{display:none;position:relative;width:16px;height:16px;flex:none}
+.tap-hint svg{width:16px;height:16px;display:block;transform-origin:50% 90%}
+.tap-hint::after{content:"";position:absolute;left:4px;top:-1px;width:8px;height:8px;border-radius:50%;border:1.5px solid currentColor;opacity:0}
+@media (hover:none){
+  .tap-hint{display:inline-block}
+  .tap-hint svg{animation:tapHand 1.4s ease-in-out .8s 5}
+  .tap-hint::after{animation:tapRing 1.4s ease-out .8s 5}
+}
+@keyframes tapHand{0%,100%{transform:translateY(0) scale(1)}35%{transform:translateY(2px) scale(.88)}55%{transform:translateY(0) scale(1)}}
+@keyframes tapRing{0%,30%{opacity:0;transform:scale(.4)}40%{opacity:.9}80%,100%{opacity:0;transform:scale(1.8)}}
+@media (prefers-reduced-motion:reduce){.tap-hint svg,.tap-hint::after{animation:none!important}}
