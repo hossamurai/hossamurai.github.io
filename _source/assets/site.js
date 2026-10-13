@@ -543,7 +543,9 @@
         var card = el('div', 'match' + (anyLive ? ' is-live' : ''));
         var top = el('div', 'match-top');
         top.appendChild(el('span', 'match-league', (e.league && (AR ? e.league.ar : e.league.en)) || ''));
-        if(chName(e)) top.appendChild(el('span', 'match-ch', chName(e)));
+        /* one channel for the whole card, or (Champions League nights: beIN Sports 1, 4, 5…) one under each match */
+        var chs = g.items.map(chName), oneCh = chs.every(function(x){ return x === chs[0]; });
+        if(oneCh && chs[0]) top.appendChild(el('span', 'match-ch', chs[0]));
         card.appendChild(top);
         var when = el('div', 'match-when');
         if(anyLive){ var lt = el('span', 'match-live', A('live')); when.appendChild(lt); }
@@ -563,6 +565,7 @@
           } else mid.appendChild(el('span', 'mt-vs', AR ? 'ضد' : 'vs'));
           row.appendChild(mid);
           row.appendChild(team(x.away, 'away'));
+          if(!oneCh && chName(x)){ var cl = el('span', 'mt-ch'); cl.appendChild(el('span', 'match-ch', chName(x))); row.appendChild(cl); }
           card.appendChild(row);
         });
         box.appendChild(card);

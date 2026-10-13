@@ -915,6 +915,8 @@ html[dir="rtl"] .page-hero .poster-wall{-webkit-mask-image:linear-gradient(270de
 .mt-clock{position:absolute;bottom:calc(100% + 3px);left:2px;color:var(--red);font-weight:700;font-size:.72rem;line-height:1;white-space:nowrap;direction:ltr}
 .mt-row.has-clock{padding-top:22px}
 .mt-vs{color:var(--muted);font-size:.8rem;font-weight:600}
+.mt-ch{grid-column:1/-1;display:flex;justify-content:center;margin-top:2px}
+.mt-ch .match-ch{font-size:.72rem;padding:2px 9px}
 .matches-note,.matches-empty{color:var(--muted);font-size:.86rem;margin-top:14px}
 .matches-sec .sec-head{text-align:center;margin-inline:auto}
 @media (min-width:900px){.matches{grid-template-columns:1fr 1fr}}
