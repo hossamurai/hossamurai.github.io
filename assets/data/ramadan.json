@@ -4,20 +4,334 @@
   "hijri": 1448,
   "series": [
    {
-    "ar": "سلطان الديب",
-    "en": "Sultan El-Deeb",
+    "ar": "عشماوي",
+    "en": "Ashmawi",
     "date": "2027-02-07",
-    "stars": "أحمد العوضي",
-    "poster": "",
-    "wiki": "سلطان الديب (مسلسل)"
+    "stars": "محمد رمضان، يسرا اللوزي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_bef0f19cc317d2afefaefd175dc9837579db18a7b22a81223d255d5e1262e803.jpg",
+    "ec": "2101729",
+    "dc": "2026-10-13",
+    "rank": 3
    },
    {
-    "ar": "عشماوي",
-    "en": "Ashmawy",
+    "ar": "سلطان الديب",
+    "en": "Sultan Al Deeb",
     "date": "2027-02-07",
-    "stars": "محمد رمضان",
+    "stars": "أحمد العوضي، رانيا يوسف",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_51d66749c84203a75e722f4accace7382c5354f294b8c6208e5a1343b12312fa.jpg",
+    "ec": "2101759",
+    "dc": "2026-10-13",
+    "rank": 4
+   },
+   {
+    "ar": "180",
+    "en": "",
+    "date": "2027-02-08",
+    "stars": "عمرو يوسف",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_89e10cc29bd212ac1ba9f421ea531e1bca4b26c65cdfca654a0951da44f08470.jpg",
+    "ec": "2101566",
+    "dc": "2026-10-13",
+    "rank": 0
+   },
+   {
+    "ar": "المداح ج7",
+    "en": "Al Maddah S7",
+    "date": "",
+    "stars": "حمادة هلال، فتحي عبدالوهاب",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_41d3309c4b70a1c032938a0feee221dfac1457ff2e33cef7fb7979664a7a6b4c.jpg",
+    "ec": "2101600",
+    "dc": "2026-10-13",
+    "rank": 1
+   },
+   {
+    "ar": "ما اختلفنا ج4",
+    "en": "",
+    "date": "",
+    "stars": "جمال العلي، شادي الصفدي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_2d200462f8467f3464160fd13277e7ca23949f7dc66120a6997459489b074bd6.jpg",
+    "ec": "2101709",
+    "dc": "2026-10-13",
+    "rank": 2
+   },
+   {
+    "ar": "بين الشك واليقين",
+    "en": "Bayn Al Shak Wal Yaqeen",
+    "date": "",
+    "stars": "حمزة العيلي، أشرف عبدالباقي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f2b1272780980a5c6d391415992a1943a1c27a4704ebf3806bae8edf1290fe3c.jpg",
+    "ec": "2101761",
+    "dc": "2026-10-13",
+    "rank": 5
+   },
+   {
+    "ar": "القناع",
+    "en": "The mask",
+    "date": "",
+    "stars": "ياسر جلال",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_a3e0ad017e33193c03c19327a5a1e9c04b6e5e288bcb16e8ed09fbf7d4a12b99.jpg",
+    "ec": "2101777",
+    "dc": "2026-10-13",
+    "rank": 6
+   },
+   {
+    "ar": "17 متر",
+    "en": "17 Meters",
+    "date": "",
+    "stars": "هشام ماجد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f990de1adb5aa51a4a6ac5090e03fe5b517cf21221566cfae25d9816bad69751.jpg",
+    "ec": "2101815",
+    "dc": "2026-10-13",
+    "rank": 7
+   },
+   {
+    "ar": "طاهر المصري",
+    "en": "Taher Al Masri",
+    "date": "",
+    "stars": "خالد النبوي، أحمد بدير",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e54fb4cd1949b03335e7fef14c429d29978d6cb5509b7602acd8ec14d4b3f795.jpg",
+    "ec": "2101817",
+    "dc": "2026-10-13",
+    "rank": 8
+   },
+   {
+    "ar": "حليمة جبران",
+    "en": "Halima Gobran",
+    "date": "",
+    "stars": "مي عمر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_5296d59cc4d22d410dd10de8fcc846f0618c5fcf90d54ec58d00333372cc3a39.jpg",
+    "ec": "2101893",
+    "dc": "2026-10-13",
+    "rank": 9
+   },
+   {
+    "ar": "ونس",
+    "en": "",
+    "date": "2027-02-08",
+    "stars": "أحمد داود، كمال أبو رية",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_378a1d00f453ac2cf1b9b784f6da6881698e487acb22264f700fda5c7f8b796b.jpg",
+    "ec": "2101913",
+    "dc": "2026-10-13",
+    "rank": 10
+   },
+   {
+    "ar": "خيوط من ذهب",
+    "en": "Threads of Gold",
+    "date": "2027-02-08",
+    "stars": "غادة عبدالرازق، جوري بكر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b50a608c7b841155b64a69720ac4e961e20d5ac653292c2480afe095e1cf9ace.jpg",
+    "ec": "2101914",
+    "dc": "2026-10-13",
+    "rank": 11
+   },
+   {
+    "ar": "الحضانة",
+    "en": "Child Custody",
+    "date": "2027-02-08",
+    "stars": "جاسم النبهان، سعاد علي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_84a7ae10e75a9819c7b63e0671d5ae622de6480fccd66d73bd13e7a48be47e10.jpg",
+    "ec": "2101974",
+    "dc": "2026-10-13",
+    "rank": 21
+   },
+   {
+    "ar": "المهبولة",
+    "en": "",
+    "date": "",
+    "stars": "هدى حسين، داود حسين",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6ec9b0504c639bff0751cdbec679663ccc81cc22c7b287a2653cbad95eecb1e6.jpg",
+    "ec": "2102098",
+    "dc": "2026-10-13",
+    "rank": 26
+   },
+   {
+    "ar": "الوضع العائلي",
+    "en": "",
+    "date": "2027-02-08",
+    "stars": "أحمد الجسمي، شيماء علي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_8b954369764ab52286f0c04c8b61afb9beed3c31cfc0f51b3787a4c161ea23a2.jpg",
+    "ec": "2102138",
+    "dc": "2026-10-13",
+    "rank": 27
+   },
+   {
+    "ar": "بيت هدام",
+    "en": "",
+    "date": "",
+    "stars": "عبدالمحسن النمر، باسمة حمادة",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_c0e4ac4cc7e4ade2bc1572efd56d703d45acbed433e2f4de87c852301fd1b1ba.jpg",
+    "ec": "2102261",
+    "dc": "2026-10-13",
+    "rank": 32
+   },
+   {
+    "ar": "روح وجسد",
+    "en": "Soul and Body",
+    "date": "",
+    "stars": "غادة عبدالرازق، نور اللبنانية",
     "poster": "",
-    "wiki": "عشماوي (مسلسل)"
+    "ec": "2101915",
+    "dc": "2026-10-13",
+    "rank": 12
+   },
+   {
+    "ar": "ما تيجي تشوف",
+    "en": "Why don't you come and see?",
+    "date": "",
+    "stars": "أحمد فهمي، ياسمين رئيس",
+    "poster": "",
+    "ec": "2101916",
+    "dc": "2026-10-13",
+    "rank": 13
+   },
+   {
+    "ar": "أرضي بجنينة",
+    "en": "",
+    "date": "2027-02-08",
+    "stars": "هنا الزاهد، أحمد عبدالوهاب",
+    "poster": "",
+    "ec": "2101917",
+    "dc": "2026-10-13",
+    "rank": 14
+   },
+   {
+    "ar": "كولومبيا",
+    "en": "",
+    "date": "",
+    "stars": "عباس النوري، باسل خياط",
+    "poster": "",
+    "ec": "2101930",
+    "dc": "2026-10-13",
+    "rank": 15
+   },
+   {
+    "ar": "الريسة",
+    "en": "",
+    "date": "2027-02-08",
+    "stars": "ماغي بو غصن، ندى أبو فرحات",
+    "poster": "",
+    "ec": "2101934",
+    "dc": "2026-10-13",
+    "rank": 16
+   },
+   {
+    "ar": "عنتر دوت كوم",
+    "en": "eantar dut kum",
+    "date": "2027-02-08",
+    "stars": "معتصم النهار، ستيفاني عطا الله",
+    "poster": "",
+    "ec": "2101943",
+    "dc": "2026-10-13",
+    "rank": 17
+   },
+   {
+    "ar": "قاصد طريق",
+    "en": "Roadster",
+    "date": "",
+    "stars": "إياد نصار، محمود عبدالمغني",
+    "poster": "",
+    "ec": "2101970",
+    "dc": "2026-10-13",
+    "rank": 18
+   },
+   {
+    "ar": "الفلكي",
+    "en": "Alfalaky",
+    "date": "",
+    "stars": "أحمد مكي، أحمد وفيق",
+    "poster": "",
+    "ec": "2101971",
+    "dc": "2026-10-13",
+    "rank": 19
+   },
+   {
+    "ar": "بدلة وفستان",
+    "en": "Suit and dress",
+    "date": "",
+    "stars": "حاتم صلاح",
+    "poster": "",
+    "ec": "2101972",
+    "dc": "2026-10-13",
+    "rank": 20
+   },
+   {
+    "ar": "كتف في كتف",
+    "en": "Shoulder to shoulder",
+    "date": "",
+    "stars": "أحمد السقا، أحمد غزي",
+    "poster": "",
+    "ec": "2102041",
+    "dc": "2026-10-13",
+    "rank": 22
+   },
+   {
+    "ar": "نيللي وشريهان تاني",
+    "en": "",
+    "date": "",
+    "stars": "دنيا سمير غانم، إيمي سمير غانم",
+    "poster": "",
+    "ec": "2102052",
+    "dc": "2026-10-13",
+    "rank": 23
+   },
+   {
+    "ar": "الظل",
+    "en": "",
+    "date": "",
+    "stars": "يوسف الشريف",
+    "poster": "",
+    "ec": "2102071",
+    "dc": "2026-10-13",
+    "rank": 24
+   },
+   {
+    "ar": "الغريبة",
+    "en": "Al Ghariba",
+    "date": "2027-02-08",
+    "stars": "نور الغندور، محمود بوشهري",
+    "poster": "",
+    "ec": "2102087",
+    "dc": "2026-10-13",
+    "rank": 25
+   },
+   {
+    "ar": "هدب عيني",
+    "en": "",
+    "date": "2027-02-08",
+    "stars": "عبدالرحمن العقل، محمد جابر",
+    "poster": "",
+    "ec": "2102139",
+    "dc": "2026-10-13",
+    "rank": 28
+   },
+   {
+    "ar": "بعد أمس",
+    "en": "Afer yesterday",
+    "date": "",
+    "stars": "سلافة معمار، مكسيم خليل",
+    "poster": "",
+    "ec": "2102156",
+    "dc": "2026-10-13",
+    "rank": 29
+   },
+   {
+    "ar": "جراب الحاوي",
+    "en": "Container Pouch",
+    "date": "",
+    "stars": "محمد سعد",
+    "poster": "",
+    "ec": "2102193",
+    "dc": "2026-10-13",
+    "rank": 30
+   },
+   {
+    "ar": "التوأم الشامي",
+    "en": "The Levantine twins",
+    "date": "",
+    "stars": "جمال سليمان، مهيار خضور",
+    "poster": "",
+    "ec": "2102257",
+    "dc": "2026-10-13",
+    "rank": 31
    }
   ]
  },
@@ -27,20 +341,2234 @@
   "start": "2026-02-18",
   "series": [
    {
-    "ar": "سوا سوا",
-    "en": "",
-    "date": "2026-02-17",
-    "stars": "أحمد مالك، هدى المفتي",
-    "poster": "",
-    "wiki": "سوا سوا (مسلسل)"
+    "ar": "صحاب الأرض",
+    "en": "Sohab Al Ard",
+    "date": "2026-02-19",
+    "stars": "إياد نصار، منة شلبي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_c4cb9444caff05da47403c75b57a48fe71941c670f3bf33f56ffc612513c351c.jpg",
+    "ec": "2097153",
+    "dc": "2026-10-13",
+    "rank": 0
+   },
+   {
+    "ar": "رأس الأفعى",
+    "en": "Ras Al Afaa",
+    "date": "2026-02-19",
+    "stars": "أمير كرارة، أحمد غزي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_29e582af04bd2af3d2797940a2c8c76952369985f582a8d875c8d9371ad453c8.jpg",
+    "ec": "2097156",
+    "dc": "2026-10-13",
+    "rank": 1
+   },
+   {
+    "ar": "السوق الحرة",
+    "en": "Al Souq Al Hurra",
+    "date": "2026-02-18",
+    "stars": "محمد ثروت، هالة فاخر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_9df681c410a7b38b2a05ba33f451d665186dd991baf367885e6069b353b17031.jpg",
+    "ec": "2098009",
+    "dc": "2026-10-13",
+    "rank": 2
+   },
+   {
+    "ar": "كان ياما كان",
+    "en": "Kan Ya Makan",
+    "date": "2026-02-19",
+    "stars": "ماجد الكدواني، يسرا اللوزي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_cc2ac3b406c36e4374a8431981e99187be15c93df04b69a610917091c1d3980f.jpg",
+    "ec": "2096531",
+    "dc": "2026-10-13",
+    "rank": 3
+   },
+   {
+    "ar": "حكاية نرجس",
+    "en": "Hekayet Narges",
+    "date": "2026-03-05",
+    "stars": "ريهام عبدالغفور، حمزة العيلي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_d1e5f87b7bba0846812626e497b13274a8d7bbec20b24c77e508bebc0272c669.jpg",
+    "ec": "2097947",
+    "dc": "2026-10-13",
+    "rank": 4
+   },
+   {
+    "ar": "اتنين غيرنا",
+    "en": "Etnen Gherna",
+    "date": "2026-02-19",
+    "stars": "آسر ياسين، دينا الشربيني",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_ed8967ce62a41b1bdea66ea854c82a5ab237c2f6f241d443d75da6e661bc9cd8.jpg",
+    "ec": "2096453",
+    "dc": "2026-10-13",
+    "rank": 5
+   },
+   {
+    "ar": "مناعة",
+    "en": "Manna'a",
+    "date": "2026-02-18",
+    "stars": "هند صبري، خالد سليم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_24ea6e31d0eecf7efd0787f03dbb8919a80b6502cfdce2f1f07144201028e200.jpg",
+    "ec": "2097616",
+    "dc": "2026-10-13",
+    "rank": 6
+   },
+   {
+    "ar": "النص التاني",
+    "en": "El Nos El Tany",
+    "date": "2026-03-05",
+    "stars": "أحمد أمين، أسماء أبو اليزيد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f57bd9054e2efe6369b097e3c495046aebdbc8e64c794d330797a883b66634bd.jpg",
+    "ec": "2097539",
+    "dc": "2026-10-13",
+    "rank": 7
    },
    {
     "ar": "إفراج",
-    "en": "",
+    "en": "Efrag",
+    "date": "2026-02-19",
+    "stars": "عمرو سعد، حاتم صلاح",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_1862a9fb03cb9d12530901974d11751e6ac2d6857d4797e2fc1ba7fcd1545a75.jpg",
+    "ec": "2097096",
+    "dc": "2026-10-13",
+    "rank": 8
+   },
+   {
+    "ar": "أب ولكن",
+    "en": "Ab Wa Laken",
+    "date": "2026-03-05",
+    "stars": "محمد فراج، هاجر أحمد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_2c6e4ec9f6a24393ea2d36a643de6120c83eb5333d19f82b347afdea3ca8c5b1.jpg",
+    "ec": "2097471",
+    "dc": "2026-10-13",
+    "rank": 9
+   },
+   {
+    "ar": "بخمس أرواح",
+    "en": "Bi Kams Arwah",
     "date": "2026-02-18",
-    "stars": "عمرو سعد، تارا عماد",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/0/09/%D9%85%D9%84%D8%B5%D9%82_%D8%A5%D9%81%D8%B1%D8%A7%D8%AC.jpg",
-    "wiki": "إفراج (مسلسل)"
+    "stars": "قصي خولي، كاريس بشار",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_c368976a620d1ee51024f4f33fcbeb206a1598761727e1bfcfd52a9c11017c9c.jpg",
+    "ec": "2097149",
+    "dc": "2026-10-13",
+    "rank": 10
+   },
+   {
+    "ar": "عين سحرية",
+    "en": "Ein Sehreya",
+    "date": "2026-02-19",
+    "stars": "عصام عمر، باسم سمرة",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e4d3cf1102e9780068f4f30dd4e85253f4e6050b5c9da9caff275d909867e395.jpg",
+    "ec": "2096591",
+    "dc": "2026-10-13",
+    "rank": 11
+   },
+   {
+    "ar": "عرض وطلب",
+    "en": "Aard W Talab",
+    "date": "2026-03-05",
+    "stars": "سلمى أبو ضيف، سماح أنور",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_ddaf907c9e20d60e38fba096f258322ea3a7ad6de34463fa710cd77c4212f826.jpg",
+    "ec": "2096818",
+    "dc": "2026-10-13",
+    "rank": 12
+   },
+   {
+    "ar": "فرصة أخيرة",
+    "en": "Forsa Akhira",
+    "date": "2026-03-05",
+    "stars": "محمود حميدة، طارق لطفي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e6d49082b71ddfcfd60bb382c40a3ff5b6ee5213354881785641e4e276770094.jpg",
+    "ec": "2098186",
+    "dc": "2026-10-13",
+    "rank": 13
+   },
+   {
+    "ar": "بالحرام",
+    "en": "Bil Haram",
+    "date": "2026-02-18",
+    "stars": "ماغي بو غصن، طوني عيسى",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0797d75ed18c18e2b022b65f2825c1ac45f2c888111c1be2c0b3363f04a5bf2e.jpg",
+    "ec": "2096877",
+    "dc": "2026-10-13",
+    "rank": 14
+   },
+   {
+    "ar": "مطبخ المدينة",
+    "en": "Matbakh Al Madinah",
+    "date": "2026-02-18",
+    "stars": "عباس النوري، مكسيم خليل",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_657d377847a48c796a3076f1f6de4e2f09a751e99f8e9c54067dfdf4f352a96f.jpg",
+    "ec": "2097216",
+    "dc": "2026-10-13",
+    "rank": 15
+   },
+   {
+    "ar": "عيلة الملك",
+    "en": "Elet Al Malek",
+    "date": "2026-02-18",
+    "stars": "جوان الخضر، لجين إسماعيل",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_9a17f691cb6b313f0eaf3a97cbdc90b4cce3d38820fec49e8c19fee93c3f6769.jpg",
+    "ec": "2097145",
+    "dc": "2026-10-13",
+    "rank": 16
+   },
+   {
+    "ar": "علي كلاي",
+    "en": "Ali Klay",
+    "date": "2026-02-19",
+    "stars": "أحمد العوضي، درة",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_cca715e4e89d0929ea1782cc95de57fcc6b658e1da43ee8ee1d9fb334d450800.jpg",
+    "ec": "2096455",
+    "dc": "2026-10-13",
+    "rank": 17
+   },
+   {
+    "ar": "الكينج",
+    "en": "El King",
+    "date": "2026-02-18",
+    "stars": "محمد إمام، ميرنا جميل",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_1838eb31d2d3b9c65a8bbdf2468cd737d0a5c89432ca84745346cd9aa4cb74ec.jpg",
+    "ec": "2097164",
+    "dc": "2026-10-13",
+    "rank": 18
+   },
+   {
+    "ar": "الست موناليزا",
+    "en": "El Set Monalisa",
+    "date": "2026-02-18",
+    "stars": "مي عمر، أحمد مجدي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_33e3688051434b650a09c7edca4c962f2db604b0969d33cef003d1812adfb28e.jpg",
+    "ec": "2097084",
+    "dc": "2026-10-13",
+    "rank": 19
+   },
+   {
+    "ar": "حد أقصى",
+    "en": "Had Aqsa",
+    "date": "2026-02-18",
+    "stars": "روجينا، محمد القس",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_97d8f084c9df198b449e5ca5ec26108788203ddff7e1b113468d4f81833503f6.jpg",
+    "ec": "2097753",
+    "dc": "2026-10-13",
+    "rank": 20
+   },
+   {
+    "ar": "توابع",
+    "en": "Tawabea",
+    "date": "2026-02-19",
+    "stars": "ريهام حجاج، أسماء أبو اليزيد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f34caf686f6bebe84cdb2dcb93795c61a265f05a00ec2beea10ae44d1fb0a816.jpg",
+    "ec": "2097094",
+    "dc": "2026-10-13",
+    "rank": 21
+   },
+   {
+    "ar": "بابا وماما جيران",
+    "en": "Baba Wa Mama Geran",
+    "date": "2026-03-04",
+    "stars": "أحمد داود، ميرنا جميل",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_739e73a99bb9b2dea7f148a095ff4e20ec78792ce4952e0e2e0a6959343a283d.jpg",
+    "ec": "2097068",
+    "dc": "2026-10-13",
+    "rank": 22
+   },
+   {
+    "ar": "وننسى اللي كان",
+    "en": "We Nensa Ele Kan",
+    "date": "2026-02-19",
+    "stars": "ياسمين عبدالعزيز، كريم فهمي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_92f299b746d11a7f0a61a5128e3c969670db094f0bfd3774ca4e70d271958b0b.jpg",
+    "ec": "2096885",
+    "dc": "2026-10-13",
+    "rank": 23
+   },
+   {
+    "ar": "على قد الحب",
+    "en": "Ala Ad El Hob",
+    "date": "2026-02-18",
+    "stars": "نيللي كريم، شريف سلامة",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_2d32084efab31c20a62d9a2f88e75750e47b0ac25f30387c283c360c99b3aba9.jpg",
+    "ec": "2097692",
+    "dc": "2026-10-13",
+    "rank": 24
+   },
+   {
+    "ar": "أولاد الراعي",
+    "en": "Awlad Al-Rai",
+    "date": "2026-02-18",
+    "stars": "ماجد المصري، خالد الصاوي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_98b1ecba26b1083d279a50de58446ff80d88176d3fc3467eb092be283575e5e5.jpg",
+    "ec": "2097293",
+    "dc": "2026-10-13",
+    "rank": 25
+   },
+   {
+    "ar": "بيبو",
+    "en": "Beebo",
+    "date": "2026-03-06",
+    "stars": "أحمد بحر / كزبرة، وليد فواز",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_541141e7877cf7120c91758ed13007871a2000ed8869ceff9e0a8293c938fd75.jpg",
+    "ec": "2097162",
+    "dc": "2026-10-13",
+    "rank": 26
+   },
+   {
+    "ar": "كلهم بيحبوا مودي",
+    "en": "Kolohom Beyhebo Moody",
+    "date": "2026-02-18",
+    "stars": "ياسر جلال، ميرفت أمين",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_74d09a018f73545f01e4df3e335551b25fbb0c68f0041f186364644f64b4e1af.jpg",
+    "ec": "2096346",
+    "dc": "2026-10-13",
+    "rank": 27
+   },
+   {
+    "ar": "فن الحرب",
+    "en": "Fan Al Harb",
+    "date": "2026-02-18",
+    "stars": "يوسف الشريف، شيري عادل",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f510169ae1f4383a021c5f23e8cc5a3cfe296c6dba68a591161c8de8d255aef9.jpg",
+    "ec": "2096564",
+    "dc": "2026-10-13",
+    "rank": 28
+   },
+   {
+    "ar": "المداح ج6: أسطورة النهاية",
+    "en": "Al Maddah 6: Ostorat Al Nehaya",
+    "date": "2026-02-17",
+    "stars": "حمادة هلال، فتحي عبدالوهاب",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_75e9f82e0b3606e3ec582961ddb237967b8eb5a82ab9435a48d764d5dae52c62.jpg",
+    "ec": "2096582",
+    "dc": "2026-10-13",
+    "rank": 29
+   },
+   {
+    "ar": "درش",
+    "en": "Darsh",
+    "date": "2026-02-19",
+    "stars": "مصطفى شعبان، سهر الصايغ",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_fc2798bac3403186da4a0ca107377e62ac43160c2c669945ce5dc12122064703.jpg",
+    "ec": "2096819",
+    "dc": "2026-10-13",
+    "rank": 30
+   },
+   {
+    "ar": "قطر صغنطوط",
+    "en": "Atr Soghantoot",
+    "date": "2026-03-06",
+    "stars": "محمد رجب، أحمد بدير",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0e1bd8c5ed9af74f39b5d935c572109ad17e4d41a4078250d103e6c5cc561888.jpg",
+    "ec": "2097314",
+    "dc": "2026-10-13",
+    "rank": 31
+   },
+   {
+    "ar": "فخر الدلتا",
+    "en": "Fakhr El Delta",
+    "date": "2026-02-19",
+    "stars": "أحمد رمزي، كمال أبو رية",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_bd05fd7d22690149ab6d7759f3944b02cdcd44c96b1c0fcf57cbe421e2abbcfd.jpg",
+    "ec": "2097069",
+    "dc": "2026-10-13",
+    "rank": 32
+   },
+   {
+    "ar": "ن النسوة",
+    "en": "Noon El Neswa",
+    "date": "2026-03-05",
+    "stars": "مي كساب، هبة مجدي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_8b40fa6d13b98e1e96a1c86c34f2cb87783cd782e350bef311584a9599b0b5de.jpg",
+    "ec": "2098326",
+    "dc": "2026-10-13",
+    "rank": 33
+   },
+   {
+    "ar": "شمس الأصيل",
+    "en": "Shams El Aseel",
+    "date": "2026-02-18",
+    "stars": "عبير شمس الدين، دانا جبر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6480d67a0459b626f4836f7e42a2b34a0c19bca115314f7b1ac0f80ca2423b4e.jpg",
+    "ec": "2097379",
+    "dc": "2026-10-13",
+    "rank": 34
+   },
+   {
+    "ar": "يا أنا يا هي ج2",
+    "en": "Ya Ana Ya Heya 2",
+    "date": "2026-02-18",
+    "stars": "أمل عرفة، أمل دباس",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_a0c5a03c1dee654ae32a1f5ba2d42bd1224991767ac8750413d76351f81172ef.jpg",
+    "ec": "2098141",
+    "dc": "2026-10-13",
+    "rank": 35
+   },
+   {
+    "ar": "اللون الأزرق",
+    "en": "Al Lawn Al Azraq",
+    "date": "2026-03-05",
+    "stars": "جومانا مراد، أحمد رزق",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_907b0247975fbd0e9f5cd7ac1880a4989d73dee5923c825bf61ebcb3c6d7ec68.jpg",
+    "ec": "2097372",
+    "dc": "2026-10-13",
+    "rank": 36
+   },
+   {
+    "ar": "هي كيميا؟!",
+    "en": "Heya Kemya?!",
+    "date": "2026-02-18",
+    "stars": "مصطفى غريب، دياب",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e7c83c8cf94bac3be155dfb20850545f2d7127cd5db626d048f993cffbea75de.jpg",
+    "ec": "2097858",
+    "dc": "2026-10-13",
+    "rank": 37
+   },
+   {
+    "ar": "المصيدة",
+    "en": "El Masyada",
+    "date": "2026-02-18",
+    "stars": "حنان مطاوع، خالد سليم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6f68157140705e8557d9cf52adf3b8de8fa8c77c28192001721c7419689492e7.jpg",
+    "ec": "2097334",
+    "dc": "2026-10-13",
+    "rank": 38
+   },
+   {
+    "ar": "سوا سوا",
+    "en": "Sawa Sawa",
+    "date": "2026-02-17",
+    "stars": "أحمد مالك، هدى المفتي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e712234241e6bcaa1af7504a3d7dcfd43da93762e043687a92a22b9c53f500c4.jpg",
+    "ec": "2097311",
+    "dc": "2026-10-13",
+    "rank": 39
+   },
+   {
+    "ar": "الغميضة",
+    "en": "Al Ghumaida",
+    "date": "2026-02-18",
+    "stars": "هدى حسين، محمود بوشهري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_90f5d9927b42c3dd8ac2647b3b90bc2ca088d92670745dde7d6cc31daf898c7c.jpg",
+    "ec": "2096846",
+    "dc": "2026-10-13",
+    "rank": 40
+   },
+   {
+    "ar": "غلط بنات",
+    "en": "Ghalat Banat",
+    "date": "2026-02-18",
+    "stars": "إلهام الفضالة، جمال الردهان",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_dd92108bbfa3a6df00f9c9ea2121c686c6252bdcf13429364a861ab4e90966e9.jpg",
+    "ec": "2096866",
+    "dc": "2026-10-13",
+    "rank": 41
+   },
+   {
+    "ar": "جاك العلم ج3",
+    "en": "Jak El Elm 3",
+    "date": "2026-02-18",
+    "stars": "ريم عبدالله، ماجد مطرب فواز",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_fba49e31b5d90a154c94cfb724e44357beef0069bc9e0ffe358938b2412717f3.jpg",
+    "ec": "2098245",
+    "dc": "2026-10-13",
+    "rank": 42
+   },
+   {
+    "ar": "كحيلان",
+    "en": "Kuhailan",
+    "date": "2026-02-18",
+    "stars": "مطرب فواز، بشير الغنيم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_34a3b0e67816b2fcd555fc210fb63e62a06a90119ba0c5684833ab812d1eb616.jpg",
+    "ec": "2098096",
+    "dc": "2026-10-13",
+    "rank": 43
+   },
+   {
+    "ar": "كسرة",
+    "en": "Kasra",
+    "date": "2026-02-18",
+    "stars": "طيف، منصور البلوشي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_1817a8ccdcfeb94a24b3be8e819eb50f9350e7d5dd3e73160d53e414eecaf463.jpg",
+    "ec": "2096718",
+    "dc": "2026-10-13",
+    "rank": 44
+   },
+   {
+    "ar": "حمدية",
+    "en": "Hamdiya",
+    "date": "2026-02-18",
+    "stars": "أميمة جواد الشكرجي، رويدا شاهين",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_c03d452412d0abe1fa39352571a39fcdbeaffa2e2d35b4e3e957c4af74413a05.jpg",
+    "ec": "2098238",
+    "dc": "2026-10-13",
+    "rank": 45
+   },
+   {
+    "ar": "شرارة",
+    "en": "Sharara",
+    "date": "2026-02-18",
+    "stars": "بكر خالد، سولاف جليل",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_d16a94d1df7a4b87c18152c0e66aad676bb393c3058ff31e4e1c115006beb056.jpg",
+    "ec": "2098111",
+    "dc": "2026-10-13",
+    "rank": 46
+   },
+   {
+    "ar": "يوميات رجل متزوج",
+    "en": "Yawmiyat Rajol Mutazawej",
+    "date": "2026-02-18",
+    "stars": "إبراهيم الحجاج، فاطمة الشريف",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_a65931aaf072eec6941f4245bb858ad252d9e830fda156a51122cbace08ed46e.jpg",
+    "ec": "2098239",
+    "dc": "2026-10-13",
+    "rank": 47
+   },
+   {
+    "ar": "شارع الأعشى ج2",
+    "en": "Sharie Al Asha",
+    "date": "2026-02-18",
+    "stars": "إلهام علي، خالد صقر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b26ad25857392cf24ddbe76222a3b4e5d253807620a8779cf896bd9fa6c15ed4.jpg",
+    "ec": "2097922",
+    "dc": "2026-10-13",
+    "rank": 48
+   },
+   {
+    "ar": "خطوات صغيرة",
+    "en": "Khotuwat Saghira",
+    "date": "2026-02-18",
+    "stars": "هبة الدري، حمد العماني",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_173b788bc6593bcb82ae9a2620b9389cb8ecef9526c6727628aaf3e3d92e02b7.jpg",
+    "ec": "2096901",
+    "dc": "2026-10-13",
+    "rank": 49
+   },
+   {
+    "ar": "وحوش ج2",
+    "en": "Wuhoosh 2",
+    "date": "2026-02-17",
+    "stars": "إلهام علي، فتات سلطان",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f5de83b345cd61d174c50d69f058af18737551ca27c025ccfb4493b0668cc05e.jpg",
+    "ec": "2097914",
+    "dc": "2026-10-13",
+    "rank": 50
+   },
+   {
+    "ar": "أم رجا",
+    "en": "Um Raja",
+    "date": "2026-02-28",
+    "stars": "زهرة عرفات، صلاح الملا",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_ee27d89a5bb50282bd83a7a2bcc96d749eb10cfb0d3d0f6611d3a5195bd2fcc8.jpg",
+    "ec": "2096717",
+    "dc": "2026-10-13",
+    "rank": 51
+   },
+   {
+    "ar": "متاهة",
+    "en": "Mataha",
+    "date": "2026-02-18",
+    "stars": "فوز الشطي، فيصل العميري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_4ceca6fa2b8cc08c16d2cebd1f3f68eafa47504679d7147c766d3378c44f5fde.jpg",
+    "ec": "2096848",
+    "dc": "2026-10-13",
+    "rank": 52
+   },
+   {
+    "ar": "آخر الشهر",
+    "en": "Akher Al Shahr",
+    "date": "2026-02-17",
+    "stars": "حسن البلام، شيماء علي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_588a337f6c71e2a9130675290fd9f8dacede633eaaa47ba699b2d16077225140.jpg",
+    "ec": "2097469",
+    "dc": "2026-10-13",
+    "rank": 53
+   },
+   {
+    "ar": "درب الذهب",
+    "en": "Darb Al Thahab",
+    "date": "2026-02-18",
+    "stars": "أحمد إيراج، باسمة حمادة",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_10590a9e808db83070506b893a935b55df4d2d5ab74c3001b2118d3d2a40d7d2.jpg",
+    "ec": "2097838",
+    "dc": "2026-10-13",
+    "rank": 54
+   },
+   {
+    "ar": "جناية حب",
+    "en": "Ginayet Hob",
+    "date": "2026-02-19",
+    "stars": "يعقوب عبدالله، هيا عبدالسلام",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_838e7fd0950637997cc4d86f22bc8a4106bb7ac35b562e13463ec3e11c255567.jpg",
+    "ec": "2097194",
+    "dc": "2026-10-13",
+    "rank": 55
+   },
+   {
+    "ar": "الباء تحته نقطة ج2",
+    "en": "Al Baa' Tahtahu Nuqta 2",
+    "date": "2026-02-18",
+    "stars": "سوسن بدر، إيمان السيد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_680192ca327e0058da260be291543c52d9c49790c4d7d035fb07c0e9d46354b0.jpg",
+    "ec": "2098286",
+    "dc": "2026-10-13",
+    "rank": 56
+   },
+   {
+    "ar": "أعوام الظلام",
+    "en": "Awaam Al Thalam",
+    "date": "2026-02-17",
+    "stars": "حمد العماني، إنتصار",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0b139f25dc796038690b252412dcfaadc0ec144a4984822b934b44e77c2deb32.jpg",
+    "ec": "2088650",
+    "dc": "2026-10-13",
+    "rank": 57
+   },
+   {
+    "ar": "وديمة وحليمة ج5",
+    "en": "Wadima Wa Halima 5",
+    "date": "2026-02-17",
+    "stars": "سعاد علي، ملاك الخالدي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_4ba126c6f619472ade841e204d4188ff8fd2c25c17b875b916e9a931560b8d86.jpg",
+    "ec": "2098328",
+    "dc": "2026-10-13",
+    "rank": 58
+   },
+   {
+    "ar": "البخت",
+    "en": "El Bakht",
+    "date": "2026-02-18",
+    "stars": "أحمد عبدالعزيز، مروان عبدالله",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_ca995a09576583794fdc0972ae3ac47ecbe60707457b76f73ef09817d08d15ee.jpg",
+    "ec": "2098197",
+    "dc": "2026-10-13",
+    "rank": 59
+   },
+   {
+    "ar": "الشوفير: رحلة عمر",
+    "en": "Al Shofeir: Rehlat Omr",
+    "date": "2026-02-17",
+    "stars": "خالد المظفر، محمد صفر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_3f0974c43f936858c724eb79e5fd0e4ab7889be055fa982410dc7cbb90ce9410.jpg",
+    "ec": "2098055",
+    "dc": "2026-10-13",
+    "rank": 60
+   },
+   {
+    "ar": "دراما كوين",
+    "en": "Drama Queen",
+    "date": "2026-02-18",
+    "stars": "سحر حسين، عبدالله الخضر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_15d9b3d6eb2dd3554bdda1d5cd1938828d8462169739194a5b11f000b44e475b.jpg",
+    "ec": "2097454",
+    "dc": "2026-10-13",
+    "rank": 61
+   },
+   {
+    "ar": "صبر أم أيوب",
+    "en": "Sabr Um Ayoub",
+    "date": "2026-03-10",
+    "stars": "محمد المنصور، حسين المنصور",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_09f4f7345001b7332ed9b2b651abccc2072cae0e7d53116963db57a1ff71f36e.jpg",
+    "ec": "2097093",
+    "dc": "2026-10-13",
+    "rank": 62
+   },
+   {
+    "ar": "شباب البومب 14",
+    "en": "Shabab El Bomb 14",
+    "date": "2026-02-18",
+    "stars": "فيصل العيسى، علي المدفع",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_5c7a11c7d192a2b3a928436120e185a7dfc162658fb67d9f3e66e48bc7a9868a.jpg",
+    "ec": "2097954",
+    "dc": "2026-10-13",
+    "rank": 63
+   },
+   {
+    "ar": "العمة",
+    "en": "Al Amma",
+    "date": "2026-02-18",
+    "stars": "حافظ لعيبي، مروى بدران",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_1d77736a6e15c1098607e432ff3e8f8696c6bbcb861e16a9243d6307d8732de2.jpg",
+    "ec": "2098453",
+    "dc": "2026-10-13",
+    "rank": 64
+   },
+   {
+    "ar": "دارا",
+    "en": "Dara",
+    "date": "2026-02-17",
+    "stars": "عبدالله بن حيدر / عبدالله سعيد، همام أيمن رضا",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_77429e2ef549754d248dce0d522657ceb0073c9e504eb7a46c2ccf008dafe6d7.jpg",
+    "ec": "2098550",
+    "dc": "2026-10-13",
+    "rank": 65
+   },
+   {
+    "ar": "33",
+    "en": "",
+    "date": "2026-02-17",
+    "stars": "هيفاء حسين، عمر الملا",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b158f670cb4ed686e9f1437383424423eb00c8624c682cbb4e9cfdea5e63d432.jpg",
+    "ec": "2098551",
+    "dc": "2026-10-13",
+    "rank": 66
+   },
+   {
+    "ar": "لحظات مسروقة",
+    "en": "Lahazat Masruqa",
+    "date": "2026-02-18",
+    "stars": "أحمد الجسمي، سميرة أحمد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b6b61bc98238266ebe4a083348d32a49f5ecd78493e7578f43e13d4ecb2b3210.jpg",
+    "ec": "2097774",
+    "dc": "2026-10-13",
+    "rank": 67
+   },
+   {
+    "ar": "الضربة",
+    "en": "Al Darba",
+    "date": "2026-02-18",
+    "stars": "آلاء شاكر، كندة حنا",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_7d50d7ecba4af92381961b1eaf2ed8a69eb3c63987bf40c40d05056cd01d1d4d.jpg",
+    "ec": "2097349",
+    "dc": "2026-10-13",
+    "rank": 68
+   },
+   {
+    "ar": "المتر سمير",
+    "en": "El Maitre Samir",
+    "date": "2026-03-05",
+    "stars": "كريم محمود عبدالعزيز، محمد عبدالرحمن",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_003bebddefe7c6e6f556fce12456c2fd7c2f30e77492c4f9157e678eede5b67b.jpg",
+    "ec": "2098225",
+    "dc": "2026-10-13",
+    "rank": 69
+   },
+   {
+    "ar": "عمارة السعادة",
+    "en": "Omaret El Saada",
+    "date": "2026-02-19",
+    "stars": "كمال كاظمي، سكينة درابيل",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_79707c271282ca7fa5805472616f34a0662047075bb13753f3e853c12a481fcd.jpg",
+    "ec": "2098796",
+    "dc": "2026-10-13",
+    "rank": 70
+   },
+   {
+    "ar": "سعادة المجنون",
+    "en": "Saadaet Al Magnoun",
+    "date": "2026-02-17",
+    "stars": "عابد فهد، سلافة معمار",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_523146e3286907fcc5127fc2d0c47863ff5ed3c3da9efbd4c4cb8efc0184abd1.jpg",
+    "ec": "2097143",
+    "dc": "2026-10-13",
+    "rank": 71
+   },
+   {
+    "ar": "اليتيم",
+    "en": "Al Yateem",
+    "date": "2026-02-18",
+    "stars": "سامر إسماعيل، أيمن رضا",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_84728bcd4fb2ece0930d5a51a24c09c55d2be507ab8827ae22675dea16d864c0.jpg",
+    "ec": "2097147",
+    "dc": "2026-10-13",
+    "rank": 72
+   },
+   {
+    "ar": "اسأل روحك",
+    "en": "Esaal Rouhak",
+    "date": "2026-02-19",
+    "stars": "ياسمين رئيس، أحمد فهمي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_9c87078e28c9654fafbd9da4455b217f171ed095f44c8ced5451946dc69f0067.jpg",
+    "ec": "2098545",
+    "dc": "2026-10-13",
+    "rank": 73
+   },
+   {
+    "ar": "مولانا",
+    "en": "Mawlana",
+    "date": "2026-02-18",
+    "stars": "تيم حسن، فارس الحلو",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6d8dde24b6f04aaab5375df9f8eff2317d50ae8191a248f7a4b6f07ef667133a.jpg",
+    "ec": "2097150",
+    "dc": "2026-10-13",
+    "rank": 74
+   },
+   {
+    "ar": "النويلاتي",
+    "en": "Al Nwaylati",
+    "date": "2026-02-18",
+    "stars": "سامر المصري، ديمة قندلفت",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_a9bfd78e71122dc9e90245cb577457d6dccf6798fbe9159a6e90a76578ab65ed.jpg",
+    "ec": "2097140",
+    "dc": "2026-10-13",
+    "rank": 75
+   },
+   {
+    "ar": "بنت النعمان",
+    "en": "Bint Al Noaman",
+    "date": "2026-02-18",
+    "stars": "محمد أوسو، ريام كفارنة",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_330003a8cba680b64f794bcb98a319b23fd0b75404354f391a7bc732795899d1.jpg",
+    "ec": "2097144",
+    "dc": "2026-10-13",
+    "rank": 76
+   },
+   {
+    "ar": "الخروج إلى البئر",
+    "en": "Al Khoruj Ila Al Bir",
+    "date": "2026-02-18",
+    "stars": "جمال سليمان، عبدالحكيم قطيفان",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_92695210faf951f0ef9ac2737dbc2fb90279f37c57002172ac9c63392e1d9879.jpg",
+    "ec": "2097146",
+    "dc": "2026-10-13",
+    "rank": 77
+   },
+   {
+    "ar": "المقعد الأخير",
+    "en": "Al Miq'ad Al Akheer",
+    "date": "2026-02-18",
+    "stars": "يارا صبري، جهاد عبدو (جاي عبدو)",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f0bd949eb34846fbee00ac8a83afda9b93fd753a54c49c612ac9bdd1c60a0ca4.jpg",
+    "ec": "2097222",
+    "dc": "2026-10-13",
+    "rank": 78
+   },
+   {
+    "ar": "ما اختلفنا ج3",
+    "en": "Ma Ekhtalafna 3",
+    "date": "2026-02-18",
+    "stars": "باسم ياخور، أيمن رضا",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_a05c9c415ee132ce551acfd0abf3888b8ae57fb0184615ad96dcae3dab83044c.jpg",
+    "ec": "2097502",
+    "dc": "2026-10-13",
+    "rank": 79
+   },
+   {
+    "ar": "بيت الأحلام",
+    "en": "Bayt El Ahlam",
+    "date": "2026-02-18",
+    "stars": "سليمان رزق، وائل زيدان",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_7923270df965a441708bf7304feb9d9bde43579f5b333e4ca051ba5a9c224720.jpg",
+    "ec": "2098229",
+    "dc": "2026-10-13",
+    "rank": 80
+   },
+   {
+    "ar": "ملوك اليمن",
+    "en": "Melouk El Yaman",
+    "date": "2026-02-18",
+    "stars": "أماني الذماري، حسن الجماعي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_5b1f59d35d2e702d46b7e5e2aad4a2fe87ac6961b5fde93c65a559060ecc964f.jpg",
+    "ec": "2098486",
+    "dc": "2026-10-13",
+    "rank": 81
+   },
+   {
+    "ar": "لوبي الغرام",
+    "en": "Lubby Al Gharam",
+    "date": "2026-02-17",
+    "stars": "باميلا الكيك، معتصم النهار",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f063510db6723986dacc614d4812e4ad738342fdf24dfff6664111f773b2cc9d.jpg",
+    "ec": "2096944",
+    "dc": "2026-10-13",
+    "rank": 82
+   },
+   {
+    "ar": "ثعالب الصحراء",
+    "en": "Thaealib Al Sahara",
+    "date": "2026-02-18",
+    "stars": "عبير عيسى، محمد العبادي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e75bcaf8574d103fc763f13e2bf20cb78bf8946520c416025fe3f6b6aeeff346.jpg",
+    "ec": "2098560",
+    "dc": "2026-10-13",
+    "rank": 83
+   },
+   {
+    "ar": "قبان موسى",
+    "en": "Qabban Moussa",
+    "date": "2026-03-05",
+    "stars": "نهى سمارة، ربيع زيتون",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0c289e38a298f055688a2a8278028aa244ad24b35c677877d6ac26b50ea664fa.jpg",
+    "ec": "2098387",
+    "dc": "2026-10-13",
+    "rank": 84
+   },
+   {
+    "ar": "الحصة الأخيرة",
+    "en": "Al Hessa Al Akheera",
+    "date": "2026-02-18",
+    "stars": "فيصل الدوخي، علي الحميدي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e7f92bae6a3c004d419fb9e712b16fe76b6bbd54a6ba7a7c369f4ba9e545785a.jpg",
+    "ec": "2098624",
+    "dc": "2026-10-13",
+    "rank": 85
+   },
+   {
+    "ar": "بنات عبدالغني",
+    "en": "Banat Abdul Ghany",
+    "date": "2026-02-17",
+    "stars": "هنادي الكندري، إيمان الحسيني",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_29eb7e5a201bb99dd8ecc883a9d5cec7a7e5c72a5a61a7889eb3b411078993cf.jpg",
+    "ec": "2096661",
+    "dc": "2026-10-13",
+    "rank": 86
+   },
+   {
+    "ar": "ديقوردي",
+    "en": "ديجوردي",
+    "date": "2026-02-19",
+    "stars": "بشرى عقبي، مروان قروابي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_a68146bbd29ff9d932dae2ea8ca3e8df2af1a86831752aa97dc4faf9c4657c78.jpg",
+    "ec": "2098515",
+    "dc": "2026-10-13",
+    "rank": 87
+   },
+   {
+    "ar": "أنا وهي وهيا",
+    "en": "Ana wa Heya wa Haya",
+    "date": "2026-02-18",
+    "stars": "باسل خياط، تاج حيدر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_a83b01b7cc8195e8f5660b30131e45297ee32cc61a8322a55267112032683f7d.jpg",
+    "ec": "2097085",
+    "dc": "2026-10-13",
+    "rank": 88
+   },
+   {
+    "ar": "عايلة غريبة",
+    "en": "Ayla Ghareeba",
+    "date": "2026-02-18",
+    "stars": "فريدة حرحار، أمين عبد الي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_78da7c80964b984d6ac9efbbfec15e37df1b799c4f10511337740b4eca604e8a.jpg",
+    "ec": "2098670",
+    "dc": "2026-10-13",
+    "rank": 89
+   },
+   {
+    "ar": "موسم الرصاص",
+    "en": "Mawsem Al Rasas",
+    "date": "2026-03-04",
+    "stars": "حيدر أبو العباس، بهاء خيون",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_77514f8371822f4f0d277f9ab583dcca86e440b3abc2e0a735c25a450fd7fdd0.jpg",
+    "ec": "2098474",
+    "dc": "2026-10-13",
+    "rank": 90
+   },
+   {
+    "ar": "الخط الأحمر",
+    "en": "El Khatt El Ahmar",
+    "date": "2026-02-19",
+    "stars": "محمد عثمان، خدوجة صبري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e1969ed3e90821ea7cb277ae8cc4c122cd56156d10225815a26e08a929e11926.jpg",
+    "ec": "2098491",
+    "dc": "2026-10-13",
+    "rank": 91
+   },
+   {
+    "ar": "السرداب 2: الوصية",
+    "en": "Al Serdab 2: Al Waseyah",
+    "date": "2026-02-18",
+    "stars": "مشاري المجيبل، شملان المجيبل",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_5b3af343ef355637e31847a2ddae7ad8db6636c969138061c1dc6aa907cc0790.jpg",
+    "ec": "2098729",
+    "dc": "2026-10-13",
+    "rank": 92
+   },
+   {
+    "ar": "شاكر عودة البطل",
+    "en": "Shakir: Awdet El Batal",
+    "date": "2026-02-18",
+    "stars": "يوسف جعرون، ماريا عليان",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_960e22ac526974b725cd506a9b2f8c0c46af995343fbac3f09e2362af03c8fd3.jpg",
+    "ec": "2098762",
+    "dc": "2026-10-13",
+    "rank": 93
+   },
+   {
+    "ar": "صحة خويا BRO",
+    "en": "Seha Khouya Bro",
+    "date": "2026-02-19",
+    "stars": "مراد بن نافلة، إكرام عزوز",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_44d4b209b4c9551ec215b522ac95b28266888f58136d0f9c7965b8d384920023.jpg",
+    "ec": "2098744",
+    "dc": "2026-10-13",
+    "rank": 94
+   },
+   {
+    "ar": "الزوجة السابعة",
+    "en": "Al Zawga Al Sabea",
+    "date": "2026-02-18",
+    "stars": "صالح العولقي، فتحية إبراهيم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_ef952151407d4c006b6f64583a7b1788c09df27ee2d02f4d9ce9f4cce02c5e9d.jpg",
+    "ec": "2098742",
+    "dc": "2026-10-13",
+    "rank": 95
+   },
+   {
+    "ar": "موش نورمال",
+    "en": "Mouch Normal",
+    "date": "2026-02-19",
+    "stars": "معز دبش، سمية السعيدي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_1328c1d8fcf0cef02e3cdb60b97337673f159192433ee95340943c3d7a629164.jpg",
+    "ec": "2098719",
+    "dc": "2026-10-13",
+    "rank": 96
+   },
+   {
+    "ar": "ديربي ج2",
+    "en": "Derby 2",
+    "date": "2026-02-19",
+    "stars": "عيد سعيد، نجاة عطية",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_5ad2226019a692553a0d7f6e8fb1a58b3688b4deb1fc1801e8a9474507064473.jpg",
+    "ec": "2098690",
+    "dc": "2026-10-13",
+    "rank": 97
+   },
+   {
+    "ar": "السيرة النبوية",
+    "en": "Al Sirah Al Nabawiyya",
+    "date": "2026-03-04",
+    "stars": "",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_a4c01439ac719f8a14daf5df5879668ec76f2f5cf8006e1a98975d52b7c8b67b.jpg",
+    "ec": "2098714",
+    "dc": "2026-10-13",
+    "rank": 98
+   },
+   {
+    "ar": "الثمن",
+    "en": "Al Thaman",
+    "date": "2026-02-19",
+    "stars": "عبدالله فركوس، سحر الصديقي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e5946fd8ff5680025075cfc227223171f110ce9509edc1a010fcaec539bcc9f8.jpg",
+    "ec": "2098721",
+    "dc": "2026-10-13",
+    "rank": 99
+   },
+   {
+    "ar": "حكايات شامة",
+    "en": "Hikayat Shama",
+    "date": "2026-02-19",
+    "stars": "بثينة اليعقوبي، لبنى شكلاط",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b737ddbd989b17adf6c84bb32abbf8f0aba9a04f3c1bce11f4cf7bee7ad24982.jpg",
+    "ec": "2098557",
+    "dc": "2026-10-13",
+    "rank": 100
+   },
+   {
+    "ar": "علوم الأولين ج7",
+    "en": "Oloum Al Awaleen 7",
+    "date": "2026-02-18",
+    "stars": "محمد الزهراني، عيد سعد",
+    "poster": "https://core.elcinema.com/uploads/photo/file/124658380/_315x420_77328a6b75d1d53bb020594940a3bc772b6de1bd851bd1931b6b19bd6cea5814.jpg",
+    "ec": "2098566",
+    "dc": "2026-10-13",
+    "rank": 101
+   },
+   {
+    "ar": "عائلة مصرية جدا",
+    "en": "Eayilat Masreya Gedan",
+    "date": "2026-02-18",
+    "stars": "ياسر علي ماهر، نهال عنبر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_7977d41e08c1abed67138e64782814d84e53f826f5ed69dd8c8a0c5cdc17b738.jpg",
+    "ec": "2098828",
+    "dc": "2026-10-13",
+    "rank": 102
+   },
+   {
+    "ar": "دكان سليمان",
+    "en": "Dukkan Suliman",
+    "date": "2026-02-18",
+    "stars": "جاسم النبهان، محمد جابر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_d20f8491044d3ba2ebd5d9bd8fc8af632adc99cfe448694052c2bacb07f9389c.jpg",
+    "ec": "2098242",
+    "dc": "2026-10-13",
+    "rank": 103
+   },
+   {
+    "ar": "الهيبة: راس الجبل",
+    "en": "Al Hayba: Ras Al Jabal",
+    "date": "2026-02-18",
+    "stars": "أسعد بواب، هبة بناني",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_06fd8460fedae7fa8acb7f701c084c0101d9994179fb219c9a4e66251b70e5f8.jpg",
+    "ec": "2098244",
+    "dc": "2026-10-13",
+    "rank": 104
+   },
+   {
+    "ar": "غناوي شوق",
+    "en": "Ghanawi Shoug",
+    "date": "2026-02-18",
+    "stars": "يوسف بوهلول، جمعان الرويعي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_5c467896576290216b588044a1ab6e69e69828b9c1b9c47010321307048bafaa.jpg",
+    "ec": "2097030",
+    "dc": "2026-10-13",
+    "rank": 105
+   },
+   {
+    "ar": "القرار",
+    "en": "Al Qarar",
+    "date": "2026-02-18",
+    "stars": "زياد صبحي عون، آية شو",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0932551024ea9164f96a2b137239f9bc85dd0c645cf890f88caf71b212d70424.jpg",
+    "ec": "2098272",
+    "dc": "2026-10-13",
+    "rank": 106
+   },
+   {
+    "ar": "بنات العم ج2: انتقام الموتى",
+    "en": "Banat Al Am 2: Intiqam Al Mawtaa",
+    "date": "2026-02-19",
+    "stars": "هند العرفية، آية شو",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_93f31143d156f60f738f9b1cd9570af56c257bb78221b7cbb6973cd5d944e74e.jpg",
+    "ec": "2098271",
+    "dc": "2026-10-13",
+    "rank": 107
+   },
+   {
+    "ar": "يوميات محجوبة والتبارية",
+    "en": "Yawmiaat Mahgouba Wal Tibyareya",
+    "date": "2026-02-18",
+    "stars": "دنيا بوطازوت، سحر الصديقي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_82df710c7e3fc4692d899b18c60afd77bdeae1238c9be7100498f2722b1ef494.jpg",
+    "ec": "2098312",
+    "dc": "2026-10-13",
+    "rank": 108
+   },
+   {
+    "ar": "أكسيدون",
+    "en": "الأكسيدون",
+    "date": "2026-02-19",
+    "stars": "فريال يوسف، عزيز الجبالي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_5465f80b94cda48c45540c3486f1da39fc4ff39127c9863be7633fcd1d433a91.jpg",
+    "ec": "2098289",
+    "dc": "2026-10-13",
+    "rank": 109
+   },
+   {
+    "ar": "بيت أم ليلة",
+    "en": "Bayt Umm Layla",
+    "date": "2026-02-18",
+    "stars": "نجلاء فهمي، مرتضى حنيص",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0a0e47afbd0298e88e051da4dd93c12a4d4fd20529ea3cd4e6a672ee86095568.jpg",
+    "ec": "2098344",
+    "dc": "2026-10-13",
+    "rank": 110
+   },
+   {
+    "ar": "قيصرية",
+    "en": "Qaysariya",
+    "date": "2026-02-18",
+    "stars": "ريام الجزائري، محمد هاشم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_df97ba55700bcf7101d8872a21da7dda3e8537738b0408f4b851a1079502c0d2.jpg",
+    "ec": "2098358",
+    "dc": "2026-10-13",
+    "rank": 111
+   },
+   {
+    "ar": "سليمان كولمبو",
+    "en": "Suleiman Colombo",
+    "date": "2026-02-19",
+    "stars": "مراد صاولي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_4022f2652b7281a809f1701e79abb732f57fd226c3b02894b314b226a025cb38.jpg",
+    "ec": "2098346",
+    "dc": "2026-10-13",
+    "rank": 112
+   },
+   {
+    "ar": "سموم القيظ",
+    "en": "Sumum Al Qayz",
+    "date": "2026-02-18",
+    "stars": "عبدالرحمن العقل، خالد العجيرب",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_4cba6b355cec9ce38a0586d83cfe5e0126aab750b961daceaa251e2866efa5b8.jpg",
+    "ec": "2096146",
+    "dc": "2026-10-13",
+    "rank": 113
+   },
+   {
+    "ar": "أمور عائلية",
+    "en": "Omour Eayilia",
+    "date": "2026-02-17",
+    "stars": "شجون الهاجري، عبدالله بوشهري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6f40d870d540177c1e62cd005a7350c0bb0f292b319a415b70acb0cddb5a00dd.jpg",
+    "ec": "2097092",
+    "dc": "2026-10-13",
+    "rank": 114
+   },
+   {
+    "ar": "القيصر: لا مكان لا زمان",
+    "en": "Alqaysar: la Makan la Zaman",
+    "date": "2026-02-18",
+    "stars": "غسان مسعود، سلوم حداد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_76f16f00d07927c6339bacf8ea267843c1215af001daad67998adcd7a6166e40.jpg",
+    "ec": "2097225",
+    "dc": "2026-10-13",
+    "rank": 115
+   },
+   {
+    "ar": "نوبة وتوبة",
+    "en": "Noba wa Toba",
+    "date": "2026-02-18",
+    "stars": "سعاد علي، شيماء سبت",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_ce15655150895168a22828bfd6b8a5abfa1d601445aa554938afcb8b46caff08.jpg",
+    "ec": "2097065",
+    "dc": "2026-10-13",
+    "rank": 116
+   },
+   {
+    "ar": "شاي خانة",
+    "en": "Chai Khana",
+    "date": "2026-03-10",
+    "stars": "عبير الجندي، هند البلوشي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_926ff513791e96b9f06a09d7d9e778a1a117beedea6efb94f62acbeb9a73428e.jpg",
+    "ec": "2097542",
+    "dc": "2026-10-13",
+    "rank": 117
+   },
+   {
+    "ar": "ترند",
+    "en": "Trend",
+    "date": "2026-02-17",
+    "stars": "جابر نغموش، سعيد سالم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_d1aaf40bb7d9bdd6b06fa01ebe353eb34ff0255c787e76be5852d417aa89e699.jpg",
+    "ec": "2098549",
+    "dc": "2026-10-13",
+    "rank": 118
+   },
+   {
+    "ar": "الحصلة العائلة 007 ج2",
+    "en": "Al Hesla Al Aela 007 2",
+    "date": "2026-02-19",
+    "stars": "محمد بوشايب، أسماء محجان",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b5cceb7f73dd211c2db5ab37ed92c6b035783ff1ae8376d5c12b120afe8190b1.jpg",
+    "ec": "2098536",
+    "dc": "2026-10-13",
+    "rank": 119
+   },
+   {
+    "ar": "مارا غبان وسان",
+    "en": "Mara Ghuban Wusan",
+    "date": "",
+    "stars": "عمر زاويدي، حسيبة أيت جبارة",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_05ed872530542e21d7c07f53df74c6ee144e7bf25542a7bc2a0533aac360bc35.jpg",
+    "ec": "2098539",
+    "dc": "",
+    "rank": 120
+   },
+   {
+    "ar": "عمي الميسوم جي بي تي",
+    "en": "Ammi Al Maysoum GPT",
+    "date": "",
+    "stars": "عمر ثايري، أحمد حمادي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_59bbae6e200e1bdc0d8f27abf96e78cde9010d508e1aedfac2845bee96d64343.jpg",
+    "ec": "2098537",
+    "dc": "",
+    "rank": 121
+   },
+   {
+    "ar": "نزيف التراب ج3",
+    "en": "Nazeef Al Turaab 3",
+    "date": "",
+    "stars": "امجد غانم، منيرة زريقي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_8b91ed92dbaf2e6c0a532573818e7ac782d6ba9412976c16117bb6af60a17139.jpg",
+    "ec": "2098518",
+    "dc": "",
+    "rank": 122
+   },
+   {
+    "ar": "روميو وياليت",
+    "en": "Romeo wa Ya Layt",
+    "date": "",
+    "stars": "طارق الحربي، راشد المدهش",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_9aedf01379a6f11972dacdf84180329440282483704ab6742bd64c85842f61d5.jpg",
+    "ec": "2098138",
+    "dc": "",
+    "rank": 123
+   },
+   {
+    "ar": "نورية نصيب",
+    "en": "Nouria Nassib",
+    "date": "",
+    "stars": "هيا عبدالسلام، عبدالله عبدالرضا",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_c2b1e083259aafd385bccd561ec8275ceb10c05686ae229abf655f9ee1bb8e1d.jpg",
+    "ec": "2097027",
+    "dc": "",
+    "rank": 124
+   },
+   {
+    "ar": "أنا ولا أنا",
+    "en": "Ana Wala Ana",
+    "date": "",
+    "stars": "نايف الراشد، رنا جبران",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_9682367812dbc2628c37cbe727d4c044213d09002716ee3af299ebd5cb96a70a.jpg",
+    "ec": "2097710",
+    "dc": "",
+    "rank": 125
+   },
+   {
+    "ar": "بيت السعد",
+    "en": "Bayt Al Saad",
+    "date": "",
+    "stars": "سعد الفرج، لمياء طارق",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_20a58660b628fe8c088e2298a70b552da0031c7a0bdc99095073ef582ddebc8a.jpg",
+    "ec": "2098007",
+    "dc": "",
+    "rank": 126
+   },
+   {
+    "ar": "لفراق ج2",
+    "en": "Lefraq S2",
+    "date": "",
+    "stars": "أيوب عمريش، نجيب بوسواليم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_cd0c3435dd49079f4bdae833490014267aa45c7ea69679d6661c00d2b60ab93f.jpg",
+    "ec": "2098509",
+    "dc": "",
+    "rank": 127
+   },
+   {
+    "ar": "عايلة مايلة",
+    "en": "Ayla Mayla",
+    "date": "",
+    "stars": "أحمد الجسمي، سحر حسين",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f0a35260dee68dab12a38524a06b5c903419ac768df9de6c1ce7e9b6baef9dd4.jpg",
+    "ec": "2096107",
+    "dc": "",
+    "rank": 128
+   },
+   {
+    "ar": "فاطمة",
+    "en": "Fatma",
+    "date": "",
+    "stars": "ريتاج عبد الله، سليمان بنواري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_42737a1683047cfabd87ece2a5d155dc11671acf41e84cbd0fe88a0b7be2bdcf.jpg",
+    "ec": "2098423",
+    "dc": "",
+    "rank": 129
+   },
+   {
+    "ar": "ولد البارح",
+    "en": "Weld El Bareh",
+    "date": "",
+    "stars": "محمد خساني، محمد يبدري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b3a980e495661cb56dc620b31860679d31fdb66ccb70671fdd5f4a324dac4475.jpg",
+    "ec": "2098792",
+    "dc": "",
+    "rank": 130
+   },
+   {
+    "ar": "بني قلال",
+    "en": "Bani Guellal",
+    "date": "",
+    "stars": "مراد أوديعة، أرقم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_952d965c14cd8bd925b6aab02baf133622cd14ea29e6fba8a3cace3927cd55ce.jpg",
+    "ec": "2098814",
+    "dc": "",
+    "rank": 131
+   },
+   {
+    "ar": "أنس AI",
+    "en": "Anas AI",
+    "date": "",
+    "stars": "رامي الطمباري/ رامي الطنباري، حمادة بركات",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_54728f0d00ac633233206664ca9efe8cb290e87e8ac2f5062cd1cfdf6955dff3.jpg",
+    "ec": "2098773",
+    "dc": "",
+    "rank": 132
+   },
+   {
+    "ar": "عمارة خميس",
+    "en": "Omarat Khamis",
+    "date": "",
+    "stars": "محفوظ باجبير، خالد حمدان",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_9ef717c5eb724139b520b98e996481ba09f6af9487755e49daae917c360e6cd3.jpg",
+    "ec": "2098889",
+    "dc": "",
+    "rank": 133
+   },
+   {
+    "ar": "عهد الأحرار",
+    "en": "Ahd Al Ahrar",
+    "date": "",
+    "stars": "قيس السماوي، عبدالله الكميم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6cddc609cf793adb3c0203d565a741896366ecabda44fd25c3c9631765ef602f.jpg",
+    "ec": "2098886",
+    "dc": "",
+    "rank": 134
+   },
+   {
+    "ar": "بنات الخالة",
+    "en": "Banat Al Khala",
+    "date": "",
+    "stars": "مسك العجمي، لين البارقي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_9b24313282d059669992163df97d42fefa3285aa18ca30c1dbfc3282791c7673.jpg",
+    "ec": "2098885",
+    "dc": "",
+    "rank": 135
+   },
+   {
+    "ar": "المحافظة 15",
+    "en": "Al Mohafaza 15",
+    "date": "",
+    "stars": "كارين رزق الله، يورغو شلهوب",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6441d40b947edce13f45cc25a7201ac8d15e9fa60eb3f6ae158563ce5803a8cb.jpg",
+    "ec": "2096967",
+    "dc": "",
+    "rank": 136
+   },
+   {
+    "ar": "وجب القضاء",
+    "en": "Wagab Al Qadaa",
+    "date": "",
+    "stars": "تركي اليوسف، عبير أحمد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_d5f34b84ac1016501f1183f719df6168fc473eb94f0a7669bb6caef7939d73bc.jpg",
+    "ec": "2097589",
+    "dc": "",
+    "rank": 137
+   },
+   {
+    "ar": "أبطال الرمال",
+    "en": "Abtal Al Rimal",
+    "date": "",
+    "stars": "خالد نجم، عبد النبي البنيوي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6175a266dd263e7e53fbdbd818b5e6e51768e11d55c133d67a2759f5355ea669.jpg",
+    "ec": "2097726",
+    "dc": "",
+    "rank": 138
+   },
+   {
+    "ar": "حاصلة في كايرو",
+    "en": "Hassla Fi Cairo",
+    "date": "",
+    "stars": "سهيلة معلم، محمد خساني",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_348f9ff9c68710ba61f9ee4c7224bacfbe7eeb85ad70164048660d8deb0b8e78.jpg",
+    "ec": "2097801",
+    "dc": "",
+    "rank": 139
+   },
+   {
+    "ar": "عرش الشيطان",
+    "en": "Arsh Al Shaytan",
+    "date": "",
+    "stars": "ألكسندر علوم، سيف الشريف",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_c474a40a31c9febce9ceae0f788a954dcb04bd2836dd85abb9cbb6dd7c1a1b93.jpg",
+    "ec": "2097998",
+    "dc": "",
+    "rank": 140
+   },
+   {
+    "ar": "الحنة",
+    "en": "Al Henna",
+    "date": "",
+    "stars": "إيمان نويل، ياسمين عماري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_c9653b54bed67196da42624dc96fb75e5e7f4d4407855a5c2152a20aa14fd10a.jpg",
+    "ec": "2098426",
+    "dc": "",
+    "rank": 141
+   },
+   {
+    "ar": "حضرم تون ج13",
+    "en": "Hadramtoon 13",
+    "date": "",
+    "stars": "أحمد عبدالله حسن، محفوظ باجبير",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e235dede55dfd2f9c77e3647db84a0959806992b8db7ae4709a151521bde8467.jpg",
+    "ec": "2098890",
+    "dc": "",
+    "rank": 142
+   },
+   {
+    "ar": "مدرسة الشيوبة",
+    "en": "Madraset El Shayouba",
+    "date": "",
+    "stars": "محمد برهوش",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_a6d10f2da3d4d47481abfa2a20c56d4c0188814fe7f6d4cebab6dad17f3e63e6.jpg",
+    "ec": "2098888",
+    "dc": "",
+    "rank": 143
+   },
+   {
+    "ar": "بهيجو لاند",
+    "en": "Bahijo Land",
+    "date": "",
+    "stars": "هلا حلواني",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_7237a9b1086e556d626159508321068a771790cffe44efcf945f7ed81f27aada.jpg",
+    "ec": "2098813",
+    "dc": "",
+    "rank": 144
+   },
+   {
+    "ar": "أبجد هلوس ج2",
+    "en": "Abjad Halwas 2",
+    "date": "",
+    "stars": "إياد راضي، آلاء حسين",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_43e7135992cd080f3e7b2a438c5f7cc12c6c383a404df5f6c07da26642214b7c.jpg",
+    "ec": "2098884",
+    "dc": "",
+    "rank": 145
+   },
+   {
+    "ar": "صاحبك راجل ج2",
+    "en": "Sahbek Rajel 2",
+    "date": "",
+    "stars": "كوثر الباردي، كريم الغربي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_9f3772366a97ce55033f233fb7e08bfe1dd87df528fa664da3bb29c8205d1f92.jpg",
+    "ec": "2098882",
+    "dc": "",
+    "rank": 146
+   },
+   {
+    "ar": "الضحايا",
+    "en": "Al Dahaya",
+    "date": "",
+    "stars": "رنا الهواري، ميرنا وليد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0cb48535d6fd90b1810bda634fa9e9ed2612cf8d3914c6e809fb8fe91d03866f.jpg",
+    "ec": "2098321",
+    "dc": "",
+    "rank": 147
+   },
+   {
+    "ar": "بيت في كوزينة",
+    "en": "Bayt Fi Kuzina",
+    "date": "",
+    "stars": "طارق بوعرعارة، نورة بن زراري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_08c75ab2e8be5a4767f0f8a9e685288a2fe70dc74b57b4c36238c1c52698ca19.jpg",
+    "ec": "2098844",
+    "dc": "",
+    "rank": 148
+   },
+   {
+    "ar": "مرضي ودحام ج3",
+    "en": "Mardi wa Dahham 3",
+    "date": "",
+    "stars": "عبدالناصر درويش، أحمد العونان",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_208e41a6d7a3b073c5cff1d1d24958afad83b7e900361c7c2514f90aefa424f0.jpg",
+    "ec": "2097378",
+    "dc": "",
+    "rank": 149
+   },
+   {
+    "ar": "رحمة ج2",
+    "en": "Rahma 2",
+    "date": "",
+    "stars": "عبدالله ديدان، كريمة غيث",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_231903d7bd5dd532f0b19b24183bb6a51b10d58271f032f9d7facecb03aaf743.jpg",
+    "ec": "2098241",
+    "dc": "",
+    "rank": 150
+   },
+   {
+    "ar": "حامض حلو ج7",
+    "en": "Hammed Helw 7",
+    "date": "",
+    "stars": "إحسان دعدوش، علي جابر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_a95a225fd1f5d747e3a2e3ab09d62d7af9892e8f991c925a3c18eca2643483ee.jpg",
+    "ec": "2098246",
+    "dc": "",
+    "rank": 151
+   },
+   {
+    "ar": "سر وقدر",
+    "en": "Serr wa Qadar",
+    "date": "",
+    "stars": "بيتر سمعان، فادي إبراهيم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e527cd9cd9cc7fa62f4532d3a60053a65e0454d2795cf39dcdb3e76cac0327b9.jpg",
+    "ec": "2096527",
+    "dc": "",
+    "rank": 152
+   },
+   {
+    "ar": "المقام",
+    "en": "Al Maqam",
+    "date": "",
+    "stars": "يحيى إبراهيم، آلاء حسين",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_c7d50e37ff0324aaffc96f22f5c1fd63e42f608101dd8f27cb5d455b04b8da9d.jpg",
+    "ec": "2098440",
+    "dc": "",
+    "rank": 153
+   },
+   {
+    "ar": "عنتر وليلى",
+    "en": "Antar w Layla",
+    "date": "",
+    "stars": "أحمد وحيد، رولا عادل",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6373edf4291a79b0153d03aa8553fd69711a52a35a4459bebb107d86ef4b6c58.jpg",
+    "ec": "2098439",
+    "dc": "",
+    "rank": 154
+   },
+   {
+    "ar": "المطبعة",
+    "en": "El Matbaea",
+    "date": "",
+    "stars": "يونس الفارحي، روضة المنصوري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0f8bb02a49b318e3d426c9985a1583fb0c95af6afc6dea2b73de3db1974a1ed7.jpg",
+    "ec": "2098436",
+    "dc": "",
+    "rank": 155
+   },
+   {
+    "ar": "هذي آخرتها",
+    "en": "Hathi Akhretha",
+    "date": "",
+    "stars": "بسام الحمراوي، سيف عمران",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_7ccbb3614940f01648eda76de17573c9f0d05b6860cffad0529f50cf820e3c2b.jpg",
+    "ec": "2098437",
+    "dc": "",
+    "rank": 156
+   },
+   {
+    "ar": "الخطيفة",
+    "en": "El Khottaifa",
+    "date": "",
+    "stars": "ريم الرياحي، كمال التواتي /كمال الثواتي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_4a8aa029a6f68aa2b1c48b42c03d43908924b4b861bc47c44a75a424fd5ee31f.jpg",
+    "ec": "2098438",
+    "dc": "",
+    "rank": 157
+   },
+   {
+    "ar": "مستقبل زاهر 2: الغربان",
+    "en": "Mustaqbal Zaher 2: El Gherban",
+    "date": "",
+    "stars": "عبد السيد أدم، أحمد إبراهيم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_366dfb8d5e390d7c4ea6a5f8a68f6d5acb5d33c5cdcfb4a8de358922a5877da1.jpg",
+    "ec": "2098487",
+    "dc": "",
+    "rank": 158
+   },
+   {
+    "ar": "زناقي العز",
+    "en": "Zinaqay Al-Ezz",
+    "date": "",
+    "stars": "خدوجة صبري، فتحي كحلول",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_939b3565ed3a7b152bf367280f51da315845cafe3ac445e542f8b732815d56b0.jpg",
+    "ec": "2098492",
+    "dc": "",
+    "rank": 159
+   },
+   {
+    "ar": "بيت الطين ج6",
+    "en": "Bait Al Tiin 6",
+    "date": "",
+    "stars": "حافظ لعيبي، أنعام الربيعي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_cf8b863614679cad0cf9e077e9c8e645732e28c2ee1a1beb18abe0af95c2a133.jpg",
+    "ec": "2098475",
+    "dc": "",
+    "rank": 160
+   },
+   {
+    "ar": "9 بالحلال",
+    "en": "9 Bil Halal",
+    "date": "",
+    "stars": "علاء الابراهيمي، مريم كمال الدين",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_8564776c6731c2296e53b98272cbe322dd09af8c286d345d7c477b7c58ef001b.jpg",
+    "ec": "2098469",
+    "dc": "",
+    "rank": 161
+   },
+   {
+    "ar": "يحيى",
+    "en": "Yahya",
+    "date": "",
+    "stars": "سامر دشر، حسين حافظ لعيبي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_659a1da09a99371d60dad3fd4a9722182b479cc133de31adb14649c4ede40ea8.jpg",
+    "ec": "2098466",
+    "dc": "",
+    "rank": 162
+   },
+   {
+    "ar": "حياة",
+    "en": "Hayah",
+    "date": "",
+    "stars": "فاطمة صفر، صالح الجدي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_634abe0ab2a75e1d09fe69418d090d2676bec1cba19d8da3ef5024599c2500bb.jpg",
+    "ec": "2098434",
+    "dc": "",
+    "rank": 163
+   },
+   {
+    "ar": "عدم المؤاخذة",
+    "en": "Adam El Moakhza",
+    "date": "",
+    "stars": "مازن عباس، بسام دكاك",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6226a4be7b8bba89e0f71fee7300d97141369e9c2b2969825ab79d46d45307ea.jpg",
+    "ec": "2098812",
+    "dc": "",
+    "rank": 164
+   },
+   {
+    "ar": "شط الحرية 8",
+    "en": "Shatt Al Hurriya 8",
+    "date": "",
+    "stars": "سليمان اللويطي، عبدالهادي بوخريم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_aab2bd47167a7698f0eab0428a9dc58e76d4598230f139a9b6c9eb908a224247.jpg",
+    "ec": "2098795",
+    "dc": "",
+    "rank": 165
+   },
+   {
+    "ar": "الخزانة",
+    "en": "Al Khazana",
+    "date": "",
+    "stars": "مينة لشطر، موني بوعلام",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_404bbd33e616a45b5e980f78707a25a43e62cae4143ebd896bffab9d30da1028.jpg",
+    "ec": "2098734",
+    "dc": "",
+    "rank": 166
+   },
+   {
+    "ar": "سكنهم مساكنهم",
+    "en": "Sakenhom Masakenhom",
+    "date": "",
+    "stars": "باسمة حمادة، سماح",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_53aa3d661709cba089bdb507d6cb3aa5d7b23fed3987a710bb086a0c670279f6.jpg",
+    "ec": "2096843",
+    "dc": "",
+    "rank": 167
+   },
+   {
+    "ar": "كية",
+    "en": "Keyya",
+    "date": "",
+    "stars": "ليديا شبوط، مراد أوجيت",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_d03ff0eab0620b58dbf3e6cbb31e6b464b80b5eabda54284c71a9423f799fbac.jpg",
+    "ec": "2098313",
+    "dc": "",
+    "rank": 168
+   },
+   {
+    "ar": "عيال صالح",
+    "en": "Eyal Saleh",
+    "date": "",
+    "stars": "حسن الجماعي، مروان الزرقة",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_185806310a79c08f3973b98ead89f2e1d007db7164aa5e7620f325115599b0c6.jpg",
+    "ec": "2098398",
+    "dc": "",
+    "rank": 169
+   },
+   {
+    "ar": "الداموس",
+    "en": "Al Damous",
+    "date": "",
+    "stars": "فتحي كحلول، بسمة الأطرش",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6ccc6c28b3a334e25e9a806ecbbc31bb1342ed3b24efb8a424da1c27be39c186.jpg",
+    "ec": "2098399",
+    "dc": "",
+    "rank": 170
+   },
+   {
+    "ar": "هدرازي 13: عودة جادالله",
+    "en": "Hadrazi 13: Awdet Gadallah",
+    "date": "",
+    "stars": "فرج عبدالكريم، نجلاء الأمين",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_1a88f4f0616e23cd6baf0828661865343473d3de7580459217b2a79380b74a30.jpg",
+    "ec": "2098401",
+    "dc": "",
+    "rank": 171
+   },
+   {
+    "ar": "آخر كلام",
+    "en": "Akher Kalam",
+    "date": "",
+    "stars": "محمد العيسى، محمد القس",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_95332a6469d9b89511d0d647eb7d074011113dc947bc4176bf00edb2ed11f6c2.jpg",
+    "ec": "2092044",
+    "dc": "",
+    "rank": 172
+   },
+   {
+    "ar": "المهاجر",
+    "en": "El Mohager",
+    "date": "",
+    "stars": "محمد خساني، أنيسة علي باي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b7404f6e450344b4e23cd5534e530d7eb7242c90af445a82227bf8033ce0227c.jpg",
+    "ec": "2098412",
+    "dc": "",
+    "rank": 173
+   },
+   {
+    "ar": "شكون كان يقول",
+    "en": "Shkoun Kan Yqoul",
+    "date": "",
+    "stars": "إبتسام العروسي، فرح الفاسي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_afcaebabaee8e71feacbf35297d24ed6abd4ce8020b1bd82f61b913994511512.jpg",
+    "ec": "2098689",
+    "dc": "",
+    "rank": 174
+   },
+   {
+    "ar": "لصوص العمارة",
+    "en": "Lesous El Omara",
+    "date": "",
+    "stars": "صلاح الوافي، سالي حمادة",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_c397ece647e41c8d40f59a37ef60fc06d7515a00f31fb545f094e47099dac4f0.jpg",
+    "ec": "2098484",
+    "dc": "",
+    "rank": 175
+   },
+   {
+    "ar": "عرين الذئاب",
+    "en": "Areen Al Theab",
+    "date": "",
+    "stars": "بيار داغر، نادين الراسي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_4fa511b23b5da4c4a9af6dbbcebe406655c2e19705bf066c7d84ad330e3764c3.jpg",
+    "ec": "2098611",
+    "dc": "",
+    "rank": 176
+   },
+   {
+    "ar": "دار السد",
+    "en": "Dar El Sad",
+    "date": "",
+    "stars": "سمير عبدون، إيمان نوال",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f94feea304355fe21e88df7b7d49d840a64f934d43feee398c6add7ef8d485d6.jpg",
+    "ec": "2098604",
+    "dc": "",
+    "rank": 177
+   },
+   {
+    "ar": "كوميدي تانا",
+    "en": "Comedytana",
+    "date": "2026-02-18",
+    "stars": "أسعد الزهراني، خالد العجيرب",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_74e1cb328f8df5e0d5e7aebc2cca389b92f93896619ba63994e29749f6b1dfb1.jpg",
+    "ec": "2098578",
+    "dc": "",
+    "rank": 178
+   },
+   {
+    "ar": "با لحبيب",
+    "en": "Ba Lahbib",
+    "date": "",
+    "stars": "عبدالله فركوس، فاطمة وشاي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_1e3cd230e263c1e0ef9039869a0bd779fcd86c88fd17d611f75de6e3f1718320.jpg",
+    "ec": "2098562",
+    "dc": "",
+    "rank": 179
+   },
+   {
+    "ar": "بنات لالة منانة ج3",
+    "en": "Bnat Lala Manana 3",
+    "date": "",
+    "stars": "سامية أقريو، نورا الصقلي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_a4bc0df304951951e73df24c973fa611184449738c5e63b0891d99718a39f906.jpg",
+    "ec": "2098553",
+    "dc": "",
+    "rank": 180
+   },
+   {
+    "ar": "كلاش",
+    "en": "Clash",
+    "date": "",
+    "stars": "أحمد الأندلسي، مالك بن سعد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0d32b4a818918b893439d307addf77cd5e7bec25a8bfe3914eb64ed5d8551239.jpg",
+    "ec": "2098543",
+    "dc": "",
+    "rank": 181
+   },
+   {
+    "ar": "رباعة ج2",
+    "en": "Rebaa 2",
+    "date": "",
+    "stars": "نبيل عسلي، نسيم حدوش",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_34d19e654dfbcfeb26af53508d765624f193520d73af11f9d506a15ddeb5b46b.jpg",
+    "ec": "2098540",
+    "dc": "",
+    "rank": 182
+   },
+   {
+    "ar": "اسمي حسن",
+    "en": "Esmi Hassan",
+    "date": "",
+    "stars": "أمير إحسان، سامية الرحماني",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0415353ddf7131619afc0b9722554bc5ad9ace4778d813763299708aaacbbc4c.jpg",
+    "ec": "2098480",
+    "dc": "",
+    "rank": 183
+   },
+   {
+    "ar": "وصية جدو",
+    "en": "Wasseyet Geddo",
+    "date": "",
+    "stars": "بيومي فؤاد، ليلى عز العرب",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_9936b6f7827243f68d87cae0772fe54e0fce233e66cc7b4df251ff4625b6bbbf.jpg",
+    "ec": "2098862",
+    "dc": "",
+    "rank": 184
+   },
+   {
+    "ar": "جرد مرد",
+    "en": "Gard Mard",
+    "date": "2026-03-05",
+    "stars": "أسامة بركة، عبير الترهوني",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_d9d040bd231597e654c5415a88002a5a7da149e5c039999455cf212eda4f17a7.jpg",
+    "ec": "2098403",
+    "dc": "",
+    "rank": 185
+   },
+   {
+    "ar": "حبابة",
+    "en": "Hobaba",
+    "date": "",
+    "stars": "فتات سلطان، نديمة سنان",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_25c220b5752ef8120984c5e260c0a76b51d6e12f132e18b6239b27d5783f9e18.jpg",
+    "ec": "2098810",
+    "dc": "",
+    "rank": 186
+   },
+   {
+    "ar": "قبل وبعد",
+    "en": "Qabl wa Baad",
+    "date": "",
+    "stars": "عبدالعزيز المسلم، زهرة الخرجي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f58fcca13e4b5b568af175e8ac492acf9739e60dd781327c6dbf6e8d24eb67bb.jpg",
+    "ec": "2090731",
+    "dc": "",
+    "rank": 187
+   },
+   {
+    "ar": "روج أسود",
+    "en": "Rouge Eswed",
+    "date": "",
+    "stars": "رانيا يوسف، لقاء الخميسي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_bf4823fe97cf46b7282aa22e9f9e0603e5021639ad45bff088f384304a0da3a7.jpg",
+    "ec": "2093113",
+    "dc": "",
+    "rank": 188
+   },
+   {
+    "ar": "تطبق الشروط والأحكام",
+    "en": "Totabaq Al Shorot Wa Al Ahkam",
+    "date": "",
+    "stars": "صلاح الملا، عبدالعزيز النصار",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0aec4c950394bc2e6106e84800d3ff59287fdfb7a831b977025305cd8c17ea10.jpg",
+    "ec": "2097044",
+    "dc": "",
+    "rank": 189
+   },
+   {
+    "ar": "حي الجرادية",
+    "en": "Hai Al Jaradya",
+    "date": "",
+    "stars": "محمد القس، إبراهيم الحساوي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_9c47b8836aa5ec08f0bae85a9c6c4fb37a2640dc774068f23746f8ab80a02a38.jpg",
+    "ec": "2096609",
+    "dc": "",
+    "rank": 190
+   },
+   {
+    "ar": "وطن ع وتر 2026",
+    "en": "Watan A Watar 2026",
+    "date": "",
+    "stars": "عماد فراجين، محمد الطيطي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_f1ef44f5c037a8027c49973fb441cad0df80ea5b15ddb47cd9029766fd139b80.jpg",
+    "ec": "2098382",
+    "dc": "",
+    "rank": 191
+   },
+   {
+    "ar": "دروب المرجلة ج3",
+    "en": "Durub Al Marjala 3",
+    "date": "",
+    "stars": "صلاح الوافي، زيدون العبيدي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_dcc185c341ae0e4abe55b1e04fde73f632bf291a5f6720232509a618110b78a1.jpg",
+    "ec": "2098397",
+    "dc": "",
+    "rank": 192
+   },
+   {
+    "ar": "الضايعة",
+    "en": "El Dayiea",
+    "date": "2026-02-19",
+    "stars": "عبدالله يحيى إبراهيم، محمد قحطان",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b2ba9fa3ecc42722453f92a410c2aa061740c3a24da3fb05f5f893d2083d30eb.jpg",
+    "ec": "2098410",
+    "dc": "",
+    "rank": 193
+   },
+   {
+    "ar": "البراني ج2",
+    "en": "Al Barrany 2",
+    "date": "",
+    "stars": "مصطفى لعريبي، خالد بن عيسى",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_109dbeda8a523b5b3cd32fbf327e3d23dc13fde512f6cdfc9db2b0223f0e6972.jpg",
+    "ec": "2098411",
+    "dc": "",
+    "rank": 194
+   },
+   {
+    "ar": "غيبوبة",
+    "en": "Ghaybooba",
+    "date": "",
+    "stars": "شاكرة رماح، صلاح مصدق",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_68ad1ceb9fdb042369b288aea8a5548a524322343ac434723fc2c175a359e889.jpg",
+    "ec": "2098728",
+    "dc": "",
+    "rank": 195
+   },
+   {
+    "ar": "صاير صاير 7",
+    "en": "Sayer Sayer S7",
+    "date": "",
+    "stars": "أصيل بحير، صلاح الأحمر",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_041d9b872c715be09c5da7fd34e37057fc9c60971f1a5e99e57e5a2b2e52949d.jpg",
+    "ec": "2099296",
+    "dc": "",
+    "rank": 196
+   },
+   {
+    "ar": "باب البنات: صبرية في السبعينات",
+    "en": "Bab El Banat: Sabriyya Fil Sabinat",
+    "date": "",
+    "stars": "وجيهة الجندوبي، منى نور الدين",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_2a94aacc33ea3f476f6a90b8a564c8dc07c195848706304e927b59ffdc867781.jpg",
+    "ec": "2098743",
+    "dc": "",
+    "rank": 197
+   },
+   {
+    "ar": "إثبات نسب",
+    "en": "Ithbat Nasab",
+    "date": "",
+    "stars": "درة، محمود عبدالمغني",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b53877884f6eedd00687408c3cbe3d3f8b6cc92be785f0da8411904edf34a226.jpg",
+    "ec": "2098712",
+    "dc": "",
+    "rank": 198
+   },
+   {
+    "ar": "ليل البنفسج",
+    "en": "Lail Al Banafsag",
+    "date": "",
+    "stars": "مصطفى الربيعي، رشا رعد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_94963bdc16e00311f83140481636e149b6a7cc6e57b136537cffeed88727a8bb.jpg",
+    "ec": "2098686",
+    "dc": "",
+    "rank": 199
+   },
+   {
+    "ar": "قضاء وقدر",
+    "en": "Qada' wa Qadar",
+    "date": "",
+    "stars": "بكار باشراحيل/ بكار صالح، أفراح محمد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6e5dadea5fc933f0728312e1183a79032db20996ac5b1e72cd42526972277cce.jpg",
+    "ec": "2098634",
+    "dc": "",
+    "rank": 200
+   },
+   {
+    "ar": "عساف",
+    "en": "Assaf",
+    "date": "",
+    "stars": "",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_cd997163c19b19c1f58b928f22ed5610d19121edd00f547f927002233d02b4ce.jpg",
+    "ec": "2098900",
+    "dc": "",
+    "rank": 201
+   },
+   {
+    "ar": "بدل تالف",
+    "en": "Badal Talef",
+    "date": "",
+    "stars": "براء الزبيدي، محمد إياد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_64065320466b9250aa793cda5bf287a2172a6336abb181d65c4cec71ec9f4ab8.jpg",
+    "ec": "2098477",
+    "dc": "",
+    "rank": 202
+   },
+   {
+    "ar": "عنبر 5",
+    "en": "Anbar 5",
+    "date": "",
+    "stars": "نبيل حزام، إبراهيم الزبلي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_620038d7ed9e8bffde24154c1deb26215160af852bd580a3467ed2228418a753.jpg",
+    "ec": "2098514",
+    "dc": "",
+    "rank": 203
+   },
+   {
+    "ar": "البراني",
+    "en": "Al Berrani",
+    "date": "",
+    "stars": "هند السعديدي، عبد الإله رشيد",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6fe947961f6e24ef400d89aff1c1ea9a4165cc3206a8abc3079a8eb2873caf55.jpg",
+    "ec": "2098556",
+    "dc": "",
+    "rank": 204
+   },
+   {
+    "ar": "القافر",
+    "en": "Al Qafer",
+    "date": "",
+    "stars": "يعقوب الحارثي، سعود الخنجري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_2daf9ad3158f2616b15eb6ddbb22d041a4cf0d7bca39540a7ec2c62e38850dc1.jpg",
+    "ec": "2098559",
+    "dc": "",
+    "rank": 205
+   },
+   {
+    "ar": "بيناتنا",
+    "en": "Binatna",
+    "date": "",
+    "stars": "أحمد الزيتوني، فيزية توقرتي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_45bb634c2a657d071a5a0d22a5abd3ea2d9a4f9406c60c118b0485cf14f543a5.jpg",
+    "ec": "2098569",
+    "dc": "",
+    "rank": 206
+   },
+   {
+    "ar": "جوز ولوز",
+    "en": "Gouz wa Louz",
+    "date": "",
+    "stars": "محمد حسين عبدالرحيم، نزار علوان",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_2bf6ad7c9e1b2fb90b4f9cf09467ac248bceb4deed3bee5bc822404cfdc7ab8a.jpg",
+    "ec": "2098635",
+    "dc": "",
+    "rank": 207
+   },
+   {
+    "ar": "وادي ميسان",
+    "en": "Wadi Maysan",
+    "date": "",
+    "stars": "محمد غزي، أحمد بسيم",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_8259d3f33edfd29648528988f2d6c17257a89ecd86ca4a1943dbb3b53fab713d.jpg",
+    "ec": "2098627",
+    "dc": "",
+    "rank": 208
+   },
+   {
+    "ar": "عش الطمع",
+    "en": "Esh Al Tamae",
+    "date": "",
+    "stars": "مريم الزعيمي، أمين الناجي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_33cb2c51a9c554e50aa56e942000345c1f9c9e9d328a5ccc0f1fb2feb4af18f7.jpg",
+    "ec": "2098713",
+    "dc": "",
+    "rank": 209
+   },
+   {
+    "ar": "فندق 14",
+    "en": "Fondoq 14",
+    "date": "",
+    "stars": "محمد الشمراني، سامي الجار الله",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_ada813a9bb9b0fda0d70cd0e9b0751506e2a3886a39c6574073139837e365c8e.jpg",
+    "ec": "2099034",
+    "dc": "",
+    "rank": 210
+   },
+   {
+    "ar": "ثاونزا الحيف",
+    "en": "Thaounza Nalhif",
+    "date": "",
+    "stars": "كنزة ايلا مشوش، نوال جادة",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b28c5ea5ca90bfebbb2674812322efac62df8626a53cda0afeff46e20e5a9884.jpg",
+    "ec": "2098538",
+    "dc": "",
+    "rank": 211
+   },
+   {
+    "ar": "سوق الديرة",
+    "en": "Souq Al Deira",
+    "date": "",
+    "stars": "راشد الدوسري، عيد سعود",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_bdc0f8d67e81d5d066bb97cdbdd5ccb50a7ee28698d8397d595f74c587480755.jpg",
+    "ec": "2098940",
+    "dc": "",
+    "rank": 212
+   },
+   {
+    "ar": "المرضي",
+    "en": "Al Mardi",
+    "date": "",
+    "stars": "هيثم مفتاح، أسامة رمزي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_e20cba19482b42ca087c83059aaad80655f34981e6fef0e6813cabadabf0920e.jpg",
+    "ec": "2098907",
+    "dc": "",
+    "rank": 213
+   },
+   {
+    "ar": "الورشة ج2",
+    "en": "Al Warsha 2",
+    "date": "",
+    "stars": "هاني مقبل، عمر الدغيري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b058d80b61df9daefd11cd9e53b2dad028a5a6a3dd19f5e076c081b182c03839.jpg",
+    "ec": "2098939",
+    "dc": "",
+    "rank": 214
+   },
+   {
+    "ar": "تدارتنغ",
+    "en": "Tadarteng",
+    "date": "",
+    "stars": "عمر حاجي، محمد حاجي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_7690a53c7f567edfa2b69c8ccf9ee077818f0de6a8a1f8be93bc7664b846a857.jpg",
+    "ec": "2098552",
+    "dc": "",
+    "rank": 215
+   },
+   {
+    "ar": "ليلـي طويل",
+    "en": "Laili Tawil",
+    "date": "",
+    "stars": "سلمى صلاح الدين، مريا للواز",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_c872b9df5eed4b92a7d489882539cf472145213a98f7e1e2b511d7cc5722a7c2.jpg",
+    "ec": "2098516",
+    "dc": "",
+    "rank": 216
+   },
+   {
+    "ar": "11 بالمية",
+    "en": "11%",
+    "date": "",
+    "stars": "أحمد بدير، أحمد عبدالرزاق",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_8d3cb112dfa7f23ee82f3deab6f33957705ed9b920813e86ee2bc3a10e109bc8.jpg",
+    "ec": "2098675",
+    "dc": "",
+    "rank": 217
+   },
+   {
+    "ar": "مراسيل",
+    "en": "Marasil",
+    "date": "",
+    "stars": "غانم السليطي، فاطمة كازروني",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_b6e24f9f95b698fd133371ad2f2ac217b767627589061d09516ad8a3a354e02d.jpg",
+    "ec": "2098648",
+    "dc": "",
+    "rank": 218
+   },
+   {
+    "ar": "هكذا أسماء الله الحسنى",
+    "en": "Hakatha Asmaa Allah Al Hosna",
+    "date": "",
+    "stars": "صابرين الورار، آمال سعد الدين",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_6beaaccc8d8f59b2b59bd5ba1c499f398d56b8047d8f2b6238987f2470d4dba1.jpg",
+    "ec": "2098906",
+    "dc": "",
+    "rank": 219
+   },
+   {
+    "ar": "أمر سري",
+    "en": "Amr Sirry",
+    "date": "",
+    "stars": "آسيا كمال، جلال كامل",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_1380bd027c15d867605b6ed43a2d693b1023ff4b42ef562c280d28ec582e7903.jpg",
+    "ec": "2098860",
+    "dc": "",
+    "rank": 220
+   },
+   {
+    "ar": "كوكب فجعان ج2 - اللعبة صارت خطيرة",
+    "en": "Kawkab Fajaan 2",
+    "date": "",
+    "stars": "محمد عثمان، آدم الدالي",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_89046443f14fc254a822873f67f63f140d3f8ed07d4c99705eb4ce9767bb8ac2.jpg",
+    "ec": "2098909",
+    "dc": "",
+    "rank": 221
+   },
+   {
+    "ar": "نور وصندوق الأسرار",
+    "en": "Noor Wa Sondooq Al Asrar",
+    "date": "",
+    "stars": "مدحت صالح، سامي مغاوري",
+    "poster": "https://media0106.elcinema.com/uploads/_315x420_0895ad9a886f212824c64837fc182c38f74f284abcf96ca2f59ffd52d897be83.jpg",
+    "ec": "2099057",
+    "dc": "",
+    "rank": 222
    },
    {
     "ar": "الحصلة",
@@ -48,15 +2576,8 @@
     "date": "",
     "stars": "",
     "poster": "https://upload.wikimedia.org/wikipedia/ar/a/a5/Al_Hesla_02_Poster_%28wikiar%29.jpg",
-    "wiki": "الحصلة (مسلسل)"
-   },
-   {
-    "ar": "الخزانة",
-    "en": "",
-    "date": "",
-    "stars": "",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/5/5a/Khzana_Poster_%28wikiar%29.jpg",
-    "wiki": "الخزانة (مسلسل)"
+    "wiki": "الحصلة (مسلسل)",
+    "rank": 1123
    },
    {
     "ar": "الكية",
@@ -64,55 +2585,8 @@
     "date": "",
     "stars": "",
     "poster": "https://upload.wikimedia.org/wikipedia/ar/9/9d/Kia_Poster_%28wikiar%29.jpg",
-    "wiki": "الكية (مسلسل)"
-   },
-   {
-    "ar": "المداح: أسطورة النهاية",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "حمادة هلال",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/a/a1/%D9%85%D9%84%D8%B5%D9%82_%D8%A7%D9%84%D9%85%D8%AF%D8%A7%D8%AD_%D8%A3%D8%B3%D8%B7%D9%88%D8%B1%D8%A9_%D8%A7%D9%84%D9%86%D9%87%D8%A7%D9%8A%D8%A9.jpg",
-    "wiki": "المداح: أسطورة النهاية"
-   },
-   {
-    "ar": "المهاجر",
-    "en": "",
-    "date": "",
-    "stars": "",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/b/b2/EL_MOUHADJIR_Poster_%28wikiar%29.PNG",
-    "wiki": "المهاجر (مسلسل)"
-   },
-   {
-    "ar": "بني قلال",
-    "en": "",
-    "date": "",
-    "stars": "",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/0/05/Beni_Gellal_Poster_%28wikiar%29.jpg",
-    "wiki": "بني قلال (مسلسل)"
-   },
-   {
-    "ar": "بيت في كوزينة",
-    "en": "",
-    "date": "",
-    "stars": "",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/1/14/Bit_Fi_Kouzina_Poster_%28wikiar%29.jpg",
-    "wiki": "بيت في كوزينة"
-   },
-   {
-    "ar": "دار السد",
-    "en": "",
-    "date": "",
-    "stars": "",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/6/60/DAR_ESSED_Poster_%28wikiar%29.jpg",
-    "wiki": "دار السد (مسلسل)"
-   },
-   {
-    "ar": "درب الذهب",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "أحمد إيراج، شهد الياسين",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/0/09/%D9%85%D9%84%D8%B5%D9%82_%D9%85%D8%B3%D9%84%D8%B3%D9%84_%D8%AF%D8%B1%D8%A8_%D8%A7%D9%84%D8%B0%D9%87%D8%A8.jpg",
-    "wiki": "درب الذهب"
+    "wiki": "الكية (مسلسل)",
+    "rank": 1124
    },
    {
     "ar": "ديڤوردي",
@@ -120,39 +2594,8 @@
     "date": "",
     "stars": "",
     "poster": "https://upload.wikimedia.org/wikipedia/ar/9/97/DIGOURDI_Poster_%28wikiar%29.jpg",
-    "wiki": "ديڤوردي"
-   },
-   {
-    "ar": "رباعة",
-    "en": "REBAA",
-    "date": "",
-    "stars": "",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/3/3e/REBAA_2_Poster_%28wikiar%29.jpg",
-    "wiki": "رباعة (مسلسل)"
-   },
-   {
-    "ar": "فاطمة",
-    "en": "",
-    "date": "",
-    "stars": "",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/e/e9/Fatmadz_Poster_%28wikiar%29.jpg",
-    "wiki": "فاطمة (مسلسل جزائري)"
-   },
-   {
-    "ar": "فن الحرب",
-    "en": "The Art of War",
-    "date": "2026-02-18",
-    "stars": "يوسف الشريف، شيري عادل",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/c/cc/%D9%85%D9%84%D8%B5%D9%82_%D9%85%D8%B3%D9%84%D8%B3%D9%84_%D9%81%D9%86_%D8%A7%D9%84%D8%AD%D8%B1%D8%A8.jpg",
-    "wiki": "فن الحرب (مسلسل)"
-   },
-   {
-    "ar": "لفراق",
-    "en": "",
-    "date": "",
-    "stars": "",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/3/3b/Al-Firak_2_Poster_%28wikiar%29.jpg",
-    "wiki": "لفراق (مسلسل)"
+    "wiki": "ديڤوردي",
+    "rank": 1126
    },
    {
     "ar": "مولات الدار",
@@ -160,7 +2603,8 @@
     "date": "",
     "stars": "",
     "poster": "https://upload.wikimedia.org/wikipedia/ar/d/d7/Moulat_Dar_Poster_%28wikiar%29.jpg",
-    "wiki": "مولات الدار (مسلسل)"
+    "wiki": "مولات الدار (مسلسل)",
+    "rank": 1128
    },
    {
     "ar": "هي كيميا",
@@ -168,79 +2612,8 @@
     "date": "2026-02-18",
     "stars": "مصطفى غريب، ميشيل ميلاد بشاي",
     "poster": "https://upload.wikimedia.org/wikipedia/ar/9/9f/%D9%85%D9%84%D8%B5%D9%82_%D9%87%D9%8A_%D9%83%D9%8A%D9%85%D9%8A%D8%A7.jpg",
-    "wiki": "هي كيميا (مسلسل)"
-   },
-   {
-    "ar": "آخر كلام",
-    "en": "",
-    "date": "",
-    "stars": "محمد العيسى، محمد القس",
-    "poster": "",
-    "wiki": "آخر كلام (مسلسل)"
-   },
-   {
-    "ar": "أنا وهي وهيا",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "باسل خياط، تاج حيدر",
-    "poster": "",
-    "wiki": "أنا وهي وهيا (مسلسل)"
-   },
-   {
-    "ar": "اتنين غيرنا",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "آسر ياسين، دينا الشربيني",
-    "poster": "",
-    "wiki": "اتنين غيرنا"
-   },
-   {
-    "ar": "الحصة الأخيرة",
-    "en": "",
-    "date": "",
-    "stars": "",
-    "poster": "",
-    "wiki": "مسلسل الحصة الأخيرة"
-   },
-   {
-    "ar": "الست موناليزا",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "مي عمر، أحمد مجدي",
-    "poster": "",
-    "wiki": "الست موناليزا (مسلسل)"
-   },
-   {
-    "ar": "الغميضة",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "",
-    "poster": "",
-    "wiki": "الغميضة (مسلسل)"
-   },
-   {
-    "ar": "القرار",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "كريمان جبر، أحمد البايض",
-    "poster": "",
-    "wiki": "القرار (مسلسل)"
-   },
-   {
-    "ar": "الكينج",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "محمد إمام، مصطفى خاطر",
-    "poster": "",
-    "wiki": "الكينج (مسلسل)"
-   },
-   {
-    "ar": "اليتيم",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "",
-    "poster": "",
-    "wiki": "اليتيم (مسلسل)"
+    "wiki": "هي كيميا (مسلسل)",
+    "rank": 1129
    },
    {
     "ar": "ام رجاء",
@@ -248,55 +2621,8 @@
     "date": "",
     "stars": "زهرة عرفات، صلاح الملا",
     "poster": "",
-    "wiki": "ام رجاء"
-   },
-   {
-    "ar": "بالحرام",
-    "en": "",
-    "date": "",
-    "stars": "ماغي بو غصن، باسم مغنية",
-    "poster": "",
-    "wiki": "بالحرام (مسلسل)"
-   },
-   {
-    "ar": "بخمس أرواح",
-    "en": "",
-    "date": "",
-    "stars": "قصي خولي، كاريس بشار",
-    "poster": "",
-    "wiki": "بخمس أرواح (مسلسل)"
-   },
-   {
-    "ar": "بنات عبد الغني",
-    "en": "",
-    "date": "",
-    "stars": "هنادي الكندري، إيمان الحسيني",
-    "poster": "",
-    "wiki": "بنات عبد الغني"
-   },
-   {
-    "ar": "حمدية",
-    "en": "",
-    "date": "",
-    "stars": "أميمة جواد الشكرجي، رويدة شاهين",
-    "poster": "",
-    "wiki": "حمدية (مسلسل)"
-   },
-   {
-    "ar": "حي الجرادية",
-    "en": "",
-    "date": "",
-    "stars": "إبراهيم الحساوي، محمد القس",
-    "poster": "",
-    "wiki": "حي الجرادية (مسلسل)"
-   },
-   {
-    "ar": "شباب البومب 14",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "فيصل العيسى",
-    "poster": "",
-    "wiki": "شباب البومب 14 (مسلسل)"
+    "wiki": "ام رجاء",
+    "rank": 1125
    },
    {
     "ar": "عرس الجن",
@@ -304,225 +2630,11 @@
     "date": "",
     "stars": "إلهام علي",
     "poster": "",
-    "wiki": "عرس الجن (مسلسل)"
-   },
-   {
-    "ar": "على قد الحب",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "نيللي كريم، شريف سلامة",
-    "poster": "",
-    "wiki": "على قد الحب (مسلسل)"
-   },
-   {
-    "ar": "عين سحرية",
-    "en": "",
-    "date": "",
-    "stars": "",
-    "poster": "",
-    "wiki": "عين سحرية (مسلسل)"
-   },
-   {
-    "ar": "كحيلان",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "",
-    "poster": "",
-    "wiki": "كحيلان (مسلسل)"
-   },
-   {
-    "ar": "كوميدي تانا",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "أسعد الزهراني، حبيب الحبيب",
-    "poster": "",
-    "wiki": "كوميدي تانا (مسلسل)"
-   },
-   {
-    "ar": "لوبي الغرام",
-    "en": "",
-    "date": "",
-    "stars": "معتصم النهار، باميلا الكيك",
-    "poster": "",
-    "wiki": "لوبي الغرام"
-   },
-   {
-    "ar": "ليل البنفسج",
-    "en": "",
-    "date": "",
-    "stars": "",
-    "poster": "",
-    "wiki": "ليل البنفسج"
-   },
-   {
-    "ar": "ما اختلفنا",
-    "en": "",
-    "date": "",
-    "stars": "محمد خير الجراح، باسم ياخور",
-    "poster": "",
-    "wiki": "ما اختلفنا (مسلسل)"
-   },
-   {
-    "ar": "مطبخ المدينة",
-    "en": "",
-    "date": "",
-    "stars": "عباس النوري، مكسيم خليل",
-    "poster": "",
-    "wiki": "مطبخ المدينة (مسلسل)"
-   },
-   {
-    "ar": "مناعة",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "هند صبري، خالد سليم",
-    "poster": "",
-    "wiki": "مناعة (مسلسل)"
-   },
-   {
-    "ar": "مولانا",
-    "en": "",
-    "date": "",
-    "stars": "تيم حسن، فارس الحلو",
-    "poster": "",
-    "wiki": "مولانا (مسلسل)"
-   },
-   {
-    "ar": "وحوش",
-    "en": "",
-    "date": "",
-    "stars": "شجون الهاجري، داود حسين",
-    "poster": "",
-    "wiki": "وحوش (مسلسل)"
-   },
-   {
-    "ar": "وننسى اللي كان",
-    "en": "",
-    "date": "2026-02-18",
-    "stars": "ياسمين عبدالعزيز، كريم فهمي",
-    "poster": "",
-    "wiki": "وننسى اللي كان (مسلسل)"
-   },
-   {
-    "ar": "رأس الأفعى",
-    "en": "",
-    "date": "2026-02-19",
-    "stars": "أمير كرارة، أحمد غزي",
-    "poster": "https://upload.wikimedia.org/wikipedia/ar/3/32/%D9%85%D9%84%D8%B5%D9%82_%D8%B1%D8%A3%D8%B3_%D8%A7%D9%84%D8%A3%D9%81%D8%B9%D9%89.jpg",
-    "wiki": "رأس الأفعى (مسلسل)"
-   },
-   {
-    "ar": "الضايعة",
-    "en": "",
-    "date": "2026-02-19",
-    "stars": "محمد قحطان، عبدالله يحيى إبراهيم",
-    "poster": "",
-    "wiki": "الضايعة (مسلسل)"
-   },
-   {
-    "ar": "درش",
-    "en": "",
-    "date": "2026-02-19",
-    "stars": "مصطفى شعبان، سهر الصايغ",
-    "poster": "",
-    "wiki": "درش (مسلسل)"
-   },
-   {
-    "ar": "صحاب الأرض",
-    "en": "Sohab El Ard",
-    "date": "2026-02-19",
-    "stars": "إياد نصار، منة شلبي",
-    "poster": "",
-    "wiki": "صحاب الأرض"
-   },
-   {
-    "ar": "علي كلاي",
-    "en": "Ali Klay",
-    "date": "2026-02-19",
-    "stars": "أحمد العوضي، درة",
-    "poster": "",
-    "wiki": "علي كلاي (مسلسل)"
-   },
-   {
-    "ar": "فخر الدلتا",
-    "en": "Fakhr El Delta",
-    "date": "2026-02-19",
-    "stars": "كمال أبو رية، إنتصار",
-    "poster": "",
-    "wiki": "فخر الدلتا (مسلسل)"
-   },
-   {
-    "ar": "شرارة",
-    "en": "",
-    "date": "2026-03-01",
-    "stars": "سولاف جليل",
-    "poster": "",
-    "wiki": "شرارة (مسلسل)"
-   },
-   {
-    "ar": "اللون الأزرق",
-    "en": "",
-    "date": "2026-03-05",
-    "stars": "جومانا مراد، أحمد رزق",
-    "poster": "",
-    "wiki": "اللون الأزرق (مسلسل)"
-   },
-   {
-    "ar": "المتر سمير",
-    "en": "",
-    "date": "2026-03-05",
-    "stars": "",
-    "poster": "",
-    "wiki": "المتر سمير (مسلسل)"
-   },
-   {
-    "ar": "النص التاني",
-    "en": "",
-    "date": "2026-03-05",
-    "stars": "أحمد أمين، أسماء أبو اليزيد",
-    "poster": "",
-    "wiki": "النص التاني (مسلسل)"
-   },
-   {
-    "ar": "جرد مرد",
-    "en": "",
-    "date": "2026-03-05",
-    "stars": "صلاح الشيخى، سلوى المقصبي",
-    "poster": "",
-    "wiki": "جرد مرد (مسلسل)"
-   },
-   {
-    "ar": "حكاية نرجس",
-    "en": "",
-    "date": "2026-03-05",
-    "stars": "ريهام عبد الغفور، حمزة العيلي",
-    "poster": "",
-    "wiki": "حكاية نرجس (مسلسل)"
-   },
-   {
-    "ar": "فرصة أخيرة",
-    "en": "",
-    "date": "2026-03-05",
-    "stars": "محمود حميدة، طارق لطفي",
-    "poster": "",
-    "wiki": "فرصة أخيرة (مسلسل)"
-   },
-   {
-    "ar": "ن النسوة",
-    "en": "",
-    "date": "2026-03-05",
-    "stars": "مي كساب، هبة مجدي",
-    "poster": "",
-    "wiki": "ن النسوة (مسلسل)"
-   },
-   {
-    "ar": "قطر صغنطوط",
-    "en": "",
-    "date": "2026-03-06",
-    "stars": "محمد رجب، دانا حلبي",
-    "poster": "",
-    "wiki": "قطر صغنطوط"
+    "wiki": "عرس الجن (مسلسل)",
+    "rank": 1127
    }
-  ]
+  ],
+  "top": 48
  },
- "updated": "2026-10-13T19:38:06Z"
+ "updated": "2026-10-13T19:52:34Z"
 }
