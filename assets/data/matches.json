@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-13T20:21:55Z",
+ "updated": "2026-10-13T20:36:06Z",
  "events": [
   {
    "id": "e401915417",
@@ -22,8 +22,9 @@
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/166.png&w=80&h=80"
    },
    "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
+    "en": "beIN Sports 4",
+    "ar": "بي إن سبورت 4",
+    "exact": true
    },
    "top": false
   },
@@ -48,8 +49,9 @@
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/360.png&w=80&h=80"
    },
    "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
+    "en": "beIN Sports 5",
+    "ar": "بي إن سبورت 5",
+    "exact": true
    },
    "top": true
   },
@@ -74,8 +76,9 @@
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/83.png&w=80&h=80"
    },
    "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
+    "en": "beIN Sports 1",
+    "ar": "بي إن سبورت 1",
+    "exact": true
    },
    "top": false
   },
@@ -100,8 +103,9 @@
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/570.png&w=80&h=80"
    },
    "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
+    "en": "beIN Sports 6",
+    "ar": "بي إن سبورت 6",
+    "exact": true
    },
    "top": false
   },
@@ -126,8 +130,9 @@
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/132.png&w=80&h=80"
    },
    "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
+    "en": "beIN Sports 7",
+    "ar": "بي إن سبورت 7",
+    "exact": true
    },
    "top": false
   },
@@ -152,8 +157,9 @@
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/114.png&w=80&h=80"
    },
    "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
+    "en": "beIN Sports 8",
+    "ar": "بي إن سبورت 8",
+    "exact": true
    },
    "top": false
   },
@@ -334,8 +340,9 @@
     "logo": ""
    },
    "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
+    "en": "On Sport MAX",
+    "ar": "أون سبورت MAX",
+    "exact": true
    },
    "top": false
   },
