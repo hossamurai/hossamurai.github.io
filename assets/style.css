@@ -1238,3 +1238,15 @@ section.sec.nextm-sec+section.sec{padding-top:36px}
 .mk-tiles i:nth-child(3n+1){background:linear-gradient(135deg,#7a0a10,#2a0b0d)}
 .mk-phone .mk-tiles{grid-template-columns:repeat(2,1fr)}
 .mk-lines{align-self:stretch;display:flex;flex-direction:column;gap:6px}.mk-lines i{height:8px;border-radius:4px;background:#232327}.mk-lines i:nth-child(2){width:70%}
+.mk-col{align-self:stretch;display:flex;flex-direction:column;gap:6px}
+.mk-violet{background:linear-gradient(90deg,#4f46e5,#7c3aed);color:#fff}
+.mk-k-smarters,.mk-k-xtream{background:#0f1830}
+.mk-dl{align-self:stretch;flex:1;display:flex;gap:8px;min-height:0}
+.mk-side{list-style:none;margin:0;padding:4px 0;display:flex;flex-direction:column;gap:3px;width:62px;flex:none;border-right:1px solid #26262b}
+.mk-side li{font-size:.66rem;padding:3px 6px;border-radius:5px;color:#8a8a92}
+.mk-side li.on{background:#f28c28;color:#111;font-weight:700}
+.mk-dl-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.mk-dl-main .mk-field{display:flex;align-items:center;gap:6px;background:#232327;padding:6px 9px;color:#f2f2f4}
+.mk-phone .mk-app b,.mk-phone .mk-app small{white-space:normal}
+.mk-in b{overflow-wrap:anywhere;font-size:.74rem}
+.mk-phone .mk-bar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
