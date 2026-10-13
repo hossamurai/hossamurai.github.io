@@ -1,0 +1,17 @@
+name: probe-wiki
+on:
+  push:
+    branches: [claude/server-hosts-manual-apps-vgx26g]
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          cd _source/matches
+          python3 -c "
+          import fetch_site as f
+          for a,e in [('الحشاشين','The Assassins'),('جعفر العمدة 2','Gaafar El Omda'),('باب الحارة','Bab Al-Hara'),('الكبير أوي 9','El Kabeer Awi'),('مسلسل غير موجود أبدا','')]:
+              print(a, '->', f.wiki_poster(a,e))
+          "
+          python3 fetch_site.py; cat ../../assets/data/bot.json

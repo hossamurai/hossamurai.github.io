@@ -180,6 +180,8 @@
       /* latest speed tests -> speed test page (assets/speedtest.js) */
       if(d.speedtests){ window.htvSpeedtests = d.speedtests; try{ document.dispatchEvent(new CustomEvent('htv:speedtests', { detail: d.speedtests })); }catch(e){} }
       if(d.channels){ window.htvChannels = d.channels; try{ document.dispatchEvent(new CustomEvent('htv:channels', { detail: d.channels })); }catch(e){} }
+      /* Ramadan series set from the admin bot -> Ramadan page (assets/ramadan.js) */
+      if(d.series){ window.htvSeries = d.series; try{ document.dispatchEvent(new CustomEvent('htv:series', { detail: d.series })); }catch(e){} }
     })['catch'](function(){});
   }
 
