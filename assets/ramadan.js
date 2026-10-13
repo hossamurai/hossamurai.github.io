@@ -1,5 +1,5 @@
 /* Ramadan series page (xx/ramadan-series.html): poster, name and the day each series starts — fully automatic.
-   The list comes from elCinema + Wikipedia (_source/matches/fetch_ramadan.py, every 6 hours) as assets/data/ramadan.json.
+   The list comes from elCinema + Wikipedia (_source/matches/fetch_ramadan.py, once a day) as assets/data/ramadan.json.
    Three sources, so it never fails: the site's copy of that file → the same file from the jsDelivr CDN →
    the list already written into the HTML. Posters: the series' poster, else a designed title card. */
 (function(){

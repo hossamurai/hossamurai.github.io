@@ -1799,7 +1799,7 @@ def league_page(sid, code, slug, n_en, n_ar, ch_en, ch_ar):
 
 # ----------------------------------------------------------------------------
 # RAMADAN SERIES — every series with its poster and the day it starts (no channels, no times). Fully automatic:
-# _source/matches/fetch_ramadan.py collects them from elCinema + Wikipedia every 6 hours ("Update matches" Action) into
+# _source/matches/fetch_ramadan.py collects them from elCinema + Wikipedia once a day ("Update matches" Action) into
 # assets/data/ramadan.json. The page is built from that file and assets/ramadan.js re-reads it on every visit
 # (the site's copy, else a CDN copy of the same file, else what was written into the HTML).
 # Before this Ramadan starts, last Ramadan's series are shown too ("watch again").
