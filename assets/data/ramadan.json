@@ -5,7 +5,7 @@
   "series": [
    {
     "ar": "سلطان الديب",
-    "en": "",
+    "en": "Sultan El-Deeb",
     "date": "2027-02-07",
     "stars": "أحمد العوضي",
     "poster": "",
@@ -13,7 +13,7 @@
    },
    {
     "ar": "عشماوي",
-    "en": "",
+    "en": "Ashmawy",
     "date": "2027-02-07",
     "stars": "محمد رمضان",
     "poster": "",
@@ -44,7 +44,7 @@
    },
    {
     "ar": "الحصلة",
-    "en": "",
+    "en": "Hasla",
     "date": "",
     "stars": "",
     "poster": "https://upload.wikimedia.org/wikipedia/ar/a/a5/Al_Hesla_02_Poster_%28wikiar%29.jpg",
@@ -124,7 +124,7 @@
    },
    {
     "ar": "رباعة",
-    "en": "",
+    "en": "REBAA",
     "date": "",
     "stars": "",
     "poster": "https://upload.wikimedia.org/wikipedia/ar/3/3e/REBAA_2_Poster_%28wikiar%29.jpg",
@@ -140,7 +140,7 @@
    },
    {
     "ar": "فن الحرب",
-    "en": "",
+    "en": "The Art of War",
     "date": "2026-02-18",
     "stars": "يوسف الشريف، شيري عادل",
     "poster": "https://upload.wikimedia.org/wikipedia/ar/c/cc/%D9%85%D9%84%D8%B5%D9%82_%D9%85%D8%B3%D9%84%D8%B3%D9%84_%D9%81%D9%86_%D8%A7%D9%84%D8%AD%D8%B1%D8%A8.jpg",
@@ -164,7 +164,7 @@
    },
    {
     "ar": "هي كيميا",
-    "en": "",
+    "en": "Heya Kemya",
     "date": "2026-02-18",
     "stars": "مصطفى غريب، ميشيل ميلاد بشاي",
     "poster": "https://upload.wikimedia.org/wikipedia/ar/9/9f/%D9%85%D9%84%D8%B5%D9%82_%D9%87%D9%8A_%D9%83%D9%8A%D9%85%D9%8A%D8%A7.jpg",
@@ -428,7 +428,7 @@
    },
    {
     "ar": "صحاب الأرض",
-    "en": "",
+    "en": "Sohab El Ard",
     "date": "2026-02-19",
     "stars": "إياد نصار، منة شلبي",
     "poster": "",
@@ -436,7 +436,7 @@
    },
    {
     "ar": "علي كلاي",
-    "en": "",
+    "en": "Ali Klay",
     "date": "2026-02-19",
     "stars": "أحمد العوضي، درة",
     "poster": "",
@@ -444,7 +444,7 @@
    },
    {
     "ar": "فخر الدلتا",
-    "en": "",
+    "en": "Fakhr El Delta",
     "date": "2026-02-19",
     "stars": "كمال أبو رية، إنتصار",
     "poster": "",
@@ -524,5 +524,5 @@
    }
   ]
  },
- "updated": "2026-10-13T19:30:31Z"
+ "updated": "2026-10-13T19:38:06Z"
 }
