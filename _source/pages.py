@@ -1374,9 +1374,7 @@ def speed_page(c):
       <g class="st-ticks">{ticks}</g>
       <g class="st-needle" data-st-needle><circle cx="160" cy="40" r="9"/></g>
     </svg>'''
-    # the start button is the logo itself: |▶|
-    logo_btn = ('<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="22" y="20" width="13" height="60" rx="5" fill="#141416"/>'
-                '<rect x="65" y="20" width="13" height="60" rx="5" fill="#141416"/><path d="M42 31 L62 50 L42 69 Z" fill="#e3101b" stroke="#e3101b" stroke-width="5" stroke-linejoin="round"/></svg>')
+    # the start button is the logo tile itself (assets/img/go.webp)
     needs = [(5, 'SD', L('Basic quality', 'جودة عادية'), 'tv'), (10, 'HD', L('Full HD', 'Full HD'), 'tv'), (25, '4K', L('Ultra HD', 'Ultra HD'), '4k')]
     tiles = ''.join(f'<div class="st-need" data-need="{n}">{icon(ic)}<b>{q}</b><span dir="ltr">{n}+ Mbps</span><small>{t(d)}</small></div>' for n, q, d, ic in needs)
     tips = [('refresh', L('Do the magic trick', 'اعمل الحل السحري'), L('Unplug the router and the TV for 10 seconds, then plug them back in.', 'افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني.')),
@@ -1393,7 +1391,7 @@ def speed_page(c):
       <input type="text" data-st-name maxlength="30" autocomplete="given-name" placeholder="{t(L('So Hossam can see your result', 'عشان حسام يشوف نتيجتك'))}"></label>
     <div class="st-dial">
       {gauge}
-      <button type="button" class="st-go" data-st-start aria-label="{t(L('Start the speed test', 'ابدأ اختبار السرعة'))}">{logo_btn}</button>
+      <button type="button" class="st-go" data-st-start aria-label="{t(L('Start the speed test', 'ابدأ اختبار السرعة'))}"><img src="{c.root}assets/img/go.webp" alt="" width="118" height="118"></button>
       <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
     </div>
     <div class="st-stats" data-st-stats hidden>
