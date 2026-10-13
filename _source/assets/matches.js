@@ -1,8 +1,8 @@
 /* Hossam TV — match cards row under the header (ES5). Used by every page, including help.html.
    - [data-strip]: a swipeable row of small match cards — live matches first (score + minute from ESPN / TheSportsDB,
                    refreshed every 30 s), then this week's big matches (assets/data/matches.json, refreshed every 6 hours
-                   by a GitHub Action) with kick-off in the visitor's time zone and the channel. Each card opens its match
-                   page; the last card opens all matches. A match leaves the row as soon as it's over. */
+                   by a GitHub Action) with kick-off in the visitor's time zone and the channel. Each card opens the matches
+                   page on that match's countdown (with Add to calendar); the last card opens all matches. A match leaves the row as soon as it's over. */
 (function(){
   'use strict';
   var L = {
@@ -72,7 +72,7 @@
       var frag = document.createDocumentFragment();
       list.forEach(function(e){
         var r = live[e.id], k = new Date(e.utc), goal = r && flashUntil[e.id] > now;
-        var href = root + L2 + '/' + (e.top ? 'match/' + slugOf(e.home.en) + '-vs-' + slugOf(e.away.en) + '-' + e.utc.slice(0, 10) + '.html' : 'matches.html');
+        var href = root + L2 + '/matches.html#m=' + encodeURIComponent(e.id);   /* the matches page opens on this match's countdown */
         var a = el('a', 'ms-card' + (r ? ' ms-live' : '') + (goal ? ' ms-goal' : '')); a.href = href;
         var top = el('span', 'ms-top');
         if(goal) top.appendChild(el('span', 'ms-flag', T('goal')));
@@ -192,12 +192,13 @@
     var boxes = document.querySelectorAll('[data-next]');
     if(!boxes.length) return;
     var now = Date.now();
-    nextEvent = ((data && data.events) || []).filter(function(e){ return e.top && !finished[e.id] && Date.parse(e.utc) > now; })   /* high-profile matches only */
+    var want = pickedId(), picked = want ? ((data && data.events) || []).filter(function(e){ return String(e.id) === want && !finished[e.id]; })[0] : null;
+    nextEvent = picked || ((data && data.events) || []).filter(function(e){ return e.top && !finished[e.id] && Date.parse(e.utc) > now; })   /* high-profile matches only */
       .sort(function(a, b){ return Date.parse(a.utc) - Date.parse(b.utc); })[0] || null;
     Array.prototype.forEach.call(boxes, function(box){
       if(!nextEvent){ box.hidden = true; return; }
       var e = nextEvent, k = new Date(e.utc), ch = channel(e);
-      box.querySelector('[data-next-league]').textContent = T('next') + ' · ' + nm(e.league);
+      box.querySelector('[data-next-league]').textContent = e.top ? T('next') + ' · ' + nm(e.league) : nm(e.league);
       box.querySelector('[data-next-home]').textContent = short(nm(e.home));
       box.querySelector('[data-next-away]').textContent = short(nm(e.away));
       /* logos only when both teams have one, so the two boxes stay alike */
@@ -209,14 +210,37 @@
       box.querySelector('[data-next-when]').textContent = hm(k, TZ || undefined) + ' · ' + tzLabel() + (ch ? ' · ' + ch : '');
       ['d', 'h', 'm', 's'].forEach(function(u){ box.querySelector('[data-next-l="' + u + '"]').textContent = T(u); });
       box.hidden = false;
+      /* opened from a match card: bring this countdown into view (once per pick) */
+      if(picked && box.getAttribute('data-shown') !== want){
+        box.setAttribute('data-shown', want);
+        setTimeout(function(){ try{ box.scrollIntoView({ behavior: 'smooth', block: 'center' }); }catch(x){ box.scrollIntoView(); } }, 60);
+      }
     });
     tick();
     if(!nextTimer) nextTimer = setInterval(tick, 1000);
   }
+  function pickedId(){ var m = /[#&]m=([^&]+)/.exec(location.hash || ''); return m ? decodeURIComponent(m[1]) : ''; }
+  /* a picked match that has kicked off: "● LIVE  1 – 0  54'" instead of the countdown */
+  function showLive(e){
+    var on = Date.now() >= Date.parse(e.utc), lv = (window.htvLive || {})[e.id];
+    Array.prototype.forEach.call(document.querySelectorAll('[data-next]'), function(box){
+      var count = box.querySelector('.nm-count'), lb = box.querySelector('[data-next-livebox]');
+      if(!lb) return;
+      count.hidden = on; lb.hidden = !on;
+      var cal = box.querySelector('[data-next-cal]'); if(cal) cal.hidden = on;          /* nothing to add to a calendar once it's on */
+      if(on) box.querySelector('[data-next-league]').textContent = nm(e.league);        /* "Big match ·" → just the league */
+      if(!on) return;
+      lb.textContent = '';
+      var tag = el('span', 'nm-live-tag'); tag.appendChild(el('i', 'live-dot')); tag.appendChild(document.createTextNode(' ' + T('live'))); lb.appendChild(tag);
+      if(lv && lv.hs != null) lb.appendChild(el('b', 'nm-live-score', lang() === 'ar' ? lv.as + ' – ' + lv.hs : lv.hs + ' – ' + lv.as));
+      if(lv && lv.clock) lb.appendChild(el('span', 'nm-live-clock', lv.clock));
+    });
+  }
   function tick(){
     if(document.hidden || !nextEvent) return;
     var left = Date.parse(nextEvent.utc) - Date.now();
-    if(left <= 0){ renderNext(); return; }                     /* kicked off: the live bar takes over, show the next one */
+    showLive(nextEvent);
+    if(left <= 0){ if(pickedId() === String(nextEvent.id)) return; renderNext(); return; }   /* kicked off: a picked match shows its live score, otherwise the next one */
     var v = { d: Math.floor(left / 864e5), h: Math.floor(left / 36e5) % 24, m: Math.floor(left / 6e4) % 60, s: Math.floor(left / 1e3) % 60 };
     Array.prototype.forEach.call(document.querySelectorAll('[data-next]'), function(box){
       ['d', 'h', 'm', 's'].forEach(function(u){ var b = box.querySelector('[data-next-v="' + u + '"]'); var t = u === 'd' ? String(v[u]) : pad(v[u]); if(b.textContent !== t) b.textContent = t; });
@@ -312,7 +336,7 @@
       try{ document.dispatchEvent(new CustomEvent('htv:live')); }catch(e){}
     });
   }
-  function renderLive(rows){ liveRows = rows; renderStrip(); }
+  function renderLive(rows){ liveRows = rows; renderStrip(); if(nextEvent) showLive(nextEvent); }
 
   /* ---------- start ---------- */
   var src = document.querySelector('[data-strip]') || document.querySelector('[data-next-line]') || document.querySelector('[data-next]') || document.querySelector('[data-results]');
@@ -326,6 +350,8 @@
     })['catch'](function(){});
   /* the admin's channels arrive a moment later (site-data) -> redraw */
   document.addEventListener('htv:channels', function(){ if(data){ renderStrip(); renderNext(); pollLive(); } });
+  /* a match card tapped while already on the matches page */
+  window.addEventListener('hashchange', function(){ if(data) renderNext(); });
   /* back to the tab -> fresh scores right away */
   document.addEventListener('visibilitychange', function(){ if(!document.hidden && data) pollLive(); });
   /* help.html switches language without reloading */

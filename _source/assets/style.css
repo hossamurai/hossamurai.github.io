@@ -1319,3 +1319,11 @@ section.sec.nl-sec{padding:14px 0 0;border-top:0}
 .next-line-cta{display:inline-flex;align-items:center;gap:4px;font-weight:700;color:var(--red);text-decoration:none;white-space:nowrap}
 .next-line-cta .ic{width:14px;height:14px}
 section.sec.nl-sec+section.sec{padding-top:36px}
+/* countdown of a picked match that has kicked off */
+.nm-livebox{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;padding:14px 8px;border-radius:12px;background:#18181b;border:1px solid #e3101b66}
+.nm-livebox[hidden],.nm-count[hidden]{display:none}
+.nm-live-tag{display:inline-flex;align-items:center;gap:6px;color:#ff4d55;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:.8rem}
+.nm-live-tag .live-dot{width:8px;height:8px;border-radius:50%;background:#ff4d55;animation:msPulse 1.6s ease-in-out infinite}
+.nm-live-score{font-size:1.6rem;font-weight:800;color:#fff;direction:ltr;font-variant-numeric:tabular-nums}
+.nm-live-clock{color:#ff4d55;font-weight:700}
+.nm-btn[hidden]{display:none}
