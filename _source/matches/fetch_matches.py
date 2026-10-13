@@ -334,6 +334,13 @@ def main():
         results = [r for r in results if r['id'] in keep]
     for r in results:
         r.pop('big', None)
+    # the exact channel of each match ("beIN Sports 2") from FilGoal / Kooora; the league's usual channel otherwise
+    try:
+        import exact_channels
+        prev = json.load(open(OUT)).get('events', []) if os.path.exists(OUT) else []
+        exact_channels.apply(events, prev)
+    except Exception as ex:
+        print('  exact channels skipped:', ex, file=sys.stderr)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     data = {'updated': now.strftime('%Y-%m-%dT%H:%M:%SZ'), 'events': events, 'results': results}
     old = None
