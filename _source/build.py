@@ -174,7 +174,7 @@ def footer(c):
         <p>{t(L('WhatsApp (chat only, no calls):', 'واتساب (رسائل فقط، بدون مكالمات):'))}<br><a class="foot-wa" href="{wa()}" target="_blank" rel="noopener">{WHATSAPP_DISPLAY}</a></p>
         <p><a class="foot-remind" href="{c.href('index.html#reminders')}">{icon('clock')}{t(L('Get renewal reminders', 'فعّل تنبيهات التجديد'))}</a></p>
         <p><a class="foot-remind" href="{c.href('matches.html')}">{icon('ball')}{t(L('Big matches this week', 'أهم مباريات الأسبوع'))}</a></p>
-        <p><a class="foot-remind" href="{c.href('ramadan-series.html')}">{icon('moon')}{t(L('Ramadan series & times', 'مسلسلات رمضان ومواعيدها'))}</a></p>
+        <p><a class="foot-remind" href="{c.href('ramadan-series.html')}">{icon('moon')}{t(L('Ramadan series', 'مسلسلات رمضان'))}</a></p>
         <p><a class="foot-remind" href="{c.href('speed-test.html')}">{icon('bolt')}{t(L('Internet speed test', 'اختبار سرعة الإنترنت'))}</a></p>
         <p class="foot-countries">{t(L('Arabic TV in:', 'القنوات العربية في:'))} {' · '.join(f'<a href="{c.href("arabic-tv-" + sl + ".html")}">{t(nm)}</a>' for sl, nm, *_ in COUNTRY_PAGES)}</p>
       </div>

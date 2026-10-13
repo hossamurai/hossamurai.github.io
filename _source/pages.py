@@ -1728,9 +1728,9 @@ def league_page(sid, code, slug, n_en, n_ar, ch_en, ch_ar):
 
 
 # ----------------------------------------------------------------------------
-# RAMADAN SERIES — every series with its channel and time, in the visitor's own time zone.
+# RAMADAN SERIES — every series with its poster and the day it starts (no channels, no times).
 # The admin adds/changes series through the admin bot ("Ramadan series | …" knowledge entries). The page reads them live
-# from n8n site-data on every visit (assets/ramadan.js), so a time change shows at once; the copy written into the HTML
+# from n8n site-data on every visit (assets/ramadan.js), so a change shows at once; the copy written into the HTML
 # for Google comes from assets/data/bot.json, refreshed by the "Update matches" Action every 6 hours.
 # ----------------------------------------------------------------------------
 RAMADAN = [  # (first day, last day) — expected dates; the exact start depends on the moon sighting
@@ -1738,7 +1738,6 @@ RAMADAN = [  # (first day, last day) — expected dates; the exact start depends
     ('2028-01-28', '2028-02-25'),
     ('2029-01-16', '2029-02-13'),
 ]
-RM_ZONES = {'Cairo': 2, 'KSA': 3, 'UAE': 4}   # UTC offsets during Ramadan (winter: no daylight saving in Egypt)
 MONTHS_AR = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر']
 
 
@@ -1768,31 +1767,21 @@ def _rm_status(c, today=None):
 
 
 def _rm_series():
+    """Series sorted by start date (no date = the first day of Ramadan), then name."""
+    a, _, _ = ramadan_season()
     out = [x for x in (_bot_data().get('series') or []) if isinstance(x, dict) and (x.get('ar') or x.get('en'))]
-    def k(x):
-        try:
-            h, m = map(int, str(x.get('time') or '').split(':'))
-            cm = h * 60 + m - (RM_ZONES.get(x.get('zone'), 2) - 2) * 60   # minutes in Cairo time
-            return (cm - 360) % 1440                                      # the TV day starts at 6 AM
-        except Exception:
-            return 9999
-    return sorted(out, key=k)
+    return sorted(out, key=lambda x: (str(x.get('date') or a.isoformat()), str(x.get('ar') or x.get('en'))))
 
 
-def _rm_time(c, hm, zone):
-    """'21:00' + 'Cairo' -> '9:00 PM Cairo' / '9:00 م بتوقيت القاهرة' (written into the HTML; the page script shows the visitor's own time)."""
+def _rm_date(c, iso):
+    """'2027-02-08' -> 'Mon, Feb 8' / 'الاثنين 8 فبراير' (written into the HTML; the page script writes the same in the visitor's language)."""
+    from datetime import date
     try:
-        h, m = map(int, hm.split(':'))
+        d = date.fromisoformat(iso)
     except Exception:
         return ''
-    h12 = h % 12 or 12
-    zn = {'Cairo': ('Cairo', 'القاهرة'), 'KSA': ('KSA', 'السعودية'), 'UAE': ('UAE', 'الإمارات')}.get(zone, ('Cairo', 'القاهرة'))
-    return c.t(L(f'{h12}:{m:02d} {"PM" if h >= 12 else "AM"} {zn[0]}', f'{h12}:{m:02d} {"م" if h >= 12 else "ص"} بتوقيت {zn[1]}'))
-
-
-def _rm_ch(c, ch):
-    parts = [p.strip() for p in str(ch or '').split(' / ')]
-    return parts[1] if c.ar and len(parts) > 1 else parts[0]
+    days_ar = ['الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت', 'الأحد']
+    return f'{days_ar[d.weekday()]} {d.day} {MONTHS_AR[d.month - 1]}' if c.ar else d.strftime('%a, %b %-d')
 
 
 def ramadan_page(c):
@@ -1805,42 +1794,34 @@ def ramadan_page(c):
     for x in _rm_series():
         main = (x.get('ar') or x.get('en')) if c.ar else (x.get('en') or x.get('ar'))
         other = x.get('en') if c.ar else x.get('ar')
-        when = _rm_time(c, x.get('time') or '', x.get('zone'))
-        rerun = _rm_time(c, x.get('rerun') or '', x.get('zone'))
         poster = x.get('poster') or posters.get(x.get('ar') or x.get('en')) or ''
         hue = sum(map(ord, str(x.get('ar') or x.get('en')))) % 6
-        ch = _rm_ch(c, x.get('ch'))
+        when = _rm_date(c, x.get('date') or a.isoformat())
         rows.append(f'<li class="rm-card"><div class="rm-poster rm-h{hue}"><span class="rm-gen" aria-hidden="true">{icon("moon")}<b>{esc(main)}</b></span>'
                     + (f'<img src="{esc(poster)}" alt="{esc(main)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">' if poster else '')
-                    + (f'<span class="rm-chip">{esc(ch)}</span>' if ch else '')
                     + f'</div><div class="rm-info"><b class="rm-title">{esc(main)}</b>'
                     + (f'<small>{esc(other)}</small>' if other and other != main else '')
-                    + f'<span class="rm-t">{esc(when) or t(L("Time soon", "الموعد قريباً"))}</span>'
-                    + (f'<small>{t(L("Rerun", "الإعادة"))} {esc(rerun)}</small>' if rerun else '')
+                    + f'<span class="rm-t">{esc(when)}</span>'
                     + (f'<small class="rm-stars">{esc(x.get("stars"))}</small>' if x.get('stars') else '') + '</div></li>')
-    labels = {'rerun': t(L('Rerun', 'الإعادة')), 'now': t(L('On now', 'يُعرض الآن')), 'all': t(L('All', 'الكل')),
-              'mine': t(L('your time', 'بتوقيتك')), 'soon': t(L('Time soon', 'الموعد قريباً')),
-              'zn': {'Cairo': t(L('Cairo', 'بتوقيت القاهرة')), 'KSA': t(L('KSA', 'بتوقيت السعودية')), 'UAE': t(L('UAE', 'بتوقيت الإمارات'))},
+    labels = {'new': t(L('New', 'جديد')),
               'before': t(L('Ramadan starts in about {n} days — expected {d}', 'باقي حوالي {n} يوم على رمضان — متوقع {d}')),
               'during': t(L('Day {n} of Ramadan — Ramadan Kareem', 'اليوم {n} من رمضان — رمضان كريم')),
               'after': t(L('Ramadan {y} has ended — see you next year', 'انتهى رمضان {y} — نراكم العام القادم'))}
     hero = page_hero(c, [(None, t(L('Ramadan series', 'مسلسلات رمضان')))],
-                     t(L(f'Ramadan {yr} series — times & channels', f'مسلسلات رمضان {yr} — المواعيد والقنوات')),
-                     t(L('Every series with its channel and time in your time zone.', 'كل المسلسلات بقنواتها ومواعيدها بتوقيتك.')))
+                     t(L(f'Ramadan {yr} series', f'مسلسلات رمضان {yr}')),
+                     t(L('Every series and the day it starts — all on Hossam TV.', 'كل المسلسلات وموعد بدايتها — كلها على Hossam TV.')))
     body = hero + f'''
-<section class="sec first rm-sec"><div class="wrap rm-wrap" data-rm data-start="{a.isoformat()}" data-end="{b.isoformat()}" data-year="{yr}" data-l="{html_attr_json(labels)}" data-zones="{html_attr_json(RM_ZONES)}" data-series="{html_attr_json(_rm_series())}" data-posters="{html_attr_json(posters)}" data-src="{c.root}assets/data/bot.json">
+<section class="sec first rm-sec"><div class="wrap rm-wrap" data-rm data-start="{a.isoformat()}" data-end="{b.isoformat()}" data-year="{yr}" data-l="{html_attr_json(labels)}" data-series="{html_attr_json(_rm_series())}" data-posters="{html_attr_json(posters)}" data-src="{c.root}assets/data/bot.json">
   <div class="lg-ch rm-status">{icon('moon')}<div><small>{t(L('Ramadan', 'رمضان'))} {yr}</small><b data-rm-status>{_rm_status(c)}</b></div>{btn_trial(c)}</div>
-  <div class="tb-tabs rm-chs" data-rm-chs hidden></div>
   <ul class="rm-list" data-rm-list>{''.join(rows)}</ul>
-  <p class="rm-empty" data-rm-empty{' hidden' if rows else ''}>{t(L('Series appear here as the channels announce them — check back soon.', 'المسلسلات تظهر هنا أول ما القنوات تعلن عنها — تابعنا قريباً.'))}</p>
-  <p class="matches-note">{t(L('Channels sometimes move times during Ramadan — this page updates automatically.', 'القنوات أحياناً تغيّر المواعيد خلال رمضان — الصفحة تتحدث تلقائياً.'))}</p>
-  <a class="st-more" href="{c.href('channels.html')}">{icon('tv')}<span>{t(L('All channels', 'كل القنوات'))}</span>{icon('arrow', 'flip')}</a>
+  <p class="rm-empty" data-rm-empty{' hidden' if rows else ''}>{t(L('Series appear here as they are announced — check back soon.', 'المسلسلات تظهر هنا أول ما يتم الإعلان عنها — تابعنا قريباً.'))}</p>
+  <p class="matches-note">{t(L('Dates sometimes change — this page updates automatically.', 'المواعيد أحياناً تتغير — الصفحة تتحدث تلقائياً.'))}</p>
 </div></section>
 <script src="{c.root}assets/ramadan.js" defer></script>
 ''' + cta_block(c)
-    return (t(L(f'Ramadan {yr} Series — Times & Channels in Canada, the USA & Worldwide', f'مسلسلات رمضان {yr} — المواعيد والقنوات في كندا وأمريكا وحول العالم')),
-            t(L(f'All Ramadan {yr} series with their channels and show times in your own time zone (Toronto, New York or anywhere), plus reruns. Watch them live with Hossam TV.',
-                f'كل مسلسلات رمضان {yr} بقنواتها ومواعيد عرضها والإعادة بتوقيتك المحلي (تورونتو أو نيويورك أو أي مكان). شاهدها مباشرة مع Hossam TV.')),
+    return (t(L(f'Ramadan {yr} Series — Full List & Start Dates', f'مسلسلات رمضان {yr} — القائمة الكاملة ومواعيد العرض')),
+            t(L(f'All Ramadan {yr} series with posters and the day each one starts. Watch them in Canada, the USA or anywhere with Hossam TV.',
+                f'كل مسلسلات رمضان {yr} بالبوسترات وموعد بداية كل مسلسل. شاهدها في كندا أو أمريكا أو أي مكان مع Hossam TV.')),
             body)
 
 
@@ -1851,7 +1832,7 @@ def ramadan_teaser(c):
     if not (a - timedelta(days=60) <= date.today() <= b):
         return ''
     return (f'<section class="sec rm-teaser-sec"><div class="wrap"><a class="st-more rm-teaser" href="{c.href("ramadan-series.html")}">{icon("moon")}'
-            f'<span>{c.t(L(f"Ramadan {yr} series — times & channels", f"مسلسلات رمضان {yr} — المواعيد والقنوات"))}</span>{icon("arrow", "flip")}</a></div></section>')
+            f'<span>{c.t(L(f"Ramadan {yr} series", f"مسلسلات رمضان {yr}"))}</span>{icon("arrow", "flip")}</a></div></section>')
 
 
 PAGE_BUILDERS = [
