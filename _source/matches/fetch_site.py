@@ -51,7 +51,7 @@ def wiki_poster(ar, en):
             # posters are local uploads (…/wikipedia/ar/… or /en/…); Commons pictures are random photos, not posters
             if src and '/wikipedia/commons/' not in src and not src.lower().endswith('.svg.png') \
                     and norm(re.sub(r'\s*\(.*?\)\s*$', '', pg.get('title') or '')) == norm(name):
-                return src
+                return src.split('?')[0]
     return ''
 
 
