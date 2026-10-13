@@ -252,8 +252,10 @@
     text += '\n' + T('Device: ', 'الجهاز: ') + (ar() ? dev[2] : dev[1]);
     if(name.trim()) text += '\n' + T('Name: ', 'الاسم: ') + name.trim().slice(0, 40);
     try{ post('site-order', { kind: form.kind, plan: form.plan, region: form.region, device: form.device, name: name.trim(), lang: ar() ? 'ar' : 'en', website: hp }, true)['catch'](function(){}); }catch(e){}
-    window.open('https://wa.me/' + MAIN + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    /* some in-app browsers (Instagram, Facebook…) block new windows: then open WhatsApp in the same tab */
+    var url = 'https://wa.me/' + MAIN + '?text=' + encodeURIComponent(text), w = window.open(url, '_blank');
     closeForm();
+    if(w){ try{ w.opener = null; }catch(e){} } else { location.href = url; }
   }
   function waKind(a){
     var href = a.getAttribute('href') || '';

@@ -327,6 +327,12 @@ def reminder_card(c, compact=False):
 
 def details(c, iid, q, a, search=False):
     s = ' data-search-item' if search else ''
+    if search and isinstance(q, dict):
+        # the other language's words too, so "firestick" also finds the Arabic answer (and the other way round)
+        import re, html as _h
+        o = 'en' if c.ar else 'ar'
+        k = re.sub(r'<[^>]+>|\{[a-z]+\}', ' ', (q.get(o) or '') + ' ' + ((a.get(o) or '') if isinstance(a, dict) else ''))
+        s += f' data-k="{_h.escape(" ".join(k.split()), quote=True)}"'
     return f'<details id="{iid}"{s}><summary>{c.t(q)}{icon("plus")}</summary><div class="ans">{faq_answer(c, a)}</div></details>'
 
 
