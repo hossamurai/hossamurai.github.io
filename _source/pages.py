@@ -1494,6 +1494,24 @@ def _fixed_times(utc):
         return utc[:10], '', '', '', utc[:10]
 
 
+def match_ics(lang, e):
+    """Calendar file for one match (served as <lang>/match/<slug>.ics; iPhone shows "Add to Calendar", computers open it in their calendar)."""
+    from datetime import datetime, timedelta
+    k = datetime.fromisoformat(e['utc'].replace('Z', '+00:00'))
+    f = lambda d: d.strftime('%Y%m%dT%H%M%SZ')
+    nm = lambda x: x['ar'] if lang == 'ar' else x['en']
+    esc = lambda x: str(x or '').replace('\\', '\\\\').replace(',', '\\,').replace(';', '\\;')
+    ch = nm(e['channel']) if e.get('channel') else ''
+    title = f"{nm(e['home'])} – {nm(e['away'])} ({nm(e['league'])})"
+    note = ('شاهدها مباشرة على Hossam TV — hossamservices.com' if lang == 'ar' else 'Watch live on Hossam TV — hossamservices.com')
+    return '\r\n'.join([
+        'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Hossam TV//Matches//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'BEGIN:VEVENT',
+        f"UID:{e['id']}@hossamservices.com", f'DTSTAMP:{f(k)}', f'DTSTART:{f(k)}', f'DTEND:{f(k + timedelta(hours=2))}',
+        f'SUMMARY:{esc(title)}', f"DESCRIPTION:{esc((ch + ' · ' if ch else '') + note)}", 'URL:https://hossamservices.com/',
+        'BEGIN:VALARM', 'TRIGGER:-PT30M', 'ACTION:DISPLAY', f'DESCRIPTION:{esc(title)}', 'END:VALARM',
+        'END:VEVENT', 'END:VCALENDAR', ''])
+
+
 def match_page(slug, e, res):
     def build(c):
         t = c.t

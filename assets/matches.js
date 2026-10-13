@@ -115,23 +115,21 @@
     img.hidden = false;
   }
   /* "Add to calendar": a tiny .ics file (works with Google, Apple and Samsung calendars) with a reminder 30 min before */
+  /* Android: Google Calendar opens with the match filled in.
+     iPhone / iPad / computers: the site's .ics file for this match (built with the match page) -> "Add to Calendar". */
+  function slug(x){ return String(x || '').normalize('NFKD').replace(/[^\x00-\x7f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
   function addToCalendar(e, box){
     if(!e) return;
     var t = new Date(e.utc), end = new Date(t.getTime() + 2 * 3600e3), ch = channel(e);
-    function ics(d){ return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
-    function esc(x){ return String(x || '').replace(/([,;\\])/g, '\\$1'); }
     var title = nm(e.home) + ' – ' + nm(e.away) + ' (' + nm(e.league) + ')';
-    var text = [
-      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Hossam TV//Matches//EN', 'BEGIN:VEVENT',
-      'UID:' + e.id + '@hossamservices.com', 'DTSTAMP:' + ics(new Date()), 'DTSTART:' + ics(t), 'DTEND:' + ics(end),
-      'SUMMARY:' + esc(title), 'DESCRIPTION:' + esc((ch ? ch + ' · ' : '') + (box.getAttribute('data-l-cal') || '')),
-      'BEGIN:VALARM', 'TRIGGER:-PT30M', 'ACTION:DISPLAY', 'DESCRIPTION:' + esc(title), 'END:VALARM',
-      'END:VEVENT', 'END:VCALENDAR'
-    ].join('\r\n');
-    var a = document.createElement('a');
-    a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(text);
-    a.download = 'match.ics';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    if(/Android/i.test(navigator.userAgent)){
+      var f = function(d){ return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); };
+      window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(title) +
+        '&dates=' + f(t) + '/' + f(end) + '&details=' + encodeURIComponent((ch ? ch + ' · ' : '') + (box.getAttribute('data-l-cal') || '')), '_blank', 'noopener');
+      return;
+    }
+    var root = (box.getAttribute('data-src') || '').replace(/assets\/data\/matches\.json$/, '');
+    location.href = root + lang() + '/match/' + slug(e.home.en) + '-vs-' + slug(e.away.en) + '-' + e.utc.slice(0, 10) + '.ics';
   }
 
   /* ---------- last week's results (matches page) ---------- */
