@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-13T14:15:16Z",
+ "updated": "2026-10-13T19:17:54Z",
  "leagues": [
   {
    "id": "egy",
@@ -253,6 +253,15 @@
    "rows": [
     {
      "rank": 1,
+     "en": "Sporting",
+     "p": 2,
+     "gd": "+4",
+     "pts": 6,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2250.png&w=80&h=80",
+     "ar": "سبورتنغ لشبونة"
+    },
+    {
+     "rank": 2,
      "en": "PSG",
      "p": 1,
      "gd": "+5",
@@ -261,7 +270,7 @@
      "ar": "باريس سان جيرمان"
     },
     {
-     "rank": 2,
+     "rank": 3,
      "en": "Bayern",
      "p": 1,
      "gd": "+5",
@@ -270,7 +279,7 @@
      "ar": "بايرن ميونخ"
     },
     {
-     "rank": 3,
+     "rank": 4,
      "en": "Barcelona",
      "p": 1,
      "gd": "+4",
@@ -279,7 +288,7 @@
      "ar": "برشلونة"
     },
     {
-     "rank": 4,
+     "rank": 5,
      "en": "Man United",
      "p": 1,
      "gd": "+4",
@@ -288,22 +297,13 @@
      "ar": "مانشستر يونايتد"
     },
     {
-     "rank": 5,
+     "rank": 6,
      "en": "Como",
      "p": 1,
      "gd": "+3",
      "pts": 3,
      "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2572.png&w=80&h=80",
      "ar": "كومو"
-    },
-    {
-     "rank": 6,
-     "en": "Sporting",
-     "p": 1,
-     "gd": "+2",
-     "pts": 3,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2250.png&w=80&h=80",
-     "ar": "سبورتنغ لشبونة"
     }
    ]
   },

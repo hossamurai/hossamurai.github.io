@@ -1,10 +1,10 @@
 {
- "updated": "2026-10-12T23:58:44Z",
+ "updated": "2026-10-13T19:17:35Z",
  "events": [
   {
    "id": "e401915417",
    "utc": "2026-10-13T19:00:00Z",
-   "live": false,
+   "live": true,
    "code": "uefa.champions",
    "espn": "401915417",
    "league": {
@@ -30,7 +30,7 @@
   {
    "id": "e401915412",
    "utc": "2026-10-13T19:00:00Z",
-   "live": false,
+   "live": true,
    "code": "uefa.champions",
    "espn": "401915412",
    "league": {
@@ -56,7 +56,7 @@
   {
    "id": "e401915435",
    "utc": "2026-10-13T19:00:00Z",
-   "live": false,
+   "live": true,
    "code": "uefa.champions",
    "espn": "401915435",
    "league": {
@@ -82,7 +82,7 @@
   {
    "id": "e401915413",
    "utc": "2026-10-13T19:00:00Z",
-   "live": false,
+   "live": true,
    "code": "uefa.champions",
    "espn": "401915413",
    "league": {
@@ -108,7 +108,7 @@
   {
    "id": "e401915411",
    "utc": "2026-10-13T19:00:00Z",
-   "live": false,
+   "live": true,
    "code": "uefa.champions",
    "espn": "401915411",
    "league": {
@@ -134,7 +134,7 @@
   {
    "id": "e401915410",
    "utc": "2026-10-13T19:00:00Z",
-   "live": false,
+   "live": true,
    "code": "uefa.champions",
    "espn": "401915410",
    "league": {
@@ -756,33 +756,54 @@
    "top": false
   },
   {
-   "id": "e401914245",
-   "utc": "2026-10-18T13:00:00Z",
+   "id": "e401915399",
+   "utc": "2026-10-20T19:00:00Z",
    "live": false,
-   "code": "caf.champions",
-   "espn": "401914245",
+   "code": "uefa.champions",
+   "espn": "401915399",
    "league": {
-    "en": "CAF Champions League",
-    "ar": "دوري أبطال أفريقيا"
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
    },
    "home": {
-    "en": "Sidama Coffee",
-    "ar": "Sidama Coffee",
-    "logo": ""
+    "en": "Paris Saint-Germain",
+    "ar": "باريس سان جيرمان",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/160.png&w=80&h=80"
    },
    "away": {
-    "en": "Al Hilal Omdurman",
-    "ar": "الهلال",
-    "logo": ""
+    "en": "Barcelona",
+    "ar": "برشلونة",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/83.png&w=80&h=80"
    },
    "channel": {
     "en": "beIN Sports",
     "ar": "بي إن سبورت"
    },
-   "top": false
+   "top": true
   }
  ],
  "results": [
+  {
+   "id": "s2561129",
+   "utc": "2026-10-13T17:00:00Z",
+   "league": {
+    "en": "Egyptian League",
+    "ar": "الدوري المصري"
+   },
+   "home": {
+    "en": "Al Ittihad Alexandria",
+    "ar": "الاتحاد",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/bqnmfm1786058466.png/tiny"
+   },
+   "away": {
+    "en": "El Gouna",
+    "ar": "الجونة",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/6vdj631589807310.png/tiny"
+   },
+   "hs": 2,
+   "as": 1,
+   "top": false
+  },
   {
    "id": "e401874764",
    "utc": "2026-10-11T18:45:00Z",
@@ -1012,27 +1033,6 @@
    },
    "hs": 3,
    "as": 0,
-   "top": false
-  },
-  {
-   "id": "e401882856",
-   "utc": "2026-10-10T14:15:00Z",
-   "league": {
-    "en": "La Liga",
-    "ar": "الدوري الإسباني"
-   },
-   "home": {
-    "en": "Alavés",
-    "ar": "Alavés",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/96.png&w=80&h=80"
-   },
-   "away": {
-    "en": "Atlético Madrid",
-    "ar": "أتلتيكو مدريد",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/1068.png&w=80&h=80"
-   },
-   "hs": 1,
-   "as": 2,
    "top": false
   }
  ]
