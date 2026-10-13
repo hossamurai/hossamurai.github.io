@@ -1,5 +1,5 @@
 /* Ramadan series page (xx/ramadan-series.html): poster, name and the day each series starts — fully automatic.
-   The list comes from Wikipedia (_source/matches/fetch_ramadan.py, every 6 hours) as assets/data/ramadan.json.
+   The list comes from elCinema + Wikipedia (_source/matches/fetch_ramadan.py, every 6 hours) as assets/data/ramadan.json.
    Three sources, so it never fails: the site's copy of that file → the same file from the jsDelivr CDN →
    the list already written into the HTML. Posters: the series' poster, else a designed title card. */
 (function(){
@@ -47,7 +47,7 @@
 
   function render(d){
     var cur = d.season && d.season.year === year ? d.season.series || [] : null;
-    var last = d.last && d.last.year === year - 1 ? d.last.series || [] : [];
+    var last = d.last && d.last.year === year - 1 ? (d.last.series || []).slice(0, d.last.top || 48) : [];   /* the most popular */
     if(!cur) return false;                       /* a file for another year: keep what the page has */
     fill(box.querySelector('[data-rm-list="season"]'), cur, start, true);
     box.querySelector('[data-rm-empty]').hidden = cur.length > 0;
