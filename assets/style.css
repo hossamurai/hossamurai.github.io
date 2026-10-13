@@ -1282,3 +1282,29 @@ section.sec.nextm-sec+section.sec{padding-top:36px}
 @keyframes tapHand{0%,100%{transform:translateY(0) scale(1)}35%{transform:translateY(2px) scale(.88)}55%{transform:translateY(0) scale(1)}}
 @keyframes tapRing{0%,30%{opacity:0;transform:scale(.4)}40%{opacity:.9}80%,100%{opacity:0;transform:scale(1.8)}}
 @media (prefers-reduced-motion:reduce){.tap-hint svg,.tap-hint::after{animation:none!important}}
+/* match cards row under the header (assets/matches.js) */
+.mstrip{background:#0b0b0c;position:relative;z-index:5}
+.mstrip[hidden]{display:none}
+.ms-track{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding-inline:16px;padding:8px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.ms-track::-webkit-scrollbar{display:none}
+.ms-card{flex:none;width:148px;scroll-snap-align:start;display:flex;flex-direction:column;gap:3px;padding:7px 10px 8px;border-radius:12px;background:#1c1c1f;border:1px solid #2a2a2e;color:#f2f2f4;text-decoration:none;transition:border-color .2s,background .2s}
+.ms-card:hover{border-color:#4a4a50;background:#232327}
+.ms-top{display:flex;align-items:center;min-height:15px;font-size:.66rem;font-weight:700;color:#8a8a92;letter-spacing:.02em}
+.ms-when{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-flag{display:inline-flex;align-items:center;gap:5px;color:#ff4d55;font-weight:800}
+.ms-flag .live-dot{width:7px;height:7px;border-radius:50%;background:#ff4d55;animation:msPulse 1.6s ease-in-out infinite}
+@keyframes msPulse{50%{opacity:.35}}
+.ms-t{display:flex;align-items:center;gap:7px;min-width:0;font-size:.82rem;line-height:1.25}
+.ms-t img,.ms-ini{width:18px;height:18px;object-fit:contain;flex:none}
+.ms-ini{display:inline-grid;place-items:center;border-radius:50%;background:#3a3a40;color:#f2f2f4;font-style:normal;font-weight:800;font-size:.58rem}
+.ms-t b{flex:1;min-width:0;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-t em{font-style:normal;font-weight:800;font-variant-numeric:tabular-nums;color:#c7c7cc}
+.ms-t.win em,.ms-t.win b{color:#fff}
+.ms-ch{margin-top:1px;font-size:.64rem;font-weight:600;color:#8a8a92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ms-live{border-color:#e3101b55;background:linear-gradient(180deg,#2a0b0d,#1c1c1f 60%)}
+.ms-goal{border-color:#e3101b;box-shadow:0 0 0 2px #e3101b55;animation:msGoal 1s ease-in-out 6}
+@keyframes msGoal{50%{box-shadow:0 0 0 5px #e3101b33}}
+.ms-all{width:auto;min-width:104px;align-items:center;justify-content:center;gap:6px;background:#e3101b;border-color:#e3101b;color:#fff;font-size:.82rem}
+.ms-all:hover{background:#c40d17;border-color:#c40d17}
+.ms-arrow{font-size:1.1rem;line-height:1}
+@media (min-width:900px){.ms-track{justify-content:safe center}}

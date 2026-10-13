@@ -1,7 +1,8 @@
-/* Hossam TV — matches ticker + live-score bar (ES5). Used by every page, including help.html.
-   - [data-ticker]: this week's big matches (assets/data/matches.json, refreshed every 6 hours by a GitHub Action)
-   - [data-live]:   only while a match is on — score, minute and goal scorers from ESPN (Egyptian league: TheSportsDB),
-                    refreshed every 30 s; a match leaves both bars as soon as it's over */
+/* Hossam TV — match cards row under the header (ES5). Used by every page, including help.html.
+   - [data-strip]: a swipeable row of small match cards — live matches first (score + minute from ESPN / TheSportsDB,
+                   refreshed every 30 s), then this week's big matches (assets/data/matches.json, refreshed every 6 hours
+                   by a GitHub Action) with kick-off in the visitor's time zone and the channel. Each card opens its match
+                   page; the last card opens all matches. A match leaves the row as soon as it's over. */
 (function(){
   'use strict';
   var L = {
@@ -44,59 +45,64 @@
   function hm(d, tz){
     try{ return d.toLocaleString(lang() === 'ar' ? 'ar-EG' : 'en-US', { timeZone: tz || undefined, weekday: 'short', hour: 'numeric', minute: '2-digit', hour12: true }).toUpperCase(); }catch(e){ return ''; }
   }
-  /* fill a scrolling track: the items are repeated until they're wider than the bar, then doubled,
-     so even a single match scrolls in a seamless loop.
-     No flicker: nothing is rebuilt if the text didn't change, and the scroll speed (animation duration) is only changed
-     when the width changes a lot — changing it restarts/jumps the scroll. */
-  function fill(track, group){
-    var sig = lang() + '|' + group.textContent;
-    if(track.getAttribute('data-sig') === sig && track.children.length) return;
-    track.setAttribute('data-sig', sig);
-    while(track.firstChild) track.removeChild(track.firstChild);
-    track.appendChild(group);
-    var win = track.parentNode, need = Math.max((win && win.getBoundingClientRect().width) || 0, 800), items = Array.prototype.slice.call(group.children), n = 0;
-    while(group.getBoundingClientRect().width < need && group.getBoundingClientRect().width > 0 && n++ < 12){
-      items.forEach(function(it){ group.appendChild(it.cloneNode(true)); });
-    }
-    track.appendChild(group.cloneNode(true));
-    var old = parseFloat(track.style.animationDuration) || 0, dur = Math.max(20, Math.round((group.getBoundingClientRect().width || 1200) / 45));
-    if(!old || Math.abs(dur - old) / old > 0.2) track.style.animationDuration = dur + 's';
+  /* ---------- the match cards row ---------- */
+  var liveRows = [];
+  function slugOf(x){ return String(x || '').normalize('NFKD').replace(/[^\x00-\x7f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+  function teamLine(x, score, win){
+    var t = el('span', 'ms-t' + (win ? ' win' : ''));
+    var n = lang() === 'ar' ? nm(x) : short(nm(x));
+    if(x && x.logo){ var im = el('img'); im.alt = ''; im.width = 20; im.height = 20; im.loading = 'lazy'; im.src = x.logo;
+      im.onerror = function(){ var c = el('i', 'ms-ini', (n.replace(/^(?:al|el|ال)[\s-]?/i, '').charAt(0) || '?').toUpperCase()); this.parentNode.replaceChild(c, this); }; t.appendChild(im); }
+    else t.appendChild(el('i', 'ms-ini', (n.replace(/^(?:al|el|ال)[\s-]?/i, '').charAt(0) || '?').toUpperCase()));
+    t.appendChild(el('b', null, n));
+    if(score != null) t.appendChild(el('em', null, String(score)));
+    return t;
+  }
+  function renderStrip(){
+    var strips = document.querySelectorAll('[data-strip]');
+    if(!strips.length) return;
+    var now = Date.now(), live = {}, order = [];
+    liveRows.forEach(function(r){ live[r.e.id] = r; });
+    var list = ((data && data.events) || []).filter(function(e){ return !finished[e.id] && (live[e.id] || Date.parse(e.utc) + 2 * 3600e3 > now); });
+    list.sort(function(a, b){ return (live[b.id] ? 1 : 0) - (live[a.id] ? 1 : 0) || Date.parse(a.utc) - Date.parse(b.utc); });   /* live first */
+    list = list.slice(0, 12);
+    Array.prototype.forEach.call(strips, function(box){
+      var track = box.querySelector('[data-strip-track]'), root = box.getAttribute('data-root') || '', L2 = lang();
+      if(!list.length){ box.hidden = true; save(); return; }
+      var frag = document.createDocumentFragment();
+      list.forEach(function(e){
+        var r = live[e.id], k = new Date(e.utc), goal = r && flashUntil[e.id] > now;
+        var href = root + L2 + '/' + (e.top ? 'match/' + slugOf(e.home.en) + '-vs-' + slugOf(e.away.en) + '-' + e.utc.slice(0, 10) + '.html' : 'matches.html');
+        var a = el('a', 'ms-card' + (r ? ' ms-live' : '') + (goal ? ' ms-goal' : '')); a.href = href;
+        var top = el('span', 'ms-top');
+        if(goal) top.appendChild(el('span', 'ms-flag', T('goal')));
+        else if(r){ var lv = el('span', 'ms-flag'); lv.appendChild(el('i', 'live-dot')); lv.appendChild(document.createTextNode(' ' + (r.clock || T('live')))); top.appendChild(lv); }
+        else top.appendChild(el('span', 'ms-when', hm(k, TZ || undefined)));
+        a.appendChild(top);
+        var hs = r && r.hs != null ? +r.hs : null, as = r && r.as != null ? +r.as : null;
+        a.appendChild(teamLine(e.home, hs, hs != null && hs > as));
+        a.appendChild(teamLine(e.away, as, as != null && as > hs));
+        var ch = channel(e); if(ch) a.appendChild(el('span', 'ms-ch', ch));
+        frag.appendChild(a);
+      });
+      var all = el('a', 'ms-card ms-all'); all.href = root + L2 + '/matches.html';
+      all.appendChild(el('b', null, L2 === 'ar' ? 'كل المباريات' : 'All matches'));
+      all.appendChild(el('span', 'ms-arrow', L2 === 'ar' ? '←' : '→'));
+      frag.appendChild(all);
+      var keep = track.scrollLeft;
+      while(track.firstChild) track.removeChild(track.firstChild);
+      track.appendChild(frag);
+      track.scrollLeft = keep;      /* a refresh doesn't jump the row back to the start */
+      box.hidden = false;
+    });
     save();
   }
-  /* remember what the bars showed, so the next page opens with them already in place (no jump while loading) */
+  /* remember the row, so the next page opens with it already in place (no jump while loading) */
   function save(){
     try{
-      var c = { t: Date.now(), lang: document.documentElement.lang };
-      [['[data-ticker]', 'ticker'], ['[data-live]', 'live']].forEach(function(p){
-        var b = document.querySelector(p[0]), tr = b && b.querySelector('.ticker-track');
-        c[p[1]] = b && !b.hidden && tr ? { html: tr.innerHTML, dur: tr.style.animationDuration } : null;
-      });
-      localStorage.setItem('htv-bars', JSON.stringify(c));
+      var b = document.querySelector('[data-strip]'), tr = b && b.querySelector('[data-strip-track]');
+      localStorage.setItem('htv-strip', JSON.stringify({ t: Date.now(), lang: document.documentElement.lang, html: b && !b.hidden && tr ? tr.innerHTML : '' }));
     }catch(e){}
-  }
-
-  /* ---------- this week's matches ---------- */
-  function renderTicker(){
-    var now = Date.now();
-    var list = ((data && data.events) || []).filter(function(e){ return !finished[e.id] && Date.parse(e.utc) + 2 * 3600e3 > now; }).slice(0, 20);
-    Array.prototype.forEach.call(document.querySelectorAll('[data-ticker]'), function(bar){
-      var track = bar.querySelector('.ticker-track');
-      if(!list.length){ bar.hidden = true; save(); return; }
-      var g = el('span', 'ticker-group');
-      list.forEach(function(e){
-        var k = new Date(e.utc), on = now >= k.getTime() && now < k.getTime() + 2 * 3600e3, it = el('span', 'tk');
-        /* each match reads: ◆ TEAMS · kick-off in the visitor's time zone · channel */
-        it.appendChild(el('span', 'tk-teams', nm(e.home) + ' – ' + nm(e.away)));
-        if(on) it.appendChild(el('span', 'tk-live', T('live')));
-        else {
-          it.appendChild(el('span', 'tk-time', hm(k, TZ || undefined) + ' · ' + tzLabel()));
-        }
-        var ch = channel(e); if(ch) it.appendChild(el('span', 'tk-ch', ch));
-        g.appendChild(it);
-      });
-      bar.hidden = false;
-      fill(track, g);
-    });
   }
 
   /* ---------- countdown to the next big match (home + matches page) ---------- */
@@ -228,10 +234,9 @@
     return out;
   }
   function pollLive(){
-    var bars = document.querySelectorAll('[data-live]');
-    if(!bars.length || document.hidden) return;   /* no polling in a background tab */
+    if(!document.querySelector('[data-strip],[data-matches]') || document.hidden) return;   /* no polling in a background tab */
     var on = liveNow();
-    if(!on.length){ Array.prototype.forEach.call(bars, function(b){ b.hidden = true; }); document.documentElement.classList.remove('htv-live-on'); save(); return; }
+    if(!on.length){ if(liveRows.length) renderLive([]); return; }
     /* one ESPN request per league + day */
     var want = {}, rows = [];
     on.forEach(function(e){ if(e.espn && e.code) want[e.code + '|' + espnDay(e.utc)] = 1; });
@@ -282,7 +287,6 @@
         if(row.state === 'post' || (!ev && !x && Date.now() > Date.parse(e.utc) + NO_DATA_AFTER)){ finished[e.id] = true; return; }
         rows.push(row);
       });
-      if(Object.keys(finished).length) renderTicker();
       renderLive(rows);
       /* the matches page shows the same live score */
       window.htvFinished = finished;
@@ -291,46 +295,23 @@
       try{ document.dispatchEvent(new CustomEvent('htv:live')); }catch(e){}
     });
   }
-  function renderLive(rows){
-    document.documentElement.classList.toggle('htv-live-on', rows.length > 0);
-    Array.prototype.forEach.call(document.querySelectorAll('[data-live]'), function(bar){
-      var track = bar.querySelector('.ticker-track');
-      if(!rows.length){ bar.hidden = true; save(); return; }
-      var g = el('span', 'ticker-group');
-      rows.forEach(function(r){
-        var it = el('span', 'lv' + (flashUntil[r.e.id] > Date.now() ? ' lv-goal' : '') + (r.state === 'post' ? ' lv-ft' : ''));
-        if(flashUntil[r.e.id] > Date.now()) it.appendChild(el('span', 'lv-flash', T('goal')));
-        if(r.clock) it.appendChild(el('span', 'lv-clock', r.clock));
-        it.appendChild(el('span', 'lv-team', nm(r.e.home)));
-        /* digits read left-to-right: in Arabic the home team is on the right, so its score goes on the right */
-        if(r.hs != null){ it.appendChild(el('span', 'lv-score', lang() === 'ar' ? r.as + ' – ' + r.hs : r.hs + ' – ' + r.as)); }
-        else it.appendChild(el('span', 'lv-vs', '–'));
-        it.appendChild(el('span', 'lv-team', nm(r.e.away)));
-        var sc = r.g.all;
-        if(sc.length) it.appendChild(el('span', 'lv-goals', '⚽ ' + sc.join(' · ')));
-        var ch = channel(r.e); if(ch) it.appendChild(el('span', 'tk-ch', ch));
-        g.appendChild(it);
-      });
-      bar.hidden = false;
-      fill(track, g);
-    });
-  }
+  function renderLive(rows){ liveRows = rows; renderStrip(); }
 
   /* ---------- start ---------- */
-  var src = document.querySelector('[data-ticker]') || document.querySelector('[data-live]') || document.querySelector('[data-next]') || document.querySelector('[data-results]');
+  var src = document.querySelector('[data-strip]') || document.querySelector('[data-next]') || document.querySelector('[data-results]');
   if(!src || !window.fetch) return;
   fetch(src.getAttribute('data-src'), { cache: 'no-cache' })
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(d){
-      data = d; renderTicker(); renderNext(); renderResults(); pollLive();
+      data = d; renderStrip(); renderNext(); renderResults(); pollLive();
       setInterval(pollLive, 30e3);          /* live scores every 30 s */
-      setInterval(renderTicker, 5 * 60e3);  /* move finished matches off the ticker */
+      setInterval(renderStrip, 5 * 60e3);   /* kick-off times pass, finished matches leave */
     })['catch'](function(){});
   /* the admin's channels arrive a moment later (site-data) -> redraw */
-  document.addEventListener('htv:channels', function(){ if(data){ renderTicker(); renderNext(); pollLive(); } });
+  document.addEventListener('htv:channels', function(){ if(data){ renderStrip(); renderNext(); pollLive(); } });
   /* back to the tab -> fresh scores right away */
   document.addEventListener('visibilitychange', function(){ if(!document.hidden && data) pollLive(); });
   /* help.html switches language without reloading */
-  if(window.MutationObserver) new MutationObserver(function(){ if(data){ renderTicker(); renderNext(); renderResults(); pollLive(); } })
+  if(window.MutationObserver) new MutationObserver(function(){ if(data){ renderStrip(); renderNext(); renderResults(); pollLive(); } })
     .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 })();
