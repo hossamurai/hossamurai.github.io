@@ -1264,21 +1264,12 @@ def results_block(c):
             f'<div class="rs-list" data-results-list></div></section>')
 
 
-# small tapping hand beside "Matches" / "Live" in the bars (phones only, see .tap-hint) — shows the bar opens the matches page
-TAP_HINT = ('<span class="tap-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" '
-            'stroke-linecap="round" stroke-linejoin="round"><path d="M9 12V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M12 10V8.5a1.5 1.5 0 0 1 3 0V11"/>'
-            '<path d="M15 10.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.8a6 6 0 0 1-4.7-2.3L4.2 15.6a1.5 1.5 0 0 1 2.4-1.8L9 16.5"/></svg></span>')
-
-
 def matches_ticker(c):
-    """Black airport-board bar under the header (this week's big matches) + a red-edged live-score bar that only shows
-    while a match is on. Both are filled by assets/matches.js."""
-    t = c.t
-    return (f'<a class="ticker" href="{c.href("matches.html")}" data-ticker data-src="{c.root}assets/data/matches.json" '
-            f'aria-label="{t(L("Big matches this week", "أهم مباريات الأسبوع"))}" hidden><span class="ticker-tag">{icon("ball")}<span>{t(L("Matches", "المباريات"))}</span>{TAP_HINT}</span>'
-            f'<span class="ticker-win"><span class="ticker-track"></span></span></a>'
-            f'<a class="ticker livebar" href="{c.href("matches.html")}" data-live aria-live="polite" hidden><span class="ticker-tag live-tag"><i class="live-dot"></i><span>{t(L("Live", "مباشر"))}</span>{TAP_HINT}</span>'
-            f'<span class="ticker-win"><span class="ticker-track"></span></span></a>')
+    """Swipeable row of small match cards under the header — live matches first (score + minute), then this week's big
+    matches with kick-off in the visitor's time zone and the channel. Each card opens its match page, the last one all
+    matches. Filled by assets/matches.js from assets/data/matches.json (hidden until there's something to show)."""
+    return (f'<nav class="mstrip" data-strip data-src="{c.root}assets/data/matches.json" data-root="{c.root}" '
+            f'aria-label="{c.t(L("Big matches this week", "أهم مباريات الأسبوع"))}" hidden><div class="ms-track" data-strip-track></div></nav>')
 
 
 def standings_block(c):
