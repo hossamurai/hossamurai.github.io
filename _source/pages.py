@@ -1728,15 +1728,17 @@ def league_page(sid, code, slug, n_en, n_ar, ch_en, ch_ar):
 
 
 # ----------------------------------------------------------------------------
-# RAMADAN SERIES — every series with its poster and the day it starts (no channels, no times).
-# The admin adds/changes series through the admin bot ("Ramadan series | …" knowledge entries). The page reads them live
-# from n8n site-data on every visit (assets/ramadan.js), so a change shows at once; the copy written into the HTML
-# for Google comes from assets/data/bot.json, refreshed by the "Update matches" Action every 6 hours.
+# RAMADAN SERIES — every series with its poster and the day it starts (no channels, no times). Fully automatic:
+# _source/matches/fetch_ramadan.py collects them from Wikipedia every 6 hours ("Update matches" Action) into
+# assets/data/ramadan.json. The page is built from that file and assets/ramadan.js re-reads it on every visit
+# (the site's copy, else a CDN copy of the same file, else what was written into the HTML).
+# Before this Ramadan starts, last Ramadan's series are shown too ("watch again").
 # ----------------------------------------------------------------------------
-RAMADAN = [  # (first day, last day) — expected dates; the exact start depends on the moon sighting
-    ('2027-02-08', '2027-03-09'),
-    ('2028-01-28', '2028-02-25'),
-    ('2029-01-16', '2029-02-13'),
+RAMADAN = [  # (first day, last day, Hijri year) — expected dates; the exact start depends on the moon sighting
+    ('2026-02-18', '2026-03-19', 1447),
+    ('2027-02-08', '2027-03-09', 1448),
+    ('2028-01-28', '2028-02-25', 1449),
+    ('2029-01-16', '2029-02-13', 1450),
 ]
 MONTHS_AR = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر']
 
@@ -1745,10 +1747,10 @@ def ramadan_season(today=None):
     """(start, end, year) of the Ramadan to show: the next one, the current one, or the one that ended < 2 weeks ago."""
     from datetime import date, timedelta
     today = today or date.today()
-    for a, b in RAMADAN:
+    for a, b, _ in RAMADAN:
         if date.fromisoformat(b) + timedelta(days=14) >= today:
             return date.fromisoformat(a), date.fromisoformat(b), date.fromisoformat(a).year
-    a, b = RAMADAN[-1]
+    a, b, _ = RAMADAN[-1]
     return date.fromisoformat(a), date.fromisoformat(b), date.fromisoformat(a).year
 
 
@@ -1766,15 +1768,17 @@ def _rm_status(c, today=None):
     return c.t(L(f'Ramadan {yr} has ended — see you next year', f'انتهى رمضان {yr} — نراكم العام القادم'))
 
 
-def _rm_series():
-    """Series sorted by start date (no date = the first day of Ramadan), then name."""
-    a, _, _ = ramadan_season()
-    out = [x for x in (_bot_data().get('series') or []) if isinstance(x, dict) and (x.get('ar') or x.get('en'))]
-    return sorted(out, key=lambda x: (str(x.get('date') or a.isoformat()), str(x.get('ar') or x.get('en'))))
+def _rm_data():
+    import json, os
+    try:
+        with open(os.path.join(os.path.dirname(__file__), '..', 'assets', 'data', 'ramadan.json'), encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return {}
 
 
 def _rm_date(c, iso):
-    """'2027-02-08' -> 'Mon, Feb 8' / 'الاثنين 8 فبراير' (written into the HTML; the page script writes the same in the visitor's language)."""
+    """'2027-02-08' -> 'Mon, Feb 8' / 'الاثنين 8 فبراير'."""
     from datetime import date
     try:
         d = date.fromisoformat(iso)
@@ -1784,25 +1788,33 @@ def _rm_date(c, iso):
     return f'{days_ar[d.weekday()]} {d.day} {MONTHS_AR[d.month - 1]}' if c.ar else d.strftime('%a, %b %-d')
 
 
-def ramadan_page(c):
+def _rm_cards(c, items, start):
     import html
-    t = c.t
-    a, b, yr = ramadan_season()
     esc = lambda x: html.escape(str(x or ''))
-    posters = _bot_data().get('posters') or {}
-    rows = []
-    for x in _rm_series():
+    out = []
+    for x in items:
         main = (x.get('ar') or x.get('en')) if c.ar else (x.get('en') or x.get('ar'))
         other = x.get('en') if c.ar else x.get('ar')
-        poster = x.get('poster') or posters.get(x.get('ar') or x.get('en')) or ''
         hue = sum(map(ord, str(x.get('ar') or x.get('en')))) % 6
-        when = _rm_date(c, x.get('date') or a.isoformat())
-        rows.append(f'<li class="rm-card"><div class="rm-poster rm-h{hue}"><span class="rm-gen" aria-hidden="true">{icon("moon")}<b>{esc(main)}</b></span>'
-                    + (f'<img src="{esc(poster)}" alt="{esc(main)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">' if poster else '')
-                    + f'</div><div class="rm-info"><b class="rm-title">{esc(main)}</b>'
-                    + (f'<small>{esc(other)}</small>' if other and other != main else '')
-                    + f'<span class="rm-t">{esc(when)}</span>'
-                    + (f'<small class="rm-stars">{esc(x.get("stars"))}</small>' if x.get('stars') else '') + '</div></li>')
+        out.append(f'<li class="rm-card"><div class="rm-poster rm-h{hue}"><span class="rm-gen" aria-hidden="true">{icon("moon")}<b>{esc(main)}</b></span>'
+                   + (f'<img src="{esc(x["poster"])}" alt="{esc(main)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">' if x.get('poster') else '')
+                   + f'</div><div class="rm-info"><b class="rm-title">{esc(main)}</b>'
+                   + (f'<small>{esc(other)}</small>' if other and other != main else '')
+                   + f'<span class="rm-t">{esc(_rm_date(c, x.get("date") or start))}</span>'
+                   + (f'<small class="rm-stars">{esc(x.get("stars"))}</small>' if x.get('stars') else '') + '</div></li>')
+    return ''.join(out)
+
+
+def ramadan_page(c):
+    from datetime import date
+    t = c.t
+    a, b, yr = ramadan_season()
+    d = _rm_data()
+    cur = (d.get('season') or {}) if (d.get('season') or {}).get('year') == yr else {}
+    last = d.get('last') or {}
+    cur_items = cur.get('series') or []
+    last_items = (last.get('series') or []) if last.get('year') == yr - 1 else []
+    show_last = date.today() < a or not cur_items
     labels = {'new': t(L('New', 'جديد')),
               'before': t(L('Ramadan starts in about {n} days — expected {d}', 'باقي حوالي {n} يوم على رمضان — متوقع {d}')),
               'during': t(L('Day {n} of Ramadan — Ramadan Kareem', 'اليوم {n} من رمضان — رمضان كريم')),
@@ -1811,17 +1823,21 @@ def ramadan_page(c):
                      t(L(f'Ramadan {yr} series', f'مسلسلات رمضان {yr}')),
                      t(L('Every series and the day it starts — all on Hossam TV.', 'كل المسلسلات وموعد بدايتها — كلها على Hossam TV.')))
     body = hero + f'''
-<section class="sec first rm-sec"><div class="wrap rm-wrap" data-rm data-start="{a.isoformat()}" data-end="{b.isoformat()}" data-year="{yr}" data-l="{html_attr_json(labels)}" data-series="{html_attr_json(_rm_series())}" data-posters="{html_attr_json(posters)}" data-src="{c.root}assets/data/bot.json">
+<section class="sec first rm-sec"><div class="wrap rm-wrap" data-rm data-start="{a.isoformat()}" data-end="{b.isoformat()}" data-year="{yr}" data-l="{html_attr_json(labels)}" data-src="{c.root}assets/data/ramadan.json" data-cdn="https://cdn.jsdelivr.net/gh/hossamurai/hossamurai.github.io@main/assets/data/ramadan.json">
   <div class="lg-ch rm-status">{icon('moon')}<div><small>{t(L('Ramadan', 'رمضان'))} {yr}</small><b data-rm-status>{_rm_status(c)}</b></div>{btn_trial(c)}</div>
-  <ul class="rm-list" data-rm-list>{''.join(rows)}</ul>
-  <p class="rm-empty" data-rm-empty{' hidden' if rows else ''}>{t(L('Series appear here as they are announced — check back soon.', 'المسلسلات تظهر هنا أول ما يتم الإعلان عنها — تابعنا قريباً.'))}</p>
-  <p class="matches-note">{t(L('Dates sometimes change — this page updates automatically.', 'المواعيد أحياناً تتغير — الصفحة تتحدث تلقائياً.'))}</p>
+  <ul class="rm-list" data-rm-list="season">{_rm_cards(c, cur_items, a.isoformat())}</ul>
+  <p class="rm-empty" data-rm-empty{' hidden' if cur_items else ''}>{t(L('This year’s series appear here as they are announced — automatically.', 'مسلسلات هذا العام تظهر هنا أول ما يتم الإعلان عنها — تلقائياً.'))}</p>
+  <div class="rm-last" data-rm-last{'' if show_last and last_items else ' hidden'}>
+    <h2 class="rm-h">{t(L(f'Ramadan {yr - 1} — watch again', f'رمضان {yr - 1} — شاهدها من جديد'))}</h2>
+    <ul class="rm-list" data-rm-list="last">{_rm_cards(c, last_items, last.get('start') or '')}</ul>
+  </div>
+  <p class="matches-note">{t(L('Updated automatically.', 'يتم التحديث تلقائياً.'))}</p>
 </div></section>
 <script src="{c.root}assets/ramadan.js" defer></script>
 ''' + cta_block(c)
     return (t(L(f'Ramadan {yr} Series — Full List & Start Dates', f'مسلسلات رمضان {yr} — القائمة الكاملة ومواعيد العرض')),
-            t(L(f'All Ramadan {yr} series with posters and the day each one starts. Watch them in Canada, the USA or anywhere with Hossam TV.',
-                f'كل مسلسلات رمضان {yr} بالبوسترات وموعد بداية كل مسلسل. شاهدها في كندا أو أمريكا أو أي مكان مع Hossam TV.')),
+            t(L(f'All Ramadan {yr} series with posters and the day each one starts, plus last year’s series. Watch them in Canada, the USA or anywhere with Hossam TV.',
+                f'كل مسلسلات رمضان {yr} بالبوسترات وموعد بداية كل مسلسل، ومسلسلات العام الماضي. شاهدها في كندا أو أمريكا أو أي مكان مع Hossam TV.')),
             body)
 
 

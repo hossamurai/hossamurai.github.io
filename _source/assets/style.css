@@ -1181,3 +1181,6 @@ section.sec.nextm-sec+section.sec{padding-top:36px}
 .rm-teaser-sec{padding-top:0!important}
 .rm-teaser{margin-top:0}
 .rm-teaser .ic:first-child{color:#e3101b}
+.rm-last{margin-top:34px}
+.rm-last[hidden]{display:none}
+.rm-h{font-size:1.2rem;margin:0 0 14px;color:#f2f2f4}

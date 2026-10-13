@@ -1,7 +1,7 @@
 name: Update matches
 
 # Refreshes assets/data/matches.json (big football matches for the next 7 days) and assets/data/standings.json (league tables),
-# plus assets/data/bot.json (Ramadan series + match channels from the admin bot), then rebuilds the site so the big-match pages (en/ar/match/…) appear and disappear on their own.
+# plus assets/data/bot.json (match channels from the admin bot) and assets/data/ramadan.json (Ramadan series from Wikipedia), then rebuilds the site so the big-match pages (en/ar/match/…) appear and disappear on their own.
 on:
   schedule:
     - cron: '17 */6 * * *'
@@ -30,8 +30,11 @@ jobs:
       - name: Fetch league tables
         run: cd _source/matches && python3 fetch_standings.py
         continue-on-error: true
-      - name: Fetch Ramadan series & match channels (set from the admin bot)
+      - name: Fetch match channels (set from the admin bot)
         run: cd _source/matches && python3 fetch_site.py
+        continue-on-error: true
+      - name: Fetch Ramadan series (Wikipedia)
+        run: cd _source/matches && python3 fetch_ramadan.py
         continue-on-error: true
       - name: Rebuild the site (big-match pages come and go with the data)
         run: python3 _source/build.py
