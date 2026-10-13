@@ -214,8 +214,10 @@ def ec_date(wid, start, end):
     return infobox_date('| بث = ' + ec_unescape(m.group(1)) + '\n', start, end) if m else ''
 
 
-def ec_series(year, start, end, known_dates):
-    """Every series of one Ramadan from elCinema; None if elCinema didn't answer."""
+def ec_series(year, start, end, known):
+    """Every series of one Ramadan from elCinema (in elCinema's order = most popular first); None if elCinema didn't answer.
+    known = {elCinema id: (date, day it was last checked)} from the last file: each series' page is read once for its
+    start date; one without a date yet is checked again after 3 days (at most 120 pages per run)."""
     try:
         ar = ec_cards(f'/ramadan/{year}/')
     except Exception as e:
@@ -226,15 +228,17 @@ def ec_series(year, start, end, known_dates):
     except Exception as e:
         print('  elcinema en failed', year, e, file=sys.stderr)
         en = {}
+    today = date.today().isoformat()
+    stale = (date.today() - timedelta(days=3)).isoformat()
     out, fetched = [], 0
-    for wid, x in ar.items():
-        d = known_dates.get(wid)
-        if d is None and fetched < 120:          # each series' page once; remembered in ramadan.json
-            d = ec_date(wid, start, end)
+    for rank, (wid, x) in enumerate(ar.items()):
+        d, checked = known.get(wid, ('', ''))
+        if not d and checked < stale and fetched < 120:
+            d, checked = ec_date(wid, start, end), today
             fetched += 1
         e = en.get(wid) or {}
         out.append({'ar': x['name'], 'en': e.get('name', '') if e.get('name') != x['name'] else '', 'date': d or '',
-                    'stars': '، '.join(x['cast']), 'poster': x['poster'] or e.get('poster', ''), 'ec': wid})
+                    'stars': '، '.join(x['cast']), 'poster': x['poster'] or e.get('poster', ''), 'ec': wid, 'dc': checked, 'rank': rank})
     print('  elcinema', year, len(out), 'series,', fetched, 'pages read')
     return out
 
@@ -249,7 +253,7 @@ def match_key(name):
 
 def season_series(hijri, year, start, end, old_items):
     """elCinema + Wikipedia merged; None if both failed (the caller keeps the old list)."""
-    known = {x['ec']: x.get('date') or '' for x in old_items or [] if x.get('ec')}
+    known = {x['ec']: (x.get('date') or '', x.get('dc') or '') for x in old_items or [] if x.get('ec')}
     ec = ec_series(year, start, end, known)
     wk = wiki_series(hijri, year, start, end)
     if ec is None and wk is None:
@@ -259,6 +263,7 @@ def season_series(hijri, year, start, end, old_items):
     for w in wk or []:
         x = index.get(match_key(w['ar']))
         if x is None:
+            w['rank'] = 900 + len(out)       # after elCinema's list
             out.append(w)
             index[match_key(w['ar'])] = w
             continue
@@ -290,9 +295,11 @@ def main():
     last = season_series(ph, py, pa, pb, (old.get('last') or {}).get('series'))
     seasons['last'] = {'year': py, 'hijri': ph, 'start': pa.isoformat(),
                        'series': last if last is not None else (old.get('last') or {}).get('series', [])}
-    # by start date (none = the first day of Ramadan), series with a poster first, then by name
-    for k, first in (('season', a.isoformat()), ('last', pa.isoformat())):
-        seasons[k]['series'].sort(key=lambda x: (x.get('date') or first, not x.get('poster'), x['ar']))
+    # this Ramadan: by start date (none = the first day), series with a poster first, then elCinema's popularity;
+    # last Ramadan ("watch again"): the 48 most popular, with a poster
+    seasons['season']['series'].sort(key=lambda x: (x.get('date') or a.isoformat(), not x.get('poster'), x.get('rank', 999)))
+    seasons['last']['series'].sort(key=lambda x: (not x.get('poster'), x.get('rank', 999)))
+    seasons['last']['top'] = 48
     if {k: old.get(k) for k in seasons} == seasons:
         print('no change')
         return
