@@ -34,13 +34,13 @@ def get_json(url):
 
 
 def wiki_poster(ar, en):
-    """Lead image of the series' Wikipedia article, only when the article title really is that series."""
+    """Poster of the series' Wikipedia article: only when the article title is that series (e.g. "الحشاشين (مسلسل)")."""
     for lang, name, word in (('ar', ar, 'مسلسل'), ('en', en, 'TV series')):
         if not name or len(norm(name)) < 3:
             continue
         try:
             q = urllib.parse.urlencode({'action': 'query', 'generator': 'search', 'gsrsearch': f'{name} {word}', 'gsrlimit': 5,
-                                        'prop': 'pageimages', 'piprop': 'thumbnail', 'pithumbsize': 500, 'format': 'json'})
+                                        'prop': 'pageimages', 'piprop': 'thumbnail', 'pithumbsize': 500, 'pilicense': 'any', 'format': 'json'})
             pages = sorted((get_json(f'https://{lang}.wikipedia.org/w/api.php?{q}').get('query') or {}).get('pages', {}).values(),
                            key=lambda p: p.get('index', 99))
         except Exception as e:
@@ -48,7 +48,9 @@ def wiki_poster(ar, en):
             continue
         for pg in pages:
             src = (pg.get('thumbnail') or {}).get('source', '')
-            if src and norm(pg.get('title')).startswith(norm(name)) and not src.lower().endswith('.svg.png'):
+            # posters are local uploads (…/wikipedia/ar/… or /en/…); Commons pictures are random photos, not posters
+            if src and '/wikipedia/commons/' not in src and not src.lower().endswith('.svg.png') \
+                    and norm(re.sub(r'\s*\(.*?\)\s*$', '', pg.get('title') or '')) == norm(name):
                 return src
     return ''
 
