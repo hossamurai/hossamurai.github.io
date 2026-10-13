@@ -911,7 +911,9 @@ html[dir="rtl"] .page-hero .poster-wall{-webkit-mask-image:linear-gradient(270de
 .mt-logo{width:24px;height:24px;object-fit:contain;flex:none}
 .mt-mid{display:flex;flex-direction:column;align-items:center;gap:2px}
 .mt-mid .match-score{display:inline-block;background:#0b0b0c;color:#fff;border-radius:8px;padding:3px 6px;margin:0;font-size:.88rem;white-space:nowrap;direction:ltr}
-.mt-clock{color:var(--red);font-weight:700;font-size:.72rem}
+.mt-sc{position:relative;display:inline-block}
+.mt-clock{position:absolute;bottom:calc(100% + 3px);left:2px;color:var(--red);font-weight:700;font-size:.72rem;line-height:1;white-space:nowrap;direction:ltr}
+.mt-row.has-clock{padding-top:22px}
 .mt-vs{color:var(--muted);font-size:.8rem;font-weight:600}
 .matches-note,.matches-empty{color:var(--muted);font-size:.86rem;margin-top:14px}
 .matches-sec .sec-head{text-align:center;margin-inline:auto}

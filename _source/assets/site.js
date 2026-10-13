@@ -555,8 +555,11 @@
           var mid = el('span', 'mt-mid');
           if(lv && lv.hs != null){
             /* digits read left-to-right, so in Arabic the home score goes on the right */
-            mid.appendChild(el('b', 'match-score', AR ? lv.as + ' – ' + lv.hs : lv.hs + ' – ' + lv.as));
-            if(lv.clock) mid.appendChild(el('small', 'mt-clock', lv.clock));
+            /* minute sits just above the score, so the score stays level with the team names */
+            var sc = el('span', 'mt-sc');
+            if(lv.clock){ sc.appendChild(el('small', 'mt-clock', lv.clock)); row.className += ' has-clock'; }
+            sc.appendChild(el('b', 'match-score', AR ? lv.as + ' – ' + lv.hs : lv.hs + ' – ' + lv.as));
+            mid.appendChild(sc);
           } else mid.appendChild(el('span', 'mt-vs', AR ? 'ضد' : 'vs'));
           row.appendChild(mid);
           row.appendChild(team(x.away, 'away'));
