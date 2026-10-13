@@ -763,8 +763,8 @@ def device_data(c, slug):
                    'خطوة بخطوة: تثبيت Hossam TV على أمازون فايرستيك باستخدام Downloader، وطريقة التأكد إن كان جهازك يعمل بنظام Vega OS.'),
             pre=[vega],
             steps=[
-                P('From the Home screen, open <b>Find → Search</b>, search for <b>Downloader</b> and install <b>Downloader by AFTVNews</b>.',
-                  'من الشاشة الرئيسية، افتح <b>Find ← Search</b>، ابحث عن <b>Downloader</b> وثبّت <b>Downloader by AFTVNews</b>.'),
+                P('From the Home screen, open <b>Find</b> (the magnifying glass), search for <b>Downloader</b> and install <b>Downloader by AFTVNews</b>.',
+                  'من الشاشة الرئيسية، افتح <b>Find</b> (علامة العدسة)، ابحث عن <b>Downloader</b> وثبّت <b>Downloader by AFTVNews</b>.'),
                 P('Allow Downloader to install apps: <span class="path">Settings → My Fire TV → Developer options → Install unknown apps → Downloader → ON</span>.<span class="hint">No Developer options? Go to <span class="path">Settings → My Fire TV → About</span> and click your device name 7 times until it says you are a developer.</span>',
                   'اسمح لـ Downloader بتثبيت التطبيقات: <span class="path"><bdi dir="ltr">Settings → My Fire TV → Developer options → Install unknown apps → Downloader → ON</bdi></span>.<span class="hint">لا تجد Developer options؟ ادخل إلى <span class="path"><bdi dir="ltr">Settings → My Fire TV → About</bdi></span> واضغط على اسم جهازك 7 مرات حتى تظهر رسالة أنك أصبحت مطوراً.</span>'),
                 P('Open Downloader and type the code for your plan:', 'افتح Downloader واكتب الكود الخاص بباقتك:') + apps_block(c, 'firestick'),
@@ -859,6 +859,74 @@ def device_data(c, slug):
         )
 
 
+
+# ----------------------------------------------------------------------------
+# STEP PICTURES — a small drawn screen under each setup step (pure HTML/CSS, no real screenshots), with a red ring
+# on what to press. Third-party apps are only named, never copied.
+# ----------------------------------------------------------------------------
+STEP_PICS = {   # labels follow the real screens (Downloader v2, Fire OS, MediaFire, Smarters Player Lite, IBO/Bob Player, SFVIP)
+    'android-tv': [('tv', 'store', 'Google Play', 'Downloader', 'Install'), ('tv', 'code'), ('tv', 'mediafire'), ('tv', 'install'), ('tv', 'login')],
+    'firestick': [('tv', 'store', 'Find', 'Downloader', 'Get'),
+                  ('tv', 'path', ['Settings', 'My Fire TV', 'Developer Options', 'Install Unknown Apps', 'Downloader']),
+                  ('tv', 'code'), ('tv', 'mediafire'), ('tv', 'login')],
+    'android': [('phone', 'browser'), ('phone', 'mediafire'), ('phone', 'install'), ('phone', 'login')],
+    'apple': [('phone', 'store', 'App Store', 'Smarters Player Lite', 'Get'), ('phone', 'xtream'), ('phone', 'smarters'), ('phone', 'watch')],
+    'smart-tv': [('tv', 'store', 'Apps', 'Bob Player · IBO Player', 'Install'), ('tv', 'devid'), ('phone', 'whatsapp'), ('tv', 'watch')],
+    'windows': [('pc', 'mediafire'), ('pc', 'zip'), ('pc', 'sfvip')],
+}
+
+
+def step_pic(c, frame, kind, *a):
+    t = c.t
+    hot = lambda x, cls='': f'<span class="mk-hot{(" " + cls) if cls else ""}">{x}</span>'
+    field = lambda lbl, val: f'<div class="mk-in"><small>{lbl}</small><b class="mk-ltr">{val}</b></div>'
+    if kind == 'store':
+        where, app, btn = a
+        inner = (f'<div class="mk-bar">{icon("search")}<span>{app.split(" · ")[0]}</span></div>'
+                 f'<div class="mk-app"><i class="mk-ic"></i><div><b>{app}</b><small>{where}</small></div>{hot(btn, "mk-btn")}</div>')
+    elif kind == 'code':   # Downloader v2: sidebar + one address bar on top, browser below
+        inner = (f'<div class="mk-dl mk-ltr"><ul class="mk-side"><li class="on">Home</li><li>Files</li><li>Favorites</li><li>Settings</li></ul>'
+                 f'<div class="mk-dl-main">{hot(t(L("your plan’s code", "كود باقتك")) + "<span class=mk-caret></span>", "mk-field")}'
+                 f'<div class="mk-lines"><i></i><i></i><i></i></div></div></div>')
+    elif kind == 'browser':
+        inner = (f'<div class="mk-url mk-ltr">{icon("globe")}<span>{t(L("your plan’s link", "رابط باقتك"))}</span></div>'
+                 f'<div class="mk-lines"><i></i><i></i><i></i></div>')
+    elif kind == 'mediafire':
+        inner = (f'<small class="mk-lbl">MediaFire</small><div class="mk-file"><i class="mk-ic mk-ic-file"></i><b class="mk-ltr">HossamTV.apk</b></div>'
+                 f'{hot("Download (25 MB)", "mk-btn mk-blue mk-ltr")}')
+    elif kind == 'install':
+        inner = (f'<div class="mk-dlg mk-ltr"><div class="mk-file"><i class="mk-ic"></i><b>Hossam TV</b></div><p>Do you want to install this application?</p>'
+                 f'<div class="mk-row"><span class="mk-ghost">Cancel</span>{hot("Install", "mk-btn")}</div></div>')
+    elif kind == 'path':
+        items = a[0]
+        rows = ''.join(f'<li>{x}<span>›</span></li>' for x in items[:-1])
+        inner = f'<ul class="mk-list mk-ltr">{rows}<li>{items[-1]}{hot("<i class=mk-tog></i>", "mk-on")}</li></ul>'
+    elif kind == 'login':
+        inner = (field(t(L('Username', 'اسم المستخدم')), 'ahmed123') + field(t(L('Password', 'كلمة المرور')), '••••••••')
+                 + hot(t(L('Sign in', 'تسجيل الدخول')), 'mk-btn mk-wide'))
+    elif kind == 'xtream':   # Smarters Player Lite: login type
+        inner = (f'{hot("Login with Xtream Codes API", "mk-opt")}<div class="mk-opt">Load Your Playlist or File/URL</div>')
+    elif kind == 'smarters':
+        inner = ('<div class="mk-ltr mk-col">' + ''.join(f'<div class="mk-in"><b>{v}</b></div>' for v in ('Any Name', 'Username', 'Password', 'http://url_here.com:port'))
+                 + hot('ADD USER', 'mk-btn mk-wide mk-violet') + '</div>')
+    elif kind == 'sfvip':
+        inner = ('<small class="mk-lbl">SFVIP Player · User/Pass</small><div class="mk-ltr mk-col">' + field('Address', 'http://…') + field('User', 'ahmed123')
+                 + field('Password', '••••••••') + hot('OK', 'mk-btn') + '</div>')
+    elif kind == 'devid':
+        inner = (f'<div class="mk-hot mk-ids mk-ltr"><div><small>Mac Address</small><b>1A:2B:3C:4D:5E:6F</b></div><div><small>Device Key</small><b>123456</b></div></div>'
+                 f'<span class="mk-cam">{icon("info")}{t(L("Take a photo of this (may say Device ID)", "صوّر هذه البيانات (قد تظهر باسم Device ID)"))}</span>')
+    elif kind == 'whatsapp':
+        inner = (f'<div class="mk-chat"><span class="mk-photo"></span><span class="mk-msg">{t(L("Username: ahmed123", "اسم المستخدم: ahmed123"))}</span></div>'
+                 f'{hot(icon("chat"), "mk-send")}')
+    elif kind == 'zip':
+        inner = (f'<div class="mk-file"><i class="mk-ic mk-ic-zip"></i><b class="mk-ltr">SFVIP.zip</b></div>'
+                 f'<ul class="mk-menu mk-ltr"><li>Open</li><li class="mk-hot">Extract All...</li><li>Copy</li></ul>')
+    elif kind == 'watch':
+        inner = '<div class="mk-tiles">' + '<i></i>' * 8 + f'</div>{hot(t(L("▶ Watching", "▶ تشغيل")), "mk-btn")}'
+    else:
+        return ''
+    return f'<figure class="mk mk-{frame}" aria-hidden="true"><div class="mk-scr mk-k-{kind}">{inner}</div></figure>'
+
 def device_page(slug):
     def fn(c):
         t = c.t
@@ -883,7 +951,9 @@ def device_page(slug):
 </div>'''
         else:
             pre = f'<div class="notes pre">{"".join(data["pre"])}</div>' if data.get('pre') else ''
-            steps = ''.join(f'<li class="st"><span class="st-n">{i + 1}</span><div class="st-b">{s}</div></li>' for i, s in enumerate(data['steps']))
+            pics = STEP_PICS.get(slug, [])
+            steps = ''.join(f'<li class="st"><span class="st-n">{i + 1}</span><div class="st-b">{s}{step_pic(c, *pics[i]) if i < len(pics) else ""}</div></li>'
+                            for i, s in enumerate(data['steps']))
             notes = f'<div class="notes">{"".join(data["notes"])}</div>' if data.get('notes') else ''
             trouble = f'<div class="trouble prose"><h2>{t(L("Having trouble?", "تواجه مشكلة؟"))}</h2>{trouble_links(c, data["trouble"])}</div>'
             need = need_list(c, data['apps']) if data.get('apps') else ''
