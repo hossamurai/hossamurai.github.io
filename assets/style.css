@@ -1308,3 +1308,14 @@ section.sec.nextm-sec+section.sec{padding-top:36px}
 .ms-all:hover{background:#c40d17;border-color:#c40d17}
 .ms-arrow{font-size:1.1rem;line-height:1}
 @media (min-width:900px){.ms-track{justify-content:safe center}}
+/* home: one line about the next big match, under the hero */
+section.sec.nl-sec{padding:14px 0 0;border-top:0}
+.next-line{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px;margin:0 auto;max-width:720px;padding:10px 16px;border-radius:14px;background:var(--surface-2);font-size:.9rem;text-align:center}
+.next-line[hidden]{display:none}
+.next-line>span{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center}
+.next-line .ic{width:16px;height:16px;color:var(--red);flex:none}
+.nl-when{color:var(--muted)}
+.nl-when::before{content:"·";margin-inline-end:6px}
+.next-line-cta{display:inline-flex;align-items:center;gap:4px;font-weight:700;color:var(--red);text-decoration:none;white-space:nowrap}
+.next-line-cta .ic{width:14px;height:14px}
+section.sec.nl-sec+section.sec{padding-top:36px}
