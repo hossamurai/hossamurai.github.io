@@ -7,4 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python3 _probe/p.py
+      - run: |
+          cd _source/matches && python3 fetch_ramadan.py && cd ../..
+          python3 -c "
+          import json; d=json.load(open('assets/data/ramadan.json'))
+          for k in ('season','last'):
+              s=d[k]; print(k, s['year'], len(s['series']), 'posters', sum(1 for x in s['series'] if x['poster']), 'dates', sum(1 for x in s['series'] if x['date']), 'en', sum(1 for x in s['series'] if x['en']), 'stars', sum(1 for x in s['series'] if x['stars']))
+              for x in s['series'][:60]: print('  ', x['date'] or '-', '|', x['ar'], '|', x['en'], '|', x['stars'], '|', x['poster'][-50:])
+          "
+          python3 _source/build.py
