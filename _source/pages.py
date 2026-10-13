@@ -404,7 +404,12 @@ def home(c):
     teaser = ''.join(details(c, i, *fq[i]) for i in ['free-trial', 'which-plan', 'multi-device', 'activation'])
 
     body = hero + f'''
-<section class="sec nextm-sec"><div class="wrap">{next_match(c)}</div></section>
+<section class="sec nl-sec"><div class="wrap">
+  <p class="next-line" data-next-line data-l-in="{t(L('in', 'بعد'))}" data-l-h="{t(L('hours', 'ساعة'))}" data-l-m="{t(L('min', 'دقيقة'))}" hidden>
+    <span>{icon('ball')}<b data-next-line-teams></b><span class="nl-when" data-next-line-when></span></span>
+    {trial_link(c, t(L('Watch it live', 'شاهدها مباشرة')) + ' ' + icon('arrow', 'flip'), 'next-line-cta')}
+  </p>
+</div></section>
 {ramadan_teaser(c)}
 <section class="sec" id="plans"><div class="wrap">
   {sec_head('', t(L('Plans', 'الباقات')), t(L('Pick your plan', 'اختر باقتك')))}

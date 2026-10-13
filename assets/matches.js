@@ -171,7 +171,24 @@
   }
 
   function pad(n){ return (n < 10 ? '0' : '') + n; }
+  /* home page: one line under the hero — "⚽ Roma vs Real Madrid · in 20 hours · Watch it live →" (opens the free-trial form) */
+  function renderNextLine(){
+    var line = document.querySelector('[data-next-line]');
+    if(!line) return;
+    var now = Date.now(), e = ((data && data.events) || []).filter(function(x){ return x.top && !finished[x.id] && Date.parse(x.utc) > now; })
+      .sort(function(a, b){ return Date.parse(a.utc) - Date.parse(b.utc); })[0];
+    if(!e){ line.hidden = true; return; }
+    var A = function(k){ return line.getAttribute('data-l-' + k) || ''; }, left = Date.parse(e.utc) - now, when;
+    if(left < 36e5) when = A('in') + ' ' + Math.max(1, Math.round(left / 6e4)) + ' ' + A('m');
+    else if(left < 864e5) when = A('in') + ' ' + Math.round(left / 36e5) + ' ' + A('h');
+    else when = hm(new Date(e.utc), TZ || undefined);
+    line.querySelector('[data-next-line-teams]').textContent = short(nm(e.home)) + (lang() === 'ar' ? ' ضد ' : ' vs ') + short(nm(e.away));
+    line.querySelector('[data-next-line-when]').textContent = when;
+    line.hidden = false;
+  }
+
   function renderNext(){
+    renderNextLine();
     var boxes = document.querySelectorAll('[data-next]');
     if(!boxes.length) return;
     var now = Date.now();
@@ -298,14 +315,14 @@
   function renderLive(rows){ liveRows = rows; renderStrip(); }
 
   /* ---------- start ---------- */
-  var src = document.querySelector('[data-strip]') || document.querySelector('[data-next]') || document.querySelector('[data-results]');
+  var src = document.querySelector('[data-strip]') || document.querySelector('[data-next-line]') || document.querySelector('[data-next]') || document.querySelector('[data-results]');
   if(!src || !window.fetch) return;
   fetch(src.getAttribute('data-src'), { cache: 'no-cache' })
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(d){
       data = d; renderStrip(); renderNext(); renderResults(); pollLive();
       setInterval(pollLive, 30e3);          /* live scores every 30 s */
-      setInterval(renderStrip, 5 * 60e3);   /* kick-off times pass, finished matches leave */
+      setInterval(function(){ renderStrip(); renderNextLine(); }, 60e3);   /* kick-off times pass, finished matches leave */
     })['catch'](function(){});
   /* the admin's channels arrive a moment later (site-data) -> redraw */
   document.addEventListener('htv:channels', function(){ if(data){ renderStrip(); renderNext(); pollLive(); } });
