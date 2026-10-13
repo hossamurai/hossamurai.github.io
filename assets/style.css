@@ -572,7 +572,7 @@ footer.site{background:var(--surface-2);border-top:1px solid var(--line);margin-
 .plan-line{margin:2px 0 0;color:var(--muted);font-size:.93rem;line-height:1.45}
 .plan-price{margin:8px 0 0;font-size:.95rem;color:var(--ink-2)}
 .plan-price b{font-size:1.15rem;color:var(--ink)}
-.plan-price .p2{color:var(--muted)}
+.plan-price .p2{display:block;color:var(--muted);font-size:.9rem;margin-top:2px}
 .pcard .plan-actions{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:14px;padding-top:0}
 .pcard .plan-actions .btn{width:auto;padding:11px 16px;font-size:.9rem}
 .plan-setup{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:.85rem;font-weight:600;color:var(--muted);text-decoration:none}
@@ -1262,3 +1262,6 @@ section.sec.nextm-sec+section.sec{padding-top:36px}
 .mk-phone .mk-app b,.mk-phone .mk-app small{white-space:normal}
 .mk-in b{overflow-wrap:anywhere;font-size:.74rem}
 .mk-phone .mk-bar span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lg-list .mt-row{border-top:0;padding:2px 0}
+.lg-list .mt-mid b{display:inline-block}
+.lg-list small{display:block;text-align:center;margin-top:4px}
