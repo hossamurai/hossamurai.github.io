@@ -154,9 +154,32 @@ def get(url, tries=2):
 LOGOS = os.path.join(os.path.dirname(__file__), '..', '..', 'assets', 'data', 'logos.json')
 
 
+def wiki_logo(name):
+    """The club's logo from its Wikipedia article ("Pyramids FC" -> the badge in the infobox), only when the article is that club."""
+    core = re.sub(r'\b(FC|SC|CF|AFC|Club)\b', '', name).strip().lower()
+    try:
+        q = urllib.parse.urlencode({'action': 'query', 'generator': 'search', 'gsrsearch': f'{name} football club', 'gsrlimit': 5,
+                                    'prop': 'pageimages', 'piprop': 'thumbnail', 'pithumbsize': 120, 'pilicense': 'any', 'format': 'json', 'formatversion': 2})
+        req = urllib.request.Request('https://en.wikipedia.org/w/api.php?' + q, headers={'User-Agent': 'hossamservices.com matches (https://hossamservices.com)'})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            pages = sorted((json.load(r).get('query') or {}).get('pages', []), key=lambda p: p.get('index', 99))
+    except Exception as e:
+        print('  wikipedia logo failed', name, e, file=sys.stderr)
+        return ''
+    for p in pages:
+        src = (p.get('thumbnail') or {}).get('source', '')
+        title = unicodedata.normalize('NFKD', p.get('title', '')).encode('ascii', 'ignore').decode().lower()
+        file = src.rsplit('/', 1)[-1].lower()
+        # the club's own article, and a badge (a local upload, or a Commons file named logo / crest / badge)
+        if src and core and core in title and ('/wikipedia/en/' in src or re.search(r'logo|crest|badge|emblem', file)):
+            return src.split('?')[0]
+    return ''
+
+
 def fill_logos(items):
-    """Teams a feed gave no badge (often African clubs): look them up on TheSportsDB once and remember the answer in
-    assets/data/logos.json (a miss is tried again after 7 days). The website draws the team's first letter if none is found."""
+    """Teams a feed gave no badge (often African clubs) — looked up once and remembered in assets/data/logos.json
+    (a miss is tried again after 7 days). Sources in order: TheSportsDB, Wikipedia (the club article's logo),
+    then the crest FilGoal / Kooora show next to the team. The website draws the team's first letter if none is found."""
     try:
         cache = json.load(open(LOGOS))
     except Exception:
@@ -180,6 +203,14 @@ def fill_logos(items):
                     if teams:
                         logo = small_logo(teams[0]['strBadge'])
                         break
+                if not logo:
+                    logo = wiki_logo(name)
+                if not logo:
+                    try:
+                        import exact_channels
+                        logo = exact_channels.crest_for(t.get('ar') or name)
+                    except Exception:
+                        pass
                 hit = cache[name] = {'logo': logo, 'checked': today}
             if hit.get('logo'):
                 t['logo'] = hit['logo']
@@ -373,7 +404,6 @@ def main():
         results = [r for r in results if r['id'] in keep]
     for r in results:
         r.pop('big', None)
-    fill_logos(events + results)
     # the exact channel of each match ("beIN Sports 2") from FilGoal / Kooora; the league's usual channel otherwise
     try:
         import exact_channels
@@ -381,6 +411,7 @@ def main():
         exact_channels.apply(events, prev)
     except Exception as ex:
         print('  exact channels skipped:', ex, file=sys.stderr)
+    fill_logos(events + results)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     data = {'updated': now.strftime('%Y-%m-%dT%H:%M:%SZ'), 'events': events, 'results': results}
     old = None

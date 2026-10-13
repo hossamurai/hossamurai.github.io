@@ -78,6 +78,13 @@ def clean(ch):
     return {'en': ch, 'ar': ch}
 
 
+CRESTS = []   # (Arabic team name, badge URL) seen on FilGoal / Kooora — used by fetch_matches.fill_logos for teams with no badge
+
+
+def crest_for(ar_name):
+    return next((url for n, url in CRESTS if same_team(ar_name, n)), '')
+
+
 def filgoal(day):
     """[(home, away, channel)] for one day (YYYY-MM-DD) from FilGoal."""
     h = page(f'https://www.filgoal.com/matches/?date={day}')
@@ -86,6 +93,8 @@ def filgoal(day):
     out = []
     for blk in h.split('<div class="cin_cntnr"')[1:]:
         teams = [text(t) for t in re.findall(r'<strong>(.*?)</strong>', blk, re.S)][:2]
+        for src, name in re.findall(r'data-src="(//semedia\.filgoal\.com/Photos/Team/[^"]+)"\s*>\s*<strong>(.*?)</strong>', blk, re.S):
+            CRESTS.append((text(name), 'https:' + src))
         ch = re.search(r'#fb_screen"\s*>\s*</use>\s*</svg>(.*?)</span>', blk, re.S)
         if len(teams) == 2 and ch and text(ch.group(1)):
             out.append((teams[0], teams[1], text(ch.group(1))))
@@ -100,6 +109,8 @@ def kooora():
     out = []
     for blk in h.split('class="fco-match-list-item"')[1:]:
         teams = [text(t) for t in re.findall(r'<div class="fco-team-name fco-full-name">(.*?)</div>', blk, re.S)][:2]
+        for name, src in re.findall(r'alt="([^"]+?) badge"[^>]*?src="(https://cdn\.sportfeeds\.io/[^"]+)"', blk):
+            CRESTS.append((html.unescape(name), html.unescape(src)))
         chans = [text(c) for c in re.findall(r'<div class="fco-tv-channel__name">(.*?)</div>', blk, re.S)]
         ch = next((c for c in chans if 'bein' in c.lower() and 'connect' not in c.lower()), chans[0] if chans else '')
         if len(teams) == 2 and ch:
