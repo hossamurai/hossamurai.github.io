@@ -1,4 +1,4 @@
-"""Ramadan series for the website's Ramadan page — fully automatic (runs in GitHub Actions every 6 hours).
+"""Ramadan series for the website's Ramadan page — fully automatic (runs in GitHub Actions once a day).
 
 Sources (each one fills what the one before it missed; if all fail, the last good file is kept):
   1. elCinema (elcinema.com/ramadan/<year>/) — every series of that Ramadan with its poster, English name and cast;

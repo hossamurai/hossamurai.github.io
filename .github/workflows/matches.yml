@@ -33,8 +33,13 @@ jobs:
       - name: Fetch match channels (set from the admin bot)
         run: cd _source/matches && python3 fetch_site.py
         continue-on-error: true
-      - name: Fetch Ramadan series (Wikipedia)
-        run: cd _source/matches && python3 fetch_ramadan.py
+      - name: Fetch Ramadan series (elCinema + Wikipedia) — once a day (the first run after midnight UTC)
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ] || [ "$(date -u +%H)" -lt 6 ]; then
+            cd _source/matches && python3 fetch_ramadan.py
+          else
+            echo "Ramadan series: updated once a day — skipped this run"
+          fi
         continue-on-error: true
       - name: Rebuild the site (big-match pages come and go with the data)
         run: python3 _source/build.py
