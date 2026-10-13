@@ -138,11 +138,18 @@
   function send(r){
     var n = nameIn ? nameIn.value.trim() : '';
     if(!n || !window.fetch || !window.URLSearchParams) return;
-    r.name = n; r.where = where(); r.lang = AR ? 'ar' : 'en';
+    var nc = navigator.connection || navigator.mozConnection || navigator.webkitConnection;   /* Android tells Wi-Fi vs mobile data; iPhone doesn't */
+    r.name = n; r.where = where(); r.lang = AR ? 'ar' : 'en'; r.conn = nc && /^(wifi|cellular|ethernet)$/.test(nc.type) ? nc.type : '';
     var body = new URLSearchParams(); body.append('p', JSON.stringify(r));
     fetch(box.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit' })
       .then(function(x){ return x.json()['catch'](function(){ return {}; }); })
-      .then(function(){})['catch'](function(){});
+      .then(function(d){
+        if(!d || !d.ok) return;
+        r.isp = d.isp || ''; r.mobile = !!d.mobile; if(d.conn) r.conn = d.conn;
+        try{ var m2 = mine(); if(m2[0] && m2[0].at === r.at){ m2[0] = r; localStorage.setItem('htv-mytests', JSON.stringify(m2)); } }catch(e){}
+        renderLog(merge(lastLog.map(function(x){ return x.at === r.at ? r : x; })));
+        if(r.mobile && hint){ hint.hidden = false; hint.lastChild.textContent = A('onmobile'); }
+      })['catch'](function(){});
     r.at = new Date().toISOString();
     try{ var m = mine(); m.unshift(r); localStorage.setItem('htv-mytests', JSON.stringify(m.slice(0, 5))); }catch(e){}
     renderLog(merge(lastLog));
@@ -163,7 +170,8 @@
       var row = document.createElement('div'); row.className = 'st-log-row';
       var who = document.createElement('div'); who.className = 'st-log-who';
       var b = document.createElement('b'); b.textContent = String(r.name || '').slice(0, 30); who.appendChild(b);
-      var sm = document.createElement('small'); sm.textContent = [r.where, ago(r.at)].filter(Boolean).join(' · '); who.appendChild(sm);
+      var net = r.conn === 'wifi' ? 'Wi-Fi' : r.conn === 'ethernet' ? (AR ? 'كابل' : 'Cable') : (r.conn === 'cellular' || r.mobile) ? (AR ? 'بيانات الموبايل' : 'Mobile data') : '';
+      var sm = document.createElement('small'); sm.textContent = [r.where, net, r.isp, ago(r.at)].filter(Boolean).join(' · '); who.appendChild(sm);
       var sp = document.createElement('div'); sp.className = 'st-log-num ' + (r.mbps >= 25 ? 'good' : r.mbps >= 5 ? 'ok' : 'bad'); sp.dir = 'ltr'; sp.textContent = r.mbps + ' Mbps';
       var ex = document.createElement('div'); ex.className = 'st-log-ex'; ex.dir = 'ltr';
       ex.textContent = (r.ping != null ? r.ping + ' ms' : '—') + ' · ' + (r.stable ? A('stable') : A('shaky'));
@@ -191,7 +199,7 @@
     if(nameIn && !nameIn.value.trim()){ msg.textContent = A('needname'); nameIn.focus(); nameIn.classList.add('st-need-name'); return; }
     if(nameIn){ nameIn.classList.remove('st-need-name'); try{ localStorage.setItem('htv-name', nameIn.value.trim()); }catch(e){} }
     if(!window.fetch || !window.ReadableStream || !window.Promise){ window.open('https://fast.com', '_blank', 'noopener'); return; }
-    go.hidden = true; if(hint) hint.hidden = true; readout.hidden = false; again.hidden = true; stats.hidden = false;
+    go.hidden = true; if(hint){ hint.hidden = true; hint.lastChild.textContent = A('magic'); } readout.hidden = false; again.hidden = true; stats.hidden = false;
     stat(pingEl, '—'); stat(jitEl, '—'); stat(stabEl, '—');
     setState('run'); shown = 0; setSpeed(0); mark(null); msg.textContent = A('ping');
     var p = null;

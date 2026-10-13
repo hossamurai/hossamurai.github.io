@@ -1353,6 +1353,7 @@ def speed_page(c):
         'magic': L('If it ever freezes, do the magic trick: unplug the router and the TV for 10 seconds, then plug them back in.',
                    'لو حصل تقطيع، اعمل الحل السحري: افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني.'),
         'stable': L('Stable', 'ثابت'), 'shaky': L('Some dips', 'فيه تذبذب'),
+        'onmobile': L("You're on mobile data — to check the TV's speed, run the test on the same Wi-Fi as the TV.", 'إنت على بيانات الموبايل — عشان تعرف سرعة الشاشة، اعمل الاختبار على نفس الواي فاي اللي عليه الشاشة.'),
         'needname': L('Type your name first, then tap play.', 'اكتب اسمك الأول، وبعدين اضغط زر التشغيل.'),
     }
     attrs = ' '.join(f'data-l-{k}="{t(v)}"' for k, v in lb.items())
