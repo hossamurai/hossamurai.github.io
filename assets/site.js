@@ -522,30 +522,47 @@
       var now = Date.now(), done = window.htvFinished || {}, list = ((d && d.events) || []).filter(function(e){ return !done[e.id] && Date.parse(e.utc) + 2 * 3600e3 > now; });
       if(limit) list = list.slice(0, limit);
       if(!list.length){ if(sec) return; box.appendChild(el('p', 'matches-empty', A('empty'))); box.hidden = false; return; }
+      /* one card per league + kick-off time (Champions League nights have 6–9 matches at once): the time and channel
+         are written once in the card's header, then one aligned row per match: home | score or "vs" | away */
+      var groups = [], byKey = {};
       list.forEach(function(e){
-        var k = new Date(e.utc), live = now >= k.getTime() && now < k.getTime() + 2 * 3600e3;
-        var row = el('div', 'match' + (live || (window.htvLive || {})[e.id] ? ' is-live' : ''));
+        var key = (e.league && e.league.en) + '|' + e.utc;
+        if(!byKey[key]){ byKey[key] = { e: e, items: [] }; groups.push(byKey[key]); }
+        byKey[key].items.push(e);
+      });
+      var nm = function(x){ var n = x ? (AR ? x.ar : x.en) : ''; return !AR && window.htvShort ? window.htvShort(n) : n; };
+      var team = function(x, side){
+        var t = el('span', 'mt-team mt-' + side);
+        if(x && x.logo){ var im = el('img', 'mt-logo'); im.alt = ''; im.width = 24; im.height = 24; im.loading = 'lazy'; im.onerror = function(){ this.remove(); }; im.src = x.logo; t.appendChild(im); }
+        var n = nm(x); t.appendChild(el('span', 'mt-name' + (/\S{11,}/.test(n) ? ' mt-long' : ''), n));   /* one long word: smaller, so it doesn't split */
+        return t;
+      };
+      groups.forEach(function(g){
+        var e = g.e, k = new Date(e.utc), started = now >= k.getTime(), lives = window.htvLive || {};
+        var anyLive = g.items.some(function(x){ return lives[x.id] || (started && now < k.getTime() + 2 * 3600e3); });
+        var card = el('div', 'match' + (anyLive ? ' is-live' : ''));
         var top = el('div', 'match-top');
         top.appendChild(el('span', 'match-league', (e.league && (AR ? e.league.ar : e.league.en)) || ''));
-        var lv = (window.htvLive || {})[e.id];
-        if(live || lv) top.appendChild(el('span', 'match-live', lv && lv.clock ? A('live') + ' · ' + lv.clock : A('live')));
-        else if(chName(e)) top.appendChild(el('span', 'match-ch', chName(e)));
-        row.appendChild(top);
-        var nm = function(x){ return x ? (AR ? x.ar : x.en) : ''; };
-        if(lv && lv.hs != null){
-          /* live score (from assets/matches.js); digits read left-to-right, so in Arabic the home score goes on the right */
-          var tm = el('div', 'match-teams');
-          tm.appendChild(document.createTextNode(nm(e.home) + ' '));
-          tm.appendChild(el('span', 'match-score', AR ? lv.as + ' – ' + lv.hs : lv.hs + ' – ' + lv.as));
-          tm.appendChild(document.createTextNode(' ' + nm(e.away)));
-          row.appendChild(tm);
-        } else row.appendChild(el('div', 'match-teams', nm(e.home) + '  –  ' + nm(e.away)));
-        var times = el('div', 'match-times');
-        var c1 = el('span', '', ''); c1.appendChild(el('b', '', myLbl)); c1.appendChild(document.createTextNode(' ' + fmt(k, myTz)));
-        times.appendChild(c1);
-        if(live && chName(e)) times.appendChild(el('span', 'match-ch', chName(e)));
-        row.appendChild(times);
-        box.appendChild(row);
+        if(chName(e)) top.appendChild(el('span', 'match-ch', chName(e)));
+        card.appendChild(top);
+        var when = el('div', 'match-when');
+        if(anyLive){ var lt = el('span', 'match-live', A('live')); when.appendChild(lt); }
+        else { when.appendChild(el('b', '', myLbl)); when.appendChild(document.createTextNode(' ' + fmt(k, myTz))); }
+        card.appendChild(when);
+        g.items.forEach(function(x){
+          var lv = lives[x.id], row = el('div', 'mt-row');
+          row.appendChild(team(x.home, 'home'));
+          var mid = el('span', 'mt-mid');
+          if(lv && lv.hs != null){
+            /* digits read left-to-right, so in Arabic the home score goes on the right */
+            mid.appendChild(el('b', 'match-score', AR ? lv.as + ' – ' + lv.hs : lv.hs + ' – ' + lv.as));
+            if(lv.clock) mid.appendChild(el('small', 'mt-clock', lv.clock));
+          } else mid.appendChild(el('span', 'mt-vs', AR ? 'ضد' : 'vs'));
+          row.appendChild(mid);
+          row.appendChild(team(x.away, 'away'));
+          card.appendChild(row);
+        });
+        box.appendChild(card);
       });
       box.hidden = false; if(sec) sec.hidden = false;
     }

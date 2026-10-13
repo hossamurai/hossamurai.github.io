@@ -54,7 +54,7 @@ TEAMS = {
 
 # Arabic names for teams that often sit near the top (only for the Arabic name — they don't make a match 'big')
 EXTRA_AR = {
-    'al qadsiah': 'القادسية', 'al ahli': 'الأهلي السعودي', 'al-ahli': 'الأهلي السعودي', 'al ettifaq': 'الاتفاق', 'al shabab': 'الشباب',
+    'bodo/glimt': 'بودو جليمت', 'bod/glimt': 'بودو جليمت', 'galatasaray': 'غلطة سراي', 'club brugge': 'كلوب بروج', 'viking fk': 'فايكنج', 'al qadsiah': 'القادسية', 'al ahli': 'الأهلي السعودي', 'al-ahli': 'الأهلي السعودي', 'al ettifaq': 'الاتفاق', 'al shabab': 'الشباب',
     'al taawoun': 'التعاون', 'al fateh': 'الفتح', 'al khaleej': 'الخليج', 'al fayha': 'الفيحاء',
     'ceramica cleopatra': 'سيراميكا كليوباترا', 'al masry': 'المصري', 'ismaily': 'الإسماعيلي', 'future fc': 'فيوتشر',
     'modern sport': 'مودرن سبورت', 'national bank of egypt': 'البنك الأهلي', 'enppi': 'إنبي', 'smouha': 'سموحة',

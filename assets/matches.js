@@ -106,6 +106,7 @@
                 'Internazionale': 'Inter Milan', 'Tottenham Hotspur': 'Tottenham', 'Bayern Munich': 'Bayern', 'Atlético Madrid': 'Atlético',
                 'Atletico Madrid': 'Atlético', 'Newcastle United': 'Newcastle', 'Paris Saint Germain': 'PSG' };
   function short(n){ return SHORT[n] || n; }
+  window.htvShort = short;   /* also used by the matches list (assets/site.js) */
   function logo(img, team){
     if(!img) return;
     var src = team && team.logo;
