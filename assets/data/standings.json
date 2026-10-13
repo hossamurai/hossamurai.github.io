@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-13T20:36:31Z",
+ "updated": "2026-10-13T21:06:29Z",
  "leagues": [
   {
    "id": "egy",
@@ -253,6 +253,15 @@
    "rows": [
     {
      "rank": 1,
+     "en": "Barcelona",
+     "p": 2,
+     "gd": "+7",
+     "pts": 6,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/83.png&w=80&h=80",
+     "ar": "برشلونة"
+    },
+    {
+     "rank": 2,
      "en": "Sporting",
      "p": 2,
      "gd": "+4",
@@ -261,40 +270,31 @@
      "ar": "سبورتنغ لشبونة"
     },
     {
-     "rank": 2,
+     "rank": 3,
+     "en": "Arsenal",
+     "p": 2,
+     "gd": "+4",
+     "pts": 6,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/359.png&w=80&h=80",
+     "ar": "آرسنال"
+    },
+    {
+     "rank": 4,
+     "en": "Bayern",
+     "p": 2,
+     "gd": "+5",
+     "pts": 4,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/132.png&w=80&h=80",
+     "ar": "بايرن ميونخ"
+    },
+    {
+     "rank": 5,
      "en": "PSG",
      "p": 1,
      "gd": "+5",
      "pts": 3,
      "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/160.png&w=80&h=80",
      "ar": "باريس سان جيرمان"
-    },
-    {
-     "rank": 3,
-     "en": "Bayern",
-     "p": 1,
-     "gd": "+5",
-     "pts": 3,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/132.png&w=80&h=80",
-     "ar": "بايرن ميونخ"
-    },
-    {
-     "rank": 4,
-     "en": "Barcelona",
-     "p": 1,
-     "gd": "+4",
-     "pts": 3,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/83.png&w=80&h=80",
-     "ar": "برشلونة"
-    },
-    {
-     "rank": 5,
-     "en": "Man United",
-     "p": 1,
-     "gd": "+4",
-     "pts": 3,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/360.png&w=80&h=80",
-     "ar": "مانشستر يونايتد"
     },
     {
      "rank": 6,
