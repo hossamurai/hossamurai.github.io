@@ -76,13 +76,14 @@ def stars_of(text):
 
 def season_series(hijri, year, start, end):
     """Every series of one Ramadan from Wikipedia; None if Wikipedia didn't answer at all."""
-    titles, ok = [], False
+    titles, cat_titles, ok = [], set(), False
     try:   # 1. the category
         cont = {}
         while True:
             r = api('ar', action='query', list='categorymembers', cmtitle=f'تصنيف:مسلسلات رمضان {hijri} هـ', cmtype='page', cmlimit=500, **cont)
             ok = True
             titles += [p['title'] for p in r['query']['categorymembers']]
+            cat_titles.update(titles)
             if 'continue' not in r:
                 break
             cont = {'cmcontinue': r['continue']['cmcontinue']}
@@ -102,40 +103,63 @@ def season_series(hijri, year, start, end):
     for i in range(0, len(titles), 20):
         batch = titles[i:i + 20]
         try:
-            r = api('ar', action='query', titles='|'.join(batch), prop='pageimages|revisions|langlinks|categories',
+            r = api('ar', action='query', titles='|'.join(batch), prop='pageimages|revisions|pageprops',
                     piprop='thumbnail', pithumbsize=500, pilicense='any', rvprop='content', rvslots='main',
-                    lllang='en', lllimit=500, cllimit=500, redirects=1)
+                    ppprop='wikibase_item', redirects=1)
         except Exception as e:
             print('  pages failed', e, file=sys.stderr)
             continue
-        en_titles = {}
         for p in r['query'].get('pages', []):
             if p.get('missing'):
                 continue
             text = ((p.get('revisions') or [{}])[0].get('slots', {}).get('main', {}) or {}).get('content', '')
-            cats = ' '.join(c['title'] for c in p.get('categories', []))
-            in_cat = f'مسلسلات رمضان {hijri}' in cats
-            # a search hit must really be a series of this Ramadan
-            if not in_cat and not re.search(rf'رمضان\s*{year}|رمضان\s*{hijri}', text):
+            # a search hit (not in the category) must really be a series of this Ramadan
+            if p['title'] not in cat_titles and not re.search(rf'رمضان\s*{year}|رمضان\s*{hijri}', text):
                 continue
-            if not re.search(r'مسلسل|series', cats + text[:3000], re.I):
+            if not re.search(r'مسلسل|series', text[:4000], re.I):
                 continue
-            en = (p.get('langlinks') or [{}])[0].get('title', '')
-            item = {'ar': clean_title(p['title']), 'en': clean_title(en), 'date': infobox_date(text, start, end),
-                    'stars': stars_of(text), 'poster': poster_of(p), 'wiki': p['title']}
-            if not item['poster'] and en:
-                en_titles[en] = item
-            out.append(item)
-        if en_titles:   # poster from the English article when the Arabic one has none
-            try:
-                r = api('en', action='query', titles='|'.join(en_titles), prop='pageimages', piprop='thumbnail', pithumbsize=500, pilicense='any', redirects=1)
-                norm = {n['to']: n['from'] for n in r['query'].get('redirects', []) + r['query'].get('normalized', [])}
-                for p in r['query'].get('pages', []):
-                    it = en_titles.get(p['title']) or en_titles.get(norm.get(p['title'], ''))
-                    if it:
-                        it['poster'] = poster_of(p)
-            except Exception as e:
-                print('  en posters failed', e, file=sys.stderr)
+            out.append({'ar': clean_title(p['title']), 'en': '', 'date': infobox_date(text, start, end),
+                        'stars': stars_of(text), 'poster': poster_of(p), 'wiki': p['title'],
+                        'qid': (p.get('pageprops') or {}).get('wikibase_item', '')})
+    # English name: the English Wikipedia article's title, else the English label on Wikidata
+    by_q = {x['qid']: x for x in out if x.get('qid')}
+    ids = list(by_q)
+    en_titles = {}
+    for i in range(0, len(ids), 50):
+        try:
+            req = urllib.request.Request('https://www.wikidata.org/w/api.php?' + urllib.parse.urlencode(
+                {'action': 'wbgetentities', 'ids': '|'.join(ids[i:i + 50]), 'props': 'labels|sitelinks', 'languages': 'en',
+                 'sitefilter': 'enwiki', 'format': 'json'}), headers={'User-Agent': 'hossamservices.com Ramadan page (https://hossamservices.com)'})
+            with urllib.request.urlopen(req, timeout=30) as r:
+                ents = json.load(r).get('entities', {})
+        except Exception as e:
+            print('  wikidata failed', e, file=sys.stderr)
+            continue
+        for q, e in ents.items():
+            it = by_q.get(q)
+            if not it:
+                continue
+            enwiki = ((e.get('sitelinks') or {}).get('enwiki') or {}).get('title', '')
+            label = ((e.get('labels') or {}).get('en') or {}).get('value', '')
+            it['en'] = clean_title(enwiki or label)
+            if enwiki and not it['poster']:
+                en_titles[enwiki] = it
+    # poster from the English article when the Arabic one has none
+    names = list(en_titles)
+    for i in range(0, len(names), 50):
+        try:
+            r = api('en', action='query', titles='|'.join(names[i:i + 50]), prop='pageimages', piprop='thumbnail', pithumbsize=500, pilicense='any', redirects=1)
+            back = {n['to']: n['from'] for n in r['query'].get('redirects', []) + r['query'].get('normalized', [])}
+            for p in r['query'].get('pages', []):
+                it = en_titles.get(p['title']) or en_titles.get(back.get(p['title'], ''))
+                if it:
+                    it['poster'] = poster_of(p)
+        except Exception as e:
+            print('  en posters failed', e, file=sys.stderr)
+    for x in out:
+        x.pop('qid', None)
+        if x['en'] and re.search(r'[\u0600-\u06ff]', x['en']):
+            x['en'] = ''
     return out
 
 

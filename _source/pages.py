@@ -859,6 +859,71 @@ def device_data(c, slug):
         )
 
 
+
+# ----------------------------------------------------------------------------
+# STEP PICTURES — a small drawn screen under each setup step (pure HTML/CSS, no real screenshots), with a red ring
+# on what to press. Third-party apps are only named, never copied.
+# ----------------------------------------------------------------------------
+STEP_PICS = {
+    'android-tv': [('tv', 'store', 'Google Play', 'Downloader'), ('tv', 'code'), ('tv', 'mediafire'), ('tv', 'install'), ('tv', 'login')],
+    'firestick': [('tv', 'store', 'Find → Search', 'Downloader'),
+                  ('tv', 'path', ['Settings', 'My Fire TV', 'Developer options', 'Install unknown apps', 'Downloader']),
+                  ('tv', 'code'), ('tv', 'mediafire'), ('tv', 'login')],
+    'android': [('phone', 'browser'), ('phone', 'mediafire'), ('phone', 'install'), ('phone', 'login')],
+    'apple': [('phone', 'store', 'App Store', 'Smarters Player Lite'), ('phone', 'xtream'), ('phone', 'login', True), ('phone', 'watch')],
+    'smart-tv': [('tv', 'store', 'Apps', 'Bob Player · IBO Player'), ('tv', 'devid'), ('phone', 'whatsapp'), ('tv', 'watch')],
+    'windows': [('pc', 'mediafire'), ('pc', 'zip'), ('pc', 'login', True)],
+}
+
+
+def step_pic(c, frame, kind, *a):
+    t = c.t
+    hot = lambda x, cls='': f'<span class="mk-hot{(" " + cls) if cls else ""}">{x}</span>'
+    if kind == 'store':
+        where, app = a
+        inner = (f'<div class="mk-bar">{icon("search")}<span>{app.split(" · ")[0]}</span></div>'
+                 f'<div class="mk-app"><i class="mk-ic"></i><div><b>{app}</b><small>{where}</small></div>{hot(t(L("Install", "تثبيت")), "mk-btn")}</div>')
+    elif kind == 'code':
+        inner = (f'<small class="mk-lbl">Downloader</small><div class="mk-field mk-ltr">{t(L("Your plan’s code", "كود باقتك"))}<span class="mk-caret"></span></div>'
+                 f'{hot("Go", "mk-btn")}')
+    elif kind == 'browser':
+        inner = (f'<div class="mk-url mk-ltr">{icon("globe")}<span>{t(L("Your plan’s link", "رابط باقتك"))}</span></div>'
+                 f'<div class="mk-lines"><i></i><i></i><i></i></div>')
+    elif kind == 'mediafire':
+        inner = (f'<small class="mk-lbl">MediaFire</small><div class="mk-file"><i class="mk-ic mk-ic-file"></i><b>HossamTV.apk</b></div>'
+                 f'{hot("DOWNLOAD", "mk-btn mk-blue")}<span class="mk-no">Download faster</span>')
+    elif kind == 'install':
+        inner = (f'<div class="mk-dlg"><i class="mk-ic"></i><p>{t(L("Do you want to install this app?", "هل تريد تثبيت هذا التطبيق؟"))}</p>'
+                 f'<div class="mk-row"><span class="mk-ghost">{t(L("Cancel", "إلغاء"))}</span>{hot(t(L("Install", "تثبيت")), "mk-btn")}</div></div>')
+    elif kind == 'path':
+        items = a[0]
+        rows = ''.join(f'<li>{x}<span>›</span></li>' for x in items[:-1])
+        inner = f'<ul class="mk-list mk-ltr">{rows}<li>{items[-1]}{hot("<i class=mk-tog></i>", "mk-on")}</li></ul>'
+    elif kind == 'login':
+        server = a[0] if a else False
+        f = lambda lbl, val: f'<div class="mk-in"><small>{lbl}</small><b class="mk-ltr">{val}</b></div>'
+        inner = (f(t(L('Username', 'اسم المستخدم')), 'ahmed123') + f(t(L('Password', 'كلمة المرور')), '••••••••')
+                 + (f(t(L('Server URL', 'رابط السيرفر')), 'http://…') if server else '')
+                 + hot(t(L('Sign in', 'تسجيل الدخول')), 'mk-btn mk-wide'))
+    elif kind == 'xtream':
+        inner = (f'<div class="mk-opt">Load your playlist</div>{hot("Login with Xtream Codes API", "mk-opt")}<div class="mk-opt">M3U URL</div>')
+    elif kind == 'devid':
+        inner = (f'<div class="mk-ids mk-ltr"><div><small>Device ID</small><b>1A:2B:3C:4D:5E:6F</b></div><div><small>Device Key</small><b>123456</b></div></div>'
+                 f'<span class="mk-cam">{icon("info")}{t(L("Take a photo of this", "صوّر هذه البيانات"))}</span>')
+        inner = inner.replace('<div class="mk-ids', '<div class="mk-hot mk-ids', 1)
+    elif kind == 'whatsapp':
+        inner = (f'<div class="mk-chat"><span class="mk-photo"></span><span class="mk-msg">{t(L("Username: ahmed123", "اسم المستخدم: ahmed123"))}</span></div>'
+                 f'{hot(icon("chat"), "mk-send")}')
+    elif kind == 'zip':
+        inner = (f'<div class="mk-file"><i class="mk-ic mk-ic-zip"></i><b>SFVIP.zip</b></div>'
+                 f'<ul class="mk-menu mk-ltr"><li>Open</li><li class="mk-hot">Extract All…</li><li>Copy</li></ul>')
+    elif kind == 'watch':
+        inner = '<div class="mk-tiles">' + '<i></i>' * 8 + f'</div>{hot(t(L("▶ Watching", "▶ تشغيل")), "mk-btn")}'
+    else:
+        return ''
+    return f'<figure class="mk mk-{frame}" aria-hidden="true"><div class="mk-scr mk-k-{kind}">{inner}</div></figure>'
+
+
 def device_page(slug):
     def fn(c):
         t = c.t
@@ -883,7 +948,9 @@ def device_page(slug):
 </div>'''
         else:
             pre = f'<div class="notes pre">{"".join(data["pre"])}</div>' if data.get('pre') else ''
-            steps = ''.join(f'<li class="st"><span class="st-n">{i + 1}</span><div class="st-b">{s}</div></li>' for i, s in enumerate(data['steps']))
+            pics = STEP_PICS.get(slug, [])
+            steps = ''.join(f'<li class="st"><span class="st-n">{i + 1}</span><div class="st-b">{s}{step_pic(c, *pics[i]) if i < len(pics) else ""}</div></li>'
+                            for i, s in enumerate(data['steps']))
             notes = f'<div class="notes">{"".join(data["notes"])}</div>' if data.get('notes') else ''
             trouble = f'<div class="trouble prose"><h2>{t(L("Having trouble?", "تواجه مشكلة؟"))}</h2>{trouble_links(c, data["trouble"])}</div>'
             need = need_list(c, data['apps']) if data.get('apps') else ''

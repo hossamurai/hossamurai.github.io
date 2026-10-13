@@ -1,0 +1,17 @@
+name: probe
+on:
+  push:
+    branches: [claude/server-hosts-manual-apps-vgx26g]
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          cd _source/matches && python3 fetch_ramadan.py && cd ../..
+          python3 -c "
+          import json; d=json.load(open('assets/data/ramadan.json'))
+          for k in ('season','last'):
+              s=d[k]; print(k, s['year'], len(s['series']), 'posters', sum(1 for x in s['series'] if x['poster']), 'dates', sum(1 for x in s['series'] if x['date']), 'en', sum(1 for x in s['series'] if x['en']))
+              for x in s['series'][:70]: print('  ', x['date'] or '-', '|', x['ar'], '|', x['en'], '|', bool(x['poster']))
+          "
