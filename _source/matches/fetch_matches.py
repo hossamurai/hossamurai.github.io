@@ -9,7 +9,7 @@ season and edit it if rights change.
 
 Output: assets/data/matches.json  →  read by assets/site.js (home page + matches page).
 """
-import json, os, sys, time, unicodedata, urllib.request
+import json, os, re, sys, time, unicodedata, urllib.parse, urllib.request
 from datetime import datetime, timedelta, timezone
 
 OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'assets', 'data', 'matches.json')
@@ -149,6 +149,45 @@ def get(url, tries=2):
             time.sleep(3 * (i + 1))
     return None
 
+
+
+LOGOS = os.path.join(os.path.dirname(__file__), '..', '..', 'assets', 'data', 'logos.json')
+
+
+def fill_logos(items):
+    """Teams a feed gave no badge (often African clubs): look them up on TheSportsDB once and remember the answer in
+    assets/data/logos.json (a miss is tried again after 7 days). The website draws the team's first letter if none is found."""
+    try:
+        cache = json.load(open(LOGOS))
+    except Exception:
+        cache = {}
+    today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    retry = (datetime.now(timezone.utc) - timedelta(days=7)).strftime('%Y-%m-%d')
+    asked = 0
+    for it in items:
+        for side in ('home', 'away'):
+            t = it[side]
+            if t.get('logo'):
+                continue
+            name = t['en']
+            hit = cache.get(name)
+            if hit is None or (not hit.get('logo') and hit.get('checked', '') < retry and asked < 20):
+                logo = ''
+                for q in dict.fromkeys([name, re.sub(r'\b(FC|SC|CF|AFC)\b', '', name).strip()]):
+                    d = get('https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=' + urllib.parse.quote(q))
+                    asked += 1
+                    teams = [x for x in ((d or {}).get('teams') or []) if x.get('strSport') == 'Soccer' and x.get('strBadge')]
+                    if teams:
+                        logo = small_logo(teams[0]['strBadge'])
+                        break
+                hit = cache[name] = {'logo': logo, 'checked': today}
+            if hit.get('logo'):
+                t['logo'] = hit['logo']
+    try:
+        with open(LOGOS, 'w', encoding='utf-8') as f:
+            json.dump(cache, f, ensure_ascii=False, indent=1, sort_keys=True)
+    except Exception as e:
+        print('  logos cache not saved', e, file=sys.stderr)
 
 def main():
     now = datetime.now(timezone.utc)
@@ -334,6 +373,7 @@ def main():
         results = [r for r in results if r['id'] in keep]
     for r in results:
         r.pop('big', None)
+    fill_logos(events + results)
     # the exact channel of each match ("beIN Sports 2") from FilGoal / Kooora; the league's usual channel otherwise
     try:
         import exact_channels

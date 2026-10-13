@@ -908,6 +908,9 @@ html[dir="rtl"] .page-hero .poster-wall{-webkit-mask-image:linear-gradient(270de
 .mt-home .mt-logo{order:2}
 .mt-name{min-width:0;overflow-wrap:break-word;hyphens:auto}
 .mt-long{font-size:.78rem}
+.mt-ini{display:inline-grid;place-items:center;border-radius:50%;background:#e5e5ea;color:#3a3a3c;font-weight:800;font-size:.7rem;line-height:1}
+.rs-ini{width:26px;height:26px;flex:none;font-size:.74rem}
+.rs-line .rs-team:first-child .rs-ini{order:2}
 .mt-logo{width:24px;height:24px;object-fit:contain;flex:none}
 .mt-mid{display:flex;flex-direction:column;align-items:center;gap:2px}
 .mt-mid .match-score{display:inline-block;background:#0b0b0c;color:#fff;border-radius:8px;padding:3px 6px;margin:0;font-size:.88rem;white-space:nowrap;direction:ltr}

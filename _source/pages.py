@@ -1749,11 +1749,13 @@ Array.prototype.forEach.call(document.querySelectorAll('time[data-local]'),funct
 
 def _mt_row(c, e, res=None):
     """One aligned match row (same look as the matches list): home | score or "vs" | away, with logos."""
-    import html
+    import html, re
     def team(x, side):
-        img = (f'<img class="mt-logo" src="{html.escape(x["logo"])}" alt="" width="24" height="24" loading="lazy" onerror="this.remove()">'
-               if x.get('logo') else '')
         n = c.t(L(x['en'], x.get('ar') or x['en']))
+        first = (re.sub(r'^(?:al|el|ال)[\s-]?', '', n, flags=re.I)[:1] or '?').upper()
+        ini = f'<span class="mt-logo mt-ini" aria-hidden="true">{html.escape(first)}</span>'   # no badge: the first letter
+        img = (f'<img class="mt-logo" src="{html.escape(x["logo"])}" alt="" width="24" height="24" loading="lazy" '
+               f'onerror="this.outerHTML=\'{ini.replace(chr(34), "&quot;")}\'">' if x.get('logo') else ini)
         return f'<span class="mt-team mt-{side}">{img}<span class="mt-name{" mt-long" if any(len(w) > 10 for w in n.split()) else ""}">{html.escape(n)}</span></span>'
     if res:
         mid = f'<b class="match-score">{res["as"] if c.ar else res["hs"]} – {res["hs"] if c.ar else res["as"]}</b>'
