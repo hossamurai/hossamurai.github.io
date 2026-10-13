@@ -10,7 +10,7 @@ assets/bot.js and assets/apps/ are kept: style.css and site.js are copied over t
 """
 import os, shutil, posixpath, urllib.parse
 from content import *
-from pages import PAGE_BUILDERS, DEVICE_PAGES, COUNTRY_PAGES, icon, wa, ARIA_CUR, trial_dialog, matches_ticker
+from pages import PAGE_BUILDERS, DEVICE_PAGES, COUNTRY_PAGES, icon, wa, ARIA_CUR, trial_dialog, matches_ticker, match_list, match_ics
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(HERE)
@@ -357,6 +357,11 @@ def main():
             title, desc, body = fn(c)
             write(f'{lang}/{path}', layout(c, title, desc, body))
             count += 1
+    # calendar files for the "Add to calendar" button (upcoming high-profile matches)
+    for slug, e, res in match_list():
+        if not res:
+            for lang in LANGS:
+                write(f'{lang}/match/{slug}.ics', match_ics(lang, e))
     write('index.html', root_index())
     # short link that picks the language: hossamservices.com/speed-test (GitHub Pages serves speed-test.html without the .html)
     write('speed-test.html', root_index().replace("l + '/index.html'", "l + '/speed-test'")
