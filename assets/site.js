@@ -142,7 +142,7 @@
     q.addEventListener('input', function(){
       var term = norm(q.value.trim()), shown = 0;
       each('[data-search-item]', function(it){
-        var hit = !term || norm(it.textContent).indexOf(term) > -1;
+        var hit = !term || norm(it.textContent + ' ' + (it.getAttribute('data-k') || '')).indexOf(term) > -1;
         it.hidden = !hit; if(hit) shown++;
         if(it.tagName === 'DETAILS'){
           if(term && hit && !it.open){ it.open = true; it.setAttribute('data-auto', ''); }
