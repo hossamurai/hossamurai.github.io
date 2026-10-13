@@ -33,7 +33,8 @@ def api(host, **k):
 
 
 def clean_title(t):
-    return re.sub(r'\s*\((مسلسل|مسلسل تلفزيوني|TV series|.*series.*)\)\s*$', '', t or '', flags=re.I).strip()
+    t = re.sub(r'\s*\((مسلسل[^)]*|[^)]*series[^)]*)\)\s*$', '', t or '', flags=re.I)
+    return re.sub(r'^مسلسل\s+', '', t).strip()
 
 
 def poster_of(page):
@@ -47,9 +48,9 @@ def poster_of(page):
 def infobox_date(text, start, end):
     """First date in the article's broadcast fields that falls in this Ramadan (± a few days)."""
     for m in re.finditer(r'\|\s*(?:[^|=\n]*(?:بث|عرض|first_aired|released|air_date)[^|=\n]*)=([^\n]*)', text or '', re.I):
-        v = m.group(1).translate(AR_DIGITS)
+        v = re.sub(r'[\[\]،,]', ' ', m.group(1).translate(AR_DIGITS))
         cands = []
-        for d, mo, y in re.findall(r'(\d{1,2})\s+([^\s\d|\]\[,]+)\s+(\d{4})', v):
+        for d, mo, y in re.findall(r'(\d{1,2})\s+([^\s\d|]+)\s+(\d{4})', v):
             if mo.lower() in MONTHS:
                 cands.append((int(y), MONTHS[mo.lower()], int(d)))
         for y, mo, d in re.findall(r'(\d{4})[-|/](\d{1,2})[-|/](\d{1,2})', v):
@@ -69,7 +70,7 @@ def stars_of(text):
     if not m:
         return ''
     names = [n.split('|')[-1].strip() for n in re.findall(r'\[\[([^\]]+)\]\]', m.group(1))]
-    names = [n for n in names if n and ':' not in n][:2]
+    names = [n for n in names if n and ':' not in n and not re.search(r'\d', n)][:2]
     return '، '.join(names)
 
 
@@ -103,7 +104,7 @@ def season_series(hijri, year, start, end):
         try:
             r = api('ar', action='query', titles='|'.join(batch), prop='pageimages|revisions|langlinks|categories',
                     piprop='thumbnail', pithumbsize=500, pilicense='any', rvprop='content', rvslots='main',
-                    lllang='en', cllimit=500, redirects=1)
+                    lllang='en', lllimit=500, cllimit=500, redirects=1)
         except Exception as e:
             print('  pages failed', e, file=sys.stderr)
             continue
@@ -160,8 +161,9 @@ def main():
     last = season_series(ph, py, pa, pb)
     seasons['last'] = {'year': py, 'hijri': ph, 'start': pa.isoformat(),
                        'series': last if last is not None else (old.get('last') or {}).get('series', [])}
-    for k in ('season', 'last'):
-        seasons[k]['series'].sort(key=lambda x: (x.get('date') or '', not x.get('poster'), x['ar']))
+    # by start date (none = the first day of Ramadan), series with a poster first, then by name
+    for k, first in (('season', a.isoformat()), ('last', pa.isoformat())):
+        seasons[k]['series'].sort(key=lambda x: (x.get('date') or first, not x.get('poster'), x['ar']))
     if {k: old.get(k) for k in seasons} == seasons:
         print('no change')
         return
