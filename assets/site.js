@@ -533,8 +533,11 @@
       var nm = function(x){ var n = x ? (AR ? x.ar : x.en) : ''; return !AR && window.htvShort ? window.htvShort(n) : n; };
       var team = function(x, side){
         var t = el('span', 'mt-team mt-' + side);
-        if(x && x.logo){ var im = el('img', 'mt-logo'); im.alt = ''; im.width = 24; im.height = 24; im.loading = 'lazy'; im.onerror = function(){ this.remove(); }; im.src = x.logo; t.appendChild(im); }
-        var n = nm(x); t.appendChild(el('span', 'mt-name' + (/\S{11,}/.test(n) ? ' mt-long' : ''), n));   /* one long word: smaller, so it doesn't split */
+        var n = nm(x);
+        /* no badge (or it fails to load): a small circle with the team's first letter, so every row stays aligned */
+        var ini = function(){ var c = el('span', 'mt-logo mt-ini', (n.replace(/^(?:al|el|ال)[\s-]?/i, '').charAt(0) || '?').toUpperCase()); c.setAttribute('aria-hidden', 'true'); return c; };
+        if(x && x.logo){ var im = el('img', 'mt-logo'); im.alt = ''; im.width = 24; im.height = 24; im.loading = 'lazy'; im.onerror = function(){ this.replaceWith(ini()); }; im.src = x.logo; t.appendChild(im); }
+        else t.appendChild(ini()); t.appendChild(el('span', 'mt-name' + (/\S{11,}/.test(n) ? ' mt-long' : ''), n));   /* one long word: smaller, so it doesn't split */
         return t;
       };
       groups.forEach(function(g){

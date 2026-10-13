@@ -150,8 +150,11 @@
       [['home', r.hs, r.as], ['away', r.as, r.hs]].forEach(function(p, i){
         var side = el('div', 'rs-team' + (p[1] > p[2] ? ' win' : ''));
         var img = el('img'); img.alt = ''; img.width = 26; img.height = 26; img.loading = 'lazy';
+        var tn = short(nm(r[p[0]]));
+        var ini = function(){ var c = el('span', 'mt-ini rs-ini', (tn.replace(/^(?:al|el|ال)[\s-]?/i, '').charAt(0) || '?').toUpperCase()); c.setAttribute('aria-hidden', 'true'); return c; };
         logo(img, r[p[0]]);
-        side.appendChild(img); side.appendChild(el('span', null, short(nm(r[p[0]]))));
+        if(img.hidden) img = ini(); else img.onerror = function(){ this.replaceWith(ini()); };   /* no badge: the first letter */
+        side.appendChild(img); side.appendChild(el('span', null, tn));
         if(i === 1){ line.appendChild(el('b', 'rs-score', lang() === 'ar' ? r.as + ' – ' + r.hs : r.hs + ' – ' + r.as));   /* RTL: home team is on the right */ }
         line.appendChild(side);
       });

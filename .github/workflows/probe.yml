@@ -1,0 +1,10 @@
+name: probe
+on:
+  push:
+    branches: [claude/server-hosts-manual-apps-vgx26g]
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 _probe/p.py
