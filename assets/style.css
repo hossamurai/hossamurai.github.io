@@ -1135,3 +1135,10 @@ section.sec.nextm-sec+section.sec{padding-top:36px}
 .calc-out b{display:block;font-size:clamp(2rem,10vw,3rem);white-space:nowrap;font-weight:800;letter-spacing:-.03em;color:#4ade80;line-height:1.1}
 .calc-out span{color:#b8b8c0;font-weight:700}
 .calc-note{color:#8a8a92;font-size:.86rem;margin:6px 0 16px}
+/* speed test: Wi-Fi / mobile data choice (only when the browser can't tell) */
+.st-net{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;max-width:360px;margin:-4px auto 14px;padding:6px;border-radius:14px}
+.st-net[hidden]{display:none!important}
+.st-net span{width:100%;font-size:.8rem;font-weight:700;color:#b8b8c0;text-align:start}
+.st-net button{flex:1;height:42px;border-radius:12px;border:1px solid #3a3a3f;background:#18181b;color:#f5f5f7;font:inherit;font-weight:700;font-size:.92rem;cursor:pointer}
+.st-net button[aria-checked="true"]{border-color:#e3101b;background:#2a0b0d;box-shadow:0 0 0 2px rgba(227,16,27,.35)}
+.st-net.st-need-name{box-shadow:0 0 0 2px rgba(227,16,27,.6)}

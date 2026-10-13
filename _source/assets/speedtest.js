@@ -14,6 +14,15 @@
   var pingEl = $('[data-st-ping]'), jitEl = $('[data-st-jitter]'), stabEl = $('[data-st-stab]');
   var nameIn = $('[data-st-name]'), logBox = document.querySelector('[data-st-log]'), logList = document.querySelector('[data-st-log-list]');
   var AR = document.documentElement.lang === 'ar';
+  /* Wi-Fi or mobile data: Chrome on Android tells us; everywhere else (iPhone, Samsung Internet, in-app browsers) the visitor taps one */
+  var netBox = $('[data-st-net]'), nc = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  var detected = nc && /^(wifi|cellular|ethernet)$/.test(nc.type) ? nc.type : '', picked = '';
+  function pick(v){ picked = v; Array.prototype.forEach.call(netBox.querySelectorAll('[data-net]'), function(b){ b.setAttribute('aria-checked', b.getAttribute('data-net') === v ? 'true' : 'false'); }); netBox.classList.remove('st-need-name'); try{ localStorage.setItem('htv-net', v); }catch(e){} }
+  if(netBox && !detected){
+    netBox.hidden = false;
+    Array.prototype.forEach.call(netBox.querySelectorAll('[data-net]'), function(b){ b.addEventListener('click', function(){ pick(b.getAttribute('data-net')); }); });
+    try{ var sv = localStorage.getItem('htv-net'); if(sv === 'wifi' || sv === 'cellular') pick(sv); }catch(e){}
+  }
   var hint = $('[data-st-hint]'), tips = document.querySelector('[data-st-tips]'), tiles = document.querySelectorAll('[data-need]');
   var CF = 'https://speed.cloudflare.com/__down?bytes=';
   var LIMIT = 8000, BYTES = 25000000, MARKS = [0, 5, 10, 25, 50, 100], SLICE = 500, WARMUP = 1500;
@@ -138,8 +147,7 @@
   function send(r){
     var n = nameIn ? nameIn.value.trim() : '';
     if(!n || !window.fetch || !window.URLSearchParams) return;
-    var nc = navigator.connection || navigator.mozConnection || navigator.webkitConnection;   /* Android tells Wi-Fi vs mobile data; iPhone doesn't */
-    r.name = n; r.where = where(); r.lang = AR ? 'ar' : 'en'; r.conn = nc && /^(wifi|cellular|ethernet)$/.test(nc.type) ? nc.type : '';
+    r.name = n; r.where = where(); r.lang = AR ? 'ar' : 'en'; r.conn = detected || picked;
     var body = new URLSearchParams(); body.append('p', JSON.stringify(r));
     fetch(box.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit' })
       .then(function(x){ return x.json()['catch'](function(){ return {}; }); })
@@ -197,6 +205,7 @@
     .then(function(d){ if(d && d.speedtests) renderLog(merge(d.speedtests)); })['catch'](function(){});
   function run(){
     if(nameIn && !nameIn.value.trim()){ msg.textContent = A('needname'); nameIn.focus(); nameIn.classList.add('st-need-name'); return; }
+    if(netBox && !detected && !picked){ msg.textContent = A('neednet'); netBox.classList.add('st-need-name'); return; }
     if(nameIn){ nameIn.classList.remove('st-need-name'); try{ localStorage.setItem('htv-name', nameIn.value.trim()); }catch(e){} }
     if(!window.fetch || !window.ReadableStream || !window.Promise){ window.open('https://fast.com', '_blank', 'noopener'); return; }
     go.hidden = true; if(hint){ hint.hidden = true; hint.lastChild.textContent = A('magic'); } readout.hidden = false; again.hidden = true; stats.hidden = false;
