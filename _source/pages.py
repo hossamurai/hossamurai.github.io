@@ -1257,6 +1257,7 @@ def next_match(c, more=True):
             f'<span class="nm-league">{icon("ball")}<span data-next-league></span></span>'
             f'<span class="nm-teams">{team("home")}<i>{t(L("vs", "ضد"))}</i>{team("away")}</span>'
             f'<span class="nm-count">{units}</span>'
+            f'<span class="nm-livebox" data-next-livebox hidden></span>'
             f'<span class="nm-when" data-next-when></span>'
             f'<span class="nm-actions"><button type="button" class="nm-btn nm-cal" data-next-cal>{icon("clock")}{t(L("Add to calendar", "أضف للتقويم"))}</button>{link}</span>'
             f'</div>')
@@ -1271,8 +1272,8 @@ def results_block(c):
 
 def matches_ticker(c):
     """Swipeable row of small match cards under the header — live matches first (score + minute), then this week's big
-    matches with kick-off in the visitor's time zone and the channel. Each card opens its match page, the last one all
-    matches. Filled by assets/matches.js from assets/data/matches.json (hidden until there's something to show)."""
+    matches with kick-off in the visitor's time zone and the channel. Each card opens the matches page on that match's
+    countdown (with "Add to calendar"), the last one all matches. Filled by assets/matches.js from assets/data/matches.json (hidden until there's something to show)."""
     return (f'<nav class="mstrip" data-strip data-src="{c.root}assets/data/matches.json" data-root="{c.root}" '
             f'aria-label="{c.t(L("Big matches this week", "أهم مباريات الأسبوع"))}" hidden><div class="ms-track" data-strip-track></div></nav>')
 
