@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-14T04:57:02Z",
+ "updated": "2026-10-14T11:56:57Z",
  "leagues": [
   {
    "id": "egy",
@@ -10,21 +10,21 @@
    "rows": [
     {
      "rank": 1,
+     "en": "Pyramids",
+     "p": 6,
+     "gd": "+11",
+     "pts": 18,
+     "logo": "https://r2.thesportsdb.com/images/media/team/badge/8liy611607352549.png/tiny",
+     "ar": "بيراميدز"
+    },
+    {
+     "rank": 2,
      "en": "Al Ahly",
      "p": 6,
      "gd": "+8",
      "pts": 16,
      "logo": "https://r2.thesportsdb.com/images/media/team/badge/x8753q1751421890.png/tiny",
      "ar": "الأهلي"
-    },
-    {
-     "rank": 2,
-     "en": "Pyramids",
-     "p": 5,
-     "gd": "+8",
-     "pts": 15,
-     "logo": "https://r2.thesportsdb.com/images/media/team/badge/8liy611607352549.png/tiny",
-     "ar": "بيراميدز"
     },
     {
      "rank": 3,
@@ -37,21 +37,21 @@
     },
     {
      "rank": 4,
-     "en": "Ceramica Cleopatra",
-     "p": 5,
-     "gd": "+7",
-     "pts": 12,
-     "logo": "https://r2.thesportsdb.com/images/media/team/badge/xy4shs1751422167.png/tiny",
-     "ar": "سيراميكا كليوباترا"
+     "en": "Modern Sport",
+     "p": 6,
+     "gd": "+4",
+     "pts": 13,
+     "logo": "https://r2.thesportsdb.com/images/media/team/badge/larnky1729784569.png/tiny",
+     "ar": "مودرن سبورت"
     },
     {
      "rank": 5,
-     "en": "Modern Sport",
-     "p": 5,
-     "gd": "+3",
-     "pts": 10,
-     "logo": "https://r2.thesportsdb.com/images/media/team/badge/larnky1729784569.png/tiny",
-     "ar": "مودرن سبورت"
+     "en": "Al Ittihad Alexandria",
+     "p": 6,
+     "gd": "+4",
+     "pts": 13,
+     "logo": "https://r2.thesportsdb.com/images/media/team/badge/bqnmfm1786058466.png/tiny",
+     "ar": "الاتحاد"
     }
    ]
   },
