@@ -1,10 +1,10 @@
 {
- "updated": "2026-10-15T11:32:54Z",
+ "updated": "2026-10-15T17:03:28Z",
  "events": [
   {
    "id": "e401915568",
    "utc": "2026-10-15T16:45:00Z",
-   "live": false,
+   "live": true,
    "code": "uefa.europa",
    "espn": "401915568",
    "league": {
@@ -291,6 +291,32 @@
    "top": false
   },
   {
+   "id": "e401882846",
+   "utc": "2026-10-17T16:00:00Z",
+   "live": false,
+   "code": "esp.1",
+   "espn": "401882846",
+   "league": {
+    "en": "La Liga",
+    "ar": "الدوري الإسباني"
+   },
+   "home": {
+    "en": "Real Betis",
+    "ar": "ريال بيتيس",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/244.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Barcelona",
+    "ar": "برشلونة",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/83.png&w=80&h=80"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   },
+   "top": false
+  },
+  {
    "id": "e401874953",
    "utc": "2026-10-17T16:00:00Z",
    "live": false,
@@ -309,32 +335,6 @@
     "en": "Internazionale",
     "ar": "إنتر ميلان",
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/110.png&w=80&h=80"
-   },
-   "channel": {
-    "en": "beIN Sports",
-    "ar": "بي إن سبورت"
-   },
-   "top": false
-  },
-  {
-   "id": "e401882846",
-   "utc": "2026-10-17T16:30:00Z",
-   "live": false,
-   "code": "esp.1",
-   "espn": "401882846",
-   "league": {
-    "en": "La Liga",
-    "ar": "الدوري الإسباني"
-   },
-   "home": {
-    "en": "Real Betis",
-    "ar": "ريال بيتيس",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/244.png&w=80&h=80"
-   },
-   "away": {
-    "en": "Barcelona",
-    "ar": "برشلونة",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/83.png&w=80&h=80"
    },
    "channel": {
     "en": "beIN Sports",
