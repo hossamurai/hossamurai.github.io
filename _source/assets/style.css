@@ -1363,6 +1363,9 @@ section.sec.nl-sec+section.sec{padding-top:36px}
 .tr-devs select+select{margin-top:8px}
 .tr-golden{display:flex;gap:8px;align-items:flex-start;margin:0;padding:10px 12px;border-radius:12px;background:#fff4f4;border:1px solid #f5c9cb;font-size:.84rem;line-height:1.45}
 .tr-golden .ic{flex:none;color:var(--red);margin-top:2px}
+.tr-golden.ok{background:#effaf3;border-color:#bfe6cc}
+.tr-golden.ok .ic{color:#1a9a4b}
+.tr-golden-fix{display:inline;border:0;background:none;padding:0;font:inherit;font-weight:700;color:var(--red);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 [data-golden][hidden]{display:none}
 .trial-form #trialTitle{margin-bottom:14px}
 /* order form: missing / wrong field */
@@ -1506,6 +1509,9 @@ footer.site-compact{padding:24px 0 18px}
   .cbox-list li:hover,.cbox-list li.on{background:var(--surface-2)}
   .tr-total{background:var(--surface-2)}
   .tr-golden{background:rgba(227,16,27,.12);border-color:rgba(227,16,27,.35)}
+  .tr-golden.ok{background:rgba(48,209,88,.12);border-color:rgba(48,209,88,.35)}
+  .tr-golden.ok .ic{color:#30d158}
+  .tr-golden-fix{color:#ff6b72}
   .mt-ini{background:#3a3a3c;color:#f5f5f7}
   .rf-hint,.tr-note{color:var(--muted)}
   /* speed test: dark card, same ring */
