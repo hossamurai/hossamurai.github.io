@@ -127,7 +127,8 @@ PLANS = {
 PLAN_ORDER = ['basic', 'premium', 'xtv', 'marvel']
 # Smart TV player app (IBO / Bob Player) per TV: (currency, 1 year, lifetime) — the order form adds it to the total
 # (1-year subscription → the 1-year app; 2 years or more → lifetime)
-APP_FEE = {'basic': ('usd', 2, 4), 'premium': ('usd', 2, 4), 'xtv': ('egp', 100, 200), 'marvel': ('egp', 100, 200)}
+APP_FEE = {'basic': ('usd', 2, 4), 'premium': ('usd', 2, 4), 'xtv': ('egp', 200, 200), 'marvel': ('egp', 200, 200)}
+APP_FEE_EGYPT = ('egp', 200, 200)   # in Egypt the TV app is sold lifetime only: 200 EGP per TV, whatever the plan
 
 CURRENCY = {
     'usd': {'en': '$', 'ar': '$', 'pre': True},
@@ -344,8 +345,8 @@ FAQ = [
          L('Most Firesticks work. The exception is newer models running Vega OS (like the Fire TV Stick 4K Select and the 2026 Fire TV Stick HD), which can\'t install streaming apps like ours. Check under <b>Settings → My Fire TV → About</b>: "Fire OS" is fine; plain "OS" with a version starting with 1 means Vega OS.',
            'معظم أجهزة الفايرستيك تعمل. الاستثناء هو الأجهزة الأحدث بنظام Vega OS (مثل Fire TV Stick 4K Select و Fire TV Stick HD إصدار 2026) لأنها لا تسمح بتثبيت تطبيقات البث الخاصة بنا. للتأكد: <b><bdi dir="ltr">Settings → My Fire TV → About</bdi></b>. إذا كان مكتوباً Fire OS فجهازك مناسب، أما إذا كان مكتوباً OS فقط ويبدأ الرقم بـ 1 فهو Vega OS.')),
         ('smart-tv-fee', L('Is there an extra fee for Samsung or LG TVs?', 'هل توجد رسوم إضافية لشاشات سامسونج و LG؟'),
-         L('Smart TVs use Bob Player on Samsung (IBO Player isn’t in the Samsung store right now) or IBO Player on LG. With Basic and Premium, the app is $2 a year or $4 lifetime per TV. With XTV and Marvel, the app costs 100 EGP a year or 200 EGP lifetime per TV, after a 7-day free trial.',
-           'الشاشات الذكية تستخدم Bob Player على سامسونج (IBO Player غير موجود حالياً في متجر سامسونج) أو IBO Player على LG. مع الباقة الأساسية وبريميوم، يكلف التطبيق 2 دولار سنوياً أو 4 دولارات مدى الحياة لكل شاشة. مع XTV و Marvel، يكلف التطبيق 100 جنيه سنوياً أو 200 جنيه مدى الحياة لكل شاشة، بعد تجربة مجانية 7 أيام.')),
+         L('Smart TVs use Bob Player on Samsung (IBO Player isn’t in the Samsung store right now) or IBO Player on LG. Outside Egypt, the app is $2 a year or $4 lifetime per TV. In Egypt it is 200 EGP lifetime per TV, with any plan. The app gives a 7-day free trial first.',
+           'الشاشات الذكية تستخدم Bob Player على سامسونج (IBO Player غير موجود حالياً في متجر سامسونج) أو IBO Player على LG. خارج مصر يكلف التطبيق 2 دولار سنوياً أو 4 دولارات مدى الحياة لكل شاشة. في مصر يكلف 200 جنيه مدى الحياة لكل شاشة مع أي باقة. التطبيق يتيح تجربة مجانية 7 أيام أولاً.')),
         ('roku', L('Do you support Roku?', 'هل تدعمون روكو؟'),
          L('No. An Android TV box or a Firestick running Fire OS (not Vega OS) is the easiest alternative.',
            'لا. أسهل بديل هو أندرويد بوكس أو فايرستيك بنظام Fire OS (وليس Vega OS).')),

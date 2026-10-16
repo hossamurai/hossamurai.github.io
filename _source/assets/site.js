@@ -450,7 +450,8 @@
       var A = function(k){ return totBox.getAttribute('data-l-' + k) || ''; }, yrs = years(), n = screens(), pc = yrs ? planCost(n * yrs) : null;
       totalText = '';
       if(!pc){ totBox.hidden = true; return; }
-      var tvs = tvCount(), fee = FEES[tPlan.value], life = yrs >= 2, each1 = fee ? (life ? fee[2] : fee[1]) : 0, feeAmt = tvs * each1;
+      var eg = region() === 'eg';   /* Egypt: the TV app is lifetime only, 200 EGP per TV, with any plan */
+      var tvs = tvCount(), fee = eg ? FEES.eg : FEES[tPlan.value], life = eg || yrs >= 2, each1 = fee ? (life ? fee[2] : fee[1]) : 0, feeAmt = tvs * each1;
       var rows = [[opt(tPlan).textContent + ' · ' + A(n > 1 ? 'accs' : 'acc').replace('{n}', n) + ' × ' + (yrs > 1 ? A('yrs').replace('{n}', yrs) : A('yr')), fmtMoney(pc[0], pc[1])]];
       if(tvs && fee) rows.push([A('tv') + ' · ' + tvs + ' × ' + fmtMoney(fee[0], each1) + ' (' + A(life ? 'tvl' : 'tv1') + ')', fmtMoney(fee[0], feeAmt)]);
       var same = !feeAmt || fee[0] === pc[0];
