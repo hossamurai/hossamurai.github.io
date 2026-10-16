@@ -10,6 +10,7 @@ assets/bot.js and assets/apps/ are kept: style.css and site.js are copied over t
 """
 import os, shutil, posixpath, urllib.parse
 from content import *
+from themecss import theme_css
 from pages import PAGE_BUILDERS, DEVICE_PAGES, COUNTRY_PAGES, icon, wa, ARIA_CUR, trial_dialog, matches_ticker, match_list, match_ics, _match_data
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -79,6 +80,8 @@ SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="tru
 <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
 <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></symbol>
 <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/></symbol>
 <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
 <symbol id="i-4k" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M7 9v3.5h3M9.5 9v6M14 9v6M17.5 9 14.5 12l3 3"/></symbol>
@@ -150,6 +153,7 @@ def header(c):
     </a>
     <nav class="nav-links" id="navLinks" aria-label="{c.t(L('Main', 'القائمة الرئيسية'))}">{links}</nav>
     <div class="nav-right">
+      <button class="theme-btn" id="themeBtn" type="button" aria-label="{c.t(L('Light / dark mode', 'الوضع الفاتح / الداكن'))}">{icon('moon', 'i-moon')}{icon('sun', 'i-sun')}</button>
       <a class="lang" href="{c.other_lang_href()}" hreflang="{other}" lang="{other}" data-setlang="{other}">{icon('globe')}{'English' if c.ar else 'العربية'}</a>
       <a class="btn btn-wa btn-sm nav-trial" href="{c.wa('trial')}" target="_blank" rel="noopener" data-trial>{icon('chat')}<span class="lbl">{c.t(L('Free trial', 'تجربة مجانية'))}</span></a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="{c.t(L('Menu', 'القائمة'))}">{icon('menu', 'i-open')}{icon('x', 'i-close')}</button>
@@ -197,6 +201,7 @@ def layout(c, title, desc, body):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
+<script>/* light / dark chosen with the header button; otherwise follows the phone */(function(){{try{{var t=localStorage.getItem('htv-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}}catch(e){{}}}})();</script>
 <title>{full_title}</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{canonical(c.lang, c.path)}">{'<meta name="robots" content="noindex">' if c.path in NOINDEX else ''}
@@ -347,6 +352,7 @@ def minify_css(path):
     with open(path, encoding='utf-8') as f:
         css = f.read()
     css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
+    css = theme_css(css)
     css = re.sub(r'\s+', ' ', css)
     css = re.sub(r'\s*([{};,>])\s*', r'\1', css)
     css = re.sub(r':\s+', ':', css)
