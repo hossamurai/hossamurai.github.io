@@ -97,8 +97,22 @@
     });
     save();
   }
+  /* the cards float over the top of the page: the first section slides up behind the row (same total height, so nothing jumps) */
+  function floatStrip(){
+    var b = document.querySelector('[data-strip]'), m = document.querySelector('main'), f = m && m.firstElementChild;
+    while(f && /^(STYLE|SCRIPT)$/.test(f.tagName)) f = f.nextElementSibling;
+    if(f && f.classList.contains('fixp')) f = f.firstElementChild;
+    if(!b || !f) return;
+    f.style.paddingTop = '';
+    var h = b.hidden ? 0 : b.offsetHeight;
+    b.style.marginBottom = h ? -h + 'px' : '';
+    if(h) f.style.paddingTop = (parseFloat(getComputedStyle(f).paddingTop) || 0) + h + 'px';
+  }
+  floatStrip();
+  window.addEventListener('resize', floatStrip);
   /* remember the row, so the next page opens with it already in place (no jump while loading) */
   function save(){
+    floatStrip();
     try{
       var b = document.querySelector('[data-strip]'), tr = b && b.querySelector('[data-strip-track]');
       localStorage.setItem('htv-strip', JSON.stringify({ t: Date.now(), lang: document.documentElement.lang, html: b && !b.hidden && tr ? tr.innerHTML : '' }));
@@ -382,7 +396,7 @@
   window.addEventListener('hashchange', function(){ if(data) renderNext(); });
   /* back to the tab -> fresh scores right away */
   document.addEventListener('visibilitychange', function(){ if(!document.hidden && data) pollLive(); });
-  /* help.html switches language without reloading */
+  /* the page language changes without reloading */
   if(window.MutationObserver) new MutationObserver(function(){ if(data){ renderStrip(); renderNext(); renderResults(); pollLive(); } })
     .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
 })();
