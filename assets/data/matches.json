@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-15T21:25:10Z",
+ "updated": "2026-10-16T04:34:46Z",
  "events": [
   {
    "id": "e401914250",
@@ -575,32 +575,6 @@
    "top": false
   },
   {
-   "id": "s2561134",
-   "utc": "2026-10-20T14:00:00Z",
-   "live": false,
-   "code": "egy.1",
-   "espn": null,
-   "league": {
-    "en": "Egyptian League",
-    "ar": "الدوري المصري"
-   },
-   "home": {
-    "en": "Asyut Petroleum",
-    "ar": "Asyut Petroleum",
-    "logo": "https://r2.thesportsdb.com/images/media/team/badge/kkohuv1786057778.png/tiny"
-   },
-   "away": {
-    "en": "Zamalek",
-    "ar": "الزمالك",
-    "logo": "https://r2.thesportsdb.com/images/media/team/badge/tgekj81580930027.png/tiny"
-   },
-   "channel": {
-    "en": "ON Time Sports",
-    "ar": "أون تايم سبورت"
-   },
-   "top": false
-  },
-  {
    "id": "e401915404",
    "utc": "2026-10-20T16:45:00Z",
    "live": false,
@@ -723,6 +697,32 @@
     "en": "Villarreal",
     "ar": "فياريال",
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/102.png&w=80&h=80"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   },
+   "top": false
+  },
+  {
+   "id": "e401915401",
+   "utc": "2026-10-20T19:00:00Z",
+   "live": false,
+   "code": "uefa.champions",
+   "espn": "401915401",
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Manchester City",
+    "ar": "مانشستر سيتي",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/382.png&w=80&h=80"
+   },
+   "away": {
+    "en": "AEK Athens",
+    "ar": "AEK Athens",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/887.png&w=80&h=80"
    },
    "channel": {
     "en": "beIN Sports",
