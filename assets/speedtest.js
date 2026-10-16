@@ -175,8 +175,8 @@
     lastLog = list;
     while(logList.firstChild) logList.removeChild(logList.firstChild);
     list.slice(0, 10).forEach(function(r){
-      /* red = slow or unstable · yellow = OK · green = good · blue = excellent */
-      var lv = !r.stable || r.mbps < 10 ? 'bad' : r.mbps < 25 ? 'ok' : r.mbps < 100 ? 'good' : 'top';
+      /* red = slow · yellow = OK or some dips · green = good · blue = excellent */
+      var lv = r.mbps < 10 ? 'bad' : !r.stable || r.mbps < 25 ? 'ok' : r.mbps < 100 ? 'good' : 'top';
       var row = document.createElement('div'); row.className = 'st-log-row lv-' + lv;
       var who = document.createElement('div'); who.className = 'st-log-who';
       var b = document.createElement('b'); b.textContent = String(r.name || '').slice(0, 30); who.appendChild(b);
