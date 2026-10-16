@@ -1393,3 +1393,20 @@ section.sec.nl-sec+section.sec{padding-top:36px}
 .tr-golden .ic{flex:none;color:var(--red);margin-top:2px}
 [data-golden][hidden]{display:none}
 .trial-form #trialTitle{margin-bottom:14px}
+/* order form: missing / wrong field */
+.trial-form [aria-invalid="true"],.trial-form .cbox input[aria-invalid="true"],.trial-form .tr-phone[aria-invalid="true"] input{border-color:#d0021b!important;box-shadow:0 0 0 3px rgba(227,16,27,.14)}
+.rf-hint{display:block;margin-top:5px;color:var(--muted);font-size:.78rem}
+/* order form: the amount, line by line */
+.tr-total-h{font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:8px}
+.tr-lines{display:grid;gap:6px}
+.tr-line{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:.88rem}
+.tr-line span{color:var(--ink);min-width:0}
+.tr-line b{white-space:nowrap;font-variant-numeric:tabular-nums}
+.tr-sum{border-top:1px dashed var(--line-2);padding-top:8px;margin-top:2px;font-size:1rem}
+.tr-sum b{font-size:1.15rem}
+.tr-local{text-align:end;color:var(--muted);font-size:.84rem;font-weight:600}
+.tr-note{display:block;margin-top:8px;color:var(--muted);font-size:.74rem;line-height:1.4}
+/* plan cards: bigger logos */
+.plan-head .plan-logo,.plan-head .plan-mono{width:64px;height:64px;border-radius:16px;padding:5px}
+.plan-head .plan-mono{font-size:1.35rem}
+[data-ae-note][hidden]{display:none}

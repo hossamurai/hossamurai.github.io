@@ -130,7 +130,9 @@ def trial_dialog(c):
                 opts.append(['y2', t(per_lbl['y2']), money(c, rp['cur'], rp['p2']), rp['p2'], rp['cur']])
             prices.setdefault(r['id'], {})[rp['id']] = opts
     prices_attr = html_attr_json(prices)
-    fees_attr = html_attr_json({pid: [cur, n, money(c, cur, n)] for pid, (cur, n) in APP_FEE.items()})
+    fees_attr = html_attr_json({pid: [cur, y1, life] for pid, (cur, y1, life) in APP_FEE.items()})
+    # price per plan and region for the total: 1 screen-year = p1; 2 or more = each at half the 2-year price (Basic 60, 90, 120…)
+    units_attr = html_attr_json({r['id']: {rp['id']: [rp['cur'], rp['p1'], rp.get('p2') or rp['p1'] * 2] for rp in r['plans']} for r in REGIONS})
     cur_attr = html_attr_json({k: [v['en'] if not c.ar else v['ar'], bool(v.get('pre'))] for k, v in CURRENCY.items()})
     return f'''<dialog class="trial-dlg" id="trialDlg" aria-labelledby="trialTitle">
   <form class="remind trial-form" method="dialog" data-trial-form data-mode="trial" data-api="{N8N_WEBHOOK}site-order" data-wa="{WHATSAPP}" novalidate>
@@ -148,12 +150,17 @@ def trial_dialog(c):
       <div class="rf"><label for="trPlan"><span data-for="trial subscribe">{t(L('Plan', 'الباقة'))}</span><span data-for="renew">{t(L('Server', 'السيرفر'))}</span></label><select id="trPlan" name="plan" required><option value="">{pick}</option>{popts}</select></div>
       <div class="rf rf-full" data-for="trial subscribe"><label for="trPhone">{t(L('WhatsApp number', 'رقم الواتساب'))}</label><div class="tr-phone" dir="ltr"><span class="tr-cc" data-tr-cc>+</span><input id="trPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" maxlength="20" placeholder="{t(L('Number', 'الرقم'))}"></div></div>
       <div class="rf rf-full" data-for="subscribe renew"><label for="trPeriod"><span data-for="renew">{t(L('Renew for', 'مدة التجديد'))}</span><span data-for="subscribe">{t(L('Subscribe for', 'مدة الاشتراك'))}</span></label><select id="trPeriod" name="period" data-prices="{prices_attr}"><option value="">{pick}</option></select></div>
+      <div class="rf rf-full"><label for="trScreens">{t(L('Screens watching at the same time', 'عدد الشاشات التي تشاهد في نفس الوقت'))}</label><input id="trScreens" name="screens" type="number" inputmode="numeric" min="1" max="5" value="1"><small class="rf-hint">{t(L('Each screen is one account.', 'كل شاشة = حساب واحد.'))}</small></div>
       <div class="rf rf-full" data-for="trial subscribe"><label for="trDevs">{t(L('How many devices?', 'كم جهاز؟'))}</label><input id="trDevs" name="devs" type="number" inputmode="numeric" min="1" max="6" value="1"></div>
       <div class="rf rf-full tr-devs" data-for="trial subscribe" data-devs data-l-dev="{t(L('Device {n}', 'الجهاز {n}'))}" data-l-one="{t(L('Device', 'الجهاز'))}" data-l-many="{t(L('Your devices', 'أجهزتك'))}"><label for="trDevice" data-dev-lbl>{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device"><option value="">{pick}</option>{dopts}</select></div>
       <div class="rf rf-full" data-for="trial subscribe" data-golden hidden><p class="tr-golden">{icon('info')}<span><b>{t(L('Golden rule: one screen at a time.', 'القاعدة الذهبية: شاشة واحدة في نفس الوقت.'))}</b> {t(L('Install on as many devices as you like, but only one can play at once — watching on two at the same time can lock the account.', 'ثبّت الاشتراك على أي عدد من الأجهزة، لكن التشغيل على جهاز واحد فقط في نفس الوقت — التشغيل على جهازين معاً قد يوقف الحساب.'))}</span></p></div>
       <div class="rf rf-full" data-for="subscribe"><label for="trPay">{t(L('How will you pay?', 'طريقة الدفع'))}</label><select id="trPay" name="pay"><option value="">{pick}</option>{payopts}</select><small class="pay-note" data-pay-note hidden></small></div>
     </div>
-    <div class="tr-total" data-total data-fees="{fees_attr}" data-cur="{cur_attr}" data-l-total="{t(L('Approximate total', 'الإجمالي التقريبي'))}" data-l-after="{t(L('After the trial, about', 'بعد التجربة، حوالي'))}" data-l-tv="{t(L('TV app', 'تطبيق الشاشة'))}" data-l-y="{t(L('1 year', 'سنة'))}" hidden></div>
+    <div class="tr-total" data-total data-fees="{fees_attr}" data-units="{units_attr}" data-cur="{cur_attr}"
+      data-l-total="{t(L('Approximate total', 'الإجمالي التقريبي'))}" data-l-after="{t(L('If you subscribe after the trial', 'لو اشتركت بعد التجربة'))}"
+      data-l-acc="{t(L('{n} screen', '{n} شاشة'))}" data-l-accs="{t(L('{n} screens', '{n} شاشات'))}" data-l-yr="{t(L('1 year', 'سنة'))}" data-l-yrs="{t(L('{n} years', '{n} سنوات'))}"
+      data-l-tv="{t(L('Samsung / LG TV app', 'تطبيق شاشة سامسونج / LG'))}" data-l-tv1="{t(L('1 year', 'سنة'))}" data-l-tvl="{t(L('lifetime', 'مدى الحياة'))}"
+      data-l-sum="{t(L('Total', 'الإجمالي'))}" data-l-note="{t(L('The TV app is charged per Samsung / LG TV. Hossam confirms the final amount on WhatsApp.', 'تطبيق الشاشة يُحسب لكل شاشة سامسونج / LG. حسام يؤكد المبلغ النهائي على واتساب.'))}" hidden></div>
     <p class="trial-note" data-for="trial subscribe">{icon('info')}<span>{t(L('Install the app first so everything is ready:', 'ثبّت التطبيق أولاً ليكون كل شيء جاهزاً:'))} <a data-trial-guide href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}</a></span></p>
     <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
     <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Please fill in all the fields.', 'من فضلك املأ كل الحقول.'))}" data-msg-phone="{t(L('Check the WhatsApp number.', 'راجع رقم الواتساب.'))}"></p>
@@ -224,7 +231,7 @@ def plan_card(c, region, rp):
     aka = c.t(p['aka']) if p.get('aka') else ''
     first = t(p['feat'][0][1])
     stats = ' · '.join(f'{v} {t(lbl)}' for v, lbl in p['stats'])
-    logo = (f'<img class="plan-logo" src="{c.root}{p["img"]}" alt="" width="48" height="48" loading="lazy" '
+    logo = (f'<img class="plan-logo" src="{c.root}{p["img"]}" alt="" width="64" height="64" loading="lazy" '
             f'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'">'
             f'<span class="plan-mono" style="display:none">{p["mono"]}</span>')
     trial = f'تجربة مجانية {p["trial"]} ساعة' if c.ar else f'{p["trial"]}h free trial'
@@ -838,8 +845,8 @@ def device_data(c, slug):
             ],
             notes=[
                 note('tip', P('App fee — Basic & Premium', 'رسوم التطبيق — الأساسية وبريميوم'),
-                     P('Bob / IBO Player activation is <b>$2 per TV</b>.',
-                       'تفعيل Bob / IBO Player <b>2 دولار لكل شاشة</b>.')),
+                     P('Bob / IBO Player activation per TV: <b>$2</b> for 1 year or <b>$4</b> for lifetime.',
+                       'تفعيل Bob / IBO Player لكل شاشة: <b>2 دولار</b> لسنة أو <b>4 دولارات</b> مدى الحياة.')),
                 note('warn', P('App fee — XTV & Marvel', 'رسوم التطبيق — XTV و Marvel'),
                      P('Bob / IBO Player activation is separate from your subscription: <b>100 EGP</b> for 1 year or <b>200 EGP</b> for lifetime, per TV. The app gives you a 7-day free trial first.',
                        'تفعيل Bob / IBO Player منفصل عن الاشتراك: <b>100 جنيه</b> لسنة أو <b>200 جنيه</b> مدى الحياة لكل شاشة. التطبيق يتيح تجربة مجانية 7 أيام أولاً.')),
