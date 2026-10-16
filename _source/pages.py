@@ -37,6 +37,28 @@ def html_attr_json(o):
     return html.escape(json.dumps(o, ensure_ascii=False), quote=True)
 
 
+def _apply_bot_prices():
+    """Prices are set in ONE place: the admin bot's price entries (n8n site-data → assets/data/bot.json, every 6 hours).
+    They replace the numbers in content.py REGIONS (the fallback) for the plan cards, the order form and every page."""
+    import json, os
+    try:
+        with open(os.path.join(os.path.dirname(__file__), '..', 'assets', 'data', 'bot.json'), encoding='utf-8') as f:
+            prices = json.load(f).get('prices') or {}
+    except Exception:
+        return
+    for r in REGIONS:
+        for rp in r['plans']:
+            v = prices.get(rp['id']) or {}
+            # XTV / Marvel are in EGP, Basic / Premium in USD everywhere — the bot's numbers use the same currencies
+            if v.get('y1'):
+                rp['p1'] = v['y1']
+            if v.get('y2') and rp.get('p2'):
+                rp['p2'] = v['y2']
+
+
+_apply_bot_prices()
+
+
 def ld_json(o):
     """schema.org data for Google (rich results); '</' escaped so it can't close the script tag."""
     import json, re

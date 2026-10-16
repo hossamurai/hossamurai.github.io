@@ -73,13 +73,30 @@
   }
   var fxRates = null; try{ fxRates = JSON.parse(store('htv-fx') || 'null'); }catch(e){}
   var fxWait = null;
-  /* the day's USD rates (cached one day); cb runs when they're in */
+  /* USD rates, cached on the phone for a day. Sources in order, the first that answers with sane numbers wins
+     (like the matches and Ramadan sources): open.er-api.com → currency-api on jsDelivr → its Cloudflare mirror →
+     the site's own copy (assets/data/fx.json, refreshed every 6 hours by the GitHub Action) → the last rates this
+     phone saw, even if old. CAD alone also has a fixed rough rate, so Canadians always see an amount. */
+  var siteJs = document.querySelector('script[src*="assets/site.js"]');
+  var FX = [
+    ['https://open.er-api.com/v6/latest/USD', function(d){ return d && d.rates; }],
+    ['https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json', function(d){ return up(d && d.usd); }],
+    ['https://latest.currency-api.pages.dev/v1/currencies/usd.json', function(d){ return up(d && d.usd); }],
+    [siteJs ? siteJs.src.replace(/site\.js(\?.*)?$/, 'data/fx.json') : '', function(d){ return d && d.r; }]
+  ];
+  function up(o){ if(!o) return null; var r = {}; for(var k in o) if(o.hasOwnProperty(k)) r[k.toUpperCase()] = o[k]; return r; }
+  function sane(r){ return r && r.CAD > 1 && r.CAD < 2 && r.EGP > 20 && r.EGP < 200; }
+  function fxTry(i){
+    if(i >= FX.length || !FX[i][0]) return Promise.resolve(null);
+    return fetch(FX[i][0], { credentials: 'omit' }).then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ var r = FX[i][1](d); return sane(r) ? r : fxTry(i + 1); }, function(){ return fxTry(i + 1); });
+  }
   function fxLoad(cb){
     if(fxRates && Date.now() - fxRates.t < 864e5){ if(cb) cb(); return; }
-    if(!window.fetch) return;
-    if(!fxWait) fxWait = fetch('https://open.er-api.com/v6/latest/USD').then(function(r){ return r.json(); }).then(function(d){
-      if(d && d.rates && d.rates.CAD){ fxRates = { r: d.rates, t: Date.now() }; store('htv-fx', JSON.stringify(fxRates)); }
-    })['catch'](function(){});
+    if(!window.fetch || !window.Promise){ if(cb) cb(); return; }
+    if(!fxWait) fxWait = fxTry(0).then(function(r){
+      if(r){ fxRates = { r: r, t: Date.now() }; store('htv-fx', JSON.stringify(fxRates)); }
+    });
     if(cb) fxWait.then(cb);
   }
   /* "≈ 48 CAD" for a USD amount in a given currency, or '' */
@@ -452,6 +469,21 @@
       totalText = sum + (local ? ' (' + local + ')' : '') + (n > 1 ? ' — ' + A('accs').replace('{n}', n) : '');
     };
     tScreens.addEventListener('input', syncPeriods);
+    /* live prices from the admin bot (site-data, assets/bot.js): the one place prices are set — the form follows them */
+    var livePrices = function(p){
+      if(!p) return;
+      Object.keys(UNITS).forEach(function(rg){
+        Object.keys(UNITS[rg]).forEach(function(pl){
+          var v = p[pl] || {}, u = UNITS[rg][pl];
+          if(+v.y1 > 0) u[1] = +v.y1;
+          if(+v.y2 > 0) u[2] = +v.y2;
+          (PRICES[rg] && PRICES[rg][pl] || []).forEach(function(x){ var n = x[0] === 'y2' ? u[2] : u[1]; x[3] = n; x[2] = fmtMoney(u[0], n); });
+        });
+      });
+      syncPeriods();
+    };
+    if(window.htvPrices) livePrices(window.htvPrices);
+    document.addEventListener('htv:prices', function(e){ livePrices(e.detail); });
     tPeriod.addEventListener('change', syncTotal); tDevice.addEventListener('change', syncTotal); tDevs.addEventListener('input', syncDevs);
     document.addEventListener('htv:cad', syncTotal);
     /* country: type the first letters, pick from the list (English or Arabic names); the hidden <select> keeps the value */
