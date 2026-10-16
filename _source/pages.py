@@ -421,6 +421,10 @@ def home(c):
     teaser = ''.join(details(c, i, *fq[i]) for i in ['free-trial', 'which-plan', 'multi-device', 'activation'])
 
     body = hero + f'''
+<section class="gd-sec gd-sec-home"><div class="wrap">
+  <h2 class="gd-h" dir="ltr"><span lang="en">Quick guide</span><span lang="ar" dir="rtl">دليل سريع</span></h2>
+  {guide_list(c, True)}
+</div></section>
 {ramadan_teaser(c)}
 <section class="sec" id="plans"><div class="wrap">
   {sec_head('', t(L('Plans', 'الباقات')), t(L('Pick your plan', 'اختر باقتك')))}
@@ -1459,9 +1463,16 @@ def speed_page(c):
         x, y = 160 + 92 * math.cos(a), 160 + 92 * math.sin(a)
         ticks += f'<text x="{x:.1f}" y="{y + 4:.1f}">{m}{"+" if m == 100 else ""}</text>'
     ring = 'M75.1 244.9 A120 120 0 1 1 244.9 244.9'
+    scale = ''   # fine tick marks inside the ring, longer at each number
+    for i in range(51):
+        a = math.radians(135 + 270 * i / 50)
+        mj = i % 10 == 0
+        r1, r2 = (100, 109) if mj else (104, 109)
+        scale += f'<line{" class=" + chr(34) + "mj" + chr(34) if mj else ""} x1="{160 + r1 * math.cos(a):.1f}" y1="{160 + r1 * math.sin(a):.1f}" x2="{160 + r2 * math.cos(a):.1f}" y2="{160 + r2 * math.sin(a):.1f}" stroke-width="{2 if mj else 1}"/>'
     gauge = f'''<svg class="st-gauge" viewBox="0 0 320 262" aria-hidden="true">
-      <defs><linearGradient id="stGrad" x1="0" x2="1" y1="1" y2="0"><stop offset="0" stop-color="#d4d4da"/><stop offset=".55" stop-color="#ff4b53"/><stop offset="1" stop-color="#e3101b"/></linearGradient></defs>
+      <defs><linearGradient id="stGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#22d3ee"/><stop offset=".55" stop-color="#2563eb"/><stop offset=".8" stop-color="#7c3aed"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
       <path class="st-arc-bg" d="{ring}"/>
+      <g class="st-scale">{scale}</g>
       <path class="st-arc" data-st-arc d="{ring}"/>
       <g class="st-ticks">{ticks}</g>
       <g class="st-needle" data-st-needle><circle cx="160" cy="40" r="9"/></g>
@@ -2075,16 +2086,27 @@ def guide_cards(c):
     ]
 
 
+# Hossam's own pictures (transparent .webp in assets/guide/); the other cards use the drawn pictures above
+GUIDE_IMG = {'ramadan', 'setup', 'matches', 'bot', 'fix'}
+
+
+def guide_list(c, home=False):
+    def art(k):
+        if k in GUIDE_IMG:
+            return f'<img src="{c.root}assets/guide/{k}.webp" alt="" width="760" height="256" loading="lazy" decoding="async">'
+        return GUIDE_ART[k]
+    items = ''.join(
+        f'<li><a class="gd-card" {attrs} dir="ltr"><span class="gd-art" aria-hidden="true">{art(k)}</span>'
+        f'<span class="gd-en" lang="en">{en}</span><span class="gd-ar" lang="ar" dir="rtl">{ar}</span></a></li>'
+        for k, en, ar, attrs in guide_cards(c))
+    return f'<ul class="gd-list{" gd-home" if home else ""}">{items}</ul>'
+
+
 def guide_page(c):
     t = c.t
-    chev = '<span class="gd-go" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M10 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
-    items = ''.join(
-        f'<li><a class="gd-card" {attrs} dir="ltr"><span class="gd-art" aria-hidden="true">{GUIDE_ART[k]}</span>'
-        f'<span class="gd-en" lang="en">{en}</span><span class="gd-ar" lang="ar" dir="rtl">{ar}</span>{chev}</a></li>'
-        for k, en, ar, attrs in guide_cards(c))
     body = f'''<section class="gd-sec"><div class="wrap">
   <h1 class="gd-h" dir="ltr"><span lang="en">Hossam TV Guide</span><span lang="ar" dir="rtl">دليل Hossam TV</span></h1>
-  <ul class="gd-list">{items}</ul>
+  {guide_list(c)}
 </div></section>'''
     return (t(L('Guide — every part of Hossam TV', 'الدليل — كل أقسام Hossam TV')),
             t(L('One card for each part of the Hossam TV website: speed test, matches, Ramadan, free trial, plans, payment, setup, help and the bot.',
