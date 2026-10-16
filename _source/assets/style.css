@@ -1380,3 +1380,16 @@ section.sec.nl-sec+section.sec{padding-top:36px}
 .py-later select{width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:11px 12px;border:1.5px solid var(--line-2);border-radius:12px;background:#fff;color:var(--ink);min-height:46px}
 .py-wrap .st-h{display:flex;align-items:center;gap:8px}
 .py-wrap .st-h .ic{width:20px;height:20px}
+/* order form: country search + one list per device */
+.cbox{position:relative}
+.cbox input{width:100%;box-sizing:border-box;font:inherit;font-size:16px;padding:11px 12px;border:1.5px solid var(--line-2);border-radius:12px;background:#fff;color:var(--ink)}
+.cbox input:focus{outline:none;border-color:var(--ink)}
+.cbox-list{position:absolute;z-index:5;top:calc(100% + 4px);left:0;right:0;min-width:200px;max-height:220px;overflow-y:auto;margin:0;padding:4px;list-style:none;background:#fff;border:1px solid var(--line-2);border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.14)}
+.cbox-list[hidden]{display:none}
+.cbox-list li{padding:9px 10px;border-radius:8px;cursor:pointer;font-size:.95rem}
+.cbox-list li:hover,.cbox-list li.on{background:#f2f2f4}
+.tr-devs select+select{margin-top:8px}
+.tr-golden{display:flex;gap:8px;align-items:flex-start;margin:0;padding:10px 12px;border-radius:12px;background:#fff4f4;border:1px solid #f5c9cb;font-size:.84rem;line-height:1.45}
+.tr-golden .ic{flex:none;color:var(--red);margin-top:2px}
+[data-golden][hidden]{display:none}
+.trial-form #trialTitle{margin-bottom:14px}

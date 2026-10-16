@@ -146,8 +146,8 @@ REGIONS = [
     {'id': 'eg', 'label': L('Egypt', 'مصر'), 'note': None, 'plans': [
         {'id': 'xtv', 'cur': 'egp', 'p1': 400, 'per': 'y1', 'p2': 700, 'featured': True, 'badge': L('Best for Egypt', 'الأفضل لمصر')},
         {'id': 'marvel', 'cur': 'egp', 'p1': 400, 'per': 'y1', 'p2': 700, 'badge': L('Movie lovers', 'لمحبي الأفلام')},
-        {'id': 'basic', 'cur': 'egp', 'p1': 1500, 'per': 'y1'},
-        {'id': 'premium', 'cur': 'egp', 'p1': 2500, 'per': 'y1'},
+        {'id': 'basic', 'cur': 'usd', 'p1': 35, 'per': 'y1', 'p2': 60},
+        {'id': 'premium', 'cur': 'usd', 'p1': 55, 'per': 'y1', 'p2': 100},
     ]},
 ]
 
