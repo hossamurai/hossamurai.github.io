@@ -191,7 +191,7 @@ def footer(c):
 </footer>'''
 
 
-NOINDEX = {'pay.html'}   # personal page the bot sends (payment methods + pay later) — not for search results
+NOINDEX = set()   # pages kept out of search results
 
 
 def layout(c, title, desc, body):
@@ -376,8 +376,8 @@ def main():
     write('speed-test.html', root_index().replace("l + '/index.html'", "l + '/speed-test'")
           .replace('<html lang="ar" dir="rtl">', '<html lang="ar" dir="rtl">\n<!-- redirects to /en/ or /ar/speed-test.html -->')
           .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
-    # short links Hossam sends: hossamservices.com/guide and /pay (#k=… from the bot is kept)
-    for short in ('guide', 'pay'):
+    # short link Hossam sends: hossamservices.com/guide
+    for short in ('guide',):
         write(f'{short}.html', root_index().replace("l + '/index.html'", f"l + '/{short}.html'")
               .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
     write('404.html', page_404())

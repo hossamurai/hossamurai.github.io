@@ -178,7 +178,7 @@ def trial_dialog(c):
       <div class="rf rf-full" data-for="trial subscribe"><label for="trDevs">{t(L('How many devices?', 'كم جهاز؟'))}</label><input id="trDevs" name="devs" type="number" inputmode="numeric" min="1" max="6" value="1"></div>
       <div class="rf rf-full tr-devs" data-for="trial subscribe" data-devs data-l-dev="{t(L('Device {n}', 'الجهاز {n}'))}" data-l-one="{t(L('Device', 'الجهاز'))}" data-l-many="{t(L('Your devices', 'أجهزتك'))}"><label for="trDevice" data-dev-lbl>{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device"><option value="">{pick}</option>{dopts}</select></div>
       <div class="rf rf-full" data-for="trial subscribe" data-golden hidden><p class="tr-golden">{icon('info')}<span><b>{t(L('Golden rule: one screen at a time.', 'القاعدة الذهبية: شاشة واحدة في نفس الوقت.'))}</b> {t(L('Install on as many devices as you like, but only one can play at once — watching on two at the same time can lock the account.', 'ثبّت الاشتراك على أي عدد من الأجهزة، لكن التشغيل على جهاز واحد فقط في نفس الوقت — التشغيل على جهازين معاً قد يوقف الحساب.'))}</span></p></div>
-      <div class="rf rf-full" data-for="subscribe"><label for="trPay">{t(L('How will you pay?', 'طريقة الدفع'))}</label><select id="trPay" name="pay"><option value="">{pick}</option>{payopts}</select><small class="pay-note" data-pay-note hidden></small></div>
+      <div class="rf rf-full" data-for="subscribe renew"><label for="trPay">{t(L('How will you pay?', 'طريقة الدفع'))}</label><select id="trPay" name="pay"><option value="">{pick}</option>{payopts}</select><small class="pay-note" data-pay-note hidden></small></div>
     </div>
     <div class="tr-total" data-total data-fees="{fees_attr}" data-units="{units_attr}" data-cur="{cur_attr}"
       data-l-total="{t(L('Approximate total', 'الإجمالي التقريبي'))}" data-l-after="{t(L('If you subscribe after the trial', 'لو اشتركت بعد التجربة'))}"
@@ -2070,10 +2070,6 @@ GUIDE_ART = {
                  '<g><rect x="68" y="40" width="32" height="36" rx="5" fill="url(#§w)"/><rect x="73" y="47" width="10" height="7" rx="1.5" fill="#fbbf24"/><rect x="73" y="62" width="22" height="3" rx="1.5" fill="#94a3b8"/></g>'
                  '<g><rect x="104" y="40" width="32" height="36" rx="5" fill="url(#§w)"/><circle cx="116" cy="58" r="7" fill="#3b82f6"/><circle cx="124" cy="58" r="7" fill="#60a5fa" opacity=".85"/></g>'
                  '<g><rect x="140" y="40" width="32" height="36" rx="5" fill="url(#§w)"/><rect x="149" y="47" width="14" height="22" rx="3" fill="#1e293b"/><circle cx="156" cy="64" r="1.6" fill="#fff"/><rect x="151" y="50" width="10" height="10" rx="1" fill="#60a5fa"/></g>'),
-    'later': _gsvg('la', '<rect x="86" y="22" width="62" height="70" rx="9" fill="url(#§w)"/><rect x="86" y="22" width="62" height="18" rx="9" fill="url(#§b)"/><rect x="86" y="32" width="62" height="8" fill="url(#§b)"/>'
-                   '<rect x="98" y="14" width="6" height="16" rx="3" fill="#cbd5e1"/><rect x="130" y="14" width="6" height="16" rx="3" fill="#cbd5e1"/>'
-                   '<g fill="#93b4e6">' + ''.join(f'<rect x="{94 + col * 14}" y="{48 + row * 13}" width="9" height="8" rx="2"/>' for row in range(3) for col in range(4)) + '</g>'
-                   '<circle cx="150" cy="80" r="17" fill="url(#§b)" filter="url(#§f)" opacity=".7"/><circle cx="150" cy="80" r="15" fill="url(#§b)" stroke="#dbeafe" stroke-width="2"/><path d="M150 72v9h7" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>'),
     'account': _gsvg('ac', '<rect x="78" y="22" width="62" height="70" rx="8" fill="#141f3d" stroke="#2c4a8a"/><rect x="104" y="30" width="72" height="62" rx="8" fill="url(#§w)"/>'
                      '<circle cx="124" cy="70" r="6" fill="#1e3a8a"/><path d="M114 86a10 8 0 0 1 20 0z" fill="#1e3a8a"/><g fill="#1e3a8a"><rect x="140" y="62" width="26" height="4" rx="2"/><rect x="140" y="72" width="20" height="4" rx="2"/><rect x="140" y="82" width="24" height="4" rx="2"/></g>'
                      '<circle cx="104" cy="50" r="17" fill="none" stroke="url(#§b)" stroke-width="6"/><circle cx="104" cy="50" r="13" fill="#7cc4ff" opacity=".25"/><path d="M92 63L76 80" stroke="#1e293b" stroke-width="8" stroke-linecap="round"/><path d="M92 63L80 76" stroke="url(#§b)" stroke-width="4" stroke-linecap="round"/>'),
@@ -2106,8 +2102,7 @@ def guide_cards(c):
         ('ramadan', 'Ramadan Guide', 'دليل رمضان', f'href="{c.href("ramadan-series.html")}"'),
         ('trial', 'Free Trial Form', 'طلب تجربة مجانية', f'href="{c.wa("trial")}" data-trial'),
         ('plans', 'Plans & Prices', 'الباقات والأسعار', f'href="{c.href("plans.html")}"'),
-        ('pay', 'Payment Methods', 'طرق الدفع', f'href="{c.href("pay.html")}"'),
-        ('later', 'Reschedule Payment', 'تأجيل الدفع', f'href="{c.href("pay.html")}#later"'),
+        ('pay', 'Payment Methods', 'طرق الدفع', f'href="{c.wa("sub")}" data-order="subscribe"'),
         ('account', 'Check Subscription', 'التحقق من الاشتراك', f'href="{c.href("help.html")}#account"'),
         ('renew', 'Renew Subscription', 'تجديد الاشتراك', f'href="{c.wa("sub")}" data-order="renew"'),
         ('setup', 'Setup Guides', 'أدلة الإعداد', f'href="{c.href("setup/index.html")}"'),
@@ -2117,7 +2112,7 @@ def guide_cards(c):
 
 
 # Hossam's own pictures (transparent .webp in assets/guide/); the other cards use the drawn pictures above
-GUIDE_IMG = {'speed', 'matches', 'ramadan', 'trial', 'plans', 'pay', 'later', 'account', 'renew', 'setup', 'fix', 'bot'}
+GUIDE_IMG = {'speed', 'matches', 'ramadan', 'trial', 'plans', 'pay', 'account', 'renew', 'setup', 'fix', 'bot'}
 
 
 def guide_list(c, home=False):
@@ -2145,67 +2140,6 @@ def guide_page(c):
             body)
 
 
-# ----------------------------------------------------------------------------
-# PAY — the page Hossam (or the bot) sends to a customer who wants to pay: every payment method, and "pay later"
-# (a day up to one week ahead) that goes to the bot, which reminds the customer on WhatsApp that day.
-# With the bot's link (#k=…) the page knows the customer; otherwise "pay later" asks for the username and password.
-# ----------------------------------------------------------------------------
-def pay_page(c):
-    t = c.t
-    def methods(eg):
-        rows = [(k, nm, note) for k, nm, note, e, i in PAY_FORM if (e if eg else i)]
-        return ''.join(
-            f'<li><a class="py-m" href="https://wa.me/{WHATSAPP}" target="_blank" rel="noopener" data-pay-m="{t(nm) if isinstance(nm, dict) else nm}">'
-            f'<b>{t(nm) if isinstance(nm, dict) else nm}</b><small>{t(note)}</small>{icon("arrow", "flip")}</a></li>' for k, nm, note in rows)
-    seg = (f'<div class="seg py-seg" role="group" aria-label="{t(L("Where are you paying from?", "من أين تدفع؟"))}">'
-           f'<button type="button" data-py-reg="intl" aria-pressed="true">{t(L("Canada & rest of world", "كندا وباقي العالم"))}</button>'
-           f'<button type="button" data-py-reg="eg" aria-pressed="false">{t(L("Egypt", "مصر"))}</button></div>')
-    hero = page_hero(c, [(None, t(L('Pay', 'الدفع')))], t(L('Pay your subscription', 'ادفع اشتراكك')),
-                     t(L('Choose how to pay — or pick a later day, up to one week.', 'اختر طريقة الدفع — أو اختر يوماً لاحقاً، حتى أسبوع.')))
-    msgs = {
-        'saved': L("Saved ✅ We'll remind you on WhatsApp on {d}.", 'تم الحفظ ✅ سنذكّرك على واتساب يوم {d}.'),
-        'empty': L('Choose a day.', 'اختر يوماً.'),
-        'login': L('Type your username and password.', 'اكتب اسم المستخدم وكلمة المرور.'),
-        'not_found': L("We couldn't find that account. Check the username and password, or message us on WhatsApp.", 'لم نجد هذا الحساب. راجع اسم المستخدم وكلمة المرور، أو راسلنا على واتساب.'),
-        'no_case': L('Nothing is due on this account. To pay or renew, choose a method above.', 'لا يوجد مبلغ مستحق على هذا الحساب. للدفع أو التجديد اختر طريقة من الأعلى.'),
-        'bad_day': L('Pick a day from tomorrow up to {d}.', 'اختر يوماً من الغد حتى {d}.'),
-        'too_late': L('This payment can’t be moved again. Please message Hossam on WhatsApp.', 'لا يمكن تأجيل هذا الدفع مرة أخرى. من فضلك راسل حسام على واتساب.'),
-        'limited': L('Too many tries today. Please message us on WhatsApp.', 'محاولات كثيرة اليوم. من فضلك راسلنا على واتساب.'),
-        'error': L("Couldn't connect right now. Try again in a minute, or message us on WhatsApp.", 'تعذّر الاتصال الآن. حاول بعد دقيقة، أو راسلنا على واتساب.'),
-    }
-    data_msgs = ' '.join(f'data-msg-{k}="{t(v)}"' for k, v in msgs.items())
-    body = hero + f'''
-<section class="sec first"><div class="wrap py-wrap" data-pay data-api="{N8N_WEBHOOK}site-pay" data-wa="{WHATSAPP}" data-locale="{'ar-EG' if c.ar else 'en-US'}" {data_msgs}
-  data-l-hi="{t(L('Hi {n}', 'مرحباً {n}'))}" data-l-due="{t(L('Amount due: {a}', 'المبلغ المستحق: {a}'))}" data-l-planned="{t(L('Planned for {d}', 'موعد الدفع: {d}'))}"
-  data-l-wa="{t(L("Hi Hossam, I'd like to pay with {m}.", 'مرحباً حسام، أريد الدفع عن طريق {m}.'))}" data-l-user="{t(L('Username', 'اسم المستخدم'))}">
-  <div class="py-who" data-py-who hidden></div>
-  <h2 class="st-h">{icon('card')}{t(L('Payment methods', 'طرق الدفع'))}</h2>
-  {seg}
-  <ul class="py-list" data-py-list="intl">{methods(False)}</ul>
-  <ul class="py-list" data-py-list="eg" hidden>{methods(True)}</ul>
-  <p class="py-note">{icon('info')}<span>{t(L("Tap a method: WhatsApp opens and Hossam sends you the details. After paying, send the receipt there.", 'اضغط على طريقة: يفتح واتساب ويرسل لك حسام التفاصيل. بعد الدفع أرسل صورة الإيصال هناك.'))}</span></p>
-
-  <h2 class="st-h" id="later">{icon('clock')}{t(L('Pay later', 'ادفع لاحقاً'))}</h2>
-  <form class="remind py-later" data-py-form novalidate>
-    <div class="rf-grid">
-      <div class="rf" data-py-login><label for="pyUser">{t(L('Username', 'اسم المستخدم'))}</label><input id="pyUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="64"></div>
-      <div class="rf" data-py-login><label for="pyPass">{t(L('Password', 'كلمة المرور'))}</label><input id="pyPass" name="password" type="password" dir="ltr" autocomplete="current-password" autocapitalize="none" spellcheck="false" maxlength="64"></div>
-      <div class="rf"><label for="pyDate">{t(L('I will pay on', 'سأدفع يوم'))}</label><input id="pyDate" name="date" type="date" dir="ltr" required></div>
-      <div class="rf"><label for="pyMethod">{t(L('Using (optional)', 'عن طريق (اختياري)'))}</label><select id="pyMethod" name="method"><option value="">—</option></select></div>
-    </div>
-    <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
-    <p class="remind-msg" role="status" hidden></p>
-    <button type="submit" class="btn btn-ink">{icon('clock')}<span>{t(L('Save the day', 'احفظ الموعد'))}</span></button>
-    <small class="py-fine">{t(L('Up to one week. We remind you on WhatsApp that day.', 'حتى أسبوع. نذكّرك على واتساب في هذا اليوم.'))}</small>
-  </form>
-</div></section>
-<script src="{c.root}assets/pay.js" defer></script>
-'''
-    return (t(L('Pay — Hossam TV', 'الدفع — Hossam TV')),
-            t(L('Payment methods for your Hossam TV subscription, or pick a later day to pay.', 'طرق دفع اشتراك Hossam TV، أو اختر يوماً لاحقاً للدفع.')),
-            body)
-
-
 PAGE_BUILDERS = [
     ('home', 'index.html', 'home', home),
     ('plans', 'plans.html', 'plans', plans),
@@ -2217,7 +2151,7 @@ PAGE_BUILDERS = [
 ]
 PAGE_BUILDERS += [('matches', 'matches.html', 'matches', matches_page), ('speed', 'speed-test.html', 'speed', speed_page)]
 PAGE_BUILDERS += [('ramadan', 'ramadan-series.html', None, ramadan_page)]
-PAGE_BUILDERS += [('guide', 'guide.html', None, guide_page), ('pay', 'pay.html', None, pay_page)]
+PAGE_BUILDERS += [('guide', 'guide.html', None, guide_page)]
 PAGE_BUILDERS += [('tv-' + sl, 'arabic-tv-' + sl + '.html', None, country_page(sl, nm, wh, tz, ct)) for sl, nm, wh, tz, ct in COUNTRY_PAGES]
 MATCH_PAGES = [('match-' + sl, 'match/' + sl + '.html', 'matches', match_page(sl, e, r)) for sl, e, r in match_list()]
 PAGE_BUILDERS += MATCH_PAGES

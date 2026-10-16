@@ -591,7 +591,7 @@
       var miss = mode === 'renew' && u.length < 2 ? tUser : n.length < 2 ? tName : !tCountry.value ? tCountry : !tPlan.value ? tPlan
         : mode === 'renew' ? (!tPeriod.value ? tPeriod : null) : devSels().filter(function(sel){ return !sel.value; })[0] || null;
       if(!miss && mode !== 'renew' && !/^[1-9]\d{7,14}$/.test(fullPhone())) miss = tPhone;
-      if(!miss && mode === 'subscribe' && !tPay.value) miss = tPay;
+      if(!miss && mode !== 'trial' && !tPay.value) miss = tPay;
       if(miss){ tMsg.textContent = tMsg.getAttribute(miss === tPhone && tPhone.value ? 'data-msg-phone' : 'data-msg-empty'); tMsg.className = 'remind-msg err'; tMsg.hidden = false; markBad(miss === tCountry ? cInput : miss); return; }
       var lbl = function(sel){ return opt(sel).textContent; };
       var trial = mode === 'trial';
@@ -599,16 +599,16 @@
         var body = new URLSearchParams();
         body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: mode === 'renew' ? '' : tDevice.value, devices: mode === 'renew' ? [] : devList().map(function(sel){ return sel.value; }), period: mode === 'trial' ? '' : tPeriod.value, price: mode === 'trial' ? '' : lbl(tPeriod),
           tvs: tvCount(), screens: screens(), total: totalText,
-          pay: mode === 'subscribe' ? tPay.value : '', phone: mode === 'renew' ? '' : fullPhone(), username: mode === 'renew' ? u : '', lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
+          pay: mode !== 'trial' ? tPay.value : '', phone: mode === 'renew' ? '' : fullPhone(), username: mode === 'renew' ? u : '', lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
         try{ fetch(tf.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit', keepalive: true })['catch'](function(){}); }catch(err){}
       }
       var lines = AR
         ? [trial ? 'مرحباً، أريد تجربة مجانية.' : mode === 'renew' ? 'مرحباً، أريد تجديد اشتراكي.' : 'مرحباً، أريد الاشتراك.']
           .concat(mode === 'renew' ? ['اسم المستخدم: ' + u] : [], ['الاسم: ' + n, 'الدولة: ' + lbl(tCountry)], mode === 'renew' ? [] : ['واتساب: +' + fullPhone()],
-                  mode === 'renew' ? ['السيرفر: ' + lbl(tPlan), 'المدة: ' + lbl(tPeriod)] : ['الباقة: ' + lbl(tPlan), (devList().length > 1 ? 'الأجهزة: ' : 'الجهاز: ') + devList().map(lbl).join('، ')], mode === 'subscribe' ? ['الدفع: ' + lbl(tPay)] : [])
+                  mode === 'renew' ? ['السيرفر: ' + lbl(tPlan), 'المدة: ' + lbl(tPeriod)] : ['الباقة: ' + lbl(tPlan), (devList().length > 1 ? 'الأجهزة: ' : 'الجهاز: ') + devList().map(lbl).join('، ')], mode !== 'trial' ? ['الدفع: ' + lbl(tPay)] : [])
         : [trial ? "Hi Hossam TV, I'd like a free trial." : mode === 'renew' ? "Hi Hossam TV, I'd like to renew my subscription." : "Hi Hossam TV, I'd like to subscribe."]
           .concat(mode === 'renew' ? ['Username: ' + u] : [], ['Name: ' + n, 'Country: ' + lbl(tCountry)], mode === 'renew' ? [] : ['WhatsApp: +' + fullPhone()],
-                  mode === 'renew' ? ['Server: ' + lbl(tPlan), 'Period: ' + lbl(tPeriod)] : ['Plan: ' + lbl(tPlan), (devList().length > 1 ? 'Devices: ' : 'Device: ') + devList().map(lbl).join(', ')], mode === 'subscribe' ? ['Payment: ' + lbl(tPay)] : []);
+                  mode === 'renew' ? ['Server: ' + lbl(tPlan), 'Period: ' + lbl(tPeriod)] : ['Plan: ' + lbl(tPlan), (devList().length > 1 ? 'Devices: ' : 'Device: ') + devList().map(lbl).join(', ')], mode !== 'trial' ? ['Payment: ' + lbl(tPay)] : []);
       if(mode === 'subscribe' && tPeriod.value) lines.push((AR ? 'المدة: ' : 'Period: ') + lbl(tPeriod));
       if(screens() > 1) lines.push((AR ? 'عدد الحسابات: ' : 'Accounts: ') + screens());
       if(tvCount()) lines.push((AR ? 'شاشات سامسونج / LG: ' : 'Samsung / LG TVs: ') + tvCount());
