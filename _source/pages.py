@@ -2105,7 +2105,7 @@ def guide_cards(c):
         ('pay', 'Payment Methods', 'طرق الدفع', f'href="{c.wa("sub")}" data-order="subscribe"'),
         ('account', 'Check Subscription', 'التحقق من الاشتراك', f'href="{c.href("help.html")}#account"'),
         ('renew', 'Renew Subscription', 'تجديد الاشتراك', f'href="{c.wa("sub")}" data-order="renew"'),
-        ('setup', 'Setup Guides', 'أدلة الإعداد', f'href="{c.href("setup/index.html")}"'),
+        ('setup', 'Setup Guides', 'دليل التركيب', f'href="{c.href("setup/index.html")}"'),
         ('fix', 'Troubleshooter', 'حل المشاكل', f'href="{c.root}help.html"'),
         ('bot', 'Chat with the Bot', 'تحدث مع البوت', f'href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener"'),
     ]
