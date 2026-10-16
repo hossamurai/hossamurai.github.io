@@ -1450,3 +1450,14 @@ section.sec.nl-sec+section.sec{padding-top:36px}
   .gd-en,.gd-ar{max-width:none}
   .gd-ar{grid-column:3}
 }
+/* guide cards: the picture spans the whole card again; each name sits on a soft dark backing instead */
+.gd-card:after{display:none}
+.gd-en,.gd-ar{justify-self:start;padding:6px 11px;border-radius:12px;background:rgba(9,17,42,.72);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.gd-ar{justify-self:end}
+@media (max-width:560px){
+  .gd-card{grid-template-columns:1fr 1fr;padding:10px}
+  .gd-en,.gd-ar{max-width:96%;font-size:.88rem;padding:5px 9px}
+  .gd-ar{grid-column:2}
+  .gd-art{-webkit-mask-image:none;mask-image:none}
+  .gd-art img{width:auto;height:112%;max-width:none;max-height:none}
+}
