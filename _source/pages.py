@@ -115,7 +115,9 @@ def trial_dialog(c):
     copts += f'<option value="other" data-region="intl">{t(L("Other country", "دولة أخرى"))}</option>'
     popts = ''.join(f'<option value="{pid}"{" data-eg" if PLANS[pid]["egypt_only"] else ""}>{t(PLANS[pid]["name"])}</option>' for pid in PLAN_ORDER)
     devs = {d['slug']: d for d in DEVICES}
-    dopts = ''.join(f'<option value="{key}" data-guide="{c.href("setup/" + slug + ".html")}">{t(devs[slug]["name"])}</option>' for slug, key in TRIAL_DEVICES)
+    # the form groups every TV that uses the paid TV app (IBO / Bob Player): Samsung, LG, Vidaa and Apple TV
+    form_name = {'smart-tv': L('Samsung, LG, Vidaa or Apple TV', 'سامسونج أو LG أو Vidaa أو Apple TV'), 'apple': L('iPhone, iPad or Mac', 'آيفون أو آيباد أو ماك')}
+    dopts = ''.join(f'<option value="{key}" data-guide="{c.href("setup/" + slug + ".html")}">{t(form_name.get(slug, devs[slug]["name"]))}</option>' for slug, key in TRIAL_DEVICES)
     dopts += f'<option value="other" data-guide="{c.href("setup/index.html")}">{t(L("Other / not sure", "جهاز آخر / لست متأكداً"))}</option>'
     payopts = ''.join(f'<option value="{k}" data-note="{t(note)}"{" data-eg" if eg else ""}{" data-intl" if intl else ""}>{t(nm)}</option>'
                       for k, nm, note, eg, intl in PAY_FORM)
@@ -159,8 +161,8 @@ def trial_dialog(c):
     <div class="tr-total" data-total data-fees="{fees_attr}" data-units="{units_attr}" data-cur="{cur_attr}"
       data-l-total="{t(L('Approximate total', 'الإجمالي التقريبي'))}" data-l-after="{t(L('If you subscribe after the trial', 'لو اشتركت بعد التجربة'))}"
       data-l-acc="{t(L('{n} screen', '{n} شاشة'))}" data-l-accs="{t(L('{n} screens', '{n} شاشات'))}" data-l-yr="{t(L('1 year', 'سنة'))}" data-l-yrs="{t(L('{n} years', '{n} سنوات'))}"
-      data-l-tv="{t(L('Samsung / LG TV app', 'تطبيق شاشة سامسونج / LG'))}" data-l-tv1="{t(L('1 year', 'سنة'))}" data-l-tvl="{t(L('lifetime', 'مدى الحياة'))}"
-      data-l-sum="{t(L('Total', 'الإجمالي'))}" data-l-note="{t(L('The TV app is charged per Samsung / LG TV. Hossam confirms the final amount on WhatsApp.', 'تطبيق الشاشة يُحسب لكل شاشة سامسونج / LG. حسام يؤكد المبلغ النهائي على واتساب.'))}" hidden></div>
+      data-l-tv="{t(L('TV app (Samsung / LG / Vidaa / Apple TV)', 'تطبيق الشاشة (سامسونج / LG / Vidaa / Apple TV)'))}" data-l-tv1="{t(L('1 year', 'سنة'))}" data-l-tvl="{t(L('lifetime', 'مدى الحياة'))}"
+      data-l-sum="{t(L('Total', 'الإجمالي'))}" data-l-note="{t(L('The TV app is charged per TV (Samsung, LG, Vidaa or Apple TV). Hossam confirms the final amount on WhatsApp.', 'تطبيق الشاشة يُحسب لكل شاشة (سامسونج أو LG أو Vidaa أو Apple TV). حسام يؤكد المبلغ النهائي على واتساب.'))}" hidden></div>
     <p class="trial-note" data-for="trial subscribe">{icon('info')}<span>{t(L('Install the app first so everything is ready:', 'ثبّت التطبيق أولاً ليكون كل شيء جاهزاً:'))} <a data-trial-guide href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}</a></span></p>
     <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
     <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Please fill in all the fields.', 'من فضلك املأ كل الحقول.'))}" data-msg-phone="{t(L('Check the WhatsApp number.', 'راجع رقم الواتساب.'))}"></p>
@@ -419,12 +421,6 @@ def home(c):
     teaser = ''.join(details(c, i, *fq[i]) for i in ['free-trial', 'which-plan', 'multi-device', 'activation'])
 
     body = hero + f'''
-<section class="sec nl-sec"><div class="wrap">
-  <p class="next-line" data-next-line data-l-in="{t(L('in', 'بعد'))}" data-l-h="{t(L('hours', 'ساعة'))}" data-l-m="{t(L('min', 'دقيقة'))}" hidden>
-    <span>{icon('ball')}<b data-next-line-teams></b><span class="nl-when" data-next-line-when></span></span>
-    {trial_link(c, t(L('Watch it live', 'شاهدها مباشرة')) + ' ' + icon('arrow', 'flip'), 'next-line-cta')}
-  </p>
-</div></section>
 {ramadan_teaser(c)}
 <section class="sec" id="plans"><div class="wrap">
   {sec_head('', t(L('Plans', 'الباقات')), t(L('Pick your plan', 'اختر باقتك')))}
