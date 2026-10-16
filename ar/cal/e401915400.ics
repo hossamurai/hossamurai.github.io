@@ -4,17 +4,17 @@ PRODID:-//Hossam TV//Matches//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
-UID:e401914216@hossamservices.com
-DTSTAMP:20261016T160000Z
-DTSTART:20261016T160000Z
-DTEND:20261016T180000Z
-SUMMARY:إيه بي آر – الزمالك (دوري أبطال أفريقيا)
+UID:e401915400@hossamservices.com
+DTSTAMP:20261020T190000Z
+DTSTART:20261020T190000Z
+DTEND:20261020T210000Z
+SUMMARY:نابولي – بودو جليمت (دوري أبطال أوروبا)
 DESCRIPTION:بي إن سبورت · شاهدها مباشرة على Hossam TV — hossamservices.com
 URL:https://hossamservices.com/
 BEGIN:VALARM
 TRIGGER:-PT30M
 ACTION:DISPLAY
-DESCRIPTION:إيه بي آر – الزمالك (دوري أبطال أفريقيا)
+DESCRIPTION:نابولي – بودو جليمت (دوري أبطال أوروبا)
 END:VALARM
 END:VEVENT
 END:VCALENDAR
