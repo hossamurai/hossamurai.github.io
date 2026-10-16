@@ -1482,6 +1482,7 @@ footer.site-compact{padding:24px 0 18px}
 .ms-flag{color:#e3101b}.ms-flag .live-dot{background:#e3101b}
 .ms-live{border-color:rgba(227,16,27,.45);background:linear-gradient(180deg,rgba(227,16,27,.08),var(--surface) 65%)}
 .ms-all{background:#e3101b;border-color:#e3101b;color:#fff}
+.ms-all:hover,.ms-all:active,.ms-all:focus-visible{background:#c40d17;border-color:#c40d17;color:#fff}
 
 /* ===================== dark mode — follows the phone / computer setting (Apple's dark greys) ===================== */
 @media (prefers-color-scheme:dark){
