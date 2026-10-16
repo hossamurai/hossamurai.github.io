@@ -111,7 +111,8 @@ SPRITE = '''<svg width="0" height="0" style="position:absolute" aria-hidden="tru
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700'
-         '&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">')
+         '&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media=\'all\'">')
+# ^ fonts load without holding up the first paint (system fonts show first — Apple devices use them anyway)
 
 NAV = [
     ('home', 'index.html', L('Home', 'الرئيسية')),
@@ -144,7 +145,7 @@ def header(c):
   <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="wrap nav-in">
     <a class="brand" href="{c.href('index.html')}" aria-label="{SITE_NAME} — {c.t(L('home', 'الرئيسية'))}">
-      <img src="{c.root}assets/img/logo.png" alt="" width="34" height="34" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+      <img src="{c.root}assets/img/logo-72.webp" alt="" width="34" height="34" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
       <span class="brand-fallback" aria-hidden="true">H</span><span>{SITE_NAME}</span>
     </a>
     <nav class="nav-links" id="navLinks" aria-label="{c.t(L('Main', 'القائمة الرئيسية'))}">{links}</nav>
@@ -340,11 +341,26 @@ def write(rel, text):
         f.write(text)
 
 
+def minify_css(path):
+    """Smaller stylesheet for slow mobile data: no comments or extra spaces (the readable one stays in _source/assets)."""
+    import re
+    with open(path, encoding='utf-8') as f:
+        css = f.read()
+    css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
+    css = re.sub(r'\s+', ' ', css)
+    css = re.sub(r'\s*([{};,>])\s*', r'\1', css)
+    css = re.sub(r':\s+', ':', css)
+    css = css.replace(';}', '}')
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(css.strip() + '\n')
+
+
 def main():
     for d in ['en', 'ar']:
         shutil.rmtree(os.path.join(OUT, d), ignore_errors=True)
     # Copy over assets/ instead of wiping it: bot.js and the app icons in assets/apps/ live only there.
     shutil.copytree(os.path.join(HERE, 'assets'), os.path.join(OUT, 'assets'), dirs_exist_ok=True)
+    minify_css(os.path.join(OUT, 'assets', 'style.css'))
 
     pages = list(PAGE_BUILDERS) + list(DEVICE_PAGES)
     count = 0
