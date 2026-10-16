@@ -158,33 +158,25 @@ def header(c):
 
 
 def footer(c):
+    """Compact footer: name + WhatsApp, one line of links, the country pages (for Google), policies and the language."""
     t = c.t
-    explore = ''.join(f'<li><a href="{h}">{t(lbl)}</a></li>' for k, h, lbl in nav_items(c))
-    devs = ''.join(f'<li><a href="{c.href("setup/" + d["slug"] + ".html")}">{t(d["name"])}</a></li>' for d in DEVICES if not d.get('off'))
-    pol = [('policies.html#terms', L('Terms of service', 'شروط الخدمة')),
-           ('policies.html#refund', L('Refund policy', 'سياسة الاسترجاع')),
-           ('policies.html#privacy', L('Privacy policy', 'سياسة الخصوصية'))]
-    pols = ''.join(f'<li><a href="{c.href(p)}">{t(lbl)}</a></li>' for p, lbl in pol)
-    return f'''<footer class="site">
+    links = [('plans.html', L('Plans', 'الباقات')), ('channels.html', L('Channels', 'القنوات')), ('setup/index.html', L('Setup', 'التثبيت')),
+             ('matches.html', L('Matches', 'المباريات')), ('ramadan-series.html', L('Ramadan', 'رمضان')), ('speed-test.html', L('Speed test', 'اختبار السرعة')),
+             ('guide.html', L('Website guide', 'دليل الموقع')), ('help.html', L('FAQ', 'الأسئلة الشائعة')), ('about.html', L('About', 'من نحن'))]
+    nav = ''.join(f'<a href="{c.href(h)}">{t(lbl)}</a>' for h, lbl in links)
+    pol = [('policies.html#terms', L('Terms', 'الشروط')), ('policies.html#refund', L('Refunds', 'الاسترجاع')), ('policies.html#privacy', L('Privacy', 'الخصوصية'))]
+    pols = ' · '.join(f'<a href="{c.href(p)}">{t(lbl)}</a>' for p, lbl in pol)
+    countries = ' · '.join(f'<a href="{c.href("arabic-tv-" + sl + ".html")}">{t(nm)}</a>' for sl, nm, *_ in COUNTRY_PAGES)
+    return f'''<footer class="site site-compact">
   <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <span class="foot-brand">{SITE_NAME}</span>
-        <p>{t(L('Live sports, movies and series on any screen — with personal support on WhatsApp.', 'مباريات وأفلام ومسلسلات على أي شاشة — مع دعم شخصي عبر واتساب.'))}</p>
-        <p>{t(L('WhatsApp (chat only, no calls):', 'واتساب (رسائل فقط، بدون مكالمات):'))}<br><a class="foot-wa" href="{wa()}" target="_blank" rel="noopener">{WHATSAPP_DISPLAY}</a></p>
-        <p><a class="foot-remind" href="{c.href('index.html#reminders')}">{icon('clock')}{t(L('Get renewal reminders', 'فعّل تنبيهات التجديد'))}</a></p>
-        <p><a class="foot-remind" href="{c.href('matches.html')}">{icon('ball')}{t(L('Big matches this week', 'أهم مباريات الأسبوع'))}</a></p>
-        <p><a class="foot-remind" href="{c.href('ramadan-series.html')}">{icon('moon')}{t(L('Ramadan series', 'مسلسلات رمضان'))}</a></p>
-        <p><a class="foot-remind" href="{c.href('speed-test.html')}">{icon('bolt')}{t(L('Internet speed test', 'اختبار سرعة الإنترنت'))}</a></p>
-        <p class="foot-countries">{t(L('Arabic TV in:', 'القنوات العربية في:'))} {' · '.join(f'<a href="{c.href("arabic-tv-" + sl + ".html")}">{t(nm)}</a>' for sl, nm, *_ in COUNTRY_PAGES)}</p>
-      </div>
-      <div><h3>{t(L('Explore', 'تصفح'))}</h3><ul>{explore}</ul></div>
-      <div><h3>{t(L('Setup guides', 'أدلة التثبيت'))}</h3><ul>{devs}</ul></div>
-      <div><h3>{t(L('Policies', 'السياسات'))}</h3><ul>{pols}</ul>
-        <p style="margin-top:16px">{t(L('Save our number — updates and maintenance notices are posted on our WhatsApp Status.', 'احفظ رقمنا — التحديثات وأخبار الصيانة تُنشر على حالة الواتساب.'))}</p></div>
+    <div class="fc-top">
+      <span class="foot-brand">{SITE_NAME}</span>
+      <a class="foot-wa" href="{wa()}" target="_blank" rel="noopener">{icon('chat')}<bdi dir="ltr">{WHATSAPP_DISPLAY}</bdi></a>
     </div>
+    <nav class="fc-links" aria-label="{t(L('Footer', 'روابط'))}">{nav}</nav>
+    <p class="fc-small">{t(L('Arabic TV in:', 'القنوات العربية في:'))} {countries}</p>
     <div class="foot-bottom">
-      <span>&copy; <span id="yr">2026</span> {SITE_NAME}</span>
+      <span>&copy; <span id="yr">2026</span> {SITE_NAME} · {pols}</span>
       <a href="{c.other_lang_href()}" data-setlang="{'en' if c.ar else 'ar'}" lang="{'en' if c.ar else 'ar'}">{'English' if c.ar else 'العربية'}</a>
     </div>
   </div>

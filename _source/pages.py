@@ -316,7 +316,7 @@ def dev_grid(c):
 
 def faq_answer(c, a):
     return (c.t(a).replace('{channels}', f'<a href="{c.href("channels.html")}">{c.t(L("Channels", "القنوات"))}</a>')
-            .replace('{reminders}', f'<a href="{c.href("index.html#reminders")}">{c.t(L("Renewal reminders", "تنبيهات التجديد"))}</a>')
+            .replace('{reminders}', f'<a href="{c.href("help.html#reminders")}">{c.t(L("Renewal reminders", "تنبيهات التجديد"))}</a>')
             .replace('{speedtest}', f'<a href="{c.href("speed-test.html")}">{c.t(L("our speed test", "اختبار السرعة"))}</a>'))
 
 
@@ -452,11 +452,6 @@ def home(c):
 </div></section>
 
 
-<section class="sec remind-sec" id="reminders-sec"><div class="wrap">
-  {sec_head('', t(L('Renewal reminders', 'تنبيهات التجديد')), t(L('Never miss a renewal', 'لا تفوّت موعد التجديد')), t(L("A WhatsApp reminder before your subscription ends — for your account or a friend's.", 'تذكير على واتساب قبل انتهاء الاشتراك — لحسابك أو لحساب صديق.')))}
-  {reminder_card(c, compact=True)}
-  {account_card(c, compact=True)}
-</div></section>
 {reviews}
 
 
@@ -600,12 +595,7 @@ def channels(c):
 </div></section>
 
 <section class="sec"><div class="wrap">
-  {sec_head('', t(L('Quality', 'الجودة')), t(L('What internet speed do you need?', 'ما سرعة الإنترنت التي تحتاجها؟')), t(L('Per screen. A cable or 5 GHz Wi-Fi works best.', 'لكل شاشة. الكابل أو واي فاي 5 جيجا هو الأفضل.')))}
-  <div class="speed">
-    <div><em>SD</em><b>5 Mbps</b><span>{t(L('Phones and small screens', 'الموبايل والشاشات الصغيرة'))}</span></div>
-    <div><em>Full HD</em><b>10 Mbps</b><span>{t(L('Most TVs', 'معظم الشاشات'))}</span></div>
-    <div><em>4K UHD</em><b>25 Mbps+</b><span>{t(L('4K TV or device needed', 'تحتاج شاشة أو جهازاً يدعم 4K'))}</span></div>
-  </div>
+  <a class="st-more" href="{c.href('speed-test.html')}">{icon('bolt')}<span>{t(L('What internet speed do you need? Test yours — 5 Mbps for SD, 10 for HD, 25 for 4K.', 'ما السرعة التي تحتاجها؟ اختبر سرعتك — 5 ميجا لـ SD و10 لـ HD و25 لـ 4K.'))}</span>{icon('arrow', 'flip')}</a>
 </div></section>
 ''' + cta_block(c)
     return (t(L('Channels, Sports, Movies & Series', 'القنوات والرياضة والأفلام والمسلسلات')),
@@ -2102,8 +2092,7 @@ def guide_cards(c):
         ('ramadan', 'Ramadan Guide', 'دليل رمضان', f'href="{c.href("ramadan-series.html")}"'),
         ('trial', 'Free Trial Form', 'طلب تجربة مجانية', f'href="{c.wa("trial")}" data-trial'),
         ('plans', 'Plans & Prices', 'الباقات والأسعار', f'href="{c.href("plans.html")}"'),
-        ('account', 'Check Subscription', 'التحقق من الاشتراك', f'href="{c.href("help.html")}#account"'),
-        ('renew', 'Renew Subscription', 'تجديد الاشتراك', f'href="{c.wa("sub")}" data-order="renew"'),
+        ('account', 'My Subscription', 'اشتراكي', f'href="{c.href("help.html")}#account"'),
         ('setup', 'Setup Guides', 'دليل التركيب', f'href="{c.href("setup/index.html")}"'),
         ('fix', 'Troubleshooter', 'حل المشاكل', f'href="{c.root}help.html"'),
         ('bot', 'Chat with the Bot', 'تحدث مع البوت', f'href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener"'),
@@ -2111,7 +2100,7 @@ def guide_cards(c):
 
 
 # Hossam's own pictures (transparent .webp in assets/guide/); the other cards use the drawn pictures above
-GUIDE_IMG = {'speed', 'matches', 'ramadan', 'trial', 'plans', 'account', 'renew', 'setup', 'fix', 'bot'}
+GUIDE_IMG = {'speed', 'matches', 'ramadan', 'trial', 'plans', 'account', 'setup', 'fix', 'bot'}
 
 
 def guide_list(c, home=False):

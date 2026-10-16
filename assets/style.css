@@ -1471,3 +1471,17 @@ section.sec.nl-sec+section.sec{padding-top:36px}
 .st-note{color:#7f95c4}
 @keyframes stPulse{50%{box-shadow:0 0 0 16px rgba(59,130,246,.14),0 0 46px rgba(37,99,235,.75)}}
 @media (max-width:520px){.st-readout{top:82%}.st-readout b{font-size:2.6rem}}
+/* compact footer */
+footer.site-compact{padding:24px 0 18px}
+.site-compact .fc-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.site-compact .foot-wa{display:inline-flex;align-items:center;gap:6px;font-weight:700;text-decoration:none;color:var(--ink)}
+.site-compact .foot-wa .ic{width:16px;height:16px;color:#1faa59}
+.site-compact .fc-links{display:flex;flex-wrap:wrap;gap:6px 16px;margin:14px 0 10px}
+.site-compact .fc-links a{color:var(--ink);text-decoration:none;font-size:.9rem;font-weight:600}
+.site-compact .fc-links a:hover{color:var(--red)}
+.site-compact .fc-small{margin:0 0 12px;color:var(--muted);font-size:.8rem}
+.site-compact .fc-small a{color:inherit}
+.site-compact .foot-bottom{margin-top:0;padding-top:12px;font-size:.8rem}
+.site-compact .foot-bottom a{color:inherit}
+.plan-head .plan-logo,.plan-head .plan-mono{width:76px;height:76px;border-radius:18px;padding:5px}
+.plan-head .plan-logo{padding:0;background:#fff}
