@@ -411,7 +411,7 @@ DEVICES = [
      'short': L('Direct download · 5 min', 'تحميل مباشر · 5 دقائق')},
     {'slug': 'apple', 'icon': 'apple', 'name': L('iPhone, iPad, Mac & Apple TV', 'آيفون وآيباد وماك وأبل تي في'),
      'short': L('App Store · 5 min', 'App Store · 5 دقائق')},
-    {'slug': 'smart-tv', 'icon': 'tv', 'name': L('Samsung & LG Smart TV', 'شاشات سامسونج و LG'),
+    {'slug': 'smart-tv', 'icon': 'tv', 'name': L('Samsung, LG & Vidaa Smart TV', 'شاشات سامسونج و LG و Vidaa'),
      'short': L('Bob Player · IBO Player', 'Bob Player · IBO Player')},
     {'slug': 'windows', 'icon': 'laptop', 'name': L('Windows PC & laptop', 'كمبيوتر ولابتوب ويندوز'),
      'short': L('SFVIP Player · 5 min', 'SFVIP Player · 5 دقائق')},

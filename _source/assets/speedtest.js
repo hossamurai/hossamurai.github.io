@@ -175,12 +175,14 @@
     lastLog = list;
     while(logList.firstChild) logList.removeChild(logList.firstChild);
     list.slice(0, 10).forEach(function(r){
-      var row = document.createElement('div'); row.className = 'st-log-row';
+      /* red = slow or unstable · yellow = OK · green = good · blue = excellent */
+      var lv = !r.stable || r.mbps < 10 ? 'bad' : r.mbps < 25 ? 'ok' : r.mbps < 100 ? 'good' : 'top';
+      var row = document.createElement('div'); row.className = 'st-log-row lv-' + lv;
       var who = document.createElement('div'); who.className = 'st-log-who';
       var b = document.createElement('b'); b.textContent = String(r.name || '').slice(0, 30); who.appendChild(b);
       var net = r.conn === 'wifi' ? 'Wi-Fi' : r.conn === 'ethernet' ? (AR ? 'كابل' : 'Cable') : (r.conn === 'cellular' || r.mobile) ? (AR ? 'بيانات الموبايل' : 'Mobile data') : '';
       var sm = document.createElement('small'); sm.textContent = [r.where, net, r.isp, ago(r.at)].filter(Boolean).join(' · '); who.appendChild(sm);
-      var sp = document.createElement('div'); sp.className = 'st-log-num ' + (r.mbps >= 25 ? 'good' : r.mbps >= 5 ? 'ok' : 'bad'); sp.dir = 'ltr'; sp.textContent = r.mbps + ' Mbps';
+      var sp = document.createElement('div'); sp.className = 'st-log-num ' + lv; sp.dir = 'ltr'; sp.textContent = r.mbps + ' Mbps';
       var ex = document.createElement('div'); ex.className = 'st-log-ex'; ex.dir = 'ltr';
       ex.textContent = (r.ping != null ? r.ping + ' ms' : '—') + ' · ' + (r.stable ? A('stable') : A('shaky'));
       row.appendChild(who); row.appendChild(sp); row.appendChild(ex);
@@ -199,10 +201,15 @@
     });
     return out.slice(0, 10);
   }
-  if(mine().length) renderLog(merge([]));
+  /* show the list once, with the newest readings: wait for the server (up to 3 s), then fall back to the tests kept on this phone —
+     no more old list flashing before the fresh one */
+  var logDone = false;
+  var firstLog = function(list){ if(logDone) return; logDone = true; renderLog(merge(list)); };
+  setTimeout(function(){ if(mine().length) firstLog([]); }, 3000);
   if(window.fetch) fetch(box.getAttribute('data-api').replace(/site-speed$/, 'site-data'), { cache: 'no-store', credentials: 'omit' })
     .then(function(r){ return r.ok ? r.json() : null; })
-    .then(function(d){ if(d && d.speedtests) renderLog(merge(d.speedtests)); })['catch'](function(){});
+    .then(function(d){ if(d && d.speedtests){ if(logDone) renderLog(merge(d.speedtests)); else firstLog(d.speedtests); } else firstLog([]); })['catch'](function(){ firstLog([]); });
+  else firstLog([]);
   function run(){
     if(nameIn && !nameIn.value.trim()){ msg.textContent = A('needname'); nameIn.focus(); nameIn.classList.add('st-need-name'); return; }
     if(netBox && !detected && !picked){ msg.textContent = A('neednet'); netBox.classList.add('st-need-name'); return; }

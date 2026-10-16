@@ -429,7 +429,7 @@
     var totalText = '';
     var syncTotal = function(){
       if(!totBox) return;
-      golden.hidden = mode === 'renew' || devCount() <= screens();
+      golden.hidden = mode === 'renew' || devCount() < 2;   /* 2 devices or more, whatever they are */
       var A = function(k){ return totBox.getAttribute('data-l-' + k) || ''; }, yrs = years(), n = screens(), pc = yrs ? planCost(n * yrs) : null;
       totalText = '';
       if(!pc){ totBox.hidden = true; return; }

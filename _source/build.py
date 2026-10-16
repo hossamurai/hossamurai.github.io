@@ -150,7 +150,7 @@ def header(c):
     <nav class="nav-links" id="navLinks" aria-label="{c.t(L('Main', 'القائمة الرئيسية'))}">{links}</nav>
     <div class="nav-right">
       <a class="lang" href="{c.other_lang_href()}" hreflang="{other}" lang="{other}" data-setlang="{other}">{icon('globe')}{'English' if c.ar else 'العربية'}</a>
-      <a class="btn btn-wa btn-sm" href="{c.wa('trial')}" target="_blank" rel="noopener" data-trial>{icon('chat')}<span class="lbl">{c.t(L('Free trial', 'تجربة مجانية'))}</span></a>
+      <a class="btn btn-wa btn-sm nav-trial" href="{c.wa('trial')}" target="_blank" rel="noopener" data-trial>{icon('chat')}<span class="lbl">{c.t(L('Free trial', 'تجربة مجانية'))}</span></a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks" aria-label="{c.t(L('Menu', 'القائمة'))}">{icon('menu', 'i-open')}{icon('x', 'i-close')}</button>
     </div>
   </div>
