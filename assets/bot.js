@@ -198,7 +198,9 @@
   if(!HELP_PAGE){
     fetch(API + 'site-data', { credentials: 'omit' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
       if(!d) return;
-      applyPrices(d.prices); applyOutages(d.outages); applyAnnouncement(d.announcement); applyStatus(d.outages, d.uptime); applyRatings(d.ratings); applyReviews(d.reviews, d.ratings);
+      applyPrices(d.prices); applyOutages(d.outages);
+      /* the same prices for the order form's periods and total (assets/site.js) */
+      if(d.prices){ window.htvPrices = d.prices; try{ document.dispatchEvent(new CustomEvent('htv:prices', { detail: d.prices })); }catch(e){} } applyAnnouncement(d.announcement); applyStatus(d.outages, d.uptime); applyRatings(d.ratings); applyReviews(d.reviews, d.ratings);
       /* match channels set from the admin bot -> matches bars (assets/matches.js) and the matches page */
       /* the visitor's real country (Cloudflare, by IP) -> prices tab + phone codes (assets/site.js) */
       if(d.country){ window.htvCountry = d.country; try{ document.dispatchEvent(new CustomEvent('htv:country', { detail: d.country })); }catch(e){} }

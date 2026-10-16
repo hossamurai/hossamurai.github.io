@@ -1346,11 +1346,11 @@ section.sec.nl-sec+section.sec{padding-top:36px}
 .tr-total small{display:block;margin-top:4px;color:var(--muted);font-size:.76rem}
 .tr-total[hidden],[data-tvs][hidden]{display:none}
 /* guide page: dark cards, English left, Arabic right, a glowing picture of what each card opens */
-.gd-sec{background:#060b1a;padding:28px 0 40px;margin-bottom:-1px}
-.gd-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;color:#fff;font-size:1.3rem;margin:0 0 16px}
+.gd-sec{background:var(--surface-2,#f5f5f7);padding:28px 0 40px}
+.gd-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;color:var(--ink);font-size:1.3rem;margin:0 0 16px}
 .gd-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .gd-card{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:10px;min-height:108px;padding:14px 16px 14px 22px;border-radius:18px;overflow:hidden;text-decoration:none;color:#fff;
-  background:linear-gradient(100deg,#0d1730 0%,#0a1328 45%,#0d1a3a 100%);border:1px solid rgba(96,165,250,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 6px 18px rgba(0,0,0,.35);transition:border-color .2s,transform .2s,box-shadow .2s}
+  background:linear-gradient(100deg,#0d1730 0%,#0a1328 45%,#0d1a3a 100%);border:1px solid rgba(96,165,250,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 6px 18px rgba(10,19,40,.18);transition:border-color .2s,transform .2s,box-shadow .2s}
 .gd-card:before{content:"";position:absolute;inset:0;background:radial-gradient(60% 120% at 50% 50%,rgba(37,99,235,.28),transparent 70%);pointer-events:none}
 .gd-card:hover{border-color:rgba(96,165,250,.7);transform:translateY(-1px);box-shadow:0 10px 26px rgba(37,99,235,.28)}
 .gd-art{position:absolute;inset:0;z-index:0;display:flex;justify-content:center;align-items:center;pointer-events:none;
@@ -1421,5 +1421,3 @@ section.sec.nl-sec+section.sec{padding-top:36px}
 .st-log-num.bad{color:#e3101b}.st-log-num.ok{color:#b98500}.st-log-num.good{color:#1f9d55}.st-log-num.top{color:#1a73e8}
 @media (max-width:480px){.nav-trial{display:none!important}}
 
-.gd-sec-home{padding:26px 0 30px}
-@media (min-width:900px){.gd-home{grid-template-columns:1fr 1fr}.gd-home .gd-card{min-height:96px}}
