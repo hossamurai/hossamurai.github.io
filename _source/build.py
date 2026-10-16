@@ -162,7 +162,7 @@ def footer(c):
     t = c.t
     links = [('plans.html', L('Plans', 'الباقات')), ('channels.html', L('Channels', 'القنوات')), ('setup/index.html', L('Setup', 'التثبيت')),
              ('matches.html', L('Matches', 'المباريات')), ('ramadan-series.html', L('Ramadan', 'رمضان')), ('speed-test.html', L('Speed test', 'اختبار السرعة')),
-             ('guide.html', L('Website guide', 'دليل الموقع')), ('help.html', L('FAQ', 'الأسئلة الشائعة')), ('about.html', L('About', 'من نحن'))]
+             ('help.html', L('FAQ', 'الأسئلة الشائعة')), ('about.html', L('About', 'من نحن'))]
     nav = ''.join(f'<a href="{c.href(h)}">{t(lbl)}</a>' for h, lbl in links)
     pol = [('policies.html#terms', L('Terms', 'الشروط')), ('policies.html#refund', L('Refunds', 'الاسترجاع')), ('policies.html#privacy', L('Privacy', 'الخصوصية'))]
     pols = ' · '.join(f'<a href="{c.href(p)}">{t(lbl)}</a>' for p, lbl in pol)
@@ -368,10 +368,6 @@ def main():
     write('speed-test.html', root_index().replace("l + '/index.html'", "l + '/speed-test'")
           .replace('<html lang="ar" dir="rtl">', '<html lang="ar" dir="rtl">\n<!-- redirects to /en/ or /ar/speed-test.html -->')
           .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
-    # short link Hossam sends: hossamservices.com/guide
-    for short in ('guide',):
-        write(f'{short}.html', root_index().replace("l + '/index.html'", f"l + '/{short}.html'")
-              .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
     write('404.html', page_404())
     write('sitemap.xml', sitemap([p for _, p, _, _ in pages if p not in NOINDEX]))
     write('robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {BASE_URL}/sitemap.xml\n')
