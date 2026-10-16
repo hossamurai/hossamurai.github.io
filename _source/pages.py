@@ -2101,7 +2101,7 @@ def guide_cards(c):
         ('renew', 'Renew Subscription', 'تجديد الاشتراك', f'href="{c.wa("sub")}" data-order="renew"'),
         ('setup', 'Setup Guides', 'أدلة الإعداد', f'href="{c.href("setup/index.html")}"'),
         ('fix', 'Troubleshooter', 'حل المشاكل', f'href="{c.root}help.html"'),
-        ('bot', 'Chat with El Bot', 'تحدث مع البوت', f'href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener"'),
+        ('bot', 'Chat with the Bot', 'تحدث مع البوت', f'href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener"'),
     ]
 
 
@@ -2124,10 +2124,11 @@ def guide_list(c, home=False):
 def guide_page(c):
     t = c.t
     body = f'''<section class="gd-sec"><div class="wrap">
-  <h1 class="gd-h" dir="ltr"><span lang="en">Hossam TV Guide</span><span lang="ar" dir="rtl">دليل Hossam TV</span></h1>
+  <h1 class="gd-h" dir="ltr"><span lang="en">Website Guide</span><span lang="ar" dir="rtl">دليل الموقع</span></h1>
+  <p class="gd-tip" dir="ltr">👆 <span lang="en">Tap any card to open it</span><span aria-hidden="true">·</span><span lang="ar" dir="rtl">اضغط على أي بطاقة لفتحها</span></p>
   {guide_list(c)}
 </div></section>'''
-    return (t(L('Guide — every part of Hossam TV', 'الدليل — كل أقسام Hossam TV')),
+    return (t(L('Website guide — every part of Hossam TV', 'دليل الموقع — كل أقسام Hossam TV')),
             t(L('One card for each part of the Hossam TV website: speed test, matches, Ramadan, free trial, plans, payment, setup, help and the bot.',
                 'بطاقة لكل قسم في موقع Hossam TV: قياس السرعة والمباريات ورمضان والتجربة المجانية والباقات والدفع والتثبيت والمساعدة والبوت.')),
             body)
