@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-13T22:47:43Z",
+ "updated": "2026-10-16T16:42:01Z",
  "leagues": [
   {
    "id": "egy",
@@ -10,21 +10,21 @@
    "rows": [
     {
      "rank": 1,
+     "en": "Pyramids",
+     "p": 6,
+     "gd": "+11",
+     "pts": 18,
+     "logo": "https://r2.thesportsdb.com/images/media/team/badge/8liy611607352549.png/tiny",
+     "ar": "بيراميدز"
+    },
+    {
+     "rank": 2,
      "en": "Al Ahly",
      "p": 6,
      "gd": "+8",
      "pts": 16,
      "logo": "https://r2.thesportsdb.com/images/media/team/badge/x8753q1751421890.png/tiny",
      "ar": "الأهلي"
-    },
-    {
-     "rank": 2,
-     "en": "Pyramids",
-     "p": 5,
-     "gd": "+8",
-     "pts": 15,
-     "logo": "https://r2.thesportsdb.com/images/media/team/badge/8liy611607352549.png/tiny",
-     "ar": "بيراميدز"
     },
     {
      "rank": 3,
@@ -37,21 +37,21 @@
     },
     {
      "rank": 4,
-     "en": "Ceramica Cleopatra",
-     "p": 5,
-     "gd": "+7",
-     "pts": 12,
-     "logo": "https://r2.thesportsdb.com/images/media/team/badge/xy4shs1751422167.png/tiny",
-     "ar": "سيراميكا كليوباترا"
+     "en": "Modern Sport",
+     "p": 6,
+     "gd": "+4",
+     "pts": 13,
+     "logo": "https://r2.thesportsdb.com/images/media/team/badge/larnky1729784569.png/tiny",
+     "ar": "مودرن سبورت"
     },
     {
      "rank": 5,
-     "en": "Modern Sport",
-     "p": 5,
-     "gd": "+3",
-     "pts": 10,
-     "logo": "https://r2.thesportsdb.com/images/media/team/badge/larnky1729784569.png/tiny",
-     "ar": "مودرن سبورت"
+     "en": "Al Ittihad Alexandria",
+     "p": 6,
+     "gd": "+4",
+     "pts": 13,
+     "logo": "https://r2.thesportsdb.com/images/media/team/badge/bqnmfm1786058466.png/tiny",
+     "ar": "الاتحاد"
     }
    ]
   },
@@ -190,21 +190,21 @@
    "rows": [
     {
      "rank": 1,
+     "en": "Al Qadsiah",
+     "p": 9,
+     "gd": "+14",
+     "pts": 22,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/22022.png&w=80&h=80",
+     "ar": "القادسية"
+    },
+    {
+     "rank": 2,
      "en": "Al Hilal",
      "p": 8,
      "gd": "+19",
      "pts": 21,
      "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/929.png&w=80&h=80",
      "ar": "الهلال"
-    },
-    {
-     "rank": 2,
-     "en": "Al Qadsiah",
-     "p": 8,
-     "gd": "+13",
-     "pts": 19,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/22022.png&w=80&h=80",
-     "ar": "القادسية"
     },
     {
      "rank": 3,
@@ -253,6 +253,15 @@
    "rows": [
     {
      "rank": 1,
+     "en": "PSG",
+     "p": 2,
+     "gd": "+7",
+     "pts": 6,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/160.png&w=80&h=80",
+     "ar": "باريس سان جيرمان"
+    },
+    {
+     "rank": 2,
      "en": "Barcelona",
      "p": 2,
      "gd": "+7",
@@ -261,49 +270,40 @@
      "ar": "برشلونة"
     },
     {
-     "rank": 2,
+     "rank": 3,
+     "en": "Aston Villa",
+     "p": 2,
+     "gd": "+7",
+     "pts": 6,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/362.png&w=80&h=80",
+     "ar": "أستون فيلا"
+    },
+    {
+     "rank": 4,
+     "en": "Stuttgart",
+     "p": 2,
+     "gd": "+5",
+     "pts": 6,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/134.png&w=80&h=80",
+     "ar": "شتوتغارت"
+    },
+    {
+     "rank": 5,
+     "en": "Liverpool",
+     "p": 2,
+     "gd": "+4",
+     "pts": 6,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/364.png&w=80&h=80",
+     "ar": "ليفربول"
+    },
+    {
+     "rank": 6,
      "en": "Sporting",
      "p": 2,
      "gd": "+4",
      "pts": 6,
      "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2250.png&w=80&h=80",
      "ar": "سبورتنغ لشبونة"
-    },
-    {
-     "rank": 3,
-     "en": "Arsenal",
-     "p": 2,
-     "gd": "+4",
-     "pts": 6,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/359.png&w=80&h=80",
-     "ar": "آرسنال"
-    },
-    {
-     "rank": 4,
-     "en": "Bayern",
-     "p": 2,
-     "gd": "+5",
-     "pts": 4,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/132.png&w=80&h=80",
-     "ar": "بايرن ميونخ"
-    },
-    {
-     "rank": 5,
-     "en": "PSG",
-     "p": 1,
-     "gd": "+5",
-     "pts": 3,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/160.png&w=80&h=80",
-     "ar": "باريس سان جيرمان"
-    },
-    {
-     "rank": 6,
-     "en": "Como",
-     "p": 1,
-     "gd": "+3",
-     "pts": 3,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2572.png&w=80&h=80",
-     "ar": "كومو"
     }
    ]
   },

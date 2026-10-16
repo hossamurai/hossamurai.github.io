@@ -4,17 +4,17 @@ PRODID:-//Hossam TV//Matches//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
-UID:e401915560@hossamservices.com
-DTSTAMP:20261015T190000Z
-DTSTART:20261015T190000Z
-DTEND:20261015T210000Z
-SUMMARY:سيلتا فيغو – يوفنتوس (الدوري الأوروبي)
+UID:e401915401@hossamservices.com
+DTSTAMP:20261020T190000Z
+DTSTART:20261020T190000Z
+DTEND:20261020T210000Z
+SUMMARY:مانشستر سيتي – AEK Athens (دوري أبطال أوروبا)
 DESCRIPTION:بي إن سبورت · شاهدها مباشرة على Hossam TV — hossamservices.com
 URL:https://hossamservices.com/
 BEGIN:VALARM
 TRIGGER:-PT30M
 ACTION:DISPLAY
-DESCRIPTION:سيلتا فيغو – يوفنتوس (الدوري الأوروبي)
+DESCRIPTION:مانشستر سيتي – AEK Athens (دوري أبطال أوروبا)
 END:VALARM
 END:VEVENT
 END:VCALENDAR
