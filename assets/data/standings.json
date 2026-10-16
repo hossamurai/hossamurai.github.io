@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-16T20:07:36Z",
+ "updated": "2026-10-16T21:12:11Z",
  "leagues": [
   {
    "id": "egy",
@@ -352,21 +352,21 @@
     },
     {
      "rank": 5,
+     "en": "Frosinone",
+     "p": 7,
+     "gd": "+4",
+     "pts": 13,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/4057.png&w=80&h=80",
+     "ar": "فروزينوني"
+    },
+    {
+     "rank": 6,
      "en": "Milan",
      "p": 6,
      "gd": "+6",
      "pts": 12,
      "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/103.png&w=80&h=80",
      "ar": "ميلان"
-    },
-    {
-     "rank": 6,
-     "en": "Juventus",
-     "p": 6,
-     "gd": "+4",
-     "pts": 11,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/111.png&w=80&h=80",
-     "ar": "يوفنتوس"
     }
    ]
   },
