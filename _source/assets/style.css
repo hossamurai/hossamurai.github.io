@@ -1466,6 +1466,19 @@ footer.site-compact{padding:24px 0 18px}
 /* Apple-style hairlines: on screens that can't draw half a pixel, fall back to 1px in a lighter grey */
 @media (max-resolution:1.4dppx){:root{--line:rgba(60,60,67,.13);--line-2:rgba(60,60,67,.2)}}
 
+/* match cards float on the page background (no black band): light cards in light mode, dark cards in dark mode */
+.mstrip{background:transparent}
+.ms-track{padding:10px 16px 6px}
+.ms-card{background:var(--surface);border:.5px solid var(--line-2);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.05)}
+.ms-card:hover{background:var(--surface);border-color:var(--ink-2)}
+.ms-top,.ms-ch{color:var(--muted)}
+.ms-ini{background:var(--surface-2);color:var(--ink)}
+.ms-t em{color:var(--ink-2)}
+.ms-t.win em,.ms-t.win b{color:var(--ink)}
+.ms-flag{color:#e3101b}.ms-flag .live-dot{background:#e3101b}
+.ms-live{border-color:rgba(227,16,27,.45);background:linear-gradient(180deg,rgba(227,16,27,.08),var(--surface) 65%)}
+.ms-all{background:#e3101b;border-color:#e3101b;color:#fff}
+
 /* ===================== dark mode — follows the phone / computer setting (Apple's dark greys) ===================== */
 @media (prefers-color-scheme:dark){
   :root{
