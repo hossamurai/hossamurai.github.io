@@ -1416,3 +1416,4 @@ section.sec.nl-sec+section.sec{padding-top:36px}
 .st-log-row.lv-bad{border-inline-start-color:#e3101b}.st-log-row.lv-ok{border-inline-start-color:#e0a100}
 .st-log-row.lv-good{border-inline-start-color:#1f9d55}.st-log-row.lv-top{border-inline-start-color:#1a73e8}
 .st-log-num.bad{color:#e3101b}.st-log-num.ok{color:#b98500}.st-log-num.good{color:#1f9d55}.st-log-num.top{color:#1a73e8}
+@media (max-width:480px){.nav-trial{display:none!important}}
