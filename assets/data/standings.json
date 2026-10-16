@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-16T11:29:06Z",
+ "updated": "2026-10-16T16:42:01Z",
  "leagues": [
   {
    "id": "egy",
@@ -190,21 +190,21 @@
    "rows": [
     {
      "rank": 1,
+     "en": "Al Qadsiah",
+     "p": 9,
+     "gd": "+14",
+     "pts": 22,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/22022.png&w=80&h=80",
+     "ar": "القادسية"
+    },
+    {
+     "rank": 2,
      "en": "Al Hilal",
      "p": 8,
      "gd": "+19",
      "pts": 21,
      "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/929.png&w=80&h=80",
      "ar": "الهلال"
-    },
-    {
-     "rank": 2,
-     "en": "Al Qadsiah",
-     "p": 8,
-     "gd": "+13",
-     "pts": 19,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/22022.png&w=80&h=80",
-     "ar": "القادسية"
     },
     {
      "rank": 3,
