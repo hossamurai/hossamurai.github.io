@@ -389,21 +389,27 @@
     var curC = function(){ var o = opt(tCountry); return (o && o.getAttribute('data-cur')) || ''; };
     var syncPay = function(){ var o = opt(tPay), n = o && o.getAttribute('data-note'); payNote.textContent = n || ''; payNote.hidden = !n; };
     var syncGuide = function(){ var o = opt(tDevice); if(tGuide && o && o.getAttribute('data-guide')) tGuide.href = o.getAttribute('data-guide'); };
-    /* renewal periods with prices for the chosen country + server (same numbers as the plan cards) */
+    var totBox = tf.querySelector('[data-total]'), tScreens = F('screens');
+    var FEES = {}, CURS = {}, UNITS = {};
+    try{ FEES = JSON.parse(totBox.getAttribute('data-fees')) || {}; CURS = JSON.parse(totBox.getAttribute('data-cur')) || {}; UNITS = JSON.parse(totBox.getAttribute('data-units')) || {}; }catch(e){}
+    var fmtMoney = function(cur, n){ var c = CURS[cur] || [cur, false]; n = Math.round(n).toLocaleString('en-US'); return c[1] ? c[0] + n : n + ' ' + c[0]; };
+    var screens = function(){ return Math.max(1, Math.min(5, Math.round(+tScreens.value) || 1)); };
+    /* screens × years: 1 = the 1-year price; 2 or more = each at half the 2-year price (Basic $60, $90, $120…; Premium $100, $150…) */
+    var planCost = function(n){ var u = (UNITS[region()] || {})[tPlan.value]; return u ? [u[0], n === 1 ? u[1] : n * u[2] / 2] : null; };
+    var years = function(){ if(mode === 'trial') return 1; var v = tPeriod.value; return v === 'y2' ? 2 : v ? 1 : 0; };
+    /* renewal / subscription periods for the chosen country + server, priced for the number of screens */
     var PRICES = {}; try{ PRICES = JSON.parse(tPeriod.getAttribute('data-prices')) || {}; }catch(e){}
     var syncPeriods = function(){
       var keep = tPeriod.value, list = (PRICES[region()] || {})[tPlan.value] || [];
       while(tPeriod.options.length > 1) tPeriod.remove(1);
-      list.forEach(function(x){ var o = document.createElement('option'); o.value = x[0]; o.textContent = x[1] + ' — ' + x[2]; tPeriod.appendChild(o); });
+      list.forEach(function(x){
+        var y = x[0] === 'y2' ? 2 : 1, pc = planCost(screens() * y);
+        var o = document.createElement('option'); o.value = x[0]; o.textContent = x[1] + ' — ' + (pc ? fmtMoney(pc[0], pc[1]) : x[2]); tPeriod.appendChild(o);
+      });
       tPeriod.value = keep; if(tPeriod.value !== keep || !keep) tPeriod.value = list.length && (list.length === 1 || mode === 'subscribe') ? list[0][0] : '';
       syncTotal();
     };
-    /* approximate total: plan price for the chosen period + the Smart TV app per TV (IBO / Bob Player),
-       with the amount in the visitor's own currency when it's all in USD */
-    var totBox = tf.querySelector('[data-total]');
-    var FEES = {}, CURS = {}; try{ FEES = JSON.parse(totBox.getAttribute('data-fees')) || {}; CURS = JSON.parse(totBox.getAttribute('data-cur')) || {}; }catch(e){}
-    var fmtMoney = function(cur, n){ var c = CURS[cur] || [cur, false]; n = Math.round(n).toLocaleString('en-US'); return c[1] ? c[0] + n : n + ' ' + c[0]; };
-    /* "How many devices?" -> that many device lists (people often have a TV, a phone and a box); 2+ shows the golden rule */
+    /* "How many devices?" -> that many device lists (people often have a TV, a phone and a box); more devices than screens shows the golden rule */
     var devSels = function(){ return Array.prototype.slice.call(devBox.querySelectorAll('select')); };
     var devCount = function(){ return Math.max(1, Math.min(6, Math.round(+tDevs.value) || 1)); };
     var syncDevs = function(){
@@ -419,29 +425,33 @@
     };
     var devList = function(){ return devSels().filter(function(sel){ return sel.value; }); };
     var tvCount = function(){ return mode === 'renew' ? 0 : devSels().filter(function(sel){ return sel.value === 'smarttv'; }).length; };
+    /* the amount, line by line: plan (screens × years) + the Samsung / LG app per TV (1 year, or lifetime with 2+ years) = total */
     var totalText = '';
     var syncTotal = function(){
       if(!totBox) return;
-      golden.hidden = mode === 'renew' || devCount() < 2;
-      var list = (PRICES[region()] || {})[tPlan.value] || [], A = function(k){ return totBox.getAttribute('data-l-' + k); };
-      var per = mode === 'trial' ? list[0] : list.filter(function(x){ return x[0] === tPeriod.value; })[0];
+      golden.hidden = mode === 'renew' || devCount() <= screens();
+      var A = function(k){ return totBox.getAttribute('data-l-' + k) || ''; }, yrs = years(), n = screens(), pc = yrs ? planCost(n * yrs) : null;
       totalText = '';
-      if(!per){ totBox.hidden = true; return; }
-      var tvs = tvCount(), fee = FEES[tPlan.value], feeN = fee && tvs ? fee[1] * tvs : 0, sum, usd = 0;
-      if(!feeN || fee[0] === per[4]){ sum = fmtMoney(per[4], per[3] + feeN); if(per[4] === 'usd') usd = per[3] + feeN; }
-      else sum = per[2] + ' + ' + fmtMoney(fee[0], feeN);
-      var local = usd ? fxMoney(usd, curC()) : '';
+      if(!pc){ totBox.hidden = true; return; }
+      var tvs = tvCount(), fee = FEES[tPlan.value], life = yrs >= 2, each1 = fee ? (life ? fee[2] : fee[1]) : 0, feeAmt = tvs * each1;
+      var rows = [[opt(tPlan).textContent + ' · ' + A(n > 1 ? 'accs' : 'acc').replace('{n}', n) + ' × ' + (yrs > 1 ? A('yrs').replace('{n}', yrs) : A('yr')), fmtMoney(pc[0], pc[1])]];
+      if(tvs && fee) rows.push([A('tv') + ' · ' + tvs + ' × ' + fmtMoney(fee[0], each1) + ' (' + A(life ? 'tvl' : 'tv1') + ')', fmtMoney(fee[0], feeAmt)]);
+      var same = !feeAmt || fee[0] === pc[0];
+      var sum = same ? fmtMoney(pc[0], pc[1] + feeAmt) : fmtMoney(pc[0], pc[1]) + ' + ' + fmtMoney(fee[0], feeAmt);
+      var local = same && pc[0] === 'usd' ? fxMoney(pc[1] + feeAmt, curC()) : '';
       totBox.textContent = '';
-      var top = document.createElement('div'); top.className = 'tr-total-top';
-      var lb = document.createElement('span'); lb.textContent = mode === 'trial' ? A('after') : A('total');
-      var b = document.createElement('b'); b.textContent = sum + (local ? ' (' + local + ')' : '');
-      top.appendChild(lb); top.appendChild(b); totBox.appendChild(top);
-      var small = document.createElement('small');
-      small.textContent = opt(tPlan).textContent + ' · ' + (mode === 'trial' ? A('y') : per[1]) + ' ' + per[2] + (feeN ? ' + ' + tvs + ' × ' + A('tv') + ' ' + fee[2] : '');
-      totBox.appendChild(small);
+      var mk = function(tag, cls, txt){ var e = document.createElement(tag); if(cls) e.className = cls; if(txt != null) e.textContent = txt; return e; };
+      totBox.appendChild(mk('div', 'tr-total-h', mode === 'trial' ? A('after') : A('total')));
+      var tb = mk('div', 'tr-lines');
+      rows.forEach(function(r){ var row = mk('div', 'tr-line'); row.appendChild(mk('span', '', r[0])); row.appendChild(mk('b', '', r[1])); tb.appendChild(row); });
+      var tot = mk('div', 'tr-line tr-sum'); tot.appendChild(mk('span', '', A('sum'))); var tv = mk('b', '', sum); tot.appendChild(tv); tb.appendChild(tot);
+      if(local){ var lc = mk('div', 'tr-local', local); tb.appendChild(lc); }
+      totBox.appendChild(tb);
+      if(tvs) totBox.appendChild(mk('small', 'tr-note', A('note')));
       totBox.hidden = false;
-      totalText = b.textContent;
+      totalText = sum + (local ? ' (' + local + ')' : '') + (n > 1 ? ' — ' + A('accs').replace('{n}', n) : '');
     };
+    tScreens.addEventListener('input', syncPeriods);
     tPeriod.addEventListener('change', syncTotal); tDevice.addEventListener('change', syncTotal); tDevs.addEventListener('input', syncDevs);
     document.addEventListener('htv:cad', syncTotal);
     /* country: type the first letters, pick from the list (English or Arabic names); the hidden <select> keeps the value */
@@ -468,7 +478,7 @@
       cList.hidden = false; cInput.setAttribute('aria-expanded', 'true');
     };
     var cPick = function(o, next){
-      tcTouched = true; tCountry.value = o.value; cInput.value = o.textContent; cClose(); syncCountry();
+      tcTouched = true; tCountry.value = o.value; cInput.value = o.textContent; cClose(); syncCountry(); cInput.setAttribute('aria-invalid', 'false');
       if(next) tPlan.focus();
     };
     cInput.addEventListener('input', function(){ cActive = 0; cRender(); });
@@ -528,6 +538,20 @@
     });
     each('[data-trial-close]', function(b){ b.addEventListener('click', function(){ dlg.close(); }); }, dlg);
     dlg.addEventListener('click', function(e){ if(e.target === dlg) dlg.close(); });
+    /* a missing or wrong field gets a red border (cleared as soon as it's filled in) and the focus */
+    var markBad = function(el){
+      each('[aria-invalid="true"]', function(x){ x.setAttribute('aria-invalid', 'false'); }, tf);
+      var box = el === tPhone ? el.closest('.tr-phone') || el : el;
+      el.setAttribute('aria-invalid', 'true'); if(box !== el) box.setAttribute('aria-invalid', 'true');
+      try{ el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }catch(x){}
+      el.focus();
+    };
+    var clearBad = function(e){
+      var t = e.target; if(!t || t.getAttribute('aria-invalid') !== 'true') return;
+      t.setAttribute('aria-invalid', 'false'); var ph = t.closest && t.closest('.tr-phone'); if(ph) ph.setAttribute('aria-invalid', 'false');
+      if(!tf.querySelector('[aria-invalid="true"]')) tMsg.hidden = true;
+    };
+    tf.addEventListener('input', clearBad); tf.addEventListener('change', clearBad);
     tf.addEventListener('submit', function(e){
       e.preventDefault();
       var n = (tName.value || '').replace(/\s+/g, ' ').trim(), u = (tUser.value || '').replace(/\s+/g, '');
@@ -535,13 +559,13 @@
         : mode === 'renew' ? (!tPeriod.value ? tPeriod : null) : devSels().filter(function(sel){ return !sel.value; })[0] || null;
       if(!miss && mode !== 'renew' && !/^[1-9]\d{7,14}$/.test(fullPhone())) miss = tPhone;
       if(!miss && mode === 'subscribe' && !tPay.value) miss = tPay;
-      if(miss){ tMsg.textContent = tMsg.getAttribute(miss === tPhone && tPhone.value ? 'data-msg-phone' : 'data-msg-empty'); tMsg.className = 'remind-msg err'; tMsg.hidden = false; (miss === tCountry ? cInput : miss).focus(); return; }
+      if(miss){ tMsg.textContent = tMsg.getAttribute(miss === tPhone && tPhone.value ? 'data-msg-phone' : 'data-msg-empty'); tMsg.className = 'remind-msg err'; tMsg.hidden = false; markBad(miss === tCountry ? cInput : miss); return; }
       var lbl = function(sel){ return opt(sel).textContent; };
       var trial = mode === 'trial';
       if(window.fetch && window.URLSearchParams){
         var body = new URLSearchParams();
         body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: mode === 'renew' ? '' : tDevice.value, devices: mode === 'renew' ? [] : devList().map(function(sel){ return sel.value; }), period: mode === 'trial' ? '' : tPeriod.value, price: mode === 'trial' ? '' : lbl(tPeriod),
-          tvs: tvCount(), total: totalText,
+          tvs: tvCount(), screens: screens(), total: totalText,
           pay: mode === 'subscribe' ? tPay.value : '', phone: mode === 'renew' ? '' : fullPhone(), username: mode === 'renew' ? u : '', lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
         try{ fetch(tf.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit', keepalive: true })['catch'](function(){}); }catch(err){}
       }
@@ -553,7 +577,8 @@
           .concat(mode === 'renew' ? ['Username: ' + u] : [], ['Name: ' + n, 'Country: ' + lbl(tCountry)], mode === 'renew' ? [] : ['WhatsApp: +' + fullPhone()],
                   mode === 'renew' ? ['Server: ' + lbl(tPlan), 'Period: ' + lbl(tPeriod)] : ['Plan: ' + lbl(tPlan), (devList().length > 1 ? 'Devices: ' : 'Device: ') + devList().map(lbl).join(', ')], mode === 'subscribe' ? ['Payment: ' + lbl(tPay)] : []);
       if(mode === 'subscribe' && tPeriod.value) lines.push((AR ? 'المدة: ' : 'Period: ') + lbl(tPeriod));
-      if(tvCount()) lines.push((AR ? 'عدد الشاشات: ' : 'Smart TVs: ') + tvCount());
+      if(screens() > 1) lines.push((AR ? 'شاشات في نفس الوقت: ' : 'Screens at the same time: ') + screens());
+      if(tvCount()) lines.push((AR ? 'شاشات سامسونج / LG: ' : 'Samsung / LG TVs: ') + tvCount());
       if(totalText) lines.push((AR ? 'الإجمالي التقريبي: ' : 'Approx. total: ') + totalText);
       var url = 'https://wa.me/' + tf.getAttribute('data-wa') + '?text=' + encodeURIComponent(lines.join('\n'));
       dlg.close();
