@@ -457,13 +457,49 @@
       devBox.querySelector('[data-dev-lbl]').textContent = devBox.getAttribute(n > 1 ? 'data-l-many' : 'data-l-one');
       syncTotal();
     };
+    /* the golden rule, tailored: devices vs accounts (one account = one screen playing at a time) */
+    var cnt = function(n, one, two, many, enOne, enMany){ return AR ? (n === 1 ? one : n === 2 ? two : n + ' ' + many) : n + ' ' + (n === 1 ? enOne : enMany); };
+    var accW = function(n){ return cnt(n, 'حساب واحد', 'حسابان', 'حسابات', 'account', 'accounts'); };
+    var scrW = function(n){ return cnt(n, 'شاشة واحدة', 'شاشتان', 'شاشات', 'screen', 'screens'); };
+    var syncGolden = function(){
+      var d = devCount(), a = screens(), box = golden.querySelector('.tr-golden'), txt = golden.querySelector('[data-golden-txt]');
+      golden.hidden = mode === 'renew' || d < 2;
+      if(golden.hidden) return;
+      var ok = mode !== 'trial' && a >= d;
+      box.classList.toggle('ok', ok);
+      txt.textContent = '';
+      var b = document.createElement('b');
+      if(ok){
+        b.textContent = AR ? '✓ ' + accW(a) + ' — ' + (d === 2 ? 'الجهازان يعملان' : 'كل أجهزتك (' + d + ') تعمل') + ' في نفس الوقت.'
+                           : '✓ ' + accW(a) + ' — all ' + d + ' devices can play at the same time.';
+        txt.appendChild(b); return;
+      }
+      if(mode === 'trial'){
+        b.textContent = AR ? 'التجربة حساب واحد:' : 'Your trial is one account:';
+        txt.appendChild(b);
+        txt.appendChild(document.createTextNode(AR ? ' يعمل على جهاز واحد فقط من أجهزتك في نفس الوقت. بعد التجربة، كل حساب إضافي يتيح شاشة إضافية.'
+                                                   : ' it plays on one of your ' + d + ' devices at a time. After the trial, each extra account adds a screen.'));
+        return;
+      } else {
+        b.textContent = AR ? accW(a) + ' = ' + scrW(a) + ' في نفس الوقت.' : accW(a) + ' = ' + scrW(a) + ' at a time.';
+        txt.appendChild(b);
+        txt.appendChild(document.createTextNode(AR ? ' التشغيل على أجهزة أكثر معاً قد يوقف الحساب.' : ' Playing on more devices at once can lock the account.'));
+      }
+      var want = Math.min(d, 5);
+      if(want > a){
+        var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'tr-golden-fix';
+        btn.textContent = AR ? (want === 2 ? 'للمشاهدة على جهازين معاً، اختر حسابين' : 'للمشاهدة على ' + want + ' أجهزة معاً، اختر ' + want + ' حسابات') : 'To watch on ' + want + ' at once, choose ' + want + ' accounts';
+        btn.addEventListener('click', function(){ tScreens.value = want; syncPeriods(); });
+        txt.appendChild(document.createTextNode(' ')); txt.appendChild(btn);
+      }
+    };
     var devList = function(){ return devSels().filter(function(sel){ return sel.value; }); };
     var tvCount = function(){ return mode === 'renew' ? 0 : devSels().filter(function(sel){ return sel.value === 'smarttv'; }).length; };
     /* the amount, line by line: plan (screens × years) + the Samsung / LG app per TV (1 year, or lifetime with 2+ years) = total */
     var totalText = '';
     var syncTotal = function(){
       if(!totBox) return;
-      golden.hidden = mode === 'renew' || devCount() < 2;   /* 2 devices or more, whatever they are */
+      syncGolden();
       var A = function(k){ return totBox.getAttribute('data-l-' + k) || ''; }, yrs = years(), n = screens(), pc = yrs ? planCost(n * yrs) : null;
       totalText = '';
       if(!pc){ totBox.hidden = true; return; }
