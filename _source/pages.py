@@ -383,6 +383,7 @@ def home(c):
     <p class="lead">{t(L('Live sports, Arabic and international channels and movies — up to 4K.', 'مباريات مباشرة وقنوات عربية وعالمية وأفلام — بجودة حتى 4K.'))}</p>
     <div class="hero-cta">
       {btn_trial(c)}
+      <a class="btn btn-ghost" href="{c.href('guide.html')}">{icon('search')}{t(L('Website guide', 'دليل الموقع'))}</a>
     </div>
     {status_line(c)}
   </div>
@@ -421,10 +422,6 @@ def home(c):
     teaser = ''.join(details(c, i, *fq[i]) for i in ['free-trial', 'which-plan', 'multi-device', 'activation'])
 
     body = hero + f'''
-<section class="gd-sec gd-sec-home"><div class="wrap">
-  <h2 class="gd-h" dir="ltr"><span lang="en">Quick guide</span><span lang="ar" dir="rtl">دليل سريع</span></h2>
-  {guide_list(c, True)}
-</div></section>
 {ramadan_teaser(c)}
 <section class="sec" id="plans"><div class="wrap">
   {sec_head('', t(L('Plans', 'الباقات')), t(L('Pick your plan', 'اختر باقتك')))}
@@ -2087,7 +2084,7 @@ def guide_cards(c):
 
 
 # Hossam's own pictures (transparent .webp in assets/guide/); the other cards use the drawn pictures above
-GUIDE_IMG = {'ramadan', 'setup', 'matches', 'bot', 'fix'}
+GUIDE_IMG = {'speed', 'matches', 'ramadan', 'trial', 'plans', 'pay', 'later', 'account', 'renew', 'setup', 'fix', 'bot'}
 
 
 def guide_list(c, home=False):
