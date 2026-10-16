@@ -2102,7 +2102,6 @@ def guide_cards(c):
         ('ramadan', 'Ramadan Guide', 'دليل رمضان', f'href="{c.href("ramadan-series.html")}"'),
         ('trial', 'Free Trial Form', 'طلب تجربة مجانية', f'href="{c.wa("trial")}" data-trial'),
         ('plans', 'Plans & Prices', 'الباقات والأسعار', f'href="{c.href("plans.html")}"'),
-        ('pay', 'Payment Methods', 'طرق الدفع', f'href="{c.wa("sub")}" data-order="subscribe"'),
         ('account', 'Check Subscription', 'التحقق من الاشتراك', f'href="{c.href("help.html")}#account"'),
         ('renew', 'Renew Subscription', 'تجديد الاشتراك', f'href="{c.wa("sub")}" data-order="renew"'),
         ('setup', 'Setup Guides', 'دليل التركيب', f'href="{c.href("setup/index.html")}"'),
@@ -2112,7 +2111,7 @@ def guide_cards(c):
 
 
 # Hossam's own pictures (transparent .webp in assets/guide/); the other cards use the drawn pictures above
-GUIDE_IMG = {'speed', 'matches', 'ramadan', 'trial', 'plans', 'pay', 'account', 'renew', 'setup', 'fix', 'bot'}
+GUIDE_IMG = {'speed', 'matches', 'ramadan', 'trial', 'plans', 'account', 'renew', 'setup', 'fix', 'bot'}
 
 
 def guide_list(c, home=False):
