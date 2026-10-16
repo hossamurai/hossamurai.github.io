@@ -610,7 +610,7 @@
           .concat(mode === 'renew' ? ['Username: ' + u] : [], ['Name: ' + n, 'Country: ' + lbl(tCountry)], mode === 'renew' ? [] : ['WhatsApp: +' + fullPhone()],
                   mode === 'renew' ? ['Server: ' + lbl(tPlan), 'Period: ' + lbl(tPeriod)] : ['Plan: ' + lbl(tPlan), (devList().length > 1 ? 'Devices: ' : 'Device: ') + devList().map(lbl).join(', ')], mode === 'subscribe' ? ['Payment: ' + lbl(tPay)] : []);
       if(mode === 'subscribe' && tPeriod.value) lines.push((AR ? 'المدة: ' : 'Period: ') + lbl(tPeriod));
-      if(screens() > 1) lines.push((AR ? 'شاشات في نفس الوقت: ' : 'Screens at the same time: ') + screens());
+      if(screens() > 1) lines.push((AR ? 'عدد الحسابات: ' : 'Accounts: ') + screens());
       if(tvCount()) lines.push((AR ? 'شاشات سامسونج / LG: ' : 'Samsung / LG TVs: ') + tvCount());
       if(totalText) lines.push((AR ? 'الإجمالي التقريبي: ' : 'Approx. total: ') + totalText);
       var url = 'https://wa.me/' + tf.getAttribute('data-wa') + '?text=' + encodeURIComponent(lines.join('\n'));
