@@ -296,9 +296,11 @@
   document.addEventListener('click', function(e){
     if(e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey) return;
     var a = closest(e.target, 'a[href*="wa.me/"]'); if(!a || closest(a, '.htv-ov, .htv-chat') || a.className.indexOf('htv-') > -1) return;
+    if(a.hasAttribute('data-trial') || a.hasAttribute('data-order')) return;   /* the site's order form handles these */
     var kind = waKind(a); if(!kind) return;
     var card = closest(a, 'article.plan');
     e.preventDefault();
+    if(window.htvOrder){ window.htvOrder(kind, card ? cardPlan(card) : ''); return; }   /* same form everywhere */
     openForm(kind, card ? cardPlan(card) : '', card ? cardRegion(card) : '', a.getAttribute('href'));
   });
 

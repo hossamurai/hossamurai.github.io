@@ -32,7 +32,7 @@
       var li = el('li', 'rm-card'), hue = 0; for(var i = 0; i < key.length; i++) hue += key.charCodeAt(i);
       var pos = el('div', 'rm-poster rm-h' + (hue % 6)), gen = el('span', 'rm-gen');
       gen.setAttribute('aria-hidden', 'true'); gen.innerHTML = '<svg class="ic" aria-hidden="true"><use href="#i-moon"/></svg>';
-      gen.appendChild(el('b', '', main)); pos.appendChild(gen);
+      gen.appendChild(el('em', 'rm-nopo', ar ? 'لا يوجد بوستر بعد' : 'No poster yet')); gen.appendChild(el('b', '', main)); pos.appendChild(gen);
       if(x.poster && /^https:\/\//.test(x.poster)){ var im = new Image(); im.alt = main; im.loading = 'lazy'; im.referrerPolicy = 'no-referrer'; im.onerror = function(){ this.remove(); }; im.src = x.poster; pos.appendChild(im); }
       var d = ymd(x.date); if(isNaN(d)) d = ymd(first);
       if(badge && t >= d && t < d + 3 * DAY){ li.className += ' rm-now'; pos.appendChild(el('i', 'rm-live', Lb.new)); }   /* "New" for its first 3 days */

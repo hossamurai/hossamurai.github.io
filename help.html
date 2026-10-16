@@ -28,8 +28,8 @@
   --ink:#1d1d1f;
   --ink-2:#424245;
   --muted:#6e6e73;
-  --line:#e8e8ed;
-  --line-2:#d2d2d7;
+  --line:rgba(60,60,67,.18);
+  --line-2:rgba(60,60,67,.26);
 
   --live:#e5412d;
   --wa:#1d1d1f;       /* black, same as the main site */
@@ -85,12 +85,12 @@ html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3{font-family:var(--f-a
 .btn-ghost{background:transparent;border-color:var(--line-2);color:var(--ink)}
 .btn-ghost:hover{border-color:var(--ink);background:var(--surface)}
 .btn-sm{padding:9px 14px;font-size:.85rem}
-.link-arrow{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.9rem;text-decoration:none;color:var(--ink);background:none;border:0;padding:6px 0;cursor:pointer;border-bottom:1.5px solid var(--line-2)}
+.link-arrow{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.9rem;text-decoration:none;color:var(--ink);background:none;border:0;padding:6px 0;cursor:pointer;border-bottom:1px solid var(--line-2)}
 .link-arrow:hover{border-bottom-color:var(--ink)}
 html[lang="ar"] .flip{transform:scaleX(-1)}
 
 /* ---------- nav ---------- */
-.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:.5px solid var(--line)}
 .nav-in{display:flex;align-items:center;gap:14px;height:64px}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-weight:800;font-size:1.1rem;letter-spacing:-.02em}
 .brand img{width:34px;height:34px;border-radius:9px}
@@ -99,12 +99,12 @@ html[lang="ar"] .flip{transform:scaleX(-1)}
 .nav-links a{padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:500;font-size:.92rem;color:var(--muted)}
 .nav-links a:hover{color:var(--ink);background:var(--surface-2)}
 .nav-links a.active{color:var(--ink);background:var(--surface-2)}
-.menu-btn{display:none;width:42px;height:42px;border-radius:12px;border:1.5px solid var(--line-2);background:transparent;cursor:pointer;place-items:center;color:var(--ink)}
+.menu-btn{display:none;width:42px;height:42px;border-radius:12px;border:1px solid var(--line-2);background:transparent;cursor:pointer;place-items:center;color:var(--ink)}
 .menu-btn .ic{width:22px;height:22px}
 .menu-btn .i-close{display:none}
 .nav.open .menu-btn .i-open{display:none}
 .nav.open .menu-btn .i-close{display:block}
-.lang{border:1.5px solid var(--line-2);background:transparent;border-radius:999px;padding:8px 12px;font-weight:700;font-size:.85rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.lang{border:1px solid var(--line-2);background:transparent;border-radius:999px;padding:8px 12px;font-weight:700;font-size:.85rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .lang:hover{border-color:var(--ink)}
 
 /* ---------- hero ---------- */
@@ -144,28 +144,28 @@ html[lang="ar"] .tv{transform:rotate(1.2deg)}
 .region-auto{color:var(--muted);font-size:.85rem}
 
 /* ---------- sections ---------- */
-section.sec{padding:84px 0;border-top:1px solid var(--line)}
+section.sec{padding:84px 0;border-top:.5px solid var(--line)}
 .sec-head{max-width:640px;margin:0 0 36px}
 .kicker{display:inline-flex;align-items:center;gap:10px;font-weight:700;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 html[lang="ar"] .kicker{letter-spacing:0}
-.kicker .n{font-family:var(--f-mono);color:var(--ink);background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:1px 7px;letter-spacing:0}
+.kicker .n{font-family:var(--f-mono);color:var(--ink);background:var(--surface);border:.5px solid var(--line-2);border-radius:6px;padding:1px 7px;letter-spacing:0}
 .sec-head h2{font-size:clamp(1.9rem,3.6vw,2.7rem);font-weight:800}
 .sec-head p{color:var(--muted);font-size:1.05rem;margin:12px 0 0}
 
 /* region switch */
 .region{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin:0 0 26px}
 .region-label{font-weight:700;font-size:.95rem}
-.seg{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:4px}
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--surface-2);border:.5px solid var(--line);border-radius:999px;padding:4px}
 .seg button{border:0;background:transparent;padding:9px 16px;border-radius:999px;font-weight:600;font-size:.9rem;color:var(--muted);cursor:pointer}
 .seg button:hover{color:var(--ink)}
 .seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-sm)}
-.region-note{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--c-premium);border-radius:12px;padding:12px 16px;margin:0 0 22px;font-size:.93rem;color:var(--ink-2)}
+.region-note{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:.5px solid var(--line);border-inline-start:4px solid var(--c-premium);border-radius:12px;padding:12px 16px;margin:0 0 22px;font-size:.93rem;color:var(--ink-2)}
 .region-note:empty{display:none}
 .region-note .ic{color:var(--c-premium);margin-top:3px}
 
 /* plan cards */
 .plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
-.plan{--c:var(--ink);position:relative;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px 22px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;overflow:hidden;animation:rise .45s both}
+.plan{--c:var(--ink);position:relative;background:var(--surface);border:.5px solid var(--line);border-radius:var(--radius);padding:24px 22px 22px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;overflow:hidden;animation:rise .45s both}
 .plan::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--c)}
 .plan.featured{border-color:var(--c);box-shadow:0 0 0 1px var(--c), var(--shadow)}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -201,7 +201,7 @@ html[lang="ar"] .stat b{font-family:var(--f-ar)}
 .trial-chip{font-size:.8rem;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
 
 /* how it works */
-.how{display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:how;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.how{display:grid;grid-template-columns:repeat(4,1fr);gap:0;counter-reset:how;background:var(--surface);border:.5px solid var(--line);border-radius:var(--radius);overflow:hidden}
 .how li{list-style:none;padding:26px 22px;position:relative}
 .how li + li{border-inline-start:1px dashed var(--line-2)}
 .how .num{font-family:var(--f-mono);font-weight:700;font-size:.8rem;color:var(--muted)}
@@ -231,7 +231,7 @@ html[lang="ar"] .step-label{letter-spacing:0}
 .dev .ic{width:30px;height:30px}
 .dev:hover{border-color:var(--line-2);box-shadow:var(--shadow-sm)}
 .dev[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink);background:var(--surface)}
-.guide{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm)}
+.guide{background:var(--surface);border:.5px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm)}
 .guide-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
 .guide-head h3{font-size:1.35rem;font-weight:800}
 .guide-head small{display:block;color:var(--muted);font-size:.88rem;font-family:var(--f-body);font-weight:500;margin-top:4px}
@@ -253,7 +253,7 @@ ol.steps::before{content:"";position:absolute;top:10px;bottom:22px;inset-inline-
 .code:hover{border-color:var(--ink)}
 .code .ic{width:15px;height:15px;opacity:.65}
 .notes{display:grid;gap:10px;margin-top:22px}
-.note{border:1px solid var(--line);border-inline-start:4px solid var(--ink);border-radius:10px;padding:12px 15px;font-size:.93rem;background:var(--bg)}
+.note{border:.5px solid var(--line);border-inline-start:4px solid var(--ink);border-radius:10px;padding:12px 15px;font-size:.93rem;background:var(--bg)}
 .note .lbl{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
 html[lang="ar"] .note .lbl{letter-spacing:0}
 .note.warn{border-inline-start-color:var(--c-premium);background:#fffaf0}
@@ -264,7 +264,7 @@ html[lang="ar"] .note .lbl{letter-spacing:0}
 
 /* payments */
 .pay{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
-.pay-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.pay-card{background:var(--surface);border:.5px solid var(--line);border-radius:var(--radius);padding:26px}
 .pay-card h3{font-size:1.2rem;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:10px}
 .pay-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .pay-list li{display:flex;justify-content:space-between;gap:14px;padding-bottom:10px;border-bottom:1px dashed var(--line)}
@@ -276,7 +276,7 @@ html[lang="ar"] .note .lbl{letter-spacing:0}
 
 /* faq */
 .faq{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;align-items:start}
-details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:0 18px}
+details{background:var(--surface);border:.5px solid var(--line);border-radius:14px;padding:0 18px}
 details[open]{box-shadow:var(--shadow-sm)}
 summary{list-style:none;cursor:pointer;padding:16px 0;font-weight:700;display:flex;justify-content:space-between;gap:14px;align-items:center}
 summary::-webkit-details-marker{display:none}
@@ -314,7 +314,7 @@ footer{padding:48px 0 60px;color:var(--muted);font-size:.9rem}
 }
 @media (max-width:1000px){
   .menu-btn{display:grid}
-  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 20px 18px;box-shadow:var(--shadow);gap:2px}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:.5px solid var(--line);padding:10px 20px 18px;box-shadow:var(--shadow);gap:2px}
   .nav.open .nav-links{display:flex}
   .nav-links a{font-size:1rem;padding:12px 14px;border-radius:12px}
   .nav-right{margin-inline-start:auto}
@@ -346,6 +346,7 @@ footer{padding:48px 0 60px;color:var(--muted);font-size:.9rem}
 .speed-link b{display:block;font-size:1rem}.speed-link small{display:block;color:#b9b9c0;font-size:.85rem;margin-top:2px}
 .speed-link-ic{font-size:1.5rem}.speed-link-go{margin-inline-start:auto;font-size:1.3rem;color:#e3101b}
 html[dir="rtl"] .speed-link-go{transform:scaleX(-1)}
+[class*="flow"] .speed-link{margin:6px 0 12px}
 
 /* airport-board matches ticker (under the header) */
 .ticker{display:flex;align-items:stretch;background:#0b0b0c;color:#f5f5f7;text-decoration:none;overflow:hidden;height:38px;position:relative;z-index:5}
@@ -392,7 +393,7 @@ html[lang="ar"] .tk-teams{text-transform:none}
 /* 8 menu links: switch to the ☰ menu a bit earlier so Arabic fits too */
 @media (max-width:1120px){
   .menu-btn{display:grid}
-  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 20px 18px;box-shadow:var(--shadow);gap:2px}
+  .nav-links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;background:var(--bg);border-bottom:.5px solid var(--line);padding:10px 20px 18px;box-shadow:var(--shadow);gap:2px}
   .nav.open .nav-links{display:flex}
   .nav-links a{font-size:1rem;padding:12px 14px;border-radius:12px}
   .nav-right{margin-inline-start:auto}
@@ -403,7 +404,7 @@ html[lang="ar"] .tk-teams{text-transform:none}
 .help-hero{padding:48px 0 8px}
 .help-hero h1{font-size:clamp(2rem,4.6vw,3.2rem);font-weight:800;margin:14px 0 10px}
 .help-hero p{color:var(--ink-2);font-size:1.08rem;max-width:620px;margin:0}
-.help-hero .rating-badge{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:.95rem;font-weight:600;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 14px}
+.help-hero .rating-badge{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:.95rem;font-weight:600;color:var(--ink);background:var(--surface);border:.5px solid var(--line);border-radius:999px;padding:7px 14px}
 .help-hero .rating-badge[hidden]{display:none}
 .rating-badge .star{color:#f5a524;font-size:1.1rem;line-height:1}
 .hsec{padding:26px 0 70px}
@@ -428,7 +429,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
 .chip-btn small{display:block;color:var(--muted);font-weight:500;font-size:.76rem;margin-top:2px}
 .chip-btn:hover{border-color:var(--line-2);box-shadow:var(--shadow-sm)}
 .chip-btn[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
-.flow{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-sm)}
+.flow{background:var(--surface);border:.5px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-sm)}
 .flow-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 .flow-crumb{color:var(--muted);font-size:.88rem}
 .flow-crumb b{color:var(--ink)}
@@ -460,7 +461,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
 .m3u-title{margin:0 0 10px;font-weight:800;color:var(--ink)}
 .m3u-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .m3u-grid label{display:flex;flex-direction:column;gap:5px;font-size:.82rem;font-weight:700;color:var(--muted)}
-.m3u-grid input,.m3u-grid select{font:inherit;font-size:.95rem;font-weight:500;color:var(--ink);background:var(--surface);border:1.5px solid var(--line-2);border-radius:10px;padding:10px 12px;min-width:0}
+.m3u-grid input,.m3u-grid select{font:inherit;font-size:.95rem;font-weight:500;color:var(--ink);background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:10px 12px;min-width:0}
 .m3u-grid input:focus,.m3u-grid select:focus{outline:none;border-color:var(--ink)}
 .m3u-out{margin-top:12px}
 .m3u-out .code{display:flex;width:100%;white-space:normal;word-break:break-all;text-align:start;justify-content:space-between}
@@ -754,9 +755,9 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
     elsewhere: {t:{en:'Try another device and mobile data', ar:'جرّب جهاز تاني وداتا الموبايل'}, b:function(ar){ return ar
       ? '<ul><li><b>اشتغل على جهاز تاني أو على داتا الموبايل؟</b> يبقى المشكلة في الجهاز أو إنترنت البيت — كمّل الخطوات.</li><li><b>مش شغال في أي مكان؟</b> شوف تاريخ انتهاء اشتراكك في الصورة اللي حسام بعتهالك على الواتساب، وشوف حالة الواتساب الأساسي لو في عطل.</li></ul>'
       : '<ul><li><b>Works on another device or on mobile data?</b> Then your device or home internet is the cause — continue.</li><li><b>Fails everywhere?</b> Check your expiry date in the picture Hossam sent you on WhatsApp, and check the main WhatsApp Status for outage news.</li></ul>'; }},
-    speed: {t:{en:'Check your internet speed', ar:'اختبر سرعة الإنترنت'}, b:function(ar){ return ar
-      ? 'افتح ' + ext('https://fast.com','fast.com') + ' <b>على التلفزيون نفسه</b> أو على موبايل جنبه على نفس الواي فاي.<ul><li>محتاج 10 ميجا على الأقل (25+ للـ 4K).</li><li>ضعيفة؟ قرّب الراوتر، استخدم كابل لو ينفع، ووقف أي تحميلات تانية.</li></ul>'
-      : 'Open ' + ext('https://fast.com','fast.com') + ' <b>on the TV itself</b>, or on a phone right next to it on the same Wi-Fi.<ul><li>You need at least 10 Mbps (25+ for 4K).</li><li>Too slow? Move the router closer, use a cable if you can, and stop other downloads.</li></ul>'; }},
+    speed: {t:{en:'Check your internet speed', ar:'اختبر سرعة الإنترنت'}, b:function(ar){ var st = (ar ? 'ar' : 'en') + '/speed-test.html'; return ar
+      ? '<a class="speed-link" href="' + st + '" target="_blank" rel="noopener"><span class="speed-link-ic" aria-hidden="true">⚡</span><span><b>افتح اختبار السرعة</b><small>اعمله على التلفزيون نفسه، أو على موبايل جنبه على نفس الواي فاي.</small></span><span class="speed-link-go" aria-hidden="true">→</span></a><ul><li>5 ميجا لـ SD، و10 لـ HD، و25+ للـ 4K.</li><li>ضعيفة؟ قرّب الراوتر، استخدم كابل لو ينفع، ووقف أي تحميلات تانية.</li></ul>'
+      : '<a class="speed-link" href="' + st + '" target="_blank" rel="noopener"><span class="speed-link-ic" aria-hidden="true">⚡</span><span><b>Open our speed test</b><small>Run it on the TV itself, or on a phone right next to it on the same Wi-Fi.</small></span><span class="speed-link-go" aria-hidden="true">→</span></a><ul><li>5 Mbps for SD, 10 for HD, 25+ for 4K.</li><li>Too slow? Move the router closer, use a cable if you can, and stop other downloads.</li></ul>'; }},
     wedns: {t:{en:'In Egypt on WE internet?', ar:'في مصر وعلى إنترنت WE؟'}, b:function(ar){ return ar
       ? 'لو شغال على داتا الموبايل ومش شغال على WE، ممكن WE غيّرت الـ DNS بعد تجديد الباقة:<ol><li>غيّر الـ DNS في الراوتر إلى 8.8.8.8 و 8.8.4.4.</li><li>اعمل ريستارت للراوتر من الفيشة.</li><li>مش عارف؟ كلّم خدمة عملاء WE واطلب منهم يغيروها — ولو سألوا ليه قول: "المسؤول الفني طلب مني كده".</li></ol>مش على WE؟ اضغط "الخطوة اللي بعدها".'
       : 'If it works on mobile data but not on WE, WE may have changed your router DNS after renewing your plan:<ol><li>Set the router DNS to 8.8.8.8 and 8.8.4.4.</li><li>Restart the router from the power plug.</li><li>Can\'t do it? Call WE customer service and ask them to set it — if they ask why, say "the technical support asked me to".</li></ol>Not on WE? Tap "next step".'; }},
@@ -846,7 +847,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
     var a = appObj() || {}, c = a.cat, s = state.sym, f = [];
     if(c === 'smarterstv') return ['smarterstv'];
     if(s === 'one') return ['one'];
-    if(s === 'k4') return ['k4'];
+    if(s === 'k4') return ['speed', 'k4'];   /* 4K needs 25+ Mbps — check that first */
     if(s === 'av') return ['av'];
     if(s === 'epg') return ['epg'];
     if(c === 'web') return s === 'freeze' ? ['magic','speed','web'] : ['magic','web'];
@@ -858,7 +859,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
       host:  {plan:['officialwait'], manual:['hosts'], managed:['mgr_playlist']}
     };
     var head = {
-      all:['magic','inuse','elsewhere'], freeze:['magic','speed','elsewhere','wedns'],
+      all:['magic','inuse','elsewhere','speed'], freeze:['magic','speed','elsewhere','wedns'],
       login:['lower','inuse','elsewhere'], open:['magic','speed'], host:[]
     }[s] || ['magic'];
     f = head.concat((byCat[s] || {})[c] || []);

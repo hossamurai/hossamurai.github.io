@@ -175,17 +175,23 @@
     lastLog = list;
     while(logList.firstChild) logList.removeChild(logList.firstChild);
     list.slice(0, 10).forEach(function(r){
-      /* red = slow · yellow = OK or some dips · green = good · blue = excellent */
-      var lv = r.mbps < 10 ? 'bad' : !r.stable || r.mbps < 25 ? 'ok' : r.mbps < 100 ? 'good' : 'top';
+      /* same cut-offs as the "What you need" tiles: red under 5 (too slow) · yellow 5–10 SD or with dips · green 10–25 HD · blue 25+ 4K */
+      var lv = r.mbps < 5 ? 'bad' : !r.stable || r.mbps < 10 ? 'ok' : r.mbps < 25 ? 'good' : 'top';
+      var tag = r.mbps < 5 ? (AR ? 'بطيء' : 'Slow') : r.mbps < 10 ? 'SD' : r.mbps < 25 ? 'HD' : '4K';
       var row = document.createElement('div'); row.className = 'st-log-row lv-' + lv;
       var who = document.createElement('div'); who.className = 'st-log-who';
       var b = document.createElement('b'); b.textContent = String(r.name || '').slice(0, 30); who.appendChild(b);
       var net = r.conn === 'wifi' ? 'Wi-Fi' : r.conn === 'ethernet' ? (AR ? 'كابل' : 'Cable') : (r.conn === 'cellular' || r.mobile) ? (AR ? 'بيانات الموبايل' : 'Mobile data') : '';
       var sm = document.createElement('small'); sm.textContent = [r.where, net, r.isp, ago(r.at)].filter(Boolean).join(' · '); who.appendChild(sm);
-      var sp = document.createElement('div'); sp.className = 'st-log-num ' + lv; sp.dir = 'ltr'; sp.textContent = r.mbps + ' Mbps';
+      var sp = document.createElement('div'); sp.className = 'st-log-num ' + lv; sp.dir = 'ltr';
+      var bd = document.createElement('i'); bd.className = 'st-badge'; bd.textContent = tag;
+      sp.appendChild(document.createTextNode(r.mbps + ' Mbps ')); sp.appendChild(bd);
+      /* a thin bar under each reading, on the same stretched scale as the dial */
+      var bar = document.createElement('span'); bar.className = 'st-log-bar'; var fill = document.createElement('i');
+      fill.style.width = Math.round(Math.min(1, frac(r.mbps)) * 100) + '%'; bar.appendChild(fill);
       var ex = document.createElement('div'); ex.className = 'st-log-ex'; ex.dir = 'ltr';
       ex.textContent = (r.ping != null ? r.ping + ' ms' : '—') + ' · ' + (r.stable ? A('stable') : A('shaky'));
-      row.appendChild(who); row.appendChild(sp); row.appendChild(ex);
+      row.appendChild(who); row.appendChild(sp); row.appendChild(ex); row.appendChild(bar);
       logList.appendChild(row);
     });
     logBox.hidden = false;

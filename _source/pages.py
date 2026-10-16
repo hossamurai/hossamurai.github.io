@@ -405,7 +405,6 @@ def home(c):
     <p class="lead">{t(L('Live sports, Arabic and international channels and movies — up to 4K.', 'مباريات مباشرة وقنوات عربية وعالمية وأفلام — بجودة حتى 4K.'))}</p>
     <div class="hero-cta">
       {btn_trial(c)}
-      <a class="btn btn-ghost" href="{c.href('guide.html')}">{icon('search')}{t(L('Website guide', 'دليل الموقع'))}</a>
     </div>
     {status_line(c)}
   </div>
@@ -452,6 +451,13 @@ def home(c):
 </div></section>
 
 
+<section class="sec" id="reminders-sec"><div class="wrap">
+  {sec_head('', t(L('Your subscription', 'اشتراكك')), t(L('Reminders & account check', 'التنبيهات وحالة الاشتراك')))}
+  <div class="duo-box">
+    <div class="duo-col"><div class="remind acct-form duo-title"><h3>{icon('clock')}{t(L('Renewal reminders', 'تنبيهات التجديد'))}</h3></div>{reminder_card(c, compact=True)}</div>
+    <div class="duo-col">{account_card(c, compact=True)}</div>
+  </div>
+</div></section>
 {reviews}
 
 
@@ -477,7 +483,7 @@ def savings_block(c):
     return f'''<div class="calc" data-savings data-basic="{basic}">
   <h2>{t(L('How much could you save?', 'كم ممكن توفّر؟'))}</h2>
   <label for="billRange">{t(L('Your cable or satellite bill per month', 'فاتورة الكابل أو الدش شهرياً'))} <b dir="ltr" data-bill>$70</b></label>
-  <input id="billRange" type="range" min="20" max="200" step="5" value="70" data-bill-range>
+  <input id="billRange" type="range" min="20" max="500" step="10" value="90" data-bill-range>
   <div class="calc-out"><b dir="ltr" data-save>$805</b><span>{t(L('saved every year', 'توفير كل سنة'))}</span></div>
   <p class="calc-note" data-calc-note data-l="{t(L('You pay {y} a year now. Hossam TV Basic: {b} a year.', 'بتدفع حالياً {y} في السنة. باقة Hossam TV الأساسية: {b} في السنة.'))}"></p>
   {btn_trial(c)}
@@ -497,7 +503,7 @@ def plans(c):
         ('premium', L('Everything: all sports, 4K, biggest library', 'كل شيء: كل الرياضات، 4K، أكبر مكتبة')),
     ]
     fit_html = ''.join(
-        f'<a href="{c.wa("trial", plan=t(PLANS[pid]["name"]))}" target="_blank" rel="noopener" style="--c:{PLANS[pid]["color"]}"><span class="q">{t(q)}</span><b>{t(PLANS[pid]["name"])} {icon("arrow", "flip")}</b></a>'
+        f'<a href="{c.wa("trial", plan=t(PLANS[pid]["name"]))}" target="_blank" rel="noopener" data-trial data-plan="{pid}" style="--c:{PLANS[pid]["color"]}"><span class="q">{t(q)}</span><b>{t(PLANS[pid]["name"])} {icon("arrow", "flip")}</b></a>'
         for pid, q in fit)
 
     head = ''.join(f'<th scope="col" style="--c:{PLANS[p]["color"]}">{t(PLANS[p]["name"])}</th>' for p in PLAN_ORDER)
@@ -1946,7 +1952,7 @@ def _rm_cards(c, items, start):
         main = (x.get('ar') or x.get('en')) if c.ar else (x.get('en') or x.get('ar'))
         other = x.get('en') if c.ar else x.get('ar')
         hue = sum(map(ord, str(x.get('ar') or x.get('en')))) % 6
-        out.append(f'<li class="rm-card"><div class="rm-poster rm-h{hue}"><span class="rm-gen" aria-hidden="true">{icon("moon")}<b>{esc(main)}</b></span>'
+        out.append(f'<li class="rm-card"><div class="rm-poster rm-h{hue}"><span class="rm-gen" aria-hidden="true">{icon("moon")}<em class="rm-nopo">{c.t(L("No poster yet", "لا يوجد بوستر بعد"))}</em><b>{esc(main)}</b></span>'
                    + (f'<img src="{esc(x["poster"])}" alt="{esc(main)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">' if x.get('poster') else '')
                    + f'</div><div class="rm-info"><b class="rm-title">{esc(main)}</b>'
                    + (f'<small>{esc(other)}</small>' if other and other != main else '')
@@ -2000,134 +2006,6 @@ def ramadan_teaser(c):
     return (f'<section class="sec rm-teaser-sec"><div class="wrap"><a class="st-more rm-teaser" href="{c.href("ramadan-series.html")}">{icon("moon")}'
             f'<span>{c.t(L(f"Ramadan {yr} series", f"مسلسلات رمضان {yr}"))}</span>{icon("arrow", "flip")}</a></div></section>')
 
-
-# ----------------------------------------------------------------------------
-# GUIDE — one wide dark card per part of the site: English on the left, Arabic on the right, a glowing picture of
-# what it opens in the middle. Hossam sends hossamservices.com/guide and tells the customer which card to tap.
-# ----------------------------------------------------------------------------
-def _gsvg(k, body, extra_defs=''):
-    """A 240×110 picture with the shared blue gradients and glow (ids prefixed per card so they never clash)."""
-    d = (f'<defs><linearGradient id="{k}b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7cc4ff"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient>'
-         f'<linearGradient id="{k}w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#c9d8f5"/></linearGradient>'
-         f'<radialGradient id="{k}g"><stop offset="0" stop-color="#3b82f6" stop-opacity=".55"/><stop offset="1" stop-color="#3b82f6" stop-opacity="0"/></radialGradient>'
-         f'<filter id="{k}f" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>{extra_defs}</defs>'
-         f'<ellipse cx="120" cy="58" rx="110" ry="52" fill="url(#{k}g)"/>')
-    return f'<svg viewBox="0 0 240 110" preserveAspectRatio="xMidYMid meet">{d}{body.replace("§", k)}</svg>'
-
-
-def _ticks():
-    import math
-    out = ''
-    for i in range(0, 41):
-        a = math.radians(180 + i * 4.5)
-        r1, r2 = (46, 52) if i % 5 else (42, 52)
-        out += f'<line x1="{120 + r1 * math.cos(a):.1f}" y1="{104 + r1 * math.sin(a):.1f}" x2="{120 + r2 * math.cos(a):.1f}" y2="{104 + r2 * math.sin(a):.1f}" stroke="#cfe0ff" stroke-width="{1.6 if i % 5 == 0 else .8}" opacity=".85"/>'
-    labels = [(0, '0'), (5, '25'), (10, '50'), (20, '100'), (30, '250'), (40, '500')]
-    for i, t in labels:
-        a = math.radians(180 + i * 4.5)
-        out += f'<text x="{120 + 33 * math.cos(a):.1f}" y="{106 + 33 * math.sin(a):.1f}" fill="#e8f0ff" font-size="7" font-family="Arial" text-anchor="middle">{t}</text>'
-    return out
-
-
-GUIDE_ART = {
-    'speed': _gsvg('sp', '<path d="M64 104a56 56 0 0 1 112 0" fill="none" stroke="url(#§r)" stroke-width="6" stroke-linecap="round" filter="url(#§f)" opacity=".8"/>'
-                   '<path d="M64 104a56 56 0 0 1 112 0" fill="none" stroke="url(#§r)" stroke-width="3.5" stroke-linecap="round"/>' + _ticks() +
-                   '<path d="M120 104l26-30" stroke="#7cc4ff" stroke-width="3" stroke-linecap="round" filter="url(#§f)"/><path d="M120 104l26-30" stroke="#fff" stroke-width="2" stroke-linecap="round"/>'
-                   '<circle cx="120" cy="104" r="4" fill="#fff"/><text x="120" y="96" fill="#cfe0ff" font-size="7" font-family="Arial" text-anchor="middle">Mbps</text>',
-                   '<linearGradient id="spr" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#38bdf8"/><stop offset=".6" stop-color="#2563eb"/><stop offset="1" stop-color="#ef4444"/></linearGradient>'),
-    'matches': _gsvg('ma', '<path d="M30 30q90-34 180 0" fill="none" stroke="#9cc8ff" stroke-width="1" opacity=".5"/>' +
-                     ''.join(f'<circle cx="{30 + i * 12}" cy="{30 - 17 * (1 - ((i - 7.5) / 7.5) ** 2):.1f}" r="2.2" fill="#fff" filter="url(#§f)"/><circle cx="{30 + i * 12}" cy="{30 - 17 * (1 - ((i - 7.5) / 7.5) ** 2):.1f}" r="1.3" fill="#fff"/>' for i in range(16)) +
-                     '<rect x="0" y="86" width="240" height="24" fill="url(#§p)"/><path d="M0 92h240" stroke="#86efac" stroke-width=".6" opacity=".5"/>'
-                     '<circle cx="120" cy="80" r="22" fill="url(#§w)"/><path d="M120 66l8 6-3 9h-10l-3-9z" fill="#111827"/><path d="M98 78l8-4 4 8-5 7-6-2zM142 78l-8-4-4 8 5 7 6-2zM112 99l3-7h10l3 7-8 3z" fill="#111827"/>'
-                     '<circle cx="120" cy="80" r="22" fill="none" stroke="#0b1220" stroke-width="1"/>',
-                     '<linearGradient id="map" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#166534" stop-opacity=".2"/><stop offset="1" stop-color="#16a34a" stop-opacity=".7"/></linearGradient>'),
-    'ramadan': _gsvg('ra', '<circle cx="120" cy="30" r="17" fill="#fde68a" filter="url(#§f)" opacity=".7"/><path d="M126 14a17 17 0 1 0 10 28 14 14 0 1 1-10-28z" fill="#fde68a"/>'
-                     '<g fill="#0f1b3d" stroke="#3b82f6" stroke-width=".6"><path d="M96 110V78a24 20 0 0 1 48 0v32z"/><rect x="70" y="56" width="6" height="54"/><rect x="164" y="56" width="6" height="54"/>'
-                     '<path d="M68 58l5-12 5 12zM162 58l5-12 5 12z"/><path d="M80 110V90a10 9 0 0 1 20 0v20zM140 110V90a10 9 0 0 1 20 0v20z"/><rect x="40" y="94" width="160" height="16"/></g>'
-                     '<g fill="#fbbf24" filter="url(#§f)"><circle cx="108" cy="100" r="3"/><circle cx="132" cy="100" r="3"/><circle cx="56" cy="96" r="2.5"/><circle cx="184" cy="96" r="2.5"/></g>'
-                     '<g fill="#fcd34d"><rect x="106" y="96" width="4" height="7" rx="1"/><rect x="130" y="96" width="4" height="7" rx="1"/><rect x="117" y="86" width="6" height="10" rx="2"/></g>'
-                     '<path d="M30 110c4-18 2-26-6-34M30 92c6-6 14-6 18-2M30 92c-6-6-14-4-16 0M210 110c-4-18-2-26 6-34M210 92c-6-6-14-6-18-2M210 92c6-6 14-4 16 0" stroke="#1e3a6b" stroke-width="3" fill="none"/>'),
-    'trial': _gsvg('tr', '<g transform="rotate(-6 112 56)"><rect x="82" y="12" width="62" height="86" rx="6" fill="url(#§w)"/>'
-                   '<rect x="92" y="26" width="40" height="5" rx="2.5" fill="#3b82f6"/><g fill="#9fb4d8"><rect x="92" y="38" width="42" height="3" rx="1.5"/><rect x="92" y="46" width="36" height="3" rx="1.5"/><rect x="92" y="54" width="42" height="3" rx="1.5"/><rect x="92" y="62" width="30" height="3" rx="1.5"/><rect x="92" y="70" width="38" height="3" rx="1.5"/></g></g>'
-                   '<circle cx="146" cy="74" r="17" fill="url(#§b)" filter="url(#§f)" opacity=".7"/><circle cx="146" cy="74" r="15" fill="url(#§b)" stroke="#bfdbfe" stroke-width="1.2"/><path d="M146 66v16M138 74h16" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>'),
-    'plans': _gsvg('pl', '<g transform="rotate(-10 100 60)"><rect x="66" y="22" width="54" height="76" rx="7" fill="url(#§w)"/><text x="78" y="44" font-family="Arial" font-weight="700" font-size="11" fill="#1e3a8a">Basic</text>'
-                   '<g fill="#c7d4ee"><rect x="78" y="54" width="30" height="3" rx="1.5"/><rect x="78" y="62" width="24" height="3" rx="1.5"/></g></g>'
-                   '<g transform="rotate(5 140 58)"><rect x="112" y="12" width="64" height="88" rx="8" fill="#0b1226" stroke="url(#§b)" stroke-width="1.5"/>'
-                   '<path d="M134 34l4-10 6 7 6-7 4 10z" fill="#fbbf24"/><rect x="134" y="34" width="20" height="4" rx="1" fill="#f59e0b"/>'
-                   '<text x="144" y="56" font-family="Arial" font-weight="700" font-size="10" fill="#fff" text-anchor="middle">Premium</text>'
-                   '<circle cx="144" cy="76" r="8" fill="url(#§b)"/><path d="M140 76l3 3 5-6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>'),
-    'pay': _gsvg('pa', '<path d="M54 88l12-34h108l12 34z" fill="#0f1d44" stroke="url(#§b)" stroke-width="1.5"/><ellipse cx="120" cy="92" rx="70" ry="6" fill="#3b82f6" opacity=".5" filter="url(#§f)"/>'
-                 '<g><rect x="68" y="40" width="32" height="36" rx="5" fill="url(#§w)"/><rect x="73" y="47" width="10" height="7" rx="1.5" fill="#fbbf24"/><rect x="73" y="62" width="22" height="3" rx="1.5" fill="#94a3b8"/></g>'
-                 '<g><rect x="104" y="40" width="32" height="36" rx="5" fill="url(#§w)"/><circle cx="116" cy="58" r="7" fill="#3b82f6"/><circle cx="124" cy="58" r="7" fill="#60a5fa" opacity=".85"/></g>'
-                 '<g><rect x="140" y="40" width="32" height="36" rx="5" fill="url(#§w)"/><rect x="149" y="47" width="14" height="22" rx="3" fill="#1e293b"/><circle cx="156" cy="64" r="1.6" fill="#fff"/><rect x="151" y="50" width="10" height="10" rx="1" fill="#60a5fa"/></g>'),
-    'account': _gsvg('ac', '<rect x="78" y="22" width="62" height="70" rx="8" fill="#141f3d" stroke="#2c4a8a"/><rect x="104" y="30" width="72" height="62" rx="8" fill="url(#§w)"/>'
-                     '<circle cx="124" cy="70" r="6" fill="#1e3a8a"/><path d="M114 86a10 8 0 0 1 20 0z" fill="#1e3a8a"/><g fill="#1e3a8a"><rect x="140" y="62" width="26" height="4" rx="2"/><rect x="140" y="72" width="20" height="4" rx="2"/><rect x="140" y="82" width="24" height="4" rx="2"/></g>'
-                     '<circle cx="104" cy="50" r="17" fill="none" stroke="url(#§b)" stroke-width="6"/><circle cx="104" cy="50" r="13" fill="#7cc4ff" opacity=".25"/><path d="M92 63L76 80" stroke="#1e293b" stroke-width="8" stroke-linecap="round"/><path d="M92 63L80 76" stroke="url(#§b)" stroke-width="4" stroke-linecap="round"/>'),
-    'renew': _gsvg('rn', '<circle cx="120" cy="55" r="40" fill="#10b981" opacity=".35" filter="url(#§f)"/><circle cx="120" cy="55" r="34" fill="url(#§e)" stroke="#6ee7b7" stroke-width="1.5"/>'
-                   '<path d="M104 50a17 17 0 0 1 30-8M136 60a17 17 0 0 1-30 8" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M128 36l7 6-8 5zM112 74l-7-6 8-5z" fill="#fff"/>'
-                   '<path d="M10 70q50-30 100-6M130 46q50 24 100-6" fill="none" stroke="#34d399" stroke-width="1.2" opacity=".5"/>',
-                   '<linearGradient id="rne" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#047857"/></linearGradient>'),
-    'setup': _gsvg('se', '<rect x="80" y="18" width="84" height="54" rx="4" fill="#0b1226" stroke="#94a3b8" stroke-width="1.5"/><rect x="84" y="22" width="76" height="46" fill="url(#§s)"/><rect x="114" y="72" width="16" height="8" fill="#64748b"/><rect x="104" y="80" width="36" height="3" rx="1.5" fill="#94a3b8"/>'
-                   '<rect x="44" y="60" width="28" height="36" rx="5" fill="#111827" stroke="#334155"/><rect x="76" y="40" width="8" height="56" rx="4" fill="#1f2937" stroke="#334155"/><circle cx="80" cy="48" r="2" fill="#94a3b8"/>'
-                   '<rect x="168" y="44" width="22" height="40" rx="4" fill="#111827" stroke="#94a3b8"/><rect x="170" y="48" width="18" height="32" fill="url(#§s)"/>'
-                   '<path d="M184 84h44l-6 8h-36z" fill="#94a3b8"/><rect x="190" y="56" width="34" height="28" rx="2" fill="#0b1226" stroke="#94a3b8"/><rect x="192" y="58" width="30" height="24" fill="url(#§s)"/>',
-                   '<linearGradient id="ses" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset=".5" stop-color="#3b82f6"/><stop offset="1" stop-color="#a855f7"/></linearGradient>'),
-    'fix': _gsvg('fx', '<g transform="translate(120 56)"><circle r="40" fill="#3b82f6" opacity=".3" filter="url(#§f)"/>' +
-                 ''.join(f'<rect x="-6" y="-42" width="12" height="14" rx="2" fill="url(#§b)" transform="rotate({a})"/>' for a in range(0, 360, 45)) +
-                 '<circle r="32" fill="url(#§b)" stroke="#bfdbfe" stroke-width="1.5"/><circle r="20" fill="#0b1226"/>'
-                 '<path d="M8-10a9 9 0 0 0-12 11L-10 7l4 4 6-6a9 9 0 0 0 11-12l-5 5-5-1-1-5z" fill="#e0ecff"/></g>'),
-    'bot': _gsvg('bo', '<rect x="86" y="24" width="64" height="58" rx="22" fill="url(#§w)"/><rect x="94" y="36" width="48" height="34" rx="14" fill="#0b1226"/>'
-                 '<ellipse cx="108" cy="52" rx="4" ry="6" fill="#22d3ee" filter="url(#§f)"/><ellipse cx="108" cy="52" rx="3.5" ry="5" fill="#67e8f9"/><ellipse cx="128" cy="52" rx="4" ry="6" fill="#22d3ee" filter="url(#§f)"/><ellipse cx="128" cy="52" rx="3.5" ry="5" fill="#67e8f9"/>'
-                 '<path d="M112 62q6 4 12 0" stroke="#67e8f9" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M84 52a34 34 0 0 1 68 0" fill="none" stroke="url(#§b)" stroke-width="4"/>'
-                 '<rect x="78" y="44" width="10" height="20" rx="5" fill="url(#§b)"/><rect x="148" y="44" width="10" height="20" rx="5" fill="url(#§b)"/>'
-                 '<circle cx="172" cy="74" r="15" fill="#22c55e"/><path d="M161 87l3-8a15 15 0 1 1 5 5z" fill="#22c55e"/><path d="M166 68c0 6 6 12 12 12l2-3-3-2-2 1c-2-1-4-3-5-5l1-2-2-3z" fill="#fff"/>'),
-}
-
-
-def guide_cards(c):
-    """(picture, English, Arabic, link) — in the order of the guide picture Hossam chose."""
-    return [
-        ('speed', 'Speed Test', 'قياس السرعة', f'href="{c.href("speed-test.html")}"'),
-        ('matches', 'Matches Guide', 'دليل المباريات', f'href="{c.href("matches.html")}"'),
-        ('ramadan', 'Ramadan Guide', 'دليل رمضان', f'href="{c.href("ramadan-series.html")}"'),
-        ('trial', 'Free Trial Form', 'طلب تجربة مجانية', f'href="{c.wa("trial")}" data-trial'),
-        ('plans', 'Plans & Prices', 'الباقات والأسعار', f'href="{c.href("plans.html")}"'),
-        ('account', 'My Subscription', 'اشتراكي', f'href="{c.href("help.html")}#account"'),
-        ('setup', 'Setup Guides', 'دليل التركيب', f'href="{c.href("setup/index.html")}"'),
-        ('fix', 'Troubleshooter', 'حل المشاكل', f'href="{c.root}help.html"'),
-        ('bot', 'Chat with the Bot', 'تحدث مع البوت', f'href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener"'),
-    ]
-
-
-# Hossam's own pictures (transparent .webp in assets/guide/); the other cards use the drawn pictures above
-GUIDE_IMG = {'speed', 'matches', 'ramadan', 'trial', 'plans', 'account', 'setup', 'fix', 'bot'}
-
-
-def guide_list(c, home=False):
-    def art(k):
-        if k in GUIDE_IMG:
-            return f'<img src="{c.root}assets/guide/{k}.webp" alt="" width="760" height="256" loading="lazy" decoding="async">'
-        return GUIDE_ART[k]
-    items = ''.join(
-        f'<li><a class="gd-card" {attrs} dir="ltr"><span class="gd-art" aria-hidden="true">{art(k)}</span>'
-        f'<span class="gd-en" lang="en">{en}</span><span class="gd-ar" lang="ar" dir="rtl">{ar}</span></a></li>'
-        for k, en, ar, attrs in guide_cards(c))
-    return f'<ul class="gd-list{" gd-home" if home else ""}">{items}</ul>'
-
-
-def guide_page(c):
-    t = c.t
-    body = f'''<section class="gd-sec"><div class="wrap">
-  <h1 class="gd-h" dir="ltr"><span lang="en">Website Guide</span><span lang="ar" dir="rtl">دليل الموقع</span></h1>
-  <p class="gd-tip" dir="ltr">👆 <span lang="en">Tap any card to open it</span><span aria-hidden="true">·</span><span lang="ar" dir="rtl">اضغط على أي بطاقة لفتحها</span></p>
-  {guide_list(c)}
-</div></section>'''
-    return (t(L('Website guide — every part of Hossam TV', 'دليل الموقع — كل أقسام Hossam TV')),
-            t(L('One card for each part of the Hossam TV website: speed test, matches, Ramadan, free trial, plans, payment, setup, help and the bot.',
-                'بطاقة لكل قسم في موقع Hossam TV: قياس السرعة والمباريات ورمضان والتجربة المجانية والباقات والدفع والتثبيت والمساعدة والبوت.')),
-            body)
-
-
 PAGE_BUILDERS = [
     ('home', 'index.html', 'home', home),
     ('plans', 'plans.html', 'plans', plans),
@@ -2139,7 +2017,6 @@ PAGE_BUILDERS = [
 ]
 PAGE_BUILDERS += [('matches', 'matches.html', 'matches', matches_page), ('speed', 'speed-test.html', 'speed', speed_page)]
 PAGE_BUILDERS += [('ramadan', 'ramadan-series.html', None, ramadan_page)]
-PAGE_BUILDERS += [('guide', 'guide.html', None, guide_page)]
 PAGE_BUILDERS += [('tv-' + sl, 'arabic-tv-' + sl + '.html', None, country_page(sl, nm, wh, tz, ct)) for sl, nm, wh, tz, ct in COUNTRY_PAGES]
 MATCH_PAGES = [('match-' + sl, 'match/' + sl + '.html', 'matches', match_page(sl, e, r)) for sl, e, r in match_list()]
 PAGE_BUILDERS += MATCH_PAGES
