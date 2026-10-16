@@ -1461,3 +1461,34 @@ section.sec.nl-sec+section.sec{padding-top:36px}
   .gd-art{-webkit-mask-image:none;mask-image:none}
   .gd-art img{width:auto;height:112%;max-width:none;max-height:none}
 }
+/* ---- speed test, styled after the speed card picture: navy dial, glowing cyan → red ring, needle, light streaks ---- */
+.st-card{background:radial-gradient(70% 55% at 50% 55%,rgba(37,99,235,.28),transparent 70%),radial-gradient(120% 90% at 50% 0%,#12224d 0%,#070d22 65%)}
+.st-card::before{display:none}
+.st-dial{isolation:isolate}
+.st-streaks{position:absolute;left:-30%;right:-30%;top:22%;width:160%;height:62%;z-index:-1;filter:drop-shadow(0 0 6px rgba(59,130,246,.8));pointer-events:none}
+.st-face{fill:#0a1430;stroke:rgba(96,165,250,.18);stroke-width:1}
+.st-arc-bg{stroke:rgba(59,130,246,.16)}
+.st-arc-bg,.st-arc{stroke-width:12}
+.st-arc{filter:drop-shadow(0 0 8px rgba(34,211,238,.75))}
+.st-ticks text{fill:#bcd2ff}
+.st-needle path{fill:#7dd3fc;filter:drop-shadow(0 0 6px rgba(56,189,248,.95))}
+.st-needle .st-tip{fill:#fff}
+.st-needle circle{stroke:none;filter:none}
+.st-hub{fill:#0f2350;stroke:#38bdf8;stroke-width:3;filter:drop-shadow(0 0 6px rgba(56,189,248,.8))}
+.st-hub-in{fill:#e0f2fe}
+.st-card:not(.st-run):not(.st-good):not(.st-ok):not(.st-bad) .st-hub,.st-card:not(.st-run):not(.st-good):not(.st-ok):not(.st-bad) .st-hub-in{opacity:0}
+.st-readout{top:84%}
+.st-readout b{text-shadow:0 0 18px rgba(56,189,248,.55)}
+.st-readout span{color:#93c5fd}
+.st-go{box-shadow:0 0 0 8px rgba(59,130,246,.10),0 0 36px rgba(37,99,235,.6)}
+.st-name span,.st-net span{color:#bcd2ff}
+.st-name input,.st-net button{background:#0b1736;border-color:#1f3b73;color:#f1f5ff}
+.st-name input:focus{border-color:#3b82f6}
+.st-net button[aria-checked="true"]{border-color:#38bdf8;background:#10265a}
+.st-stats div{background:#0b1736;border-color:#1f3b73}
+.st-stats small{color:#93c5fd}
+.st-again{border-color:#1f3b73}
+.st-msg{color:#dbe7ff}
+.st-note{color:#7f95c4}
+@keyframes stPulse{50%{box-shadow:0 0 0 16px rgba(59,130,246,.14),0 0 46px rgba(37,99,235,.75)}}
+@media (max-width:520px){.st-readout{top:82%}.st-readout b{font-size:2.6rem}}
