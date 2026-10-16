@@ -1971,65 +1971,124 @@ def ramadan_teaser(c):
 
 
 # ----------------------------------------------------------------------------
-# GUIDE — one wide card per part of the site, English on the left, Arabic on the right, with a picture of what it opens.
-# Hossam sends hossamservices.com/guide and tells the customer "tap card 3".
+# GUIDE — one wide dark card per part of the site: English on the left, Arabic on the right, a glowing picture of
+# what it opens in the middle. Hossam sends hossamservices.com/guide and tells the customer which card to tap.
 # ----------------------------------------------------------------------------
-_R = '#e3101b'
+def _gsvg(k, body, extra_defs=''):
+    """A 240×110 picture with the shared blue gradients and glow (ids prefixed per card so they never clash)."""
+    d = (f'<defs><linearGradient id="{k}b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7cc4ff"/><stop offset="1" stop-color="#1d4ed8"/></linearGradient>'
+         f'<linearGradient id="{k}w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#c9d8f5"/></linearGradient>'
+         f'<radialGradient id="{k}g"><stop offset="0" stop-color="#3b82f6" stop-opacity=".55"/><stop offset="1" stop-color="#3b82f6" stop-opacity="0"/></radialGradient>'
+         f'<filter id="{k}f" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>{extra_defs}</defs>'
+         f'<ellipse cx="120" cy="58" rx="110" ry="52" fill="url(#{k}g)"/>')
+    return f'<svg viewBox="0 0 240 110" preserveAspectRatio="xMidYMid meet">{d}{body.replace("§", k)}</svg>'
+
+
+def _ticks():
+    import math
+    out = ''
+    for i in range(0, 41):
+        a = math.radians(180 + i * 4.5)
+        r1, r2 = (46, 52) if i % 5 else (42, 52)
+        out += f'<line x1="{120 + r1 * math.cos(a):.1f}" y1="{104 + r1 * math.sin(a):.1f}" x2="{120 + r2 * math.cos(a):.1f}" y2="{104 + r2 * math.sin(a):.1f}" stroke="#cfe0ff" stroke-width="{1.6 if i % 5 == 0 else .8}" opacity=".85"/>'
+    labels = [(0, '0'), (5, '25'), (10, '50'), (20, '100'), (30, '250'), (40, '500')]
+    for i, t in labels:
+        a = math.radians(180 + i * 4.5)
+        out += f'<text x="{120 + 33 * math.cos(a):.1f}" y="{106 + 33 * math.sin(a):.1f}" fill="#e8f0ff" font-size="7" font-family="Arial" text-anchor="middle">{t}</text>'
+    return out
+
+
 GUIDE_ART = {
-    'trial': f'<svg viewBox="0 0 200 100"><circle cx="100" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="5"/><path d="M90 34v32l26-16z" fill="{_R}"/><path d="M100 10v8M100 82v8M60 50h-8M148 50h-8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>',
-    'plans': f'<svg viewBox="0 0 200 100"><path d="M62 22h46l40 40-34 34-40-40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><circle cx="80" cy="40" r="7" fill="{_R}"/><path d="M104 62l14 14M96 70l14 14" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>',
-    'subscribe': f'<svg viewBox="0 0 200 100"><rect x="52" y="22" width="96" height="60" rx="9" fill="none" stroke="currentColor" stroke-width="5"/><path d="M52 40h96" stroke="currentColor" stroke-width="8"/><rect x="64" y="58" width="26" height="10" rx="3" fill="{_R}"/></svg>',
-    'renew': f'<svg viewBox="0 0 200 100"><path d="M128 36a32 32 0 1 0 4 26" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M134 18v20h-20" fill="none" stroke="{_R}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    'pay': f'<svg viewBox="0 0 200 100"><rect x="50" y="26" width="100" height="56" rx="10" fill="none" stroke="currentColor" stroke-width="5"/><path d="M50 40c0-8 6-14 14-14h70" fill="none" stroke="currentColor" stroke-width="5"/><rect x="118" y="46" width="32" height="18" rx="6" fill="{_R}"/></svg>',
-    'setup': f'<svg viewBox="0 0 200 100"><rect x="46" y="16" width="108" height="64" rx="7" fill="none" stroke="currentColor" stroke-width="5"/><path d="M82 92h36" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M100 30v30M88 48l12 12 12-12" fill="none" stroke="{_R}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    'speed': f'<svg viewBox="0 0 200 100"><path d="M42 84a58 58 0 0 1 116 0" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="M120 34a58 58 0 0 1 38 50" fill="none" stroke="{_R}" stroke-width="7" stroke-linecap="round"/><path d="M58 84h6M136 84h6M100 30v6M64 50l5 4M136 50l-5 4" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M100 84l30-34" stroke="{_R}" stroke-width="6" stroke-linecap="round"/><circle cx="100" cy="84" r="7" fill="currentColor"/></svg>',
-    'matches': f'<svg viewBox="0 0 200 100"><rect x="34" y="14" width="132" height="72" rx="6" fill="none" stroke="currentColor" stroke-width="5"/><path d="M100 14v72" stroke="currentColor" stroke-width="4"/><circle cx="100" cy="50" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M34 34h16v32H34M166 34h-16v32h16" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="128" cy="40" r="6" fill="{_R}"/></svg>',
-    'ramadan': f'<svg viewBox="0 0 200 100"><path d="M92 16a36 36 0 1 0 30 58 30 30 0 1 1-30-58z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M140 14v10" stroke="currentColor" stroke-width="3"/><path d="M130 30h20l-4 28h-12z" fill="{_R}"/><path d="M128 30l12-8 12 8" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/></svg>',
-    'channels': f'<svg viewBox="0 0 200 100"><g fill="none" stroke="currentColor" stroke-width="4"><rect x="46" y="18" width="30" height="22" rx="4"/><rect x="85" y="18" width="30" height="22" rx="4"/><rect x="46" y="48" width="30" height="22" rx="4"/><rect x="85" y="48" width="30" height="22" rx="4"/><rect x="124" y="48" width="30" height="22" rx="4"/></g><rect x="124" y="18" width="30" height="22" rx="4" fill="{_R}"/></svg>',
-    'reminders': f'<svg viewBox="0 0 200 100"><path d="M78 70V48a22 22 0 0 1 44 0v22l8 8H70z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M92 84a8 8 0 0 0 16 0" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="122" cy="30" r="9" fill="{_R}"/></svg>',
-    'account': f'<svg viewBox="0 0 200 100"><circle cx="100" cy="36" r="16" fill="none" stroke="currentColor" stroke-width="5"/><path d="M68 86a32 32 0 0 1 64 0" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M130 58l14 14 22-26" fill="none" stroke="{_R}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    'fix': f'<svg viewBox="0 0 200 100"><path d="M120 22a20 20 0 0 0-24 26L64 80l8 8 32-32a20 20 0 0 0 26-24l-12 12-10-2-2-10z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><circle cx="70" cy="82" r="4" fill="{_R}"/></svg>',
-    'faq': f'<svg viewBox="0 0 200 100"><path d="M56 20h88a10 10 0 0 1 10 10v36a10 10 0 0 1-10 10H92l-20 16V76H56a10 10 0 0 1-10-10V30a10 10 0 0 1 10-10z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M90 40a10 10 0 1 1 14 9c-3 2-4 4-4 7" fill="none" stroke="{_R}" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="64" r="3.5" fill="{_R}"/></svg>',
+    'speed': _gsvg('sp', '<path d="M64 104a56 56 0 0 1 112 0" fill="none" stroke="url(#§r)" stroke-width="6" stroke-linecap="round" filter="url(#§f)" opacity=".8"/>'
+                   '<path d="M64 104a56 56 0 0 1 112 0" fill="none" stroke="url(#§r)" stroke-width="3.5" stroke-linecap="round"/>' + _ticks() +
+                   '<path d="M120 104l26-30" stroke="#7cc4ff" stroke-width="3" stroke-linecap="round" filter="url(#§f)"/><path d="M120 104l26-30" stroke="#fff" stroke-width="2" stroke-linecap="round"/>'
+                   '<circle cx="120" cy="104" r="4" fill="#fff"/><text x="120" y="96" fill="#cfe0ff" font-size="7" font-family="Arial" text-anchor="middle">Mbps</text>',
+                   '<linearGradient id="spr" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#38bdf8"/><stop offset=".6" stop-color="#2563eb"/><stop offset="1" stop-color="#ef4444"/></linearGradient>'),
+    'matches': _gsvg('ma', '<path d="M30 30q90-34 180 0" fill="none" stroke="#9cc8ff" stroke-width="1" opacity=".5"/>' +
+                     ''.join(f'<circle cx="{30 + i * 12}" cy="{30 - 17 * (1 - ((i - 7.5) / 7.5) ** 2):.1f}" r="2.2" fill="#fff" filter="url(#§f)"/><circle cx="{30 + i * 12}" cy="{30 - 17 * (1 - ((i - 7.5) / 7.5) ** 2):.1f}" r="1.3" fill="#fff"/>' for i in range(16)) +
+                     '<rect x="0" y="86" width="240" height="24" fill="url(#§p)"/><path d="M0 92h240" stroke="#86efac" stroke-width=".6" opacity=".5"/>'
+                     '<circle cx="120" cy="80" r="22" fill="url(#§w)"/><path d="M120 66l8 6-3 9h-10l-3-9z" fill="#111827"/><path d="M98 78l8-4 4 8-5 7-6-2zM142 78l-8-4-4 8 5 7 6-2zM112 99l3-7h10l3 7-8 3z" fill="#111827"/>'
+                     '<circle cx="120" cy="80" r="22" fill="none" stroke="#0b1220" stroke-width="1"/>',
+                     '<linearGradient id="map" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#166534" stop-opacity=".2"/><stop offset="1" stop-color="#16a34a" stop-opacity=".7"/></linearGradient>'),
+    'ramadan': _gsvg('ra', '<circle cx="120" cy="30" r="17" fill="#fde68a" filter="url(#§f)" opacity=".7"/><path d="M126 14a17 17 0 1 0 10 28 14 14 0 1 1-10-28z" fill="#fde68a"/>'
+                     '<g fill="#0f1b3d" stroke="#3b82f6" stroke-width=".6"><path d="M96 110V78a24 20 0 0 1 48 0v32z"/><rect x="70" y="56" width="6" height="54"/><rect x="164" y="56" width="6" height="54"/>'
+                     '<path d="M68 58l5-12 5 12zM162 58l5-12 5 12z"/><path d="M80 110V90a10 9 0 0 1 20 0v20zM140 110V90a10 9 0 0 1 20 0v20z"/><rect x="40" y="94" width="160" height="16"/></g>'
+                     '<g fill="#fbbf24" filter="url(#§f)"><circle cx="108" cy="100" r="3"/><circle cx="132" cy="100" r="3"/><circle cx="56" cy="96" r="2.5"/><circle cx="184" cy="96" r="2.5"/></g>'
+                     '<g fill="#fcd34d"><rect x="106" y="96" width="4" height="7" rx="1"/><rect x="130" y="96" width="4" height="7" rx="1"/><rect x="117" y="86" width="6" height="10" rx="2"/></g>'
+                     '<path d="M30 110c4-18 2-26-6-34M30 92c6-6 14-6 18-2M30 92c-6-6-14-4-16 0M210 110c-4-18-2-26 6-34M210 92c-6-6-14-6-18-2M210 92c6-6 14-4 16 0" stroke="#1e3a6b" stroke-width="3" fill="none"/>'),
+    'trial': _gsvg('tr', '<g transform="rotate(-6 112 56)"><rect x="82" y="12" width="62" height="86" rx="6" fill="url(#§w)"/>'
+                   '<rect x="92" y="26" width="40" height="5" rx="2.5" fill="#3b82f6"/><g fill="#9fb4d8"><rect x="92" y="38" width="42" height="3" rx="1.5"/><rect x="92" y="46" width="36" height="3" rx="1.5"/><rect x="92" y="54" width="42" height="3" rx="1.5"/><rect x="92" y="62" width="30" height="3" rx="1.5"/><rect x="92" y="70" width="38" height="3" rx="1.5"/></g></g>'
+                   '<circle cx="146" cy="74" r="17" fill="url(#§b)" filter="url(#§f)" opacity=".7"/><circle cx="146" cy="74" r="15" fill="url(#§b)" stroke="#bfdbfe" stroke-width="1.2"/><path d="M146 66v16M138 74h16" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>'),
+    'plans': _gsvg('pl', '<g transform="rotate(-10 100 60)"><rect x="66" y="22" width="54" height="76" rx="7" fill="url(#§w)"/><text x="78" y="44" font-family="Arial" font-weight="700" font-size="11" fill="#1e3a8a">Basic</text>'
+                   '<g fill="#c7d4ee"><rect x="78" y="54" width="30" height="3" rx="1.5"/><rect x="78" y="62" width="24" height="3" rx="1.5"/></g></g>'
+                   '<g transform="rotate(5 140 58)"><rect x="112" y="12" width="64" height="88" rx="8" fill="#0b1226" stroke="url(#§b)" stroke-width="1.5"/>'
+                   '<path d="M134 34l4-10 6 7 6-7 4 10z" fill="#fbbf24"/><rect x="134" y="34" width="20" height="4" rx="1" fill="#f59e0b"/>'
+                   '<text x="144" y="56" font-family="Arial" font-weight="700" font-size="10" fill="#fff" text-anchor="middle">Premium</text>'
+                   '<circle cx="144" cy="76" r="8" fill="url(#§b)"/><path d="M140 76l3 3 5-6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>'),
+    'pay': _gsvg('pa', '<path d="M54 88l12-34h108l12 34z" fill="#0f1d44" stroke="url(#§b)" stroke-width="1.5"/><ellipse cx="120" cy="92" rx="70" ry="6" fill="#3b82f6" opacity=".5" filter="url(#§f)"/>'
+                 '<g><rect x="68" y="40" width="32" height="36" rx="5" fill="url(#§w)"/><rect x="73" y="47" width="10" height="7" rx="1.5" fill="#fbbf24"/><rect x="73" y="62" width="22" height="3" rx="1.5" fill="#94a3b8"/></g>'
+                 '<g><rect x="104" y="40" width="32" height="36" rx="5" fill="url(#§w)"/><circle cx="116" cy="58" r="7" fill="#3b82f6"/><circle cx="124" cy="58" r="7" fill="#60a5fa" opacity=".85"/></g>'
+                 '<g><rect x="140" y="40" width="32" height="36" rx="5" fill="url(#§w)"/><rect x="149" y="47" width="14" height="22" rx="3" fill="#1e293b"/><circle cx="156" cy="64" r="1.6" fill="#fff"/><rect x="151" y="50" width="10" height="10" rx="1" fill="#60a5fa"/></g>'),
+    'later': _gsvg('la', '<rect x="86" y="22" width="62" height="70" rx="9" fill="url(#§w)"/><rect x="86" y="22" width="62" height="18" rx="9" fill="url(#§b)"/><rect x="86" y="32" width="62" height="8" fill="url(#§b)"/>'
+                   '<rect x="98" y="14" width="6" height="16" rx="3" fill="#cbd5e1"/><rect x="130" y="14" width="6" height="16" rx="3" fill="#cbd5e1"/>'
+                   '<g fill="#93b4e6">' + ''.join(f'<rect x="{94 + col * 14}" y="{48 + row * 13}" width="9" height="8" rx="2"/>' for row in range(3) for col in range(4)) + '</g>'
+                   '<circle cx="150" cy="80" r="17" fill="url(#§b)" filter="url(#§f)" opacity=".7"/><circle cx="150" cy="80" r="15" fill="url(#§b)" stroke="#dbeafe" stroke-width="2"/><path d="M150 72v9h7" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>'),
+    'account': _gsvg('ac', '<rect x="78" y="22" width="62" height="70" rx="8" fill="#141f3d" stroke="#2c4a8a"/><rect x="104" y="30" width="72" height="62" rx="8" fill="url(#§w)"/>'
+                     '<circle cx="124" cy="70" r="6" fill="#1e3a8a"/><path d="M114 86a10 8 0 0 1 20 0z" fill="#1e3a8a"/><g fill="#1e3a8a"><rect x="140" y="62" width="26" height="4" rx="2"/><rect x="140" y="72" width="20" height="4" rx="2"/><rect x="140" y="82" width="24" height="4" rx="2"/></g>'
+                     '<circle cx="104" cy="50" r="17" fill="none" stroke="url(#§b)" stroke-width="6"/><circle cx="104" cy="50" r="13" fill="#7cc4ff" opacity=".25"/><path d="M92 63L76 80" stroke="#1e293b" stroke-width="8" stroke-linecap="round"/><path d="M92 63L80 76" stroke="url(#§b)" stroke-width="4" stroke-linecap="round"/>'),
+    'renew': _gsvg('rn', '<circle cx="120" cy="55" r="40" fill="#10b981" opacity=".35" filter="url(#§f)"/><circle cx="120" cy="55" r="34" fill="url(#§e)" stroke="#6ee7b7" stroke-width="1.5"/>'
+                   '<path d="M104 50a17 17 0 0 1 30-8M136 60a17 17 0 0 1-30 8" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M128 36l7 6-8 5zM112 74l-7-6 8-5z" fill="#fff"/>'
+                   '<path d="M10 70q50-30 100-6M130 46q50 24 100-6" fill="none" stroke="#34d399" stroke-width="1.2" opacity=".5"/>',
+                   '<linearGradient id="rne" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#047857"/></linearGradient>'),
+    'setup': _gsvg('se', '<rect x="80" y="18" width="84" height="54" rx="4" fill="#0b1226" stroke="#94a3b8" stroke-width="1.5"/><rect x="84" y="22" width="76" height="46" fill="url(#§s)"/><rect x="114" y="72" width="16" height="8" fill="#64748b"/><rect x="104" y="80" width="36" height="3" rx="1.5" fill="#94a3b8"/>'
+                   '<rect x="44" y="60" width="28" height="36" rx="5" fill="#111827" stroke="#334155"/><rect x="76" y="40" width="8" height="56" rx="4" fill="#1f2937" stroke="#334155"/><circle cx="80" cy="48" r="2" fill="#94a3b8"/>'
+                   '<rect x="168" y="44" width="22" height="40" rx="4" fill="#111827" stroke="#94a3b8"/><rect x="170" y="48" width="18" height="32" fill="url(#§s)"/>'
+                   '<path d="M184 84h44l-6 8h-36z" fill="#94a3b8"/><rect x="190" y="56" width="34" height="28" rx="2" fill="#0b1226" stroke="#94a3b8"/><rect x="192" y="58" width="30" height="24" fill="url(#§s)"/>',
+                   '<linearGradient id="ses" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366f1"/><stop offset=".5" stop-color="#3b82f6"/><stop offset="1" stop-color="#a855f7"/></linearGradient>'),
+    'fix': _gsvg('fx', '<g transform="translate(120 56)"><circle r="40" fill="#3b82f6" opacity=".3" filter="url(#§f)"/>' +
+                 ''.join(f'<rect x="-6" y="-42" width="12" height="14" rx="2" fill="url(#§b)" transform="rotate({a})"/>' for a in range(0, 360, 45)) +
+                 '<circle r="32" fill="url(#§b)" stroke="#bfdbfe" stroke-width="1.5"/><circle r="20" fill="#0b1226"/>'
+                 '<path d="M8-10a9 9 0 0 0-12 11L-10 7l4 4 6-6a9 9 0 0 0 11-12l-5 5-5-1-1-5z" fill="#e0ecff"/></g>'),
+    'bot': _gsvg('bo', '<rect x="86" y="24" width="64" height="58" rx="22" fill="url(#§w)"/><rect x="94" y="36" width="48" height="34" rx="14" fill="#0b1226"/>'
+                 '<ellipse cx="108" cy="52" rx="4" ry="6" fill="#22d3ee" filter="url(#§f)"/><ellipse cx="108" cy="52" rx="3.5" ry="5" fill="#67e8f9"/><ellipse cx="128" cy="52" rx="4" ry="6" fill="#22d3ee" filter="url(#§f)"/><ellipse cx="128" cy="52" rx="3.5" ry="5" fill="#67e8f9"/>'
+                 '<path d="M112 62q6 4 12 0" stroke="#67e8f9" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M84 52a34 34 0 0 1 68 0" fill="none" stroke="url(#§b)" stroke-width="4"/>'
+                 '<rect x="78" y="44" width="10" height="20" rx="5" fill="url(#§b)"/><rect x="148" y="44" width="10" height="20" rx="5" fill="url(#§b)"/>'
+                 '<circle cx="172" cy="74" r="15" fill="#22c55e"/><path d="M161 87l3-8a15 15 0 1 1 5 5z" fill="#22c55e"/><path d="M166 68c0 6 6 12 12 12l2-3-3-2-2 1c-2-1-4-3-5-5l1-2-2-3z" fill="#fff"/>'),
 }
 
 
 def guide_cards(c):
-    """(key, English, Arabic, link attrs) — the order Hossam refers to ("card 3")."""
-    from datetime import date, timedelta
-    a, b, yr = ramadan_season()
-    cards = [
-        ('trial', 'Free trial', 'تجربة مجانية', f'href="{c.wa("trial")}" data-trial'),
-        ('plans', 'Plans & prices', 'الباقات والأسعار', f'href="{c.href("plans.html")}"'),
-        ('subscribe', 'Subscribe', 'اشترك', f'href="{c.wa("sub")}" data-order="subscribe"'),
-        ('renew', 'Renew', 'جدّد اشتراكك', f'href="{c.wa("sub")}" data-order="renew"'),
-        ('pay', 'Pay', 'الدفع', f'href="{c.href("pay.html")}"'),
-        ('setup', 'Setup guide', 'دليل التثبيت', f'href="{c.href("setup/index.html")}"'),
-        ('speed', 'Speed test', 'قياس السرعة', f'href="{c.href("speed-test.html")}"'),
-        ('matches', 'Matches', 'المباريات', f'href="{c.href("matches.html")}"'),
-        ('ramadan', 'Ramadan series', 'مسلسلات رمضان', f'href="{c.href("ramadan-series.html")}"'),
-        ('channels', 'Channels', 'القنوات', f'href="{c.href("channels.html")}"'),
-        ('reminders', 'Renewal reminders', 'تذكير التجديد', f'href="{c.href("help.html")}#reminders"'),
-        ('account', 'My account', 'حسابي', f'href="{c.href("help.html")}#account"'),
-        ('fix', 'Fix a problem', 'حل مشكلة', f'href="{c.root}help.html"'),
-        ('faq', 'Questions', 'الأسئلة الشائعة', f'href="{c.href("help.html")}"'),
+    """(picture, English, Arabic, link) — in the order of the guide picture Hossam chose."""
+    return [
+        ('speed', 'Speed Test', 'قياس السرعة', f'href="{c.href("speed-test.html")}"'),
+        ('matches', 'Matches Guide', 'دليل المباريات', f'href="{c.href("matches.html")}"'),
+        ('ramadan', 'Ramadan Guide', 'دليل رمضان', f'href="{c.href("ramadan-series.html")}"'),
+        ('trial', 'Free Trial Form', 'طلب تجربة مجانية', f'href="{c.wa("trial")}" data-trial'),
+        ('plans', 'Plans & Prices', 'الباقات والأسعار', f'href="{c.href("plans.html")}"'),
+        ('pay', 'Payment Methods', 'طرق الدفع', f'href="{c.href("pay.html")}"'),
+        ('later', 'Reschedule Payment', 'تأجيل الدفع', f'href="{c.href("pay.html")}#later"'),
+        ('account', 'Check Subscription', 'التحقق من الاشتراك', f'href="{c.href("help.html")}#account"'),
+        ('renew', 'Renew Subscription', 'تجديد الاشتراك', f'href="{c.wa("sub")}" data-order="renew"'),
+        ('setup', 'Setup Guides', 'أدلة الإعداد', f'href="{c.href("setup/index.html")}"'),
+        ('fix', 'Troubleshooter', 'حل المشاكل', f'href="{c.root}help.html"'),
+        ('bot', 'Chat with El Bot', 'تحدث مع البوت', f'href="https://wa.me/{BOT_WHATSAPP}" target="_blank" rel="noopener"'),
     ]
-    return cards
 
 
 def guide_page(c):
     t = c.t
+    chev = '<span class="gd-go" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M10 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
     items = ''.join(
-        f'<li><a class="gd-card gd-{k}" {attrs} dir="ltr"><span class="gd-n">{i}</span>'
-        f'<span class="gd-en" lang="en">{en}</span><span class="gd-art" aria-hidden="true">{GUIDE_ART[k]}</span>'
-        f'<span class="gd-ar" lang="ar" dir="rtl">{ar}</span></a></li>'
-        for i, (k, en, ar, attrs) in enumerate(guide_cards(c), 1))
-    body = f'''<section class="sec first gd-sec"><div class="wrap">
-  <h1 class="gd-h" dir="ltr"><span lang="en">Hossam TV guide</span><span lang="ar" dir="rtl">دليل Hossam TV</span></h1>
-  <ol class="gd-list">{items}</ol>
+        f'<li><a class="gd-card" {attrs} dir="ltr"><span class="gd-art" aria-hidden="true">{GUIDE_ART[k]}</span>'
+        f'<span class="gd-en" lang="en">{en}</span><span class="gd-ar" lang="ar" dir="rtl">{ar}</span>{chev}</a></li>'
+        for k, en, ar, attrs in guide_cards(c))
+    body = f'''<section class="gd-sec"><div class="wrap">
+  <h1 class="gd-h" dir="ltr"><span lang="en">Hossam TV Guide</span><span lang="ar" dir="rtl">دليل Hossam TV</span></h1>
+  <ul class="gd-list">{items}</ul>
 </div></section>'''
     return (t(L('Guide — every part of Hossam TV', 'الدليل — كل أقسام Hossam TV')),
-            t(L('One card for each part of the Hossam TV website: free trial, plans, payment, setup, speed test, matches, Ramadan series and help.',
-                'بطاقة لكل قسم في موقع Hossam TV: التجربة المجانية والباقات والدفع والتثبيت وقياس السرعة والمباريات ومسلسلات رمضان والمساعدة.')),
+            t(L('One card for each part of the Hossam TV website: speed test, matches, Ramadan, free trial, plans, payment, setup, help and the bot.',
+                'بطاقة لكل قسم في موقع Hossam TV: قياس السرعة والمباريات ورمضان والتجربة المجانية والباقات والدفع والتثبيت والمساعدة والبوت.')),
             body)
 
 
@@ -2073,7 +2132,7 @@ def pay_page(c):
   <ul class="py-list" data-py-list="eg" hidden>{methods(True)}</ul>
   <p class="py-note">{icon('info')}<span>{t(L("Tap a method: WhatsApp opens and Hossam sends you the details. After paying, send the receipt there.", 'اضغط على طريقة: يفتح واتساب ويرسل لك حسام التفاصيل. بعد الدفع أرسل صورة الإيصال هناك.'))}</span></p>
 
-  <h2 class="st-h">{icon('clock')}{t(L('Pay later', 'ادفع لاحقاً'))}</h2>
+  <h2 class="st-h" id="later">{icon('clock')}{t(L('Pay later', 'ادفع لاحقاً'))}</h2>
   <form class="remind py-later" data-py-form novalidate>
     <div class="rf-grid">
       <div class="rf" data-py-login><label for="pyUser">{t(L('Username', 'اسم المستخدم'))}</label><input id="pyUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="64"></div>
