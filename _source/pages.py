@@ -2,6 +2,7 @@
 """Page bodies for every page. Shared data lives in content.py."""
 import os
 import urllib.parse
+from themecss import theme_css
 from content import *
 
 
@@ -2013,7 +2014,7 @@ def fix_page(c):
     html = open(os.path.join(d, 'body.html'), encoding='utf-8').read()
     css = open(os.path.join(d, 'fix.css'), encoding='utf-8').read()
     html = html.replace('data-page="speed-test.html" href="/"', f'data-page="speed-test.html" href="{c.href("speed-test.html")}"')
-    body = f'''<style>{css}</style>
+    body = f'''<style>{theme_css(css)}</style>
 <div class="fixp">
 {html}
 </div>
