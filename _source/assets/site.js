@@ -31,10 +31,7 @@
   function detectRegion(){
     var tz = '';
     try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
-    if(tz === 'Africa/Cairo') return 'eg';
-    if(tz === 'Asia/Dubai') return 'uae';
-    if(/^Asia\/(Riyadh|Kuwait|Qatar|Bahrain|Muscat|Aden)$/.test(tz)) return 'gulf';
-    return 'intl';
+    return tz === 'Africa/Cairo' ? 'eg' : 'intl';
   }
   function setRegion(id, save){
     each('[data-region-btn]', function(b){ b.setAttribute('aria-pressed', b.getAttribute('data-region-btn') === id ? 'true' : 'false'); });
@@ -46,7 +43,10 @@
     SD:'249', LY:'218', TN:'216', DZ:'213', MA:'212', TR:'90', GB:'44', DE:'49', FR:'33', NL:'31', BE:'32', CH:'41', AT:'43', SE:'46', NO:'47',
     DK:'45', IT:'39', ES:'34', IE:'353', AU:'61', CA:'1', US:'1' };
   /* country code (from Cloudflare via site-data, by IP) -> prices tab */
-  function regionOf(cc){ return cc === 'EG' ? 'eg' : cc === 'AE' ? 'uae' : /^(SA|KW|QA|BH|OM)$/.test(cc) ? 'gulf' : 'intl'; }
+  function regionOf(cc){ return cc === 'EG' ? 'eg' : 'intl'; }
+  /* visitors in the UAE (by IP): we stopped serving it */
+  var aeNote = function(iso){ if(iso === 'AE') each('[data-ae-note]', function(n){ n.hidden = false; }); };
+  aeNote(window.htvCountry); document.addEventListener('htv:country', function(e){ aeNote(e.detail); });
   if(document.querySelector('[data-region-panel]')){
     var r = store(REGION_KEY);
     /* a tab the visitor tapped wins; then the real country (when site-data arrives); the phone's time zone is only the first guess */
@@ -59,30 +59,51 @@
     });
   }
 
-  /* visitors in Canada: show USD prices with a rough CAD amount next to them (rate refreshed once a day) */
+  /* "Canada & rest of world" prices are in USD: next to them, the rough amount in the visitor's own currency
+     (country from Cloudflare by IP via site-data; until it arrives, Canada from the time zone). Rates refreshed once a day. */
+  var EURO = /^(DE|FR|NL|BE|AT|IT|ES|IE|PT|FI|GR|LU|SK|SI|EE|LV|LT|MT|CY|HR)$/;
+  var CUR = { CA: 'CAD', GB: 'GBP', AU: 'AUD', NZ: 'NZD', CH: 'CHF', SE: 'SEK', NO: 'NOK', DK: 'DKK', PL: 'PLN', TR: 'TRY', SA: 'SAR', AE: 'AED',
+    KW: 'KWD', QA: 'QAR', BH: 'BHD', OM: 'OMR', JO: 'JOD', IQ: 'IQD', MA: 'MAD', DZ: 'DZD', TN: 'TND', LY: 'LYD', EG: 'EGP', MX: 'MXN', BR: 'BRL',
+    IN: 'INR', PK: 'PKR', MY: 'MYR', ZA: 'ZAR', JP: 'JPY' };
+  function curOf(iso){ return EURO.test(iso || '') ? 'EUR' : CUR[iso] || ''; }
+  function curName(code){
+    if(code === 'CAD') return AR ? 'دولار كندي' : 'CAD';
+    if(!AR) return code;
+    try{ return new Intl.DisplayNames(['ar'], { type: 'currency' }).of(code) || code; }catch(e){ return code; }
+  }
+  window.htvMoney = function(usd){   /* "≈ 48 CAD" in the visitor's currency, or '' (also used by the order form total) */
+    var l = window.htvLocal; if(!l) return '';
+    var n = usd * l.rate, r = n >= 1000 ? Math.round(n / 10) * 10 : Math.round(n);
+    return '≈ ' + (l.cur === 'CAD' && !AR ? '$' + r.toLocaleString('en-US') + ' CAD' : r.toLocaleString('en-US') + ' ' + curName(l.cur));
+  };
   (function(){
     var spans = document.querySelectorAll('[data-cad]');
-    if(!spans.length) return;
     var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
-    if(!/^America\/(Toronto|Montreal|Vancouver|Edmonton|Calgary|Winnipeg|Regina|Swift_Current|Halifax|Moncton|Glace_Bay|Goose_Bay|St_Johns|Whitehorse|Dawson|Dawson_Creek|Fort_Nelson|Creston|Yellowknife|Inuvik|Iqaluit|Rankin_Inlet|Cambridge_Bay|Resolute|Atikokan|Nipigon|Thunder_Bay|Rainy_River|Pangnirtung|Blanc-Sablon)$/.test(tz)) return;
-    var ar = document.documentElement.lang === 'ar';
-    function show(rate){
-      window.htvCadRate = rate; try{ document.dispatchEvent(new CustomEvent('htv:cad')); }catch(e){}
+    var canada = /^America\/(Toronto|Montreal|Vancouver|Edmonton|Calgary|Winnipeg|Regina|Swift_Current|Halifax|Moncton|Glace_Bay|Goose_Bay|St_Johns|Whitehorse|Dawson|Dawson_Creek|Fort_Nelson|Creston|Yellowknife|Inuvik|Iqaluit|Rankin_Inlet|Cambridge_Bay|Resolute|Atikokan|Nipigon|Thunder_Bay|Rainy_River|Pangnirtung|Blanc-Sablon)$/.test(tz);
+    var rates = null; try{ rates = JSON.parse(store('htv-fx') || 'null'); }catch(e){}
+    var cur = '';
+    function show(){
+      var r = cur && rates && rates.r && rates.r[cur];
+      if(!r && cur === 'CAD') r = 1.38;
+      window.htvLocal = r ? { cur: cur, rate: r } : null;
+      if(r) window.htvCadRate = cur === 'CAD' ? r : 0;
+      try{ document.dispatchEvent(new CustomEvent('htv:cad')); }catch(e){}
       Array.prototype.forEach.call(spans, function(s){
-        var cad = Math.round(+s.getAttribute('data-cad') * rate);
-        s.textContent = s.hasAttribute('data-cad-short') ? (ar ? ' أمريكي' : ' USD')       /* the 2-year price: just name the currency */
-          : ar ? ' أمريكي (≈ ' + cad + ' دولار كندي)' : ' USD (≈ $' + cad + ' CAD)';
+        if(!r){ s.hidden = true; return; }
+        s.textContent = s.hasAttribute('data-cad-short') ? (AR ? ' أمريكي' : ' USD')       /* the 2-year price: just name the currency */
+          : (AR ? ' أمريكي (' : ' USD (') + window.htvMoney(+s.getAttribute('data-cad')) + ')';
         s.hidden = false;
       });
     }
-    var saved = null; try{ saved = JSON.parse(store('htv-cad') || 'null'); }catch(e){}
-    show(saved && saved.r ? saved.r : 1.38);
-    if(saved && Date.now() - saved.t < 864e5) return;
-    if(!window.fetch) return;
-    fetch('https://open.er-api.com/v6/latest/USD').then(function(r){ return r.json(); }).then(function(d){
-      var r = d && d.rates && d.rates.CAD;
-      if(r > 1 && r < 2){ store('htv-cad', JSON.stringify({ r: r, t: Date.now() })); show(r); }
-    })['catch'](function(){});
+    function setCountry(iso){
+      var c = curOf(iso); if(c === cur) return; cur = c; show();
+      if(!cur || !window.fetch || (rates && Date.now() - rates.t < 864e5)) return;
+      fetch('https://open.er-api.com/v6/latest/USD').then(function(r){ return r.json(); }).then(function(d){
+        if(d && d.rates && d.rates.CAD){ rates = { r: d.rates, t: Date.now() }; store('htv-fx', JSON.stringify(rates)); show(); }
+      })['catch'](function(){});
+    }
+    setCountry(window.htvCountry || (canada ? 'CA' : ''));
+    document.addEventListener('htv:country', function(e){ setCountry(e.detail); });
   })();
 
   /* savings calculator (plans page): cable/satellite bill vs Hossam TV Basic, in CAD for visitors in Canada */
@@ -91,9 +112,9 @@
     if(!box) return;
     var range = box.querySelector('[data-bill-range]'), bill = box.querySelector('[data-bill]'), save = box.querySelector('[data-save]'), note = box.querySelector('[data-calc-note]');
     var basic = +box.getAttribute('data-basic') || 35;
-    function money(n){ var cad = !!window.htvCadRate; return '$' + Math.round(n).toLocaleString('en-US') + (cad ? ' CAD' : ''); }
+    function money(n){ var l = window.htvLocal; return l && l.cur !== 'CAD' ? Math.round(n).toLocaleString('en-US') + ' ' + l.cur : '$' + Math.round(n).toLocaleString('en-US') + (l ? ' CAD' : ''); }
     function upd(){
-      var rate = window.htvCadRate || 1, month = +range.value, year = month * 12, plan = basic * rate;
+      var rate = window.htvLocal ? window.htvLocal.rate : 1, month = +range.value, year = month * 12, plan = basic * rate;
       bill.textContent = money(month);
       save.textContent = money(Math.max(0, year - plan));
       note.textContent = note.getAttribute('data-l').replace('{y}', money(year)).replace('{b}', money(plan));
@@ -313,7 +334,7 @@
     var tGuide = tf.querySelector('[data-trial-guide]'), tMsg = tf.querySelector('.remind-msg'), payNote = tf.querySelector('[data-pay-note]');
     var mode = 'trial';
     var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
-    var guess = tz === 'Africa/Cairo' ? '20' : tz === 'Asia/Dubai' ? '971' : tz === 'Asia/Riyadh' ? '966' : tz === 'Asia/Kuwait' ? '965' : tz === 'Asia/Qatar' ? '974'
+    var guess = tz === 'Africa/Cairo' ? '20' : tz === 'Asia/Riyadh' ? '966' : tz === 'Asia/Kuwait' ? '965' : tz === 'Asia/Qatar' ? '974'
       : tz === 'Asia/Bahrain' ? '973' : tz === 'Asia/Muscat' ? '968' : tz === 'Europe/London' ? '44' : tz === 'Europe/Berlin' ? '49' : tz === 'Europe/Istanbul' ? '90'
       : /^America\/(Toronto|Vancouver|Edmonton|Winnipeg|Halifax|Regina|St_Johns|Montreal|Moncton|Whitehorse|Yellowknife|Iqaluit)/.test(tz) ? 'ca'
       : /^America\//.test(tz) ? 'us' : /^Australia\//.test(tz) ? '61' : '';
@@ -357,14 +378,47 @@
       var keep = tPeriod.value, list = (PRICES[region()] || {})[tPlan.value] || [];
       while(tPeriod.options.length > 1) tPeriod.remove(1);
       list.forEach(function(x){ var o = document.createElement('option'); o.value = x[0]; o.textContent = x[1] + ' — ' + x[2]; tPeriod.appendChild(o); });
-      tPeriod.value = keep; if(tPeriod.value !== keep || !keep) tPeriod.value = list.length === 1 ? list[0][0] : '';
+      tPeriod.value = keep; if(tPeriod.value !== keep || !keep) tPeriod.value = list.length && (list.length === 1 || mode === 'subscribe') ? list[0][0] : '';
+      syncTotal();
     };
+    /* approximate total: plan price for the chosen period + the Smart TV app per TV (IBO / Bob Player),
+       with the amount in the visitor's own currency when it's all in USD */
+    var tTvs = F('tvs'), tvBox = tf.querySelector('[data-tvs]'), totBox = tf.querySelector('[data-total]');
+    var FEES = {}, CURS = {}; try{ FEES = JSON.parse(totBox.getAttribute('data-fees')) || {}; CURS = JSON.parse(totBox.getAttribute('data-cur')) || {}; }catch(e){}
+    var fmtMoney = function(cur, n){ var c = CURS[cur] || [cur, false]; n = Math.round(n).toLocaleString('en-US'); return c[1] ? c[0] + n : n + ' ' + c[0]; };
+    var tvCount = function(){ return mode !== 'renew' && tDevice.value === 'smarttv' ? Math.max(1, Math.min(10, Math.round(+tTvs.value) || 1)) : 0; };
+    var totalText = '';
+    var syncTotal = function(){
+      if(!totBox) return;
+      tvBox.hidden = mode === 'renew' || tDevice.value !== 'smarttv';
+      var list = (PRICES[region()] || {})[tPlan.value] || [], A = function(k){ return totBox.getAttribute('data-l-' + k); };
+      var per = mode === 'trial' ? list[0] : list.filter(function(x){ return x[0] === tPeriod.value; })[0];
+      totalText = '';
+      if(!per){ totBox.hidden = true; return; }
+      var tvs = tvCount(), fee = FEES[tPlan.value], feeN = fee && tvs ? fee[1] * tvs : 0, sum, usd = 0;
+      if(!feeN || fee[0] === per[4]){ sum = fmtMoney(per[4], per[3] + feeN); if(per[4] === 'usd') usd = per[3] + feeN; }
+      else sum = per[2] + ' + ' + fmtMoney(fee[0], feeN);
+      var local = usd && window.htvMoney ? window.htvMoney(usd) : '';
+      totBox.textContent = '';
+      var top = document.createElement('div'); top.className = 'tr-total-top';
+      var lb = document.createElement('span'); lb.textContent = mode === 'trial' ? A('after') : A('total');
+      var b = document.createElement('b'); b.textContent = sum + (local ? ' (' + local + ')' : '');
+      top.appendChild(lb); top.appendChild(b); totBox.appendChild(top);
+      var small = document.createElement('small');
+      small.textContent = opt(tPlan).textContent + ' · ' + (mode === 'trial' ? A('y') : per[1]) + ' ' + per[2] + (feeN ? ' + ' + tvs + ' × ' + A('tv') + ' ' + fee[2] : '');
+      totBox.appendChild(small);
+      totBox.hidden = false;
+      totalText = b.textContent;
+    };
+    tPeriod.addEventListener('change', syncTotal); tTvs.addEventListener('input', syncTotal); tDevice.addEventListener('change', syncTotal);
+    document.addEventListener('htv:cad', syncTotal);
     tPlan.addEventListener('change', syncPeriods);
     tCountry.addEventListener('change', syncCountry); tDevice.addEventListener('change', syncGuide); tPay.addEventListener('change', syncPay);
     syncCountry();
     var setMode = function(m){
       mode = m; tf.setAttribute('data-mode', m);
       each('[data-for]', function(el){ el.hidden = (' ' + el.getAttribute('data-for') + ' ').indexOf(' ' + m + ' ') < 0; }, tf);
+      syncTotal();
     };
     var openForm = function(m, pl, user){
       setMode(m);
@@ -406,7 +460,8 @@
       var trial = mode === 'trial';
       if(window.fetch && window.URLSearchParams){
         var body = new URLSearchParams();
-        body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: mode === 'renew' ? '' : tDevice.value, period: mode === 'renew' ? tPeriod.value : '', price: mode === 'renew' ? lbl(tPeriod) : '',
+        body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: mode === 'renew' ? '' : tDevice.value, period: mode === 'trial' ? '' : tPeriod.value, price: mode === 'trial' ? '' : lbl(tPeriod),
+          tvs: tvCount(), total: totalText,
           pay: mode === 'subscribe' ? tPay.value : '', phone: mode === 'renew' ? '' : fullPhone(), username: mode === 'renew' ? u : '', lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
         try{ fetch(tf.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit', keepalive: true })['catch'](function(){}); }catch(err){}
       }
@@ -417,6 +472,9 @@
         : [trial ? "Hi Hossam TV, I'd like a free trial." : mode === 'renew' ? "Hi Hossam TV, I'd like to renew my subscription." : "Hi Hossam TV, I'd like to subscribe."]
           .concat(mode === 'renew' ? ['Username: ' + u] : [], ['Name: ' + n, 'Country: ' + lbl(tCountry)], mode === 'renew' ? [] : ['WhatsApp: +' + fullPhone()],
                   mode === 'renew' ? ['Server: ' + lbl(tPlan), 'Period: ' + lbl(tPeriod)] : ['Plan: ' + lbl(tPlan), 'Device: ' + lbl(tDevice)], mode === 'subscribe' ? ['Payment: ' + lbl(tPay)] : []);
+      if(mode === 'subscribe' && tPeriod.value) lines.push((AR ? 'المدة: ' : 'Period: ') + lbl(tPeriod));
+      if(tvCount()) lines.push((AR ? 'عدد الشاشات: ' : 'Smart TVs: ') + tvCount());
+      if(totalText) lines.push((AR ? 'الإجمالي التقريبي: ' : 'Approx. total: ') + totalText);
       var url = 'https://wa.me/' + tf.getAttribute('data-wa') + '?text=' + encodeURIComponent(lines.join('\n'));
       dlg.close();
       var w = window.open(url, '_blank');
@@ -498,6 +556,8 @@
     });
   });
   /* big matches this week (assets/data/matches.json, refreshed every 6 hours by a GitHub Action) — times in the visitor's time zone */
+  var CLOCK_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  var CAL_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
   each('[data-matches]', function(box){
     if(!window.fetch) return;
     var A = function(k){ return box.getAttribute('data-l-' + k) || ''; }, loc = box.getAttribute('data-locale'), limit = +box.getAttribute('data-limit') || 0;
@@ -540,6 +600,15 @@
         else t.appendChild(ini()); t.appendChild(el('span', 'mt-name' + (/\S{11,}/.test(n) ? ' mt-long' : ''), n));   /* one long word: smaller, so it doesn't split */
         return t;
       };
+      var root = (box.getAttribute('data-src') || '').replace(/assets\/data\/matches\.json$/, '');
+      var actLine = function(x){
+        var a = el('span', 'mt-act'), cd = el('span', 'mt-cd');
+        cd.setAttribute('data-cd', x.utc); cd.innerHTML = CLOCK_SVG; a.appendChild(cd);
+        var cal = el('a', 'mt-cal'); cal.href = root + (AR ? 'ar' : 'en') + '/cal/' + x.id + '.ics';
+        cal.setAttribute('data-cal', x.utc); cal.setAttribute('data-cal-t', nm(x.home) + ' – ' + nm(x.away) + ' (' + ((x.league && (AR ? x.league.ar : x.league.en)) || '') + ')');
+        cal.innerHTML = CAL_SVG; cal.appendChild(document.createTextNode(A('cal'))); a.appendChild(cal);
+        return a;
+      };
       groups.forEach(function(g){
         var e = g.e, k = new Date(e.utc), started = now >= k.getTime(), lives = window.htvLive || {};
         var anyLive = g.items.some(function(x){ return lives[x.id] || (started && now < k.getTime() + 2 * 3600e3); });
@@ -569,11 +638,14 @@
           row.appendChild(mid);
           row.appendChild(team(x.away, 'away'));
           if(!oneCh && chName(x)){ var cl = el('span', 'mt-ch'); cl.appendChild(el('span', 'match-ch', chName(x))); row.appendChild(cl); }
+          /* every match not started yet: its own countdown + "Add to calendar" (assets/matches.js ticks it and handles Android) */
+          if(now < Date.parse(x.utc)) row.appendChild(actLine(x));
           card.appendChild(row);
         });
         box.appendChild(card);
       });
       box.hidden = false; if(sec) sec.hidden = false;
+      if(window.htvTickRows) window.htvTickRows();
     }
   });
 })();

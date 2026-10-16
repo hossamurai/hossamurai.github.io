@@ -10,7 +10,7 @@ assets/bot.js and assets/apps/ are kept: style.css and site.js are copied over t
 """
 import os, shutil, posixpath, urllib.parse
 from content import *
-from pages import PAGE_BUILDERS, DEVICE_PAGES, COUNTRY_PAGES, icon, wa, ARIA_CUR, trial_dialog, matches_ticker, match_list, match_ics
+from pages import PAGE_BUILDERS, DEVICE_PAGES, COUNTRY_PAGES, icon, wa, ARIA_CUR, trial_dialog, matches_ticker, match_list, match_ics, _match_data
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(HERE)
@@ -191,6 +191,9 @@ def footer(c):
 </footer>'''
 
 
+NOINDEX = {'pay.html'}   # personal page the bot sends (payment methods + pay later) — not for search results
+
+
 def layout(c, title, desc, body):
     full_title = title if SITE_NAME in title else f'{title} — {SITE_NAME}'
     alt = ''.join(f'<link rel="alternate" hreflang="{l}" href="{canonical(l, c.path)}">' for l in LANGS)
@@ -203,7 +206,7 @@ def layout(c, title, desc, body):
 <meta name="theme-color" content="#ffffff">
 <title>{full_title}</title>
 <meta name="description" content="{desc}">
-<link rel="canonical" href="{canonical(c.lang, c.path)}">
+<link rel="canonical" href="{canonical(c.lang, c.path)}">{'<meta name="robots" content="noindex">' if c.path in NOINDEX else ''}
 {alt}
 <meta property="og:title" content="{full_title}">
 <meta property="og:description" content="{desc}">
@@ -364,13 +367,21 @@ def main():
         if not res:
             for lang in LANGS:
                 write(f'{lang}/match/{slug}.ics', match_ics(lang, e))
+    # ... and one per match of the week, by id (every countdown in the lists has the button)
+    for e in _match_data().get('events', []):
+        for lang in LANGS:
+            write(f'{lang}/cal/{e["id"]}.ics', match_ics(lang, e))
     write('index.html', root_index())
     # short link that picks the language: hossamservices.com/speed-test (GitHub Pages serves speed-test.html without the .html)
     write('speed-test.html', root_index().replace("l + '/index.html'", "l + '/speed-test'")
           .replace('<html lang="ar" dir="rtl">', '<html lang="ar" dir="rtl">\n<!-- redirects to /en/ or /ar/speed-test.html -->')
           .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
+    # short links Hossam sends: hossamservices.com/guide and /pay (#k=… from the bot is kept)
+    for short in ('guide', 'pay'):
+        write(f'{short}.html', root_index().replace("l + '/index.html'", f"l + '/{short}.html'")
+              .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
     write('404.html', page_404())
-    write('sitemap.xml', sitemap([p for _, p, _, _ in pages]))
+    write('sitemap.xml', sitemap([p for _, p, _, _ in pages if p not in NOINDEX]))
     write('robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {BASE_URL}/sitemap.xml\n')
     print(f'Built {count} pages into {OUT}')
 

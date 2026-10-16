@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Hossam TV//Matches//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:e401915393@hossamservices.com
+DTSTAMP:20261014T190000Z
+DTSTART:20261014T190000Z
+DTEND:20261014T210000Z
+SUMMARY:بودو جليمت – بوروسيا دورتموند (دوري أبطال أوروبا)
+DESCRIPTION:بي إن سبورت · شاهدها مباشرة على Hossam TV — hossamservices.com
+URL:https://hossamservices.com/
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:بودو جليمت – بوروسيا دورتموند (دوري أبطال أوروبا)
+END:VALARM
+END:VEVENT
+END:VCALENDAR
