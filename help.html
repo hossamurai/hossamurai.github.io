@@ -528,6 +528,8 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
   .onair{background:rgba(227,16,27,.15)!important}
   .htv-badge{color:#000!important}
 }
+/* same header as the rest of the site: no round free-trial button on phones */
+@media (max-width:480px){.nav-trial{display:none!important}}
 </style>
 </head>
 <body>
@@ -586,7 +588,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
       <button class="lang" type="button" id="langBtn" aria-label="Switch language">
         <svg class="ic"><use href="#i-globe"/></svg><span class="en">العربية</span><span class="ar">English</span>
       </button>
-      <a class="btn btn-wa btn-sm" data-wa="subscribe" href="https://wa.me/201117250227?text=Hi%20Hossam%20TV%2C%20I%27d%20like%20a%20free%20trial." target="_blank" rel="noopener">
+      <a class="btn btn-wa btn-sm nav-trial" data-wa="subscribe" href="https://wa.me/201117250227?text=Hi%20Hossam%20TV%2C%20I%27d%20like%20a%20free%20trial." target="_blank" rel="noopener">
         <svg class="ic"><use href="#i-chat"/></svg><span class="en">Free trial</span><span class="ar">تجربة مجانية</span>
       </a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-label="Menu"><svg class="ic i-open"><use href="#i-menu"/></svg><svg class="ic i-close"><use href="#i-x"/></svg></button>
