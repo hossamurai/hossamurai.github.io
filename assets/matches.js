@@ -110,6 +110,32 @@
   }
   floatStrip();
   window.addEventListener('resize', floatStrip);
+  /* the row drifts slowly back and forth so it's clear it scrolls; a touch, hover or tap stops it for a while */
+  function driftStrip(){
+    var b = document.querySelector('[data-strip]'), tr = b && b.querySelector('[data-strip-track]');
+    if(!tr || !window.requestAnimationFrame || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+    var SPEED = 18, dir = 1, pos = null, last = 0, holdUntil = Date.now() + 2500, busy = false;
+    var rtl = getComputedStyle(tr).direction === 'rtl';
+    var hold = function(ms){ holdUntil = Date.now() + ms; pos = null; tr.style.scrollSnapType = ''; };
+    ['pointerdown', 'touchstart', 'wheel', 'focusin'].forEach(function(ev){ tr.addEventListener(ev, function(){ hold(8000); }, { passive: true }); });
+    tr.addEventListener('mouseenter', function(){ busy = true; hold(1e9); });
+    tr.addEventListener('mouseleave', function(){ busy = false; hold(2500); });
+    function step(t){
+      var dt = last ? Math.min(t - last, 100) / 1000 : 0; last = t;
+      var max = tr.scrollWidth - tr.clientWidth;
+      if(!busy && !b.hidden && !document.hidden && max > 4 && Date.now() > holdUntil){
+        if(pos === null) pos = Math.abs(tr.scrollLeft);
+        tr.style.scrollSnapType = 'none';
+        pos += dir * SPEED * dt;
+        if(pos >= max){ pos = max; dir = -1; hold(3000); }
+        else if(pos <= 0){ pos = 0; dir = 1; hold(3000); }
+        tr.scrollLeft = rtl ? -pos : pos;
+      }
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  driftStrip();
   /* remember the row, so the next page opens with it already in place (no jump while loading) */
   function save(){
     floatStrip();
