@@ -123,12 +123,12 @@ NAV = [
     ('help', 'help.html', L('FAQ', 'الأسئلة الشائعة')),
     ('about', 'about.html', L('About', 'من نحن')),
 ]
-FIX_LINK = L('Fix a problem', 'حل مشكلة')   # the standalone help.html troubleshooter in the repo root
+FIX_LINK = L('Fix a problem', 'حل مشكلة')   # the step-by-step troubleshooter (fix.html)
 
 
 def nav_items(c):
     items = [(k, c.href(p), lbl) for k, p, lbl in NAV]
-    items.insert(4, ('fix', c.root + 'help.html', FIX_LINK))
+    items.insert(4, ('fix', c.href('fix.html'), FIX_LINK))
     return items
 
 
@@ -329,7 +329,7 @@ def sitemap(paths):
             rows.append(f'  <url><loc>{canonical(l, p)}</loc>{alts}</url>')
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
-            + '\n'.join(rows) + f'\n  <url><loc>{BASE_URL}/help.html</loc></url>'
+            + '\n'.join(rows)
             + '\n</urlset>\n')
 
 
@@ -383,6 +383,10 @@ def main():
     # short link that picks the language: hossamservices.com/speed-test (GitHub Pages serves speed-test.html without the .html)
     write('speed-test.html', root_index().replace("l + '/index.html'", "l + '/speed-test'")
           .replace('<html lang="ar" dir="rtl">', '<html lang="ar" dir="rtl">\n<!-- redirects to /en/ or /ar/speed-test.html -->')
+          .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
+    # old troubleshooter address (shared on WhatsApp): send it to /en/ or /ar/fix.html, keeping #plan links
+    write('help.html', root_index().replace("l + '/index.html'", "l + '/fix.html'")
+          .replace('href="ar/index.html"', 'href="ar/fix.html"').replace('href="en/index.html"', 'href="en/fix.html"')
           .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
     write('404.html', page_404())
     write('sitemap.xml', sitemap([p for _, p, _, _ in pages if p not in NOINDEX]))

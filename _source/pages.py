@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Page bodies for every page. Shared data lives in content.py."""
+import os
 import urllib.parse
 from content import *
 
@@ -1551,7 +1552,7 @@ def speed_page(c):
     <h2 class="st-h">{t(L('Too slow? Try this', 'السرعة ضعيفة؟ جرّب هذا'))}</h2>
     <ul>{tips_html}</ul>
   </div>
-  <a class="st-more" href="{c.root}help.html">{icon('info')}<span>{t(L('Still freezing with good speed? Fix a problem', 'لسه في تقطيع والسرعة كويسة؟ حل مشكلة'))}</span>{icon('arrow', 'flip')}</a>
+  <a class="st-more" href="{c.href('fix.html')}">{icon('info')}<span>{t(L('Still freezing with good speed? Fix a problem', 'لسه في تقطيع والسرعة كويسة؟ حل مشكلة'))}</span>{icon('arrow', 'flip')}</a>
 </div></section>
 <script src="{c.root}assets/speedtest.js" defer></script>
 '''
@@ -2006,12 +2007,29 @@ def ramadan_teaser(c):
     return (f'<section class="sec rm-teaser-sec"><div class="wrap"><a class="st-more rm-teaser" href="{c.href("ramadan-series.html")}">{icon("moon")}'
             f'<span>{c.t(L(f"Ramadan {yr} series", f"مسلسلات رمضان {yr}"))}</span>{icon("arrow", "flip")}</a></div></section>')
 
+def fix_page(c):
+    # the step-by-step troubleshooter; markup holds both languages (.en/.ar), CSS is scoped under .fixp
+    d = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fix')
+    html = open(os.path.join(d, 'body.html'), encoding='utf-8').read()
+    css = open(os.path.join(d, 'fix.css'), encoding='utf-8').read()
+    html = html.replace('data-page="speed-test.html" href="/"', f'data-page="speed-test.html" href="{c.href("speed-test.html")}"')
+    body = f'''<style>{css}</style>
+<div class="fixp">
+{html}
+</div>
+<script src="{c.root}assets/fix.js" defer></script>'''
+    return (c.t(L('Fix a problem', 'حل مشكلة')),
+            c.t(L('Step-by-step fixes for freezing, login and app problems.', 'حلول خطوة بخطوة للتقطيع ومشاكل الدخول والتطبيقات.')),
+            body)
+
+
 PAGE_BUILDERS = [
     ('home', 'index.html', 'home', home),
     ('plans', 'plans.html', 'plans', plans),
     ('channels', 'channels.html', 'channels', channels),
     ('setup', 'setup/index.html', 'setup', setup_index),
     ('help', 'help.html', 'help', help_page),
+    ('fix', 'fix.html', 'fix', fix_page),
     ('about', 'about.html', 'about', about),
     ('policies', 'policies.html', None, policies),
 ]

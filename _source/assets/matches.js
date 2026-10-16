@@ -1,4 +1,4 @@
-/* Hossam TV — match cards row under the header (ES5). Used by every page, including help.html.
+/* Hossam TV — match cards row under the header (ES5). Used by every page.
    - [data-strip]: a swipeable row of small match cards — live matches first (score + minute from ESPN / TheSportsDB,
                    refreshed every 30 s), then this week's big matches (assets/data/matches.json, refreshed every 6 hours
                    by a GitHub Action) with kick-off in the visitor's time zone and the channel. Each card opens the matches
