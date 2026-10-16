@@ -1490,11 +1490,21 @@ def speed_page(c):
         scale += f'<line{" class=" + chr(34) + "mj" + chr(34) if mj else ""} x1="{160 + r1 * math.cos(a):.1f}" y1="{160 + r1 * math.sin(a):.1f}" x2="{160 + r2 * math.cos(a):.1f}" y2="{160 + r2 * math.sin(a):.1f}" stroke-width="{2 if mj else 1}"/>'
     gauge = f'''<svg class="st-gauge" viewBox="0 0 320 262" aria-hidden="true">
       <defs><linearGradient id="stGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#22d3ee"/><stop offset=".55" stop-color="#2563eb"/><stop offset=".8" stop-color="#7c3aed"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
+      <circle class="st-face" cx="160" cy="160" r="112"/>
       <path class="st-arc-bg" d="{ring}"/>
       <g class="st-scale">{scale}</g>
       <path class="st-arc" data-st-arc d="{ring}"/>
       <g class="st-ticks">{ticks}</g>
-      <g class="st-needle" data-st-needle><circle cx="160" cy="40" r="9"/></g>
+      <g class="st-needle" data-st-needle><path d="M156 162 L160 58 L164 162 Z"/><circle class="st-tip" cx="160" cy="60" r="3.5"/></g>
+      <circle class="st-hub" cx="160" cy="160" r="11"/><circle class="st-hub-in" cx="160" cy="160" r="4.5"/>
+    </svg>'''
+    # light streaks behind the dial (blue from the left, red to the right — like the speed card picture)
+    streaks = '''<svg class="st-streaks" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="stsB" x1="0" x2="1"><stop offset="0" stop-color="#1d4ed8" stop-opacity="0"/><stop offset=".6" stop-color="#3b82f6"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></linearGradient>
+      <linearGradient id="stsR" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed" stop-opacity="0"/><stop offset=".4" stop-color="#ef4444"/><stop offset="1" stop-color="#ef4444" stop-opacity="0"/></linearGradient></defs>
+      <path d="M0 120 C80 80 120 150 200 110" stroke="url(#stsB)" stroke-width="3" fill="none"/><path d="M0 140 C90 100 130 165 200 125" stroke="url(#stsB)" stroke-width="1.5" fill="none" opacity=".7"/>
+      <path d="M0 100 C70 70 130 130 200 95" stroke="url(#stsB)" stroke-width="1" fill="none" opacity=".5"/>
+      <path d="M200 110 C280 70 320 140 400 95" stroke="url(#stsR)" stroke-width="3" fill="none"/><path d="M200 125 C290 95 330 155 400 115" stroke="url(#stsR)" stroke-width="1.5" fill="none" opacity=".7"/>
     </svg>'''
     # the start button is the logo tile itself (assets/img/go.webp)
     needs = [(5, 'SD', L('Basic quality', 'جودة عادية'), 'tv'), (10, 'HD', L('Full HD', 'Full HD'), 'tv'), (25, '4K', L('Ultra HD', 'Ultra HD'), '4k')]
@@ -1517,6 +1527,7 @@ def speed_page(c):
       <button type="button" role="radio" aria-checked="false" data-net="cellular">📱 {t(L('Mobile data', 'بيانات الموبايل'))}</button>
     </div>
     <div class="st-dial">
+      {streaks}
       {gauge}
       <button type="button" class="st-go" data-st-start aria-label="{t(L('Start the speed test', 'ابدأ اختبار السرعة'))}"><img src="{c.root}assets/img/go.webp" alt="" width="118" height="118"></button>
       <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
