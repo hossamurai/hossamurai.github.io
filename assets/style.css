@@ -1411,9 +1411,10 @@ section.sec.nl-sec+section.sec{padding-top:36px}
 .plan-head .plan-mono{font-size:1.35rem}
 [data-ae-note][hidden]{display:none}
 
-/* speed test log: colour per reading */
-.st-log-row{border-inline-start-width:4px}
-.st-log-row.lv-bad{border-inline-start-color:#e3101b}.st-log-row.lv-ok{border-inline-start-color:#e0a100}
-.st-log-row.lv-good{border-inline-start-color:#1f9d55}.st-log-row.lv-top{border-inline-start-color:#1a73e8}
+/* speed test log: each card gets a hint of its colour */
+.st-log-row.lv-bad{background:#fff3f3;border-color:#f6c7c9}
+.st-log-row.lv-ok{background:#fffaeb;border-color:#f1dfa6}
+.st-log-row.lv-good{background:#f0faf4;border-color:#bfe5cd}
+.st-log-row.lv-top{background:#eff5ff;border-color:#bcd3f7}
 .st-log-num.bad{color:#e3101b}.st-log-num.ok{color:#b98500}.st-log-num.good{color:#1f9d55}.st-log-num.top{color:#1a73e8}
 @media (max-width:480px){.nav-trial{display:none!important}}
