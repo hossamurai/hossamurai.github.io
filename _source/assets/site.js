@@ -71,19 +71,33 @@
     if(!AR) return code;
     try{ return new Intl.DisplayNames(['ar'], { type: 'currency' }).of(code) || code; }catch(e){ return code; }
   }
-  window.htvMoney = function(usd){   /* "≈ 48 CAD" in the visitor's currency, or '' (also used by the order form total) */
-    var l = window.htvLocal; if(!l) return '';
-    var n = usd * l.rate, r = n >= 1000 ? Math.round(n / 10) * 10 : Math.round(n);
-    return '≈ ' + (l.cur === 'CAD' && !AR ? '$' + r.toLocaleString('en-US') + ' CAD' : r.toLocaleString('en-US') + ' ' + curName(l.cur));
-  };
+  var fxRates = null; try{ fxRates = JSON.parse(store('htv-fx') || 'null'); }catch(e){}
+  var fxWait = null;
+  /* the day's USD rates (cached one day); cb runs when they're in */
+  function fxLoad(cb){
+    if(fxRates && Date.now() - fxRates.t < 864e5){ if(cb) cb(); return; }
+    if(!window.fetch) return;
+    if(!fxWait) fxWait = fetch('https://open.er-api.com/v6/latest/USD').then(function(r){ return r.json(); }).then(function(d){
+      if(d && d.rates && d.rates.CAD){ fxRates = { r: d.rates, t: Date.now() }; store('htv-fx', JSON.stringify(fxRates)); }
+    })['catch'](function(){});
+    if(cb) fxWait.then(cb);
+  }
+  /* "≈ 48 CAD" for a USD amount in a given currency, or '' */
+  function fxMoney(usd, cur){
+    var rate = cur && fxRates && fxRates.r && fxRates.r[cur];
+    if(!rate && cur === 'CAD') rate = 1.38;
+    if(!rate || cur === 'USD') return '';
+    var n = usd * rate, r = n >= 1000 ? Math.round(n / 10) * 10 : Math.round(n);
+    return '≈ ' + (cur === 'CAD' && !AR ? '$' + r.toLocaleString('en-US') + ' CAD' : r.toLocaleString('en-US') + ' ' + curName(cur));
+  }
+  window.htvMoney = function(usd){ var l = window.htvLocal; return l ? fxMoney(usd, l.cur) : ''; };   /* in the visitor's currency */
   (function(){
     var spans = document.querySelectorAll('[data-cad]');
     var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
     var canada = /^America\/(Toronto|Montreal|Vancouver|Edmonton|Calgary|Winnipeg|Regina|Swift_Current|Halifax|Moncton|Glace_Bay|Goose_Bay|St_Johns|Whitehorse|Dawson|Dawson_Creek|Fort_Nelson|Creston|Yellowknife|Inuvik|Iqaluit|Rankin_Inlet|Cambridge_Bay|Resolute|Atikokan|Nipigon|Thunder_Bay|Rainy_River|Pangnirtung|Blanc-Sablon)$/.test(tz);
-    var rates = null; try{ rates = JSON.parse(store('htv-fx') || 'null'); }catch(e){}
     var cur = '';
     function show(){
-      var r = cur && rates && rates.r && rates.r[cur];
+      var r = cur && fxRates && fxRates.r && fxRates.r[cur];
       if(!r && cur === 'CAD') r = 1.38;
       window.htvLocal = r ? { cur: cur, rate: r } : null;
       if(r) window.htvCadRate = cur === 'CAD' ? r : 0;
@@ -97,10 +111,7 @@
     }
     function setCountry(iso){
       var c = curOf(iso); if(c === cur) return; cur = c; show();
-      if(!cur || !window.fetch || (rates && Date.now() - rates.t < 864e5)) return;
-      fetch('https://open.er-api.com/v6/latest/USD').then(function(r){ return r.json(); }).then(function(d){
-        if(d && d.rates && d.rates.CAD){ rates = { r: d.rates, t: Date.now() }; store('htv-fx', JSON.stringify(rates)); show(); }
-      })['catch'](function(){});
+      if(cur) fxLoad(show);
     }
     setCountry(window.htvCountry || (canada ? 'CA' : ''));
     document.addEventListener('htv:country', function(e){ setCountry(e.detail); });
@@ -331,6 +342,8 @@
     var tf = dlg.querySelector('[data-trial-form]');
     var F = function(n){ return tf.querySelector('[name="' + n + '"]'); };
     var tName = F('name'), tCountry = F('country'), tPlan = F('plan'), tDevice = F('device'), tPay = F('pay'), tPeriod = F('period'), tPhone = F('phone'), tUser = F('username'), tHp = F('website');
+    var cInput = tf.querySelector('[data-cbox] input'), cList = tf.querySelector('.cbox-list');
+    var tDevs = F('devs'), devBox = tf.querySelector('[data-devs]'), golden = tf.querySelector('[data-golden]');
     var tGuide = tf.querySelector('[data-trial-guide]'), tMsg = tf.querySelector('.remind-msg'), payNote = tf.querySelector('[data-pay-note]');
     var mode = 'trial';
     var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
@@ -369,7 +382,11 @@
       syncPay();
       if(typeof syncPeriods === 'function') syncPeriods();
       var ccEl = tf.querySelector('[data-tr-cc]'); if(ccEl) ccEl.textContent = '+' + dial();
+      if(cInput && document.activeElement !== cInput){ var so = opt(tCountry); cInput.value = so && so.value ? so.textContent : ''; }
+      if(curC()) fxLoad(function(){ if(typeof syncTotal === 'function') syncTotal(); });
     };
+    /* the chosen country's currency (for "≈ 48 CAD" next to a USD total) */
+    var curC = function(){ var o = opt(tCountry); return (o && o.getAttribute('data-cur')) || ''; };
     var syncPay = function(){ var o = opt(tPay), n = o && o.getAttribute('data-note'); payNote.textContent = n || ''; payNote.hidden = !n; };
     var syncGuide = function(){ var o = opt(tDevice); if(tGuide && o && o.getAttribute('data-guide')) tGuide.href = o.getAttribute('data-guide'); };
     /* renewal periods with prices for the chosen country + server (same numbers as the plan cards) */
@@ -383,14 +400,29 @@
     };
     /* approximate total: plan price for the chosen period + the Smart TV app per TV (IBO / Bob Player),
        with the amount in the visitor's own currency when it's all in USD */
-    var tTvs = F('tvs'), tvBox = tf.querySelector('[data-tvs]'), totBox = tf.querySelector('[data-total]');
+    var totBox = tf.querySelector('[data-total]');
     var FEES = {}, CURS = {}; try{ FEES = JSON.parse(totBox.getAttribute('data-fees')) || {}; CURS = JSON.parse(totBox.getAttribute('data-cur')) || {}; }catch(e){}
     var fmtMoney = function(cur, n){ var c = CURS[cur] || [cur, false]; n = Math.round(n).toLocaleString('en-US'); return c[1] ? c[0] + n : n + ' ' + c[0]; };
-    var tvCount = function(){ return mode !== 'renew' && tDevice.value === 'smarttv' ? Math.max(1, Math.min(10, Math.round(+tTvs.value) || 1)) : 0; };
+    /* "How many devices?" -> that many device lists (people often have a TV, a phone and a box); 2+ shows the golden rule */
+    var devSels = function(){ return Array.prototype.slice.call(devBox.querySelectorAll('select')); };
+    var devCount = function(){ return Math.max(1, Math.min(6, Math.round(+tDevs.value) || 1)); };
+    var syncDevs = function(){
+      var n = devCount(), sels = devSels();
+      while(sels.length < n){
+        var sel = tDevice.cloneNode(true); sel.removeAttribute('id'); sel.name = 'device' + (sels.length + 1); sel.value = '';
+        sel.addEventListener('change', syncTotal); devBox.appendChild(sel); sels.push(sel);
+      }
+      while(sels.length > n) devBox.removeChild(sels.pop());
+      sels.forEach(function(sel, i){ sel.setAttribute('aria-label', devBox.getAttribute('data-l-dev').replace('{n}', i + 1)); });
+      devBox.querySelector('[data-dev-lbl]').textContent = devBox.getAttribute(n > 1 ? 'data-l-many' : 'data-l-one');
+      syncTotal();
+    };
+    var devList = function(){ return devSels().filter(function(sel){ return sel.value; }); };
+    var tvCount = function(){ return mode === 'renew' ? 0 : devSels().filter(function(sel){ return sel.value === 'smarttv'; }).length; };
     var totalText = '';
     var syncTotal = function(){
       if(!totBox) return;
-      tvBox.hidden = mode === 'renew' || tDevice.value !== 'smarttv';
+      golden.hidden = mode === 'renew' || devCount() < 2;
       var list = (PRICES[region()] || {})[tPlan.value] || [], A = function(k){ return totBox.getAttribute('data-l-' + k); };
       var per = mode === 'trial' ? list[0] : list.filter(function(x){ return x[0] === tPeriod.value; })[0];
       totalText = '';
@@ -398,7 +430,7 @@
       var tvs = tvCount(), fee = FEES[tPlan.value], feeN = fee && tvs ? fee[1] * tvs : 0, sum, usd = 0;
       if(!feeN || fee[0] === per[4]){ sum = fmtMoney(per[4], per[3] + feeN); if(per[4] === 'usd') usd = per[3] + feeN; }
       else sum = per[2] + ' + ' + fmtMoney(fee[0], feeN);
-      var local = usd && window.htvMoney ? window.htvMoney(usd) : '';
+      var local = usd ? fxMoney(usd, curC()) : '';
       totBox.textContent = '';
       var top = document.createElement('div'); top.className = 'tr-total-top';
       var lb = document.createElement('span'); lb.textContent = mode === 'trial' ? A('after') : A('total');
@@ -410,11 +442,59 @@
       totBox.hidden = false;
       totalText = b.textContent;
     };
-    tPeriod.addEventListener('change', syncTotal); tTvs.addEventListener('input', syncTotal); tDevice.addEventListener('change', syncTotal);
+    tPeriod.addEventListener('change', syncTotal); tDevice.addEventListener('change', syncTotal); tDevs.addEventListener('input', syncDevs);
     document.addEventListener('htv:cad', syncTotal);
+    /* country: type the first letters, pick from the list (English or Arabic names); the hidden <select> keeps the value */
+    var nrm = function(x){ return String(x || '').toLowerCase().replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').trim(); };
+    var cOpts = Array.prototype.filter.call(tCountry.options, function(o){ return o.value; });
+    var cShown = [], cActive = -1;
+    var cClose = function(){ cList.hidden = true; cInput.setAttribute('aria-expanded', 'false'); cInput.removeAttribute('aria-activedescendant'); };
+    var cRender = function(){
+      var q = nrm(cInput.value);
+      cShown = cOpts.filter(function(o){
+        if(!q) return true;
+        var names = [o.textContent, o.getAttribute('data-alt') || ''];
+        return names.some(function(n){ return nrm(n).indexOf(q) === 0 || nrm(n).split(/[\s\/]+/).some(function(w){ return w.indexOf(q) === 0; }); });
+      });
+      if(!cShown.length) cShown = cOpts.filter(function(o){ return o.value === 'other'; });
+      if(cActive >= cShown.length) cActive = cShown.length - 1;
+      cList.textContent = '';
+      cShown.forEach(function(o, i){
+        var li = document.createElement('li'); li.setAttribute('role', 'option'); li.id = 'trC' + i; li.textContent = o.textContent;
+        if(i === cActive){ li.className = 'on'; li.setAttribute('aria-selected', 'true'); cInput.setAttribute('aria-activedescendant', li.id); }
+        li.addEventListener('mousedown', function(e){ e.preventDefault(); cPick(o, true); });
+        cList.appendChild(li);
+      });
+      cList.hidden = false; cInput.setAttribute('aria-expanded', 'true');
+    };
+    var cPick = function(o, next){
+      tcTouched = true; tCountry.value = o.value; cInput.value = o.textContent; cClose(); syncCountry();
+      if(next) tPlan.focus();
+    };
+    cInput.addEventListener('input', function(){ cActive = 0; cRender(); });
+    cInput.addEventListener('focus', function(){ try{ cInput.select(); }catch(e){} cActive = -1; cRender(); });
+    cInput.addEventListener('keydown', function(e){
+      if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+        e.preventDefault(); if(cList.hidden) cRender();
+        cActive = Math.max(0, Math.min(cShown.length - 1, cActive + (e.key === 'ArrowDown' ? 1 : -1))); cRender();
+        var a = cList.children[cActive]; if(a && a.scrollIntoView) a.scrollIntoView({ block: 'nearest' });
+      } else if(e.key === 'Enter'){
+        if(!cList.hidden && cShown.length){ e.preventDefault(); cPick(cShown[Math.max(0, cActive)], true); }
+      } else if(e.key === 'Escape' && !cList.hidden){ e.preventDefault(); e.stopPropagation(); cClose(); }
+    });
+    cInput.addEventListener('blur', function(){
+      setTimeout(function(){
+        if(document.activeElement === cInput) return;
+        cClose();
+        var q = nrm(cInput.value), hit = q && cOpts.filter(function(o){ return nrm(o.textContent) === q || nrm(o.getAttribute('data-alt')) === q; })[0];
+        if(!hit && q && cShown.length === 1) hit = cShown[0];          /* only one country matches what was typed */
+        if(hit && hit.value !== tCountry.value) cPick(hit, false);
+        else { var so = opt(tCountry); cInput.value = so && so.value ? so.textContent : ''; }
+      }, 150);
+    });
     tPlan.addEventListener('change', syncPeriods);
     tCountry.addEventListener('change', syncCountry); tDevice.addEventListener('change', syncGuide); tPay.addEventListener('change', syncPay);
-    syncCountry();
+    syncCountry(); syncDevs();
     var setMode = function(m){
       mode = m; tf.setAttribute('data-mode', m);
       each('[data-for]', function(el){ el.hidden = (' ' + el.getAttribute('data-for') + ' ').indexOf(' ' + m + ' ') < 0; }, tf);
@@ -428,7 +508,7 @@
       tMsg.hidden = true;
       if(nav) nav.classList.remove('open');
       dlg.showModal();
-      (m === 'renew' && !tUser.value ? tUser : tName.value ? tCountry : tName).focus();
+      (m === 'renew' && !tUser.value ? tUser : tName.value ? cInput : tName).focus();
     };
     window.htvOrder = openForm;   /* used by the account check */
     /* links from the WhatsApp bot: hossamservices.com/#trial, #subscribe or #renew open the form right away */
@@ -452,15 +532,15 @@
       e.preventDefault();
       var n = (tName.value || '').replace(/\s+/g, ' ').trim(), u = (tUser.value || '').replace(/\s+/g, '');
       var miss = mode === 'renew' && u.length < 2 ? tUser : n.length < 2 ? tName : !tCountry.value ? tCountry : !tPlan.value ? tPlan
-        : mode === 'renew' ? (!tPeriod.value ? tPeriod : null) : !tDevice.value ? tDevice : null;
+        : mode === 'renew' ? (!tPeriod.value ? tPeriod : null) : devSels().filter(function(sel){ return !sel.value; })[0] || null;
       if(!miss && mode !== 'renew' && !/^[1-9]\d{7,14}$/.test(fullPhone())) miss = tPhone;
       if(!miss && mode === 'subscribe' && !tPay.value) miss = tPay;
-      if(miss){ tMsg.textContent = tMsg.getAttribute(miss === tPhone && tPhone.value ? 'data-msg-phone' : 'data-msg-empty'); tMsg.className = 'remind-msg err'; tMsg.hidden = false; miss.focus(); return; }
+      if(miss){ tMsg.textContent = tMsg.getAttribute(miss === tPhone && tPhone.value ? 'data-msg-phone' : 'data-msg-empty'); tMsg.className = 'remind-msg err'; tMsg.hidden = false; (miss === tCountry ? cInput : miss).focus(); return; }
       var lbl = function(sel){ return opt(sel).textContent; };
       var trial = mode === 'trial';
       if(window.fetch && window.URLSearchParams){
         var body = new URLSearchParams();
-        body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: mode === 'renew' ? '' : tDevice.value, period: mode === 'trial' ? '' : tPeriod.value, price: mode === 'trial' ? '' : lbl(tPeriod),
+        body.append('p', JSON.stringify({ kind: mode, name: n, plan: tPlan.value, region: region(), country: lbl(tCountry), device: mode === 'renew' ? '' : tDevice.value, devices: mode === 'renew' ? [] : devList().map(function(sel){ return sel.value; }), period: mode === 'trial' ? '' : tPeriod.value, price: mode === 'trial' ? '' : lbl(tPeriod),
           tvs: tvCount(), total: totalText,
           pay: mode === 'subscribe' ? tPay.value : '', phone: mode === 'renew' ? '' : fullPhone(), username: mode === 'renew' ? u : '', lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
         try{ fetch(tf.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit', keepalive: true })['catch'](function(){}); }catch(err){}
@@ -468,10 +548,10 @@
       var lines = AR
         ? [trial ? 'مرحباً، أريد تجربة مجانية.' : mode === 'renew' ? 'مرحباً، أريد تجديد اشتراكي.' : 'مرحباً، أريد الاشتراك.']
           .concat(mode === 'renew' ? ['اسم المستخدم: ' + u] : [], ['الاسم: ' + n, 'الدولة: ' + lbl(tCountry)], mode === 'renew' ? [] : ['واتساب: +' + fullPhone()],
-                  mode === 'renew' ? ['السيرفر: ' + lbl(tPlan), 'المدة: ' + lbl(tPeriod)] : ['الباقة: ' + lbl(tPlan), 'الجهاز: ' + lbl(tDevice)], mode === 'subscribe' ? ['الدفع: ' + lbl(tPay)] : [])
+                  mode === 'renew' ? ['السيرفر: ' + lbl(tPlan), 'المدة: ' + lbl(tPeriod)] : ['الباقة: ' + lbl(tPlan), (devList().length > 1 ? 'الأجهزة: ' : 'الجهاز: ') + devList().map(lbl).join('، ')], mode === 'subscribe' ? ['الدفع: ' + lbl(tPay)] : [])
         : [trial ? "Hi Hossam TV, I'd like a free trial." : mode === 'renew' ? "Hi Hossam TV, I'd like to renew my subscription." : "Hi Hossam TV, I'd like to subscribe."]
           .concat(mode === 'renew' ? ['Username: ' + u] : [], ['Name: ' + n, 'Country: ' + lbl(tCountry)], mode === 'renew' ? [] : ['WhatsApp: +' + fullPhone()],
-                  mode === 'renew' ? ['Server: ' + lbl(tPlan), 'Period: ' + lbl(tPeriod)] : ['Plan: ' + lbl(tPlan), 'Device: ' + lbl(tDevice)], mode === 'subscribe' ? ['Payment: ' + lbl(tPay)] : []);
+                  mode === 'renew' ? ['Server: ' + lbl(tPlan), 'Period: ' + lbl(tPeriod)] : ['Plan: ' + lbl(tPlan), (devList().length > 1 ? 'Devices: ' : 'Device: ') + devList().map(lbl).join(', ')], mode === 'subscribe' ? ['Payment: ' + lbl(tPay)] : []);
       if(mode === 'subscribe' && tPeriod.value) lines.push((AR ? 'المدة: ' : 'Period: ') + lbl(tPeriod));
       if(tvCount()) lines.push((AR ? 'عدد الشاشات: ' : 'Smart TVs: ') + tvCount());
       if(totalText) lines.push((AR ? 'الإجمالي التقريبي: ' : 'Approx. total: ') + totalText);

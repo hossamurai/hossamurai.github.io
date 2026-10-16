@@ -89,6 +89,10 @@ def trial_link(c, inner, cls='', plan=''):
             f'{f" data-plan={chr(34)}{plan}{chr(34)}" if plan else ""}>{inner}</a>')
 
 
+# the chosen country's currency, for the order form's approximate total ("≈ 48 CAD")
+DIAL_CUR = {'ca': 'CAD', '20': 'EGP', '966': 'SAR', '965': 'KWD', '974': 'QAR', '973': 'BHD', '968': 'OMR', '962': 'JOD', '964': 'IQD',
+            '218': 'LYD', '216': 'TND', '213': 'DZD', '212': 'MAD', '90': 'TRY', '44': 'GBP', '49': 'EUR', '33': 'EUR', '31': 'EUR', '32': 'EUR',
+            '41': 'CHF', '43': 'EUR', '46': 'SEK', '47': 'NOK', '45': 'DKK', '39': 'EUR', '34': 'EUR', '353': 'EUR', '61': 'AUD'}
 # devices for the trial form -> keys the n8n site-order webhook accepts
 TRIAL_DEVICES = [('android-tv', 'androidtv'), ('firestick', 'firestick'), ('smart-tv', 'smarttv'),
                  ('android', 'android'), ('apple', 'apple'), ('windows', 'windows')]
@@ -107,7 +111,7 @@ def trial_dialog(c):
     countries = [('ca', L('Canada', 'كندا')), ('us', L('USA', 'أمريكا'))] + [x for x in REMIND_CC if x[0] != '1']
     def region(cc):
         return 'eg' if cc == '20' else 'intl'
-    copts = ''.join(f'<option value="{cc}" data-region="{region(cc)}">{t(nm)}</option>' for cc, nm in countries)
+    copts = ''.join(f'<option value="{cc}" data-region="{region(cc)}" data-cur="{DIAL_CUR.get(cc, "")}" data-alt="{nm["en"] if c.ar else nm["ar"]}">{t(nm)}</option>' for cc, nm in countries)
     copts += f'<option value="other" data-region="intl">{t(L("Other country", "دولة أخرى"))}</option>'
     popts = ''.join(f'<option value="{pid}"{" data-eg" if PLANS[pid]["egypt_only"] else ""}>{t(PLANS[pid]["name"])}</option>' for pid in PLAN_ORDER)
     devs = {d['slug']: d for d in DEVICES}
@@ -136,17 +140,17 @@ def trial_dialog(c):
       <span data-for="subscribe">{icon('card')}{t(L('Subscribe', 'اشترك'))}</span>
       <span data-for="renew">{icon('refresh')}{t(L('Renew', 'جدّد اشتراكك'))}</span>
     </h3>
-    <p data-for="trial">{t(L('12 hours for XTV, 24 hours for the other plans.', '12 ساعة لـ XTV و24 ساعة لباقي الباقات.'))}</p>
     <p data-for="subscribe renew">{t(L("We'll reply with the payment details.", 'سنرد عليك بتفاصيل الدفع.'))}</p>
     <div class="rf-grid">
       <div class="rf rf-full" data-for="renew"><label for="trUser">{t(L('Username', 'اسم المستخدم'))}</label><input id="trUser" name="username" type="text" maxlength="64" autocomplete="username" autocapitalize="none" spellcheck="false" dir="ltr"></div>
       <div class="rf rf-full"><label for="trName">{t(L('Name', 'الاسم'))}</label><input id="trName" name="name" type="text" maxlength="40" autocomplete="name" required></div>
-      <div class="rf"><label for="trCountry">{t(L('Country', 'الدولة'))}</label><select id="trCountry" name="country" required><option value="">{pick}</option>{copts}</select></div>
+      <div class="rf"><label for="trCountry">{t(L('Country', 'الدولة'))}</label><div class="cbox" data-cbox><input id="trCountry" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" role="combobox" aria-expanded="false" aria-controls="trCountryList" aria-autocomplete="list" placeholder="{t(L('Type your country', 'اكتب اسم بلدك'))}"><ul class="cbox-list" id="trCountryList" role="listbox" hidden></ul><select name="country" tabindex="-1" aria-hidden="true" hidden required><option value="">{pick}</option>{copts}</select></div></div>
       <div class="rf"><label for="trPlan"><span data-for="trial subscribe">{t(L('Plan', 'الباقة'))}</span><span data-for="renew">{t(L('Server', 'السيرفر'))}</span></label><select id="trPlan" name="plan" required><option value="">{pick}</option>{popts}</select></div>
       <div class="rf rf-full" data-for="trial subscribe"><label for="trPhone">{t(L('WhatsApp number', 'رقم الواتساب'))}</label><div class="tr-phone" dir="ltr"><span class="tr-cc" data-tr-cc>+</span><input id="trPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" maxlength="20" placeholder="{t(L('Number', 'الرقم'))}"></div></div>
       <div class="rf rf-full" data-for="subscribe renew"><label for="trPeriod"><span data-for="renew">{t(L('Renew for', 'مدة التجديد'))}</span><span data-for="subscribe">{t(L('Subscribe for', 'مدة الاشتراك'))}</span></label><select id="trPeriod" name="period" data-prices="{prices_attr}"><option value="">{pick}</option></select></div>
-      <div class="rf rf-full" data-for="trial subscribe"><label for="trDevice">{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device"><option value="">{pick}</option>{dopts}</select></div>
-      <div class="rf rf-full" data-tvs hidden><label for="trTvs">{t(L('How many Samsung / LG TVs?', 'كم شاشة سامسونج / LG؟'))}</label><input id="trTvs" name="tvs" type="number" inputmode="numeric" min="1" max="10" value="1"></div>
+      <div class="rf rf-full" data-for="trial subscribe"><label for="trDevs">{t(L('How many devices?', 'كم جهاز؟'))}</label><input id="trDevs" name="devs" type="number" inputmode="numeric" min="1" max="6" value="1"></div>
+      <div class="rf rf-full tr-devs" data-for="trial subscribe" data-devs data-l-dev="{t(L('Device {n}', 'الجهاز {n}'))}" data-l-one="{t(L('Device', 'الجهاز'))}" data-l-many="{t(L('Your devices', 'أجهزتك'))}"><label for="trDevice" data-dev-lbl>{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device"><option value="">{pick}</option>{dopts}</select></div>
+      <div class="rf rf-full" data-for="trial subscribe" data-golden hidden><p class="tr-golden">{icon('info')}<span><b>{t(L('Golden rule: one screen at a time.', 'القاعدة الذهبية: شاشة واحدة في نفس الوقت.'))}</b> {t(L('Install on as many devices as you like, but only one can play at once — watching on two at the same time can lock the account.', 'ثبّت الاشتراك على أي عدد من الأجهزة، لكن التشغيل على جهاز واحد فقط في نفس الوقت — التشغيل على جهازين معاً قد يوقف الحساب.'))}</span></p></div>
       <div class="rf rf-full" data-for="subscribe"><label for="trPay">{t(L('How will you pay?', 'طريقة الدفع'))}</label><select id="trPay" name="pay"><option value="">{pick}</option>{payopts}</select><small class="pay-note" data-pay-note hidden></small></div>
     </div>
     <div class="tr-total" data-total data-fees="{fees_attr}" data-cur="{cur_attr}" data-l-total="{t(L('Approximate total', 'الإجمالي التقريبي'))}" data-l-after="{t(L('After the trial, about', 'بعد التجربة، حوالي'))}" data-l-tv="{t(L('TV app', 'تطبيق الشاشة'))}" data-l-y="{t(L('1 year', 'سنة'))}" hidden></div>

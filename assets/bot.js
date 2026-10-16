@@ -98,9 +98,8 @@
       var plan = cardPlan(card), region = cardRegion(card), v = p[plan];
       if(!v) return;
       var amt = card.querySelector('.price .amt, .plan-price b'), two = card.querySelector('.price-2 b, .plan-price .p2');
-      /* Basic & Premium are priced in EGP for Egypt: only an "eg" price may change them, never the USD one */
-      if(region === 'eg' && (plan === 'basic' || plan === 'premium')) setNum(amt, v.eg);
-      else { setNum(amt, v.y1); setNum(two, v.y2); }
+      /* Basic & Premium are priced in USD everywhere (Egypt too) */
+      setNum(amt, v.y1); setNum(two, v.y2);
     });
   }
   /* announcement bar set from the admin bot ("announce: …" / "announcement off"): site-data "announcement" { en, ar, link }.
