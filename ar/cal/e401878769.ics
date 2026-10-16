@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Hossam TV//Matches//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:e401878769@hossamservices.com
+DTSTAMP:20261018T153000Z
+DTSTART:20261018T153000Z
+DTEND:20261018T173000Z
+SUMMARY:نوتنغهام فورست – آرسنال (الدوري الإنجليزي)
+DESCRIPTION:بي إن سبورت 1 · شاهدها مباشرة على Hossam TV — hossamservices.com
+URL:https://hossamservices.com/
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:نوتنغهام فورست – آرسنال (الدوري الإنجليزي)
+END:VALARM
+END:VEVENT
+END:VCALENDAR

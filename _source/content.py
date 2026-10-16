@@ -20,7 +20,6 @@ BOT_WHATSAPP_DISPLAY = '+20 101 311 3996'
 REMIND_CC = [
     ('20', L('Egypt', 'مصر')),
     ('966', L('Saudi Arabia', 'السعودية')),
-    ('971', L('UAE', 'الإمارات')),
     ('965', L('Kuwait', 'الكويت')),
     ('974', L('Qatar', 'قطر')),
     ('973', L('Bahrain', 'البحرين')),
@@ -126,12 +125,12 @@ PLANS = {
     },
 }
 PLAN_ORDER = ['basic', 'premium', 'xtv', 'marvel']
+# Smart TV player app (IBO / Bob Player) per TV — added to the order form's approximate total
+APP_FEE = {'basic': ('usd', 2), 'premium': ('usd', 2), 'xtv': ('egp', 200), 'marvel': ('egp', 200)}
 
 CURRENCY = {
     'usd': {'en': '$', 'ar': '$', 'pre': True},
     'egp': {'en': 'EGP', 'ar': 'جنيه'},
-    'sar': {'en': 'SAR', 'ar': 'ريال'},
-    'aed': {'en': 'AED', 'ar': 'درهم'},
 }
 PERIOD = {
     'y1': L('/ year', '/ سنة'),
@@ -140,7 +139,7 @@ PERIOD = {
 }
 
 REGIONS = [
-    {'id': 'intl', 'label': L('Canada & worldwide', 'كندا وباقي الدول'), 'note': None, 'plans': [
+    {'id': 'intl', 'label': L('Canada & rest of world', 'كندا وباقي العالم'), 'note': None, 'plans': [
         {'id': 'basic', 'cur': 'usd', 'p1': 35, 'per': 'y1', 'p2': 60, 'featured': True, 'badge': L('Best seller', 'الأكثر مبيعاً')},
         {'id': 'premium', 'cur': 'usd', 'p1': 55, 'per': 'y1', 'p2': 100, 'badge': L('Most content', 'أكبر محتوى')},
     ]},
@@ -149,20 +148,6 @@ REGIONS = [
         {'id': 'marvel', 'cur': 'egp', 'p1': 400, 'per': 'y1', 'p2': 700, 'badge': L('Movie lovers', 'لمحبي الأفلام')},
         {'id': 'basic', 'cur': 'egp', 'p1': 1500, 'per': 'y1'},
         {'id': 'premium', 'cur': 'egp', 'p1': 2500, 'per': 'y1'},
-    ]},
-    {'id': 'gulf', 'label': L('Saudi & Gulf', 'السعودية والخليج'),
-     'note': L("Saudi Arabia, Kuwait, Qatar, Bahrain and Oman. Some apps (4K Pro, 8K VIP) aren't available in Saudi Arabia — the setup guides show which to use.",
-               'السعودية والكويت وقطر والبحرين وعُمان. بعض التطبيقات (4K Pro و 8K VIP) غير متاحة في السعودية — أدلة التثبيت توضح البدائل.'),
-     'plans': [
-        {'id': 'basic', 'cur': 'sar', 'p1': 130, 'per': 'm12', 'featured': True, 'badge': L('Arabic & football', 'عربي وكرة قدم')},
-        {'id': 'premium', 'cur': 'sar', 'p1': 200, 'per': 'm12', 'badge': L('Most content', 'أكبر محتوى')},
-    ]},
-    {'id': 'uae', 'label': L('UAE', 'الإمارات'),
-     'note': L('UAE networks block streaming services from time to time, so UAE subscriptions are sold for up to 3 months at a time — a smaller amount at risk for you.',
-               'شبكات الإمارات تحجب خدمات البث من وقت لآخر، لذلك تُباع اشتراكات الإمارات لمدة 3 أشهر كحد أقصى — لتقليل المخاطرة عليك.'),
-     'plans': [
-        {'id': 'basic', 'cur': 'aed', 'p1': 35, 'per': 'm3', 'featured': True},
-        {'id': 'premium', 'cur': 'aed', 'p1': 50, 'per': 'm3'},
     ]},
 ]
 
@@ -207,12 +192,12 @@ COMPARE = [
 # ----------------------------------------------------------------------------
 APPS = {
     'basic': [
-        {'name': '4K Pro', 'code': 'tinyurl.com/my4kpro', 'rec': True, 'warn': ['uaeksa']},
+        {'name': '4K Pro', 'code': 'tinyurl.com/my4kpro', 'rec': True, 'warn': ['ksa']},
         {'name': '4K Prime', 'code': 'tinyurl.com/my4kprime'},
         {'name': '4K XCA', 'code': 'tinyurl.com/my4kxca'},
     ],
     'premium': [
-        {'name': '8K VIP', 'code': 'tinyurl.com/my8kvip', 'rec': True, 'warn': ['firestick', 'uaeksa']},
+        {'name': '8K VIP', 'code': 'tinyurl.com/my8kvip', 'rec': True, 'warn': ['firestick', 'ksa']},
         {'name': '8K Plus', 'code': 'tinyurl.com/my8kplus'},
         {'name': '8K Prime', 'code': 'tinyurl.com/my8kprime'},
     ],
@@ -220,7 +205,7 @@ APPS = {
     'marvel': [{'name': 'Marvel', 'code': 'tinyurl.com/appmrvl'}],
 }
 WARN = {
-    'uaeksa': L('Not available in UAE & Saudi Arabia', 'غير متاح في الإمارات والسعودية'),
+    'ksa': L('Not available in Saudi Arabia', 'غير متاح في السعودية'),
     'firestick': L("Doesn't work on Firestick", 'لا يعمل على فايرستيك'),
 }
 # Small app icons shown on the setup guides (96px copies of the app logos)
@@ -343,9 +328,9 @@ FAQ = [
         ('refund', L('Can I get a refund?', 'هل يمكن استرجاع المبلغ؟'),
          L("There are no refunds after activation — that's why we offer a free trial first.",
            'لا يوجد استرجاع للمبلغ بعد التفعيل — ولهذا نوفر تجربة مجانية أولاً.')),
-        ('uae', L('Why are UAE plans only 3 months?', 'لماذا اشتراكات الإمارات 3 أشهر فقط؟'),
-         L('UAE networks block streaming services from time to time. Shorter subscriptions mean less of your money is at risk if that happens.',
-           'شبكات الإمارات تحجب خدمات البث من وقت لآخر. الاشتراك الأقصر يعني مخاطرة أقل على أموالك إذا حدث ذلك.')),
+        ('uae', L('Do you serve the UAE?', 'هل تقدمون الخدمة في الإمارات؟'),
+         L('Not anymore — we stopped selling and renewing subscriptions in the UAE.',
+           'لم نعد نقدمها — أوقفنا بيع وتجديد الاشتراكات في الإمارات.')),
     ]),
     (L('Devices & watching', 'الأجهزة والمشاهدة'), [
         ('multi-device', L('Can I use it on more than one device?', 'هل يمكنني التشغيل على أكثر من جهاز؟'),
@@ -358,8 +343,8 @@ FAQ = [
          L('Most Firesticks work. The exception is newer models running Vega OS (like the Fire TV Stick 4K Select and the 2026 Fire TV Stick HD), which can\'t install streaming apps like ours. Check under <b>Settings → My Fire TV → About</b>: "Fire OS" is fine; plain "OS" with a version starting with 1 means Vega OS.',
            'معظم أجهزة الفايرستيك تعمل. الاستثناء هو الأجهزة الأحدث بنظام Vega OS (مثل Fire TV Stick 4K Select و Fire TV Stick HD إصدار 2026) لأنها لا تسمح بتثبيت تطبيقات البث الخاصة بنا. للتأكد: <b><bdi dir="ltr">Settings → My Fire TV → About</bdi></b>. إذا كان مكتوباً Fire OS فجهازك مناسب، أما إذا كان مكتوباً OS فقط ويبدأ الرقم بـ 1 فهو Vega OS.')),
         ('smart-tv-fee', L('Is there an extra fee for Samsung or LG TVs?', 'هل توجد رسوم إضافية لشاشات سامسونج و LG؟'),
-         L('Smart TVs use Bob Player on Samsung (IBO Player isn’t in the Samsung store right now) or IBO Player on LG. With Basic and Premium, activation is free for your first TV and $4 (lifetime) for each extra TV. With XTV and Marvel, the app costs 100 EGP a year or 200 EGP lifetime per TV, after a 7-day free trial.',
-           'الشاشات الذكية تستخدم Bob Player على سامسونج (IBO Player غير موجود حالياً في متجر سامسونج) أو IBO Player على LG. مع الباقة الأساسية وبريميوم، التفعيل مجاني لأول شاشة و4 دولارات (مدى الحياة) لكل شاشة إضافية. مع XTV و Marvel، يكلف التطبيق 100 جنيه سنوياً أو 200 جنيه مدى الحياة لكل شاشة، بعد تجربة مجانية 7 أيام.')),
+         L('Smart TVs use Bob Player on Samsung (IBO Player isn’t in the Samsung store right now) or IBO Player on LG. With Basic and Premium, activation is $2 per TV. With XTV and Marvel, the app costs 100 EGP a year or 200 EGP lifetime per TV, after a 7-day free trial.',
+           'الشاشات الذكية تستخدم Bob Player على سامسونج (IBO Player غير موجود حالياً في متجر سامسونج) أو IBO Player على LG. مع الباقة الأساسية وبريميوم، التفعيل 2 دولار لكل شاشة. مع XTV و Marvel، يكلف التطبيق 100 جنيه سنوياً أو 200 جنيه مدى الحياة لكل شاشة، بعد تجربة مجانية 7 أيام.')),
         ('roku', L('Do you support Roku?', 'هل تدعمون روكو؟'),
          L('No. An Android TV box or a Firestick running Fire OS (not Vega OS) is the easiest alternative.',
            'لا. أسهل بديل هو أندرويد بوكس أو فايرستيك بنظام Fire OS (وليس Vega OS).')),

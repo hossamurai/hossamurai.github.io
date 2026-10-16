@@ -92,7 +92,6 @@ def trial_link(c, inner, cls='', plan=''):
 # devices for the trial form -> keys the n8n site-order webhook accepts
 TRIAL_DEVICES = [('android-tv', 'androidtv'), ('firestick', 'firestick'), ('smart-tv', 'smarttv'),
                  ('android', 'android'), ('apple', 'apple'), ('windows', 'windows')]
-GULF_CC = ('966', '965', '974', '973', '968')
 
 
 def order_link(c, kind, inner, cls='', plan='', user=''):
@@ -107,7 +106,7 @@ def trial_dialog(c):
     t = c.t
     countries = [('ca', L('Canada', 'كندا')), ('us', L('USA', 'أمريكا'))] + [x for x in REMIND_CC if x[0] != '1']
     def region(cc):
-        return 'eg' if cc == '20' else 'uae' if cc == '971' else 'gulf' if cc in GULF_CC else 'intl'
+        return 'eg' if cc == '20' else 'intl'
     copts = ''.join(f'<option value="{cc}" data-region="{region(cc)}">{t(nm)}</option>' for cc, nm in countries)
     copts += f'<option value="other" data-region="intl">{t(L("Other country", "دولة أخرى"))}</option>'
     popts = ''.join(f'<option value="{pid}"{" data-eg" if PLANS[pid]["egypt_only"] else ""}>{t(PLANS[pid]["name"])}</option>' for pid in PLAN_ORDER)
@@ -122,11 +121,13 @@ def trial_dialog(c):
     prices = {}
     for r in REGIONS:
         for rp in r['plans']:
-            opts = [[rp['per'], t(per_lbl[rp['per']]), money(c, rp['cur'], rp['p1'])]]
+            opts = [[rp['per'], t(per_lbl[rp['per']]), money(c, rp['cur'], rp['p1']), rp['p1'], rp['cur']]]
             if rp.get('p2'):
-                opts.append(['y2', t(per_lbl['y2']), money(c, rp['cur'], rp['p2'])])
+                opts.append(['y2', t(per_lbl['y2']), money(c, rp['cur'], rp['p2']), rp['p2'], rp['cur']])
             prices.setdefault(r['id'], {})[rp['id']] = opts
     prices_attr = html_attr_json(prices)
+    fees_attr = html_attr_json({pid: [cur, n, money(c, cur, n)] for pid, (cur, n) in APP_FEE.items()})
+    cur_attr = html_attr_json({k: [v['en'] if not c.ar else v['ar'], bool(v.get('pre'))] for k, v in CURRENCY.items()})
     return f'''<dialog class="trial-dlg" id="trialDlg" aria-labelledby="trialTitle">
   <form class="remind trial-form" method="dialog" data-trial-form data-mode="trial" data-api="{N8N_WEBHOOK}site-order" data-wa="{WHATSAPP}" novalidate>
     <button type="button" class="trial-x" data-trial-close aria-label="{t(L('Close', 'إغلاق'))}">{icon('x')}</button>
@@ -143,10 +144,12 @@ def trial_dialog(c):
       <div class="rf"><label for="trCountry">{t(L('Country', 'الدولة'))}</label><select id="trCountry" name="country" required><option value="">{pick}</option>{copts}</select></div>
       <div class="rf"><label for="trPlan"><span data-for="trial subscribe">{t(L('Plan', 'الباقة'))}</span><span data-for="renew">{t(L('Server', 'السيرفر'))}</span></label><select id="trPlan" name="plan" required><option value="">{pick}</option>{popts}</select></div>
       <div class="rf rf-full" data-for="trial subscribe"><label for="trPhone">{t(L('WhatsApp number', 'رقم الواتساب'))}</label><div class="tr-phone" dir="ltr"><span class="tr-cc" data-tr-cc>+</span><input id="trPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" maxlength="20" placeholder="{t(L('Number', 'الرقم'))}"></div></div>
-      <div class="rf rf-full" data-for="renew"><label for="trPeriod">{t(L('Renew for', 'مدة التجديد'))}</label><select id="trPeriod" name="period" data-prices="{prices_attr}"><option value="">{pick}</option></select></div>
+      <div class="rf rf-full" data-for="subscribe renew"><label for="trPeriod"><span data-for="renew">{t(L('Renew for', 'مدة التجديد'))}</span><span data-for="subscribe">{t(L('Subscribe for', 'مدة الاشتراك'))}</span></label><select id="trPeriod" name="period" data-prices="{prices_attr}"><option value="">{pick}</option></select></div>
       <div class="rf rf-full" data-for="trial subscribe"><label for="trDevice">{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device"><option value="">{pick}</option>{dopts}</select></div>
+      <div class="rf rf-full" data-tvs hidden><label for="trTvs">{t(L('How many Samsung / LG TVs?', 'كم شاشة سامسونج / LG؟'))}</label><input id="trTvs" name="tvs" type="number" inputmode="numeric" min="1" max="10" value="1"></div>
       <div class="rf rf-full" data-for="subscribe"><label for="trPay">{t(L('How will you pay?', 'طريقة الدفع'))}</label><select id="trPay" name="pay"><option value="">{pick}</option>{payopts}</select><small class="pay-note" data-pay-note hidden></small></div>
     </div>
+    <div class="tr-total" data-total data-fees="{fees_attr}" data-cur="{cur_attr}" data-l-total="{t(L('Approximate total', 'الإجمالي التقريبي'))}" data-l-after="{t(L('After the trial, about', 'بعد التجربة، حوالي'))}" data-l-tv="{t(L('TV app', 'تطبيق الشاشة'))}" data-l-y="{t(L('1 year', 'سنة'))}" hidden></div>
     <p class="trial-note" data-for="trial subscribe">{icon('info')}<span>{t(L('Install the app first so everything is ready:', 'ثبّت التطبيق أولاً ليكون كل شيء جاهزاً:'))} <a data-trial-guide href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}</a></span></p>
     <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
     <p class="remind-msg" role="status" hidden data-msg-empty="{t(L('Please fill in all the fields.', 'من فضلك املأ كل الحقول.'))}" data-msg-phone="{t(L('Check the WhatsApp number.', 'راجع رقم الواتساب.'))}"></p>
@@ -239,7 +242,7 @@ def plan_card(c, region, rp):
 
 def region_block(c):
     t = c.t
-    default = 'intl'   # most customers are in Canada -> start on 'Canada & worldwide' (the script still picks Egypt/Gulf/UAE by time zone)
+    default = 'intl'   # most customers are in Canada -> start on 'Canada & worldwide' (the script still picks Egypt by location)
     seg = ''.join(
         f'<button type="button" data-region-btn="{r["id"]}" aria-pressed="{"true" if r["id"] == default else "false"}">{t(r["label"])}</button>'
         for r in REGIONS)
@@ -248,7 +251,8 @@ def region_block(c):
         nt = f'<div class="region-note">{icon("info")}<span>{t(r["note"])}</span></div>' if r['note'] else ''
         cards = ''.join(plan_card(c, r, rp) for rp in r['plans'])
         panels += f'<div data-region-panel="{r["id"]}"{"" if r["id"] == default else " hidden"}>{nt}<div class="plans pgrid">{cards}</div></div>'
-    return f'''<div class="region">
+    ae = f'<div class="region-note" data-ae-note hidden>{icon("info")}<span>{t(L("We no longer serve the UAE.", "لم نعد نقدم الخدمة في الإمارات."))}</span></div>'
+    return f'''{ae}<div class="region">
   <span class="region-label" id="regionLbl">{t(L("I'm watching from", 'أشاهد من'))}</span>
   <div class="seg" role="group" aria-labelledby="regionLbl">{seg}</div>
 </div>
@@ -830,8 +834,8 @@ def device_data(c, slug):
             ],
             notes=[
                 note('tip', P('App fee — Basic & Premium', 'رسوم التطبيق — الأساسية وبريميوم'),
-                     P('Bob / IBO Player activation is <b>free for your first TV</b> with your plan. Each extra TV is <b>$4</b> for lifetime.',
-                       'تفعيل Bob / IBO Player <b>مجاني لأول شاشة</b> مع باقتك. كل شاشة إضافية <b>4 دولارات</b> مدى الحياة.')),
+                     P('Bob / IBO Player activation is <b>$2 per TV</b>.',
+                       'تفعيل Bob / IBO Player <b>2 دولار لكل شاشة</b>.')),
                 note('warn', P('App fee — XTV & Marvel', 'رسوم التطبيق — XTV و Marvel'),
                      P('Bob / IBO Player activation is separate from your subscription: <b>100 EGP</b> for 1 year or <b>200 EGP</b> for lifetime, per TV. The app gives you a 7-day free trial first.',
                        'تفعيل Bob / IBO Player منفصل عن الاشتراك: <b>100 جنيه</b> لسنة أو <b>200 جنيه</b> مدى الحياة لكل شاشة. التطبيق يتيح تجربة مجانية 7 أيام أولاً.')),
@@ -1027,8 +1031,7 @@ def about(c):
     lic = ''
     if t(LICENSE_TEXT):
         lic = f'<h2>{t(L("Licensing", "التراخيص"))}</h2><p>{t(LICENSE_TEXT)}</p>'
-    regions = [L('Canada', 'كندا'), L('Egypt', 'مصر'), L('Saudi Arabia', 'السعودية'), L('Kuwait', 'الكويت'), L('Qatar', 'قطر'),
-               L('Bahrain', 'البحرين'), L('Oman', 'عُمان'), L('UAE', 'الإمارات'), L('Worldwide', 'باقي دول العالم')]
+    regions = [L('Canada', 'كندا'), L('Egypt', 'مصر'), L('USA', 'أمريكا'), L('Europe', 'أوروبا'), L('Gulf', 'الخليج'), L('Worldwide', 'باقي دول العالم')]
     body = hero + f'''
 <section class="sec first"><div class="wrap split">
   <div class="prose">
@@ -1100,7 +1103,7 @@ def policies(c):
 <h3>توفر المحتوى</h3>
 <ul>
 <li>القنوات والمحتوى قد تتغير، أو تتوقف مؤقتاً، أو تُحذف دون إشعار مسبق. ننشر أخبار الصيانة على حالة الواتساب كلما أمكن.</li>
-<li>بعض شركات الإنترنت (مثل الإمارات) قد تحجب خدمات البث، وهذا خارج عن إرادتنا.</li>
+<li>بعض شركات الإنترنت قد تحجب خدمات البث، وهذا خارج عن إرادتنا. لم نعد نقدم الخدمة في الإمارات.</li>
 </ul>
 <h3>التطبيقات</h3>
 <p>تطبيقات المشاهدة (مثل IBO Player و Bob Player و Smarters و SFVIP) تابعة لمطوريها، وبعضها له رسوم تفعيل خاصة موضحة في أدلة التثبيت.</p>
@@ -1153,7 +1156,7 @@ def policies(c):
 <h3>Content availability</h3>
 <ul>
 <li>Channels and content can change, be temporarily unavailable or be removed without notice. We post maintenance news on our WhatsApp Status whenever we can.</li>
-<li>Some internet providers (for example in the UAE) may block streaming services. This is outside our control.</li>
+<li>Some internet providers may block streaming services. This is outside our control. We no longer serve the UAE.</li>
 </ul>
 <h3>Apps</h3>
 <p>Player apps (such as IBO Player, Bob Player, Smarters and SFVIP) belong to their developers. Some have their own activation fees, which are listed in our setup guides.</p>
@@ -1239,7 +1242,7 @@ def matches_block(c, limit=0):
     t = c.t
     return (f'<div class="matches" data-matches data-src="{c.root}assets/data/matches.json" data-limit="{limit}" '
             f'data-l-mine="{t(L("Your time", "بتوقيتك"))}" '
-            f'data-l-live="{t(L("Live now", "مباشر الآن"))}" data-l-empty="{t(L("No big matches in the next few days.", "لا توجد مباريات كبيرة في الأيام القادمة."))}" '
+            f'data-l-live="{t(L("Live now", "مباشر الآن"))}" data-l-cal="{t(L("Add to calendar", "أضف للتقويم"))}" data-l-empty="{t(L("No big matches in the next few days.", "لا توجد مباريات كبيرة في الأيام القادمة."))}" '
             f'data-locale="{"ar-EG" if c.ar else "en-US"}" hidden></div>')
 
 
@@ -1646,6 +1649,7 @@ def match_page(slug, e, res):
   <span class="nm-teams">{team(H, hn)}<i>{vs}</i>{team(A, an)}</span>
   {middle}
   <span class="nm-when"><time datetime="{e['utc']}" data-mp-when>{fixed}</time>{(' · ' + chn) if chn else ''}</span>
+  {'' if res else '<span class="nm-actions" data-mp-cal>' + cal_link(c, e, 'nm-btn nm-cal') + '</span>'}
 </div>'''
         others = ''.join(f'<li><a href="{c.href("match/" + s2 + ".html")}">{t(L(e2["home"]["en"], e2["home"]["ar"]))} {vs} {t(L(e2["away"]["en"], e2["away"]["ar"]))}</a></li>'
                          for s2, e2, r2 in match_list() if s2 != slug and not r2)
@@ -1686,7 +1690,7 @@ def match_page(slug, e, res):
 try{{z=Intl.DateTimeFormat().resolvedOptions().timeZone||'';}}catch(e){{}}
 try{{w.textContent=new Date(k).toLocaleString(ar?'ar-EG':'en-US',{{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',hour12:true}})+' · '+(ar||!/\\//.test(z)?b.getAttribute('data-l-mine'):z.split('/').pop().replace(/_/g,' '));}}catch(e){{}}
 var c=b.querySelector('[data-mp-count]');if(!c)return;function p(n){{return(n<10?'0':'')+n;}}
-function tick(){{var l=k-Date.now();if(l<=0){{c.innerHTML='';var s=document.createElement('b');s.className='mp-live';s.textContent=b.getAttribute('data-l-live');c.appendChild(s);return;}}
+function tick(){{var l=k-Date.now();if(l<=0){{var q=b.querySelector('[data-mp-cal]');if(q)q.hidden=true;c.innerHTML='';var s=document.createElement('b');s.className='mp-live';s.textContent=b.getAttribute('data-l-live');c.appendChild(s);return;}}
 var v={{d:Math.floor(l/864e5),h:Math.floor(l/36e5)%24,m:Math.floor(l/6e4)%60,s:Math.floor(l/1e3)%60}};['d','h','m','s'].forEach(function(u){{c.querySelector('[data-mp-v="'+u+'"]').textContent=u==='d'?v[u]:p(v[u]);}});setTimeout(tick,1000);}}tick();}})();</script>
 '''
         if res:
@@ -1744,6 +1748,24 @@ Array.prototype.forEach.call(document.querySelectorAll('time[data-local]'),funct
 
 
 
+CLOCK_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+CAL_SVG = '<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+
+
+def cal_link(c, e, cls='mt-cal', label=None):
+    """"Add to calendar": the match's .ics file (<lang>/cal/<id>.ics, built for every match); Android opens Google Calendar (assets/matches.js)."""
+    import html
+    nm = lambda x: c.t(L(x['en'], x.get('ar') or x['en']))
+    title = f"{nm(e['home'])} – {nm(e['away'])} ({nm(e['league'])})"
+    return (f'<a class="{cls}" href="{c.href("cal/" + str(e["id"]) + ".ics")}" data-cal="{e["utc"]}" data-cal-t="{html.escape(title)}">'
+            f'{CAL_SVG}{label or c.t(L("Add to calendar", "أضف للتقويم"))}</a>')
+
+
+def mt_act(c, e):
+    """Countdown + "Add to calendar" under one match row (ticked by assets/matches.js; hidden once it kicks off)."""
+    return f'<span class="mt-act"><span class="mt-cd" data-cd="{e["utc"]}">{CLOCK_SVG}</span>{cal_link(c, e)}</span>'
+
+
 def _mt_row(c, e, res=None):
     """One aligned match row (same look as the matches list): home | score or "vs" | away, with logos."""
     import html, re
@@ -1785,7 +1807,7 @@ def league_page(sid, code, slug, n_en, n_ar, ch_en, ch_ar):
         items = []
         for e in ups:
             inner = _mt_row(c, e) + f'<small>{_when_html(c, e["utc"])}</small>'
-            items.append(f'<li><a href="{c.href("match/" + mp[e["id"]] + ".html")}">{inner}</a></li>' if e['id'] in mp else f'<li><div>{inner}</div></li>')
+            items.append((f'<li><a href="{c.href("match/" + mp[e["id"]] + ".html")}">{inner}</a>' if e['id'] in mp else f'<li><div>{inner}</div>') + mt_act(c, e) + '</li>')
         upcoming = (f'<h2 class="st-h">{t(L("Upcoming big matches", "المباريات الكبيرة القادمة"))}</h2><ul class="lg-list">{"".join(items)}</ul>') if items else ''
         res = [r for r in md.get('results', []) if r.get('league', {}).get('en') == nm['en']]
         res_html = ''.join(f'<li><div>{_mt_row(c, r, r)}</div></li>' for r in res[:5])
@@ -1941,6 +1963,130 @@ def ramadan_teaser(c):
             f'<span>{c.t(L(f"Ramadan {yr} series", f"مسلسلات رمضان {yr}"))}</span>{icon("arrow", "flip")}</a></div></section>')
 
 
+# ----------------------------------------------------------------------------
+# GUIDE — one wide card per part of the site, English on the left, Arabic on the right, with a picture of what it opens.
+# Hossam sends hossamservices.com/guide and tells the customer "tap card 3".
+# ----------------------------------------------------------------------------
+_R = '#e3101b'
+GUIDE_ART = {
+    'trial': f'<svg viewBox="0 0 200 100"><circle cx="100" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="5"/><path d="M90 34v32l26-16z" fill="{_R}"/><path d="M100 10v8M100 82v8M60 50h-8M148 50h-8" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>',
+    'plans': f'<svg viewBox="0 0 200 100"><path d="M62 22h46l40 40-34 34-40-40z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><circle cx="80" cy="40" r="7" fill="{_R}"/><path d="M104 62l14 14M96 70l14 14" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>',
+    'subscribe': f'<svg viewBox="0 0 200 100"><rect x="52" y="22" width="96" height="60" rx="9" fill="none" stroke="currentColor" stroke-width="5"/><path d="M52 40h96" stroke="currentColor" stroke-width="8"/><rect x="64" y="58" width="26" height="10" rx="3" fill="{_R}"/></svg>',
+    'renew': f'<svg viewBox="0 0 200 100"><path d="M128 36a32 32 0 1 0 4 26" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M134 18v20h-20" fill="none" stroke="{_R}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    'pay': f'<svg viewBox="0 0 200 100"><rect x="50" y="26" width="100" height="56" rx="10" fill="none" stroke="currentColor" stroke-width="5"/><path d="M50 40c0-8 6-14 14-14h70" fill="none" stroke="currentColor" stroke-width="5"/><rect x="118" y="46" width="32" height="18" rx="6" fill="{_R}"/></svg>',
+    'setup': f'<svg viewBox="0 0 200 100"><rect x="46" y="16" width="108" height="64" rx="7" fill="none" stroke="currentColor" stroke-width="5"/><path d="M82 92h36" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M100 30v30M88 48l12 12 12-12" fill="none" stroke="{_R}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    'speed': f'<svg viewBox="0 0 200 100"><path d="M42 84a58 58 0 0 1 116 0" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="M120 34a58 58 0 0 1 38 50" fill="none" stroke="{_R}" stroke-width="7" stroke-linecap="round"/><path d="M58 84h6M136 84h6M100 30v6M64 50l5 4M136 50l-5 4" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M100 84l30-34" stroke="{_R}" stroke-width="6" stroke-linecap="round"/><circle cx="100" cy="84" r="7" fill="currentColor"/></svg>',
+    'matches': f'<svg viewBox="0 0 200 100"><rect x="34" y="14" width="132" height="72" rx="6" fill="none" stroke="currentColor" stroke-width="5"/><path d="M100 14v72" stroke="currentColor" stroke-width="4"/><circle cx="100" cy="50" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M34 34h16v32H34M166 34h-16v32h16" fill="none" stroke="currentColor" stroke-width="4"/><circle cx="128" cy="40" r="6" fill="{_R}"/></svg>',
+    'ramadan': f'<svg viewBox="0 0 200 100"><path d="M92 16a36 36 0 1 0 30 58 30 30 0 1 1-30-58z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M140 14v10" stroke="currentColor" stroke-width="3"/><path d="M130 30h20l-4 28h-12z" fill="{_R}"/><path d="M128 30l12-8 12 8" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/></svg>',
+    'channels': f'<svg viewBox="0 0 200 100"><g fill="none" stroke="currentColor" stroke-width="4"><rect x="46" y="18" width="30" height="22" rx="4"/><rect x="85" y="18" width="30" height="22" rx="4"/><rect x="46" y="48" width="30" height="22" rx="4"/><rect x="85" y="48" width="30" height="22" rx="4"/><rect x="124" y="48" width="30" height="22" rx="4"/></g><rect x="124" y="18" width="30" height="22" rx="4" fill="{_R}"/></svg>',
+    'reminders': f'<svg viewBox="0 0 200 100"><path d="M78 70V48a22 22 0 0 1 44 0v22l8 8H70z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M92 84a8 8 0 0 0 16 0" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="122" cy="30" r="9" fill="{_R}"/></svg>',
+    'account': f'<svg viewBox="0 0 200 100"><circle cx="100" cy="36" r="16" fill="none" stroke="currentColor" stroke-width="5"/><path d="M68 86a32 32 0 0 1 64 0" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M130 58l14 14 22-26" fill="none" stroke="{_R}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    'fix': f'<svg viewBox="0 0 200 100"><path d="M120 22a20 20 0 0 0-24 26L64 80l8 8 32-32a20 20 0 0 0 26-24l-12 12-10-2-2-10z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><circle cx="70" cy="82" r="4" fill="{_R}"/></svg>',
+    'faq': f'<svg viewBox="0 0 200 100"><path d="M56 20h88a10 10 0 0 1 10 10v36a10 10 0 0 1-10 10H92l-20 16V76H56a10 10 0 0 1-10-10V30a10 10 0 0 1 10-10z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/><path d="M90 40a10 10 0 1 1 14 9c-3 2-4 4-4 7" fill="none" stroke="{_R}" stroke-width="5" stroke-linecap="round"/><circle cx="100" cy="64" r="3.5" fill="{_R}"/></svg>',
+}
+
+
+def guide_cards(c):
+    """(key, English, Arabic, link attrs) — the order Hossam refers to ("card 3")."""
+    from datetime import date, timedelta
+    a, b, yr = ramadan_season()
+    cards = [
+        ('trial', 'Free trial', 'تجربة مجانية', f'href="{c.wa("trial")}" data-trial'),
+        ('plans', 'Plans & prices', 'الباقات والأسعار', f'href="{c.href("plans.html")}"'),
+        ('subscribe', 'Subscribe', 'اشترك', f'href="{c.wa("sub")}" data-order="subscribe"'),
+        ('renew', 'Renew', 'جدّد اشتراكك', f'href="{c.wa("sub")}" data-order="renew"'),
+        ('pay', 'Pay', 'الدفع', f'href="{c.href("pay.html")}"'),
+        ('setup', 'Setup guide', 'دليل التثبيت', f'href="{c.href("setup/index.html")}"'),
+        ('speed', 'Speed test', 'قياس السرعة', f'href="{c.href("speed-test.html")}"'),
+        ('matches', 'Matches', 'المباريات', f'href="{c.href("matches.html")}"'),
+        ('ramadan', 'Ramadan series', 'مسلسلات رمضان', f'href="{c.href("ramadan-series.html")}"'),
+        ('channels', 'Channels', 'القنوات', f'href="{c.href("channels.html")}"'),
+        ('reminders', 'Renewal reminders', 'تذكير التجديد', f'href="{c.href("help.html")}#reminders"'),
+        ('account', 'My account', 'حسابي', f'href="{c.href("help.html")}#account"'),
+        ('fix', 'Fix a problem', 'حل مشكلة', f'href="{c.root}help.html"'),
+        ('faq', 'Questions', 'الأسئلة الشائعة', f'href="{c.href("help.html")}"'),
+    ]
+    return cards
+
+
+def guide_page(c):
+    t = c.t
+    items = ''.join(
+        f'<li><a class="gd-card gd-{k}" {attrs} dir="ltr"><span class="gd-n">{i}</span>'
+        f'<span class="gd-en" lang="en">{en}</span><span class="gd-art" aria-hidden="true">{GUIDE_ART[k]}</span>'
+        f'<span class="gd-ar" lang="ar" dir="rtl">{ar}</span></a></li>'
+        for i, (k, en, ar, attrs) in enumerate(guide_cards(c), 1))
+    body = f'''<section class="sec first gd-sec"><div class="wrap">
+  <h1 class="gd-h" dir="ltr"><span lang="en">Hossam TV guide</span><span lang="ar" dir="rtl">دليل Hossam TV</span></h1>
+  <ol class="gd-list">{items}</ol>
+</div></section>'''
+    return (t(L('Guide — every part of Hossam TV', 'الدليل — كل أقسام Hossam TV')),
+            t(L('One card for each part of the Hossam TV website: free trial, plans, payment, setup, speed test, matches, Ramadan series and help.',
+                'بطاقة لكل قسم في موقع Hossam TV: التجربة المجانية والباقات والدفع والتثبيت وقياس السرعة والمباريات ومسلسلات رمضان والمساعدة.')),
+            body)
+
+
+# ----------------------------------------------------------------------------
+# PAY — the page Hossam (or the bot) sends to a customer who wants to pay: every payment method, and "pay later"
+# (a day up to one week ahead) that goes to the bot, which reminds the customer on WhatsApp that day.
+# With the bot's link (#k=…) the page knows the customer; otherwise "pay later" asks for the username and password.
+# ----------------------------------------------------------------------------
+def pay_page(c):
+    t = c.t
+    def methods(eg):
+        rows = [(k, nm, note) for k, nm, note, e, i in PAY_FORM if (e if eg else i)]
+        return ''.join(
+            f'<li><a class="py-m" href="https://wa.me/{WHATSAPP}" target="_blank" rel="noopener" data-pay-m="{t(nm) if isinstance(nm, dict) else nm}">'
+            f'<b>{t(nm) if isinstance(nm, dict) else nm}</b><small>{t(note)}</small>{icon("arrow", "flip")}</a></li>' for k, nm, note in rows)
+    seg = (f'<div class="seg py-seg" role="group" aria-label="{t(L("Where are you paying from?", "من أين تدفع؟"))}">'
+           f'<button type="button" data-py-reg="intl" aria-pressed="true">{t(L("Canada & rest of world", "كندا وباقي العالم"))}</button>'
+           f'<button type="button" data-py-reg="eg" aria-pressed="false">{t(L("Egypt", "مصر"))}</button></div>')
+    hero = page_hero(c, [(None, t(L('Pay', 'الدفع')))], t(L('Pay your subscription', 'ادفع اشتراكك')),
+                     t(L('Choose how to pay — or pick a later day, up to one week.', 'اختر طريقة الدفع — أو اختر يوماً لاحقاً، حتى أسبوع.')))
+    msgs = {
+        'saved': L("Saved ✅ We'll remind you on WhatsApp on {d}.", 'تم الحفظ ✅ سنذكّرك على واتساب يوم {d}.'),
+        'empty': L('Choose a day.', 'اختر يوماً.'),
+        'login': L('Type your username and password.', 'اكتب اسم المستخدم وكلمة المرور.'),
+        'not_found': L("We couldn't find that account. Check the username and password, or message us on WhatsApp.", 'لم نجد هذا الحساب. راجع اسم المستخدم وكلمة المرور، أو راسلنا على واتساب.'),
+        'no_case': L('Nothing is due on this account. To pay or renew, choose a method above.', 'لا يوجد مبلغ مستحق على هذا الحساب. للدفع أو التجديد اختر طريقة من الأعلى.'),
+        'bad_day': L('Pick a day from tomorrow up to {d}.', 'اختر يوماً من الغد حتى {d}.'),
+        'too_late': L('This payment can’t be moved again. Please message Hossam on WhatsApp.', 'لا يمكن تأجيل هذا الدفع مرة أخرى. من فضلك راسل حسام على واتساب.'),
+        'limited': L('Too many tries today. Please message us on WhatsApp.', 'محاولات كثيرة اليوم. من فضلك راسلنا على واتساب.'),
+        'error': L("Couldn't connect right now. Try again in a minute, or message us on WhatsApp.", 'تعذّر الاتصال الآن. حاول بعد دقيقة، أو راسلنا على واتساب.'),
+    }
+    data_msgs = ' '.join(f'data-msg-{k}="{t(v)}"' for k, v in msgs.items())
+    body = hero + f'''
+<section class="sec first"><div class="wrap py-wrap" data-pay data-api="{N8N_WEBHOOK}site-pay" data-wa="{WHATSAPP}" data-locale="{'ar-EG' if c.ar else 'en-US'}" {data_msgs}
+  data-l-hi="{t(L('Hi {n}', 'مرحباً {n}'))}" data-l-due="{t(L('Amount due: {a}', 'المبلغ المستحق: {a}'))}" data-l-planned="{t(L('Planned for {d}', 'موعد الدفع: {d}'))}"
+  data-l-wa="{t(L("Hi Hossam, I'd like to pay with {m}.", 'مرحباً حسام، أريد الدفع عن طريق {m}.'))}" data-l-user="{t(L('Username', 'اسم المستخدم'))}">
+  <div class="py-who" data-py-who hidden></div>
+  <h2 class="st-h">{icon('card')}{t(L('Payment methods', 'طرق الدفع'))}</h2>
+  {seg}
+  <ul class="py-list" data-py-list="intl">{methods(False)}</ul>
+  <ul class="py-list" data-py-list="eg" hidden>{methods(True)}</ul>
+  <p class="py-note">{icon('info')}<span>{t(L("Tap a method: WhatsApp opens and Hossam sends you the details. After paying, send the receipt there.", 'اضغط على طريقة: يفتح واتساب ويرسل لك حسام التفاصيل. بعد الدفع أرسل صورة الإيصال هناك.'))}</span></p>
+
+  <h2 class="st-h">{icon('clock')}{t(L('Pay later', 'ادفع لاحقاً'))}</h2>
+  <form class="remind py-later" data-py-form novalidate>
+    <div class="rf-grid">
+      <div class="rf" data-py-login><label for="pyUser">{t(L('Username', 'اسم المستخدم'))}</label><input id="pyUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="64"></div>
+      <div class="rf" data-py-login><label for="pyPass">{t(L('Password', 'كلمة المرور'))}</label><input id="pyPass" name="password" type="password" dir="ltr" autocomplete="current-password" autocapitalize="none" spellcheck="false" maxlength="64"></div>
+      <div class="rf"><label for="pyDate">{t(L('I will pay on', 'سأدفع يوم'))}</label><input id="pyDate" name="date" type="date" dir="ltr" required></div>
+      <div class="rf"><label for="pyMethod">{t(L('Using (optional)', 'عن طريق (اختياري)'))}</label><select id="pyMethod" name="method"><option value="">—</option></select></div>
+    </div>
+    <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
+    <p class="remind-msg" role="status" hidden></p>
+    <button type="submit" class="btn btn-ink">{icon('clock')}<span>{t(L('Save the day', 'احفظ الموعد'))}</span></button>
+    <small class="py-fine">{t(L('Up to one week. We remind you on WhatsApp that day.', 'حتى أسبوع. نذكّرك على واتساب في هذا اليوم.'))}</small>
+  </form>
+</div></section>
+<script src="{c.root}assets/pay.js" defer></script>
+'''
+    return (t(L('Pay — Hossam TV', 'الدفع — Hossam TV')),
+            t(L('Payment methods for your Hossam TV subscription, or pick a later day to pay.', 'طرق دفع اشتراك Hossam TV، أو اختر يوماً لاحقاً للدفع.')),
+            body)
+
+
 PAGE_BUILDERS = [
     ('home', 'index.html', 'home', home),
     ('plans', 'plans.html', 'plans', plans),
@@ -1952,6 +2098,7 @@ PAGE_BUILDERS = [
 ]
 PAGE_BUILDERS += [('matches', 'matches.html', 'matches', matches_page), ('speed', 'speed-test.html', 'speed', speed_page)]
 PAGE_BUILDERS += [('ramadan', 'ramadan-series.html', None, ramadan_page)]
+PAGE_BUILDERS += [('guide', 'guide.html', None, guide_page), ('pay', 'pay.html', None, pay_page)]
 PAGE_BUILDERS += [('tv-' + sl, 'arabic-tv-' + sl + '.html', None, country_page(sl, nm, wh, tz, ct)) for sl, nm, wh, tz, ct in COUNTRY_PAGES]
 MATCH_PAGES = [('match-' + sl, 'match/' + sl + '.html', 'matches', match_page(sl, e, r)) for sl, e, r in match_list()]
 PAGE_BUILDERS += MATCH_PAGES

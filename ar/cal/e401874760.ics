@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Hossam TV//Matches//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:e401874760@hossamservices.com
+DTSTAMP:20261017T130000Z
+DTSTART:20261017T130000Z
+DTEND:20261017T150000Z
+SUMMARY:فينيسيا – نابولي (الدوري الإيطالي)
+DESCRIPTION:بي إن سبورت · شاهدها مباشرة على Hossam TV — hossamservices.com
+URL:https://hossamservices.com/
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:فينيسيا – نابولي (الدوري الإيطالي)
+END:VALARM
+END:VEVENT
+END:VCALENDAR

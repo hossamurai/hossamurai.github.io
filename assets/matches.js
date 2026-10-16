@@ -136,8 +136,36 @@
       return;
     }
     var root = (box.getAttribute('data-src') || '').replace(/assets\/data\/matches\.json$/, '');
-    location.href = root + lang() + '/match/' + slug(e.home.en) + '-vs-' + slug(e.away.en) + '-' + e.utc.slice(0, 10) + '.ics';
+    location.href = root + lang() + '/cal/' + e.id + '.ics';
   }
+
+  /* ---------- every match: a countdown [data-cd="<utc>"] and an "Add to calendar" link [data-cal="<utc>"] ----------
+     (rows of the matches list, league pages, match pages). The link is the match's .ics file (iPhone / computers);
+     on Android it opens Google Calendar instead. */
+  function cdText(left){
+    var d = Math.floor(left / 864e5), h = Math.floor(left / 36e5) % 24, m = Math.floor(left / 6e4) % 60, s = Math.floor(left / 1e3) % 60;
+    return (d ? d + (lang() === 'ar' ? ' يوم ' : 'd ') : '') + pad(h) + ':' + pad(m) + ':' + pad(s);
+  }
+  function tickRows(){
+    if(document.hidden) return;
+    var now = Date.now();
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cd]'), function(c){
+      var left = Date.parse(c.getAttribute('data-cd')) - now, box = c.closest ? c.closest('.mt-act') || c : c;
+      if(left <= 0){ box.hidden = true; return; }                      /* kicked off: the live score takes over */
+      var t = cdText(left); if(c.lastChild && c.lastChild.nodeType === 3){ if(c.lastChild.nodeValue !== t) c.lastChild.nodeValue = t; } else c.appendChild(document.createTextNode(t));
+    });
+  }
+  setInterval(tickRows, 1000); tickRows();
+  window.htvTickRows = tickRows;   /* the matches list (assets/site.js) calls it after drawing */
+  document.addEventListener('click', function(ev){
+    var a = ev.target.closest ? ev.target.closest('a[data-cal]') : null;
+    if(!a || !/Android/i.test(navigator.userAgent)) return;
+    ev.preventDefault();
+    var t = new Date(a.getAttribute('data-cal')), end = new Date(t.getTime() + 2 * 3600e3);
+    var f = function(d){ return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); };
+    window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(a.getAttribute('data-cal-t') || '') +
+      '&dates=' + f(t) + '/' + f(end) + '&details=' + encodeURIComponent((lang() === 'ar' ? 'شاهدها مباشرة على Hossam TV — hossamservices.com' : 'Watch live on Hossam TV — hossamservices.com')), '_blank', 'noopener');
+  });
 
   /* ---------- last week's results (matches page) ---------- */
   function renderResults(){

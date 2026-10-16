@@ -27,6 +27,11 @@
   + '.htv-alert{background:#fff4e5;border-bottom:1px solid #f3d19c;color:#5c3b00;font-size:.92rem}'
   + '.htv-alert .wrap{display:flex;gap:10px;align-items:flex-start;padding-top:10px;padding-bottom:10px}'
   + '.htv-alert .ic{color:#b76e00;margin-top:.25em}.htv-alert a{font-weight:700;white-space:nowrap}'
+  + '.htv-ann{background:#0b0b0c;color:#fff;font-size:.86rem;font-weight:600}'
+  + '.htv-ann .wrap{display:flex;align-items:center;justify-content:center;gap:10px;min-height:38px;padding-top:6px;padding-bottom:6px;text-align:center}'
+  + '.htv-ann-t{color:#fff;text-decoration:none}a.htv-ann-t{border-bottom:1px solid #e3101b}'
+  + '.htv-ann-t:before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#e3101b;margin-inline-end:8px;vertical-align:middle}'
+  + '.htv-ann-x{flex:none;border:0;background:transparent;color:#aaa;font-size:1.2rem;line-height:1;cursor:pointer;padding:2px 6px}'
   + '.htv-fab{position:fixed;inset-inline-end:18px;bottom:18px;z-index:80;display:flex;align-items:center;gap:8px;height:54px;padding:0 20px 0 16px;border:0;border-radius:999px;background:var(--ink,#17140f);color:#fff;font:inherit;font-weight:700;font-size:.95rem;cursor:pointer;box-shadow:0 10px 28px rgba(23,20,15,.28)}'
   + '.htv-fab svg{width:22px;height:22px}.htv-fab:hover{background:#2c271f}.htv-fab[hidden]{display:none}'
   + '@media (max-width:720px){.htv-fab{width:52px;height:52px;padding:0;justify-content:center;bottom:14px;inset-inline-end:14px}.htv-fab>span:not(.htv-badge){display:none}.htv-fab .htv-badge{position:absolute;top:-5px;inset-inline-end:-6px;border:1.5px solid var(--ink,#17140f)}}'
@@ -93,12 +98,30 @@
       var plan = cardPlan(card), region = cardRegion(card), v = p[plan];
       if(!v) return;
       var amt = card.querySelector('.price .amt, .plan-price b'), two = card.querySelector('.price-2 b, .plan-price .p2');
-      if(region === 'gulf') setNum(amt, v.gulf);
-      else if(region === 'uae') setNum(amt, v.uae);
       /* Basic & Premium are priced in EGP for Egypt: only an "eg" price may change them, never the USD one */
-      else if(region === 'eg' && (plan === 'basic' || plan === 'premium')) setNum(amt, v.eg);
+      if(region === 'eg' && (plan === 'basic' || plan === 'premium')) setNum(amt, v.eg);
       else { setNum(amt, v.y1); setNum(two, v.y2); }
     });
+  }
+  /* announcement bar set from the admin bot ("announce: …" / "announcement off"): site-data "announcement" { en, ar, link }.
+     One line under the header; the visitor can close it (it stays closed until the text changes). Text only, never HTML. */
+  function applyAnnouncement(a){
+    if(!a) return;
+    if(typeof a === 'string') a = { en: a, ar: a };
+    var txt = String((ar() ? a.ar || a.en : a.en || a.ar) || '').trim();
+    var header = document.querySelector('header.nav');
+    if(!txt || !header || document.querySelector('.htv-ann')) return;
+    var id = 'htv-ann-x:' + txt.length + ':' + txt.slice(0, 40);
+    if(store('htv-ann-x') === id) return;
+    var bar = document.createElement('div'); bar.className = 'htv-ann'; bar.setAttribute('role', 'status');
+    var w = document.createElement('div'); w.className = 'wrap';
+    var link = String(a.link || '');
+    var msg = document.createElement(/^https:\/\/[^\s"<>]+$/.test(link) ? 'a' : 'span'); msg.className = 'htv-ann-t'; msg.textContent = txt;
+    if(msg.tagName === 'A'){ msg.href = link; if(link.indexOf(location.host) < 0){ msg.target = '_blank'; msg.rel = 'noopener'; } }
+    var x = document.createElement('button'); x.type = 'button'; x.className = 'htv-ann-x'; x.setAttribute('aria-label', T('Close', 'إغلاق')); x.textContent = '×';
+    x.addEventListener('click', function(){ store('htv-ann-x', id); bar.parentNode.removeChild(bar); });
+    w.appendChild(msg); w.appendChild(x); bar.appendChild(w);
+    header.parentNode.insertBefore(bar, header);
   }
   /* customer-friendly name for what is down (the admin may write "Neo 4K", "X server", "IBO"…) */
   function outageName(o){
@@ -173,7 +196,7 @@
   if(!HELP_PAGE){
     fetch(API + 'site-data', { credentials: 'omit' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
       if(!d) return;
-      applyPrices(d.prices); applyOutages(d.outages); applyStatus(d.outages, d.uptime); applyRatings(d.ratings); applyReviews(d.reviews, d.ratings);
+      applyPrices(d.prices); applyOutages(d.outages); applyAnnouncement(d.announcement); applyStatus(d.outages, d.uptime); applyRatings(d.ratings); applyReviews(d.reviews, d.ratings);
       /* match channels set from the admin bot -> matches bars (assets/matches.js) and the matches page */
       /* the visitor's real country (Cloudflare, by IP) -> prices tab + phone codes (assets/site.js) */
       if(d.country){ window.htvCountry = d.country; try{ document.dispatchEvent(new CustomEvent('htv:country', { detail: d.country })); }catch(e){} }
@@ -184,7 +207,7 @@
   }
 
   /* ---------------------------------------------------------------- 4: order / free-trial form */
-  var REGIONS = { eg: ['Egypt', 'مصر'], gulf: ['Saudi & Gulf', 'السعودية والخليج'], uae: ['UAE', 'الإمارات'], intl: ['Canada & worldwide', 'كندا وباقي الدول'] };
+  var REGIONS = { eg: ['Egypt', 'مصر'], intl: ['Canada & rest of world', 'كندا وباقي العالم'] };
   var PLANS = { xtv: ['XTV', 'XTV'], marvel: ['Marvel', 'مارفل'], basic: ['Basic', 'الأساسية'], premium: ['Premium', 'بريميوم'] };
   var DEVICES = [['androidtv', 'Android TV / TV box', 'أندرويد تي في / بوكس'], ['firestick', 'Firestick', 'فايرستيك'], ['smarttv', 'Samsung / LG TV', 'شاشة سامسونج / LG'],
                  ['android', 'Android phone', 'موبايل أندرويد'], ['apple', 'iPhone / Apple TV', 'آيفون / أبل تي في'], ['windows', 'Windows PC', 'كمبيوتر ويندوز'], ['other', 'Other / not sure', 'جهاز آخر / لست متأكداً']];
@@ -192,9 +215,8 @@
     var btn = document.querySelector('[data-region-btn][aria-pressed="true"]'); if(btn) return btn.getAttribute('data-region-btn');
     var r = store('htv-region'); if(REGIONS[r]) return r;
     var tz = ''; try{ tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; }catch(e){}
-    if(tz === 'Africa/Cairo') return 'eg'; if(tz === 'Asia/Dubai') return 'uae';
-    if(/^Asia\/(Riyadh|Kuwait|Qatar|Bahrain|Muscat|Aden)$/.test(tz)) return 'gulf';
-    return 'intl';
+    if(window.htvCountry) return window.htvCountry === 'EG' ? 'eg' : 'intl';
+    return tz === 'Africa/Cairo' ? 'eg' : 'intl';
   }
   function plansFor(region){ return region === 'eg' ? ['xtv', 'marvel', 'basic', 'premium'] : ['basic', 'premium']; }
   var ov = null, form = { kind: '', plan: '', region: '', device: '', baseText: '', href: '' };
@@ -204,7 +226,7 @@
   function renderForm(){
     var trial = form.kind === 'trial', i = ar() ? 1 : 0;
     var planList = plansFor(form.region).map(function(k){ return [k, PLANS[k][0], PLANS[k][1]]; });
-    var regionList = ['eg', 'gulf', 'uae', 'intl'].map(function(k){ return [k, REGIONS[k][0], REGIONS[k][1]]; });
+    var regionList = ['eg', 'intl'].map(function(k){ return [k, REGIONS[k][0], REGIONS[k][1]]; });
     var ready = form.plan && form.device && form.region;
     ov.innerHTML = '<div class="htv-form" role="dialog" aria-modal="true" aria-labelledby="htvFormT"><div class="htv-form-wrap">'
       + '<button type="button" class="htv-x" data-close aria-label="' + T('Close', 'إغلاق') + '">×</button>'
