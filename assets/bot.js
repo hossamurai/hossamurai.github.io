@@ -19,7 +19,7 @@
     var body = new URLSearchParams(); body.append('p', JSON.stringify(data));
     return fetch(API + path, { method: 'POST', body: body, keepalive: !!keepalive, credentials: 'omit' });
   }
-  var HELP_PAGE = !!document.getElementById('alerts');   /* help.html has its own live data */
+  var HELP_PAGE = !!document.getElementById('alerts');   /* fix.html shows outages itself */
   if(!window.fetch || !window.URLSearchParams) return;
 
   /* ---------------------------------------------------------------- styles */
@@ -195,10 +195,10 @@
     });
     var empty = document.querySelector('[data-rev-empty]'); if(empty) empty.hidden = true;
   }
-  if(!HELP_PAGE){
+  {
     fetch(API + 'site-data', { credentials: 'omit' }).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
       if(!d) return;
-      applyPrices(d.prices); applyOutages(d.outages);
+      applyPrices(d.prices); if(!HELP_PAGE) applyOutages(d.outages);
       /* the same prices for the order form's periods and total (assets/site.js) */
       if(d.prices){ window.htvPrices = d.prices; try{ document.dispatchEvent(new CustomEvent('htv:prices', { detail: d.prices })); }catch(e){} } applyAnnouncement(d.announcement); applyStatus(d.outages, d.uptime); applyRatings(d.ratings); applyReviews(d.reviews, d.ratings);
       /* match channels set from the admin bot -> matches bars (assets/matches.js) and the matches page */
@@ -395,7 +395,7 @@
     if(e.key !== 'Escape') return;
     if(ov && !ov.hidden) closeForm(); else if(!panel.hidden) setOpen(false);
   });
-  /* help.html switches language without reloading — keep the widget's labels in step */
+  /* keep the widget's labels in step if the page language changes */
   if(window.MutationObserver) new MutationObserver(function(){ renderChat(); if(ov && !ov.hidden) renderForm(); }).observe(doc, { attributes: true, attributeFilter: ['lang'] });
   renderChat();
   if(chat.open && window.innerWidth > 560) setOpen(true);

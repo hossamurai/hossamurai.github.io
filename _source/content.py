@@ -220,7 +220,7 @@ APP_ICONS = {
 }
 SMARTERS = 'tinyurl.com/smrtsapp'
 # Server hosts (server URL) for manual players like IPTV Smarters, Smarters Lite and SFVIP.
-# The first one is the main host; the rest are backups. Keep in sync with FALLBACK_HOSTS in help.html.
+# The first one is the main host; the rest are backups. Keep in sync with FALLBACK_HOSTS in assets/fix.js.
 HOSTS = {
     'basic':   ['http://cf.hossamtv.site', 'http://pro.hossamtv.site'],
     'premium': ['http://cf.hossam8k.site', 'http://pro.hossam8k.site'],

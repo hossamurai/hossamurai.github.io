@@ -1,0 +1,46 @@
+<section class="help-hero">
+    <div class="wrap">
+      <span class="onair"><span class="dot"></span><span class="en">Self-help</span><span class="ar">مساعدة ذاتية</span></span>
+      <h1><span class="en">Fix a problem in 2 minutes</span><span class="ar">حل مشكلتك في دقيقتين</span></h1>
+      <p><span class="en">Pick your plan, your app and what's happening — then follow the steps one by one. If nothing works, one tap sends Hossam everything you tried.</span><span class="ar">اختار باقتك والتطبيق والمشكلة — وبعدين اتبع الخطوات واحدة واحدة. لو مفيش حاجة نفعت، بضغطة واحدة بتبعت لحسام كل اللي جربته.</span></p>
+      <p class="rating-badge" id="ratingBadge" hidden></p>
+    </div>
+  </section>
+
+  <section class="hsec">
+    <div class="wrap">
+      <div class="alerts" id="alerts" aria-live="polite"></div>
+
+      <div class="hstep">
+        <p class="step-label"><span class="n">1</span><span class="en">Your plan</span><span class="ar">باقتك</span></p>
+        <div class="pick plan-pick" id="planPick" role="group" aria-label="Plan"></div>
+      </div>
+
+      <div class="hstep" id="appStep" hidden>
+        <p class="step-label"><span class="n">2</span><span class="en">The app you're using</span><span class="ar">التطبيق اللي بتستخدمه</span></p>
+        <div id="appPick"></div>
+      </div>
+
+      <div class="hstep" id="symStep" hidden>
+        <p class="step-label"><span class="n">3</span><span class="en">What's happening?</span><span class="ar">إيه المشكلة؟</span></p>
+        <div class="chips" id="symPick" role="group" aria-label="Problem"></div>
+      </div>
+
+      <div class="hstep" id="flowStep" hidden>
+        <p class="step-label"><span class="n">4</span><span class="en">Follow the steps</span><span class="ar">اتبع الخطوات</span></p>
+        <div class="flow" id="flow" aria-live="polite"></div>
+      </div>
+
+      <a class="speed-link" data-page="speed-test.html" href="/">
+        <span class="speed-link-ic" aria-hidden="true">⚡</span>
+        <span><b><span class="en">Is your internet fast enough?</span><span class="ar">هل الإنترنت عندك سريع كفاية؟</span></b>
+        <small><span class="en">Run our speed test — it tells you if it's enough for HD or 4K.</span><span class="ar">اعمل اختبار السرعة — هيقولك لو كافي لجودة HD أو 4K.</span></small></span>
+        <span class="speed-link-go" aria-hidden="true">→</span>
+      </a>
+
+      <div class="more">
+        <p class="step-label"><span class="en">Other questions</span><span class="ar">أسئلة تانية</span></p>
+        <div class="faq" id="moreFaq"></div>
+      </div>
+    </div>
+  </section>
