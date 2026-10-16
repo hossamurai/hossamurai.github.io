@@ -154,7 +154,7 @@ def trial_dialog(c):
                 opts.append(['y2', t(per_lbl['y2']), money(c, rp['cur'], rp['p2']), rp['p2'], rp['cur']])
             prices.setdefault(r['id'], {})[rp['id']] = opts
     prices_attr = html_attr_json(prices)
-    fees_attr = html_attr_json({pid: [cur, y1, life] for pid, (cur, y1, life) in APP_FEE.items()})
+    fees_attr = html_attr_json(dict({pid: [cur, y1, life] for pid, (cur, y1, life) in APP_FEE.items()}, eg=list(APP_FEE_EGYPT)))
     # price per plan and region for the total: 1 screen-year = p1; 2 or more = each at half the 2-year price (Basic 60, 90, 120…)
     units_attr = html_attr_json({r['id']: {rp['id']: [rp['cur'], rp['p1'], rp.get('p2') or rp['p1'] * 2] for rp in r['plans']} for r in REGIONS})
     cur_attr = html_attr_json({k: [v['en'] if not c.ar else v['ar'], bool(v.get('pre'))] for k, v in CURRENCY.items()})
@@ -863,12 +863,12 @@ def device_data(c, slug):
                 P("We load your playlist. Restart the app and your channels will appear.", 'سنجهّز قائمتك. أعد تشغيل التطبيق وستظهر القنوات.'),
             ],
             notes=[
-                note('tip', P('App fee — Basic & Premium', 'رسوم التطبيق — الأساسية وبريميوم'),
+                note('tip', P('App fee — outside Egypt', 'رسوم التطبيق — خارج مصر'),
                      P('Bob / IBO Player activation per TV: <b>$2</b> for 1 year or <b>$4</b> for lifetime.',
                        'تفعيل Bob / IBO Player لكل شاشة: <b>2 دولار</b> لسنة أو <b>4 دولارات</b> مدى الحياة.')),
-                note('warn', P('App fee — XTV & Marvel', 'رسوم التطبيق — XTV و Marvel'),
-                     P('Bob / IBO Player activation is separate from your subscription: <b>100 EGP</b> for 1 year or <b>200 EGP</b> for lifetime, per TV. The app gives you a 7-day free trial first.',
-                       'تفعيل Bob / IBO Player منفصل عن الاشتراك: <b>100 جنيه</b> لسنة أو <b>200 جنيه</b> مدى الحياة لكل شاشة. التطبيق يتيح تجربة مجانية 7 أيام أولاً.')),
+                note('warn', P('App fee — Egypt', 'رسوم التطبيق — مصر'),
+                     P('In Egypt, Bob / IBO Player activation is <b>200 EGP lifetime</b> per TV, with any plan. The app gives you a 7-day free trial first.',
+                       'في مصر، تفعيل Bob / IBO Player بـ <b>200 جنيه مدى الحياة</b> لكل شاشة مع أي باقة. التطبيق يتيح تجربة مجانية 7 أيام أولاً.')),
             ],
             trouble=['buffering', 'locked'],
         )
