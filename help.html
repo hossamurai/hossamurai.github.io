@@ -129,7 +129,7 @@ html[lang="ar"] .tv{transform:rotate(1.2deg)}
 .tv-screen{background:var(--surface);border-radius:16px;overflow:hidden}
 .tv-top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px}
 .live-pill{display:inline-flex;align-items:center;gap:7px;background:var(--live);color:#fff;font-weight:700;font-size:.72rem;letter-spacing:.1em;padding:4px 10px;border-radius:6px}
-.live-pill .dot{background:#fff}
+.live-pill .dot{background:var(--surface)}
 .live-pill .dot::after{border-color:#fff}
 .tv-q{font-family:var(--f-mono);font-size:.72rem;font-weight:700;border:1.5px solid var(--ink);border-radius:5px;padding:2px 6px}
 .tv-rows{padding:4px 10px 14px}
@@ -375,14 +375,14 @@ html[lang="ar"] .tk-teams{text-transform:none}
 .ticker-track.still{animation:none;transform:none}
 /* live-score bar: only while a match is on */
 .livebar{background:#141416}
-.live-tag{background:#fff;color:#e3101b}
+.live-tag{background:var(--surface);color:#e3101b}
 .live-dot{width:8px;height:8px;border-radius:50%;background:#e3101b;animation:tkBlink 1.2s steps(2) infinite}
 .lv{display:inline-flex;align-items:center;gap:10px;align-self:stretch;padding:0 22px;white-space:nowrap;font-size:.86rem;color:#fff}
 /* red line after every match (both bars) */
 .tk,.lv{border-inline-end:2px solid #e3101b}
 .lv-clock{color:#ffb000;font-weight:800;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-width:34px}
 .lv-team{font-weight:700}
-.lv-score{background:#fff;color:#0b0b0c;font-weight:800;border-radius:6px;padding:2px 9px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92rem}
+.lv-score{background:var(--surface);color:#0b0b0c;font-weight:800;border-radius:6px;padding:2px 9px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92rem}
 .lv-vs{color:#9a9aa0}
 .lv-goals{color:#c9c9cf;font-size:.8rem}
 .lv-ft .lv-score{background:#3a3a3e;color:#fff}
@@ -495,6 +495,41 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
 .ms-all:hover{background:#c40d17;border-color:#c40d17}
 .ms-arrow{font-size:1.1rem;line-height:1}
 @media (min-width:900px){.ms-track{justify-content:safe center}}
+/* match cards float on the page background (no black band): light cards in light mode, dark cards in dark mode */
+.mstrip{background:transparent}
+.ms-track{padding:10px 16px 6px}
+.ms-card{background:var(--surface);border:.5px solid var(--line-2);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.05)}
+.ms-card:hover{background:var(--surface);border-color:var(--ink-2)}
+.ms-top,.ms-ch{color:var(--muted)}
+.ms-ini{background:var(--surface-2);color:var(--ink)}
+.ms-t em{color:var(--ink-2)}
+.ms-t.win em,.ms-t.win b{color:var(--ink)}
+.ms-flag{color:#e3101b}.ms-flag .live-dot{background:#e3101b}
+.ms-live{border-color:rgba(227,16,27,.45);background:linear-gradient(180deg,rgba(227,16,27,.08),var(--surface) 65%)}
+.ms-all{background:#e3101b;border-color:#e3101b;color:#fff}
+
+/* dark mode — follows the phone / computer setting (same palette as the main site) */
+@media (prefers-color-scheme:dark){
+  :root{color-scheme:dark;--bg:#000;--surface:#1c1c1e;--surface-2:#2c2c2e;--ink:#f5f5f7;--ink-2:#d1d1d6;--muted:#98989d;
+    --line:rgba(84,84,88,.65);--line-2:rgba(84,84,88,.9);--wa:#f5f5f7;--wa-ink:#000;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.5);--shadow:0 6px 20px rgba(0,0,0,.5)}
+  body{background:var(--bg);color:var(--ink)}
+  input,select,textarea{background:var(--surface-2);color:var(--ink);border-color:var(--line-2)}
+  .nav{background:rgba(22,22,24,.82)!important}
+  .htv-fab{background:#2c2c2e!important;color:#fff!important}
+  .htv-send{background:#f5f5f7!important;color:#000!important}
+  .btn-wa{background:#f5f5f7;color:#000}.btn-ink{color:#000}
+  .rule,.warn-box{background:rgba(245,180,0,.1);border-color:rgba(245,180,0,.35);color:#fde68a}
+  .note.warn{background:rgba(245,180,0,.08)}
+  .alert{background:rgba(229,65,45,.12);border-color:rgba(229,65,45,.35)}
+  /* light-on-dark swaps: anything drawn in the ink colour with white text */
+  .step-label .n,.rec-b,.skip,.toast,.brand-fallback{color:#000}
+  .cta{background:#1c1c1e}
+  .onair{background:rgba(227,16,27,.15)!important}
+  .htv-badge{color:#000!important}
+}
+/* same header as the rest of the site: no round free-trial button on phones */
+@media (max-width:480px){.nav-trial{display:none!important}}
 </style>
 </head>
 <body>
@@ -553,7 +588,7 @@ html[lang="ar"] .app-group h3{letter-spacing:0}
       <button class="lang" type="button" id="langBtn" aria-label="Switch language">
         <svg class="ic"><use href="#i-globe"/></svg><span class="en">العربية</span><span class="ar">English</span>
       </button>
-      <a class="btn btn-wa btn-sm" data-wa="subscribe" href="https://wa.me/201117250227?text=Hi%20Hossam%20TV%2C%20I%27d%20like%20a%20free%20trial." target="_blank" rel="noopener">
+      <a class="btn btn-wa btn-sm nav-trial" data-wa="subscribe" href="https://wa.me/201117250227?text=Hi%20Hossam%20TV%2C%20I%27d%20like%20a%20free%20trial." target="_blank" rel="noopener">
         <svg class="ic"><use href="#i-chat"/></svg><span class="en">Free trial</span><span class="ar">تجربة مجانية</span>
       </a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-label="Menu"><svg class="ic i-open"><use href="#i-menu"/></svg><svg class="ic i-close"><use href="#i-x"/></svg></button>
