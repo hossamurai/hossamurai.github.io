@@ -138,7 +138,7 @@
     else if(mbps >= 25){ setState('good'); msg.textContent = A('r4k'); }
     else if(mbps >= 10){ setState('ok'); msg.textContent = A('rhd'); }
     else { setState('ok'); msg.textContent = A('rsd'); }
-    if(hint) hint.hidden = !shaky || mbps < 5;                                   /* dips/delay: a calm tip, not an alarm */
+    /* dips/delay: the "magic trick" is the first tip in the list below — no extra line in the card */
     mark(mbps);
     if(tips) tips.hidden = mbps >= 25 && !shaky;
     send({ mbps: Math.round(mbps * 10) / 10, ping: p ? Math.round(p.ping) : null, jitter: p ? Math.round(p.jitter) : null, stable: !!st.stable });
@@ -224,7 +224,10 @@
     if(netBox && !detected && !picked){ msg.textContent = A('neednet'); netBox.classList.add('st-need-name'); return; }
     if(nameIn){ nameIn.classList.remove('st-need-name'); try{ localStorage.setItem('htv-name', nameIn.value.trim()); }catch(e){} }
     if(!window.fetch || !window.ReadableStream || !window.Promise){ window.open('https://fast.com', '_blank', 'noopener'); return; }
-    go.hidden = true; if(hint){ hint.hidden = true; hint.lastChild.textContent = A('magic'); } readout.hidden = false; again.hidden = true; stats.hidden = false;
+    /* once a test starts the card shows only the dial, the three numbers, the verdict and "Test again" (the name is remembered) */
+    var nameRow = nameIn && nameIn.closest ? nameIn.closest('.st-name') : null, note = box.querySelector('.st-note');
+    if(nameRow) nameRow.hidden = true; if(netBox) netBox.hidden = true; if(note) note.hidden = true;
+    go.hidden = true; if(hint) hint.hidden = true; readout.hidden = false; again.hidden = true; stats.hidden = false;
     stat(pingEl, '—'); stat(jitEl, '—'); stat(stabEl, '—');
     clearTimeout(settleT); hold = null;
     setState('run'); shown = 0; setSpeed(0); mark(null); msg.textContent = A('ping');
