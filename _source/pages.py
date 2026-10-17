@@ -454,7 +454,7 @@ def home(c):
 
 
 <section class="sec" id="reminders-sec"><div class="wrap">
-  {sec_head('', t(L('Your subscription', 'اشتراكك')), t(L('Reminders & account check', 'التنبيهات وحالة الاشتراك')))}
+  {sec_head('', t(L('Your subscription', 'اشتراكك')), t(L('Reminders & expiry check', 'التنبيهات وتاريخ الانتهاء')))}
   <div class="duo-box">
     <div class="duo-col"><div class="remind acct-form duo-title"><h3>{icon('clock')}{t(L('Renewal reminders', 'تنبيهات التجديد'))}</h3></div>{reminder_card(c, compact=True)}</div>
     <div class="duo-col">{account_card(c, compact=True)}</div>
