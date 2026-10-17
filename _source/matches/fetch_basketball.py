@@ -1,7 +1,7 @@
 """Basketball for the basketball page (en/ar basketball.html) — most Lebanese customers follow basketball more than football.
 
 Sources:
-  - ESPN: NBA (the next 4 days) and FIBA (national teams, the next 3 weeks — Lebanon's games and every World Cup game)
+  - ESPN: NBA (the next 7 days) and FIBA (national teams, the next 3 weeks — Lebanon's games and every World Cup game)
   - TheSportsDB: EuroLeague (the next round and the last results)
   - The Lebanese league comes from the admin bot (no free feed carries it): fetch_site.py saves those games in bot.json
 Output: assets/data/basketball.json — {updated, events: [...], results: [...]} in the same shape as matches.json.
@@ -13,7 +13,7 @@ from datetime import datetime, timedelta, timezone
 from fetch_matches import get, small_logo   # same polite fetcher and badge resizer as the football matches
 
 OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'assets', 'data', 'basketball.json')
-NBA_DAYS, FIBA_DAYS = 4, 21
+NBA_DAYS, FIBA_DAYS = 7, 21
 LEAGUES = {'nba': ('NBA', 'الدوري الأمريكي NBA'), 'fiba': ('FIBA', 'فيبا — المنتخبات'), 'euroleague': ('EuroLeague', 'اليوروليغ')}
 AR_TEAMS = {'lebanon': 'لبنان', 'egypt': 'مصر', 'jordan': 'الأردن', 'saudi arabia': 'السعودية', 'qatar': 'قطر', 'iran': 'إيران',
             'united states': 'أمريكا', 'spain': 'إسبانيا', 'france': 'فرنسا', 'germany': 'ألمانيا', 'serbia': 'صربيا', 'greece': 'اليونان',
@@ -74,6 +74,15 @@ def main():
         if nxt is None and past is None:
             return
         ok.add(code)
+        # the free "next" list holds one game: read that game's whole round (and the one after)
+        first = ((nxt or {}).get('events') or [{}])[0]
+        if first.get('intRound') and first.get('strSeason'):
+            evs = []
+            for r in (int(first['intRound']), int(first['intRound']) + 1):
+                d = get(f'https://www.thesportsdb.com/api/v1/json/123/eventsround.php?id={lid}&r={r}&s={first["strSeason"]}')
+                evs += (d or {}).get('events') or []
+            if evs:
+                nxt = {'events': evs}
         for src, done in ((nxt, False), (past, True)):
             for ev in (src or {}).get('events') or []:
                 ts = ev.get('strTimestamp') or ((ev.get('dateEvent') or '') + 'T' + (ev.get('strTime') or '00:00:00'))

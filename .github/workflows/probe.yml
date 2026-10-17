@@ -14,4 +14,4 @@ jobs:
           from collections import Counter;print(Counter(e['code'] for e in d['events']))
           for e in d['events'][:6]+[e for e in d['events'] if e['code']!='nba'][:8]: print(e['utc'],e['code'],e['home']['en'],'v',e['away']['en'], bool(e['home']['logo']))
           for r in d['results'][:5]: print('R',r['league']['en'],r['home']['en'],r['hs'],'-',r['as'],r['away']['en'])"
-          base64 -w0 assets/data/basketball.json | head -c 60000 > /tmp/b64; echo; echo B64START; cat /tmp/b64; echo; echo B64END
+          base64 -w0 assets/data/basketball.json | cat > /tmp/b64; echo; echo B64START; cat /tmp/b64; echo; echo B64END
