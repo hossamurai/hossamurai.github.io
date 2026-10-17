@@ -114,7 +114,9 @@ def norm(s):
 
 
 # short names only count as an exact match ("Inter" yes, "Inter Miami" no; "Paris FC" is not PSG)
-EXACT_ONLY = {'inter', 'milan', 'paris', 'psg', 'bayern', 'roma', 'spurs', 'atletico', 'dortmund', 'man city', 'man utd', 'egypt'}
+EXACT_ONLY = {'inter', 'milan', 'paris', 'psg', 'bayern', 'roma', 'spurs', 'atletico', 'dortmund', 'man city', 'man utd', 'egypt',
+              # Saudi clubs share their names with clubs across Africa (Al Ahli Tripoli, Al Hilal Omdurman, Al Ittihad Alexandria…)
+              'al hilal', 'al nassr', 'al ittihad', 'al ahli', 'al-hilal', 'al-nassr', 'al-ittihad', 'al-ahli'}
 
 
 def team_key(name):
