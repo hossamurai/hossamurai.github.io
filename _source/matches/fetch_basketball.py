@@ -110,6 +110,9 @@ def main():
         if code not in ok:
             events += [e for e in old.get('events', []) if e.get('code') == code and e['utc'] > (now - timedelta(hours=3)).strftime('%Y-%m-%dT%H:%M:%SZ')]
             results += [r for r in old.get('results', []) if r.get('code') == code]
+    seen = set()
+    events = [e for e in events if not (e['id'] in seen or seen.add(e['id']))]
+    results = [r for r in results if not (r['id'] in seen or seen.add(r['id']))]
     events.sort(key=lambda e: e['utc'])
     results.sort(key=lambda r: r['utc'], reverse=True)
     data = {'events': events, 'results': results[:12]}
