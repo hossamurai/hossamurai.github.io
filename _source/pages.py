@@ -1242,7 +1242,7 @@ def account_card(c, compact=False):
     Sits under the renewal-reminders form. Nothing is stored on the website."""
     t = c.t
     return f'''<form class="remind acct-form{' remind-compact' if compact else ''}" id="account" data-account data-api="{N8N_WEBHOOK}site-account" novalidate>
-    <h3>{icon('key')}{t(L('Check my subscription', 'استعلم عن اشتراكي'))}</h3>
+    <h3>{icon('key')}{t(L('Check expiry date', 'تاريخ انتهاء الاشتراك'))}</h3>
     <div class="rf-grid">
       <div class="rf"><label for="acctUser">{t(L('Username', 'اسم المستخدم'))}</label>
         <input id="acctUser" name="username" type="text" dir="ltr" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="64"></div>
