@@ -502,16 +502,16 @@
     var devList = function(){ return devSels().filter(function(sel){ return sel.value; }); };
     var tvCount = function(){ return mode === 'renew' ? 0 : devSels().filter(function(sel){ return sel.value === 'smarttv'; }).length; };
     /* the amount, line by line: plan (screens × years) + the Samsung / LG app per TV (1 year, or lifetime with 2+ years) = total */
-    var totalText = '';
+    var totalText = '', totalRows = [], totalSum = '';
     var syncTotal = function(){
       if(!totBox) return;
       syncGolden();
       var A = function(k){ return totBox.getAttribute('data-l-' + k) || ''; }, yrs = years(), n = screens(), pc = yrs ? planCost(n * yrs) : null;
-      totalText = '';
+      totalText = ''; totalRows = []; totalSum = '';
       if(!pc){ totBox.hidden = true; return; }
       var eg = region() === 'eg';   /* Egypt: the TV app is lifetime only, 200 EGP per TV, with any plan */
       var tvs = tvCount(), fee = eg ? FEES.eg : FEES[tPlan.value], life = eg || yrs >= 2, each1 = fee ? (life ? fee[2] : fee[1]) : 0, feeAmt = tvs * each1;
-      var rows = [[opt(tPlan).textContent + ' · ' + A(n > 1 ? 'accs' : 'acc').replace('{n}', n) + ' × ' + (yrs > 1 ? A('yrs').replace('{n}', yrs) : A('yr')), fmtMoney(pc[0], pc[1])]];
+      var rows = [[opt(tPlan).textContent + ' · ' + A(n === 2 ? 'accs2' : n > 1 ? 'accs' : 'acc').replace('{n}', n) + ' × ' + (yrs === 2 ? A('yrs2') : yrs > 1 ? A('yrs').replace('{n}', yrs) : A('yr')), fmtMoney(pc[0], pc[1])]];
       if(tvs && fee) rows.push([A('tv') + ' (' + A(life ? 'tvl' : 'tv1') + ') · ' + tvs + ' × ' + fmtMoney(fee[0], each1), fmtMoney(fee[0], feeAmt)]);
       var same = !feeAmt || fee[0] === pc[0];
       var sum = same ? fmtMoney(pc[0], pc[1] + feeAmt) : fmtMoney(pc[0], pc[1]) + ' + ' + fmtMoney(fee[0], feeAmt);
@@ -527,6 +527,7 @@
       if(tvs) totBox.appendChild(mk('small', 'tr-note', A('note')));
       totBox.hidden = false;
       totalText = sum + (local ? ' (' + local + ')' : '') + (n > 1 ? ' — ' + A('accs').replace('{n}', n) : '');
+      totalRows = rows; totalSum = sum + (local ? ' (' + local + ')' : '');
     };
     tScreens.addEventListener('input', syncPeriods);
     /* live prices from the admin bot (site-data, assets/bot.js): the one place prices are set — the form follows them */
@@ -661,17 +662,30 @@
           pay: mode !== 'trial' ? tPay.value : '', phone: mode === 'renew' ? '' : fullPhone(), username: mode === 'renew' ? u : '', lang: AR ? 'ar' : 'en', website: tHp ? tHp.value : '' }));
         try{ fetch(tf.getAttribute('data-api'), { method: 'POST', body: body, credentials: 'omit', keepalive: true })['catch'](function(){}); }catch(err){}
       }
-      var lines = AR
-        ? [trial ? 'مرحباً، أريد تجربة مجانية.' : mode === 'renew' ? 'مرحباً، أريد تجديد اشتراكي.' : 'مرحباً، أريد الاشتراك.']
-          .concat(mode === 'renew' ? ['اسم المستخدم: ' + u] : [], ['الاسم: ' + n, 'الدولة: ' + lbl(tCountry)], mode === 'renew' ? [] : ['واتساب: +' + fullPhone()],
-                  mode === 'renew' ? ['السيرفر: ' + lbl(tPlan), 'المدة: ' + lbl(tPeriod)] : ['الباقة: ' + lbl(tPlan), (devList().length > 1 ? 'الأجهزة: ' : 'الجهاز: ') + devList().map(lbl).join('، ')], mode !== 'trial' ? ['الدفع: ' + lbl(tPay)] : [])
-        : [trial ? "Hi Hossam TV, I'd like a free trial." : mode === 'renew' ? "Hi Hossam TV, I'd like to renew my subscription." : "Hi Hossam TV, I'd like to subscribe."]
-          .concat(mode === 'renew' ? ['Username: ' + u] : [], ['Name: ' + n, 'Country: ' + lbl(tCountry)], mode === 'renew' ? [] : ['WhatsApp: +' + fullPhone()],
-                  mode === 'renew' ? ['Server: ' + lbl(tPlan), 'Period: ' + lbl(tPeriod)] : ['Plan: ' + lbl(tPlan), (devList().length > 1 ? 'Devices: ' : 'Device: ') + devList().map(lbl).join(', ')], mode !== 'trial' ? ['Payment: ' + lbl(tPay)] : []);
-      if(mode === 'subscribe' && tPeriod.value) lines.push((AR ? 'المدة: ' : 'Period: ') + lbl(tPeriod));
-      if(screens() > 1) lines.push((AR ? 'عدد الحسابات: ' : 'Accounts: ') + screens());
-      if(tvCount()) lines.push((AR ? 'شاشات سامسونج / LG: ' : 'Samsung / LG TVs: ') + tvCount());
-      if(totalText) lines.push((AR ? 'الإجمالي التقريبي: ' : 'Approx. total: ') + totalText);
+      /* the WhatsApp message: who, what, how to pay, then the amount line by line */
+      var T2 = function(en, ar){ return AR ? ar : en; };
+      var devs = function(){   /* "3 × Samsung, LG…" instead of the same name three times */
+        var cnt = {}, order = [];
+        devList().forEach(function(sel){ var k = lbl(sel); if(!cnt[k]){ cnt[k] = 0; order.push(k); } cnt[k]++; });
+        return order.map(function(k){ return (cnt[k] > 1 ? cnt[k] + ' × ' : '') + k; }).join(AR ? '، ' : ', ');
+      };
+      var lines = [trial ? T2("Hi Hossam TV, I'd like a free trial.", 'مرحباً، أريد تجربة مجانية.')
+                         : mode === 'renew' ? T2("Hi Hossam TV, I'd like to renew my subscription.", 'مرحباً، أريد تجديد اشتراكي.')
+                         : T2("Hi Hossam TV, I'd like to subscribe.", 'مرحباً، أريد الاشتراك.'), ''];
+      if(mode === 'renew') lines.push(T2('Username: ', 'اسم المستخدم: ') + u);
+      lines.push(T2('Name: ', 'الاسم: ') + n, T2('Country: ', 'الدولة: ') + lbl(tCountry));
+      if(mode !== 'renew') lines.push(T2('WhatsApp: +', 'واتساب: +') + fullPhone());
+      lines.push('');
+      lines.push((mode === 'renew' ? T2('Server: ', 'السيرفر: ') : T2('Plan: ', 'الباقة: ')) + lbl(tPlan));
+      if(!trial && tPeriod.value) lines.push(T2('Period: ', 'المدة: ') + lbl(tPeriod).split(' — ')[0]);
+      if(screens() > 1) lines.push(T2('Accounts: ', 'عدد الحسابات: ') + screens());
+      if(mode !== 'renew' && devList().length) lines.push((devList().length > 1 ? T2('Devices: ', 'الأجهزة: ') : T2('Device: ', 'الجهاز: ')) + devs());
+      if(!trial) lines.push(T2('Payment: ', 'الدفع: ') + lbl(tPay));
+      if(!trial && totalRows.length){
+        lines.push('');
+        totalRows.forEach(function(r){ lines.push(r[0] + ': ' + r[1]); });
+        lines.push('*' + T2('Total', 'الإجمالي') + ': ' + totalSum + '*');
+      }
       var url = 'https://wa.me/' + tf.getAttribute('data-wa') + '?text=' + encodeURIComponent(lines.join('\n'));
       dlg.close();
       var w = window.open(url, '_blank');
