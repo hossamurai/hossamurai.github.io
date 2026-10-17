@@ -4,17 +4,17 @@ PRODID:-//Hossam TV//Matches//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
-UID:e401914245@hossamservices.com
-DTSTAMP:20261018T130000Z
-DTSTART:20261018T130000Z
-DTEND:20261018T150000Z
-SUMMARY:Sidama Coffee – Al Hilal Omdurman (CAF Champions League)
+UID:e401915547@hossamservices.com
+DTSTAMP:20261022T164500Z
+DTSTART:20261022T164500Z
+DTEND:20261022T184500Z
+SUMMARY:Juventus – Stade Rennais (Europa League)
 DESCRIPTION:beIN Sports · Watch live on Hossam TV — hossamservices.com
 URL:https://hossamservices.com/
 BEGIN:VALARM
 TRIGGER:-PT30M
 ACTION:DISPLAY
-DESCRIPTION:Sidama Coffee – Al Hilal Omdurman (CAF Champions League)
+DESCRIPTION:Juventus – Stade Rennais (Europa League)
 END:VALARM
 END:VEVENT
 END:VCALENDAR
