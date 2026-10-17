@@ -57,6 +57,20 @@ def clean_prices(p):
     return out
 
 
+def clean_basketball(lst):
+    """Lebanese league games added through the admin bot: [{home, away, utc, channel}] — checked and trimmed."""
+    out = []
+    for g in lst if isinstance(lst, list) else []:
+        try:
+            utc = datetime.fromisoformat(str(g.get('utc', '')).replace('Z', '+00:00')).astimezone(timezone.utc)
+        except Exception:
+            continue
+        h, a = str(g.get('home', '')).strip()[:40], str(g.get('away', '')).strip()[:40]
+        if h and a:
+            out.append({'home': h, 'away': a, 'utc': utc.strftime('%Y-%m-%dT%H:%M:%SZ'), 'channel': str(g.get('channel', '')).strip()[:40]})
+    return out[:40]
+
+
 def main():
     fx()
     old = {}
@@ -71,7 +85,8 @@ def main():
         print('site-data failed, keeping the old file:', e, file=sys.stderr)
         return
     out = {'channels': d['channels'] if isinstance(d.get('channels'), dict) else old.get('channels', {}),
-           'prices': clean_prices(d.get('prices')) or old.get('prices', {})}
+           'prices': clean_prices(d.get('prices')) or old.get('prices', {}),
+           'basketball': clean_basketball(d.get('basketball')) if 'basketball' in d else old.get('basketball', [])}
     if out == {k: old.get(k) for k in out}:
         print('no change')
         return

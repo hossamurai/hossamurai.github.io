@@ -1341,6 +1341,7 @@ def matches_page(c):
                      t(L('This week’s big matches in your time zone with the channel, last results and league tables.', 'مباريات الأسبوع بتوقيتك والقناة الناقلة، وآخر النتائج وترتيب الدوريات.')))
     body = hero + f'''
 <section class="sec first"><div class="wrap">
+  <a class="bb-cta" href="{c.href('basketball.html')}"><span class="bb-ball" aria-hidden="true">🏀</span><span><b>{t(L('Are you in for basketball?', 'بتحب كرة السلة؟'))}</b><small>{t(L('Lebanese league, NBA, EuroLeague & Lebanon', 'الدوري اللبناني وNBA واليوروليغ ومنتخب لبنان'))}</small></span>{icon('arrow', 'flip')}</a>
   {next_match(c, more=False)}
   {match_links(c)}
   {matches_block(c)}
@@ -2102,6 +2103,65 @@ def lebanese_page(c):
             body)
 
 
+def _basketball_data():
+    import json, os
+    try:
+        with open(os.path.join(os.path.dirname(__file__), '..', 'assets', 'data', 'basketball.json'), encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def basketball_page(c):
+    """Basketball — most Lebanese customers follow it more than football. NBA / EuroLeague / FIBA from
+    assets/data/basketball.json (fetch_basketball.py, every 6 hours); Lebanese league games added through the admin bot (bot.json)."""
+    from datetime import datetime, timedelta, timezone
+    t = c.t
+    now = datetime.now(timezone.utc)
+    d = _basketball_data()
+    soon = lambda u: u > (now - timedelta(hours=3)).strftime('%Y-%m-%dT%H:%M:%SZ')
+    leb = [{'id': 'lb%d' % i, 'utc': g['utc'], 'league': {'en': 'Lebanese League', 'ar': 'الدوري اللبناني'},
+            'home': {'en': g['home'], 'ar': g['home']}, 'away': {'en': g['away'], 'ar': g['away']}, 'channel': g.get('channel', '')}
+           for i, g in enumerate(_bot_data().get('basketball', [])) if soon(g['utc'])]
+    leb.sort(key=lambda e: e['utc'])
+    evs = [e for e in d.get('events', []) if soon(e['utc'])]
+    is_lb = lambda e: 'lebanon' in (e['home']['en'] + e['away']['en']).lower()
+    def rows(lst, limit=0):
+        out = []
+        for e in lst[:limit or None]:
+            ch = f' · {e["channel"]}' if e.get('channel') else ''
+            out.append(f'<li><div>{_mt_row(c, e)}<small>{_when_html(c, e["utc"])}{ch}</small></div></li>')
+        return ''.join(out)
+    def block(title, lst, limit=0, empty=''):
+        if not lst and not empty:
+            return ''
+        inner = f'<ul class="lg-list">{rows(lst, limit)}</ul>' if lst else f'<p class="matches-note">{empty}</p>'
+        return f'<h2 class="st-h">{title}</h2>{inner}'
+    res = d.get('results', [])
+    res_html = ''.join(f'<li><div>{_mt_row(c, r, r)}<small>{t(L(r["league"]["en"], r["league"]["ar"]))}</small></div></li>' for r in res[:8])
+    hero = page_hero(c, [(c.href('matches.html'), t(L('Matches', 'المباريات'))), (None, t(L('Basketball', 'كرة السلة')))],
+                     t(L('Basketball — Lebanon, NBA & EuroLeague', 'كرة السلة — لبنان وNBA واليوروليغ')),
+                     t(L('The Lebanese league, Lebanon’s national team, the NBA and EuroLeague — kick-off times in your time zone.',
+                         'الدوري اللبناني ومنتخب لبنان والـNBA واليوروليغ — المواعيد بتوقيتك.')))
+    body = hero + f'''
+<section class="sec first"><div class="wrap">
+  {block(t(L('Lebanese league', 'الدوري اللبناني')), leb, 0, t(L('The next big Lebanese league games show here as soon as they are scheduled.', 'مباريات الدوري اللبناني الكبيرة تظهر هنا فور تحديد مواعيدها.')))}
+  {block(t(L('Lebanon national team', 'منتخب لبنان')), [e for e in evs if e.get('code') == 'fiba' and is_lb(e)])}
+  {block('NBA', [e for e in evs if e.get('code') == 'nba'], 24)}
+  {block(t(L('EuroLeague', 'اليوروليغ')), [e for e in evs if e.get('code') == 'euroleague'], 12)}
+  {block(t(L('FIBA — national teams', 'فيبا — المنتخبات')), [e for e in evs if e.get('code') == 'fiba' and not is_lb(e)], 12)}
+  {f'<h2 class="st-h">{t(L("Last results", "آخر النتائج"))}</h2><ul class="lg-list">{res_html}</ul>' if res_html else ''}
+  <p class="matches-note">{t(L('Updated automatically every few hours. Times can change — check closer to tip-off.', 'يتم التحديث تلقائياً كل بضع ساعات. المواعيد قد تتغير — راجعها قبل المباراة.'))}</p>
+  <div class="more-link"><a class="link-arrow" href="{c.href('matches.html')}">{t(L('Football matches', 'مباريات كرة القدم'))}{icon('arrow', 'flip')}</a></div>
+</div></section>
+{LOCAL_TIME_JS}
+''' + cta_block(c)
+    return (t(L('Basketball — Lebanon, NBA & EuroLeague Times', 'كرة السلة — مواعيد لبنان وNBA واليوروليغ')),
+            t(L('Lebanese league, Lebanon national team, NBA and EuroLeague games in your time zone — watch live with Hossam TV in Canada and the USA.',
+                'مباريات الدوري اللبناني ومنتخب لبنان والـNBA واليوروليغ بتوقيتك — شاهدها مباشرة مع Hossam TV في كندا وأمريكا.')),
+            body)
+
+
 PAGE_BUILDERS = [
     ('home', 'index.html', 'home', home),
     ('plans', 'plans.html', 'plans', plans),
@@ -2111,6 +2171,7 @@ PAGE_BUILDERS = [
     ('fix', 'fix.html', 'fix', fix_page),
     ('pay', 'pay.html', None, pay_page),
     ('lebanon', 'lebanese-tv-canada.html', None, lebanese_page),
+    ('basketball', 'basketball.html', 'matches', basketball_page),
     ('about', 'about.html', 'about', about),
     ('policies', 'policies.html', None, policies),
 ]

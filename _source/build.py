@@ -166,7 +166,7 @@ def footer(c):
     """Compact footer: name + WhatsApp, one line of links, the country pages (for Google), policies and the language."""
     t = c.t
     links = [('plans.html', L('Plans', 'الباقات')), ('channels.html', L('Channels', 'القنوات')), ('setup/index.html', L('Setup', 'التثبيت')),
-             ('matches.html', L('Matches', 'المباريات')), ('ramadan-series.html', L('Ramadan', 'رمضان')), ('speed-test.html', L('Speed test', 'اختبار السرعة')),
+             ('matches.html', L('Matches', 'المباريات')), ('basketball.html', L('Basketball', 'كرة السلة')), ('ramadan-series.html', L('Ramadan', 'رمضان')), ('speed-test.html', L('Speed test', 'اختبار السرعة')),
              ('help.html', L('FAQ', 'الأسئلة الشائعة')), ('about.html', L('About', 'من نحن'))]
     nav = ''.join(f'<a href="{c.href(h)}">{t(lbl)}</a>' for h, lbl in links)
     pol = [('policies.html#terms', L('Terms', 'الشروط')), ('policies.html#refund', L('Refunds', 'الاسترجاع')), ('policies.html#privacy', L('Privacy', 'الخصوصية'))]

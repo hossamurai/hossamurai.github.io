@@ -29,6 +29,9 @@ jobs:
         run: python3 _source/matches/fetch_matches.py
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}   # Hossam's ntfy topic: a phone alert when a match source fails twice in a row
+      - name: Fetch basketball (NBA, EuroLeague, FIBA)
+        run: cd _source/matches && python3 fetch_basketball.py
+        continue-on-error: true
       - name: Fetch league tables
         run: cd _source/matches && python3 fetch_standings.py
         continue-on-error: true
