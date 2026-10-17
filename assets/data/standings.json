@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-17T15:16:03Z",
+ "updated": "2026-10-17T15:39:04Z",
  "leagues": [
   {
    "id": "egy",
@@ -379,21 +379,21 @@
    "rows": [
     {
      "rank": 1,
+     "en": "Dortmund",
+     "p": 6,
+     "gd": "+7",
+     "pts": 14,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/124.png&w=80&h=80",
+     "ar": "بوروسيا دورتموند"
+    },
+    {
+     "rank": 2,
      "en": "Freiburg",
      "p": 5,
      "gd": "+10",
      "pts": 13,
      "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/126.png&w=80&h=80",
      "ar": "فرايبورغ"
-    },
-    {
-     "rank": 2,
-     "en": "Dortmund",
-     "p": 5,
-     "gd": "+7",
-     "pts": 13,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/124.png&w=80&h=80",
-     "ar": "بوروسيا دورتموند"
     },
     {
      "rank": 3,
@@ -415,21 +415,21 @@
     },
     {
      "rank": 5,
-     "en": "RB Leipzig",
-     "p": 5,
-     "gd": "+10",
-     "pts": 9,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/11420.png&w=80&h=80",
-     "ar": "لايبزيغ"
+     "en": "Mainz",
+     "p": 6,
+     "gd": "+4",
+     "pts": 10,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2950.png&w=80&h=80",
+     "ar": "ماينز"
     },
     {
      "rank": 6,
-     "en": "Augsburg",
-     "p": 5,
-     "gd": "+5",
-     "pts": 8,
-     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/3841.png&w=80&h=80",
-     "ar": "أوغسبورغ"
+     "en": "Elversberg",
+     "p": 6,
+     "gd": "+1",
+     "pts": 10,
+     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/10388.png&w=80&h=80",
+     "ar": "SV Elversberg"
     }
    ]
   },

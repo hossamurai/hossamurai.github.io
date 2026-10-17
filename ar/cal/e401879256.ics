@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Hossam TV//Matches//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:e401879256@hossamservices.com
+DTSTAMP:20261024T113000Z
+DTSTART:20261024T113000Z
+DTEND:20261024T133000Z
+SUMMARY:أستون فيلا – مانشستر سيتي (الدوري الإنجليزي)
+DESCRIPTION:بي إن سبورت · شاهدها مباشرة على Hossam TV — hossamservices.com
+URL:https://hossamservices.com/
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:أستون فيلا – مانشستر سيتي (الدوري الإنجليزي)
+END:VALARM
+END:VEVENT
+END:VCALENDAR
