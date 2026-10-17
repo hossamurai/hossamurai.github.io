@@ -2027,6 +2027,26 @@ def fix_page(c):
             body)
 
 
+def pay_page(c):
+    # private payment details: only the encrypted copy is in the repo (_source/pay/pay.json);
+    # the key is the part of the link after # (never sent to any server), assets/pay.js unlocks it
+    import json, html as _h
+    t = c.t
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pay', 'pay.json')
+    data = json.load(open(f, encoding='utf-8'))
+    blob = _h.escape(json.dumps({'iter': data['iter'], 'salt': data['salt'], **data[c.lang]}), quote=True)
+    body = f'''<section class="sec first"><div class="wrap pk">
+  <h1 class="h2">{t(L('Payment details', 'تفاصيل الدفع'))}</h1>
+  <p class="pk-wait" data-pk-wait>{t(L('Unlocking…', 'جارٍ الفتح…'))}</p>
+  <p class="pk-bad" data-pk-bad hidden>{icon('warn')}<span>{t(L('This link is invalid. Ask us on WhatsApp for the right one.', 'هذا الرابط غير صالح. اطلب الرابط الصحيح منا على واتساب.'))}</span></p>
+  <div class="pk-list" data-pk data-blob="{blob}"></div>
+  <div class="pk-foot" data-pk-foot hidden><p>{icon('receipt')}<span>{t(L('After paying, send a <b>clear screenshot of the receipt</b> on WhatsApp.', 'بعد الدفع، أرسل <b>صورة واضحة للإيصال</b> على واتساب.'))}</span></p>
+    <a class="btn btn-wa" href="{wa(t(L("Hi, I paid. Here's the receipt:", 'مرحباً، تم الدفع. هذا هو الإيصال:')))}" target="_blank" rel="noopener">{icon('chat')}<span>{t(L('Send the receipt', 'أرسل الإيصال'))}</span></a></div>
+</div></section>
+<script src="{c.root}assets/pay.js" defer></script>'''
+    return (t(L('Payment details', 'تفاصيل الدفع')), t(L('Tap to see how to pay.', 'اضغط لمعرفة طرق الدفع.')), body)
+
+
 PAGE_BUILDERS = [
     ('home', 'index.html', 'home', home),
     ('plans', 'plans.html', 'plans', plans),
@@ -2034,6 +2054,7 @@ PAGE_BUILDERS = [
     ('setup', 'setup/index.html', 'setup', setup_index),
     ('help', 'help.html', 'help', help_page),
     ('fix', 'fix.html', 'fix', fix_page),
+    ('pay', 'pay.html', None, pay_page),
     ('about', 'about.html', 'about', about),
     ('policies', 'policies.html', None, policies),
 ]
