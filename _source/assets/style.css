@@ -1598,9 +1598,10 @@ html[lang="ar"] .pk-row > b[dir="ltr"]{text-align:right}
 .pk-go{margin-top:12px;width:100%;justify-content:center}
 .pk-big{background:var(--red);border-color:var(--red);color:#fff!important;font-size:1.05rem;padding:16px 20px;margin:6px 0 4px}
 .pk-big:hover{background:#c40d17;border-color:#c40d17}
-.pk-foot{margin-top:18px;display:grid;gap:12px}
-.pk-foot p{display:flex;gap:8px;align-items:flex-start;margin:0;font-size:.9rem}
-.pk-foot .ic{flex:none;margin-top:2px}
+.pk-foot{margin-top:16px;display:flex;gap:12px;align-items:center;padding:16px;border-radius:16px;background:var(--red);color:#fff;box-shadow:0 6px 18px rgba(227,16,27,.25)}
+.pk-foot p{margin:0;font-size:1rem;font-weight:600;line-height:1.45}
+.pk-foot b{font-weight:800}
+.pk-foot .ic{flex:none;width:28px;height:28px}
 @media (prefers-color-scheme:dark){
   .pk-bad{background:rgba(227,16,27,.12);border-color:rgba(227,16,27,.35)}
   .pk-note.warn{background:rgba(245,180,0,.1)}

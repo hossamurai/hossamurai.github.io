@@ -2040,8 +2040,7 @@ def pay_page(c):
   <p class="pk-wait" data-pk-wait>{t(L('Unlocking…', 'جارٍ الفتح…'))}</p>
   <p class="pk-bad" data-pk-bad hidden>{icon('warn')}<span>{t(L('This link is invalid. Ask us on WhatsApp for the right one.', 'هذا الرابط غير صالح. اطلب الرابط الصحيح منا على واتساب.'))}</span></p>
   <div class="pk-list" data-pk data-blob="{blob}"></div>
-  <div class="pk-foot" data-pk-foot hidden><p>{icon('receipt')}<span>{t(L('After paying, send a <b>clear screenshot of the receipt</b> on WhatsApp.', 'بعد الدفع، أرسل <b>صورة واضحة للإيصال</b> على واتساب.'))}</span></p>
-    <a class="btn btn-wa" href="{wa(t(L("Hi, I paid. Here's the receipt:", 'مرحباً، تم الدفع. هذا هو الإيصال:')))}" target="_blank" rel="noopener">{icon('chat')}<span>{t(L('Send the receipt', 'أرسل الإيصال'))}</span></a></div>
+  <div class="pk-foot" data-pk-foot hidden>{icon('receipt')}<p>{t(L('After paying, send a <b>clear screenshot of the receipt</b> on WhatsApp.', 'بعد الدفع، أرسل <b>صورة واضحة للإيصال</b> على واتساب.'))}</p></div>
 </div></section>
 <script src="{c.root}assets/pay.js" defer></script>'''
     return (t(L('Payment details', 'تفاصيل الدفع')), t(L('Tap to see how to pay.', 'اضغط لمعرفة طرق الدفع.')), body)
