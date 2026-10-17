@@ -1,0 +1,38 @@
+name: probe
+on:
+  push:
+    branches: [claude/server-hosts-manual-apps-vgx26g]
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36'
+          echo "== ESPN all"
+          curl -s "https://site.api.espn.com/apis/site/v2/sports/soccer/all/scoreboard?dates=20261017" | python3 -c "
+          import json,sys
+          try: d=json.load(sys.stdin)
+          except Exception as e: print('bad',e); sys.exit()
+          ev=d.get('events',[]); print('events',len(ev))
+          for e in ev:
+            if any(k in e['name'] for k in ['Ahly','Zamalek','Pyramids','Lebanon','Egypt','Nejmeh','Ansar','Ahed']): print(e['date'],e['name'],e.get('season',{}).get('slug'), [l.get('slug') for l in d.get('leagues',[])][:0])
+          print(sorted({(e.get('competitions',[{}])[0].get('league',{}) or {}).get('slug','?') for e in ev})[:80])"
+          for lg in afc.champions afc.cup afc.challenge afc.asian.cup afc.cupq fifa.worldq.afc fifa.arab lbn.1 egy.cup egy.super_cup caf.super_cup fifa.cwc arab.champions uafa.champions; do
+            printf "%s " $lg; curl -s -o /tmp/x -w '%{http_code} ' "https://site.api.espn.com/apis/site/v2/sports/soccer/$lg/scoreboard"; python3 -c "
+          import json
+          try:
+            d=json.load(open('/tmp/x')); print(d.get('leagues',[{}])[0].get('name'), len(d.get('events',[])))
+          except Exception as e: print('-')"
+          done
+          echo "== filgoal"; curl -s -A "$UA" 'https://www.filgoal.com/matches/?date=2026-10-17' -o /tmp/fg.html -w '%{http_code}\n'; python3 - <<'PY'
+          import re
+          h=open('/tmp/fg.html',encoding='utf-8',errors='ignore').read()
+          b=h.split('<div class="cin_cntnr"')
+          print('blocks',len(b)-1)
+          i=h.find('cin_cntnr'); print(re.sub(r'\s+',' ',h[max(0,i-1500):i+2500]))
+          PY
+          echo "== kooora"; curl -s -A "$UA" 'https://www.kooora.com/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85/%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%8A%D9%88%D9%85?date=2026-10-18' -o /tmp/ko.html -w '%{http_code}\n'; python3 -c "
+          import re;h=open('/tmp/ko.html',encoding='utf-8',errors='ignore').read();print(len(h), h.count('fco-match-list-item'));print(re.findall(r'fco-competition[^>]*>[^<]{0,80}',h)[:15]); print(re.findall(r'date=[0-9-]+',h)[:5])"
+          echo "== sofascore"; curl -s -A "$UA" 'https://api.sofascore.com/api/v1/sport/football/scheduled-events/2026-10-17' -o /tmp/ss.json -w '%{http_code}\n'; head -c 300 /tmp/ss.json; echo
+          echo "== sportsdb"; curl -s -o /dev/null -w '%{http_code}\n' 'https://www.thesportsdb.com/api/v1/json/3/eventsnextleague.php?id=4829'
+          curl -s -o /dev/null -w '%{http_code}\n' 'https://www.thesportsdb.com/api/v1/json/123/eventsnextleague.php?id=4829'
