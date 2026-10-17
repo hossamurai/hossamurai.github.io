@@ -1596,8 +1596,13 @@ html[lang="ar"] .pk-row > b[dir="ltr"]{text-align:right}
 .pk-note{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:var(--surface-2);font-size:.88rem}
 .pk-note.warn{background:#fff8e6}
 .pk-go{margin-top:12px;width:100%;justify-content:center}
-.pk-big{background:var(--red);border-color:var(--red);color:#fff!important;font-size:1.05rem;padding:16px 20px;margin:6px 0 4px}
-.pk-big:hover{background:#c40d17;border-color:#c40d17}
+.pk-big{background:var(--ink);border-color:var(--ink);color:#fff;font-size:1.05rem;padding:16px 20px;margin:6px 0 4px}
+.pk-big:hover{background:#2c271f}
+/* pay buttons pulse softly so they read as tappable */
+.pk-go{animation:pkPulse 2s ease-out infinite}
+@keyframes pkPulse{0%{box-shadow:0 0 0 0 rgba(29,29,31,.35)}70%{box-shadow:0 0 0 10px rgba(29,29,31,0)}100%{box-shadow:0 0 0 0 rgba(29,29,31,0)}}
+@keyframes pkPulseDk{0%{box-shadow:0 0 0 0 rgba(245,245,247,.4)}70%{box-shadow:0 0 0 10px rgba(245,245,247,0)}100%{box-shadow:0 0 0 0 rgba(245,245,247,0)}}
+@media (prefers-reduced-motion:reduce){.pk-go{animation:none}}
 .pk-foot{margin-top:16px;display:flex;gap:12px;align-items:center;padding:16px;border-radius:16px;background:var(--red);color:#fff;box-shadow:0 6px 18px rgba(227,16,27,.25)}
 .pk-foot p{margin:0;font-size:1rem;font-weight:600;line-height:1.45}
 .pk-foot b{font-weight:800}
@@ -1606,5 +1611,7 @@ html[lang="ar"] .pk-row > b[dir="ltr"]{text-align:right}
   .pk-bad{background:rgba(227,16,27,.12);border-color:rgba(227,16,27,.35)}
   .pk-note.warn{background:rgba(245,180,0,.1)}
   .pk-hl{background:rgba(227,16,27,.12);border-color:rgba(227,16,27,.35)}
+  .pk-big{color:#000!important}.pk-big:hover{background:#fff}
+  .pk-go{animation-name:pkPulseDk}
   .pk-hl b{color:#ff6b72}
 }
