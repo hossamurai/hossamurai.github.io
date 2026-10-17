@@ -1596,6 +1596,8 @@ html[lang="ar"] .pk-row > b[dir="ltr"]{text-align:right}
 .pk-note{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:var(--surface-2);font-size:.88rem}
 .pk-note.warn{background:#fff8e6}
 .pk-go{margin-top:12px;width:100%;justify-content:center}
+.pk-big{background:var(--red);border-color:var(--red);color:#fff!important;font-size:1.05rem;padding:16px 20px;margin:6px 0 4px}
+.pk-big:hover{background:#c40d17;border-color:#c40d17}
 .pk-foot{margin-top:18px;display:grid;gap:12px}
 .pk-foot p{display:flex;gap:8px;align-items:flex-start;margin:0;font-size:.9rem}
 .pk-foot .ic{flex:none;margin-top:2px}
