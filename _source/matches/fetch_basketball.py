@@ -7,7 +7,7 @@ Sources:
 Output: assets/data/basketball.json — {updated, events: [...], results: [...]} in the same shape as matches.json.
 A source that is down keeps its games from the previous file.
 """
-import json, os, sys
+import json, os, sys, time
 from datetime import datetime, timedelta, timezone
 
 from fetch_matches import get, small_logo   # same polite fetcher and badge resizer as the football matches
@@ -69,6 +69,7 @@ def main():
     espn('fiba', FIBA_DAYS, lambda h, a: True)
 
     def sportsdb(lid, code):
+        time.sleep(3)   # the free key allows a few calls a second; the football fetcher has just used it
         nxt = get(f'https://www.thesportsdb.com/api/v1/json/123/eventsnextleague.php?id={lid}')
         past = get(f'https://www.thesportsdb.com/api/v1/json/123/eventspastleague.php?id={lid}')
         if nxt is None and past is None:
@@ -79,10 +80,13 @@ def main():
         if first.get('intRound') and first.get('strSeason'):
             evs = []
             for r in (int(first['intRound']), int(first['intRound']) + 1):
+                time.sleep(2)
                 d = get(f'https://www.thesportsdb.com/api/v1/json/123/eventsround.php?id={lid}&r={r}&s={first["strSeason"]}')
                 evs += (d or {}).get('events') or []
             if evs:
                 nxt = {'events': evs}
+            else:
+                ok.discard(code)   # the round didn't come through: keep the last full list below
         for src, done in ((nxt, False), (past, True)):
             for ev in (src or {}).get('events') or []:
                 ts = ev.get('strTimestamp') or ((ev.get('dateEvent') or '') + 'T' + (ev.get('strTime') or '00:00:00'))
