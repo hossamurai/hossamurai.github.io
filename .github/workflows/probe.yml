@@ -6,13 +6,12 @@ jobs:
   p:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - run: |
-          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36'
-          for u in 'https://basketball.asia-basket.com/Lebanon/basketball.aspx' 'https://www.asia-basket.com/Lebanon/basketball.aspx' 'https://basketball.asia-basket.com/Lebanon/basketball-Schedule.aspx'; do
-            echo "== $u"; curl -s -L -A "$UA" "$u" -o /tmp/a.html -w '%{http_code} %{url_effective}\n'; python3 -c "
-          import re;h=open('/tmp/a.html',encoding='utf-8',errors='ignore').read();print(len(h)); t=re.sub(r'<[^>]+>',' ',h); t=re.sub(r'\s+',' ',t); i=t.find('Riyadi'); print(t[max(0,i-600):i+900])"
-          done
-          echo "== sportsdb teams"
-          for q in 'Al Riyadi' 'Sagesse' 'Beirut Club' 'Lebanon'; do curl -s "https://www.thesportsdb.com/api/v1/json/123/searchteams.php?t=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$q")" | python3 -c "import json,sys;[print(t['idTeam'],t['strTeam'],t['strSport'],t.get('strLeague'),t.get('idLeague')) for t in (json.load(sys.stdin).get('teams') or [])]"; done
-          echo "== filgoal basketball"; curl -s -A "$UA" 'https://www.filgoal.com/matches/?date=2026-10-17&sport=2' -o /tmp/f.html -w '%{http_code}\n'; grep -o 'كرة السلة[^<]\{0,40\}' /tmp/f.html | head -5
-          echo "== espn fiba dates"; for d in 20261120 20261123 20261127 20261130; do curl -s "https://site.api.espn.com/apis/site/v2/sports/basketball/fiba/scoreboard?dates=$d" | python3 -c "import json,sys;d=json.load(sys.stdin);print([(e['date'],e['name']) for e in d.get('events',[])][:6])"; done
+          cd _source/matches && python3 fetch_basketball.py && cd ../..
+          python3 -c "
+          import json;d=json.load(open('assets/data/basketball.json'))
+          from collections import Counter;print(Counter(e['code'] for e in d['events']))
+          for e in d['events'][:6]+[e for e in d['events'] if e['code']!='nba'][:8]: print(e['utc'],e['code'],e['home']['en'],'v',e['away']['en'], bool(e['home']['logo']))
+          for r in d['results'][:5]: print('R',r['league']['en'],r['home']['en'],r['hs'],'-',r['as'],r['away']['en'])"
+          base64 -w0 assets/data/basketball.json | head -c 60000 > /tmp/b64; echo; echo B64START; cat /tmp/b64; echo; echo B64END
