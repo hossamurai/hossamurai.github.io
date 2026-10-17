@@ -1513,7 +1513,7 @@ def speed_page(c):
     <p class="st-wifi" role="note">{icon('wifi')}<span>{t(L('Test on the <b>same Wi-Fi as your TV</b>', 'اختبر على <b>نفس واي فاي الشاشة</b>'))}</span></p>
     <div class="st-dial">
       {gauge}
-      <button type="button" class="st-go" data-st-start aria-label="{t(L('Start the speed test', 'ابدأ اختبار السرعة'))}"><img src="{c.root}assets/img/go.webp" alt="" width="118" height="118"></button>
+      <button type="button" class="st-go" data-st-start aria-label="{t(L('Start the speed test', 'ابدأ اختبار السرعة'))}"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M32 18.5c0-6 6.5-9.8 11.7-6.8l40.6 23.5c5.2 3 5.2 10.6 0 13.6L43.7 82.3C38.5 85.3 32 81.5 32 75.5z"/></svg></button>
       <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
     </div>
     <label class="st-name"><span>{t(L('Your name', 'اسمك'))}</span>
