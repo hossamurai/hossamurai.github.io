@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Hossam TV//Matches//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:e401874948@hossamservices.com
+DTSTAMP:20261024T160000Z
+DTSTART:20261024T160000Z
+DTEND:20261024T180000Z
+SUMMARY:نابولي – روما (الدوري الإيطالي)
+DESCRIPTION:بي إن سبورت · شاهدها مباشرة على Hossam TV — hossamservices.com
+URL:https://hossamservices.com/
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:نابولي – روما (الدوري الإيطالي)
+END:VALARM
+END:VEVENT
+END:VCALENDAR
