@@ -1556,3 +1556,33 @@ footer.site-compact{padding:24px 0 18px}
   table.cmp th,table.cmp td{border-color:var(--line)}
   .theme-btn .i-moon{display:none}.theme-btn .i-sun{display:block}
 }
+
+/* private payment page (pay.html, unlocked by assets/pay.js) */
+.pk{max-width:640px}
+.pk-wait{color:var(--muted)}
+.pk-wait[hidden],.pk-bad[hidden],.pk-foot[hidden]{display:none}
+.pk-bad{display:flex;gap:8px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:#fff4f4;border:.5px solid #f5c9cb}
+.pk-bad .ic{flex:none;color:var(--red);margin-top:2px}
+.pk-list{display:grid;gap:14px;margin-top:8px}
+.pk-card{background:var(--surface);border:.5px solid var(--line);border-radius:var(--radius);padding:18px 18px 16px}
+.pk-card h2{display:flex;align-items:center;gap:10px;font-size:1.15rem;font-weight:800;margin:0 0 4px}
+.pk-card h3{font-size:.95rem;font-weight:800;margin:14px 0 2px}
+.pk-card h2 + h3{margin-top:6px}
+.pk-sub{color:var(--muted);font-size:.86rem;margin:0 0 8px}
+.pk-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:.5px solid var(--line)}
+.pk-row:last-of-type{border-bottom:0}
+.pk-row > span{color:var(--muted);font-size:.86rem;flex:none;min-width:96px}
+.pk-row > b{flex:1;font-weight:700;overflow-wrap:anywhere;text-align:start}
+.pk-copy{flex:none;width:34px;height:34px;border-radius:999px;border:.5px solid var(--line-2);background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0}
+.pk-copy .ic{width:16px;height:16px}
+.pk-copy:active{background:var(--surface-2)}
+.pk-note{margin:10px 0 0;padding:10px 12px;border-radius:12px;background:var(--surface-2);font-size:.88rem}
+.pk-note.warn{background:#fff8e6}
+.pk-go{margin-top:12px;width:100%;justify-content:center}
+.pk-foot{margin-top:18px;display:grid;gap:12px}
+.pk-foot p{display:flex;gap:8px;align-items:flex-start;margin:0;font-size:.9rem}
+.pk-foot .ic{flex:none;margin-top:2px}
+@media (prefers-color-scheme:dark){
+  .pk-bad{background:rgba(227,16,27,.12);border-color:rgba(227,16,27,.35)}
+  .pk-note.warn{background:rgba(245,180,0,.1)}
+}

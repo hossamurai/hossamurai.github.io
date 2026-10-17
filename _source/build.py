@@ -188,7 +188,7 @@ def footer(c):
 </footer>'''
 
 
-NOINDEX = set()   # pages kept out of search results
+NOINDEX = {'pay.html'}   # pages kept out of search results (pay.html: private, link-only)
 
 
 def layout(c, title, desc, body):
@@ -394,6 +394,15 @@ def main():
     write('help.html', root_index().replace("l + '/index.html'", "l + '/fix.html'")
           .replace('href="ar/index.html"', 'href="ar/fix.html"').replace('href="en/index.html"', 'href="en/fix.html"')
           .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1))
+    # private payment page short link: hossamservices.com/pay#key -> /en/ or /ar/pay.html#key (the key stays after #)
+    # its own title/description so the WhatsApp preview reads "Payment details", not the home page
+    write('pay.html', root_index().replace("l + '/index.html'", "l + '/pay.html'")
+          .replace('href="ar/index.html"', 'href="ar/pay.html"').replace('href="en/index.html"', 'href="en/pay.html"')
+          .replace('<head>', '<head>\n<meta name="robots" content="noindex">', 1)
+          .replace(f'<title>{SITE_NAME} — Live Sports, Movies &amp; Series | مباريات وأفلام ومسلسلات</title>', f'<title>{SITE_NAME} — Payment details | تفاصيل الدفع</title>')
+          .replace(f'<meta property="og:title" content="{SITE_NAME} — Live Sports, Movies &amp; Series in 4K">', f'<meta property="og:title" content="{SITE_NAME} — Payment details">')
+          .replace('content="Live sports, movies and series on any screen, up to 4K. Free trial on WhatsApp. | مباريات وأفلام ومسلسلات على أي شاشة. تجربة مجانية عبر واتساب.">', 'content="Tap to see how to pay. | اضغط لمعرفة طرق الدفع.">')
+          .replace(f'<meta property="og:url" content="{BASE_URL}/">', f'<meta property="og:url" content="{BASE_URL}/pay">'))
     write('404.html', page_404())
     write('sitemap.xml', sitemap([p for _, p, _, _ in pages if p not in NOINDEX]))
     write('robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {BASE_URL}/sitemap.xml\n')
