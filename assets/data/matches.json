@@ -1,91 +1,10 @@
 {
- "updated": "2026-10-17T04:30:10Z",
+ "updated": "2026-10-17T15:05:08Z",
  "events": [
-  {
-   "id": "e401878771",
-   "utc": "2026-10-17T11:30:00Z",
-   "live": false,
-   "code": "eng.1",
-   "espn": "401878771",
-   "league": {
-    "en": "Premier League",
-    "ar": "الدوري الإنجليزي"
-   },
-   "home": {
-    "en": "Everton",
-    "ar": "إيفرتون",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/368.png&w=80&h=80"
-   },
-   "away": {
-    "en": "Chelsea",
-    "ar": "تشيلسي",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/363.png&w=80&h=80"
-   },
-   "channel": {
-    "en": "beIN Sports 1",
-    "ar": "بي إن سبورت 1",
-    "exact": true
-   },
-   "top": false
-  },
-  {
-   "id": "e401882843",
-   "utc": "2026-10-17T12:00:00Z",
-   "live": false,
-   "code": "esp.1",
-   "espn": "401882843",
-   "league": {
-    "en": "La Liga",
-    "ar": "الدوري الإسباني"
-   },
-   "home": {
-    "en": "Espanyol",
-    "ar": "إسبانيول",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/88.png&w=80&h=80"
-   },
-   "away": {
-    "en": "Atlético Madrid",
-    "ar": "أتلتيكو مدريد",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/1068.png&w=80&h=80"
-   },
-   "channel": {
-    "en": "beIN Sports 2",
-    "ar": "بي إن سبورت 2",
-    "exact": true
-   },
-   "top": false
-  },
-  {
-   "id": "e401874760",
-   "utc": "2026-10-17T13:00:00Z",
-   "live": false,
-   "code": "ita.1",
-   "espn": "401874760",
-   "league": {
-    "en": "Serie A",
-    "ar": "الدوري الإيطالي"
-   },
-   "home": {
-    "en": "Venezia",
-    "ar": "فينيسيا",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/17530.png&w=80&h=80"
-   },
-   "away": {
-    "en": "Napoli",
-    "ar": "نابولي",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/114.png&w=80&h=80"
-   },
-   "channel": {
-    "en": "stc tv",
-    "ar": "stc tv",
-    "exact": true
-   },
-   "top": false
-  },
   {
    "id": "e401884769",
    "utc": "2026-10-17T13:30:00Z",
-   "live": false,
+   "live": true,
    "code": "ger.1",
    "espn": "401884769",
    "league": {
@@ -112,7 +31,7 @@
   {
    "id": "e401879262",
    "utc": "2026-10-17T14:00:00Z",
-   "live": false,
+   "live": true,
    "code": "eng.1",
    "espn": "401879262",
    "league": {
@@ -139,7 +58,7 @@
   {
    "id": "e401879259",
    "utc": "2026-10-17T14:00:00Z",
-   "live": false,
+   "live": true,
    "code": "eng.1",
    "espn": "401879259",
    "league": {
@@ -770,6 +689,32 @@
    "top": false
   },
   {
+   "id": "e401915395",
+   "utc": "2026-10-21T16:45:00Z",
+   "live": false,
+   "code": "uefa.champions",
+   "espn": "401915395",
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Como",
+    "ar": "كومو",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2572.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Manchester United",
+    "ar": "مانشستر يونايتد",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/360.png&w=80&h=80"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   },
+   "top": false
+  },
+  {
    "id": "e401915312",
    "utc": "2026-10-21T19:00:00Z",
    "live": false,
@@ -794,9 +739,145 @@
     "ar": "بي إن سبورت"
    },
    "top": true
+  },
+  {
+   "id": "e401915390",
+   "utc": "2026-10-21T19:00:00Z",
+   "live": false,
+   "code": "uefa.champions",
+   "espn": "401915390",
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Internazionale",
+    "ar": "إنتر ميلان",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/110.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Shakhtar Donetsk",
+    "ar": "شاختار",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/493.png&w=80&h=80"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   },
+   "top": false
+  },
+  {
+   "id": "e401915313",
+   "utc": "2026-10-21T19:00:00Z",
+   "live": false,
+   "code": "uefa.champions",
+   "espn": "401915313",
+   "league": {
+    "en": "Champions League",
+    "ar": "دوري أبطال أوروبا"
+   },
+   "home": {
+    "en": "Real Madrid",
+    "ar": "ريال مدريد",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/86.png&w=80&h=80"
+   },
+   "away": {
+    "en": "RB Leipzig",
+    "ar": "لايبزيغ",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/11420.png&w=80&h=80"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   },
+   "top": false
   }
  ],
  "results": [
+  {
+   "id": "e401874760",
+   "utc": "2026-10-17T13:00:00Z",
+   "league": {
+    "en": "Serie A",
+    "ar": "الدوري الإيطالي"
+   },
+   "home": {
+    "en": "Venezia",
+    "ar": "فينيسيا",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/17530.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Napoli",
+    "ar": "نابولي",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/114.png&w=80&h=80"
+   },
+   "hs": 1,
+   "as": 0,
+   "top": false
+  },
+  {
+   "id": "e401882843",
+   "utc": "2026-10-17T12:00:00Z",
+   "league": {
+    "en": "La Liga",
+    "ar": "الدوري الإسباني"
+   },
+   "home": {
+    "en": "Espanyol",
+    "ar": "إسبانيول",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/88.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Atlético Madrid",
+    "ar": "أتلتيكو مدريد",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/1068.png&w=80&h=80"
+   },
+   "hs": 0,
+   "as": 1,
+   "top": false
+  },
+  {
+   "id": "e401878771",
+   "utc": "2026-10-17T11:30:00Z",
+   "league": {
+    "en": "Premier League",
+    "ar": "الدوري الإنجليزي"
+   },
+   "home": {
+    "en": "Everton",
+    "ar": "إيفرتون",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/368.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Chelsea",
+    "ar": "تشيلسي",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/363.png&w=80&h=80"
+   },
+   "hs": 0,
+   "as": 2,
+   "top": false
+  },
+  {
+   "id": "e401912479",
+   "utc": "2026-10-16T17:00:00Z",
+   "league": {
+    "en": "CAF Confederation Cup",
+    "ar": "كأس الكونفدرالية الأفريقية"
+   },
+   "home": {
+    "en": "Welwalo Adigrat",
+    "ar": "Welwalo Adigrat",
+    "logo": "https://upload.wikimedia.org/wikipedia/en/2/2c/Welwalo_Adigrat_University_FC_logo.png"
+   },
+   "away": {
+    "en": "Al Ahli Tripoli",
+    "ar": "الأهلي السعودي",
+    "logo": "https://semedia.filgoal.com/Photos/Team/Medium/1.png"
+   },
+   "hs": 0,
+   "as": 4,
+   "top": false
+  },
   {
    "id": "e401914216",
    "utc": "2026-10-16T16:00:00Z",
@@ -840,48 +921,6 @@
    "top": false
   },
   {
-   "id": "e401915560",
-   "utc": "2026-10-15T19:00:00Z",
-   "league": {
-    "en": "Europa League",
-    "ar": "الدوري الأوروبي"
-   },
-   "home": {
-    "en": "Celta Vigo",
-    "ar": "سيلتا فيغو",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/85.png&w=80&h=80"
-   },
-   "away": {
-    "en": "Juventus",
-    "ar": "يوفنتوس",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/111.png&w=80&h=80"
-   },
-   "hs": 1,
-   "as": 2,
-   "top": false
-  },
-  {
-   "id": "e401915568",
-   "utc": "2026-10-15T16:45:00Z",
-   "league": {
-    "en": "Europa League",
-    "ar": "الدوري الأوروبي"
-   },
-   "home": {
-    "en": "RB Salzburg",
-    "ar": "سالزبورغ",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2790.png&w=80&h=80"
-   },
-   "away": {
-    "en": "AC Milan",
-    "ar": "ميلان",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/103.png&w=80&h=80"
-   },
-   "hs": 0,
-   "as": 4,
-   "top": false
-  },
-  {
    "id": "e401915414",
    "utc": "2026-10-14T19:00:00Z",
    "league": {
@@ -903,27 +942,6 @@
    "top": true
   },
   {
-   "id": "e401915393",
-   "utc": "2026-10-14T19:00:00Z",
-   "league": {
-    "en": "Champions League",
-    "ar": "دوري أبطال أوروبا"
-   },
-   "home": {
-    "en": "Bodo/Glimt",
-    "ar": "بودو جليمت",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/2980.png&w=80&h=80"
-   },
-   "away": {
-    "en": "Borussia Dortmund",
-    "ar": "بوروسيا دورتموند",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/124.png&w=80&h=80"
-   },
-   "hs": 1,
-   "as": 0,
-   "top": false
-  },
-  {
    "id": "e401915407",
    "utc": "2026-10-14T19:00:00Z",
    "league": {
@@ -943,27 +961,6 @@
    "hs": 2,
    "as": 4,
    "top": true
-  },
-  {
-   "id": "e401915415",
-   "utc": "2026-10-14T16:45:00Z",
-   "league": {
-    "en": "Champions League",
-    "ar": "دوري أبطال أوروبا"
-   },
-   "home": {
-    "en": "LASK Linz",
-    "ar": "لاسك لينز",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/4411.png&w=80&h=80"
-   },
-   "away": {
-    "en": "Liverpool",
-    "ar": "ليفربول",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/364.png&w=80&h=80"
-   },
-   "hs": 3,
-   "as": 6,
-   "top": false
   },
   {
    "id": "e401915412",
