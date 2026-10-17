@@ -56,7 +56,7 @@ def espn(code):
 
 
 def sportsdb(lid):
-    d = get(f'https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l={lid}&s={season_now()}')
+    d = get(f'https://www.thesportsdb.com/api/v1/json/123/lookuptable.php?l={lid}&s={season_now()}')
     try:
         rows = []
         for x in d['table']:

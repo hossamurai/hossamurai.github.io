@@ -6,36 +6,17 @@ jobs:
   p:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - run: |
-          UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36'
-          K='https://www.kooora.com/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%82%D8%AF%D9%85/%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%8A%D9%88%D9%85'
-          curl -s -A "$UA" "$K" -o /tmp/ko.html
+          rm -f assets/data/matches.json
+          python3 _source/matches/fetch_matches.py
           python3 - <<'PY'
-          import re, html as H
-          h=open('/tmp/ko.html',encoding='utf-8',errors='ignore').read()
-          # date navigation links
-          print('NAV', sorted(set(re.findall(r'href="([^"]*(?:date|%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA)[^"]*)"', h)))[:15])
-          secs = h.split('fco-competition-section__header-name">')
-          for s in secs[1:]:
-            name = s.split('<',1)[0]
-            area = re.search(r'header-area">([^<]*)', s)
-            area = area.group(1) if area else ''
-            if any(w in name+area for w in ['لبنان','مصر','الكونفدرالية','أبطال أفريقيا','آسيا']):
-              items = s.count('fco-match-list-item')
-              print('SEC', name, '|', area, items)
-          i = h.find('fco-match-list-item')
-          print(re.sub(r'\s+',' ', h[i:i+3500]))
+          import json
+          d=json.load(open('assets/data/matches.json'))
+          print('events', len(d['events']))
+          for e in d['events']:
+            print(e['utc'], e['code'], '|', e['league']['ar'], '|', e['home']['en'], '/', e['home']['ar'], 'v', e['away']['en'], '/', e['away']['ar'], '| top' if e['top'] else '', (e.get('channel') or {}).get('en',''))
+          print('results')
+          for r in d['results']: print(r['utc'], r['league']['en'], r['home']['en'], r['hs'], '-', r['as'], r['away']['en'])
           PY
-          echo "== sportsdb lebanon"
-          curl -s 'https://www.thesportsdb.com/api/v1/json/123/search_all_leagues.php?c=Lebanon&s=Soccer' | head -c 600; echo
-          curl -s 'https://www.thesportsdb.com/api/v1/json/123/search_all_leagues.php?c=Egypt&s=Soccer' | python3 -c "import json,sys;[print(l['idLeague'],l['strLeague']) for l in (json.load(sys.stdin).get('countries') or [])]"
-          echo "== filgoal block"
-          curl -s -A "$UA" 'https://www.filgoal.com/matches/?date=2026-10-17' -o /tmp/fg.html
-          python3 - <<'PY'
-          import re
-          h=open('/tmp/fg.html',encoding='utf-8',errors='ignore').read()
-          b=h.split('<div class="cin_cntnr"')
-          print(re.sub(r'\s+',' ', b[0][-1500:]))
-          print('BLOCK', re.sub(r'\s+',' ', b[1][:2500]))
-          print('CHAMPS', re.findall(r'<h6[^>]*>(.*?)</h6>', h)[:40])
-          PY
+          cd _source/matches && python3 fetch_standings.py
