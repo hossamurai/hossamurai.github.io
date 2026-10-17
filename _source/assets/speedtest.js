@@ -38,13 +38,15 @@
     }
     return 1;
   }
+  var hold = null, settleT;
   function draw(){
     shown += (target - shown) * 0.18;
     if(Math.abs(target - shown) < 0.05) shown = target;
     var f = frac(shown);
     arc.style.strokeDashoffset = arcLen * (1 - f);
     needle.style.transform = 'rotate(' + (-135 + f * 270) + 'deg)';   /* the glowing dot rides the 270° ring */
-    num.textContent = shown >= 100 ? Math.round(shown) : (Math.round(shown * 10) / 10).toFixed(shown < 10 ? 1 : 0);
+    var v = hold != null ? hold : shown;   /* after the test the needle sinks back to 0 but the result stays */
+    num.textContent = v >= 100 ? Math.round(v) : (Math.round(v * 10) / 10).toFixed(v < 10 ? 1 : 0);
     raf = shown !== target ? requestAnimationFrame(draw) : 0;
   }
   function setSpeed(m){ target = m; if(!raf) raf = requestAnimationFrame(draw); }
@@ -125,6 +127,7 @@
     if(!d.ok){ setState('bad'); setSpeed(0); msg.textContent = A('error'); mark(null); return; }
     var st = stability(d.samples, d.mbps), mbps = d.mbps;
     setSpeed(mbps);
+    clearTimeout(settleT); settleT = setTimeout(function(){ hold = mbps; setSpeed(0); }, 1500);
     stat(stabEl, st.stable ? A('stable') : A('shaky'), st.stable ? 'good' : 'warn');
     if(p){
       stat(pingEl, Math.round(p.ping) + ' ms', p.ping < 150 ? 'good' : 'warn');
@@ -223,6 +226,7 @@
     if(!window.fetch || !window.ReadableStream || !window.Promise){ window.open('https://fast.com', '_blank', 'noopener'); return; }
     go.hidden = true; if(hint){ hint.hidden = true; hint.lastChild.textContent = A('magic'); } readout.hidden = false; again.hidden = true; stats.hidden = false;
     stat(pingEl, '—'); stat(jitEl, '—'); stat(stabEl, '—');
+    clearTimeout(settleT); hold = null;
     setState('run'); shown = 0; setSpeed(0); mark(null); msg.textContent = A('ping');
     var p = null;
     measurePing().then(function(r){ p = r; stat(pingEl, Math.round(r.ping) + ' ms'); stat(jitEl, Math.round(r.jitter) + ' ms'); }, function(){})
