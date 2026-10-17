@@ -21,7 +21,7 @@
       box.removeAttribute('data-blob');
       wait.hidden = true;
       /* steps: where from -> which method -> that method's details; the phone's back button goes one step back */
-      var MENUS = { region: 1, eg: 1, intl: 1 };
+      var MENUS = { region: 1, eg: 1, intl: 1, bank: 1 };
       var show = function(id){
         var found = false;
         Array.prototype.forEach.call(box.querySelectorAll('[data-step]'), function(s){ var on = s.getAttribute('data-step') === id; s.hidden = !on; found = found || on; });
