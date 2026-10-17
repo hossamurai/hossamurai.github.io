@@ -1,60 +1,6 @@
 {
- "updated": "2026-10-17T15:37:56Z",
+ "updated": "2026-10-17T16:00:10Z",
  "events": [
-  {
-   "id": "e401879262",
-   "utc": "2026-10-17T14:00:00Z",
-   "live": true,
-   "code": "eng.1",
-   "espn": "401879262",
-   "league": {
-    "en": "Premier League",
-    "ar": "الدوري الإنجليزي"
-   },
-   "home": {
-    "en": "Brentford",
-    "ar": "برينتفورد",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/337.png&w=80&h=80"
-   },
-   "away": {
-    "en": "Liverpool",
-    "ar": "ليفربول",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/364.png&w=80&h=80"
-   },
-   "channel": {
-    "en": "beIN Sports 3",
-    "ar": "بي إن سبورت 3",
-    "exact": true
-   },
-   "top": false
-  },
-  {
-   "id": "e401879259",
-   "utc": "2026-10-17T14:00:00Z",
-   "live": true,
-   "code": "eng.1",
-   "espn": "401879259",
-   "league": {
-    "en": "Premier League",
-    "ar": "الدوري الإنجليزي"
-   },
-   "home": {
-    "en": "Manchester City",
-    "ar": "مانشستر سيتي",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/382.png&w=80&h=80"
-   },
-   "away": {
-    "en": "Ipswich Town",
-    "ar": "إبسويتش تاون",
-    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/373.png&w=80&h=80"
-   },
-   "channel": {
-    "en": "beIN Sports 1",
-    "ar": "بي إن سبورت 1",
-    "exact": true
-   },
-   "top": false
-  },
   {
    "id": "e401876432",
    "utc": "2026-10-17T15:15:00Z",
@@ -188,6 +134,29 @@
     "ar": "stc tv",
     "exact": true
    },
+   "top": false
+  },
+  {
+   "id": "s2611024",
+   "utc": "2026-10-18T12:00:00Z",
+   "live": false,
+   "code": "lbn.1",
+   "espn": null,
+   "league": {
+    "en": "Lebanese League",
+    "ar": "الدوري اللبناني"
+   },
+   "home": {
+    "en": "Al Mabarra",
+    "ar": "Al Mabarra",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/je496m1755932325.png/tiny"
+   },
+   "away": {
+    "en": "Tripoli SC",
+    "ar": "Tripoli SC",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/32jcrg1790610759.png/tiny"
+   },
+   "channel": null,
    "top": false
   },
   {
@@ -1047,6 +1016,32 @@
     "ar": "بي إن سبورت"
    },
    "top": false
+  },
+  {
+   "id": "e401874948",
+   "utc": "2026-10-24T16:00:00Z",
+   "live": false,
+   "code": "ita.1",
+   "espn": "401874948",
+   "league": {
+    "en": "Serie A",
+    "ar": "الدوري الإيطالي"
+   },
+   "home": {
+    "en": "Napoli",
+    "ar": "نابولي",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/114.png&w=80&h=80"
+   },
+   "away": {
+    "en": "AS Roma",
+    "ar": "روما",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/soccer/500/104.png&w=80&h=80"
+   },
+   "channel": {
+    "en": "beIN Sports",
+    "ar": "بي إن سبورت"
+   },
+   "top": true
   }
  ],
  "results": [

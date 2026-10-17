@@ -1,0 +1,839 @@
+{
+ "events": [
+  {
+   "id": "b401909088",
+   "utc": "2026-10-20T19:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Detroit Pistons",
+    "ar": "Detroit Pistons",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/det.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Boston Celtics",
+    "ar": "Boston Celtics",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/bos.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909089",
+   "utc": "2026-10-20T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "New York Knicks",
+    "ar": "New York Knicks",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/ny.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Philadelphia 76ers",
+    "ar": "Philadelphia 76ers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/phi.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909090",
+   "utc": "2026-10-21T01:30:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "San Antonio Spurs",
+    "ar": "San Antonio Spurs",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/sa.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Oklahoma City Thunder",
+    "ar": "Oklahoma City Thunder",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/okc.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "s2565506",
+   "utc": "2026-10-21T16:00:00Z",
+   "code": "euroleague",
+   "league": {
+    "en": "EuroLeague",
+    "ar": "اليوروليغ"
+   },
+   "home": {
+    "en": "Hapoel Tel Aviv BC",
+    "ar": "Hapoel Tel Aviv BC",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/yrrsml1767366305.png/tiny"
+   },
+   "away": {
+    "en": "Virtus Pallacanestro Bologna",
+    "ar": "Virtus Pallacanestro Bologna",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/nfl8dz1786178078.png/tiny"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909834",
+   "utc": "2026-10-21T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Orlando Magic",
+    "ar": "Orlando Magic",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/orl.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Atlanta Hawks",
+    "ar": "Atlanta Hawks",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/atl.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909835",
+   "utc": "2026-10-21T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Washington Wizards",
+    "ar": "Washington Wizards",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/wsh.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Milwaukee Bucks",
+    "ar": "Milwaukee Bucks",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/mil.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909091",
+   "utc": "2026-10-21T23:30:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Miami Heat",
+    "ar": "Miami Heat",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/mia.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Minnesota Timberwolves",
+    "ar": "Minnesota Timberwolves",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/min.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909836",
+   "utc": "2026-10-21T23:30:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Brooklyn Nets",
+    "ar": "Brooklyn Nets",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/bkn.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Charlotte Hornets",
+    "ar": "Charlotte Hornets",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/cha.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909837",
+   "utc": "2026-10-21T23:30:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Toronto Raptors",
+    "ar": "Toronto Raptors",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/tor.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Chicago Bulls",
+    "ar": "Chicago Bulls",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/chi.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909838",
+   "utc": "2026-10-22T00:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Memphis Grizzlies",
+    "ar": "Memphis Grizzlies",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/mem.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Utah Jazz",
+    "ar": "Utah Jazz",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/utah.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909839",
+   "utc": "2026-10-22T00:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "New Orleans Pelicans",
+    "ar": "New Orleans Pelicans",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/no.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Indiana Pacers",
+    "ar": "Indiana Pacers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/ind.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909840",
+   "utc": "2026-10-22T00:30:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Houston Rockets",
+    "ar": "Houston Rockets",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/hou.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Dallas Mavericks",
+    "ar": "Dallas Mavericks",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/dal.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909092",
+   "utc": "2026-10-22T02:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Los Angeles Lakers",
+    "ar": "Los Angeles Lakers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/lal.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Golden State Warriors",
+    "ar": "Golden State Warriors",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/gs.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909841",
+   "utc": "2026-10-22T02:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Portland Trail Blazers",
+    "ar": "Portland Trail Blazers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/por.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Phoenix Suns",
+    "ar": "Phoenix Suns",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/phx.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909842",
+   "utc": "2026-10-22T02:30:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "LA Clippers",
+    "ar": "LA Clippers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/lac.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Sacramento Kings",
+    "ar": "Sacramento Kings",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/sac.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909093",
+   "utc": "2026-10-22T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Philadelphia 76ers",
+    "ar": "Philadelphia 76ers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/phi.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Cleveland Cavaliers",
+    "ar": "Cleveland Cavaliers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/cle.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909094",
+   "utc": "2026-10-23T01:30:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Oklahoma City Thunder",
+    "ar": "Oklahoma City Thunder",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/okc.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Denver Nuggets",
+    "ar": "Denver Nuggets",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/den.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909848",
+   "utc": "2026-10-23T20:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Milwaukee Bucks",
+    "ar": "Milwaukee Bucks",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/mil.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Chicago Bulls",
+    "ar": "Chicago Bulls",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/chi.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909095",
+   "utc": "2026-10-23T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Boston Celtics",
+    "ar": "Boston Celtics",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/bos.png&w=80&h=80"
+   },
+   "away": {
+    "en": "New York Knicks",
+    "ar": "New York Knicks",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/ny.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909843",
+   "utc": "2026-10-23T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Charlotte Hornets",
+    "ar": "Charlotte Hornets",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/cha.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Atlanta Hawks",
+    "ar": "Atlanta Hawks",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/atl.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909844",
+   "utc": "2026-10-23T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Indiana Pacers",
+    "ar": "Indiana Pacers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/ind.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Dallas Mavericks",
+    "ar": "Dallas Mavericks",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/dal.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909845",
+   "utc": "2026-10-23T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Orlando Magic",
+    "ar": "Orlando Magic",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/orl.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Minnesota Timberwolves",
+    "ar": "Minnesota Timberwolves",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/min.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909846",
+   "utc": "2026-10-23T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Washington Wizards",
+    "ar": "Washington Wizards",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/wsh.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Toronto Raptors",
+    "ar": "Toronto Raptors",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/tor.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909847",
+   "utc": "2026-10-24T00:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Miami Heat",
+    "ar": "Miami Heat",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/mia.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Detroit Pistons",
+    "ar": "Detroit Pistons",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/det.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909096",
+   "utc": "2026-10-24T01:30:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "San Antonio Spurs",
+    "ar": "San Antonio Spurs",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/sa.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Houston Rockets",
+    "ar": "Houston Rockets",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/hou.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909849",
+   "utc": "2026-10-24T01:30:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Utah Jazz",
+    "ar": "Utah Jazz",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/utah.png&w=80&h=80"
+   },
+   "away": {
+    "en": "New Orleans Pelicans",
+    "ar": "New Orleans Pelicans",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/no.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909850",
+   "utc": "2026-10-24T02:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Golden State Warriors",
+    "ar": "Golden State Warriors",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/gs.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Memphis Grizzlies",
+    "ar": "Memphis Grizzlies",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/mem.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909851",
+   "utc": "2026-10-24T02:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Los Angeles Lakers",
+    "ar": "Los Angeles Lakers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/lal.png&w=80&h=80"
+   },
+   "away": {
+    "en": "LA Clippers",
+    "ar": "LA Clippers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/lac.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "b401909852",
+   "utc": "2026-10-24T02:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Sacramento Kings",
+    "ar": "Sacramento Kings",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/sac.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Portland Trail Blazers",
+    "ar": "Portland Trail Blazers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/por.png&w=80&h=80"
+   },
+   "live": false
+  }
+ ],
+ "results": [
+  {
+   "id": "b401898719",
+   "utc": "2026-10-17T02:30:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Los Angeles Lakers",
+    "ar": "Los Angeles Lakers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/lal.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Denver Nuggets",
+    "ar": "Denver Nuggets",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/den.png&w=80&h=80"
+   },
+   "hs": 106,
+   "as": 121
+  },
+  {
+   "id": "b401898409",
+   "utc": "2026-10-17T02:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Golden State Warriors",
+    "ar": "Golden State Warriors",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/gs.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Portland Trail Blazers",
+    "ar": "Portland Trail Blazers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/por.png&w=80&h=80"
+   },
+   "hs": 128,
+   "as": 118
+  },
+  {
+   "id": "b401908948",
+   "utc": "2026-10-17T02:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Phoenix Suns",
+    "ar": "Phoenix Suns",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/phx.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Utah Jazz",
+    "ar": "Utah Jazz",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/utah.png&w=80&h=80"
+   },
+   "hs": 116,
+   "as": 119
+  },
+  {
+   "id": "b401898408",
+   "utc": "2026-10-17T00:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Dallas Mavericks",
+    "ar": "Dallas Mavericks",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/dal.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Atlanta Hawks",
+    "ar": "Atlanta Hawks",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/atl.png&w=80&h=80"
+   },
+   "hs": 111,
+   "as": 135
+  },
+  {
+   "id": "b401898843",
+   "utc": "2026-10-17T00:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "San Antonio Spurs",
+    "ar": "San Antonio Spurs",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/sa.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Sacramento Kings",
+    "ar": "Sacramento Kings",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/sac.png&w=80&h=80"
+   },
+   "hs": 126,
+   "as": 97
+  },
+  {
+   "id": "b401901822",
+   "utc": "2026-10-17T00:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Memphis Grizzlies",
+    "ar": "Memphis Grizzlies",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/mem.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Charlotte Hornets",
+    "ar": "Charlotte Hornets",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/cha.png&w=80&h=80"
+   },
+   "hs": 117,
+   "as": 98
+  },
+  {
+   "id": "b401906509",
+   "utc": "2026-10-17T00:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "New Orleans Pelicans",
+    "ar": "New Orleans Pelicans",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/no.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Washington Wizards",
+    "ar": "Washington Wizards",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/wsh.png&w=80&h=80"
+   },
+   "hs": 107,
+   "as": 106
+  },
+  {
+   "id": "b401908943",
+   "utc": "2026-10-17T00:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Chicago Bulls",
+    "ar": "Chicago Bulls",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/chi.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Minnesota Timberwolves",
+    "ar": "Minnesota Timberwolves",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/min.png&w=80&h=80"
+   },
+   "hs": 133,
+   "as": 116
+  },
+  {
+   "id": "b401898406",
+   "utc": "2026-10-16T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Orlando Magic",
+    "ar": "Orlando Magic",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/orl.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Miami Heat",
+    "ar": "Miami Heat",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/mia.png&w=80&h=80"
+   },
+   "hs": 136,
+   "as": 115
+  },
+  {
+   "id": "b401898407",
+   "utc": "2026-10-16T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Philadelphia 76ers",
+    "ar": "Philadelphia 76ers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/phi.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Boston Celtics",
+    "ar": "Boston Celtics",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/bos.png&w=80&h=80"
+   },
+   "hs": 120,
+   "as": 125
+  },
+  {
+   "id": "b401908946",
+   "utc": "2026-10-16T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Detroit Pistons",
+    "ar": "Detroit Pistons",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/det.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Toronto Raptors",
+    "ar": "Toronto Raptors",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/tor.png&w=80&h=80"
+   },
+   "hs": 129,
+   "as": 125
+  },
+  {
+   "id": "b401914126",
+   "utc": "2026-10-16T23:00:00Z",
+   "code": "nba",
+   "league": {
+    "en": "NBA",
+    "ar": "الدوري الأمريكي NBA"
+   },
+   "home": {
+    "en": "Indiana Pacers",
+    "ar": "Indiana Pacers",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/ind.png&w=80&h=80"
+   },
+   "away": {
+    "en": "Milwaukee Bucks",
+    "ar": "Milwaukee Bucks",
+    "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/mil.png&w=80&h=80"
+   },
+   "hs": 127,
+   "as": 128
+  }
+ ],
+ "updated": "2026-10-17T16:00:52Z"
+}
