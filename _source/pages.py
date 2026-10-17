@@ -1771,6 +1771,7 @@ LEAGUE_PAGES = [  # (standings id or None, matches code, slug, name EN, name AR,
     ('ger', 'ger.1', 'bundesliga', 'Bundesliga', 'الدوري الألماني', 'beIN Sports', 'بي إن سبورت'),
     ('fra', 'fra.1', 'ligue-1', 'Ligue 1', 'الدوري الفرنسي', 'beIN Sports', 'بي إن سبورت'),
     (None, 'caf.champions', 'caf-champions-league', 'CAF Champions League', 'دوري أبطال أفريقيا', 'beIN Sports', 'بي إن سبورت'),
+    (None, 'caf.confed', 'caf-confederation-cup', 'CAF Confederation Cup', 'كأس الكونفدرالية الأفريقية', 'beIN Sports', 'بي إن سبورت'),
 ]
 
 
