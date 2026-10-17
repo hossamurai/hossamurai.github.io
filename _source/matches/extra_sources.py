@@ -10,13 +10,16 @@ A game already on the list (same team, kick-off within 4 hours) is not added twi
 import hashlib, re
 from datetime import datetime, timedelta, timezone
 
-from exact_channels import CAIRO, CRESTS, clean, key, page, text
+from exact_channels import CAIRO, CRESTS, clean, key, page, same_team, text
 
 # Arabic name as FilGoal / Kooora write it -> the English key used in fetch_matches.TEAMS.
 # Exact names only: "الأهلي" is Al Ahly; "الأهلي السعودي" / "الأهلي طرابلس" are other clubs.
 EGYPT = {'الأهلي': 'al ahly', 'الزمالك': 'zamalek', 'بيراميدز': 'pyramids', 'مصر': 'egypt', 'منتخب مصر': 'egypt'}
 LEBANON = {'لبنان': 'lebanon', 'منتخب لبنان': 'lebanon', 'الأنصار': 'al ansar', 'النجمة': 'nejmeh', 'العهد': 'al ahed'}
 # Lebanese club names are shared with Saudi clubs (النجمة, الأنصار): they only count in Lebanese / Asian / Arab competitions
+# "الأهلي" alone is also Saudi Al Ahli (and the Qatari, Jordanian, Libyan… Al Ahli) in their own leagues
+FOREIGN_CONTEXT = {'السعودي', 'السعودية', 'روشن', 'الليبي', 'ليبيا', 'القطري', 'قطر', 'الأردني', 'الأردن', 'البحريني', 'البحرين',
+                   'الإماراتي', 'الإمارات', 'العماني', 'عمان', 'اليمني', 'السوداني', 'السودان', 'الكويتي', 'الكويت'}
 LEBANESE_CONTEXT = {'لبنان', 'لبناني', 'اللبناني', 'آسيا', 'اسيا', 'الآسيوي', 'آسيوي', 'العرب', 'العربي', 'العربية', 'ودية', 'ودي', 'الودية'}   # whole words
 
 EN_NAME = {'al ahly': 'Al Ahly', 'zamalek': 'Zamalek', 'pyramids': 'Pyramids FC', 'egypt': 'Egypt',
@@ -38,11 +41,15 @@ _EG = {_k(a): v for a, v in EGYPT.items()}
 _LB = {_k(a): v for a, v in LEBANON.items()}
 
 
+def _words(x):
+    return set(re.findall(r'[\w\u0600-\u06FF]+', x or ''))
+
+
 def tracked(ar_name, competition=''):
     n = _k(ar_name)
-    if n in _EG:
+    if n in _EG and not (_EG[n] != 'egypt' and _words(competition) & FOREIGN_CONTEXT):
         return _EG[n]
-    if n in _LB and (_LB[n] == 'lebanon' or set(re.findall(r'[\w\u0600-\u06FF]+', competition)) & LEBANESE_CONTEXT):
+    if n in _LB and (_LB[n] == 'lebanon' or _words(competition) & LEBANESE_CONTEXT):
         return _LB[n]
     return None
 
@@ -110,7 +117,7 @@ def add_missing(events, team_key, now, end):
             k = datetime.fromisoformat(e['utc'].replace('Z', '+00:00'))
         except Exception:
             continue
-        have.append((k, {team_key(e['home']['en']), team_key(e['away']['en'])} - {None}))
+        have.append((k, {team_key(e['home']['en']), team_key(e['away']['en'])} - {None}, (e['home'].get('ar', ''), e['away'].get('ar', ''))))
     rows = []
     day = now.astimezone(CAIRO).date()
     for i in range((end - now).days + 1):
@@ -124,7 +131,10 @@ def add_missing(events, team_key, now, end):
         keys = [tracked(home, ctx), tracked(away, ctx)]
         if not any(keys):
             continue
-        if any(abs((kick - k).total_seconds()) < 4 * 3600 and ((set(keys) - {None}) & ks) for k, ks in have):
+        # already listed: one of our teams within 4 hours, or either side's Arabic name within 3 hours (same game, other spelling)
+        if any(abs((kick - k).total_seconds()) < 4 * 3600 and ((set(keys) - {None}) & ks) for k, ks, _ in have):
+            continue
+        if any(abs((kick - k).total_seconds()) < 3 * 3600 and any(same_team(x, y) for x in names for y in (home, away) if x) for k, _, names in have):
             continue
         comp_ar = re.sub(r'\s+', ' ', comp).strip()
         for name, crest in ((home, hc), (away, ac)):
@@ -143,7 +153,7 @@ def add_missing(events, team_key, now, end):
             'big': sum(1 for k in keys if k),
             'top': all(keys) or 'egypt' in keys or 'lebanon' in keys,
         })
-        have.append((kick, set(keys) - {None}))
+        have.append((kick, set(keys) - {None}, (home, away)))
         added += 1
     print(f'  {added} more match(es) of Egyptian / Lebanese teams from FilGoal / Kooora ({len(rows)} listed)')
     return added
