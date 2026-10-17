@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Hossam TV//Matches//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:e401900444@hossamservices.com
+DTSTAMP:20261023T133000Z
+DTSTART:20261023T133000Z
+DTEND:20261023T153000Z
+SUMMARY:Al Faisaly – النصر (دوري روشن السعودي)
+DESCRIPTION:ثمانية · شاهدها مباشرة على Hossam TV — hossamservices.com
+URL:https://hossamservices.com/
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:Al Faisaly – النصر (دوري روشن السعودي)
+END:VALARM
+END:VEVENT
+END:VCALENDAR
