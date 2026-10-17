@@ -172,6 +172,7 @@ def footer(c):
     pol = [('policies.html#terms', L('Terms', 'الشروط')), ('policies.html#refund', L('Refunds', 'الاسترجاع')), ('policies.html#privacy', L('Privacy', 'الخصوصية'))]
     pols = ' · '.join(f'<a href="{c.href(p)}">{t(lbl)}</a>' for p, lbl in pol)
     countries = ' · '.join(f'<a href="{c.href("arabic-tv-" + sl + ".html")}">{t(nm)}</a>' for sl, nm, *_ in COUNTRY_PAGES)
+    countries += f' · <a href="{c.href("lebanese-tv-canada.html")}">{t(L("Lebanese TV", "القنوات اللبنانية"))}</a>'
     return f'''<footer class="site site-compact">
   <div class="wrap">
     <div class="fc-top">
