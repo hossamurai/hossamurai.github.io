@@ -1032,9 +1032,11 @@ html[lang="ar"] .tk-teams{text-transform:none}
 .st-more{display:flex;align-items:center;gap:10px;margin-top:22px;padding:14px 16px;border-radius:18px;border:1px solid var(--line-2);color:var(--ink);text-decoration:none;font-weight:700}
 .st-more .ic{width:18px;height:18px;flex-shrink:0}.st-more .ic:last-child{margin-inline-start:auto}
 @media (max-width:520px){.st-tips ul{grid-template-columns:1fr}.st-go{width:100px;height:100px;border-radius:26px}.st-readout b{font-size:3rem}}
-.st-wifi{display:flex;gap:12px;align-items:flex-start;margin:0 0 14px;padding:14px 16px;border-radius:18px;background:#fff4d6;border:1.5px solid #f5b400;color:#5c3b00}
-.st-wifi .ic{width:26px;height:26px;flex-shrink:0;color:#d97706;margin-top:1px}
-.st-wifi b{display:block;font-size:1rem;color:#3d2600}.st-wifi span{font-size:.88rem}
+.st-sec{padding-top:14px}
+.st-title{font-size:1.25rem;font-weight:800;letter-spacing:-.01em;margin:0 0 8px}
+.st-wifi{display:inline-flex;gap:7px;align-items:center;margin:0 auto 6px;padding:6px 12px;border-radius:999px;background:#fff4d6;border:.5px solid #f5b400;color:#5c3b00;font-size:.84rem}
+.st-wifi .ic{width:17px;height:17px;flex-shrink:0;color:#d97706}
+.st-wifi b{color:#3d2600}
 .st-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:420px;margin:16px auto 0}
 .st-stats div{background:#18181b;border:1px solid #2a2a2f;border-radius:14px;padding:10px 6px}
 .st-stats small{display:block;color:#8a8a92;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
@@ -1108,7 +1110,7 @@ section.sec.nextm-sec+section.sec{padding-top:36px}
 .rs-team.win{color:#0b0b0c;font-weight:800}
 .rs-score{background:#0b0b0c;color:#fff;border-radius:8px;padding:4px 10px;font-variant-numeric:tabular-nums;white-space:nowrap;direction:ltr}
 /* speed test: name + latest tests */
-.st-name{display:flex;flex-direction:column;gap:6px;max-width:360px;margin:0 auto 14px;text-align:start}
+.st-name{display:flex;flex-direction:column;gap:6px;max-width:360px;margin:6px auto 12px;text-align:start}
 .st-name span{font-size:.8rem;font-weight:700;color:#b8b8c0}
 .st-name input{height:46px;border-radius:12px;border:1px solid #3a3a3f;background:#18181b;color:#f5f5f7;padding:0 14px;font:inherit;font-size:1rem}
 .st-name input::placeholder{color:#6e6e76}

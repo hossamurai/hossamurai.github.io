@@ -83,32 +83,12 @@
 
 <script>/* show the match cards from the last visit right away (assets/matches.js refreshes them) — avoids the page jumping */(function(){try{var c=JSON.parse(localStorage.getItem('htv-strip')||'null'),b=document.querySelector('[data-strip]');if(!b||!c||!c.html||Date.now()-c.t>1800000||c.lang!==document.documentElement.lang)return;b.querySelector('[data-strip-track]').innerHTML=c.html;b.hidden=false;}catch(e){}})();</script>
 <main id="main">
-<section class="page-hero"><div class="poster-wall" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="wrap">
-  <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="index.html">Home</a></li><li aria-current="page">Speed test</li></ol></nav>
-  <h1>Internet speed test</h1>
-  <p class="lead">Is your internet fast enough for HD and 4K?</p>
-  
-  
-</div></section>
-<section class="sec first"><div class="wrap st-wrap">
-  <div class="st-wifi" role="note"><svg class="ic" aria-hidden="true"><use href="#i-wifi"/></svg><div><b>Test on the same Wi-Fi as your TV</b>
-    <span>Connect your phone to the same network the TV uses — on mobile data the result means nothing for the TV.</span></div></div>
+
+<section class="sec st-sec"><div class="wrap st-wrap">
   <div class="st-card" data-speedtest data-api="https://n8n.hossamservices.com/webhook/site-speed" data-l-again="Test again" data-l-testing="Testing your download speed…" data-l-idle="Tap the play button to start" data-l-error="Couldn't run the test. Try fast.com instead." data-l-r4k="Great — fast enough for 4K." data-l-rhd="Good for HD. For 4K, use a cable or move closer to the router." data-l-rsd="Enough for SD only — try the tips below." data-l-rslow="Too slow — this is likely why it freezes. Try the tips below." data-l-ping="Checking the delay…" data-l-magic="If it ever freezes, do the magic trick: unplug the router and the TV for 10 seconds, then plug them back in." data-l-stable="Stable" data-l-shaky="Some dips" data-l-onmobile="You're on mobile data — to check the TV's speed, run the test on the same Wi-Fi as the TV." data-l-neednet="Choose Wi-Fi or mobile data first, then tap play." data-l-needname="Type your name first, then tap play.">
-    <label class="st-name"><span>Your name</span>
-      <input type="text" data-st-name maxlength="30" autocomplete="given-name" placeholder="So Hossam can see your result"></label>
-    <div class="st-net" data-st-net role="radiogroup" aria-label="Connected through" hidden>
-      <span>Connected through</span>
-      <button type="button" role="radio" aria-checked="false" data-net="wifi">📶 Wi-Fi</button>
-      <button type="button" role="radio" aria-checked="false" data-net="cellular">📱 Mobile data</button>
-    </div>
+    <h1 class="st-title">Internet speed test</h1>
+    <p class="st-wifi" role="note"><svg class="ic" aria-hidden="true"><use href="#i-wifi"/></svg><span>Test on the <b>same Wi-Fi as your TV</b></span></p>
     <div class="st-dial">
-      <svg class="st-streaks" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
-      <defs><linearGradient id="stsB" x1="0" x2="1"><stop offset="0" stop-color="#1d4ed8" stop-opacity="0"/><stop offset=".6" stop-color="#3b82f6"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></linearGradient>
-      <linearGradient id="stsR" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed" stop-opacity="0"/><stop offset=".4" stop-color="#ef4444"/><stop offset="1" stop-color="#ef4444" stop-opacity="0"/></linearGradient></defs>
-      <path d="M0 120 C80 80 120 150 200 110" stroke="url(#stsB)" stroke-width="3" fill="none"/><path d="M0 140 C90 100 130 165 200 125" stroke="url(#stsB)" stroke-width="1.5" fill="none" opacity=".7"/>
-      <path d="M0 100 C70 70 130 130 200 95" stroke="url(#stsB)" stroke-width="1" fill="none" opacity=".5"/>
-      <path d="M200 110 C280 70 320 140 400 95" stroke="url(#stsR)" stroke-width="3" fill="none"/><path d="M200 125 C290 95 330 155 400 115" stroke="url(#stsR)" stroke-width="1.5" fill="none" opacity=".7"/>
-    </svg>
       <svg class="st-gauge" viewBox="0 0 320 262" aria-hidden="true">
       <defs><linearGradient id="stGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#22d3ee"/><stop offset=".55" stop-color="#2563eb"/><stop offset=".8" stop-color="#7c3aed"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
       <circle class="st-face" cx="160" cy="160" r="112"/>
@@ -121,6 +101,13 @@
     </svg>
       <button type="button" class="st-go" data-st-start aria-label="Start the speed test"><img src="../assets/img/go.webp" alt="" width="118" height="118"></button>
       <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
+    </div>
+    <label class="st-name"><span>Your name</span>
+      <input type="text" data-st-name maxlength="30" autocomplete="given-name" placeholder="So Hossam can see your result"></label>
+    <div class="st-net" data-st-net role="radiogroup" aria-label="Connected through" hidden>
+      <span>Connected through</span>
+      <button type="button" role="radio" aria-checked="false" data-net="wifi">📶 Wi-Fi</button>
+      <button type="button" role="radio" aria-checked="false" data-net="cellular">📱 Mobile data</button>
     </div>
     <div class="st-stats" data-st-stats hidden>
       <div><small>Ping</small><b dir="ltr" data-st-ping>—</b></div>
