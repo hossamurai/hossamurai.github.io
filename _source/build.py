@@ -225,7 +225,7 @@ def layout(c, title, desc, body):
 {SPRITE}
 <a class="skip" href="#main">{c.t(L('Skip to content', 'انتقل إلى المحتوى'))}</a>
 {header(c)}
-{matches_ticker(c)}
+{matches_ticker(c) if c.key == 'home' else ''}
 <script>/* show the match cards from the last visit right away (assets/matches.js refreshes them) — avoids the page jumping */(function(){{try{{var c=JSON.parse(localStorage.getItem('htv-strip')||'null'),b=document.querySelector('[data-strip]');if(!b||!c||!c.html||Date.now()-c.t>1800000||c.lang!==document.documentElement.lang)return;b.querySelector('[data-strip-track]').innerHTML=c.html;b.hidden=false;}}catch(e){{}}}})();</script>
 <main id="main">
 {body}
