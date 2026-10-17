@@ -175,8 +175,8 @@
     lastLog = list;
     while(logList.firstChild) logList.removeChild(logList.firstChild);
     list.slice(0, 10).forEach(function(r){
-      /* same cut-offs as the "What you need" tiles: red under 5 (too slow) · yellow 5–10 SD or with dips · green 10–25 HD · blue 25+ 4K */
-      var lv = r.mbps < 5 ? 'bad' : !r.stable || r.mbps < 10 ? 'ok' : r.mbps < 25 ? 'good' : 'top';
+      /* traffic light: red under 10 (freezes likely) · yellow 10–25 or with dips (HD) · green 25+ and stable (4K) */
+      var lv = r.mbps < 10 ? 'bad' : !r.stable || r.mbps < 25 ? 'ok' : 'good';
       var tag = r.mbps < 5 ? (AR ? 'بطيء' : 'Slow') : r.mbps < 10 ? 'SD' : r.mbps < 25 ? 'HD' : '4K';
       var row = document.createElement('div'); row.className = 'st-log-row lv-' + lv;
       var who = document.createElement('div'); who.className = 'st-log-who';

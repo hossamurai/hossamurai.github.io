@@ -83,32 +83,12 @@
 
 <script>/* show the match cards from the last visit right away (assets/matches.js refreshes them) — avoids the page jumping */(function(){try{var c=JSON.parse(localStorage.getItem('htv-strip')||'null'),b=document.querySelector('[data-strip]');if(!b||!c||!c.html||Date.now()-c.t>1800000||c.lang!==document.documentElement.lang)return;b.querySelector('[data-strip-track]').innerHTML=c.html;b.hidden=false;}catch(e){}})();</script>
 <main id="main">
-<section class="page-hero"><div class="poster-wall" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="wrap">
-  <nav aria-label="مسار التنقل"><ol class="crumbs"><li><a href="index.html">الرئيسية</a></li><li aria-current="page">اختبار السرعة</li></ol></nav>
-  <h1>اختبار سرعة الإنترنت</h1>
-  <p class="lead">هل الإنترنت عندك سريع كفاية لجودة HD و4K؟</p>
-  
-  
-</div></section>
-<section class="sec first"><div class="wrap st-wrap">
-  <div class="st-wifi" role="note"><svg class="ic" aria-hidden="true"><use href="#i-wifi"/></svg><div><b>اعمل الاختبار على نفس الواي فاي اللي عليه الشاشة</b>
-    <span>وصّل موبايلك بنفس الشبكة اللي عليها الشاشة — نتيجة بيانات الموبايل لا تعبّر عن سرعة الشاشة.</span></div></div>
+
+<section class="sec st-sec"><div class="wrap st-wrap">
   <div class="st-card" data-speedtest data-api="https://n8n.hossamservices.com/webhook/site-speed" data-l-again="اختبر مرة أخرى" data-l-testing="جاري قياس سرعة التحميل…" data-l-idle="اضغط زر التشغيل للبدء" data-l-error="تعذّر الاختبار. جرّب fast.com." data-l-r4k="ممتاز — كافي لجودة 4K." data-l-rhd="كويس لجودة HD. لـ 4K استخدم كابل أو قرّب من الراوتر." data-l-rsd="يكفي لجودة SD فقط — جرّب النصائح بالأسفل." data-l-rslow="بطيء جداً — غالباً ده سبب التقطيع. جرّب النصائح بالأسفل." data-l-ping="جاري قياس زمن الاستجابة…" data-l-magic="لو حصل تقطيع، اعمل الحل السحري: افصل الراوتر والشاشة من الكهرباء 10 ثواني ثم وصّلهم تاني." data-l-stable="ثابت" data-l-shaky="فيه تذبذب" data-l-onmobile="إنت على بيانات الموبايل — عشان تعرف سرعة الشاشة، اعمل الاختبار على نفس الواي فاي اللي عليه الشاشة." data-l-neednet="اختار واي فاي أو بيانات الموبايل الأول، وبعدين اضغط زر التشغيل." data-l-needname="اكتب اسمك الأول، وبعدين اضغط زر التشغيل.">
-    <label class="st-name"><span>اسمك</span>
-      <input type="text" data-st-name maxlength="30" autocomplete="given-name" placeholder="عشان حسام يشوف نتيجتك"></label>
-    <div class="st-net" data-st-net role="radiogroup" aria-label="متصل عن طريق" hidden>
-      <span>متصل عن طريق</span>
-      <button type="button" role="radio" aria-checked="false" data-net="wifi">📶 Wi-Fi</button>
-      <button type="button" role="radio" aria-checked="false" data-net="cellular">📱 بيانات الموبايل</button>
-    </div>
+    <h1 class="st-title">اختبار سرعة الإنترنت</h1>
+    <p class="st-wifi" role="note"><svg class="ic" aria-hidden="true"><use href="#i-wifi"/></svg><span>اختبر على <b>نفس واي فاي الشاشة</b></span></p>
     <div class="st-dial">
-      <svg class="st-streaks" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
-      <defs><linearGradient id="stsB" x1="0" x2="1"><stop offset="0" stop-color="#1d4ed8" stop-opacity="0"/><stop offset=".6" stop-color="#3b82f6"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></linearGradient>
-      <linearGradient id="stsR" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed" stop-opacity="0"/><stop offset=".4" stop-color="#ef4444"/><stop offset="1" stop-color="#ef4444" stop-opacity="0"/></linearGradient></defs>
-      <path d="M0 120 C80 80 120 150 200 110" stroke="url(#stsB)" stroke-width="3" fill="none"/><path d="M0 140 C90 100 130 165 200 125" stroke="url(#stsB)" stroke-width="1.5" fill="none" opacity=".7"/>
-      <path d="M0 100 C70 70 130 130 200 95" stroke="url(#stsB)" stroke-width="1" fill="none" opacity=".5"/>
-      <path d="M200 110 C280 70 320 140 400 95" stroke="url(#stsR)" stroke-width="3" fill="none"/><path d="M200 125 C290 95 330 155 400 115" stroke="url(#stsR)" stroke-width="1.5" fill="none" opacity=".7"/>
-    </svg>
       <svg class="st-gauge" viewBox="0 0 320 262" aria-hidden="true">
       <defs><linearGradient id="stGrad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#22d3ee"/><stop offset=".55" stop-color="#2563eb"/><stop offset=".8" stop-color="#7c3aed"/><stop offset="1" stop-color="#ef4444"/></linearGradient></defs>
       <circle class="st-face" cx="160" cy="160" r="112"/>
@@ -121,6 +101,13 @@
     </svg>
       <button type="button" class="st-go" data-st-start aria-label="ابدأ اختبار السرعة"><img src="../assets/img/go.webp" alt="" width="118" height="118"></button>
       <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
+    </div>
+    <label class="st-name"><span>اسمك</span>
+      <input type="text" data-st-name maxlength="30" autocomplete="given-name" placeholder="عشان حسام يشوف نتيجتك"></label>
+    <div class="st-net" data-st-net role="radiogroup" aria-label="متصل عن طريق" hidden>
+      <span>متصل عن طريق</span>
+      <button type="button" role="radio" aria-checked="false" data-net="wifi">📶 Wi-Fi</button>
+      <button type="button" role="radio" aria-checked="false" data-net="cellular">📱 بيانات الموبايل</button>
     </div>
     <div class="st-stats" data-st-stats hidden>
       <div><small>البينج</small><b dir="ltr" data-st-ping>—</b></div>

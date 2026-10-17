@@ -1452,9 +1452,6 @@ def country_page(slug, name, where, tz=None, cities=None):
 # ----------------------------------------------------------------------------
 def speed_page(c):
     t = c.t
-    hero = page_hero(c, [(None, t(L('Speed test', 'اختبار السرعة')))],
-                     t(L('Internet speed test', 'اختبار سرعة الإنترنت')),
-                     t(L('Is your internet fast enough for HD and 4K?', 'هل الإنترنت عندك سريع كفاية لجودة HD و4K؟')))
     lb = {
         'again': L('Test again', 'اختبر مرة أخرى'), 'testing': L('Testing your download speed…', 'جاري قياس سرعة التحميل…'),
         'idle': L('Tap the play button to start', 'اضغط زر التشغيل للبدء'),
@@ -1499,14 +1496,6 @@ def speed_page(c):
       <g class="st-needle" data-st-needle><path d="M156 162 L160 58 L164 162 Z"/><circle class="st-tip" cx="160" cy="60" r="3.5"/></g>
       <circle class="st-hub" cx="160" cy="160" r="11"/><circle class="st-hub-in" cx="160" cy="160" r="4.5"/>
     </svg>'''
-    # light streaks behind the dial (blue from the left, red to the right — like the speed card picture)
-    streaks = '''<svg class="st-streaks" viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true">
-      <defs><linearGradient id="stsB" x1="0" x2="1"><stop offset="0" stop-color="#1d4ed8" stop-opacity="0"/><stop offset=".6" stop-color="#3b82f6"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></linearGradient>
-      <linearGradient id="stsR" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed" stop-opacity="0"/><stop offset=".4" stop-color="#ef4444"/><stop offset="1" stop-color="#ef4444" stop-opacity="0"/></linearGradient></defs>
-      <path d="M0 120 C80 80 120 150 200 110" stroke="url(#stsB)" stroke-width="3" fill="none"/><path d="M0 140 C90 100 130 165 200 125" stroke="url(#stsB)" stroke-width="1.5" fill="none" opacity=".7"/>
-      <path d="M0 100 C70 70 130 130 200 95" stroke="url(#stsB)" stroke-width="1" fill="none" opacity=".5"/>
-      <path d="M200 110 C280 70 320 140 400 95" stroke="url(#stsR)" stroke-width="3" fill="none"/><path d="M200 125 C290 95 330 155 400 115" stroke="url(#stsR)" stroke-width="1.5" fill="none" opacity=".7"/>
-    </svg>'''
     # the start button is the logo tile itself (assets/img/go.webp)
     needs = [(5, 'SD', L('Basic quality', 'جودة عادية'), 'tv'), (10, 'HD', L('Full HD', 'Full HD'), 'tv'), (25, '4K', L('Ultra HD', 'Ultra HD'), '4k')]
     tiles = ''.join(f'<div class="st-need" data-need="{n}">{icon(ic)}<b>{q}</b><span dir="ltr">{n}+ Mbps</span><small>{t(d)}</small></div>' for n, q, d, ic in needs)
@@ -1515,23 +1504,23 @@ def speed_page(c):
             ('devices', L('Move closer', 'قرّب من الراوتر'), L('Or add a Wi-Fi extender near the TV.', 'أو ضع مقوّي واي فاي قرب الشاشة.')),
             ('info', L('Free up the line', 'خفّف الضغط على الخط'), L('Pause big downloads and other streams.', 'أوقف التحميلات والبث على الأجهزة الأخرى.'))]
     tips_html = ''.join(f'<li>{icon(ic)}<div><b>{t(h)}</b><span>{t(d)}</span></div></li>' for ic, h, d in tips)
-    body = hero + f'''
-<section class="sec first"><div class="wrap st-wrap">
-  <div class="st-wifi" role="note">{icon('wifi')}<div><b>{t(L('Test on the same Wi-Fi as your TV', 'اعمل الاختبار على نفس الواي فاي اللي عليه الشاشة'))}</b>
-    <span>{t(L('Connect your phone to the same network the TV uses — on mobile data the result means nothing for the TV.', 'وصّل موبايلك بنفس الشبكة اللي عليها الشاشة — نتيجة بيانات الموبايل لا تعبّر عن سرعة الشاشة.'))}</span></div></div>
+    # opens straight on the test: a one-line title, the Wi-Fi reminder as a small chip, the dial, then the name
+    body = f'''
+<section class="sec st-sec"><div class="wrap st-wrap">
   <div class="st-card" data-speedtest data-api="{N8N_WEBHOOK}site-speed" {attrs}>
+    <h1 class="st-title">{t(L('Internet speed test', 'اختبار سرعة الإنترنت'))}</h1>
+    <p class="st-wifi" role="note">{icon('wifi')}<span>{t(L('Test on the <b>same Wi-Fi as your TV</b>', 'اختبر على <b>نفس واي فاي الشاشة</b>'))}</span></p>
+    <div class="st-dial">
+      {gauge}
+      <button type="button" class="st-go" data-st-start aria-label="{t(L('Start the speed test', 'ابدأ اختبار السرعة'))}"><img src="{c.root}assets/img/go.webp" alt="" width="118" height="118"></button>
+      <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
+    </div>
     <label class="st-name"><span>{t(L('Your name', 'اسمك'))}</span>
       <input type="text" data-st-name maxlength="30" autocomplete="given-name" placeholder="{t(L('So Hossam can see your result', 'عشان حسام يشوف نتيجتك'))}"></label>
     <div class="st-net" data-st-net role="radiogroup" aria-label="{t(L('Connected through', 'متصل عن طريق'))}" hidden>
       <span>{t(L('Connected through', 'متصل عن طريق'))}</span>
       <button type="button" role="radio" aria-checked="false" data-net="wifi">📶 Wi-Fi</button>
       <button type="button" role="radio" aria-checked="false" data-net="cellular">📱 {t(L('Mobile data', 'بيانات الموبايل'))}</button>
-    </div>
-    <div class="st-dial">
-      {streaks}
-      {gauge}
-      <button type="button" class="st-go" data-st-start aria-label="{t(L('Start the speed test', 'ابدأ اختبار السرعة'))}"><img src="{c.root}assets/img/go.webp" alt="" width="118" height="118"></button>
-      <div class="st-readout" data-st-readout hidden dir="ltr"><b data-st-num>0</b><span>Mbps</span></div>
     </div>
     <div class="st-stats" data-st-stats hidden>
       <div><small>{t(L('Ping', 'البينج'))}</small><b dir="ltr" data-st-ping>—</b></div>
