@@ -301,6 +301,126 @@
    "live": false
   },
   {
+   "id": "s2565507",
+   "utc": "2026-10-22T17:30:00Z",
+   "code": "euroleague",
+   "league": {
+    "en": "EuroLeague",
+    "ar": "اليوروليغ"
+   },
+   "home": {
+    "en": "Anadolu Efes SK",
+    "ar": "Anadolu Efes SK",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/uldz0d1782050729.png/tiny"
+   },
+   "away": {
+    "en": "Besiktas Basketbol",
+    "ar": "Besiktas Basketbol",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/rx0o811667119583.png/tiny"
+   },
+   "live": false
+  },
+  {
+   "id": "s2565510",
+   "utc": "2026-10-22T18:00:00Z",
+   "code": "euroleague",
+   "league": {
+    "en": "EuroLeague",
+    "ar": "اليوروليغ"
+   },
+   "home": {
+    "en": "Bayern München Basketball",
+    "ar": "Bayern München Basketball",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/z2r3eh1678017187.png/tiny"
+   },
+   "away": {
+    "en": "Dubai Basketball",
+    "ar": "Dubai Basketball",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/fgtnti1758215967.png/tiny"
+   },
+   "live": false
+  },
+  {
+   "id": "s2565508",
+   "utc": "2026-10-22T18:05:00Z",
+   "code": "euroleague",
+   "league": {
+    "en": "EuroLeague",
+    "ar": "اليوروليغ"
+   },
+   "home": {
+    "en": "Maccabi Tel Aviv BC",
+    "ar": "Maccabi Tel Aviv BC",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/z0mk1l1789281457.png/tiny"
+   },
+   "away": {
+    "en": "Real Madrid Baloncesto",
+    "ar": "Real Madrid Baloncesto",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/g4ev2c1522175902.png/tiny"
+   },
+   "live": false
+  },
+  {
+   "id": "s2565509",
+   "utc": "2026-10-22T18:15:00Z",
+   "code": "euroleague",
+   "league": {
+    "en": "EuroLeague",
+    "ar": "اليوروليغ"
+   },
+   "home": {
+    "en": "Panathinaikos BC",
+    "ar": "Panathinaikos BC",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/7cdjwz1767366987.png/tiny"
+   },
+   "away": {
+    "en": "Baskonia",
+    "ar": "Baskonia",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/p4x3o61767366090.png/tiny"
+   },
+   "live": false
+  },
+  {
+   "id": "s2565511",
+   "utc": "2026-10-22T18:30:00Z",
+   "code": "euroleague",
+   "league": {
+    "en": "EuroLeague",
+    "ar": "اليوروليغ"
+   },
+   "home": {
+    "en": "Olimpia Milano",
+    "ar": "Olimpia Milano",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/aurbi61790186853.png/tiny"
+   },
+   "away": {
+    "en": "FC Barcelona Basquet",
+    "ar": "FC Barcelona Basquet",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/0tz26j1729097443.png/tiny"
+   },
+   "live": false
+  },
+  {
+   "id": "s2565512",
+   "utc": "2026-10-22T18:45:00Z",
+   "code": "euroleague",
+   "league": {
+    "en": "EuroLeague",
+    "ar": "اليوروليغ"
+   },
+   "home": {
+    "en": "KK Partizan",
+    "ar": "KK Partizan",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/us0e1z1767366567.png/tiny"
+   },
+   "away": {
+    "en": "KK Crvena zvezda",
+    "ar": "KK Crvena zvezda",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/5tlez31767366440.png/tiny"
+   },
+   "live": false
+  },
+  {
    "id": "b401909093",
    "utc": "2026-10-22T23:00:00Z",
    "code": "nba",
@@ -337,6 +457,66 @@
     "en": "Denver Nuggets",
     "ar": "Denver Nuggets",
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/den.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "s2565513",
+   "utc": "2026-10-23T17:00:00Z",
+   "code": "euroleague",
+   "league": {
+    "en": "EuroLeague",
+    "ar": "اليوروليغ"
+   },
+   "home": {
+    "en": "BC Žalgiris",
+    "ar": "BC Žalgiris",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/dn7ouv1703960565.png/tiny"
+   },
+   "away": {
+    "en": "Lyon-Villeurbanne",
+    "ar": "Lyon-Villeurbanne",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/qbaoia1602706639.png/tiny"
+   },
+   "live": false
+  },
+  {
+   "id": "s2565514",
+   "utc": "2026-10-23T18:15:00Z",
+   "code": "euroleague",
+   "league": {
+    "en": "EuroLeague",
+    "ar": "اليوروليغ"
+   },
+   "home": {
+    "en": "Olympiacos BC",
+    "ar": "Olympiacos BC",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/4s5lug1676581220.png/tiny"
+   },
+   "away": {
+    "en": "Fenerbahçe Basketbol",
+    "ar": "Fenerbahçe Basketbol",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/u6j0qb1758794065.png/tiny"
+   },
+   "live": false
+  },
+  {
+   "id": "s2565515",
+   "utc": "2026-10-23T18:45:00Z",
+   "code": "euroleague",
+   "league": {
+    "en": "EuroLeague",
+    "ar": "اليوروليغ"
+   },
+   "home": {
+    "en": "Paris Basketball",
+    "ar": "Paris Basketball",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/9q0d6x1726681476.png/tiny"
+   },
+   "away": {
+    "en": "Valencia Basket",
+    "ar": "Valencia Basket",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/9qyc231536398868.png/tiny"
    },
    "live": false
   },
@@ -577,6 +757,26 @@
     "en": "Portland Trail Blazers",
     "ar": "Portland Trail Blazers",
     "logo": "https://a.espncdn.com/combiner/i?img=/i/teamlogos/nba/500/scoreboard/por.png&w=80&h=80"
+   },
+   "live": false
+  },
+  {
+   "id": "s2565516",
+   "utc": "2026-10-27T16:00:00Z",
+   "code": "euroleague",
+   "league": {
+    "en": "EuroLeague",
+    "ar": "اليوروليغ"
+   },
+   "home": {
+    "en": "Dubai Basketball",
+    "ar": "Dubai Basketball",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/fgtnti1758215967.png/tiny"
+   },
+   "away": {
+    "en": "Paris Basketball",
+    "ar": "Paris Basketball",
+    "logo": "https://r2.thesportsdb.com/images/media/team/badge/9q0d6x1726681476.png/tiny"
    },
    "live": false
   }
@@ -835,5 +1035,5 @@
    "as": 128
   }
  ],
- "updated": "2026-10-17T16:00:52Z"
+ "updated": "2026-10-17T16:05:24Z"
 }
