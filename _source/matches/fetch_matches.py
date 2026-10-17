@@ -64,6 +64,12 @@ TEAMS = {
 
 # Arabic names for teams that often sit near the top (only for the Arabic name — they don't make a match 'big')
 EXTRA_AR = {
+    # Lebanese league
+    'sagesse': 'الحكمة', 'riyadi abbasiyah': 'الرياضي العباسية', 'safa': 'الصفاء', 'shabab al sahel': 'شباب الساحل',
+    'tadamon sour': 'التضامن صور', 'bourj': 'البرج', 'racing beirut': 'الراسينغ', 'akhaa ahli aley': 'الإخاء الأهلي عاليه',
+    'al ahed': 'العهد', 'nejmeh': 'النجمة', 'al ansar': 'الأنصار', 'salam zgharta': 'السلام زغرتا', 'shabab al ghazieh': 'شباب الغازية',
+    # Egyptian league
+    'asyut petroleum': 'بترول أسيوط', "tala'ea el gaish": 'طلائع الجيش', 'el qanah': 'القناة',
     # more European, Saudi and African clubs, so the Arabic pages never show English names
     'brentford': 'برينتفورد', 'everton': 'إيفرتون', 'ipswich town': 'إبسويتش تاون', 'leeds united': 'ليدز يونايتد', 'brighton': 'برايتون',
     'west ham united': 'وست هام', 'crystal palace': 'كريستال بالاس', 'fulham': 'فولهام', 'wolverhampton wanderers': 'وولفرهامبتون', 'bournemouth': 'بورنموث',

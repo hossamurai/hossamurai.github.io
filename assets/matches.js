@@ -13,7 +13,7 @@
   };
   var ESPN = 'https://site.api.espn.com/apis/site/v2/sports/soccer/';
   var LIVE_BEFORE = 5 * 60e3, LIVE_AFTER = 150 * 60e3;   /* a match counts as "on" from 5 min before kick-off to 2.5 h after */
-  var SDB = 'https://www.thesportsdb.com/api/v1/json/3/lookupevent.php?id=';
+  var SDB = 'https://www.thesportsdb.com/api/v1/json/123/lookupevent.php?id=';
   var NO_DATA_AFTER = 115 * 60e3;   /* no score source answered: assume a match lasts ~1 h 55 min */
   var data = null, lastScore = {}, flashUntil = {}, finished = {};
 
