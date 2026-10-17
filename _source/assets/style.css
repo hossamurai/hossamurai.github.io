@@ -669,7 +669,7 @@ section.sec.remind-sec{background:var(--surface-2)}
 .code{border-radius:10px}
 
 /* neutral palette like the logo: white, grey, black — red only as a small accent */
-.hero-apple .grad{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--red)}
+.hero-apple .grad{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--red);white-space:nowrap}
 .hero-apple::before{background:radial-gradient(closest-side,rgba(0,0,0,.045),rgba(0,0,0,0));filter:blur(30px);opacity:1;top:62%;height:300px}
 .kicker{background:none;color:var(--muted);-webkit-background-clip:border-box;background-clip:border-box;font-size:.95rem}
 .link-arrow{color:var(--ink)}

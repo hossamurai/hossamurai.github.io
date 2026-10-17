@@ -403,7 +403,7 @@ def pay_block(c):
 def home(c):
     t = c.t
     hero = f'''<section class="hero hero-apple">{poster_wall(40)}<div class="wrap">
-    <h1>{t(L('Every match, movie and series. <span class="grad">On any screen.</span>', 'كل المباريات والأفلام والمسلسلات. <span class="grad">على أي شاشة.</span>'))}</h1>
+    <h1>{t(L('Sports. Movies. Series. <span class="grad">Anywhere.</span>', 'رياضة. أفلام. مسلسلات. <span class="grad">في أي مكان.</span>'))}</h1>
     <p class="lead">{t(L('Live sports, Arabic and international channels and movies — up to 4K.', 'مباريات مباشرة وقنوات عربية وعالمية وأفلام — بجودة حتى 4K.'))}</p>
     <div class="hero-cta">
       {btn_trial(c)}
