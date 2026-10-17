@@ -1563,7 +1563,21 @@ footer.site-compact{padding:24px 0 18px}
 .pk-wait[hidden],.pk-bad[hidden],.pk-foot[hidden]{display:none}
 .pk-bad{display:flex;gap:8px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:#fff4f4;border:.5px solid #f5c9cb}
 .pk-bad .ic{flex:none;color:var(--red);margin-top:2px}
-.pk-list{display:grid;gap:14px;margin-top:8px}
+.pk-list{margin-top:8px}
+.pk-step[hidden]{display:none}
+.pk-q{font-size:1.05rem;font-weight:700;margin:4px 0 12px}
+.pk-choices{display:grid;gap:10px}
+.pk-choice{display:flex;align-items:center;gap:14px;width:100%;padding:16px;border-radius:16px;border:.5px solid var(--line-2);background:var(--surface);color:var(--ink);font:inherit;text-align:start;cursor:pointer;transition:border-color .15s,background .15s}
+.pk-choice:hover{border-color:var(--ink-2)}
+.pk-choice:active{background:var(--surface-2)}
+.pk-choice > .ic{flex:none;width:22px;height:22px}
+.pk-choice span{flex:1;display:grid;gap:2px}
+.pk-choice b{font-size:1.02rem}
+.pk-choice small{color:var(--muted);font-size:.82rem}
+.pk-chev{flex:none;width:16px;height:16px;color:var(--muted)}
+.pk-back{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:6px 0;margin-bottom:8px;font:inherit;font-weight:600;color:var(--muted);cursor:pointer}
+.pk-back .ic{width:16px;height:16px;transform:scaleX(-1)}
+html[lang="ar"] .pk-back .ic{transform:none}
 .pk-card{background:var(--surface);border:.5px solid var(--line);border-radius:var(--radius);padding:18px 18px 16px}
 .pk-card h2{display:flex;align-items:center;gap:10px;font-size:1.15rem;font-weight:800;margin:0 0 4px}
 .pk-card h3{font-size:.95rem;font-weight:800;margin:14px 0 2px}

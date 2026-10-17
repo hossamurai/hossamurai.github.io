@@ -19,6 +19,24 @@
     .then(function(buf){
       box.innerHTML = new TextDecoder().decode(buf);
       box.removeAttribute('data-blob');
-      wait.hidden = true; foot.hidden = false;
+      wait.hidden = true;
+      /* steps: where from -> which method -> that method's details; the phone's back button goes one step back */
+      var MENUS = { region: 1, eg: 1, intl: 1 };
+      var show = function(id){
+        var found = false;
+        Array.prototype.forEach.call(box.querySelectorAll('[data-step]'), function(s){ var on = s.getAttribute('data-step') === id; s.hidden = !on; found = found || on; });
+        if(!found) return show('region');
+        foot.hidden = !!MENUS[id];
+        window.scrollTo(0, 0);
+      };
+      box.addEventListener('click', function(e){
+        var b = e.target.closest ? e.target.closest('[data-go]') : null; if(!b) return;
+        var id = b.getAttribute('data-go');
+        if(b.classList.contains('pk-back') && history.state && history.state.pk){ history.back(); return; }
+        try{ history.pushState({ pk: id }, '', location.href); }catch(err){}
+        show(id);
+      });
+      window.addEventListener('popstate', function(e){ show(e.state && e.state.pk || 'region'); });
+      show(history.state && history.state.pk || 'region');
     })['catch'](fail);
 })();
