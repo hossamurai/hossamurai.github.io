@@ -30,6 +30,7 @@ LEAGUES = {
     'ksa.1':          ('Saudi Pro League', 'دوري روشن السعودي', 'Thmanyah', 'ثمانية', False),
     'uefa.europa':    ('Europa League', 'الدوري الأوروبي', 'beIN Sports', 'بي إن سبورت', False),
     'caf.champions':  ('CAF Champions League', 'دوري أبطال أفريقيا', 'beIN Sports', 'بي إن سبورت', False),
+    'caf.confed':     ('CAF Confederation Cup', 'كأس الكونفدرالية الأفريقية', 'beIN Sports', 'بي إن سبورت', False),
     'caf.nations':    ('Africa Cup of Nations', 'كأس الأمم الأفريقية', 'beIN Sports', 'بي إن سبورت', True),
     'fifa.worldq.caf':('World Cup Qualifiers', 'تصفيات كأس العالم', 'beIN Sports', 'بي إن سبورت', False),
     'fifa.friendly':  ('Friendly', 'مباراة ودية', '', '', False),
