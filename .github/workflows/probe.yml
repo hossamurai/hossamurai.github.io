@@ -7,20 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          for lg in nba wnba fiba fiba.world fiba.asia euroleague eurocup mens-olympics nbl bal; do
-            printf "%s " $lg; curl -s -o /tmp/x -w '%{http_code} ' "https://site.api.espn.com/apis/site/v2/sports/basketball/$lg/scoreboard"; python3 -c "
-          import json
-          try:
-            d=json.load(open('/tmp/x')); print(d.get('leagues',[{}])[0].get('name'), len(d.get('events',[])), [e['name'] for e in d.get('events',[])][:2])
-          except Exception as e: print('-')"
-          done
-          echo "== nba next days"
-          for d in 20261021 20261022; do curl -s "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard?dates=$d" | python3 -c "import json,sys;d=json.load(sys.stdin);print(len(d.get('events',[])), [ (e['date'],e['name']) for e in d['events'][:3]])"; done
-          echo "== sportsdb lebanon basketball"
-          curl -s 'https://www.thesportsdb.com/api/v1/json/123/search_all_leagues.php?c=Lebanon&s=Basketball' | python3 -c "import json,sys;[print(l['idLeague'],l['strLeague'],l.get('strCurrentSeason')) for l in (json.load(sys.stdin).get('countries') or [])]"
-          curl -s 'https://www.thesportsdb.com/api/v1/json/123/eventsnextleague.php?id=4966' | head -c 400; echo
-          curl -s 'https://www.thesportsdb.com/api/v1/json/123/eventsnextleague.php?id=4546' | python3 -c "import json,sys;d=json.load(sys.stdin);print([(e['strEvent'],e['dateEvent'],e.get('strLeague')) for e in (d.get('events') or [])][:3])"
-          echo "== kooora basketball"
           UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36'
-          for u in 'https://www.kooora.com/%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D8%B3%D9%84%D8%A9/%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%8A%D9%88%D9%85' ; do curl -s -A "$UA" "$u" -o /tmp/k.html -w '%{http_code} '; python3 -c "
-          import re;h=open('/tmp/k.html',encoding='utf-8',errors='ignore').read();print(len(h), h.count('fco-match-list-item'), re.findall(r'header-name\">([^<]*)',h)[:20])"; done
+          for u in 'https://basketball.asia-basket.com/Lebanon/basketball.aspx' 'https://www.asia-basket.com/Lebanon/basketball.aspx' 'https://basketball.asia-basket.com/Lebanon/basketball-Schedule.aspx'; do
+            echo "== $u"; curl -s -L -A "$UA" "$u" -o /tmp/a.html -w '%{http_code} %{url_effective}\n'; python3 -c "
+          import re;h=open('/tmp/a.html',encoding='utf-8',errors='ignore').read();print(len(h)); t=re.sub(r'<[^>]+>',' ',h); t=re.sub(r'\s+',' ',t); i=t.find('Riyadi'); print(t[max(0,i-600):i+900])"
+          done
+          echo "== sportsdb teams"
+          for q in 'Al Riyadi' 'Sagesse' 'Beirut Club' 'Lebanon'; do curl -s "https://www.thesportsdb.com/api/v1/json/123/searchteams.php?t=$(python3 -c "import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1]))" "$q")" | python3 -c "import json,sys;[print(t['idTeam'],t['strTeam'],t['strSport'],t.get('strLeague'),t.get('idLeague')) for t in (json.load(sys.stdin).get('teams') or [])]"; done
+          echo "== filgoal basketball"; curl -s -A "$UA" 'https://www.filgoal.com/matches/?date=2026-10-17&sport=2' -o /tmp/f.html -w '%{http_code}\n'; grep -o 'كرة السلة[^<]\{0,40\}' /tmp/f.html | head -5
+          echo "== espn fiba dates"; for d in 20261120 20261123 20261127 20261130; do curl -s "https://site.api.espn.com/apis/site/v2/sports/basketball/fiba/scoreboard?dates=$d" | python3 -c "import json,sys;d=json.load(sys.stdin);print([(e['date'],e['name']) for e in d.get('events',[])][:6])"; done
