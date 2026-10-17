@@ -850,6 +850,11 @@ html[dir="rtl"] .page-hero .poster-wall{-webkit-mask-image:linear-gradient(270de
 .trial-form .rf-grid .rf-full{grid-column:1/-1}
 .trial-form [hidden]{display:none!important}
 .pay-note{display:block;margin-top:6px;color:var(--muted);font-size:.84rem}
+.pay-go{margin-top:8px;align-self:flex-start}
+.pay-go[hidden]{display:none}
+.pay-list li .pay-go{margin:0;flex:none;padding:6px 14px}
+.pay-list li:has(.pay-go){align-items:center}
+.pay-list li:has(.pay-go) > span{margin-inline-start:auto}
 .trial-note{display:flex;gap:8px;align-items:flex-start;margin:14px 0 0!important;padding:10px 12px;border-radius:12px;background:var(--surface-2);font-size:.88rem!important;color:var(--ink)!important}
 .trial-note .ic{width:18px;height:18px;flex-shrink:0;margin-top:2px}
 .trial-note a{font-weight:700;color:var(--ink)}
