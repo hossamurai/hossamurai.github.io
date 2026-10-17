@@ -1631,7 +1631,7 @@ def match_list():
             out.append((r, r))
     pages = []
     for e, res in sorted(out, key=lambda x: x[0]['utc']):
-        slug = f"{_slug(e['home']['en'])}-vs-{_slug(e['away']['en'])}-{e['utc'][:10]}"
+        slug = f"{_slug(e['home']['en']) or 'team'}-vs-{_slug(e['away']['en']) or 'team'}-{e['utc'][:10]}"
         if slug in seen:
             continue
         seen.add(slug)

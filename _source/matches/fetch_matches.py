@@ -16,7 +16,7 @@ OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'assets', 'data', 'mat
 DAYS = 7
 RESULT_DAYS = 7      # finished big matches from the last week -> "Last results" on the matches page
 MAX_RESULTS = 12
-MAX_EVENTS = 30
+MAX_EVENTS = 40
 
 # ESPN league code -> (league name EN, AR, channel EN, channel AR, include every match?)
 LEAGUES = {
@@ -34,12 +34,21 @@ LEAGUES = {
     'caf.nations':    ('Africa Cup of Nations', 'كأس الأمم الأفريقية', 'beIN Sports', 'بي إن سبورت', True),
     'fifa.worldq.caf':('World Cup Qualifiers', 'تصفيات كأس العالم', 'beIN Sports', 'بي إن سبورت', False),
     'fifa.friendly':  ('Friendly', 'مباراة ودية', '', '', False),
+    # Lebanon (most customers in Canada are Lebanese): the league from TheSportsDB, the national team and clubs in Asian cups from ESPN
+    'lbn.1':          ('Lebanese League', 'الدوري اللبناني', '', '', True),
+    'fifa.worldq.afc':('World Cup Qualifiers (Asia)', 'تصفيات كأس العالم (آسيا)', '', '', False),
+    'afc.asian.cup':  ('AFC Asian Cup', 'كأس آسيا', '', '', False),
+    'afc.cupq':       ('Asian Cup Qualifiers', 'تصفيات كأس آسيا', '', '', False),
+    'afc.champions':  ('AFC Champions League Elite', 'دوري أبطال آسيا للنخبة', '', '', False),
+    'afc.cup':        ('AFC Champions League Two', 'دوري أبطال آسيا 2', '', '', False),
+    'fifa.cwc':       ('FIFA Club World Cup', 'كأس العالم للأندية', '', '', False),
 }
 
 # Matches with at least one of these teams are shown (plus every match of leagues marked True above).
 # key = how ESPN writes it (lowercase, no accents); value = Arabic name
 TEAMS = {
     'al ahly': 'الأهلي', 'zamalek': 'الزمالك', 'pyramids': 'بيراميدز', 'egypt': 'مصر',
+    'lebanon': 'لبنان', 'nejmeh': 'النجمة', 'al ahed': 'العهد', 'al-ahed': 'العهد', 'al ansar': 'الأنصار', 'al-ansar': 'الأنصار',
     'real madrid': 'ريال مدريد', 'barcelona': 'برشلونة', 'atletico madrid': 'أتلتيكو مدريد',
     'manchester city': 'مانشستر سيتي', 'liverpool': 'ليفربول', 'arsenal': 'آرسنال', 'chelsea': 'تشيلسي',
     'manchester united': 'مانشستر يونايتد', 'tottenham hotspur': 'توتنهام',
@@ -55,6 +64,12 @@ TEAMS = {
 
 # Arabic names for teams that often sit near the top (only for the Arabic name — they don't make a match 'big')
 EXTRA_AR = {
+    # Lebanese league
+    'sagesse': 'الحكمة', 'riyadi abbasiyah': 'الرياضي العباسية', 'safa': 'الصفاء', 'shabab al sahel': 'شباب الساحل',
+    'tadamon sour': 'التضامن صور', 'bourj': 'البرج', 'racing beirut': 'الراسينغ', 'akhaa ahli aley': 'الإخاء الأهلي عاليه',
+    'al ahed': 'العهد', 'nejmeh': 'النجمة', 'al ansar': 'الأنصار', 'salam zgharta': 'السلام زغرتا', 'shabab al ghazieh': 'شباب الغازية',
+    # Egyptian league
+    'asyut petroleum': 'بترول أسيوط', "tala'ea el gaish": 'طلائع الجيش', 'el qanah': 'القناة',
     # more European, Saudi and African clubs, so the Arabic pages never show English names
     'brentford': 'برينتفورد', 'everton': 'إيفرتون', 'ipswich town': 'إبسويتش تاون', 'leeds united': 'ليدز يونايتد', 'brighton': 'برايتون',
     'west ham united': 'وست هام', 'crystal palace': 'كريستال بالاس', 'fulham': 'فولهام', 'wolverhampton wanderers': 'وولفرهامبتون', 'bournemouth': 'بورنموث',
@@ -96,7 +111,7 @@ EXTRA_AR = {
 
 # TheSportsDB league ids (Egyptian league always; the rest only if ESPN is down)
 SPORTSDB_IDS = {'egy.1': 4829, 'uefa.champions': 4480, 'eng.1': 4328, 'esp.1': 4335, 'ita.1': 4332,
-                'ger.1': 4331, 'fra.1': 4334, 'ksa.1': 4668, 'uefa.europa': 4481}
+                'ger.1': 4331, 'fra.1': 4334, 'ksa.1': 4668, 'uefa.europa': 4481, 'lbn.1': 5243}
 
 
 # fixturedownload.com feed names (third source) -> the ESPN code above; season = year it starts
@@ -105,7 +120,7 @@ FIXTUREDOWNLOAD = [('champions-league', 'uefa.champions'), ('epl', 'eng.1'), ('l
 
 
 # leagues ESPN doesn't carry (they come from TheSportsDB below)
-NO_ESPN = {'egy.1'}
+NO_ESPN = {'egy.1', 'lbn.1'}
 
 
 def norm(s):
@@ -116,7 +131,8 @@ def norm(s):
 # short names only count as an exact match ("Inter" yes, "Inter Miami" no; "Paris FC" is not PSG)
 EXACT_ONLY = {'inter', 'milan', 'paris', 'psg', 'bayern', 'roma', 'spurs', 'atletico', 'dortmund', 'man city', 'man utd', 'egypt',
               # Saudi clubs share their names with clubs across Africa (Al Ahli Tripoli, Al Hilal Omdurman, Al Ittihad Alexandria…)
-              'al hilal', 'al nassr', 'al ittihad', 'al ahli', 'al-hilal', 'al-nassr', 'al-ittihad', 'al-ahli'}
+              'al hilal', 'al nassr', 'al ittihad', 'al ahli', 'al-hilal', 'al-nassr', 'al-ittihad', 'al-ahli',
+              'lebanon', 'al ansar', 'al-ansar'}
 
 
 def team_key(name):
@@ -200,7 +216,7 @@ def fill_logos(items):
             if hit is None or (not hit.get('logo') and hit.get('checked', '') < retry and asked < 20):
                 logo = ''
                 for q in dict.fromkeys([name, re.sub(r'\b(FC|SC|CF|AFC)\b', '', name).strip()]):
-                    d = get('https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=' + urllib.parse.quote(q))
+                    d = get('https://www.thesportsdb.com/api/v1/json/123/searchteams.php?t=' + urllib.parse.quote(q))
                     asked += 1
                     teams = [x for x in ((d or {}).get('teams') or []) if x.get('strSport') == 'Soccer' and x.get('strBadge')]
                     if teams:
@@ -251,7 +267,7 @@ def main():
             'channel': {'en': chen, 'ar': char} if chen else None,
             'big': sum(1 for k in keys if k),
             # high-profile = two popular teams (Ahly–Zamalek, Real–Barça, City–PSG…) or Egypt's national team → home-page countdown
-            'top': all(keys) or 'egypt' in keys,
+            'top': all(keys) or 'egypt' in keys or 'lebanon' in keys,
         })
 
     done = set()
@@ -274,7 +290,7 @@ def main():
             'id': rid, 'utc': kick.strftime('%Y-%m-%dT%H:%M:%SZ'), 'league': {'en': len_, 'ar': lar},
             'home': {'en': home, 'ar': TEAMS.get(keys[0]) or EXTRA_AR.get(norm(home)) or home, 'logo': small_logo(hlogo)},
             'away': {'en': away, 'ar': TEAMS.get(keys[1]) or EXTRA_AR.get(norm(away)) or away, 'logo': small_logo(alogo)},
-            'hs': hs, 'as': as_, 'big': sum(1 for x in keys if x), 'top': all(keys) or 'egypt' in keys,
+            'hs': hs, 'as': as_, 'big': sum(1 for x in keys if x), 'top': all(keys) or 'egypt' in keys or 'lebanon' in keys,
         })
 
     def espn_event(code, ev):
@@ -322,14 +338,14 @@ def main():
 
     def sportsdb_league(code, lid):
         """Current + next round of one league from TheSportsDB (free key: rounds are complete, day lists are not)."""
-        nxt = get(f'https://www.thesportsdb.com/api/v1/json/3/eventsnextleague.php?id={lid}')
+        nxt = get(f'https://www.thesportsdb.com/api/v1/json/123/eventsnextleague.php?id={lid}')
         evs = (nxt or {}).get('events') or []
         if not evs:
             return 0
         season, rnd = evs[0].get('strSeason'), int(evs[0].get('intRound') or 0)
         got = 0
         for r in ([rnd, rnd + 1] if rnd else [None]):
-            d = get(f'https://www.thesportsdb.com/api/v1/json/3/eventsround.php?id={lid}&r={r}&s={season}') if r else nxt
+            d = get(f'https://www.thesportsdb.com/api/v1/json/123/eventsround.php?id={lid}&r={r}&s={season}') if r else nxt
             for ev in (d or {}).get('events') or []:
                 got += 1
                 ts = ev.get('strTimestamp') or ((ev.get('dateEvent') or '') + 'T' + (ev.get('strTime') or '00:00:00'))
@@ -347,7 +363,7 @@ def main():
 
     def sportsdb_results(code, lid):
         """Last finished matches of one league (TheSportsDB) -> results."""
-        d = get(f'https://www.thesportsdb.com/api/v1/json/3/eventspastleague.php?id={lid}')
+        d = get(f'https://www.thesportsdb.com/api/v1/json/123/eventspastleague.php?id={lid}')
         for ev in (d or {}).get('events') or []:
             ts = ev.get('strTimestamp') or ((ev.get('dateEvent') or '') + 'T' + (ev.get('strTime') or '00:00:00'))
             try:
@@ -357,7 +373,7 @@ def main():
             add_result(code, 's' + str(ev.get('idEvent')), kick, ev.get('strHomeTeam') or '', ev.get('strAwayTeam') or '',
                        ev.get('intHomeScore'), ev.get('intAwayScore'), ev.get('strHomeTeamBadge') or '', ev.get('strAwayTeamBadge') or '')
 
-    # Egyptian league is not on ESPN: always from TheSportsDB
+    # Egyptian and Lebanese leagues are not on ESPN: always from TheSportsDB
     for code in NO_ESPN:
         if sportsdb_league(code, SPORTSDB_IDS[code]):
             ok_leagues += 1
@@ -392,6 +408,13 @@ def main():
     if ok_leagues == 0:
         print('::warning::No match source reachable — keeping the previous matches.json')
         return 0
+    # safety net: Egyptian / Lebanese teams' games the sources above missed (another competition, a source down) from FilGoal / Kooora
+    try:
+        import extra_sources
+        if extra_sources.add_missing(events, team_key, now, end):
+            ok_leagues += 1
+    except Exception as ex:
+        print('  FilGoal / Kooora safety net skipped:', ex, file=sys.stderr)
     # keep the biggest games if there are too many: matches with 2 popular teams first, then by time
     events.sort(key=lambda e: e['utc'])
     if len(events) > MAX_EVENTS:
