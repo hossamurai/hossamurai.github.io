@@ -109,7 +109,10 @@ def kooora_today():
     return out
 
 
-def add_missing(events, team_key, now, end):
+STATUS = {}   # source -> answered this run (read by fetch_matches.report_health)
+
+
+def add_missing(events, team_key, now, end, ar_to_en=None):
     """Adds the tracked teams' games that are not in `events` yet. Returns how many were added."""
     have = []
     for e in events:
@@ -120,10 +123,15 @@ def add_missing(events, team_key, now, end):
         have.append((k, {team_key(e['home']['en']), team_key(e['away']['en'])} - {None}, (e['home'].get('ar', ''), e['away'].get('ar', ''))))
     rows = []
     day = now.astimezone(CAIRO).date()
+    fg = 0
     for i in range((end - now).days + 1):
         got = filgoal_day((day + timedelta(days=i)).strftime('%Y-%m-%d'))
+        fg += got is not None
         rows += got or []
-    rows += kooora_today() or []
+    ko = kooora_today()
+    rows += ko or []
+    STATUS['FilGoal'] = fg > 0
+    STATUS['Kooora'] = ko is not None
     added = 0
     for comp, ctx, home, away, kick, ch, hc, ac in rows:
         if kick < now - timedelta(hours=2) or kick > end:
@@ -147,8 +155,8 @@ def add_missing(events, team_key, now, end):
         events.append({
             'id': ev_id, 'utc': kick.strftime('%Y-%m-%dT%H:%M:%SZ'), 'live': False, 'code': 'xtra', 'espn': None,
             'league': {'en': league_en(comp_ar), 'ar': comp_ar},
-            'home': {'en': EN_NAME.get(keys[0], home), 'ar': home, 'logo': hc},
-            'away': {'en': EN_NAME.get(keys[1], away), 'ar': away, 'logo': ac},
+            'home': {'en': EN_NAME.get(keys[0]) or (ar_to_en and ar_to_en(home)) or home, 'ar': home, 'logo': hc},
+            'away': {'en': EN_NAME.get(keys[1]) or (ar_to_en and ar_to_en(away)) or away, 'ar': away, 'logo': ac},
             'channel': c,
             'big': sum(1 for k in keys if k),
             'top': all(keys) or 'egypt' in keys or 'lebanon' in keys,

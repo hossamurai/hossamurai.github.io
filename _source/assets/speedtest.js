@@ -183,9 +183,11 @@
       var tag = r.mbps < 5 ? (AR ? 'بطيء' : 'Slow') : r.mbps < 10 ? 'SD' : r.mbps < 25 ? 'HD' : '4K';
       var row = document.createElement('div'); row.className = 'st-log-row lv-' + lv;
       var who = document.createElement('div'); who.className = 'st-log-who';
-      var b = document.createElement('b'); b.textContent = String(r.name || '').slice(0, 30); who.appendChild(b);
+      /* public list: first name + initial ("Hossam T."), never the city or the internet provider */
+      var w = String(r.name || '').trim().split(/\s+/).filter(Boolean);
+      var b = document.createElement('b'); b.textContent = (w[0] || '').slice(0, 20) + (w[1] ? ' ' + w[1].charAt(0).toUpperCase() + '.' : ''); who.appendChild(b);
       var net = r.conn === 'wifi' ? 'Wi-Fi' : r.conn === 'ethernet' ? (AR ? 'كابل' : 'Cable') : (r.conn === 'cellular' || r.mobile) ? (AR ? 'بيانات الموبايل' : 'Mobile data') : '';
-      var sm = document.createElement('small'); sm.textContent = [r.where, net, r.isp, ago(r.at)].filter(Boolean).join(' · '); who.appendChild(sm);
+      var sm = document.createElement('small'); sm.textContent = [net, ago(r.at)].filter(Boolean).join(' · '); who.appendChild(sm);
       var sp = document.createElement('div'); sp.className = 'st-log-num ' + lv; sp.dir = 'ltr';
       var bd = document.createElement('i'); bd.className = 'st-badge'; bd.textContent = tag;
       sp.appendChild(document.createTextNode(r.mbps + ' Mbps ')); sp.appendChild(bd);

@@ -239,6 +239,37 @@ def fill_logos(items):
     except Exception as e:
         print('  logos cache not saved', e, file=sys.stderr)
 
+HEALTH = os.path.join(os.path.dirname(OUT), 'sources.json')
+
+
+def report_health(ok):
+    """Remembers how many runs in a row each source failed (assets/data/sources.json) and pings Hossam's ntfy
+    (secret NTFY_TOPIC) when one fails twice in a row, and again when it is back — so a source can't stop silently."""
+    try:
+        fails = json.load(open(HEALTH))
+    except Exception:
+        fails = {}
+    msgs = []
+    for name, good in ok.items():
+        before = int(fails.get(name, 0))
+        now_ = 0 if good else before + 1
+        fails[name] = now_
+        if now_ == 2:
+            msgs.append(f'⚠️ Match source down: {name} failed 2 runs in a row (12 h). The site keeps the last data it had.')
+        elif before >= 2 and good:
+            msgs.append(f'✅ Match source back: {name}')
+    with open(HEALTH, 'w') as f:
+        json.dump(fails, f, indent=1, sort_keys=True)
+    topic = os.environ.get('NTFY_TOPIC', '').strip()
+    for m in msgs:
+        print('  ' + m)
+        if topic:
+            try:
+                urllib.request.urlopen(urllib.request.Request('https://ntfy.sh/' + topic, data=m.encode(), headers={'Title': 'Hossam TV website', 'Tags': 'soccer'}), timeout=15)
+            except Exception as e:
+                print('  ntfy failed', e, file=sys.stderr)
+
+
 def main():
     now = datetime.now(timezone.utc)
     end = now + timedelta(days=DAYS)
@@ -336,9 +367,12 @@ def main():
                 seen.add(ev.get('id'))
                 espn_event(code, ev)
 
+    sdb_ok = {}
+
     def sportsdb_league(code, lid):
         """Current + next round of one league from TheSportsDB (free key: rounds are complete, day lists are not)."""
         nxt = get(f'https://www.thesportsdb.com/api/v1/json/123/eventsnextleague.php?id={lid}')
+        sdb_ok[code] = nxt is not None          # answered (an empty list off-season still counts as working)
         evs = (nxt or {}).get('events') or []
         if not evs:
             return 0
@@ -405,16 +439,28 @@ def main():
                 add(code, 'f' + slug + str(ev.get('MatchNumber')), kick, False, ev.get('HomeTeam') or '', ev.get('AwayTeam') or '')
 
     # last line: nothing reachable -> keep the previous file untouched (the site hides matches that are over)
+    health = {'ESPN': espn_raw > 0, 'TheSportsDB (Egyptian league)': sdb_ok.get('egy.1', False), 'TheSportsDB (Lebanese league)': sdb_ok.get('lbn.1', False)}
     if ok_leagues == 0:
         print('::warning::No match source reachable — keeping the previous matches.json')
+        report_health(health)
         return 0
     # safety net: Egyptian / Lebanese teams' games the sources above missed (another competition, a source down) from FilGoal / Kooora
     try:
         import extra_sources
-        if extra_sources.add_missing(events, team_key, now, end):
+        from exact_channels import same_team
+        known = {}   # Arabic -> English for every club the site knows, so English pages don't show Arabic names
+        for k, v in list(EXTRA_AR.items()) + list(TEAMS.items()):
+            known.setdefault(v, ' '.join(w if w.isupper() else w.capitalize() for w in k.replace('-', ' ').split()))
+        ar_to_en = lambda ar: next((en for a, en in known.items() if same_team(ar, a)), None)
+        if extra_sources.add_missing(events, team_key, now, end, ar_to_en):
             ok_leagues += 1
     except Exception as ex:
         print('  FilGoal / Kooora safety net skipped:', ex, file=sys.stderr)
+    try:
+        health.update(extra_sources.STATUS)
+    except Exception:
+        pass
+    report_health(health)
     # keep the biggest games if there are too many: matches with 2 popular teams first, then by time
     events.sort(key=lambda e: e['utc'])
     if len(events) > MAX_EVENTS:

@@ -472,7 +472,7 @@ def home(c):
          'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer support', 'telephone': '+' + WHATSAPP, 'availableLanguage': ['English', 'Arabic']},
          'areaServed': ['CA', 'US', 'GB', 'EG', 'SA', 'AE']},
         {'@type': 'WebSite', '@id': BASE_URL + '/#site', 'name': SITE_NAME, 'url': BASE_URL + '/', 'inLanguage': c.lang, 'publisher': {'@id': BASE_URL + '/#org'}}]})
-    return (t(L('Hossam TV — Arabic TV, Live Football & Movies in Canada, the USA & Worldwide', 'Hossam TV — قنوات عربية ومباريات وأفلام في كندا وأمريكا وحول العالم')),
+    return (t(L('Hossam TV — Arabic TV & Live Football in Canada', 'Hossam TV — قنوات عربية ومباريات في كندا')),
             t(L('Arabic channels, live football, movies and series on any screen, up to 4K — for viewers in Canada, the USA, Egypt, the Gulf and worldwide. Free trial on WhatsApp.',
                 'قنوات عربية ومباريات مباشرة وأفلام ومسلسلات على أي شاشة بجودة حتى 4K — للمشاهدين في كندا وأمريكا ومصر والخليج وحول العالم. تجربة مجانية عبر واتساب.')),
             body)
@@ -1440,7 +1440,7 @@ def country_page(slug, name, where, tz=None, cities=None):
 {cities_html}
 {ld}
 ''' + cta_block(c)
-        return (t(L('Arabic TV ', 'القنوات العربية ')) + W + t(L(' — Live Football, Arabic Channels & Movies', ' — مباريات وقنوات عربية وأفلام')),
+        return (t(L('Arabic TV ', 'القنوات العربية ')) + W + t(L(' — Live Football & Movies', ' — مباريات وأفلام')),
                 t(L('Watch Arabic channels, live football, movies and series ', 'شاهد القنوات العربية والمباريات المباشرة والأفلام والمسلسلات ')) + W
                 + t(L(' on any screen. Free trial, setup help on WhatsApp, easy payment.', ' على أي شاشة. تجربة مجانية، ومساعدة في التثبيت على واتساب، ودفع سهل.')),
                 body)
@@ -1737,8 +1737,8 @@ var v={{d:Math.floor(l/864e5),h:Math.floor(l/36e5)%24,m:Math.floor(l/6e4)%60,s:M
             desc = t(L(f'{H["en"]} vs {A["en"]} ({LG["en"]}) ended {res["hs"]}–{res["as"]}. See the next big matches with kick-off times in your time zone and the TV channel.',
                        f'انتهت مباراة {H["ar"]} و{A["ar"]} ({LG["ar"]}) بنتيجة {res["hs"]}–{res["as"]}. شاهد مواعيد المباريات الكبيرة القادمة بتوقيتك والقناة الناقلة.'))
         else:
-            title = t(L(f'Where to Watch {H["en"]} vs {A["en"]} — Time & TV Channel ({LG["en"]})',
-                        f'أين تشاهد {H["ar"]} ضد {A["ar"]} — الموعد والقناة الناقلة ({LG["ar"]})'))
+            title = t(L(f'{H["en"]} vs {A["en"]}: Time & TV Channel',
+                        f'{H["ar"]} ضد {A["ar"]}: الموعد والقناة'))
             desc = t(L(f'When is {H["en"]} vs {A["en"]}? {day}: {tor} Toronto, {ny} New York, {cai} Cairo{(" on " + ch.get("en", "")) if ch.get("en") else ""}. Watch it live with Hossam TV — free trial.',
                        f'موعد مباراة {H["ar"]} و{A["ar"]}: {cai} بتوقيت القاهرة و{tor} بتوقيت تورونتو{(" على " + ch.get("ar", "")) if ch.get("ar") else ""}. شاهدها مباشرة مع Hossam TV — تجربة مجانية.'))
         return title, desc, body + ld
@@ -1761,6 +1761,7 @@ LEAGUE_PAGES = [  # (standings id or None, matches code, slug, name EN, name AR,
     ('fra', 'fra.1', 'ligue-1', 'Ligue 1', 'الدوري الفرنسي', 'beIN Sports', 'بي إن سبورت'),
     (None, 'caf.champions', 'caf-champions-league', 'CAF Champions League', 'دوري أبطال أفريقيا', 'beIN Sports', 'بي إن سبورت'),
     (None, 'caf.confed', 'caf-confederation-cup', 'CAF Confederation Cup', 'كأس الكونفدرالية الأفريقية', 'beIN Sports', 'بي إن سبورت'),
+    (None, 'lbn.1', 'lebanese-league', 'Lebanese League', 'الدوري اللبناني', 'Lebanese channels', 'القنوات اللبنانية'),
 ]
 
 
@@ -1870,10 +1871,10 @@ def league_page(sid, code, slug, n_en, n_ar, ch_en, ch_ar):
 </div></section>
 {LOCAL_TIME_JS}
 """
-        title = t(L(f'{nm["en"]} on TV in Canada & the USA — Live, {"Table & " if sid else ""}Kick-off Times',
-                    f'{nm["ar"]} مباشر في كندا وأمريكا — {"الترتيب و" if sid else ""}مواعيد المباريات والقناة'))
-        desc = t(L(f'Watch the {nm["en"]} live in Canada, the USA and worldwide on {c_en}. Current table, upcoming big matches in your time zone and last results — free trial with Hossam TV.',
-                   f'شاهد {nm["ar"]} مباشرة في كندا وأمريكا وحول العالم على {c_ar}. الترتيب الحالي ومواعيد المباريات الكبيرة بتوقيتك وآخر النتائج — تجربة مجانية مع Hossam TV.'))
+        title = t(L(f'{nm["en"]} Live in Canada & USA{" — Table" if sid else ""}',
+                    f'{nm["ar"]} مباشر في كندا وأمريكا{" — الترتيب" if sid else ""}'))
+        desc = t(L(f'Watch the {nm["en"]} live in Canada and the USA on {c_en}: table, big matches in your time zone and results.',
+                   f'شاهد {nm["ar"]} مباشرة في كندا وأمريكا على {c_ar}: الترتيب ومواعيد المباريات بتوقيتك والنتائج.'))
         return title, desc, body
     return build
 
@@ -2036,6 +2037,71 @@ def pay_page(c):
     return (t(L('Payment details', 'تفاصيل الدفع')), t(L('Tap to see how to pay.', 'اضغط لمعرفة طرق الدفع.')), body)
 
 
+def lebanese_page(c):
+    """Lebanese TV in Canada — most customers in Canada are Lebanese. Same building blocks as the country pages."""
+    t = c.t
+    hero = page_hero(c, [(None, t(L('Lebanese TV in Canada', 'القنوات اللبنانية في كندا')))],
+                     t(L('Lebanese TV in Canada', 'القنوات اللبنانية في كندا')),
+                     t(L('Lebanese channels, the Lebanese league and Lebanon’s matches — live in Canada and the USA. Try it free first.',
+                         'القنوات اللبنانية والدوري اللبناني ومباريات منتخب لبنان — مباشرة في كندا وأمريكا. جرّب مجاناً أولاً.')),
+                     actions=btn_trial(c), extra=status_line(c))
+    intl = next(r for r in REGIONS if r['id'] == 'intl')
+    cards = ''.join(plan_card(c, intl, rp) for rp in intl['plans'])
+    why = [
+        ('tv', L('Lebanese channels', 'القنوات اللبنانية'), L('News, shows and series from home — plus every Arab channel.', 'أخبار وبرامج ومسلسلات من لبنان — مع كل القنوات العربية.')),
+        ('ball', L('Lebanese football', 'الكرة اللبنانية'), L('The Lebanese league, Lebanon’s national team and Lebanese clubs in Asia.', 'الدوري اللبناني ومنتخب لبنان والأندية اللبنانية في آسيا.')),
+        ('clock', L('Free trial first', 'تجربة مجانية أولاً'), L('Watch for 24 hours before you pay.', 'شاهد 24 ساعة قبل أن تدفع.')),
+        ('card', L('Easy to pay from Canada', 'دفع سهل من كندا'), L('PayPal, TapTap Send, Sendwave or Whish Money.', 'PayPal أو TapTap Send أو Sendwave أو Whish Money.')),
+    ]
+    why_html = ''.join(f'<li>{icon(ic)}<div><b>{t(h)}</b><span>{t(d)}</span></div></li>' for ic, h, d in why)
+    faq = [
+        ('lb-channels', L('Which Lebanese channels are included?', 'ما القنوات اللبنانية المتاحة؟'),
+         L('The main Lebanese channels are included in every plan, alongside channels from every Arab country. Ask us on WhatsApp about a specific channel before you subscribe.',
+           'القنوات اللبنانية الرئيسية موجودة في كل الباقات، مع قنوات من كل الدول العربية. اسألنا على واتساب عن أي قناة قبل الاشتراك.')),
+        ('lb-football', L('Can I watch Lebanon’s matches?', 'هل أقدر أشاهد مباريات لبنان؟'),
+         L('Yes — Lebanon’s qualifiers and Asian Cup games, the Lebanese league and Lebanese clubs in Asian competitions. Kick-off times show in your local time on our matches page.',
+           'نعم — تصفيات منتخب لبنان وكأس آسيا والدوري اللبناني والأندية اللبنانية في البطولات الآسيوية. المواعيد تظهر بتوقيتك في صفحة المباريات.')),
+        ('lb-plan', L('Which plan should I pick?', 'أي باقة أختار؟'),
+         L('Basic if you mostly watch Arabic and Lebanese channels and football. Premium for the biggest library and channels from every country.', 'الأساسية لو أغلب مشاهدتك قنوات عربية ولبنانية وكرة قدم. بريميوم لأكبر مكتبة وقنوات من كل الدول.')),
+        ('lb-pay', L('How do I pay from Canada?', 'كيف أدفع من كندا؟'),
+         L("With PayPal, TapTap Send, Sendwave or Whish Money. Message us and we'll send the details.", 'عن طريق PayPal أو TapTap Send أو Sendwave أو Whish Money. راسلنا وسنرسل لك التفاصيل.')),
+    ]
+    import json as _json, re as _re
+    _plain = lambda x: _re.sub(r'<[^>]+>', '', x)
+    ld = '<script type="application/ld+json">' + _json.dumps({'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+        {'@type': 'Question', 'name': _plain(t(q)), 'acceptedAnswer': {'@type': 'Answer', 'text': _plain(t(a))}} for _, q, a in faq]},
+        ensure_ascii=False).replace('</', '<\\/') + '</script>'
+    faq_html = ''.join(f'<details id="{i}"><summary>{t(q)}{icon("plus")}</summary><div class="ans"><p>{t(a)}</p></div></details>' for i, q, a in faq)
+    body = hero + f'''
+<section class="sec first"><div class="wrap">
+  {sec_head('', t(L('Why Hossam TV', 'لماذا Hossam TV')), t(L('Lebanon, wherever you are', 'لبنان أينما كنت')))}
+  <ul class="country-why">{why_html}</ul>
+</div></section>
+<section class="sec"><div class="wrap">
+  {sec_head('', t(L('Plans', 'الباقات')), t(L('Plans & prices', 'الباقات والأسعار')), t(L('Prices in US dollars.', 'الأسعار بالدولار الأمريكي.')))}
+  <div class="plans pgrid">{cards}</div>
+</div></section>
+<section class="sec"><div class="wrap">
+  {sec_head('', t(L('Football', 'كرة القدم')), t(L('Lebanese League', 'الدوري اللبناني')))}
+  <div class="more-link"><a class="link-arrow" href="{c.href('league/lebanese-league.html')}">{t(L('Lebanese League matches & results', 'مباريات ونتائج الدوري اللبناني'))}{icon('arrow', 'flip')}</a></div>
+  <div class="more-link"><a class="link-arrow" href="{c.href('matches.html')}">{t(L('All matches this week', 'كل مباريات الأسبوع'))}{icon('arrow', 'flip')}</a></div>
+</div></section>
+<section class="sec"><div class="wrap">
+  {sec_head('', t(L('Setup', 'التثبيت')), t(L('Set up in minutes', 'التثبيت في دقائق')))}
+  {dev_grid(c)}
+</div></section>
+<section class="sec"><div class="wrap">
+  {sec_head('', t(L('Questions', 'أسئلة')), t(L('Good to know', 'معلومات مفيدة')))}
+  <div class="faq">{faq_html}</div>
+</div></section>
+{ld}
+''' + cta_block(c)
+    return (t(L('Lebanese TV in Canada — Channels & Football', 'القنوات اللبنانية في كندا — قنوات ومباريات')),
+            t(L('Watch Lebanese channels, the Lebanese league and Lebanon’s matches live in Canada and the USA. Free trial, setup help on WhatsApp.',
+                'شاهد القنوات اللبنانية والدوري اللبناني ومباريات لبنان مباشرة في كندا وأمريكا. تجربة مجانية ومساعدة في التثبيت على واتساب.')),
+            body)
+
+
 PAGE_BUILDERS = [
     ('home', 'index.html', 'home', home),
     ('plans', 'plans.html', 'plans', plans),
@@ -2044,6 +2110,7 @@ PAGE_BUILDERS = [
     ('help', 'help.html', 'help', help_page),
     ('fix', 'fix.html', 'fix', fix_page),
     ('pay', 'pay.html', None, pay_page),
+    ('lebanon', 'lebanese-tv-canada.html', None, lebanese_page),
     ('about', 'about.html', 'about', about),
     ('policies', 'policies.html', None, policies),
 ]

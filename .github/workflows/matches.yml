@@ -27,6 +27,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Fetch matches
         run: python3 _source/matches/fetch_matches.py
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}   # Hossam's ntfy topic: a phone alert when a match source fails twice in a row
       - name: Fetch league tables
         run: cd _source/matches && python3 fetch_standings.py
         continue-on-error: true
