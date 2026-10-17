@@ -143,7 +143,7 @@ def trial_dialog(c):
     form_name = {'smart-tv': L('Samsung, LG, Vidaa or Apple TV', 'سامسونج أو LG أو Vidaa أو Apple TV'), 'apple': L('iPhone, iPad or Mac', 'آيفون أو آيباد أو ماك')}
     dopts = ''.join(f'<option value="{key}" data-guide="{c.href("setup/" + slug + ".html")}">{t(form_name.get(slug, devs[slug]["name"]))}</option>' for slug, key in TRIAL_DEVICES)
     dopts += f'<option value="other" data-guide="{c.href("setup/index.html")}">{t(L("Other / not sure", "جهاز آخر / لست متأكداً"))}</option>'
-    payopts = ''.join(f'<option value="{k}" data-note="{t(note)}"{" data-eg" if eg else ""}{" data-intl" if intl else ""}>{t(nm)}</option>'
+    payopts = ''.join(f'<option value="{k}" data-note="{t(note)}"{" data-eg" if eg else ""}{" data-intl" if intl else ""}{(" data-link=" + chr(34) + PAY_LINKS[k] + chr(34)) if k in PAY_LINKS else ""}>{t(nm)}</option>'
                       for k, nm, note, eg, intl in PAY_FORM)
     pick = t(L('Choose…', 'اختر…'))
     # renewal periods + prices per region and plan, from REGIONS (same numbers as the plan cards)
@@ -180,7 +180,7 @@ def trial_dialog(c):
       <div class="rf rf-full" data-for="trial subscribe"><label for="trDevs">{t(L('How many devices?', 'كم جهاز؟'))}</label><input id="trDevs" name="devs" type="number" inputmode="numeric" min="1" max="6" value="1"></div>
       <div class="rf rf-full tr-devs" data-for="trial subscribe" data-devs data-l-dev="{t(L('Device {n}', 'الجهاز {n}'))}" data-l-one="{t(L('Device', 'الجهاز'))}" data-l-many="{t(L('Your devices', 'أجهزتك'))}"><label for="trDevice" data-dev-lbl>{t(L('Device', 'الجهاز'))}</label><select id="trDevice" name="device"><option value="">{pick}</option>{dopts}</select></div>
       <div class="rf rf-full" data-for="trial subscribe" data-golden hidden><p class="tr-golden">{icon('info')}<span data-golden-txt><b>{t(L('Golden rule: one screen at a time.', 'القاعدة الذهبية: شاشة واحدة في نفس الوقت.'))}</b> {t(L('Install on as many devices as you like, but only one can play at once — watching on two at the same time can lock the account.', 'ثبّت الاشتراك على أي عدد من الأجهزة، لكن التشغيل على جهاز واحد فقط في نفس الوقت — التشغيل على جهازين معاً قد يوقف الحساب.'))}</span></p></div>
-      <div class="rf rf-full" data-for="subscribe renew"><label for="trPay">{t(L('How will you pay?', 'طريقة الدفع'))}</label><select id="trPay" name="pay"><option value="">{pick}</option>{payopts}</select><small class="pay-note" data-pay-note hidden></small></div>
+      <div class="rf rf-full" data-for="subscribe renew"><label for="trPay">{t(L('How will you pay?', 'طريقة الدفع'))}</label><select id="trPay" name="pay"><option value="">{pick}</option>{payopts}</select><small class="pay-note" data-pay-note hidden></small><a class="btn btn-ghost btn-sm pay-go" data-pay-go href="#" target="_blank" rel="noopener" data-l="{t(L('Pay with {m}', 'ادفع عبر {m}'))}" hidden></a></div>
     </div>
     <div class="tr-total" data-total data-fees="{fees_attr}" data-units="{units_attr}" data-cur="{cur_attr}"
       data-l-total="{t(L('Approximate total', 'الإجمالي التقريبي'))}" data-l-after="{t(L('If you subscribe after the trial', 'لو اشتركت بعد التجربة'))}"
@@ -387,7 +387,10 @@ def all_faq():
 
 def pay_block(c):
     t = c.t
-    eg = ''.join(f'<li><b>{t(n)}</b><span>{t(d)}</span></li>' for n, d in PAY_EGYPT)
+    links = {'InstaPay': PAY_LINKS['instapay'], 'Vodafone Cash': PAY_LINKS['vodafone']}
+    eg = ''.join(f'<li><b>{t(n)}</b><span>{t(d)}</span>'
+                 + (f'<a class="btn btn-ghost btn-sm pay-go" href="{links[n]}" target="_blank" rel="noopener">{t(L("Pay", "ادفع"))}</a>' if n in links else '')
+                 + '</li>' for n, d in PAY_EGYPT)
     ab = ''.join(f'<li><b>{t(n)}</b><span>{t(d)}</span></li>' for n, d in PAY_ABROAD)
     return f'''<div class="pay">
   <div class="pay-card"><h3>{icon('card')}{t(L('Inside Egypt', 'داخل مصر'))}</h3><ul class="pay-list">{eg}</ul></div>

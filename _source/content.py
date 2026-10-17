@@ -234,6 +234,11 @@ SFVIP_VIDEO = 'https://youtu.be/dESni3uxAa4'
 # ----------------------------------------------------------------------------
 # PAYMENT METHODS (information only)
 # ----------------------------------------------------------------------------
+# pay links (Egypt): open the InstaPay / Vodafone Cash app on the phone
+PAY_LINKS = {
+    'instapay': 'https://ipn.eg/S/hossamservices/instapay/8mYryw',
+    'vodafone': 'http://vf.eg/vfcash?id=mt&qrId=YJ9qGp',
+}
 PAY_EGYPT = [
     ('InstaPay', L('Instant', 'فوري')),
     ('Vodafone Cash', L('Instant', 'فوري')),

@@ -421,7 +421,13 @@
     };
     /* the chosen country's currency (for "≈ 48 CAD" next to a USD total) */
     var curC = function(){ var o = opt(tCountry); return (o && o.getAttribute('data-cur')) || ''; };
-    var syncPay = function(){ var o = opt(tPay), n = o && o.getAttribute('data-note'); payNote.textContent = n || ''; payNote.hidden = !n; };
+    var payGo = tf.querySelector('[data-pay-go]');
+    var syncPay = function(){
+      var o = opt(tPay), n = o && o.getAttribute('data-note'); payNote.textContent = n || ''; payNote.hidden = !n;
+      /* InstaPay / Vodafone Cash: a button that opens the payment link */
+      var link = o && o.value && o.getAttribute('data-link');
+      if(payGo){ payGo.hidden = !link; if(link){ payGo.href = link; payGo.textContent = payGo.getAttribute('data-l').replace('{m}', o.textContent); } }
+    };
     var syncGuide = function(){ var o = opt(tDevice); if(tGuide && o && o.getAttribute('data-guide')) tGuide.href = o.getAttribute('data-guide'); };
     var totBox = tf.querySelector('[data-total]'), tScreens = F('screens');
     var FEES = {}, CURS = {}, UNITS = {};
