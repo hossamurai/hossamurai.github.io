@@ -184,7 +184,7 @@ def trial_dialog(c):
     </div>
     <div class="tr-total" data-total data-fees="{fees_attr}" data-units="{units_attr}" data-cur="{cur_attr}"
       data-l-total="{t(L('Approximate total', 'الإجمالي التقريبي'))}" data-l-after="{t(L('If you subscribe after the trial', 'لو اشتركت بعد التجربة'))}"
-      data-l-acc="{t(L('{n} account', 'حساب واحد'))}" data-l-accs="{t(L('{n} accounts', '{n} حسابات'))}" data-l-yr="{t(L('1 year', 'سنة'))}" data-l-yrs="{t(L('{n} years', '{n} سنوات'))}"
+      data-l-acc="{t(L('{n} account', 'حساب واحد'))}" data-l-accs="{t(L('{n} accounts', '{n} حسابات'))}" data-l-yr="{t(L('1 year', 'سنة'))}" data-l-yrs="{t(L('{n} years', '{n} سنوات'))}" data-l-accs2="{t(L('2 accounts', 'حسابان'))}" data-l-yrs2="{t(L('2 years', 'سنتان'))}"
       data-l-tv="{t(L('TV app', 'تطبيق الشاشة'))}" data-l-tv1="{t(L('1 year', 'سنة'))}" data-l-tvl="{t(L('lifetime', 'مدى الحياة'))}"
       data-l-sum="{t(L('Total', 'الإجمالي'))}" data-l-note="{t(L('The TV app is charged per TV. Hossam confirms the final amount on WhatsApp.', 'تطبيق الشاشة يُحسب لكل شاشة. حسام يؤكد المبلغ النهائي على واتساب.'))}" hidden></div>
     <p class="trial-note" data-for="trial subscribe">{icon('info')}<span>{t(L('Install the app first so everything is ready:', 'ثبّت التطبيق أولاً ليكون كل شيء جاهزاً:'))} <a data-trial-guide href="{c.href('setup/index.html')}">{t(L('Setup guide', 'دليل التثبيت'))}</a></span></p>
