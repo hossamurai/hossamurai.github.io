@@ -1,0 +1,20 @@
+name: probe
+on:
+  push:
+    branches: [claude/server-hosts-manual-apps-vgx26g]
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for lg in caf.confed caf.champions egy.1; do
+            for d in 20261016 20261017 20261018; do
+              echo "== $lg $d"
+              curl -s "https://site.api.espn.com/apis/site/v2/sports/soccer/$lg/scoreboard?dates=$d" | python3 -c "
+          import json,sys
+          try: d=json.load(sys.stdin)
+          except Exception as e: print('bad json',e); sys.exit()
+          for e in d.get('events',[]): print(e['date'], e['name'], e.get('status',{}).get('type',{}).get('description'))"
+            done
+          done
+          echo "== sportsdb"; curl -s -o /dev/null -w '%{http_code}\n' 'https://www.thesportsdb.com/api/v1/json/3/eventsnextleague.php?id=4829'
